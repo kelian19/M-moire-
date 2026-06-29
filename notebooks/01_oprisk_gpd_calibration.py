@@ -155,7 +155,12 @@ def print_cross_validation():
     print("  → ξ_PRC (1.30) > ξ_OpRisk (0.60) : cohérent avec le biais de taille OpRisk")
     print("     Les grandes entités absorbent mieux les chocs → queue apparemment plus légère")
     print("  → Validation QUALITATIVE : ✓  Validation QUANTITATIVE : impossible")
-    print("  → PRC reste la source primaire de sévérité")
+    print()
+    print("  DEUX SOURCES COMPLÉMENTAIRES (pas de hiérarchie 'primaire') :")
+    print("  • Sévérité : OpRisk fournit des montants RÉELS (biais grandes entités)")
+    print("              PRC + Jacobs couvre un spectre de tailles plus large (sévérité dérivée)")
+    print("  • Fréquence : PRC reste la source de référence (périmètre défini)")
+    print("  → La convergence qualitative des deux renforce le choix d'une GPD à queue lourde")
     print("="*65 + "\n")
 
 

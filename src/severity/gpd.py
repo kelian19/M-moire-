@@ -142,6 +142,7 @@ def var_gpd(params: dict, alpha: float) -> float:
     if alpha <= 1 - p_u:
         raise ValueError("alpha trop faible : en-dessous du seuil u.")
     # Argument POT correct : ratio des probabilités de survie (1-alpha)/p_u
+    # VaR_α = u + (σ/ξ) * [ ((1-α)/p_u)^(-ξ) - 1 ]
     ratio = (1 - alpha) / p_u
     if xi == 0:
         return u - sigma * np.log(ratio)
@@ -304,7 +305,14 @@ def cross_validate(report_prc: dict, report_oprisk: dict) -> None:
     print(f"  → ξ_PRC > ξ_OpRisk : cohérent avec le biais de taille OpRisk")
     print(f"    (grandes entités absorbent mieux → queue apparemment plus légère)")
     print(f"  → Validation QUANTITATIVE impossible : seuils incomparables")
-    print(f"  → PRC reste la source primaire ; OpRisk confirme le régime GPD\n")
+    print(f"\n  DEUX SOURCES COMPLÉMENTAIRES (pas de hiérarchie 'primaire') :")
+    print(f"  • OpRisk : montants de pertes RÉELS, mais biais vers les grandes")
+    print(f"    entités → queue possiblement sous-estimée (petites pertes absentes)")
+    print(f"  • PRC + Jacobs : spectre de tailles plus large, mais sévérité DÉRIVÉE")
+    print(f"    d'un modèle log-log (estimation, pas observation directe)")
+    print(f"  → Sévérité : OpRisk = montants directs ; PRC = comparaison/cohérence")
+    print(f"  → Fréquence : PRC = source de référence (périmètre défini)")
+    print(f"  → La convergence qualitative des deux renforce le choix GPD\n")
 
 
 # ---------------------------------------------------------------------------

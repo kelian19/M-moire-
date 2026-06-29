@@ -37,10 +37,15 @@ OPRISK = {
     "p_u": 0.1509,
     "xi_ic90": [0.3044, 0.8313],
     "sigma_ic90": [41.88, 82.80],
-    "var_995": 663.0,        # M€ (corrigé)
-    "tvar_99": 1133.7,
-    "var_995_ic90": [410.7, 1018.7],
-    "note": "Validation croisée qualitative uniquement (seuils incomparables avec PRC)",
+    "var_995": 662.78,           # M€ (formule POT corrigée)
+    "tvar_99": 1133.05,          # M€
+    "var_995_ic90": [411.5, 1037.1],
+    "note": (
+        "Source de montants de pertes RÉELS. Biais vers les grandes entités "
+        "financières → queue possiblement sous-estimée. Complémentaire de la PRC "
+        "(qui couvre un spectre de tailles plus large mais via sévérité dérivée Jacobs). "
+        "Pas de hiérarchie 'primaire' en sévérité : deux estimations indépendantes."
+    ),
 }
 
 # ---------------------------------------------------------------------------
