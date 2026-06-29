@@ -141,10 +141,11 @@ def var_gpd(params: dict, alpha: float) -> float:
     xi, sigma, u, p_u = params["xi"], params["sigma"], params["u"], params["p_u"]
     if alpha <= 1 - p_u:
         raise ValueError("alpha trop faible : en-dessous du seuil u.")
-    p_cond = (alpha - (1 - p_u)) / p_u
+    # Argument POT correct : ratio des probabilités de survie (1-alpha)/p_u
+    ratio = (1 - alpha) / p_u
     if xi == 0:
-        return u - sigma * np.log(p_cond)
-    return u + (sigma / xi) * (p_cond ** (-xi) - 1)
+        return u - sigma * np.log(ratio)
+    return u + (sigma / xi) * (ratio ** (-xi) - 1)
 
 
 def tvar_gpd(params: dict, alpha: float) -> float:

@@ -37,6 +37,8 @@ OPRISK = {
     "p_u": 0.1509,
     "xi_ic90": [0.3044, 0.8313],
     "sigma_ic90": [41.88, 82.80],
+    "var_995": 663.0,        # M€ (corrigé)
+    "tvar_99": 1133.7,
     "var_995_ic90": [410.7, 1018.7],
     "note": "Validation croisée qualitative uniquement (seuils incomparables avec PRC)",
 }
