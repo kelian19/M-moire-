@@ -212,7 +212,7 @@ def full_report(path: str) -> dict:
     print("="*60)
     print("  1. Seuil de collecte élevé : petites pertes absentes")
     print("  2. Biais de déclaration : seules pertes publiques/judiciarisées")
-    print("  3. Biais géographique US-centré : ~85% des incidents cyber")
+    print("  3. Biais géographique US-centré : ~46% des incidents cyber")
     print("  4. Qualité variable : aberrations de saisie à nettoyer")
     print("="*60 + "\n")
 
