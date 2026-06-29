@@ -1,0 +1,52 @@
+# ===== DONNÉES SENSIBLES — NE JAMAIS POUSSER =====
+data/raw/
+*.xlsx
+*.csv
+*.sas7bdat
+*.parquet
+*.pkl
+*.feather
+
+# Exceptions : fichiers de config non sensibles
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# ===== PYTHON =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ===== JUPYTER =====
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ===== IDE =====
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===== OUTPUTS VOLUMINEUX =====
+outputs/figures/*.png
+outputs/figures/*.pdf
+outputs/tables/*.xlsx
+
+# ===== LOGS =====
+*.log
+logs/
+
+# ===== ENV =====
+.env
+.env.local
+config/secrets.yaml
