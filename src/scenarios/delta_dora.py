@@ -81,16 +81,35 @@ def simulate_lda(lambda_scenario: float,
 def simulate_lda_vectorized(lambda_scenario: float,
                              gpd_params: dict,
                              n_sim: int = 1_000_000,
-                             seed: int = 42) -> np.ndarray:
+                             seed: int = 42,
+                             severity_cap: float = None) -> np.ndarray:
     """
     Version vectorisée (plus rapide) de simulate_lda.
     Hypothèse : toutes les pertes suivent GPD (pas de corps).
     Utilisable si le seuil u est bas.
+
+    Parameters
+    ----------
+    severity_cap : plafond de sévérité par incident (même unité que gpd_params).
+                   OBLIGATOIRE en pratique si ξ >= 1 (espérance infinie) :
+                   sans plafond, la somme Monte Carlo explose numériquement
+                   et ne représente plus une charge de capital interprétable.
+                   Référence : plafond 40-50 M€ ancré sur la capacité de
+                   réassurance cyber (cf. notes de calibration du mémoire).
     """
     np.random.seed(seed)
     xi = gpd_params["xi"]
     sigma = gpd_params["sigma"]
     u = gpd_params["u"]
+
+    if xi >= 1.0 and severity_cap is None:
+        import warnings
+        warnings.warn(
+            f"ξ={xi:.3f} >= 1 : espérance de sévérité infinie. "
+            "Sans severity_cap, la VaR simulée est numériquement instable "
+            "et économiquement non interprétable. Un plafond est fortement recommandé.",
+            UserWarning
+        )
 
     dispersion = gpd_params.get("dispersion_factor", 9.2)
     mu = lambda_scenario
@@ -101,9 +120,23 @@ def simulate_lda_vectorized(lambda_scenario: float,
     freqs = nbinom.rvs(r, p, size=n_sim, random_state=seed)
     total_events = freqs.sum()
 
-    # Sévérités simulées en bloc
-    u_vals = np.random.uniform(0, 1, total_events)
-    severities = u + genpareto.ppf(u_vals, c=xi, scale=sigma)
+    # Application correcte de p_u : seule une fraction p_u des événements
+    # dépasse le seuil u et relève de la GPD. Les autres (1-p_u) sont des
+    # pertes "corps" (sous le seuil) — approximées ici à 0 (simplification
+    # explicite : sans modèle de corps calibré, leur contribution à un
+    # quantile de queue élevé comme la VaR 99.5% est marginale).
+    p_u = gpd_params.get("p_u", 1.0)
+    rng = np.random.default_rng(seed)
+    is_tail = rng.random(total_events) < p_u
+    severities = np.zeros(total_events)
+    n_tail = int(is_tail.sum())
+    if n_tail > 0:
+        u_vals = rng.uniform(0, 1, n_tail)
+        severities[is_tail] = u + genpareto.ppf(u_vals, c=xi, scale=sigma)
+
+    # Application du plafond de sévérité (troncature par incident)
+    if severity_cap is not None:
+        severities = np.minimum(severities, severity_cap)
 
     # Agrégation par simulation
     splits = np.cumsum(freqs)[:-1]
