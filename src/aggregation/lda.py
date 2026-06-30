@@ -67,6 +67,15 @@ BRIQUE_PARAMS = {
                      "source": "IBM/Ponemon — économie de 58% avec plan IR testé"},
     "sanction": {"montant_range_eur_m": (2.0, 20.0),
                  "source": "DORA Art. 50 — plafonds nationaux observés 2-20M€"},
+    # Chargement systémique sur l'AGGRAVATION elle-même — PAS sourcé sur une
+    # donnée externe (aucune littérature ne mesure directement cet effet) :
+    # hypothèse de modélisation explicite, représentant la dégradation de la
+    # capacité de réponse en cas de stress systémique (incidents concurrents,
+    # ressources de remédiation saturées). Borne haute volontairement modeste
+    # (15%) pour ne pas double-compter la queue déjà lourde de la GPD.
+    "aggravation_stress": {"loading_range": (0.0, 0.15),
+                           "source": "HYPOTHÈSE DE MODÉLISATION — non sourcée, "
+                                     "à justifier/discuter dans le mémoire"},
 }
 
 
@@ -149,7 +158,9 @@ def simulate_year_4_briques(lambda_annual: float, severity_params: dict,
     else:
         raise ValueError("dependence doit être 'gumbel' ou 'common_factor'")
 
-    # U[:,0] aggravation (non utilisé directement, sévérité déjà simulée par incident)
+    # U[:,0] -> chargement systémique sur l'AGGRAVATION (cf. correction :
+    #            sans ce couplage, la brique dominante échappait entièrement
+    #            à la copule, rendant p_sys/theta quasi sans effet sur le SCR)
     # U[:,1] -> facteur d'intensité prestataire de l'année
     # U[:,2] -> facteur d'intensité remédiation de l'année
     # U[:,3] -> facteur déclenchant la sanction de l'année
@@ -158,6 +169,11 @@ def simulate_year_4_briques(lambda_annual: float, severity_params: dict,
     splits = np.cumsum(freqs)[:-1]
     aggravation_par_an = np.array([s.sum() for s in np.split(aggravation, splits)])
     tiers_par_an = np.array([s.sum() for s in np.split(is_tiers.astype(float), splits)])
+
+    # --- Couplage de l'aggravation au facteur de dépendance (la correction) ---
+    low_a, high_a = BRIQUE_PARAMS["aggravation_stress"]["loading_range"]
+    stress_loading = low_a + U[:, 0] * (high_a - low_a)
+    aggravation_par_an = aggravation_par_an * (1.0 + stress_loading)
 
     # --- Brique 2 : Prestataire (loading sur la part tiers de l'aggravation) ---
     low_p, high_p = BRIQUE_PARAMS["prestataire"]["loading_range"]
