@@ -73,11 +73,35 @@ def simulate_year_losses(lambda_annual: float, xi: float, sigma: float,
 # ---------------------------------------------------------------------------
 
 def load_oprisk_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
+    """
+    Charge les excès réels OpRisk au-dessus du seuil, sur le périmètre
+    cyber×finance UNIQUEMENT (et non toute la base opérationnelle).
+
+    Périmètre cyber×finance (582 incidents attendus) :
+      - Sub Risk Category ∈ {Systems Security, Systems}
+      - ET secteur financier (Industry Sector Name contient 'Financial')
+
+    Le chemin est résolu relativement à la racine du projet, pas en dur,
+    pour rester portable d'un environnement à l'autre.
+    """
     u = OPRISK["seuil_u_eur"] if u is None else float(u)
 
-    path = "/home/onyxia/work/M-moire-/data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx"
+    # Chemin robuste : racine projet = deux niveaux au-dessus de ce fichier
+    project_root = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "..")
+    )
+    path = os.path.join(
+        project_root, "data", "raw", "SAS_OpRisk_Global_Data_June_2026.xlsx"
+    )
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            f"Fichier OpRisk introuvable : {path}\n"
+            "Place la base sous data/raw/ (gitignorée car sous licence)."
+        )
+
     df = pd.read_excel(path, sheet_name="Datasets")
 
+    # Normalisation des noms de colonnes
     df.columns = (
         df.columns.astype(str)
         .str.strip()
@@ -86,37 +110,39 @@ def load_oprisk_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
         .str.replace(r"\s+", " ", regex=True)
     )
 
+    # --- Colonne de perte ---
     candidate_loss_cols = [
-        "Current Value of Loss ($M)",
         "Loss Amount ($M)",
-        "Current Value of Loss (M)",
+        "Current Value of Loss ($M)",
         "Loss Amount (M)",
-        "Current Value of Loss",
-        "Loss Amount",
+        "Current Value of Loss (M)",
     ]
-
     chosen_col = next((c for c in candidate_loss_cols if c in df.columns), None)
-
     if chosen_col is None:
-        print("Colonnes disponibles dans 'Datasets' :")
-        for c in df.columns:
-            print(repr(c))
-        raise ValueError("Aucune colonne de perte reconnue dans la feuille 'Datasets'.")
+        raise ValueError("Aucune colonne de perte reconnue dans 'Datasets'.")
 
+    # --- FILTRAGE PÉRIMÈTRE CYBER × FINANCE (la correction clé) ---
     df["loss_musd"] = pd.to_numeric(df[chosen_col], errors="coerce")
-    losses_musd = df["loss_musd"].dropna().to_numpy(dtype=float)
+    df = df[(df["loss_musd"] > 0) & (df["loss_musd"] < 100_000)]  # retire aberrations
 
-    excesses = losses_musd[losses_musd > u] - u
+    mask_cyber = df["Sub Risk Category"].isin(["Systems Security", "Systems"])
+    mask_fin = df["Industry Sector Name"].apply(
+        lambda v: "Financial" in str(v) if pd.notna(v) else False
+    )
+    df_cyber = df[mask_cyber & mask_fin].copy()
+
+    # Conversion USD → EUR
+    usd_eur = OPRISK.get("usd_eur", 0.92)
+    losses_eur = df_cyber["loss_musd"].to_numpy(dtype=float) * usd_eur
+
+    excesses = losses_eur[losses_eur > u] - u
 
     if len(excesses) == 0:
-        raise ValueError(
-            f"Aucun excès au-dessus du seuil u={u} avec la colonne '{chosen_col}'."
-        )
+        raise ValueError(f"Aucun excès au-dessus du seuil u={u} M€.")
 
-    print(f"[OpRisk] Feuille utilisée : Datasets")
-    print(f"[OpRisk] Colonne utilisée : {chosen_col}")
-    print(f"[OpRisk] Nombre de pertes lues : {len(losses_musd)}")
-    print(f"[OpRisk] Nombre d'excès > u={u} : {len(excesses)}")
+    print(f"[OpRisk] Périmètre cyber×finance : {len(df_cyber)} incidents")
+    print(f"[OpRisk] Colonne perte : {chosen_col} (×{usd_eur} USD→EUR)")
+    print(f"[OpRisk] Excès > u={u} M€ : {len(excesses)}")
 
     return excesses, u
 
