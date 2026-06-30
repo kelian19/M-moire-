@@ -107,31 +107,93 @@ DORA_MAPPING = {
     "autres":              "Transverse",
 }
 
-# Multiplicateurs de fréquence par vecteur et par niveau de conformité
-# Calibrés sur la littérature ENISA / Ponemon sur l'efficacité des contrôles
-# [référence : ENISA Threat Landscape 2024, Ponemon Cost of Data Breach 2024]
+# Multiplicateurs de fréquence par vecteur et par niveau de conformité.
+#
+# CALIBRATION SOURCÉE — chaque borne est ancrée sur une donnée empirique
+# publiée, et non posée arbitrairement. Les valeurs S1/S2 sont des bornes
+# (low, high) traduisant l'incertitude de calibration ; le pipeline tire
+# dedans plutôt que d'utiliser un point unique.
+#
+# ┌─────────────────────┬────────────────────────────────────────────────┐
+# │ phishing_social_eng  │ Ponemon/IBM Cost of a Data Breach : la         │
+# │ (Art. 13)            │ formation réduit le risque jusqu'à 86 %, ROI   │
+# │                      │ médian 5x. Source agrégée tous incidents,      │
+# │                      │ traduite ici en multiplicateur prudent.        │
+# ├─────────────────────┼────────────────────────────────────────────────┤
+# │ exploit_vuln         │ ENISA Threat Landscape 2025 (EU, 4 875         │
+# │ (Art. 26 / TLPT)     │ incidents) : taux de conversion intrusion      │
+# │                      │ réussie = 70 % pour l'exploitation de          │
+# │                      │ vulnérabilités vs 27 % pour le phishing,       │
+# │                      │ soit un ratio ×2,6 directement mesuré.         │
+# ├─────────────────────┼────────────────────────────────────────────────┤
+# │ supply_chain_tiers   │ IBM/Ponemon 2023-2025 : surcoût des brèches    │
+# │ (Art. 28-44)         │ tierces +11,8 % (partenaire) / +8,3 %          │
+# │                      │ (logiciel) ; part des brèches d'origine        │
+# │                      │ tierce passée de 15 % à 36 % en un an          │
+# │                      │ (SecurityScorecard 2025) — proxy de la         │
+# │                      │ vitesse de dégradation sans gouvernance.       │
+# ├─────────────────────┼────────────────────────────────────────────────┤
+# │ identifiants         │ Microsoft Research (étude Azure AD, peer-      │
+# │ (Art. 9 / MFA)       │ reviewed, arXiv:2305.00945) : le MFA réduit    │
+# │                      │ le risque de compromission de 99,22 % en       │
+# │                      │ population générale, 98,56 % même en cas de    │
+# │                      │ fuite de identifiants. Multiplicateur          │
+# │                      │ tempéré : mesure par compte, non transposée    │
+# │                      │ telle quelle à l'échelle entité.               │
+# └─────────────────────┴────────────────────────────────────────────────┘
+#
+# Sources complètes : voir docs/calibration_multiplicateurs.md
+
+SOURCES_MULTIPLICATEURS = {
+    "phishing_social_eng": "Ponemon/IBM Cost of a Data Breach 2025 — "
+                            "formation réduit le risque jusqu'à 86%",
+    "exploit_vuln":        "ENISA Threat Landscape 2025 — conversion "
+                            "intrusion 70% (exploit) vs 27% (phishing), ratio x2.6",
+    "supply_chain_tiers":  "IBM/Ponemon 2023-2025 — surcoût +11.8%/+8.3% ; "
+                            "SecurityScorecard 2025 — part tierce 15%->36%/an",
+    "identifiants":        "Microsoft Research, arXiv:2305.00945 — MFA "
+                            "réduit compromission de 99.22% (population), "
+                            "98.56% (identifiants déjà fuités)",
+    "autres":              "Pas de source dédiée — multiplicateur transverse "
+                            "prudent, borné par les autres vecteurs",
+}
+
 MULTIPLICATEURS_DORA = {
     "S0_conforme": {
-        vecteur: 1.0 for vecteur in HACKMAGEDDON_PROPORTIONS
+        vecteur: (1.0, 1.0) for vecteur in HACKMAGEDDON_PROPORTIONS
     },
     "S1_partiel": {
-        "phishing_social_eng": 1.3,   # Art. 13 non appliqué → +30%
-        "exploit_vuln":        1.5,   # Pas de TLPT → +50%
-        "supply_chain_tiers":  1.8,   # Tiers non supervisés → +80%
-        "identifiants":        1.4,   # Pas de MFA → +40%
-        "autres":              1.2,
+        # (borne basse, borne haute) — non-conformité PARTIELLE
+        "phishing_social_eng": (1.2, 1.6),   # fraction de l'effet 86% Ponemon
+        "exploit_vuln":        (1.3, 1.8),   # fraction du ratio x2.6 ENISA
+        "supply_chain_tiers":  (1.3, 1.9),   # entre surcoût observé et tendance
+        "identifiants":        (1.5, 3.0),   # fraction prudente de l'effet MFA
+        "autres":              (1.1, 1.3),
     },
     "S2_non_conforme": {
-        "phishing_social_eng": 1.7,
-        "exploit_vuln":        2.5,
-        "supply_chain_tiers":  3.0,   # Exposition maximale tiers
-        "identifiants":        2.0,
-        "autres":              1.5,
+        # non-conformité TOTALE — bornes plus proches de l'effet plein
+        "phishing_social_eng": (1.8, 3.0),
+        "exploit_vuln":        (2.0, 2.6),   # jusqu'au ratio ENISA complet
+        "supply_chain_tiers":  (1.9, 2.6),
+        "identifiants":        (3.0, 8.0),   # toujours tempéré vs 99%+ Microsoft
+        "autres":              (1.3, 1.6),
     },
 }
 
 
-def compute_lambda_scenario(lambda_ref: float, scenario: str) -> dict:
+def sample_multiplicateur(scenario: str, vecteur: str, rng=None) -> float:
+    """
+    Tire un multiplicateur dans la fourchette [low, high] sourcée,
+    plutôt que d'utiliser un point fixe. Permet le bootstrap sur
+    l'incertitude de calibration des multiplicateurs eux-mêmes.
+    """
+    rng = rng or np.random
+    low, high = MULTIPLICATEURS_DORA[scenario][vecteur]
+    return rng.uniform(low, high)
+
+
+def compute_lambda_scenario(lambda_ref: float, scenario: str,
+                             mode: str = "center", rng=None) -> dict:
     """
     Calcule le λ effectif pour chaque vecteur sous un scénario DORA.
     Le λ global est la somme pondérée des λ par vecteur.
@@ -140,6 +202,9 @@ def compute_lambda_scenario(lambda_ref: float, scenario: str) -> dict:
     ----------
     lambda_ref : fréquence de référence (scénario S0 conforme)
     scenario   : 'S0_conforme', 'S1_partiel', 'S2_non_conforme'
+    mode       : 'center' (point central de la fourchette sourcée, déterministe)
+                 ou 'sample' (tirage uniforme dans la fourchette, pour bootstrap)
+    rng        : générateur numpy (utilisé seulement si mode='sample')
 
     Returns
     -------
@@ -148,15 +213,20 @@ def compute_lambda_scenario(lambda_ref: float, scenario: str) -> dict:
     if scenario not in MULTIPLICATEURS_DORA:
         raise ValueError(f"Scénario inconnu : {scenario}. "
                          f"Choisir parmi {list(MULTIPLICATEURS_DORA.keys())}")
+    if mode not in ("center", "sample"):
+        raise ValueError("mode doit être 'center' ou 'sample'")
 
-    mults = MULTIPLICATEURS_DORA[scenario]
+    bounds = MULTIPLICATEURS_DORA[scenario]
     props = HACKMAGEDDON_PROPORTIONS
+    rng = rng or np.random
 
     lambda_vecteur = {}
     lambda_global = 0.0
 
     for v, prop in props.items():
-        lv = lambda_ref * prop * mults[v]
+        low, high = bounds[v]
+        m = rng.uniform(low, high) if mode == "sample" else (low + high) / 2
+        lv = lambda_ref * prop * m
         lambda_vecteur[v] = lv
         lambda_global += lv
 
@@ -164,6 +234,7 @@ def compute_lambda_scenario(lambda_ref: float, scenario: str) -> dict:
 
     return {
         "scenario": scenario,
+        "mode": mode,
         "lambda_ref": lambda_ref,
         "lambda_global": lambda_global,
         "multiplicateur_global": mult_global,
@@ -193,7 +264,8 @@ def scenario_comparison(lambda_ref: float) -> pd.DataFrame:
     print("\n=== SCÉNARIOS DE CONFORMITÉ DORA ===")
     print(df.to_string(index=False, float_format=lambda x: f"{x:.3f}"))
     print(f"\nSource multiplicateurs : Hackmageddon S1 2026 (1 041 incidents)")
-    print(f"Borne calibration : ENISA Threat Landscape 2024 / Ponemon 2024\n")
+    print(f"Calibration sourcée : ENISA Threat Landscape 2025, Ponemon/IBM 2025,")
+    print(f"Microsoft Research arXiv:2305.00945 — voir SOURCES_MULTIPLICATEURS\n")
     return df
 
 
