@@ -1,15 +1,15 @@
 """
 aggregation/euler_allocation.py
 -------------------------------
-Allocation d'Euler du SCR agrégé entre les 4 briques du modèle LDA :
-aggravation, prestataire, remédiation, sanction.
+Allocation d'Euler du SCR agrégé entre les 3 briques physiques du modèle LDA :
+remédiation, prestataire, sanction.
 
 PRINCIPE
 ========
 On part d'un vecteur de pertes annuelles simulées par brique :
-    X = (X_1, X_2, X_3, X_4)
+    X = (X_rem, X_presta, X_sanc)
 et de la perte totale :
-    L = X_1 + X_2 + X_3 + X_4
+    L = X_rem + X_presta + X_sanc
 
 Pour une mesure de risque de type VaR_alpha, l'allocation d'Euler approchée
 sur simulation consiste à conditionner sur les années situées dans une bande
@@ -19,9 +19,8 @@ autour du quantile :
 La somme des contributions est ensuite renormalisée pour sommer exactement
 au SCR total estimé.
 
-Ce module suppose que lda.py renvoie les séries annuelles simulées :
-    res["total"], res["aggravation"], res["prestataire"],
-    res["remediation"], res["sanction"]
+L'Aggravation (le delta contrefactuel) n'est pas allouée ici car elle n'est 
+pas une composante additive de L, mais une différence entre deux VaR(L).
 """
 
 import numpy as np
@@ -30,12 +29,13 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from src.aggregation.lda import simulate_year_4_briques
+from src.aggregation.lda import simulate_year_3_briques
 from src.compliance.latent import pcd_conditional, ANCHORED_PARAMS, PROFILS_TYPES
 from src.utils.config import PRC, OPRISK, FREQUENCY, SCR_DORA
 
 
-BRIQUES = ["aggravation", "prestataire", "remediation", "sanction"]
+# On retire 'aggravation' de la liste des briques additives
+BRIQUES = ["remediation", "prestataire", "sanction"]
 
 
 def var_empirical(losses: np.ndarray, alpha: float = 0.995) -> float:
@@ -80,20 +80,6 @@ def euler_allocation_var(
 ) -> dict:
     """
     Allocation d'Euler approchée de la VaR par moyenne conditionnelle locale.
-
-    Parameters
-    ----------
-    simulation_result : dict
-        Résultat renvoyé par simulate_year_4_briques(...)
-    alpha : float
-        Niveau de VaR
-    bandwidth : float
-        Demi-largeur de bande autour du quantile alpha
-
-    Returns
-    -------
-    dict
-        VaR totale, contributions par brique, pourcentages, taille d'échantillon locale
     """
     total = np.asarray(simulation_result["total"], dtype=float)
     var_total = var_empirical(total, alpha=alpha)
@@ -132,9 +118,7 @@ def euler_allocation_es(
     alpha: float = 0.995,
 ) -> dict:
     """
-    Allocation naturelle sur l'Expected Shortfall :
-        contribution_i = E[X_i | L >= VaR_alpha(L)]
-    Ici la somme des contributions est naturellement égale à l'ES.
+    Allocation naturelle sur l'Expected Shortfall.
     """
     total = np.asarray(simulation_result["total"], dtype=float)
     var = var_empirical(total, alpha=alpha)
@@ -179,7 +163,7 @@ def print_euler_report(allocation: dict) -> None:
     for b in BRIQUES:
         c = allocation["contribution"][b]
         p = allocation["percent"][b]
-        print(f" {b:14s} {c:>14,.1f} M€ {p:>17.1%}")
+        print(f" {b.capitalize():14s} {c:>14,.1f} M€ {p:>17.1%}")
 
     print(f" {'-'*52}")
     print(f" {'TOTAL':14s} {sum(allocation['contribution'].values()):>14,.1f} M€ {sum(allocation['percent'].values()):>17.1%}")
@@ -187,9 +171,7 @@ def print_euler_report(allocation: dict) -> None:
 
 
 def build_severity_params(source: str) -> dict:
-    """
-    Construit les paramètres de sévérité à transmettre à lda.py.
-    """
+    """Construit les paramètres de sévérité à transmettre à lda.py."""
     source = source.upper()
     if source == "PRC":
         src = PRC
@@ -223,36 +205,14 @@ def run_euler_on_reference(
     seed: int = 42,
 ) -> dict:
     """
-    Lance la simulation LDA à 4 briques puis calcule l'allocation d'Euler.
-
-    Parameters
-    ----------
-    lambda_annual : float
-        Fréquence annuelle déjà déterminée par le scénario ou par le pont latent.
-    source : str
-        'PRC' ou 'OPRISK'
-    alpha : float
-        Niveau de risque
-    n_sim : int
-        Nombre d'années simulées
-    dependence : str
-        'gumbel' ou 'common_factor'
-    theta_env : float
-        Etat de l'environnement cyber pour la PCD de sanction
-    entity_key : str
-        'leader', 'median', 'retard'
-    method : str
-        'var' ou 'es'
-    bandwidth : float
-        Bande locale autour de la VaR pour l'approximation d'Euler
-    seed : int
-        Graine aléatoire
+    Lance la simulation LDA à 3 briques physiques puis calcule l'allocation d'Euler.
     """
     entity = PROFILS_TYPES[entity_key]
     severity_params = build_severity_params(source)
     pcd = pcd_conditional(entity, theta_env, ANCHORED_PARAMS)
 
-    sim = simulate_year_4_briques(
+    # Appel de la nouvelle fonction à 3 briques
+    sim = simulate_year_3_briques(
         lambda_annual=lambda_annual,
         severity_params=severity_params,
         pcd_sanction=pcd,
@@ -281,7 +241,7 @@ def run_euler_on_reference(
 
 
 if __name__ == "__main__":
-    # Exemple simple : allocation sur une fréquence de référence OPRISK
+    # Test d'allocation sur une fréquence de référence OPRISK
     lambda_ref_oprisk = OPRISK["n_incidents"] / 27
 
     alloc_var = run_euler_on_reference(
@@ -300,19 +260,3 @@ if __name__ == "__main__":
     print("\n>>> Allocation d'Euler sur VaR\n")
     print(f"Contexte : {alloc_var['meta']}")
     print_euler_report(alloc_var)
-
-    alloc_es = run_euler_on_reference(
-        lambda_annual=lambda_ref_oprisk,
-        source="OPRISK",
-        alpha=0.995,
-        n_sim=100_000,
-        dependence="gumbel",
-        theta_env=0.0,
-        entity_key="median",
-        method="es",
-        seed=42,
-    )
-
-    print("\n>>> Allocation sur Expected Shortfall\n")
-    print(f"Contexte : {alloc_es['meta']}")
-    print_euler_report(alloc_es)

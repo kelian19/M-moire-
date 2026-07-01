@@ -1,92 +1,44 @@
 """
 scenarios/bootstrap_delta_dora.py
 -----------------------------------
-Bootstrap à DEUX NIVEAUX sur le Delta_DORA :
+Bootstrap à DEUX NIVEAUX sur le Delta_DORA (Architecture 3 Briques) :
 
   Niveau 1 — incertitude des MULTIPLICATEURS de scénario (ENISA/Ponemon/
-             Microsoft Research), tirage uniforme dans les fourchettes
-             sourcées (cf. docs/calibration_multiplicateurs.md).
-  Niveau 2 — incertitude des PARAMÈTRES DE SÉVÉRITÉ (ξ, σ), par
-             rééchantillonnage bootstrap des excès GPD.
+             Microsoft Research), tirage uniforme dans les fourchettes sourcées.
+  Niveau 2 — incertitude des PARAMÈTRES DE SÉVÉRITÉ (ξ, σ) de la brique 
+             Remédiation, par rééchantillonnage bootstrap des excès GPD.
 
 ⚠️ TRANSPARENCE MÉTHODOLOGIQUE :
-  - OpRisk : bootstrap RÉEL, rééchantillonnage des 570 incidents bruts
-    (data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx, ou cache local).
+  - OpRisk : bootstrap RÉEL, rééchantillonnage des 582 incidents bruts.
   - PRC : SEUL le point de calibration (ξ=1.30, σ=0.257 M€) est disponible
-    dans cet environnement — les données brutes PRC ne sont pas chargées.
-    Le niveau 2 (incertitude de sévérité) n'est donc PAS bootstrappé pour
-    PRC ; seul le niveau 1 (multiplicateurs) l'est. Ceci est signalé
-    explicitement dans les résultats, conformément au principe : ne jamais
-    présenter une incertitude qu'on n'a pas réellement quantifiée.
+    dans cet environnement. Le niveau 2 n'est donc PAS bootstrappé pour PRC.
 
-Résultat final : la distribution de Delta_DORA, pas un point.
+Résultat final : la distribution de Delta_DORA calculée sur le modèle complet 
+avec Copule (et non plus un simple processus de Poisson/GPD à plat).
 """
 
 import numpy as np
 import pandas as pd
 from typing import Optional, Tuple
-from scipy.stats import genpareto, nbinom
+from scipy.stats import genpareto
 import sys, os, warnings
 warnings.filterwarnings("ignore")
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from src.frequency.negbin import (
-    HACKMAGEDDON_PROPORTIONS, MULTIPLICATEURS_DORA, compute_lambda_scenario
-)
+from src.frequency.negbin import compute_lambda_scenario
 from src.utils.config import PRC, OPRISK, FREQUENCY, SCR_DORA
+from src.aggregation.lda import simulate_year_3_briques
+from src.compliance.latent import pcd_conditional, ANCHORED_PARAMS, PROFILS_TYPES
 
 
 # ---------------------------------------------------------------------------
-# 1. SIMULATION D'UNE ANNÉE DE PERTES (fréquence x sévérité, p_u appliqué)
-# ---------------------------------------------------------------------------
-
-def simulate_year_losses(lambda_annual: float, xi: float, sigma: float,
-                          u: float, p_u: float, dispersion: float,
-                          n_sim: int, severity_cap: float, rng) -> np.ndarray:
-    """
-    Simule n_sim pertes agrégées annuelles.
-    p_u est appliqué correctement (fraction des événements en queue GPD,
-    le reste en corps approximé à 0 — cf. correction du bug d'hier soir).
-    """
-    r = lambda_annual / (dispersion - 1) if dispersion > 1 else lambda_annual
-    p = r / (r + lambda_annual)
-
-    freqs = rng.negative_binomial(r, p, size=n_sim)
-    total_events = int(freqs.sum())
-
-    is_tail = rng.random(total_events) < p_u
-    severities = np.zeros(total_events)
-    n_tail = int(is_tail.sum())
-    if n_tail > 0:
-        u_vals = rng.uniform(0, 1, n_tail)
-        sev_tail = u + genpareto.ppf(u_vals, c=xi, scale=sigma)
-        if severity_cap is not None:
-            sev_tail = np.minimum(sev_tail, severity_cap)
-        severities[is_tail] = sev_tail
-
-    splits = np.cumsum(freqs)[:-1]
-    return np.array([s.sum() for s in np.split(severities, splits)])
-
-
-# ---------------------------------------------------------------------------
-# 2. BOOTSTRAP GPD SUR DONNÉES RÉELLES (OpRisk uniquement)
+# 1. BOOTSTRAP GPD SUR DONNÉES RÉELLES (OpRisk uniquement)
 # ---------------------------------------------------------------------------
 
 def load_oprisk_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
-    """
-    Charge les excès réels OpRisk au-dessus du seuil, sur le périmètre
-    cyber×finance UNIQUEMENT (et non toute la base opérationnelle).
-
-    Périmètre cyber×finance (582 incidents attendus) :
-      - Sub Risk Category ∈ {Systems Security, Systems}
-      - ET secteur financier (Industry Sector Name contient 'Financial')
-
-    Le chemin est résolu relativement à la racine du projet, pas en dur,
-    pour rester portable d'un environnement à l'autre.
-    """
+    """Charge les excès réels OpRisk au-dessus du seuil (cyber×finance UNIQUEMENT)."""
     u = OPRISK["seuil_u_eur"] if u is None else float(u)
 
-    # Chemin robuste : racine projet = deux niveaux au-dessus de ce fichier
     project_root = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", "..")
     )
@@ -100,8 +52,6 @@ def load_oprisk_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
         )
 
     df = pd.read_excel(path, sheet_name="Datasets")
-
-    # Normalisation des noms de colonnes
     df.columns = (
         df.columns.astype(str)
         .str.strip()
@@ -110,20 +60,16 @@ def load_oprisk_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
         .str.replace(r"\s+", " ", regex=True)
     )
 
-    # --- Colonne de perte ---
     candidate_loss_cols = [
-        "Loss Amount ($M)",
-        "Current Value of Loss ($M)",
-        "Loss Amount (M)",
-        "Current Value of Loss (M)",
+        "Loss Amount ($M)", "Current Value of Loss ($M)",
+        "Loss Amount (M)", "Current Value of Loss (M)",
     ]
     chosen_col = next((c for c in candidate_loss_cols if c in df.columns), None)
     if chosen_col is None:
         raise ValueError("Aucune colonne de perte reconnue dans 'Datasets'.")
 
-    # --- FILTRAGE PÉRIMÈTRE CYBER × FINANCE (la correction clé) ---
     df["loss_musd"] = pd.to_numeric(df[chosen_col], errors="coerce")
-    df = df[(df["loss_musd"] > 0) & (df["loss_musd"] < 100_000)]  # retire aberrations
+    df = df[(df["loss_musd"] > 0) & (df["loss_musd"] < 100_000)]  
 
     mask_cyber = df["Sub Risk Category"].isin(["Systems Security", "Systems"])
     mask_fin = df["Industry Sector Name"].apply(
@@ -131,21 +77,14 @@ def load_oprisk_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
     )
     df_cyber = df[mask_cyber & mask_fin].copy()
 
-    # Conversion USD → EUR
     usd_eur = OPRISK.get("usd_eur", 0.92)
     losses_eur = df_cyber["loss_musd"].to_numpy(dtype=float) * usd_eur
-
     excesses = losses_eur[losses_eur > u] - u
 
     if len(excesses) == 0:
         raise ValueError(f"Aucun excès au-dessus du seuil u={u} M€.")
 
-    print(f"[OpRisk] Périmètre cyber×finance : {len(df_cyber)} incidents")
-    print(f"[OpRisk] Colonne perte : {chosen_col} (×{usd_eur} USD→EUR)")
-    print(f"[OpRisk] Excès > u={u} M€ : {len(excesses)}")
-
     return excesses, u
-
 
 def bootstrap_gpd_params(excesses: np.ndarray, rng) -> tuple:
     """Un tirage bootstrap (ξ, σ) par rééchantillonnage des excès réels."""
@@ -156,7 +95,7 @@ def bootstrap_gpd_params(excesses: np.ndarray, rng) -> tuple:
 
 
 # ---------------------------------------------------------------------------
-# 3. BOOTSTRAP DEUX NIVEAUX — UNE SOURCE DE SÉVÉRITÉ
+# 2. BOOTSTRAP DEUX NIVEAUX BRANCHÉ SUR LE MODÈLE COMPLET (lda.py)
 # ---------------------------------------------------------------------------
 
 def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
@@ -169,6 +108,7 @@ def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
     rng = np.random.default_rng(seed)
     dispersion = FREQUENCY["dispersion_factor"]
 
+    # --- Setup Source ---
     if source == "PRC":
         lambda_ref = FREQUENCY["lambda_ref"]
         xi0, sigma0, u0, p_u0 = PRC["xi"], PRC["sigma_eur"], PRC["seuil_u_eur"], PRC["p_u"]
@@ -190,7 +130,19 @@ def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
     lambda_ref_list, lambda_x_list = [], []
     mult_x_list = []
 
+    # Mapping rapide des scénarios vers des profils (pour la PCD Sanction)
+    # Dans ton design, le ref = conforme (leader) et x = dégradé (retard/median)
+    profil_map = {
+        "S0_conforme": "leader",
+        "S1_partiel": "median",
+        "S2_non_conforme": "retard"
+    }
+    
+    pcd_ref = pcd_conditional(PROFILS_TYPES[profil_map.get(scenario_ref, "leader")], 0.0, ANCHORED_PARAMS)
+    pcd_x = pcd_conditional(PROFILS_TYPES[profil_map.get(scenario_x, "median")], 0.0, ANCHORED_PARAMS)
+
     for i in range(n_boot):
+        # 1. Tirage des fréquences (Incertitude Multiplicateurs)
         res_ref = compute_lambda_scenario(lambda_ref, scenario_ref, mode="sample", rng=rng)
         res_x = compute_lambda_scenario(lambda_ref, scenario_x, mode="sample", rng=rng)
 
@@ -205,20 +157,36 @@ def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
         else:
             mult_x_list.append(np.nan)
 
+        # 2. Tirage des paramètres GPD (Incertitude Sévérité)
         if bootstrap_severity:
             xi_b, sigma_b = bootstrap_gpd_params(excesses, rng)
         else:
             xi_b, sigma_b = xi0, sigma0
+            
+        severity_params = {
+            "xi": xi_b, "sigma": sigma_b, "u": u0, "p_u": p_u0,
+            "dispersion_factor": dispersion, "severity_cap": cap
+        }
 
-        losses_ref = simulate_year_losses(
-            lam_ref, xi_b, sigma_b, u0, p_u0, dispersion, n_sim_per_boot, cap, rng
+        # 3. Simulation du modèle complet (3 Briques + Copule)
+        # Neutralisation du biais de sélection : graine commune pour le contrefactuel dans la même itération
+        graine_iteration = seed + i 
+        
+        sim_ref = simulate_year_3_briques(
+            lambda_annual=lam_ref, severity_params=severity_params,
+            pcd_sanction=pcd_ref, n_sim=n_sim_per_boot, dependence="gumbel", 
+            theta=1.2, seed=graine_iteration
         )
-        losses_x = simulate_year_losses(
-            lam_x, xi_b, sigma_b, u0, p_u0, dispersion, n_sim_per_boot, cap, rng
+        
+        sim_x = simulate_year_3_briques(
+            lambda_annual=lam_x, severity_params=severity_params,
+            pcd_sanction=pcd_x, n_sim=n_sim_per_boot, dependence="gumbel", 
+            theta=1.8, seed=graine_iteration
         )
 
-        scr_ref = np.quantile(losses_ref, alpha)
-        scr_x = np.quantile(losses_x, alpha)
+        # 4. Calcul des VaR et du Delta
+        scr_ref = np.quantile(sim_ref["total"], alpha)
+        scr_x = np.quantile(sim_x["total"], alpha)
 
         scr_ref_list.append(scr_ref)
         scr_x_list.append(scr_x)
@@ -249,9 +217,9 @@ def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
         "distribution": deltas,
     }
 
-    flag = "✓ bootstrap réel (570 obs)" if bootstrap_severity else "⚠ point fixe (pas de données brutes ici)"
+    flag = "✓ bootstrap réel (582 obs)" if bootstrap_severity else "⚠ point fixe (pas de données brutes ici)"
     print(f"\n{'='*62}")
-    print(f"  Δ_DORA — {source} — {scenario_ref} → {scenario_x}")
+    print(f"  Δ_DORA (Modèle Complet) — {source} — {scenario_ref} → {scenario_x}")
     print(f"{'='*62}")
     print(f"  Sévérité (niveau 2)        : {flag}")
     print(f"  Multiplicateurs (niveau 1) : ✓ bootstrap réel (fourchettes sourcées)")
@@ -270,21 +238,12 @@ def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
     return result
 
 
-# ---------------------------------------------------------------------------
-# 4. GRILLE COMPLÈTE — DEUX SOURCES x DEUX SCÉNARIOS
-# ---------------------------------------------------------------------------
-
 def full_bootstrap_grid(n_boot: int = 300, n_sim_per_boot: int = 30_000) -> pd.DataFrame:
-    """
-    Exécute le bootstrap deux niveaux pour {PRC, OpRisk} x {S1, S2}.
-    Produit le tableau central du mémoire : la distribution du Δ_DORA
-    sous chaque combinaison source x scénario, jamais un point unique.
-    """
     rows = []
     for source in ["PRC", "OPRISK"]:
         for scenario_x in ["S1_partiel", "S2_non_conforme"]:
             res = bootstrap_delta_dora(source, scenario_x,
-                                        n_boot=n_boot, n_sim_per_boot=n_sim_per_boot)
+                                       n_boot=n_boot, n_sim_per_boot=n_sim_per_boot)
             rows.append({
                 "Source": source,
                 "Scénario": scenario_x,
@@ -304,10 +263,7 @@ def full_bootstrap_grid(n_boot: int = 300, n_sim_per_boot: int = 30_000) -> pd.D
     return df
 
 
-# ---------------------------------------------------------------------------
-# MAIN
-# ---------------------------------------------------------------------------
-
 if __name__ == "__main__":
+    # Test rapide
     bootstrap_delta_dora("OPRISK", "S1_partiel", n_boot=200, n_sim_per_boot=30_000)
     bootstrap_delta_dora("PRC", "S1_partiel", n_boot=200, n_sim_per_boot=30_000)

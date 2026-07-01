@@ -11,6 +11,7 @@ Sources :
 Références :
   Pickands (1975), Balkema & de Haan (1974)
   Farkas, Lopez & Thomas (2021)
+  Estimateur de Hill : Hill (1975)
 """
 
 import numpy as np
@@ -141,8 +142,7 @@ def var_gpd(params: dict, alpha: float) -> float:
     xi, sigma, u, p_u = params["xi"], params["sigma"], params["u"], params["p_u"]
     if alpha <= 1 - p_u:
         raise ValueError("alpha trop faible : en-dessous du seuil u.")
-    # Argument POT correct : ratio des probabilités de survie (1-alpha)/p_u
-    # VaR_α = u + (σ/ξ) * [ ((1-α)/p_u)^(-ξ) - 1 ]
+    
     ratio = (1 - alpha) / p_u
     if xi == 0:
         return u - sigma * np.log(ratio)
@@ -174,14 +174,6 @@ def bootstrap_gpd(losses: np.ndarray, u: float,
     """
     Bootstrap paramétrique sur les excès GPD.
     Retourne les IC sur ξ, σ et VaR.
-
-    Parameters
-    ----------
-    losses    : array de pertes brutes
-    u         : seuil POT
-    n_boot    : nombre de tirages bootstrap
-    alpha_var : niveau de VaR à estimer
-    ci_level  : niveau de l'intervalle de confiance (défaut 90%)
     """
     excesses = losses[losses > u] - u
     n_exc = len(excesses)
@@ -221,22 +213,7 @@ def calibration_report(losses: np.ndarray, u: float,
                        currency: str = "M€",
                        n_boot: int = 2000) -> dict:
     """
-    Rapport complet de calibration GPD :
-      - Paramètres MLE
-      - VaR / TVaR aux niveaux 95%, 99%, 99.5%, 99.9%
-      - IC bootstrap
-
-    Parameters
-    ----------
-    losses   : array de pertes
-    u        : seuil POT
-    source   : nom de la source de données
-    currency : unité monétaire pour l'affichage
-    n_boot   : tirages bootstrap
-
-    Returns
-    -------
-    dict complet des résultats
+    Rapport complet de calibration GPD.
     """
     params = fit_gpd(losses, u)
     ci = bootstrap_gpd(losses, u, n_boot=n_boot)
@@ -291,7 +268,6 @@ def calibration_report(losses: np.ndarray, u: float,
 def cross_validate(report_prc: dict, report_oprisk: dict) -> None:
     """
     Affiche la comparaison qualitative PRC vs OpRisk.
-    La validation quantitative est impossible (seuils incomparables).
     """
     xi_prc = report_prc["xi"]
     xi_op  = report_oprisk["xi"]
@@ -316,6 +292,64 @@ def cross_validate(report_prc: dict, report_oprisk: dict) -> None:
 
 
 # ---------------------------------------------------------------------------
+# 7. ESTIMATEUR DE HILL (Validation alternative du MLE)
+# ---------------------------------------------------------------------------
+
+def hill_estimator(losses: np.ndarray, k_min: int = 5, k_max: int = None) -> pd.DataFrame:
+    """
+    Calcule l'estimateur de Hill de l'indice de queue ξ pour différentes valeurs de k
+    (nombre de statistiques d'ordre supérieures retenues).
+    
+    L'estimateur de Hill est défini par :
+    ξ̂_H(k) = (1/k) * Σ [ln(X_i) - ln(X_k+1)] pour i de 1 à k
+    
+    Parameters
+    ----------
+    losses : array de pertes brutes (entièrement positives)
+    k_min  : nombre minimum d'extrêmes à considérer
+    k_max  : nombre maximum d'extrêmes. Par défaut, 25% de l'échantillon.
+    
+    Returns
+    -------
+    DataFrame : colonnes [k, u, xi_hill]
+        - k       : nombre de valeurs extrêmes retenues
+        - u       : le seuil implicite correspondant (X_{n-k, n})
+        - xi_hill : la valeur de l'estimateur de Hill pour ce k
+    """
+    # 1. Filtrer les pertes strictement positives et les trier en ordre décroissant
+    # X[0] est le max, X[1] est le 2ème max, etc.
+    X = np.sort(losses[losses > 0])[::-1]
+    n = len(X)
+    
+    if k_max is None:
+        k_max = int(n * 0.25) # Par défaut, on regarde jusqu'au top 25%
+        
+    if k_max >= n:
+        k_max = n - 1
+
+    rows = []
+    
+    # Pré-calculer les logarithmes pour optimiser la boucle
+    log_X = np.log(X)
+    
+    for k in range(k_min, k_max + 1):
+        # Le seuil est X_{k+1}, qui correspond à l'index k dans le tableau 0-indexé
+        threshold = X[k]
+        
+        # Estimateur de Hill : moyenne des écarts logarithmiques au-dessus du seuil
+        log_ratios = log_X[:k] - np.log(threshold)
+        xi_hat = np.mean(log_ratios)
+        
+        rows.append({
+            "k": k,
+            "u": threshold,
+            "xi_hill": xi_hat
+        })
+        
+    return pd.DataFrame(rows)
+
+
+# ---------------------------------------------------------------------------
 # MAIN — exemple d'utilisation
 # ---------------------------------------------------------------------------
 
@@ -323,8 +357,9 @@ if __name__ == "__main__":
     import os
 
     print("Module gpd.py chargé. Utilisation :")
-    print("  from src.severity.gpd import calibration_report, cross_validate")
+    print("  from src.severity.gpd import calibration_report, cross_validate, hill_estimator")
     print()
     print("Exemple :")
     print("  losses = pd.read_csv('data/processed/prc_losses.csv')['loss_eur'].values")
     print("  report = calibration_report(losses, u=0.128, source='PRC 2025', currency='M€')")
+    print("  df_hill = hill_estimator(losses)")

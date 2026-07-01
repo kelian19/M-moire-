@@ -1,7 +1,7 @@
 """
 notebooks/04_euler_allocation_check.py
 --------------------------------------
-Script de test pour lancer l'allocation d'Euler sur le modèle LDA à 4 briques,
+Script de test pour lancer l'allocation d'Euler sur le modèle LDA à 3 briques physiques,
 avec fréquence pilotée par la variable latente de conformité (Option A).
 
 Sorties :
@@ -92,9 +92,7 @@ def run_case(
 
 
 def safe_get(dct, *keys, default=None):
-    """
-    Récupération robuste d'une valeur dans un dictionnaire imbriqué.
-    """
+    """Récupération robuste d'une valeur dans un dictionnaire imbriqué."""
     cur = dct
     for key in keys:
         if not isinstance(cur, dict) or key not in cur:
@@ -106,7 +104,7 @@ def safe_get(dct, *keys, default=None):
 def build_row(res: dict) -> dict:
     """
     Construit une ligne propre pour le CSV à partir du résultat d'un cas.
-    Compatible avec différentes structures possibles de alloc.
+    (Adapté aux 3 briques additives : remediation, prestataire, sanction).
     """
     alloc = res["alloc"]
 
@@ -119,7 +117,6 @@ def build_row(res: dict) -> dict:
 
     contributions = safe_get(alloc, "contribution", default={}) or {}
 
-    aggravation = contributions.get("aggravation", 0.0)
     prestataire = contributions.get("prestataire", 0.0)
     remediation = contributions.get("remediation", 0.0)
     sanction = contributions.get("sanction", 0.0)
@@ -137,11 +134,9 @@ def build_row(res: dict) -> dict:
         "lambda_annual": res["lambda_annual"],
         "lambda_multiplier": res["lambda_multiplier"],
         "capital_total": capital_total,
-        "aggravation_contrib": aggravation,
         "prestataire_contrib": prestataire,
         "remediation_contrib": remediation,
         "sanction_contrib": sanction,
-        "aggravation_pct": 100 * aggravation / denom,
         "prestataire_pct": 100 * prestataire / denom,
         "remediation_pct": 100 * remediation / denom,
         "sanction_pct": 100 * sanction / denom,
@@ -153,13 +148,13 @@ if __name__ == "__main__":
         {"source": "OPRISK", "entity_key": "leader", "theta_env": 0.0},
         {"source": "OPRISK", "entity_key": "median", "theta_env": 0.0},
         {"source": "OPRISK", "entity_key": "retard", "theta_env": 0.0},
-        {"source": "OPRISK", "entity_key": "leader", "theta_env": -2.5},
+        {"source": "OPRISK", "entity_key": "leader", "theta_env": -2.5}, # Choc systémique
         {"source": "OPRISK", "entity_key": "median", "theta_env": -2.5},
         {"source": "OPRISK", "entity_key": "retard", "theta_env": -2.5},
         {"source": "PRC", "entity_key": "leader", "theta_env": 0.0},
         {"source": "PRC", "entity_key": "median", "theta_env": 0.0},
         {"source": "PRC", "entity_key": "retard", "theta_env": 0.0},
-        {"source": "PRC", "entity_key": "leader", "theta_env": -2.5},
+        {"source": "PRC", "entity_key": "leader", "theta_env": -2.5}, # Choc systémique
         {"source": "PRC", "entity_key": "median", "theta_env": -2.5},
         {"source": "PRC", "entity_key": "retard", "theta_env": -2.5},
     ]
@@ -194,11 +189,9 @@ if __name__ == "__main__":
         "lambda_annual",
         "lambda_multiplier",
         "capital_total",
-        "aggravation_contrib",
         "prestataire_contrib",
         "remediation_contrib",
         "sanction_contrib",
-        "aggravation_pct",
         "prestataire_pct",
         "remediation_pct",
         "sanction_pct",

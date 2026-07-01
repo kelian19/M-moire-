@@ -42,7 +42,8 @@ OPRISK = {
     "xi_ic90": [0.3044, 0.8313],
     "sigma_ic90": [41.88, 82.80],
     "var_995": 662.78,           # M€ (formule POT corrigée)
-    "tvar_99": 1133.05,          # M€
+    "tvar_99": 1133.05,
+    "n_years": 27,               # période 2000–2026 (fréquence propre OpRisk = 582/27 ≈ 21,6/an)          # M€
     "var_995_ic90": [411.5, 1037.1],
     "note": (
         "Source de montants de pertes RÉELS. Biais vers les grandes entités "

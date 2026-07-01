@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from src.severity.gpd import (
     mean_excess, fit_gpd, calibration_report,
-    bootstrap_gpd, cross_validate
+    bootstrap_gpd, cross_validate, hill_estimator
 )
 from src.utils.config import OPRISK, PRC
 
@@ -133,7 +133,34 @@ def plot_xi_stability(losses: np.ndarray, save_path: str = None):
 
 
 # ---------------------------------------------------------------------------
-# 4. VALIDATION CROISÉE — TABLEAU COMPARATIF
+# 4. HILL PLOT (VALIDATION ALTERNATIVE)
+# ---------------------------------------------------------------------------
+
+def plot_hill(losses: np.ndarray, reference_xi: float = 0.60, save_path: str = None):
+    """Trace le Hill Plot pour visualiser la stabilité de l'estimateur de queue."""
+    df_hill = hill_estimator(losses, k_max=200)
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(df_hill["k"], df_hill["xi_hill"], color="#2563eb", linewidth=2, label="Estimateur de Hill")
+    ax.axhline(y=reference_xi, color="#dc2626", linestyle="--", linewidth=1.5, 
+               label=f"MLE (Référence = {reference_xi:.2f})")
+    ax.set_xlabel("Nombre d'extrêmes retenus (k)", fontsize=11)
+    ax.set_ylabel("Estimation de ξ (Indice de queue)", fontsize=11)
+    ax.set_title("Hill Plot - SAS OpRisk Global Data", fontsize=13, fontweight='bold')
+    ax.legend(fontsize=10)
+    ax.grid(True, alpha=0.3)
+    plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path, dpi=150, bbox_inches='tight')
+        print(f"Figure sauvegardée : {save_path}")
+    else:
+        plt.show()
+    return fig
+
+
+# ---------------------------------------------------------------------------
+# 5. VALIDATION CROISÉE — TABLEAU COMPARATIF
 # ---------------------------------------------------------------------------
 
 def print_cross_validation():
@@ -181,18 +208,21 @@ if __name__ == "__main__":
         df = load_oprisk(OPRISK_PATH)
         losses = df['loss_eur_M'].values
 
-        # Mean Excess Plot
+        # 1. Mean Excess Plot
         plot_mean_excess(losses, save_path='outputs/figures/mep_oprisk.png')
 
-        # Stabilité ξ
+        # 2. Stabilité ξ (MLE)
         plot_xi_stability(losses, save_path='outputs/figures/xi_stability_oprisk.png')
+        
+        # 3. Estimateur de Hill (Validation)
+        plot_hill(losses, reference_xi=OPRISK['xi'], save_path='outputs/figures/hill_plot_oprisk.png')
 
-        # Calibration GPD
+        # 4. Calibration GPD (Rapport console)
         u = OPRISK['seuil_u_eur']
         report = calibration_report(losses, u,
                                     source='OpRisk Cyber×Finance (2000–2026)',
                                     currency='M€',
                                     n_boot=2000)
 
-        # Validation croisée
+        # 5. Validation croisée
         print_cross_validation()
