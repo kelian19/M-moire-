@@ -117,7 +117,7 @@ def build_row(res: dict) -> dict:
         or 0.0
     )
 
-    contributions = safe_get(alloc, "contributions", default={}) or {}
+    contributions = safe_get(alloc, "contribution", default={}) or {}
 
     aggravation = contributions.get("aggravation", 0.0)
     prestataire = contributions.get("prestataire", 0.0)
