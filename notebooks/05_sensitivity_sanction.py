@@ -8,6 +8,7 @@ Mini analyse de sensibilité sur la brique sanction :
 Objectif :
 vérifier si la faible contribution de la sanction est structurelle
 ou simplement liée au calibrage de sa borne supérieure.
+(Mis à jour pour l'architecture LDA à 3 briques additives)
 """
 
 import os
@@ -18,7 +19,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from src.aggregation.lda import simulate_year_4_briques, BRIQUE_PARAMS
+from src.aggregation.lda import simulate_year_3_briques, BRIQUE_PARAMS
 from src.scenarios.latent_bridge import lambda_from_entity
 from src.compliance.latent import PROFILS_TYPES
 from src.utils.config import FREQUENCY, OPRISK, PRC, SCR_DORA
@@ -74,11 +75,12 @@ def run_sanction_case(
     BRIQUE_PARAMS["sanction"]["montant_range_eur_m"] = (2.0, sanction_high)
 
     try:
-        res = simulate_year_4_briques(
+        res = simulate_year_3_briques(
             lambda_annual=lam,
             severity_params=severity_params,
             pcd_sanction=pcd,
             n_sim=n_sim,
+            pcd_prestataire=pcd,  # Ajout de la liaison avec le PCD prestataire
             dependence=dependence,
             seed=seed,
         )
@@ -86,7 +88,6 @@ def run_sanction_case(
         BRIQUE_PARAMS["sanction"]["montant_range_eur_m"] = old_range
 
     total = res["total"]
-    aggravation = res["aggravation"]
     prestataire = res["prestataire"]
     remediation = res["remediation"]
     sanction = res["sanction"]
@@ -96,7 +97,6 @@ def run_sanction_case(
     es_alpha = float(total[tail].mean())
 
     mean_total = float(total.mean())
-    mean_aggravation = float(aggravation.mean())
     mean_prestataire = float(prestataire.mean())
     mean_remediation = float(remediation.mean())
     mean_sanction = float(sanction.mean())
@@ -117,11 +117,9 @@ def run_sanction_case(
         "var_995": var_alpha,
         "es_995": es_alpha,
         "mean_total": mean_total,
-        "mean_aggravation": mean_aggravation,
         "mean_prestataire": mean_prestataire,
         "mean_remediation": mean_remediation,
         "mean_sanction": mean_sanction,
-        "mean_aggravation_pct": 100 * mean_aggravation / mean_total if mean_total else 0.0,
         "mean_prestataire_pct": 100 * mean_prestataire / mean_total if mean_total else 0.0,
         "mean_remediation_pct": 100 * mean_remediation / mean_total if mean_total else 0.0,
         "mean_sanction_pct": 100 * mean_sanction / mean_total if mean_total else 0.0,

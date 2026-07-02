@@ -15,7 +15,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from src.severity.gpd import (
     mean_excess, fit_gpd, calibration_report,
-    bootstrap_gpd, cross_validate, hill_estimator
+    bootstrap_gpd, cross_validate
+)
+from src.severity.hill import (
+    hill_xi, hill_estimator_table,
+    mle_gpd_xi, mle_gpd_table, compare_hill_mle,
+    diagnostic_stabilite_hill,
+    sensibilite_seuil_var, print_sensibilite_seuil
 )
 from src.utils.config import OPRISK, PRC
 
@@ -89,60 +95,60 @@ def plot_mean_excess(losses: np.ndarray, save_path: str = None):
 
 
 # ---------------------------------------------------------------------------
-# 3. STABILITÉ DE ξ
+# 3. STABILITÉ DE ξ (MLE) — graphique ET table numérique
 # ---------------------------------------------------------------------------
 
-def plot_xi_stability(losses: np.ndarray, save_path: str = None):
-    """Visualise la stabilité de ξ̂ en fonction du seuil u."""
-    from scipy.stats import genpareto
+def plot_xi_stability(losses: np.ndarray, save_path: str = None) -> pd.DataFrame:
+    """
+    Visualise la stabilité de ξ̂ (MLE) en fonction du seuil u,
+    et retourne la table numérique sous-jacente (pas seulement le graphique).
+    """
+    df_mle = mle_gpd_table(losses, pct_range=range(60, 95, 2))
 
-    pcts = range(60, 95, 2)
-    data = []
-    for p in pcts:
-        u = np.percentile(losses, p)
-        exc = losses[losses > u] - u
-        if len(exc) < 20:
-            continue
-        xi, _, _ = genpareto.fit(exc, floc=0)
-        data.append({'pct': p, 'u': u, 'xi': xi, 'n': len(exc)})
-
-    df = pd.DataFrame(data)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-    ax1.plot(df['u'], df['xi'], 'o-', color='#2E5496', linewidth=2, markersize=5)
+    ax1.plot(df_mle['u'], df_mle['xi_mle'], 'o-', color='#2E5496', linewidth=2, markersize=5)
     ax1.axhline(1.0, color='#C00000', linestyle='--', alpha=0.7, label='ξ = 1 (E[X] = ∞)')
     ax1.axhline(0.0, color='grey', linestyle=':', alpha=0.5, label='ξ = 0 (exponentielle)')
     ax1.axvline(OPRISK['seuil_u_eur'], color='orange', linestyle='--',
                 label=f'u retenu = {OPRISK["seuil_u_eur"]:.1f} M€')
-    ax1.set_xlabel('Seuil u (M€)'); ax1.set_ylabel('ξ̂')
-    ax1.set_title('Stabilité de ξ̂ vs seuil u'); ax1.legend(fontsize=9); ax1.grid(True, alpha=0.3)
+    ax1.set_xlabel('Seuil u (M€)'); ax1.set_ylabel('ξ̂ (MLE)')
+    ax1.set_title('Stabilité de ξ̂ (MLE) vs seuil u'); ax1.legend(fontsize=9); ax1.grid(True, alpha=0.3)
 
-    ax2.plot(df['u'], df['n'], 's-', color='#1F3864', linewidth=2, markersize=5)
+    ax2.plot(df_mle['u'], df_mle['n_excess'], 's-', color='#1F3864', linewidth=2, markersize=5)
     ax2.axhline(30, color='#C00000', linestyle='--', alpha=0.7, label='n minimum = 30')
-    ax2.set_xlabel('Seuil u (M€)'); ax2.set_ylabel('Nombre d\'excès')
-    ax2.set_title('Nombre d\'excès vs seuil u'); ax2.legend(fontsize=9); ax2.grid(True, alpha=0.3)
+    ax2.set_xlabel('Seuil u (M€)'); ax2.set_ylabel("Nombre d'excès")
+    ax2.set_title("Nombre d'excès vs seuil u"); ax2.legend(fontsize=9); ax2.grid(True, alpha=0.3)
 
-    plt.suptitle('Diagnostic GPD — OpRisk Cyber×Finance', fontsize=13, fontweight='bold')
+    plt.suptitle('Diagnostic GPD (MLE) — OpRisk Cyber×Finance', fontsize=13, fontweight='bold')
     plt.tight_layout()
 
     if save_path:
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
+        print(f"Figure sauvegardée : {save_path}")
     else:
         plt.show()
-    return fig
+
+    return df_mle
 
 
 # ---------------------------------------------------------------------------
-# 4. HILL PLOT (VALIDATION ALTERNATIVE)
+# 4. HILL PLOT — graphique ET table numérique (formule fermée)
 # ---------------------------------------------------------------------------
 
-def plot_hill(losses: np.ndarray, reference_xi: float = 0.60, save_path: str = None):
-    """Trace le Hill Plot pour visualiser la stabilité de l'estimateur de queue."""
-    df_hill = hill_estimator(losses, k_max=200)
+def plot_hill(losses: np.ndarray, reference_xi: float = 0.60,
+              k_max: int = 200, save_path: str = None) -> pd.DataFrame:
+    """
+    Trace le Hill Plot ET retourne la table numérique xi_hill(k),
+    calculée par la formule fermée (pas d'optimisation numérique).
+    """
+    df_hill = hill_estimator_table(losses, k_max=k_max)
 
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(df_hill["k"], df_hill["xi_hill"], color="#2563eb", linewidth=2, label="Estimateur de Hill")
-    ax.axhline(y=reference_xi, color="#dc2626", linestyle="--", linewidth=1.5, 
+    ax.fill_between(df_hill["k"], df_hill["ic90_low"], df_hill["ic90_high"],
+                     color="#2563eb", alpha=0.15, label="IC90% (asymptotique)")
+    ax.axhline(y=reference_xi, color="#dc2626", linestyle="--", linewidth=1.5,
                label=f"MLE (Référence = {reference_xi:.2f})")
     ax.set_xlabel("Nombre d'extrêmes retenus (k)", fontsize=11)
     ax.set_ylabel("Estimation de ξ (Indice de queue)", fontsize=11)
@@ -156,11 +162,34 @@ def plot_hill(losses: np.ndarray, reference_xi: float = 0.60, save_path: str = N
         print(f"Figure sauvegardée : {save_path}")
     else:
         plt.show()
-    return fig
+
+    return df_hill
 
 
 # ---------------------------------------------------------------------------
-# 5. VALIDATION CROISÉE — TABLEAU COMPARATIF
+# 5. COMPARAISON NUMÉRIQUE HILL vs MLE (au même seuil)
+# ---------------------------------------------------------------------------
+
+def print_hill_vs_mle(losses: np.ndarray, u: float):
+    """Affiche la comparaison chiffrée entre Hill et MLE au même seuil u."""
+    comp = compare_hill_mle(losses, u)
+
+    print("\n" + "="*65)
+    print("  COMPARAISON HILL (formule fermée) vs MLE-GPD")
+    print("="*65)
+    print(f"  Seuil u                : {comp['seuil_u']:.2f} M€")
+    print(f"  Nombre d'excès (k)     : {comp['k_ou_n_excess']}")
+    print(f"  ξ̂ Hill                 : {comp['xi_hill']:.4f}")
+    print(f"  ξ̂ MLE-GPD              : {comp['xi_mle']:.4f}")
+    print(f"  σ̂ MLE-GPD              : {comp['sigma_mle']:.2f} M€")
+    print(f"  Écart relatif Hill/MLE : {comp['ecart_relatif_pct']:.2f}%")
+    print("="*65 + "\n")
+
+    return comp
+
+
+# ---------------------------------------------------------------------------
+# 6. VALIDATION CROISÉE — TABLEAU COMPARATIF (PRC vs OpRisk)
 # ---------------------------------------------------------------------------
 
 def print_cross_validation():
@@ -211,18 +240,28 @@ if __name__ == "__main__":
         # 1. Mean Excess Plot
         plot_mean_excess(losses, save_path='outputs/figures/mep_oprisk.png')
 
-        # 2. Stabilité ξ (MLE)
-        plot_xi_stability(losses, save_path='outputs/figures/xi_stability_oprisk.png')
-        
-        # 3. Estimateur de Hill (Validation)
-        plot_hill(losses, reference_xi=OPRISK['xi'], save_path='outputs/figures/hill_plot_oprisk.png')
+        # 2. Stabilité ξ (MLE) — graphique + table numérique
+        df_mle_stability = plot_xi_stability(losses, save_path='outputs/figures/xi_stability_oprisk.png')
 
-        # 4. Calibration GPD (Rapport console)
+        # 3. Estimateur de Hill — graphique + table numérique (formule fermée)
+        df_hill = plot_hill(losses, reference_xi=OPRISK['xi'], save_path='outputs/figures/hill_plot_oprisk.png')
+
+        # 4. Comparaison chiffrée Hill vs MLE au seuil retenu
         u = OPRISK['seuil_u_eur']
+        comp_hill_mle = print_hill_vs_mle(losses, u)
+
+        # 5. Diagnostic de stabilité : zone de k où Hill ≈ MLE
+        zone_stable = diagnostic_stabilite_hill(df_hill, xi_mle=comp_hill_mle['xi_mle'], tol=0.15)
+
+        # 6. Sensibilité croisée seuil/k — la VaR MLE est-elle stable autour de u retenu ?
+        df_sens = sensibilite_seuil_var(losses, pct_range=range(70, 96, 2), alpha=0.995)
+        print_sensibilite_seuil(df_sens, u_retenu=u, alpha=0.995)
+
+        # 7. Calibration GPD (Rapport console)
         report = calibration_report(losses, u,
                                     source='OpRisk Cyber×Finance (2000–2026)',
                                     currency='M€',
                                     n_boot=2000)
 
-        # 5. Validation croisée
+        # 8. Validation croisée PRC vs OpRisk
         print_cross_validation()
