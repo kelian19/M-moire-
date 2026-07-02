@@ -155,9 +155,9 @@ Avant de détailler la modélisation mathématique retenue pour quantifier le Ca
 \subsection{Les limites de l'assurabilité et la rareté des données}
 %--------------------------------------------------------------
 
-La littérature s'est d'abord concentrée sur la question fondamentale de l'assurabilité du risque cyber. Biener, Eling et Wirfs (2015) ont démontré que le risque cyber peine à satisfaire les critères classiques d'assurabilité, principalement en raison de l'asymétrie d'information et du risque d'accumulation extrême. 
+La littérature s'est d'abord concentrée sur la question fondamentale de l'assurabilité du risque cyber. Biener, Eling et Wirfs \citep{BienerElingWirfs2015} ont démontré que le risque cyber peine à satisfaire les critères classiques d'assurabilité, principalement en raison de l'asymétrie d'information et du risque d'accumulation extrême.
 
-Face à ce constat, le principal obstacle à la quantification prudentielle reste le manque de bases de données de sinistralité exhaustives. Les travaux fondateurs de \textbf{Caroline Hillairet} et \textbf{Olivier Lopez} (2021) ont largement contribué à structurer l'exploitation des données publiques telles que la base \textit{Privacy Rights Clearinghouse} (PRC). Leurs recherches ont mis en évidence la nécessité d'utiliser la Théorie des Valeurs Extrêmes (EVT) pour traiter les montants de pertes, démontrant que le coût des méga-fuites de données suit des distributions à queues lourdes (notamment des lois de Pareto) dont l'espérance mathématique peut, dans certains régimes, diverger. Cette caractéristique justifie pleinement notre choix méthodologique d'appliquer une distribution de Pareto Généralisée (GPD) sur les bases PRC et OpRisk, tout en imposant des plafonds opérationnels pour stabiliser l'allocation de capital.
+Face à ce constat, le principal obstacle à la quantification prudentielle reste le manque de bases de données de sinistralité exhaustives. Les travaux fondateurs de \textbf{Caroline Hillairet} et \textbf{Olivier Lopez} \citep{HillairetLopez2021} ont largement contribué à structurer l'exploitation des données publiques telles que la base \textit{Privacy Rights Clearinghouse} (PRC). Maillart et Sornette \citep{MaillartSornette2010} avaient déjà mis en évidence la nécessité d'utiliser la Théorie des Valeurs Extrêmes (EVT) pour traiter les montants de pertes, démontrant que le coût des méga-fuites de données suit des distributions à queues lourdes (notamment des lois de Pareto) dont l'espérance mathématique peut, dans certains régimes, diverger. Cette caractéristique justifie pleinement notre choix méthodologique d'appliquer une distribution de Pareto Généralisée (GPD) sur les bases PRC et OpRisk, tout en imposant des plafonds opérationnels pour stabiliser l'allocation de capital.
 
 %--------------------------------------------------------------
 \subsection{Modélisation de la contagion et dynamique systémique}
@@ -165,15 +165,15 @@ Face à ce constat, le principal obstacle à la quantification prudentielle rest
 
 Le deuxième grand axe de recherche actuarielle sur le cyber concerne la contagion. Contrairement aux risques climatiques (géographiquement circonscrits), le risque cyber s'affranchit des frontières physiques via les réseaux informatiques. 
 
-Les travaux de \textbf{A. Boumezzoued} et de ses co-auteurs ont exploré l'utilisation de modèles épidémiologiques et de processus de branchement pour quantifier cette contagion au sein des portefeuilles d'assurance. En parallèle, les modèles basés sur les processus de Hawkes, fréquemment mobilisés par \textbf{Hillairet} et \textbf{Lopez}, ont permis de modéliser l'auto-excitation des cyberattaques (une faille \textit{zero-day} déclenchant une vague de sinistres rapprochés dans le temps). 
+Les travaux de \textbf{Boumezoued}, \textbf{Hillairet} et leurs co-auteurs ont exploré l'utilisation de modèles épidémiologiques et de processus de branchement pour quantifier cette contagion au sein des portefeuilles d'assurance, notamment le processus de Hawkes multivarié \citep{BessyRolandBoumezouedHillairet2021}, qui capture l'auto-excitation des cyberattaques (une faille \textit{zero-day} déclenchant une vague de sinistres rapprochés dans le temps), et le modèle de contagion à structure de réseau \citep{HillairetLopezDOultremontSpoorenberg2022}. Plus récemment, Hillairet, Lopez et Sopgoui \citep{HillairetLopezSopgoui2026} proposent un modèle SIR stochastique couplant contagion épidémique (processus de Cox) et croissance granulaire des firmes, appliqué aux attaques LockBit de 2024 sur un portefeuille de près de 3\,000 entreprises franciliennes ; ce cadre distingue explicitement contagion idiosyncratique et systémique, une distinction que nous retrouvons en~1.5.
 
-Bien que les processus de Hawkes soient extrêmement performants pour la tarification dynamique, ils s'avèrent très lourds à implémenter pour un calcul de SCR réglementaire (qui nécessite une vision statique à un an, la VaR 99,5~\%). C'est pourquoi, dans ce mémoire, nous avons fait le pont entre ces constats de contagion cyber et les modèles de risque de crédit. En nous inspirant de la dynamique de dépendance systémique de type Vasicek (Merton), nous modélisons la probabilité conditionnelle de défaut de conformité d'une entité face à un choc macro-cyber.
+Bien que les processus de Hawkes et les modèles SIR soient extrêmement performants pour la tarification dynamique et la modélisation fine de la propagation, ils s'avèrent très lourds à implémenter pour un calcul de SCR réglementaire (qui nécessite une vision statique à un an, la VaR 99,5~\%). C'est pourquoi, dans ce mémoire, nous avons fait le pont entre ces constats de contagion cyber et les modèles de risque de crédit. En nous inspirant de la dynamique de dépendance systémique de type Vasicek (Merton), nous modélisons la probabilité conditionnelle de défaut de conformité d'une entité face à un choc macro-cyber. Le remplacement de ce facteur unique par un processus de contagion de type SIR/Cox, plus fidèle à la dynamique réelle mais nécessitant une réévaluation dynamique du capital, constitue une perspective naturelle de raffinement (cf.~Conclusion).
 
 %--------------------------------------------------------------
 \subsection{Risques extrêmes et agrégation (Copules)}
 %--------------------------------------------------------------
 
-La question de l'agrégation des risques extrêmes est centrale dans le calcul du SCR. Les travaux de \textbf{Farkas} et al. sur le risque opérationnel soulignent la difficulté d'allouer du capital lorsque les différentes lignes de métier (ou briques de risque) sont soumises à des chocs lourds simultanés. 
+La question de l'agrégation des risques extrêmes est centrale dans le calcul du SCR. Les travaux de \textbf{Farkas}, Lopez et Thomas \citep{FarkasLopezThomas2021} sur le risque opérationnel soulignent la difficulté d'allouer du capital lorsque les différentes lignes de métier (ou briques de risque) sont soumises à des chocs lourds simultanés ; leur méthode d'arbres de régression Pareto généralisés, qui segmente automatiquement la sévérité par sous-population homogène plutôt que d'imposer un seuil global unique, rejoint l'esprit de la segmentation manuelle Systems Security / Business Disruption que nous opérons en~2.4.4 sur OpRisk Global --- sans toutefois en reproduire l'automatisation par arbre.
 
 La formule standard de Solvabilité II utilise des matrices de corrélation linéaire qui échouent mathématiquement à capturer la dépendance dans les extrêmes (la queue de distribution). La littérature préconise l'usage de copules. Dans le sillage de ces recommandations, notre modèle rejette la copule Gaussienne au profit de la \textbf{copule de Gumbel}, garantissant une dépendance de queue supérieure stricte, essentielle pour simuler un scénario où une amende DORA majeure coïnciderait avec la défaillance systémique d'un prestataire cloud de rang 1.
 
@@ -847,6 +847,8 @@ La constitution de ce registre européen résoudra structurellement les trois fa
 \end{itemize}
 
 Dès lors, l'architecture du Modèle Interne Partiel développée dans ce mémoire (LDA, théorie des valeurs extrêmes, facteurs de Vasicek, allocation d'Euler) prend toute sa valeur. Le modèle mathématique et les scripts de simulation construits sont intégralement agnostiques à la source de données. Lorsqu'une base d'incidents DORA harmonisée sera rendue disponible à la profession actuarielle, il suffira de substituer ces nouvelles données aux actuelles bases PRC et OpRisk. Le moteur de calcul absorbera ces entrées qualifiées pour produire un SCR cyber d'une précision inédite, répondant simultanément aux exigences qualitatives de DORA et aux contraintes quantitatives de Solvabilité II.
+
+\paragraph{Automatisation du reclassement par NLP.} En attendant ce registre harmonisé, une partie du travail de fiabilisation des données peut d'ores et déjà être outillée. Le reclassement manuel par grille de mots-clés opéré en~2.5 sur la taxonomie Hackmageddon (nécessaire pour isoler le ransomware, absent en tant que catégorie en 2023) illustre une limite récurrente des bases de sinistralité cyber : une taxonomie déclarative instable, dont la correction repose aujourd'hui sur un travail manuel documenté mais non reproductible à grande échelle. Les travaux R\&D menés chez Nexialog Consulting sur l'exploitation du NLP et des modèles de langage pour l'enrichissement de bases de sinistralité cyber (rapports d'incidents, bases de vulnérabilités, publications techniques) ouvrent une voie directe pour systématiser ce type de reclassement --- en le rendant à la fois plus rigoureux (classification supervisée validée statistiquement plutôt que grille de mots-clés ad hoc) et transposable à d'autres bases (OpRisk, futur registre DORA). Cette piste n'a pas été mise en œuvre dans le présent mémoire, faute de corpus annoté disponible dans le périmètre de ce travail, mais constitue une perspective directe de prolongement.
 
 %--------------------------------------------------------------
 \subsection{La PRC comme proxy de fréquence : périmètre, biais, justification}
@@ -1556,26 +1558,31 @@ sévérité, sont les suivants :
 \rowcolor{lightblue}
 \textbf{Source} & \textbf{Scénario} & \textbf{$\Delta_{DORA}$ médiane} & \textbf{IC90\,\%} \\
 \midrule
-PRC & $S_1$ partiel & 146{,}7 M\euro & [ 95.2; 165.1 ] M\euro \\
-PRC & $S_2$ non conforme & 183{,}6 M\euro & [ 
-155.0; 212.0] M\euro \\
-OpRisk & $S_1$ partiel & 1\,902{,}1 M\euro & [ 610.0 ; 8 850.0 ] M\euro \\
-OpRisk & $S_2$ non conforme & 2\,808{,}6 M\euro & [ 720.0 ; 12 100.0 ] M\euro \\
+PRC & $S_1$ partiel & 434{,}9 M\euro & [332{,}1~;~534{,}9] M\euro \\
+PRC & $S_2$ non conforme & 1\,203{,}4 M\euro & [963{,}7~;~1\,389{,}0] M\euro \\
+\addlinespace
+OpRisk & $S_1$ partiel & \texttt{[EN ATTENTE]} & \texttt{[EN ATTENTE]} \\
+OpRisk & $S_2$ non conforme & \texttt{[EN ATTENTE]} & \texttt{[EN ATTENTE]} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Deux enseignements se dégagent. D'une part, un défaut de conformité DORA se traduit par une charge de capital massive et quantifiée (près de 2,8 milliards d'euros de surcoût sous OpRisk pour une non-conformité totale). D'autre part, l'écart entre les deux sources de sévérité (facteur supérieur à 15 sur le $\Delta$ en $S_2$) domine largement l'écart entre les scénarios internes à une même source.
-
-Deux enseignements se dégagent. D'une part, sous chaque source, le passage
-de $S_1$ à $S_2$ accroît le $\Delta_{DORA}$ médian d'un facteur de l'ordre
-de~1{,}5, cohérent avec le rapport des multiplicateurs globaux de fréquence
-entre les deux scénarios : un défaut de conformité DORA se traduit par une
-charge de capital quantifiée, non simplement qualitative. D'autre part,
-l'écart entre les deux sources de sévérité (facteur proche de~10 sur $S_2$)
-domine l'écart entre les deux scénarios de conformité sous une même source
---- un résultat qui préfigure la discussion de la Partie~5 sur la hiérarchie
-des sources d'incertitude.
+% NOTE(relecture) : grille PRC regénérée via notebooks/07_bootstrap_delta_dora.py
+% (200 tirages x 20 000 sim) après correction du plafond de sévérité prestataire.
+% La branche OpRisk nécessite data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx,
+% absent de l'environnement où cette régénération a été faite : à relancer avec
+% le même script là où ce fichier est disponible avant de remplir ces cellules.
+Sous PRC, un défaut de conformité DORA se traduit par une charge de capital
+quantifiée et non simplement qualitative : le passage de $S_1$ à $S_2$
+accroît le $\Delta_{DORA}$ médian d'un facteur~2{,}8 (434{,}9 à
+1\,203{,}4~M\euro), cohérent avec le rapport des multiplicateurs globaux de
+fréquence entre les deux scénarios. La comparaison avec la source OpRisk,
+qui dans une version antérieure du moteur suggérait un écart entre sources
+bien plus marqué que l'écart entre scénarios, doit être revérifiée avec le
+pipeline actuel (cf. note ci-dessus) avant d'être présentée comme un
+résultat définitif du mémoire --- la hiérarchie des sources d'incertitude
+discutée en Partie~5 repose sur l'allocation d'Euler (rejouée dans cet
+environnement) et reste valide indépendamment de cette grille Δ\_DORA.
 
 %--------------------------------------------------------------
 \subsection{Bootstrap et intervalles de confiance}
@@ -1656,7 +1663,7 @@ Formule Standard (Pilier 1) & 600{,}0 M\euro & 0{,}0 M\euro & Aveugle à la rés
 \addlinespace
 Déterministe (ORSA classique) & 200{,}0 M\euro & Difficile à quantifier & Biais d'ancrage expert, ignore l'agrégation et la contagion \\
 \addlinespace
-Modèle Interne Partiel (LDA -- PRC) & 1\,685{,}9 M\euro & \texttt{[EN ATTENTE — bootstrap Δ\_DORA à relancer, cf. notebooks/07\_bootstrap\_delta\_dora.py]} & Nécessite un plafonnement opérationnel (espérance infinie) \\
+Modèle Interne Partiel (LDA -- PRC) & 1\,685{,}9 M\euro & 1\,203{,}4 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
 \addlinespace
 Modèle Interne Partiel (LDA -- OpRisk) & 8\,287{,}2 M\euro & \texttt{[EN ATTENTE — nécessite data/raw/SAS\_OpRisk\_Global\_Data\_June\_2026.xlsx en local]} & Biais de taille lié aux grandes entités financières historiques \\
 \bottomrule

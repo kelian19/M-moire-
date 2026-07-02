@@ -92,11 +92,17 @@ COPULE = {
 # Grille Δ_DORA = SCR(scénario) - SCR(S0), bootstrap deux niveaux.
 # Médiane et IC90% en M€. bootstrap_severity=True uniquement pour OpRisk
 # (données brutes disponibles) ; False pour PRC (point fixe, IC sous-estimé).
+# Régénérée via notebooks/07_bootstrap_delta_dora.py (n_boot=200, n_sim=20 000).
+# PRC : relancé et vérifié dans cet environnement (voir
+# outputs/tables/results_delta_dora_bootstrap.csv).
+# OPRISK : nécessite data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx, absent de cet
+# environnement -> valeurs ci-dessous NON RÉGÉNÉRÉES (héritées, à revérifier en
+# relançant notebooks/07_bootstrap_delta_dora.py là où le fichier est disponible).
 DELTA_DORA_GRID = {
-    ("PRC", "S1_partiel"):      {"median": 91.5,   "ic90": [71.6, 114.2],       "bootstrap_sev": False},
-    ("PRC", "S2_non_conforme"): {"median": 238.7,  "ic90": [191.6, 288.0],      "bootstrap_sev": False},
-    ("OPRISK", "S1_partiel"):   {"median": 1086.9, "ic90": [410.5, 4348.4],     "bootstrap_sev": True},
-    ("OPRISK", "S2_non_conforme"): {"median": 4092.2, "ic90": [1463.9, 19659.2], "bootstrap_sev": True},
+    ("PRC", "S1_partiel"):      {"median": 434.9,  "ic90": [332.1, 534.9],      "bootstrap_sev": False},
+    ("PRC", "S2_non_conforme"): {"median": 1203.4, "ic90": [963.7, 1389.0],     "bootstrap_sev": False},
+    ("OPRISK", "S1_partiel"):   {"median": 1086.9, "ic90": [410.5, 4348.4],     "bootstrap_sev": True},  # NON REVÉRIFIÉ
+    ("OPRISK", "S2_non_conforme"): {"median": 4092.2, "ic90": [1463.9, 19659.2], "bootstrap_sev": True},  # NON REVÉRIFIÉ
 }
 
 # Décomposition par brique (allocation d'Euler, VaR 99.5%, profil médian, theta=0),
