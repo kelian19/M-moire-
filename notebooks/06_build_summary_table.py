@@ -11,7 +11,8 @@ pour produire un tableau final de synthèse.
 import os
 import csv
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs", "tables")
+os.makedirs(BASE_DIR, exist_ok=True)
 euler_file = os.path.join(BASE_DIR, "results_euler_option_a.csv")
 sens_file = os.path.join(BASE_DIR, "results_sensitivity_sanction.csv")
 output_file = os.path.join(BASE_DIR, "results_summary_option_a.csv")
@@ -47,7 +48,6 @@ for row in euler_rows:
         "pcd": row["pcd"],
         "lambda_annual": row["lambda_annual"],
         "capital_total": row["capital_total"],
-        "aggravation_pct": row["aggravation_pct"],
         "prestataire_pct": row["prestataire_pct"],
         "remediation_pct": row["remediation_pct"],
         "sanction_pct": row["sanction_pct"],
@@ -69,7 +69,6 @@ fieldnames = [
     "pcd",
     "lambda_annual",
     "capital_total",
-    "aggravation_pct",
     "prestataire_pct",
     "remediation_pct",
     "sanction_pct",

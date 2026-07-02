@@ -176,7 +176,9 @@ if __name__ == "__main__":
             )
             rows.append(build_row(res))
 
-    output_file = os.path.join(os.path.dirname(__file__), "results_euler_option_a.csv")
+    output_dir = os.path.join(os.path.dirname(__file__), "..", "outputs", "tables")
+    os.makedirs(output_dir, exist_ok=True)
+    output_file = os.path.join(output_dir, "results_euler_option_a.csv")
 
     fieldnames = [
         "source",

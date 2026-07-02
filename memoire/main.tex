@@ -1,0 +1,2138 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage[round,authoryear]{natbib}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage[official]{eurosym}
+\usepackage[round,authoryear]{natbib}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+
+\hypersetup{colorlinks=true, linkcolor=bluemid, urlcolor=bluemid}
+
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+
+\titleformat{\section}{\color{navy}\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\color{bluemid}\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\color{navy}Mémoire SCR\_DORA}
+\chead{\small\color{navy}Quantification du SCR lié à DORA}
+\rhead{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{1.2em}
+
+\begin{document}
+
+%==============================================================
+% PAGE DE GARDE
+%==============================================================
+\begin{titlepage}
+\pagestyle{empty}
+\begin{center}
+
+\vspace*{1cm}
+{\small\color{navy}\textsc{ENSAE Paris}}\\
+{\small\color{navy}\textsc{Nexialog Consulting}}
+
+\vspace{2cm}
+\noindent\rule{\textwidth}{0.8pt}\\[0.5cm]
+
+{\LARGE\color{navy}\bfseries Quantification du SCR lié à la\\[4pt] non-conformité au règlement DORA}\\[10pt]
+{\large\color{bluemid} Un premier pont quantitatif entre résilience opérationnelle numérique et solvabilité prudentielle}
+
+\vspace{0.5cm}
+\noindent\rule{\textwidth}{0.8pt}
+
+\vspace{2.5cm}
+{\large Mémoire d'actuariat}
+
+\vspace{2cm}
+
+\begin{tabular}{rl}
+\textbf{Auteur :} & Kélian Kaddouri \\[4pt]
+\textbf{Établissement :} & ENSAE Paris --- Master Actuariat \\[4pt]
+\textbf{Structure d'accueil :} & Nexialog Consulting \\[4pt]
+\textbf{Encadrant professionnel :} & Hugo Rapior \\[4pt]
+\textbf{Référente académique :} & Caroline Hillairet \\
+\end{tabular}
+
+\vfill
+
+{\small\color{navy} Version de travail --- \today}
+
+\end{center}
+\end{titlepage}
+
+\setcounter{page}{1}
+
+%==============================================================
+\section*{Introduction}
+%==============================================================
+
+Le risque cyber occupe aujourd'hui une place singulière dans le paysage
+prudentiel des institutions financières. Sa nature hybride --- à la fois
+opérationnelle, technologique et parfois systémique --- le place à la
+croisée de plusieurs cadres réglementaires qui, historiquement, ne
+dialoguaient pas directement entre eux. En assurance, le risque opérationnel
+demeure traité dans la formule standard de Solvabilité~II par un chargement
+forfaitaire, peu sensible à la qualité réelle de l'infrastructure numérique
+d'un assureur. Parallèlement, le règlement DORA impose depuis 2025 un cadre
+détaillé de résilience opérationnelle numérique, sans pour autant fournir
+de traduction directe en exigence de capital.
+
+\paragraph{Objet du mémoire.} L'objet de ce mémoire est la
+\textbf{quantification actuarielle du risque cyber} d'une entité financière,
+envisagée non pas comme un exercice descriptif de conformité, mais comme un
+exercice de mesure des \textbf{pertes potentielles prospectives}
+susceptibles de résulter d'un non-respect, partiel ou total, des exigences du
+règlement DORA. Il ne s'agit donc pas de vérifier, poste par poste, la
+conformité réglementaire d'un assureur, mais de traduire un niveau de
+non-conformité --- même hypothétique ou graduel --- en une distribution de
+pertes financières futures, puis en un surcroît de capital de solvabilité
+mesurable. Cette démarche prospective est ce qui distingue le présent travail
+d'un audit de conformité classique : l'ambition est de répondre à la
+question \emph{« que pourrait-il en coûter, en fonds propres, de ne pas se
+conformer à DORA ? »}, et non à la question \emph{« l'entité est-elle
+conforme aujourd'hui ? »}.
+
+C'est dans cet interstice, entre un règlement de résilience opérationnelle
+et un cadre de solvabilité financière, que se situe la problématique de ce
+mémoire : \emph{comment transformer la non-conformité à DORA en une variable
+quantitative susceptible d'alimenter une mesure interne de capital sous
+Solvabilité~II ?} Il ne s'agit pas de proposer une nouvelle formule
+réglementaire de Pilier~1, mais de construire, dans l'esprit du Pilier~2 et
+de l'ORSA, un premier pont quantitatif entre les deux cadres. Cette
+articulation n'a, à notre connaissance, pas encore été formalisée de façon
+aussi directe dans la littérature actuarielle française : l'essentiel des
+travaux traite soit du risque cyber comme risque assurantiel classique, soit
+de DORA comme sujet de conformité, rarement des deux ensemble sous une même
+mécanique de capital.
+
+Le mémoire se déploie en cinq parties. La première pose le cadre
+réglementaire et conceptuel dans lequel s'inscrit la démarche, de Bâle~III à
+DORA, en passant par Solvabilité~II. La deuxième présente les données
+mobilisées, leurs apports et leurs limites. La troisième détaille
+l'architecture de modélisation retenue, fondée sur une approche par
+distribution des pertes (LDA) enrichie de quatre briques. La quatrième
+formalise les scénarios de conformité DORA et la construction du
+$\Delta_{DORA}$, mesure directe du surcoût prospectif de la non-conformité.
+La cinquième présente les résultats obtenus, leur interprétation actuarielle
+et leurs implications pour le pilotage prudentiel.
+
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.8em}
+
+% ==============================================================================
+\section*{État de l'art : de l'assurabilité du risque cyber à la réglementation DORA}
+% ==============================================================================
+
+Avant de détailler la modélisation mathématique retenue pour quantifier le Capital de Solvabilité Requis (SCR) lié à DORA, il est indispensable de positionner ce travail dans la littérature actuarielle récente. Le risque cyber, de par sa nature évolutive et systémique, bouscule les paradigmes traditionnels de l'assurance non-vie et de la gestion des risques opérationnels. 
+
+%--------------------------------------------------------------
+\subsection{Les limites de l'assurabilité et la rareté des données}
+%--------------------------------------------------------------
+
+La littérature s'est d'abord concentrée sur la question fondamentale de l'assurabilité du risque cyber. Biener, Eling et Wirfs (2015) ont démontré que le risque cyber peine à satisfaire les critères classiques d'assurabilité, principalement en raison de l'asymétrie d'information et du risque d'accumulation extrême. 
+
+Face à ce constat, le principal obstacle à la quantification prudentielle reste le manque de bases de données de sinistralité exhaustives. Les travaux fondateurs de \textbf{Caroline Hillairet} et \textbf{Olivier Lopez} (2021) ont largement contribué à structurer l'exploitation des données publiques telles que la base \textit{Privacy Rights Clearinghouse} (PRC). Leurs recherches ont mis en évidence la nécessité d'utiliser la Théorie des Valeurs Extrêmes (EVT) pour traiter les montants de pertes, démontrant que le coût des méga-fuites de données suit des distributions à queues lourdes (notamment des lois de Pareto) dont l'espérance mathématique peut, dans certains régimes, diverger. Cette caractéristique justifie pleinement notre choix méthodologique d'appliquer une distribution de Pareto Généralisée (GPD) sur les bases PRC et OpRisk, tout en imposant des plafonds opérationnels pour stabiliser l'allocation de capital.
+
+%--------------------------------------------------------------
+\subsection{Modélisation de la contagion et dynamique systémique}
+%--------------------------------------------------------------
+
+Le deuxième grand axe de recherche actuarielle sur le cyber concerne la contagion. Contrairement aux risques climatiques (géographiquement circonscrits), le risque cyber s'affranchit des frontières physiques via les réseaux informatiques. 
+
+Les travaux de \textbf{A. Boumezzoued} et de ses co-auteurs ont exploré l'utilisation de modèles épidémiologiques et de processus de branchement pour quantifier cette contagion au sein des portefeuilles d'assurance. En parallèle, les modèles basés sur les processus de Hawkes, fréquemment mobilisés par \textbf{Hillairet} et \textbf{Lopez}, ont permis de modéliser l'auto-excitation des cyberattaques (une faille \textit{zero-day} déclenchant une vague de sinistres rapprochés dans le temps). 
+
+Bien que les processus de Hawkes soient extrêmement performants pour la tarification dynamique, ils s'avèrent très lourds à implémenter pour un calcul de SCR réglementaire (qui nécessite une vision statique à un an, la VaR 99,5~\%). C'est pourquoi, dans ce mémoire, nous avons fait le pont entre ces constats de contagion cyber et les modèles de risque de crédit. En nous inspirant de la dynamique de dépendance systémique de type Vasicek (Merton), nous modélisons la probabilité conditionnelle de défaut de conformité d'une entité face à un choc macro-cyber.
+
+%--------------------------------------------------------------
+\subsection{Risques extrêmes et agrégation (Copules)}
+%--------------------------------------------------------------
+
+La question de l'agrégation des risques extrêmes est centrale dans le calcul du SCR. Les travaux de \textbf{Farkas} et al. sur le risque opérationnel soulignent la difficulté d'allouer du capital lorsque les différentes lignes de métier (ou briques de risque) sont soumises à des chocs lourds simultanés. 
+
+La formule standard de Solvabilité II utilise des matrices de corrélation linéaire qui échouent mathématiquement à capturer la dépendance dans les extrêmes (la queue de distribution). La littérature préconise l'usage de copules. Dans le sillage de ces recommandations, notre modèle rejette la copule Gaussienne au profit de la \textbf{copule de Gumbel}, garantissant une dépendance de queue supérieure stricte, essentielle pour simuler un scénario où une amende DORA majeure coïnciderait avec la défaillance systémique d'un prestataire cloud de rang 1.
+
+%--------------------------------------------------------------
+\subsection{De Solvabilité II à DORA : Le pont quantitatif}
+%--------------------------------------------------------------
+
+Historiquement, le risque cyber était relégué au sein du «~risque opérationnel~», quantifié de manière rudimentaire par la formule standard de Solvabilité II via un pourcentage des primes (BSCR). Cette approche «~forfaitaire~» ne récompense pas les investissements en cybersécurité. 
+
+Le règlement européen DORA (Digital Operational Resilience Act) change ce paradigme en imposant des standards stricts de résilience IT, de gestion des tiers prestataires et de report d'incidents. Cependant, DORA est un texte de conformité qualitative. Le défi actuel de la place financière est de traduire ces exigences en impacts bilanciels. 
+
+C'est très exactement dans cette dynamique d'innovation méthodologique que s'inscrivent les travaux internes menés chez Nexialog Consulting sous la supervision de \textbf{Hugo Rapior}. L'approche développée dans ce mémoire formalise cette traduction : il s'agit de passer d'un constat binaire (conforme / non-conforme) à une modélisation continue du risque (le Delta DORA). En isolant la brique «~Prestataires~» (Chapitre V de DORA) et la brique «~Sanctions~» administratives, ce modèle interne partiel de type LDA propose un premier pont quantitatif rigoureux entre la résilience opérationnelle numérique (DORA) et la solvabilité prudentielle (Pilier 1 et ORSA de Solvabilité II).
+
+%==============================================================
+\section{Le cadre réglementaire : de Bâle III et Solvabilité II au règlement DORA}
+%==============================================================
+
+La quantification du capital requis au titre de la non-conformité au règlement DORA
+s'inscrit dans un écosystème prudentiel dont il importe de retracer l'architecture.
+Le risque que nous cherchons à modéliser --- le risque opérationnel d'origine
+technologique, et le risque de manquement aux exigences de résilience numérique ---
+se situe à l'intersection de trois cadres réglementaires construits successivement,
+selon des philosophies distinctes mais convergentes : le dispositif bancaire de Bâle,
+la directive Solvabilité~II propre à l'assurance, et le règlement transsectoriel DORA.
+Cette section retrace cette construction, identifie le \emph{pont quantitatif} que DORA
+permet d'établir entre exigence de capital et résilience opérationnelle, et formalise la
+non-conformité comme une variable latente exploitable dans l'évaluation interne des risques.
+
+%--------------------------------------------------------------
+\subsection{L'écosystème réglementaire : Bâle III, Solvabilité II, DORA}
+%--------------------------------------------------------------
+
+\paragraph{Le risque opérationnel : une définition partagée, des traitements divergents.}
+Le risque opérationnel a connu, au cours des deux dernières décennies, une mutation
+profonde marquée par une recherche de convergence entre les secteurs bancaire et
+assurantiel. Défini par le Comité de Bâle puis repris par la directive Solvabilité~II,
+il désigne le risque de perte résultant de l'inadaptation ou de la défaillance de
+procédures internes, de personnels et de systèmes, ou d'événements extérieurs. Cette
+définition inclut le risque juridique mais exclut les risques stratégiques et de
+réputation.
+
+Si la définition est partagée, les modes de quantification ont divergé. Le secteur
+bancaire a progressivement abandonné les modèles internes au profit d'une approche
+standardisée, tandis que l'assurance a conservé une liberté méthodologique. Cette
+asymétrie, que nous détaillons ci-après, éclaire le choix méthodologique du présent
+mémoire : c'est précisément parce que Solvabilité~II laisse subsister un espace de
+modélisation interne que la quantification du risque cyber sous forme d'une distribution
+de pertes y conserve toute sa pertinence.
+
+\paragraph{Bâle III/IV : du modèle interne AMA à la standardisation SMA.}
+Sous le régime de Bâle~II, les établissements bancaires d'envergure internationale
+étaient encouragés à développer des modèles internes complexes, regroupés sous
+l'appellation d'approche de mesure avancée (\emph{Advanced Measurement Approaches},
+AMA). Ces modèles reposaient principalement sur l'approche par distribution des pertes
+(\emph{Loss Distribution Approach}, LDA) --- celle-là même que nous mobilisons dans ce
+mémoire --- ou sur des approches par scénarios. S'ils offraient une grande flexibilité
+théorique, ils ont engendré une variabilité excessive et difficilement justifiable des
+actifs pondérés par le risque d'un établissement à l'autre, érodant la confiance des
+superviseurs dans les ratios de solvabilité déclarés.
+
+La finalisation des réformes de Bâle~III, communément désignée sous le nom de Bâle~IV,
+a acté le retrait des modèles internes AMA pour le calcul du capital de Pilier~1, à
+compter du 1\textsuperscript{er}~janvier~2022, au profit d'une méthode unique et
+comparable : l'approche d'évaluation standardisée (\emph{Standardised Measurement
+Approach}, SMA). L'exigence de capital pour risque opérationnel ($ORC$) s'exprime alors
+comme le produit d'une composante de volume d'activité, le \emph{Business Indicator
+Component} ($BIC$), et d'un facteur d'échelle fondé sur l'historique des pertes internes,
+l'\emph{Internal Loss Multiplier} ($ILM$) :
+\begin{equation}
+ORC = BIC \times ILM,
+\qquad
+RWA_{Op} = 12{,}5 \times ORC.
+\end{equation}
+
+Le \emph{Business Indicator} synthétise la taille de l'établissement à partir de trois
+composantes comptables (intérêts et dividendes, services, activité financière), auxquelles
+sont appliqués des coefficients marginaux croissants par tranches. Le profil de risque
+propre est réintroduit par l'$ILM$, qui compare le $BIC$ à la composante de pertes
+historiques $LC$, égale à quinze fois la moyenne des pertes opérationnelles annuelles
+significatives des dix dernières années. Lorsque la sinistralité historique est faible
+relativement à l'activité ($LC < BIC$), l'$ILM$ est inférieur à l'unité et réduit
+l'exigence ; lorsqu'elle est élevée, il agit comme une pénalité en fonds propres.
+
+\paragraph{Enseignement pour notre démarche.} Le retrait de l'AMA n'invalide nullement
+l'approche LDA en tant qu'outil de modélisation : il en restreint l'usage \emph{pour le
+calcul réglementaire de Pilier~1 dans le secteur bancaire}. La logique de la composante
+$LC$ --- faire dépendre le capital de l'historique réel des pertes --- demeure
+parfaitement pertinente, et c'est cette logique, transposée à l'assurance et enrichie de
+la théorie des valeurs extrêmes, que nous mettons en œuvre.
+
+\paragraph{Solvabilité II : l'asymétrie réglementaire et le maintien du choix méthodologique.}
+Contrairement au secteur bancaire, le secteur de l'assurance conserve sous Solvabilité~II
+une liberté de choix pour la quantification du risque opérationnel : formule standard,
+paramètres propres à l'entreprise (USP), ou modèle interne, partiel ou global, approuvé
+par l'autorité de contrôle. Dans la formule standard, l'exigence pour risque opérationnel
+($SCR_{Op}$) s'ajoute de manière additive au capital de solvabilité requis de base
+($BSCR$), ajusté de la capacité d'absorption des pertes :
+\begin{equation}
+SCR = BSCR + Adj + SCR_{Op},
+\qquad
+SCR_{Op} = \min(0{,}3 \times BSCR,\ Op) + 0{,}25 \times Exp_{ul},
+\end{equation}
+où $Op = \max(Op_{premiums}, Op_{provisions})$ est calculé à partir de coefficients
+forfaitaires appliqués aux primes et provisions, vie et non-vie. Nous en donnons ici la
+forme simplifiée ; la formule complète de l'Article~204 du règlement délégué~2015/35
+comporte en outre des termes de croissance, sous la forme
+$\max\!\left(0;\, 0{,}04 \times \Delta\!\right)$, pénalisant les hausses de primes
+supérieures à $20\,\%$ d'un exercice à l'autre.
+
+Cette approche présente une faiblesse conceptuelle majeure pour l'actuaire. En se fondant
+exclusivement sur des indicateurs de volume, elle pose l'hypothèse implicite que deux
+assureurs gérant le même volume de primes présentent une exposition identique au risque
+opérationnel --- indépendamment de la qualité de leur infrastructure informatique, du
+degré d'automatisation de leurs processus, ou de leur dépendance à des prestataires
+d'externalisation critiques. Or c'est précisément cette dépendance technologique que DORA
+vient encadrer, et dont nous cherchons à mesurer l'effet sur le capital.
+
+\paragraph{Pilier 1 et Pilier 2.} Le $SCR_{Op}$ relève du Pilier~1, quantitatif et
+forfaitaire. Mais Solvabilité~II comporte un second pilier, l'évaluation interne des
+risques et de la solvabilité (\emph{Own Risk and Solvency Assessment}, ORSA), qui impose
+à l'assureur une évaluation prospective de l'adéquation entre son profil de risque réel
+et ses besoins de solvabilité. C'est dans le cadre de l'ORSA --- et non du forfait de
+Pilier~1, plafonné à $30\,\%$ du $BSCR$ --- que notre modélisation trouve sa place
+naturelle : l'ORSA autorise, et même encourage, le recours à des scénarios de stress
+stochastiques que la formule standard ne sait pas produire.
+
+\paragraph{DORA : un cadre transversal de résilience opérationnelle numérique.}
+Face à l'insuffisance des exigences de capital de Pilier~1 pour garantir la continuité
+des opérations en cas de crise informatique d'envergure, l'Union européenne a introduit
+le règlement sur la résilience opérationnelle numérique du secteur financier
+(\emph{Digital Operational Resilience Act}, règlement UE~2022/2554). Entré en application
+le 17~janvier~2025, DORA agit comme une \emph{lex specialis} par rapport à la directive
+NIS~2 et harmonise les obligations de gestion des risques liés aux technologies de
+l'information et de la communication (TIC) à travers vingt-et-une catégories
+d'entités financières : banques, entreprises d'assurance et de réassurance,
+intermédiaires, ainsi que les prestataires tiers critiques de services TIC.
+
+Le postulat de DORA est que la résilience opérationnelle ne saurait se réduire à
+l'allocation de tampons de fonds propres. Le règlement impose un cadre proactif, articulé
+autour de la capacité à \emph{résister, absorber, récupérer et s'adapter} face aux
+perturbations informatiques majeures.
+
+\paragraph{Position dans l'écosystème.} La progression Bâle~$\rightarrow$~Solvabilité~II
+$\rightarrow$~DORA traduit un déplacement du centre de gravité prudentiel : de la
+\emph{couverture financière} du risque (détenir assez de capital) vers la \emph{continuité
+opérationnelle} (rester capable d'opérer). DORA ne remplace pas les exigences de capital ;
+il en révèle l'angle mort, à savoir la dynamique propre des défaillances technologiques,
+que ni le $SCR_{Op}$ forfaitaire ni l'ORSA qualitatif ne savaient capturer.
+
+%--------------------------------------------------------------
+\subsection{Ce que DORA exige concrètement : les cinq piliers ICT}
+%--------------------------------------------------------------
+
+Le règlement DORA structure ses exigences autour de cinq piliers, qui couvrent
+l'ensemble du cycle de vie du risque informatique, de sa prévention à sa
+résolution. Chacun d'entre eux introduit une granularité que ni la formule
+standard, ni l'ORSA qualitatif traditionnel ne parvenaient à atteindre.
+
+\paragraph{Pilier 1 --- Gouvernance et gestion du risque TIC.} DORA impose
+l'existence d'un cadre de gouvernance formalisé, porté au plus haut niveau de
+l'organe de direction, incluant une cartographie des actifs informationnels et
+des dépendances critiques, une politique de sécurité documentée, et un
+dispositif de contrôle interne capable d'identifier et de corriger les
+faiblesses technologiques de façon continue --- non plus seulement lors
+d'audits ponctuels.
+
+\paragraph{Pilier 2 --- Gestion, classification et notification des incidents.}
+Les entités doivent disposer d'un processus structuré de détection, de
+qualification et de suivi des incidents liés aux TIC. Les incidents jugés
+majeurs doivent être notifiés selon un calendrier resserré : une alerte sous
+quatre heures après classification (et au plus tard vingt-quatre heures après
+détection), un rapport intermédiaire sous soixante-douze heures, puis un
+rapport final sous un mois.
+
+\paragraph{Pilier 3 --- Tests de résilience opérationnelle numérique.} Il ne
+suffit plus de documenter des procédures : elles doivent être éprouvées. Les
+entités identifiées comme significatives sont soumises à des tests de
+pénétration guidés par la menace (\emph{Threat-Led Penetration Testing},
+TLPT), à mener au moins tous les trois ans, en conditions proches du réel.
+
+\paragraph{Pilier 4 --- Gestion du risque lié aux prestataires tiers ICT.}
+Ce pilier est central dans un environnement marqué par l'externalisation et le
+recours au cloud. Il impose une cartographie exhaustive des contrats
+critiques via un Registre d'Informations harmonisé, une gouvernance
+contractuelle renforcée (clauses impératives de l'article~30), et une
+surveillance directe des prestataires tiers critiques par les autorités
+européennes, jusqu'au rang~3 de la chaîne de sous-traitance.
+
+\paragraph{Pilier 5 --- Partage d'informations sur les cybermenaces.} DORA
+encourage les entités à partager, de façon volontaire et encadrée, des
+informations sur les menaces observées, dans une logique de résilience
+collective. Ce pilier reste moins directement mobilisable dans le calibrage
+actuariel du présent mémoire, mais il rappelle que DORA porte aussi une
+dimension systémique de la résilience numérique, au-delà de la seule
+entité individuelle.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{3cm} >{\raggedright}p{5cm} >{\raggedright\arraybackslash}p{5.5cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Dimension} & \textbf{Solvabilité II (ORSA)} & \textbf{DORA} \\
+\midrule
+Taxonomie du risque & Traitement agrégé dans le module $SCR_{Op}$ &
+Taxonomie granulaire des actifs TIC et indicateurs de risque distincts \\
+Reporting des incidents & Notification interne, dialogue prudentiel non standardisé &
+Notification obligatoire à l'ACPR : alerte sous 4\,h après classification comme majeur
+(et au plus tard 24\,h après détection), rapport intermédiaire 72\,h,
+rapport final 1~mois \\
+Tests de résilience & Stress tests orientés adéquation du capital &
+Tests de continuité et TLPT (pénétration guidée par la menace) au moins tous les 3~ans
+pour les entités identifiées comme significatives \\
+Cartographie des dépendances & Analyse générale des accords d'externalisation &
+Registre d'Informations harmonisé, chaînes de sous-traitance jusqu'au rang~3 \\
+Encadrement des tiers & Lignes directrices EIOPA non contraignantes &
+Clauses contractuelles impératives (Art.~30), surveillance directe des prestataires
+critiques \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Le \emph{Registre d'Informations} (ROI) mérite une attention particulière. En imposant
+le recensement exhaustif et structuré des contrats TIC critiques et de leurs chaînes de
+sous-traitance, DORA produit, pour la première fois, une donnée exploitable pour modéliser
+quantitativement le risque de concentration technologique --- donnée qui faisait
+précisément défaut à l'ORSA traditionnel.
+
+%--------------------------------------------------------------
+\subsection{1.3 --- ORSA $\leftrightarrow$ DORA : recouvrement et divergences}
+%--------------------------------------------------------------
+
+\paragraph{Les limites structurelles de l'ORSA traditionnel.} L'ORSA
+traditionnel s'appuyait principalement sur des cartographies de risques
+fondées sur l'avis d'experts. Trois limites en découlaient.
+
+\textbf{Un cloisonnement méthodologique.} Les risques TIC étaient traités séparément des
+risques financiers et assurantiels, sans intégration des corrélations réelles.
+L'interaction entre une défaillance de l'outil de tarification (risque opérationnel) et
+la sous-évaluation systématique des primes qui en résulte (risque de souscription) était
+rarement modélisée de manière dynamique.
+
+\textbf{L'absence de données de sinistralité qualifiées.} Les assureurs ne disposaient
+pas de base standardisée permettant d'alimenter les modèles de sévérité pour les
+événements cyber de faible fréquence et de forte gravité. L'étalonnage des distributions
+à queue lourde restait hautement incertain et sujet à une forte volatilité de modèle ---
+difficulté que notre travail aborde frontalement en mobilisant plusieurs sources
+indépendantes (PRC, SAS~OpRisk~Global, Hackmageddon) et en assumant explicitement
+l'incertitude résiduelle.
+
+\textbf{La non-prise en compte des interdépendances de la chaîne de valeur.} Les
+politiques d'externalisation sous Solvabilité~II se limitaient à des audits documentaires
+ponctuels. L'effet de cascade d'une panne systémique chez un fournisseur d'infrastructure
+cloud partagé par plusieurs acteurs du marché n'était pas intégré aux tests de résistance.
+
+\paragraph{Zone de recouvrement.} ORSA et DORA partagent un même objet --- le risque opérationnel d'origine technologique
+--- et une même exigence d'évaluation prospective. Trois domaines se recouvrent
+explicitement : le risque opérationnel informatique, traité de façon agrégée par l'ORSA
+et granulaire par DORA ; les scénarios de stress cyber, que l'ORSA peut désormais alimenter
+des données et tests imposés par DORA ; et la continuité d'activité, exigence commune mais
+de portée différente. C'est dans ce recouvrement que se loge la contribution du présent
+mémoire : utiliser les artefacts produits par DORA (taxonomie, registre, tests) pour
+\emph{quantifier} dans l'ORSA ce que celui-ci ne savait jusqu'alors que décrire.
+
+\paragraph{Zones de divergence fondamentale.}
+\textbf{La finalité de l'évaluation.} Solvabilité~II s'inscrit dans une logique de
+continuité \emph{financière} : prouver que l'assureur détient assez de fonds propres pour
+absorber les pertes d'une défaillance majeure. DORA s'inscrit dans une logique de
+continuité \emph{opérationnelle} : garantir que, même sans capital excédentaire,
+l'infrastructure maintient les services critiques et se restaure rapidement. Les deux
+cadres sont complémentaires, non substituables.
+
+\textbf{Le principe de proportionnalité.} Solvabilité~II applique une proportionnalité
+fondée sur la taille globale (primes, provisions). DORA décline la sienne selon la
+complexité des systèmes d'information, la dépendance au cloud tiers, et la criticité dans
+l'écosystème de distribution. Une captive de réassurance ou une petite mutuelle peut ainsi
+bénéficier d'un régime DORA simplifié sans pour autant échapper aux exigences de capital.
+
+\textbf{La temporalité de la supervision.} Solvabilité~II fonctionne sur des cycles
+trimestriels et annuels (QRT, SFCR, RSR). DORA impose une réactivité quasi temps réel,
+notamment par la notification des incidents majeurs sous quatre heures, contraignant
+l'assureur à des processus permanents de veille connectés aux canaux du régulateur.
+
+%--------------------------------------------------------------
+\subsection{1.4 --- La probabilité de défaut de conformité comme variable latente}
+%--------------------------------------------------------------
+
+Les sections précédentes ont établi que DORA fournit des artefacts nouveaux ---
+registre des tiers, notifications d'incidents, résultats de tests TLPT ---
+mais aucun de ces artefacts ne constitue, pris isolément, une mesure directe
+du niveau de conformité d'une entité. Une entité peut être en avance sur la
+gouvernance TIC mais en retard sur les tests de résilience ; une autre peut
+être conforme sur le papier mais fortement exposée via un prestataire tiers
+critique mal maîtrisé. La conformité DORA n'est donc pas une variable
+observable au sens strict : c'est une caractéristique multidimensionnelle,
+partiellement cachée, qu'il convient de formaliser par une \textbf{variable
+latente à structure factorielle}, sur le modèle du cadre de Merton-Vasicek
+utilisé pour la modélisation des défauts corrélés en risque de crédit --- et
+qui constitue également le fondement de l'approche IRB de Bâle pour la
+corrélation des probabilités de défaut.
+
+\paragraph{Structure à facteur unique.} Soit $Z_i$ la variable latente
+continue de fragilité réglementaire et opérationnelle de l'entité $i$,
+agrégeant de façon non observable ses faiblesses sur les cinq piliers DORA.
+Suivant la structure de Vasicek, $Z_i$ se décompose en un facteur
+systémique $\theta$, commun à l'ensemble du marché, et un facteur
+idiosyncratique $\varepsilon_i$, propre à l'entité :
+\begin{equation}
+Z_i = \sqrt{\rho_i}\,\theta + \sqrt{1-\rho_i}\,\varepsilon_i,
+\qquad \theta \sim \mathcal{N}(0,1), \quad \varepsilon_i \sim \mathcal{N}(0,1),
+\end{equation}
+avec $\theta$ et $\varepsilon_i$ indépendants, et $\rho_i \in [0,1]$ le
+coefficient de corrélation de l'entité $i$ à l'environnement cyber
+systémique. Un $\rho_i$ élevé caractérise une entité dont la posture de
+conformité se dégrade fortement lorsque l'environnement sectoriel se
+détériore (forte dépendance aux tiers, mutualisation d'infrastructures
+critiques), tandis qu'un $\rho_i$ faible caractérise une entité dont la
+gouvernance reste robuste indépendamment du contexte général.
+
+\paragraph{Seuil de défaut de conformité.} Comme dans le modèle de Merton, le
+défaut de conformité de l'entité $i$ est déclenché lorsque sa variable
+latente franchit un seuil $K_i$, calibré de sorte à retrouver le taux de
+non-conformité moyen observé sur le marché. La probabilité de défaut de
+conformité conditionnelle à l'état de l'environnement systémique $\theta$
+s'écrit alors :
+\begin{equation}
+PCD_i(\theta) = \mathbb{P}\bigl(Z_i \leq K_i \,\big|\, \theta\bigr)
+= \Phi\!\left(\frac{K_i - \sqrt{\rho_i}\,\theta}{\sqrt{1-\rho_i}}\right),
+\end{equation}
+où $\Phi$ désigne la fonction de répartition de la loi normale centrée
+réduite. Le seuil $K_i$ est obtenu par inversion de la probabilité de défaut
+inconditionnelle $\bar{PCD}_i$ (calibrée sur les taux de non-conformité
+observés en 2025) : $K_i = \Phi^{-1}(\bar{PCD}_i)$.
+
+Cette écriture retrouve les propriétés attendues : lorsque l'environnement
+systémique se dégrade ($\theta \to -\infty$, interprété comme un choc cyber
+sectoriel négatif), $PCD_i(\theta) \to 1$ pour toute entité présentant
+$\rho_i > 0$ ; à l'inverse, une entité affichant $\rho_i \to 0$ conserve un
+$PCD_i(\theta)$ proche de son niveau inconditionnel $\bar{PCD}_i$, quasiment
+insensible au contexte de marché. Le paramètre $\rho_i$ joue ainsi le rôle
+d'un coefficient de dépendance à la contagion systémique, au sens strict du
+modèle à facteur unique de Vasicek.
+
+\paragraph{Interpolation entre scénarios-types.} Cette formalisation permet de
+dépasser le choix discret d'un scénario de marché $S_x \in \{S_0, S_1, S_2\}$
+(conforme, partiellement conforme, non conforme) au profit d'une lecture
+continue : $S_0$ correspond au cas limite $PCD_i(\theta) \to 0$, $S_2$ au cas
+limite $PCD_i(\theta) \to 1$, et $S_1$ à une valeur intermédiaire calibrée sur
+les profils de conformité partielle observés en 2025. Le multiplicateur de
+fréquence appliqué à un vecteur d'attaque $v$ pour l'entité $i$ s'écrit alors
+comme une interpolation linéaire entre le régime conforme et le régime de
+non-conformité totale sourcé empiriquement :
+\begin{equation}
+m_v\bigl(PCD_i(\theta)\bigr) = 1 + PCD_i(\theta) \times \left(\bar{m}_v^{S_2} - 1\right),
+\end{equation}
+où $\bar{m}_v^{S_2}$ est le centre de l'intervalle de multiplicateur sourcé en
+scénario de non-conformité totale pour le vecteur $v$ (cf. Partie~4). Cette
+écriture ne requiert aucune calibration supplémentaire au-delà de $\rho_i$ et
+$\bar{PCD}_i$ : elle réutilise directement les multiplicateurs déjà sourcés
+par vecteur d'attaque, en substituant au choix manuel d'un scénario de marché
+la probabilité propre à chaque profil d'entité, conditionnellement à l'état
+de l'environnement cyber systémique $\theta$.
+
+Trois avantages méthodologiques découlent de ce choix de structure. Premièrement,
+le cadre de Vasicek est un standard éprouvé de la modélisation actuarielle et
+prudentielle des risques corrélés, ce qui confère au $PCD_i(\theta)$ une
+assise théorique plus solide qu'une fonction de lien ad hoc. Deuxièmement, le
+paramètre $\rho_i$ offre une lecture économique directe et interprétable de
+la sensibilité de chaque entité à la contagion systémique --- une lecture
+qui prépare naturellement la discussion de la contagion interne et externe
+menée en 1.5. Troisièmement, la structure à facteur unique est immédiatement
+compatible avec l'architecture de dépendance retenue en Partie~3 (copule de
+Gumbel et modèle à facteur commun), puisqu'elle repose sur le même principe
+de décomposition entre un choc commun $\theta$ et des chocs idiosyncratiques
+$\varepsilon_i$.
+
+Cette variable latente n'est pas un simple artifice de modélisation : elle
+constitue le point de jonction technique entre le cadre réglementaire décrit
+ci-dessus et le moteur actuariel développé dans la suite du mémoire. C'est
+elle qui, dans le chapitre consacré à la fréquence, vient moduler l'intensité
+des sinistres simulés et piloter la probabilité d'occurrence d'une sanction
+réglementaire.
+
+%--------------------------------------------------------------
+\subsection{1.5 --- Contagion interne et contagion externe via tiers ICT}
+%--------------------------------------------------------------
+
+L'introduction d'une variable latente de conformité invite à distinguer deux
+canaux de propagation du risque, que le cadre DORA rend précisément
+observables : une contagion \textbf{interne} et une contagion
+\textbf{externe}.
+
+\paragraph{Contagion interne.} Une faiblesse de gouvernance TIC, un retard
+dans le déploiement des correctifs de sécurité, ou une insuffisance de
+sensibilisation du personnel ne restent pas cantonnés à un seul type
+d'incident. Ils dégradent simultanément plusieurs vecteurs d'attaque : un
+défaut de formation accroît la vulnérabilité au phishing, mais fragilise
+également la détection précoce d'autres intrusions. Cette dimension justifie
+que la fréquence des incidents ne soit pas traitée comme la simple somme de
+processus indépendants, mais comme le produit d'un facteur commun de
+maîtrise opérationnelle interne.
+
+\paragraph{Contagion externe.} Le pilier consacré à la gestion du risque lié
+aux prestataires tiers ICT rend cette seconde dimension explicite. Une entité
+peut afficher une gouvernance interne robuste tout en restant exposée à la
+défaillance d'un prestataire critique --- hébergeur cloud, éditeur logiciel,
+sous-traitant de paiement --- partagé par plusieurs acteurs du marché. Le
+Registre d'Informations et la traçabilité des chaînes de sous-traitance
+jusqu'au rang~3, imposés par DORA, rendent pour la première fois cette
+dépendance cartographiable, alors qu'elle échappait largement aux audits
+documentaires ponctuels de Solvabilité~II.
+
+Cette distinction entre contagion interne et externe n'est pas seulement
+conceptuelle : elle structure directement l'architecture de modélisation
+retenue dans ce mémoire. La contagion interne motive le recours à une
+structure de dépendance de type facteur commun entre les briques de perte
+liées à la maîtrise opérationnelle de l'entité elle-même. La contagion
+externe justifie l'introduction d'une brique de risque dédiée au prestataire,
+distincte de la brique de remédiation, et calibrée sur un scénario
+d'occurrence propre --- car le risque tiers ne se comporte pas comme un
+sinistre interne ordinaire, mais comme un choc importé, potentiellement
+corrélé entre plusieurs entités du marché exposées au même fournisseur.
+
+%--------------------------------------------------------------
+\subsection*{Positionnement du mémoire}
+%--------------------------------------------------------------
+
+Au terme de ce panorama, la contribution visée se précise. Le forfait de Pilier~1
+($SCR_{Op}$, plafonné à $30\,\%$ du $BSCR$) est, par construction, incapable de refléter
+le risque de cyber-catastrophe systémique : il ignore la qualité de l'infrastructure, la
+dépendance aux tiers, et la dynamique propre des défaillances. Nous proposons donc, dans
+la logique du Pilier~2, un modèle de stress stochastique fondé sur la théorie des valeurs
+extrêmes, étalonné sur des données de sinistralité sectorielles et structuré par la
+variable latente de conformité introduite ci-dessus. L'objectif n'est pas de produire un
+chiffre unique de capital, mais une \emph{distribution} de l'exigence, assortie de ses
+intervalles d'incertitude --- car le SCR cyber n'est pas un nombre, mais une distribution
+large.
+
+% ==============================================================================
+\section*{Cadre mathématique de la modélisation des risques extrêmes}
+% ==============================================================================
+
+La quantification du risque cyber, caractérisée par une asymétrie prononcée et la présence de sinistres d'une sévérité exceptionnelle, nécessite un cadre probabiliste robuste. Les lois de probabilité traditionnelles (Lognormale, Gamma, Weibull), souvent utilisées en assurance non-vie pour modéliser le corps de la distribution (la fréquence des sinistres d'attrition), échouent à capturer l'épaisseur des queues de distribution typiques des méga-fuites de données ou des paralysies systémiques. Cette section détaille les fondements théoriques de la Théorie des Valeurs Extrêmes (EVT) sous-jacents au modèle de distribution de pertes agrégées (LDA) implémenté, ainsi que la modélisation de la dépendance.
+
+%--------------------------------------------------------------
+\subsection{Justification de l'EVT et Théorème de Fisher-Tippett-Gnedenko (GEV)}
+%--------------------------------------------------------------
+
+Là où le Théorème Central Limite s'intéresse au comportement asymptotique des sommes de variables aléatoires, la Théorie des Valeurs Extrêmes (EVT) étudie le comportement asymptotique de leurs maxima. 
+
+Soit une séquence $(X_1, X_2, \dots, X_n)$ de variables aléatoires indépendantes et identiquement distribuées (i.i.d.) de fonction de répartition $F$, représentant la sévérité des cyberattaques. L'approche initiale de l'EVT, dite des \textit{Block Maxima}, s'intéresse au maximum sur des blocs de taille $n$ (par exemple, le sinistre cyber maximal annuel) :
+\begin{equation}
+M_n = \max(X_1, X_2, \dots, X_n)
+\end{equation}
+
+\paragraph{Théorème de Fisher-Tippett-Gnedenko (1928, 1943).} S'il existe des suites de constantes de normalisation $a_n > 0$ et $b_n \in \mathbb{R}$, et une distribution non dégénérée $H$ telles que :
+\begin{equation}
+\lim_{n \to \infty} \mathbb{P}\left( \frac{M_n - b_n}{a_n} \le x \right) = \lim_{n \to \infty} F^n(a_n x + b_n) = H(x)
+\end{equation}
+Alors, $H$ appartient nécessairement à la famille des distributions des extrêmes généralisées (GEV - \textit{Generalized Extreme Value}), dont la fonction de répartition s'écrit :
+\begin{equation}
+H_{\xi}(x) = 
+\begin{cases} 
+\exp\left(-\left(1 + \xi x \right)^{-1/\xi}\right) & \text{si } \xi \neq 0 \\
+\exp\left(-\exp(-x)\right) & \text{si } \xi = 0 
+\end{cases}
+\end{equation}
+définie sur l'ensemble $\{x : 1 + \xi x > 0\}$. Le paramètre $\xi$ (indice de queue) définit trois grands domaines d'attraction :
+\begin{itemize}
+    \item \textbf{$\xi > 0$ (Loi de Fréchet) :} La distribution présente une queue lourde à décroissance polynomiale. C'est le régime critique qui nous intéresse pour les sinistres cyber majeurs.
+    \item \textbf{$\xi = 0$ (Loi de Gumbel) :} La distribution présente une queue légère à décroissance exponentielle (domaine d'attraction des lois Normale, Lognormale, Gamma).
+    \item \textbf{$\xi < 0$ (Loi de Weibull) :} La distribution a un support fini supérieur (queue courte).
+\end{itemize}
+
+%--------------------------------------------------------------
+\subsection{Le passage au Peaks-Over-Threshold (POT) et la GPD}
+%--------------------------------------------------------------
+
+Bien que rigoureuse, l'approche \textit{Block Maxima} (GEV) présente une limite majeure en actuariat pratique : elle induit un immense gaspillage d'information. En ne retenant que le maximum de chaque bloc, elle occulte potentiellement le deuxième plus grand sinistre d'une année extrême, qui pourrait pourtant être supérieur au maximum d'une année calme. Dans le contexte du risque cyber, où les données historiques fiables et quantifiées sont particulièrement rares, un tel gaspillage statistique fragiliserait la modélisation.
+
+Pour contourner ce problème, ce mémoire privilégie l'approche \textit{Peaks-Over-Threshold} (POT). Au lieu de ne garder que les maxima, cette méthode exploite \textbf{toutes} les observations excédant un seuil élevé $u$. On s'intéresse alors à la distribution des excès $Y = X - u$.
+
+La fonction de répartition conditionnelle des excès est donnée par :
+\begin{equation}
+F_u(y) = \mathbb{P}(X - u \le y \mid X > u) = \frac{F(u+y) - F(u)}{1 - F(u)}
+\end{equation}
+
+\paragraph{Théorème de Balkema-de Haan-Pickands (1974).} Ce théorème établit le pont mathématique entre la GEV et l'approche POT. Pour une large classe de distributions sous-jacentes $F$ (celles appartenant au domaine d'attraction d'une loi GEV $H_\xi$), il existe une fonction mesurable positive $\sigma(u)$ telle que, lorsque le seuil $u$ tend vers la limite supérieure du support de $F$ ($x_F$), la distribution des excès converge asymptotiquement vers une distribution de Pareto Généralisée (GPD) :
+\begin{equation}
+\lim_{u \to x_F} \sup_{0 \le y < x_F - u} \left| F_u(y) - G_{\xi, \sigma(u)}(y) \right| = 0
+\end{equation}
+
+Où la fonction de répartition de la GPD s'écrit :
+\begin{equation}
+G_{\xi, \sigma}(y) = 
+\begin{cases} 
+1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1/\xi} & \text{si } \xi \neq 0 \\
+1 - \exp\left(-\frac{y}{\sigma}\right) & \text{si } \xi = 0 
+\end{cases}
+\end{equation}
+avec $y \ge 0$ si $\xi \ge 0$, et $0 \le y \le -\sigma/\xi$ si $\xi < 0$. Le paramètre de forme $\xi$ de la GPD est strictement le même que celui de la loi GEV correspondante. Dans le contexte du risque cyber, un indice de queue $\xi > 0$ traduit une distribution à queue lourde de type Fréchet, impliquant des moments potentiellement infinis (l'espérance est infinie si $\xi \ge 1$, la variance si $\xi \ge 0.5$).
+
+%--------------------------------------------------------------
+\subsection{Estimation des paramètres : Maximum de Vraisemblance vs Estimateur de Hill}
+%--------------------------------------------------------------
+
+L'estimation de l'indice de queue $\xi$ est un enjeu critique, car une infime variation de ce paramètre modifie massivement le Capital de Solvabilité Requis (SCR). Deux approches principales s'affrontent dans la littérature.
+
+\paragraph{L'estimateur de Hill.}
+Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) repose sur les statistiques d'ordre. Soit $X_{(1)} \ge X_{(2)} \ge \dots \ge X_{(n)}$ l'échantillon ordonné de manière décroissante. L'estimateur de Hill fondé sur les $k$ plus grandes observations est défini par :
+\begin{equation}
+\hat{\xi}_{Hill}(k) = \frac{1}{k} \sum_{i=1}^{k} \ln X_{(i)} - \ln X_{(k+1)}
+\end{equation}
+Bien que cet estimateur soit asymptotiquement convergent et sans biais sous la stricte condition que la distribution sous-jacente appartienne exactement au domaine d'attraction de Fréchet, il présente en pratique un biais d'échantillon fini majeur. En effet, si la composante à variation lente de la queue de distribution ne converge pas assez vite, $\hat{\xi}_{Hill}$ devient instable.
+
+\paragraph{Le Maximum de Vraisemblance (MLE).}
+Pour pallier le biais de l'estimateur de Hill hors du régime asymptotique strict, ce mémoire privilégie l'estimation par Maximum de Vraisemblance (MLE) sur les excès de la GPD. La log-vraisemblance pour un échantillon de $N_u$ excès $y_i$ au-delà du seuil $u$ s'écrit (pour $\xi \neq 0$) :
+\begin{equation}
+\ell(\xi, \sigma) = -N_u \ln(\sigma) - \left(1 + \frac{1}{\xi}\right) \sum_{i=1}^{N_u} \ln\left(1 + \frac{\xi y_i}{\sigma}\right)
+\end{equation}
+La maximisation numérique de cette fonction fournit des estimateurs $(\hat{\xi}_{MLE}, \hat{\sigma}_{MLE})$ qui, bien que nécessitant des méthodes d'optimisation (telles que l'algorithme de Nelder-Mead utilisé dans nos scripts Python), offrent une robustesse supérieure face à la variance d'échantillonnage des bases de sinistres cyber comme OpRisk ou PRC.
+
+%--------------------------------------------------------------
+\subsection{Modélisation de la dépendance de queue : le choix de la Copule de Gumbel}
+%--------------------------------------------------------------
+
+L'agrégation des différentes briques de risque (remédiation, tiers prestataires, amendes) nécessite de capturer la structure de dépendance. Le théorème de Sklar (1959) permet de dissocier les lois marginales de la structure de dépendance.
+
+\paragraph{Théorème de Sklar.} Soit $H$ une fonction de répartition jointe de marges $F_1, \dots, F_d$. Il existe une copule $C : [0,1]^d \to [0,1]$ telle que pour tout $x_1, \dots, x_d \in \mathbb{R} \cup \{-\infty, +\infty\}$ :
+\begin{equation}
+H(x_1, \dots, x_d) = C(F_1(x_1), \dots, F_d(x_d))
+\end{equation}
+
+Dans le cas du risque cyber, la préoccupation majeure du régulateur (notamment sous DORA) est la contagion systémique : la probabilité que les pires sinistres (ex: paralysie d'un prestataire cloud critique) surviennent simultanément avec des attaques majeures sur l'assureur. Cette caractéristique impose l'utilisation d'une copule présentant une \textbf{dépendance de queue supérieure} (upper tail dependence) strictement positive.
+
+Le coefficient de dépendance de queue supérieure $\lambda_U$ entre deux variables $X_1, X_2$ de fonctions de répartition $F_1, F_2$ est défini par :
+\begin{equation}
+\lambda_U = \lim_{q \to 1^-} \mathbb{P}(X_1 > F_1^{-1}(q) \mid X_2 > F_2^{-1}(q))
+\end{equation}
+La copule Gaussienne possède une dépendance de queue asymptotiquement nulle ($\lambda_U = 0$), ce qui la disqualifie pour modéliser le risque de crise systémique. C'est pourquoi nous avons opté pour la famille archimédienne, et spécifiquement la \emph{copule de Gumbel}, définie pour $\eta \in [1, +\infty)$ par :
+\begin{equation}
+C_\eta(u, v) = \exp \left( - \left[ (-\ln u)^\eta + (-\ln v)^\eta \right]^{1/\eta} \right)
+\end{equation}
+Pour la copule de Gumbel, $\lambda_U = 2 - 2^{1/\eta}$. Le paramètre $\eta$ permet ainsi de piloter finement la propension des briques de risque à générer des pertes extrêmes conjointes.
+
+%--------------------------------------------------------------
+\subsection{Transformation d'un choc systémique en risque de conformité : le modèle de Vasicek}
+%--------------------------------------------------------------
+
+Pour modéliser l'occurrence de l'amende administrative et la défaillance d'un prestataire sous DORA en fonction d'un environnement macro-cyber (crise systémique), nous adaptons le modèle à un facteur de Vasicek (initialement conçu pour le risque de crédit asymétrique de type Merton).
+
+Soit une variable latente $Z_i$ représentant la robustesse globale (ou solvabilité numérique) d'une entité $i$. Nous postulons que cette robustesse dépend d'un facteur de risque systémique commun à tout le marché $Y$ (par exemple, la découverte d'une faille \textit{zero-day} mondiale) et d'un facteur idiosyncratique propre à l'entité $X_i$ (la qualité de sa gouvernance IT) :
+\begin{equation}
+Z_i = \sqrt{\rho}Y + \sqrt{1-\rho}X_i
+\end{equation}
+où $Y$ et $X_i$ sont des variables normales centrées réduites indépendantes, et $\rho \in [0,1]$ mesure la sensibilité de l'entité au choc systémique (le coefficient de corrélation des actifs). 
+
+Une entité subit une défaillance de conformité (déclenchant potentiellement une amende ou une rupture de service critique) si sa robustesse $Z_i$ tombe sous un certain seuil de tolérance $c_i = \Phi^{-1}(PCD_{marginal})$. Conditionnellement à un état donné de l'environnement macro-cyber $Y = y$ (où $y < 0$ représente un choc dégradé), la probabilité conditionnelle de défaut de conformité, notée $PCD_i(y)$, s'écrit :
+\begin{equation}
+PCD_i(y) = \mathbb{P}(Z_i < c_i \mid Y = y) = \mathbb{P}\left( \sqrt{\rho}y + \sqrt{1-\rho}X_i < c_i \right)
+\end{equation}
+Puisque $X_i \sim \mathcal{N}(0,1)$, on isole $X_i$ pour obtenir la formule fermée :
+\begin{equation}
+PCD_i(y) = \Phi \left( \frac{\Phi^{-1}(PCD_{marginal}) - \sqrt{\rho}y}{\sqrt{1-\rho}} \right)
+\end{equation}
+Cette formulation mathématique rigoureuse justifie la dynamique asymétrique observée dans nos résultats : une entité «~Leader~» (dont le seuil $c_i$ est très bas) restera résiliente même si $Y$ se dégrade, tandis qu'une entité «~Médiane~» verra sa probabilité de défaut converger asymptotiquement vers 1, ce qui active mécaniquement la contagion entre la brique prestataire et la brique sanction dans l'allocation d'Euler.
+
+%==============================================================
+\section{Données et limites}
+%==============================================================
+
+La modélisation développée dans ce mémoire ne repose sur aucune base de
+données unique. Chaque source mobilisée présente un périmètre, un biais et un
+niveau de granularité distincts, et c'est précisément leur articulation ---
+plutôt que le choix d'une source « privilégiée » --- qui constitue la
+démarche méthodologique retenue. Cette partie présente successivement les
+trois sources utilisées, avant de formaliser un cadre épistémique explicite
+sur les limites de l'exercice.
+
+%--------------------------------------------------------------
+\subsection*{Bloc synthèse --- Cartographie des sources et de leurs rôles}
+%--------------------------------------------------------------
+
+Un point de clarification méthodologique central structure l'ensemble de
+cette partie : \textbf{aucune base n'est utilisée seule}. Chaque source
+alimente une composante précise du modèle, selon ses propriétés propres.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{3cm} >{\raggedright}p{5.5cm} >{\raggedright\arraybackslash}p{5.5cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Source} & \textbf{Rôle dans le modèle} & \textbf{Justification / limite} \\
+\midrule
+PRC 2025 & Fréquence ($\lambda$) ; sévérité indirecte via conversion Jacobs &
+Périmètre défini, mais sévérité dérivée d'un modèle log-log \\
+\addlinespace
+SAS OpRisk Global & Sévérité (montants réels) &
+Montants observés, mais biais vers les grandes entités financières \\
+\addlinespace
+Hackmageddon & Multiplicateurs de scénario DORA (structure du risque) &
+Ne calibre pas le modèle : ajuste $\lambda$ selon le niveau de conformité \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Cette répartition des rôles évite un écueil fréquent dans la modélisation du
+risque cyber : traiter une base généraliste comme si elle pouvait, à elle
+seule, calibrer l'ensemble d'un modèle fréquence-sévérité. Chaque source est
+au contraire mobilisée là où elle est la plus fiable, et ses limites propres
+sont explicitement documentées dans les sous-sections suivantes.
+
+%--------------------------------------------------------------
+\subsection{Exigences de Solvabilité II sur la qualité des données (Article 19)}
+%--------------------------------------------------------------
+
+L'utilisation d'un modèle interne, même partiel, est strictement encadrée par la directive Solvabilité II. L'Article 19 du Règlement Délégué (UE) 2015/35 impose que les données utilisées pour le calcul de la distribution de probabilité prévisionnelle respectent trois critères cumulatifs : l'exactitude, l'exhaustivité et la pertinence. 
+
+Dans le domaine du risque cyber, aucune base de données publique ou commerciale ne satisfait pleinement ces trois critères. L'actuaire est donc contraint de documenter rigoureusement les biais inhérents aux données historiques et de justifier les retraitements appliqués. La validité du SCR calculé ne repose pas sur la perfection de la donnée (qui n'existe pas), mais sur la transparence des limites épistémiques et la robustesse du modèle mathématique face à ces biais.
+
+%--------------------------------------------------------------
+\subsection{Analyse critique des bases de sinistralité : les trois biais fondamentaux}
+%--------------------------------------------------------------
+
+L'utilisation conjointe des bases \textit{Privacy Rights Clearinghouse} (PRC) et SAS OpRisk Global permet de croiser les perspectives, mais nécessite d'identifier trois biais statistiques majeurs qui altèrent l'estimation de l'indice de queue $\xi$.
+
+\paragraph{1. Le biais de sélection (Selection Bias).}
+Ce biais affecte particulièrement la base OpRisk Global, qui se nourrit principalement d'événements rendus publics dans la presse financière ou les rapports annuels. Par construction, un incident cyber n'atteint ce seuil de visibilité que s'il frappe une entité d'une certaine taille (généralement des institutions systémiques ou de grandes banques internationales) ou si son montant est exceptionnellement élevé. 
+Ce biais de taille (size bias) conduit à une sur-représentation des événements extrêmes et une sous-représentation de la sinistralité d'attrition. Si l'on calibre directement un modèle sur cette base pour une entité de taille moyenne (ex: une mutuelle régionale), la probabilité de subir une perte extrême sera mécaniquement surestimée. C'est pour cette raison que notre approche conditionne la fréquence d'occurrence au profil de l'entité via le modèle de Vasicek (Partie 3).
+
+\paragraph{2. Le biais de déclaration (Reporting Bias).}
+La base PRC est soumise à un biais de déclaration lié aux asymétries réglementaires. Aux États-Unis, la notification des fuites de données personnelles (Data Breaches) est obligatoire dans la plupart des États, ce qui rend la base PRC très riche sur ce vecteur d'attaque. En revanche, un rançongiciel (Ransomware) qui paralyse les serveurs de l'entreprise mais n'exfiltre aucune donnée personnelle peut ne déclencher aucune obligation de notification légale (avant l'entrée en vigueur d'actes récents comme le CIRCIA). 
+Par conséquent, calibrer une fréquence globale sur la PRC tend à sous-estimer le risque d'interruption d'activité (Business Interruption) au profit du seul risque de compromission de données. C'est précisément pour corriger ce biais que nous avons superposé la structure des vecteurs d'attaque de la base Hackmageddon (qui capte l'ensemble du spectre, y compris les ransomwares) sur la fréquence de base issue de la PRC.
+
+\paragraph{3. Le biais de survie (Survivorship Bias).}
+Dans les bases de pertes opérationnelles, la sévérité maximale observée est paradoxalement bornée par la capacité de survie de l'entité. Une cyberattaque ayant entraîné la faillite pure et simple de l'entreprise (ruine) disparaît souvent des bases de pertes opérationnelles classiques, car il n'y a plus d'entité survivante pour reporter la perte financière finale et les coûts de remédiation à long terme. Ce biais tronque artificiellement l'extrême queue de distribution. La Théorie des Valeurs Extrêmes (EVT), en ajustant une loi de Pareto Généralisée (GPD) qui permet d'extrapoler au-delà du maximum historique observé, est la réponse mathématique adéquate à ce biais de survie.
+
+%--------------------------------------------------------------
+\subsection{Traitement de l'inflation cyber et actualisation des pertes}
+%--------------------------------------------------------------
+
+L'hétérogénéité temporelle des bases de données constitue une autre infraction potentielle au critère d'exactitude de Solvabilité II. La base OpRisk Global agrège des pertes allant de l'année 2000 à 2026. Utiliser un montant de perte de 2018 tel quel dans un modèle de capital en 2026 constitue une erreur actuarielle sévère, l'inflation cyber ne se comportant pas comme l'inflation macroéconomique classique (IPC).
+
+Le coût d'un sinistre cyber est principalement tiré par trois facteurs :
+\begin{itemize}
+    \item \textbf{L'inflation salariale IT :} Le coût des experts en remédiation (forensic, restauration de systèmes) connaît une inflation nettement supérieure à l'indice des prix à la consommation, en raison de la pénurie de talents en cybersécurité.
+    \item \textbf{L'inflation juridique et réglementaire :} L'entrée en vigueur du RGPD en 2018 a drastiquement modifié l'échelle des sanctions. Une fuite de données en 2015 coûtait infiniment moins cher en amendes administratives que la même fuite en 2025.
+    \item \textbf{L'escalade des rançons :} La professionnalisation du cybercrime (Ransomware-as-a-Service) a transformé les demandes de rançons de quelques milliers de dollars en 2016 à plusieurs dizaines de millions d'euros en 2026.
+\end{itemize}
+
+Pour respecter les exigences de l'Article 19, les sinistres historiques doivent être actualisés en euros de l'année de modélisation (2026). Soit $L_t$ la perte observée l'année $t$, la perte actualisée $\tilde{L}_{2026}$ s'écrit :
+\begin{equation}
+\tilde{L}_{2026} = L_t \times \prod_{k=t}^{2025} (1 + i_k^{cyber})
+\end{equation}
+où $i_k^{cyber}$ est un taux d'inflation spécifique aux sinistres technologiques (souvent estimé par des indices sectoriels entre 5\,\% et 10\,\% annuels). Dans le cadre de ce mémoire, nous assumons que les bases commerciales traitées intègrent une homogénéisation monétaire, mais soulignons que la construction d'un indice d'inflation cyber robuste demeure un défi majeur pour la place financière.
+
+Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de Jacobs. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log présente la limite de «~lisser~» la variance et de minorer les extrêmes, justifiant notre décision de ne pas plafonner la calibration issue directement d'OpRisk (où les montants sont observés de bout en bout).
+
+%--------------------------------------------------------------
+\subsection{Perspectives : Le registre européen DORA comme solution pérenne}
+%--------------------------------------------------------------
+
+Les limites épistémiques et statistiques exposées ci-dessus contraignent aujourd'hui le calcul du SCR cyber à de larges intervalles d'incertitude. Cependant, cette situation est transitoire. L'apport fondamental du règlement DORA ne réside pas uniquement dans l'imposition de normes de sécurité (Chapitre II), mais dans la création d'un cadre de \textbf{notification harmonisée des incidents majeurs liés aux TIC} (Chapitre III, Article 19 de DORA).
+
+DORA impose aux entités financières de reporter à leur autorité compétente (l'ACPR en France) les incidents majeurs selon une taxonomie standardisée (causes, vecteurs, temps de résolution, pertes financières directes et indirectes). À terme, le règlement prévoit la centralisation de ces rapports au sein d'un pôle de l'Union européenne (EU Hub).
+
+La constitution de ce registre européen résoudra structurellement les trois failles actuelles des bases de données :
+\begin{itemize}
+    \item \textbf{Suppression du biais de déclaration :} Le \textit{reporting} étant réglementairement obligatoire, la base sera exhaustive.
+    \item \textbf{Suppression du biais de sélection :} Le registre couvrira toutes les strates du marché financier (grandes banques, mais aussi courtiers, mutuelles et sociétés de gestion), offrant enfin une granularité suffisante pour conditionner la sévérité par taille d'entité.
+    \item \textbf{Visibilité sur les tiers :} Le registre DORA cartographiera l'implication des prestataires tiers ICT, validant empiriquement les modèles de contagion externe via la copule de Gumbel présentés en Partie 3.
+\end{itemize}
+
+Dès lors, l'architecture du Modèle Interne Partiel développée dans ce mémoire (LDA, théorie des valeurs extrêmes, facteurs de Vasicek, allocation d'Euler) prend toute sa valeur. Le modèle mathématique et les scripts de simulation construits sont intégralement agnostiques à la source de données. Lorsqu'une base d'incidents DORA harmonisée sera rendue disponible à la profession actuarielle, il suffira de substituer ces nouvelles données aux actuelles bases PRC et OpRisk. Le moteur de calcul absorbera ces entrées qualifiées pour produire un SCR cyber d'une précision inédite, répondant simultanément aux exigences qualitatives de DORA et aux contraintes quantitatives de Solvabilité II.
+
+%--------------------------------------------------------------
+\subsection{La PRC comme proxy de fréquence : périmètre, biais, justification}
+%--------------------------------------------------------------
+
+La base \emph{Privacy Rights Clearinghouse} (PRC) constitue le socle de
+calibration de la fréquence annuelle de référence $\lambda_{ref}$ utilisée
+dans le modèle. Son intérêt principal tient à son périmètre défini et à sa
+couverture longitudinale, qui permettent d'obtenir un niveau de fréquence
+directement exploitable pour une simulation actuarielle.
+
+La PRC joue toutefois un second rôle, plus fragile : celui de source de
+sévérité indirecte, via une conversion dite de Jacobs, qui traduit un nombre
+d'enregistrements compromis en un montant de perte financière à partir d'un
+modèle log-log. Ce mécanisme permet d'élargir le spectre de tailles
+d'incidents disponibles, mais introduit un biais de modèle supplémentaire :
+la sévérité qui en résulte n'est pas observée directement, elle est
+\emph{dérivée}. La calibration en queue de distribution obtenue sur la PRC
+donne un paramètre de forme $\hat{\xi}_{\text{PRC}} = 1{,}30$, caractéristique
+d'une queue extrêmement lourde, à espérance infinie --- un résultat qui, pris
+seul, rendrait toute simulation numériquement instable et qui doit donc être
+discuté conjointement avec les corrections méthodologiques présentées en 2.4.
+
+La justification du recours à la PRC malgré ces limites tient à l'absence
+d'alternative comparable pour la fréquence : aucune des deux autres sources
+mobilisées (Hackmageddon, OpRisk Global) ne permet, seule, d'ancrer un niveau
+annuel de sinistralité directement transposable à un portefeuille assurantiel.
+
+%--------------------------------------------------------------
+\subsection{Hackmageddon : apports et limites}
+%--------------------------------------------------------------
+
+\paragraph{Périmètre consolidé.} La base Hackmageddon a été consolidée sur le
+semestre complet et contigu janvier--juin 2026, soit \textbf{1\,041
+incidents}. La couverture pluriannuelle initialement envisagée a été
+abandonnée : l'année 2024 est absente du jeu transmis, et 2025 n'est
+disponible que partiellement. La base est donc exploitée pour la
+\emph{structure} du risque, non pour son \emph{niveau} ou sa dynamique
+temporelle --- ce qui explique pourquoi elle n'intervient pas dans la
+calibration de $\lambda_{ref}$, réservée à la PRC.
+
+\paragraph{Apport 1 : structure du risque et mapping DORA.} Sur les 1\,041
+incidents, 840 disposent d'un vecteur d'accès initial identifié (81~\%),
+regroupés en familles et reliés directement aux articles DORA :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{5cm} c >{\raggedright\arraybackslash}p{6cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Vecteur d'attaque} & \textbf{Part} & \textbf{Exigence DORA} \\
+\midrule
+Phishing / Ingénierie sociale & 38{,}8~\% & Art.~13 --- Sensibilisation \& formation \\
+Exploitation vuln.\ exposée & 33{,}8~\% & Art.~26 --- Tests TLPT ; Art.~8--10 \\
+Supply chain / Tiers ICT & 15{,}8~\% & Art.~28--44 --- Gestion risque tiers \\
+Identifiants compromis & 6{,}3~\% & Art.~9 --- Contrôle d'accès \& MFA \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Deux chiffres sont structurants pour la construction des scénarios de la
+Partie~4 : \textbf{15{,}8~\%} des attaques empruntent le vecteur tiers/supply
+chain, cœur des articles~28--44 ; et \textbf{49{,}6~\%} relèvent de vecteurs
+qu'un test TLPT (art.~26) est censé détecter en amont (exploitation et
+tiers cumulés).
+
+\paragraph{Limite 1 : biais de visibilité.} Hackmageddon recense des
+incidents rendus publics, majoritairement médiatiques ou déclarés, ce qui
+sur-représente structurellement les événements les plus visibles au détriment
+des incidents ordinaires, moins commentés. La base ne peut donc servir à
+estimer un niveau absolu de fréquence, seulement une répartition relative
+entre vecteurs d'attaque.
+
+\paragraph{Limite 2 : taxonomie instable.} Une comparaison de structure entre
+2023 (3\,019 incidents, Q3 manquant) et 2026 a mis en évidence un artefact de
+taxonomie. La catégorie « Ransomware » n'existait pas en 2023, les incidents
+correspondants étant alors classés sous « Malware ». Une lecture naïve
+suggérait une hausse du ransomware de +11 points ; après reclassement par
+grille de mots-clés commune, le ransomware \emph{recule} en réalité de
+23 points.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{4.5cm} c c c}
+\toprule
+\rowcolor{lightblue}
+\textbf{Dimension} & \textbf{2023} & \textbf{2026} & \textbf{$\Delta$} \\
+\midrule
+Cybercriminalité (motivation) & 81{,}1~\% & 73{,}9~\% & $-7{,}1$ \\
+Cyberespionnage (motivation) & 9{,}6~\% & 20{,}6~\% & $+11{,}0$ \\
+Ransomware (reclassé) & 35{,}8~\% & 12{,}7~\% & $-23{,}1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Seules les \textbf{motivations} (taxonomie stable de haut niveau) sont donc
+comparables directement dans le temps ; les \textbf{types d'attaque} ne le
+sont qu'après un travail de reclassement documenté. Le signal robuste qui
+demeure est la bascule du cybercrime de masse vers l'espionnage ciblé, une
+information pertinente pour la discussion du risque systémique en Partie~5,
+mais qui illustre aussi la fragilité méthodologique de toute lecture brute
+d'une base de ce type.
+
+%--------------------------------------------------------------
+\subsection{SAS OpRisk Global : proxy de sévérité ICT, lien avec l'approche AMA de Bâle 3}
+%--------------------------------------------------------------
+
+\paragraph{Nature et périmètre.} OpRisk Global est la base de référence
+historique du risque opérationnel au sens de Bâle~2/3, comptant
+\textbf{41\,975 incidents} après nettoyage d'une aberration de saisie. Le
+risque cyber n'y constitue pas une catégorie native : il est reconstruit à
+partir des catégories « Systems Security » et « Business Disruption and
+System Failures ». Le périmètre cyber $\times$ finance retenu compte
+\textbf{582 incidents} sur la période 2000--2026.
+
+\paragraph{Lien avec l'approche AMA.} Cette base est historiquement celle
+qui alimentait les modèles internes de type \emph{Advanced Measurement
+Approach} évoqués en Partie~1, avant leur retrait au profit de la SMA sous
+Bâle~III/IV. Son usage ici renoue donc, à des fins de modélisation interne et
+non de calcul réglementaire de Pilier~1, avec la logique originelle de la LDA
+bancaire : calibrer une sévérité extrême à partir de pertes réellement
+observées plutôt qu'à partir d'un indicateur de volume forfaitaire.
+
+\paragraph{Statistiques de sévérité.}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l r l r}
+\toprule
+\rowcolor{lightblue}
+\textbf{Indicateur} & \textbf{Valeur} & \textbf{Indicateur} & \textbf{Valeur} \\
+\midrule
+Médiane & 1{,}50 M\$ & P99 & 402 M\$ \\
+Moyenne & 26{,}4 M\$ & Maximum & 1\,500 M\$ \\
+P90 & 51{,}5 M\$ & Total cumulé & 15{,}4 Md\$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La concentration extrême de la sévérité --- les 10~\% d'incidents les plus
+graves représentent 82{,}7~\% de la perte totale, et le seul top~1~\% en
+représente 31~\% --- constitue une signature de queue lourde qui justifie
+directement le recours à la théorie des valeurs extrêmes développée en
+Partie~3.
+
+\paragraph{Choix du seuil POT.} Le choix du seuil $u$ au-dessus duquel la loi
+de Pareto généralisée est calibrée résulte d'un compromis classique
+biais-variance, arbitré graphiquement. Le \emph{mean excess plot}
+(figure~\ref{fig:mep}) présente une pente positive et globalement linéaire
+au-delà de $u = 20$~M\euro, signature attendue d'un régime GPD à queue lourde
+($\xi > 0$) ; c'est ce seuil, correspondant au percentile~85 de la
+distribution des montants, qui est retenu pour la suite.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/mean_excess_oprisk.png}
+\caption{Mean excess plot sur le périmètre cyber$\times$finance d'OpRisk
+Global. La linéarité de $e(u)$ au-delà du seuil retenu $u = 20$~M\euro
+(pointillés) confirme le régime de queue lourde justifiant l'ajustement GPD.}
+\label{fig:mep}
+\end{figure}
+
+\paragraph{Calibration GPD et validation croisée.} Au seuil du percentile~85
+($u = 20{,}0$~M\euro, 91 excès), la calibration GPD donne :
+\[
+\hat{\xi} = 0{,}595 \quad (\text{IC}_{90\%}=[0{,}31\,;\,0{,}83]), \qquad
+\hat{\sigma} = 58{,}0~\text{M\euro}, \qquad
+\text{VaR}_{99{,}5\%} = 663~\text{M\euro}.
+\]
+L'intervalle de confiance bootstrap sur cette VaR est $[411\,;\,1037]$~M\euro,
+soit un facteur~2{,}5 entre les bornes --- une ampleur qui, à elle seule,
+illustre que le SCR ne peut être présenté comme un point.
+
+La comparaison avec la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}30$ contre
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595$) révèle un écart de régime de queue,
+expliqué par le biais de taille d'OpRisk : les grandes entités financières y
+sont sur-représentées et absorbent mieux les chocs, d'où une queue
+apparemment plus légère. Les deux sources confirment néanmoins le même régime
+qualitatif de queue lourde ($\xi > 0$). Il n'existe donc pas de hiérarchie
+« source primaire » en sévérité : OpRisk fournit des montants réels, la PRC
+un spectre de tailles plus large via la conversion Jacobs --- deux
+estimations indépendantes et complémentaires, dont l'écart constitue
+lui-même une information sur l'incertitude du modèle.
+
+La décomposition par sous-catégorie révèle en outre deux profils de risque
+distincts : les pannes (« Business Disruption ») sont moins fréquentes
+(19~\% des incidents) mais nettement plus coûteuses, avec une médiane cinq
+fois supérieure à celle des intrusions (« Systems Security »), suggérant que
+les multiplicateurs DORA pourraient à terme être différenciés non seulement
+en fréquence mais aussi en sévérité --- sous réserve de la taille réduite de
+l'échantillon « pannes » (28 excès), qui rend cette calibration indicative.
+
+%--------------------------------------------------------------
+\subsection{Cadre épistémique : ce qu'on sait faire et ce qu'on ne sait pas faire}
+%--------------------------------------------------------------
+
+La discipline méthodologique retenue dans ce mémoire consiste à ne jamais
+prétendre inférer davantage que ce que les données permettent réellement, ce
+qui impose d'expliciter aussi bien les capacités que les limites du dispositif.
+
+\paragraph{Ce que l'on sait faire.} On sait calibrer une fréquence de
+référence annuelle à partir d'un proxy sectoriel documenté (PRC), et la
+moduler selon une structure d'attaque observée empiriquement (Hackmageddon).
+On sait calibrer une sévérité de queue lourde par la théorie des valeurs
+extrêmes à partir de pertes réellement observées (OpRisk Global), et
+confronter cette calibration à une source indépendante pour objectiver
+l'incertitude. On sait enfin traiter l'écart entre sources non comme un bruit
+à éliminer, mais comme une dimension d'incertitude à part entière, qui
+s'ajoute à l'incertitude de paramètre estimée par bootstrap.
+
+\paragraph{Ce que l'on ne sait pas faire.} On ne sait pas mesurer directement
+le niveau de conformité DORA d'une entité donnée ; c'est précisément la
+raison d'être de la variable latente introduite en 1.4. On ne sait pas
+disposer d'une base d'incidents harmonisée à l'échelle européenne, exhaustive
+et non biaisée par la visibilité médiatique. On ne sait pas non plus estimer
+avec précision la corrélation entre les différentes briques de perte,
+faute d'historique suffisant sur les événements joints ; cette incertitude
+est traitée en Partie~3 par une structure de dépendance explicite plutôt que
+par une hypothèse d'indépendance non fondée.
+
+\paragraph{Deux corrections méthodologiques transparentes.} Ce cadre
+épistémique a conduit à identifier et corriger deux défauts du moteur de
+simulation en cours de travail. D'une part, avec $\hat{\xi}_{\text{PRC}} =
+1{,}30 \geq 1$, l'espérance de la sévérité PRC est infinie et la VaR simulée
+diverge numériquement ; un plafond de sévérité de 40~M\euro, ancré sur la
+capacité de réassurance cyber observable sur le marché, est appliqué à la
+\emph{seule source PRC}. La calibration OpRisk, dont l'indice de queue
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595 < 1$ garantit une espérance finie, n'est
+en revanche pas plafonnée : ses montants étant observés de bout en bout, y
+appliquer un plafond tronquerait des pertes réelles et contredirait sa propre
+calibration. D'autre part, le moteur attribuait initialement une sévérité de
+queue (GPD) à l'intégralité des événements simulés, au lieu de la seule
+fraction $p_u$ dépassant le seuil de queue ; cette correction ramène les SCR
+simulés dans des ordres de grandeur cohérents avec les données observées.
+
+La conséquence directe de ce cadre épistémique est méthodologique autant que
+présentationnelle : le résultat final ne peut être livré comme un montant
+unique, mais doit être présenté comme une distribution large, conditionnelle
+à des hypothèses documentées et à des sources dont les écarts sont eux-mêmes
+informatifs --- ce principe structure l'ensemble de la Partie~5.
+
+%==============================================================
+\section{Modélisation}
+%==============================================================
+
+Les deux parties précédentes ont posé le cadre réglementaire et les données
+disponibles. Cette troisième partie formalise le moteur actuariel qui
+transforme ces éléments en une distribution de pertes, puis en une mesure de
+capital. L'architecture retenue reste fondée sur une approche par
+distribution des pertes (LDA), enrichie pour tenir compte de la
+multiplicité des sources de risque et de leur dépendance mutuelle.
+
+%--------------------------------------------------------------
+\subsection{Architecture LDA : les quatre briques de perte}
+%--------------------------------------------------------------
+
+L'approche LDA classique calibre une fréquence de sinistres stationnaire,
+indépendante du niveau de maîtrise opérationnelle de l'assureur. Cette
+hypothèse est précisément ce que le règlement DORA invite à remettre en
+cause : un défaut de conformité aux exigences de résilience numérique
+n'affecte pas la sévérité des sinistres de façon uniforme, mais leur
+\emph{fréquence}, par l'intermédiaire des vecteurs d'attaque que chaque
+article de DORA est censé atténuer.
+
+Le modèle retenu décompose la perte physique simulée $L_{DORA}$ en trois briques, chacune dotée de sa propre logique :
+\begin{equation}
+L_{DORA} = L_{\text{remédiation}} + L_{\text{sanction}} + L_{\text{prestataire}}
+\end{equation}
+
+La brique d'\textbf{aggravation} ne constitue pas une perte simulée supplémentaire s'ajoutant à cette somme, mais une mesure dérivée. Elle quantifie le surcroît de capital entre un état conforme et un état non conforme, au travers du différentiel $\Delta_{DORA} = VaR_\alpha(L_{DORA}^{\text{non conforme}}) - VaR_\alpha(L_{DORA}^{\text{conforme}})$, développé en Partie 4.
+
+La brique de \textbf{remédiation} constitue le cœur fréquence-sévérité du
+modèle : elle représente le coût direct de gestion des incidents cyber,
+simulé par composition d'une fréquence (section~3.2) et d'une sévérité
+extrême (section~3.3). La brique de \textbf{sanction} traduit le risque
+réglementaire explicite prévu par les articles 50-52 de DORA, pilotée par la
+probabilité de défaut de conformité $PCD_i(\theta)$ introduite en~1.4. La
+brique de \textbf{prestataire} modélise un événement indépendant impliquant
+un tiers ICT critique, dont la probabilité d'occurrence diminue lorsque
+l'entité maîtrise mieux la gestion de ses tiers (chapitre~V de DORA). Enfin,
+la brique d'\textbf{aggravation} ne constitue pas une perte simulée
+supplémentaire au même titre que les trois précédentes : elle mesure le
+surcroît de capital entre un état conforme et un état non conforme, au
+travers de la différence $\Delta_{DORA} = VaR_\alpha(L_{DORA}^{\text{non
+conforme}}) - VaR_\alpha(L_{DORA}^{\text{conforme}})$, développée en
+Partie~4.
+
+Cette architecture rompt avec une logique de chargements multiplicatifs
+appliqués uniformément sur une sévérité globale : chaque brique possède sa
+propre distribution, sa propre logique métier, et son propre lien --- ou
+absence de lien --- à la variable latente de conformité. Elle impose en
+contrepartie de traiter explicitement la question de la dépendance entre
+briques (section~3.4), qu'une architecture additive naïve négligerait.
+
+%--------------------------------------------------------------
+\subsection{Fréquence : NegBin, calibration PRC, sur-dispersion}
+%--------------------------------------------------------------
+
+\paragraph{Décomposition par vecteur d'attaque.} La fréquence de référence
+$\lambda_{ref}$, calibrée sur la base PRC ($\lambda_{ref} = 341$
+incidents/an), est décomposée en sous-fréquences par vecteur d'attaque,
+pondérées par la structure observée dans la base Hackmageddon :
+\begin{equation}
+\lambda_{ref} = \sum_{v} \lambda_v,
+\qquad
+\lambda_v = \lambda_{ref} \times \pi_v,
+\end{equation}
+où $\pi_v$ est la part du vecteur $v$ dans la structure Hackmageddon
+(38{,}8~\% phishing, 33{,}8~\% exploitation de vulnérabilités, 15{,}8~\%
+supply chain, 6{,}3~\% identifiants compromis, 5{,}3~\% autres). Cette
+décomposition transforme un constat structurel en levier de modélisation :
+un défaut de conformité sur une exigence donnée n'agit que sur la
+sous-fréquence du vecteur qu'elle est censée mitiger, pas sur l'ensemble de
+$\lambda_{ref}$.
+
+\paragraph{Choix de la loi binomiale négative.} La fréquence agrégée
+$\lambda_{S_x} = \sum_v \lambda_{ref}\,\pi_v\, m_{v,S_x}$ obtenue sous un
+scénario $S_x$ n'est pas simulée par une loi de Poisson, mais par une loi
+binomiale négative, pour tenir compte de la sur-dispersion observée dans les
+données ($\sigma^2/\mu > 1$). Le facteur de sur-dispersion
+$\phi = \sigma^2/\mu = 9{,}2$ est traité comme une propriété structurelle de
+la sinistralité, supposée indépendante du niveau de fréquence : c'est donc
+$\phi$ qui est maintenu constant d'un scénario à l'autre, et non le
+paramètre $r$ de la binomiale négative, qui est au contraire recalculé sous
+chaque scénario :
+\begin{equation}
+r_{S_x} = \frac{\lambda_{S_x}}{\phi - 1},
+\qquad
+p_{S_x} = \frac{r_{S_x}}{r_{S_x} + \lambda_{S_x}}.
+\end{equation}
+Augmenter $\lambda$ via les multiplicateurs DORA déplace ainsi la fréquence
+moyenne tout en préservant la \emph{forme} de sur-dispersion de la
+sinistralité --- une hypothèse de modélisation explicite, dont la limite est
+que le comportement de la sur-dispersion en régime de forte dégradation
+n'est pas lui-même observé, faute d'historique de crise DORA.
+
+\paragraph{De la fréquence par scénario à la fréquence par entité.} Le choix
+d'un scénario $S_x \in \{S_0, S_1, S_2\}$ reste, par construction, discret et
+appliqué uniformément à l'ensemble du marché. La variable latente de
+conformité $PCD_i(\theta)$ introduite en~1.4 permet de dépasser cette
+limite, en substituant à ce choix discret une interpolation continue :
+\begin{equation}
+m_v\bigl(PCD_i(\theta)\bigr) = 1 + PCD_i(\theta) \times \left(\bar{m}_v^{S_2} - 1\right),
+\end{equation}
+où $\bar{m}_v^{S_2}$ est le centre de l'intervalle de multiplicateur sourcé
+en scénario $S_2$. Une entité au profil de conformité mature conserve ainsi
+une fréquence proche de $S_0$ même en cas de choc systémique $\theta$
+défavorable, tandis qu'une entité en retard de conformité peut, sous un
+$\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
+
+%--------------------------------------------------------------
+\subsection{Sévérité : EVT/GPD, calibration OpRisk, validation croisée PRC}
+%--------------------------------------------------------------
+
+\paragraph{Choix de la loi de Pareto généralisée.} La sévérité des sinistres
+cyber présente une signature de queue lourde documentée en Partie~2 : sur
+OpRisk Global, les 10~\% d'incidents les plus graves concentrent 82{,}7~\%
+de la perte totale. Cette concentration extrême justifie le recours à la
+théorie des valeurs extrêmes, et plus précisément à une modélisation de la
+queue de distribution par une loi de Pareto généralisée (GPD) au-delà d'un
+seuil $u$, selon l'approche \emph{peaks-over-threshold}.
+
+\paragraph{Calibration OpRisk.} Au seuil du percentile~85
+($u = 20{,}0$~M\euro, 91 excès), la calibration donne :
+\begin{equation}
+\hat{\xi}_{\text{OpRisk}} = 0{,}595 \quad (\text{IC}_{90\%}=[0{,}31\,;\,0{,}83]),
+\qquad
+\hat{\sigma}_{\text{OpRisk}} = 58{,}0~\text{M\euro},
+\qquad
+\text{VaR}_{99{,}5\%} = 663~\text{M\euro}.
+\end{equation}
+L'intervalle de confiance bootstrap sur cette VaR, $[411\,;\,1037]$~M\euro,
+matérialise à lui seul un facteur~2{,}5 entre les bornes, uniquement
+imputable à l'incertitude de paramètre.
+
+\paragraph{Stabilité du paramètre de forme.} Le choix du seuil est corroboré
+par deux diagnostics complémentaires. Le \emph{diagnostic GPD}
+(figure~\ref{fig:diagnostic-gpd}) montre que $\hat{\xi}$ se stabilise autour
+de $0{,}6$ dès que le seuil atteint $u = 20$~M\euro, tout en conservant un
+nombre d'excès suffisant ($n = 91 > 30$) pour une estimation fiable : le
+seuil retenu se situe précisément à la frontière où le paramètre de forme
+quitte la zone instable ($\xi \geq 1$) pour se fixer dans un régime de
+moments finis. Le \emph{Hill plot} (figure~\ref{fig:hill-ic}) confirme
+qualitativement ce niveau, l'estimateur de Hill restant compatible avec la
+référence MLE $\hat{\xi} \approx 0{,}60$ dans la plage des extrêmes retenus.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/diagnostic_gpd_oprisk.png}
+\caption{Diagnostic GPD sur le périmètre cyber$\times$finance d'OpRisk.
+\textit{Gauche} : stabilité de $\hat{\xi}$ en fonction du seuil $u$ ; le
+paramètre passe sous $\xi = 1$ (espérance finie) et se stabilise autour de
+$0{,}6$ au seuil retenu $u = 20$~M\euro. \textit{Droite} : le nombre d'excès
+correspondant ($n = 91$) demeure au-dessus du minimum de $30$ requis pour une
+estimation robuste.}
+\label{fig:diagnostic-gpd}
+\end{figure}
+
+\paragraph{L'estimateur de Hill : définition et rôle diagnostique.}
+Introduit par \citet{Hill1975}, l'estimateur de Hill fournit une estimation
+de l'indice de queue $\xi$ à partir des $k$ statistiques d'ordre les plus
+élevées d'un échantillon $X_{(1)} \leq \dots \leq X_{(n)}$, sans passer par
+l'ajustement paramétrique d'une loi de Pareto généralisée :
+\begin{equation}
+\hat{\xi}_{\text{Hill}}(k) = \frac{1}{k}\sum_{i=1}^{k}
+\ln X_{(n-i+1)} - \ln X_{(n-k)}.
+\label{eq:hill}
+\end{equation}
+Contrairement au maximum de vraisemblance sur la GPD, qui exploite le cadre
+théorique de Pickands--Balkema--de~Haan et estime conjointement $\xi$ et
+$\sigma$, l'estimateur de Hill repose sur une hypothèse de Pareto \emph{pure}
+dans la queue et ne fournit qu'un indice de forme, sans paramètre d'échelle
+explicite \citep{Beirlant2004}. Sa propriété la plus documentée dans la
+littérature EVT est un compromis biais--variance piloté par le choix de
+$k$~: pour $k$ trop petit, l'estimateur est instable (variance élevée,
+intervalle de confiance large) ; pour $k$ trop grand, il intègre des
+observations situées hors du régime purement asymptotique de la queue, ce
+qui induit un biais positif croissant avec $k$ \citep{Embrechts1997,
+Beirlant2004}.
+
+\paragraph{Application et confrontation au MLE-GPD.} Le Hill plot obtenu sur
+le périmètre cyber$\times$finance d'OpRisk (figure~\ref{fig:hill-ic})
+illustre ce compromis de façon nette~: l'estimateur croît de façon quasi
+monotone avec $k$, passant de $\hat{\xi} \approx 0{,}5$ pour $k$ faible à
+$\hat{\xi} \approx 1{,}8$ pour $k = 200$, tandis que la bande de confiance
+asymptotique à 90~\% s'élargit continûment. La référence par maximum de
+vraisemblance ($\hat{\xi}_{\text{MLE}} = 0{,}595$, pointillés rouges) n'est
+statistiquement compatible avec l'estimateur de Hill que sur une plage
+restreinte, $k \in [3, 25]$ environ, où la bande de confiance recouvre
+encore la valeur MLE. Au-delà de $k \approx 30$, l'estimateur de Hill
+diverge continûment de cette référence, ce qui traduit le biais positif
+attendu lorsque des observations hors du régime purement asymptotique de la
+queue sont intégrées au calcul. Sur le seuil effectivement retenu pour la
+calibration ($k = 86$), cet écart atteint 138{,}7~\%
+($\hat{\xi}_{\text{Hill}} = 1{,}42$ contre $\hat{\xi}_{\text{MLE}} = 0{,}595$),
+ce qui confirme que l'estimateur de Hill n'est pas adapté à ce niveau de
+$k$ et que le MLE-GPD, qui exploite un cadre théorique plus général
+(loi GPD complète plutôt que Pareto pure), demeure l'estimateur de
+référence pour la calibration finale.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/hill_plot_ic90_oprisk.png}
+\caption{Hill plot avec intervalle de confiance asymptotique à 90~\% sur
+OpRisk Global. La référence MLE ($\hat{\xi} \approx 0{,}595$, pointillés
+rouges) n'est statistiquement compatible avec l'estimateur de Hill que pour
+$k \lesssim 25$~; au-delà, la dérive de $\hat{\xi}_{\text{Hill}}$ traduit le
+biais croissant lié à l'intégration d'observations hors du régime
+asymptotique pur de la queue.}
+\label{fig:hill-ic}
+\end{figure}
+
+
+
+\paragraph{Validation croisée PRC.} La calibration sur la PRC, via la
+conversion Jacobs, donne $\hat{\xi}_{\text{PRC}} = 1{,}30$, très
+significativement supérieur à $\hat{\xi}_{\text{OpRisk}}$. Ce paramètre
+correspond formellement à une espérance de sévérité infinie
+($\xi \geq 1$), ce qui impose un plafond de sévérité opérationnel --- fixé à
+40~M\euro, ancré sur la capacité de réassurance cyber observable sur le
+marché --- pour que la simulation reste numériquement stable ; ce plafond ne
+s'applique qu'à la source PRC, la calibration OpRisk ($\xi < 1$, espérance
+finie) demeurant non plafonnée. L'écart entre
+les deux calibrations s'explique par le biais de taille d'OpRisk : les
+grandes entités financières y sont sur-représentées et absorbent mieux les
+chocs, d'où une queue apparemment plus légère. Les deux sources confirment
+néanmoins le même régime qualitatif de queue lourde ($\xi > 0$), et aucune
+hiérarchie de type « source primaire » n'est retenue entre elles --- leur
+écart est traité comme une composante de l'incertitude totale du modèle,
+non comme un désaccord à trancher.
+
+%--------------------------------------------------------------
+\subsection{Dépendance : copule de Gumbel, contagion, modèle à facteur commun}
+%--------------------------------------------------------------
+
+\paragraph{Pourquoi l'indépendance est intenable.} Une architecture purement
+additive des quatre briques, simulées indépendamment, ignorerait la
+discussion de contagion menée en~1.5 : une même dégradation de
+l'environnement cyber systémique $\theta$ tend à accroître simultanément la
+fréquence de remédiation, la probabilité de sanction (via le $PCD_i(\theta)$)
+et l'occurrence d'un événement prestataire. Traiter ces briques comme
+indépendantes sous-estimerait mécaniquement les quantiles extrêmes de la
+perte agrégée, précisément là où le capital réglementaire est évalué.
+
+\paragraph{Modèle à facteur commun.} La contagion \emph{interne}, décrite
+en~1.5, est capturée par la structure factorielle de Vasicek déjà introduite
+pour le $PCD_i(\theta)$ : le facteur $\theta$ agit comme un choc commun
+affectant simultanément la brique de remédiation (via la fréquence) et la
+brique de sanction (via le $PCD_i$). Ce choix évite d'introduire une seconde
+structure de dépendance ad hoc : le même $\theta$ qui module la conformité
+individuelle module également l'intensité de la sinistralité observée.
+
+\paragraph{Copule de Gumbel pour la dépendance de queue.} La contagion
+\emph{externe}, portée par les tiers ICT, est en revanche mal représentée
+par une simple corrélation gaussienne : le risque prestataire se matérialise
+typiquement de façon conjointe avec les événements les plus extrêmes de
+remédiation, lors de chocs systémiques affectant un fournisseur mutualisé.
+Cette dépendance de queue positive est représentée par une copule de
+Gumbel, dont le paramètre $\eta \geq 1$ contrôle l'intensité de la
+dépendance dans les scénarios extrêmes :
+\begin{equation}
+C_\eta(u,v) = \exp\!\left[-\left((-\ln u)^\eta + (-\ln v)^\eta\right)^{1/\eta}\right],
+\end{equation}
+appliquée entre les rangs simulés de $L_{\text{remédiation}}$ et
+$L_{\text{prestataire}}$. Le cas $\eta = 1$ correspond à l'indépendance ; des
+valeurs de $\eta$ croissantes renforcent la probabilité que les deux briques
+réalisent simultanément une valeur extrême, conformément à l'intuition
+selon laquelle une crise cyber sectorielle majeure implique souvent à la
+fois une remédiation interne lourde et une défaillance de tiers.
+
+Cette double structure --- facteur commun de Vasicek pour la contagion
+interne, copule de Gumbel pour la contagion externe --- permet de conserver
+une lecture économique distincte des deux canaux identifiés en~1.5, plutôt
+que de les fondre artificiellement dans une unique matrice de corrélation.
+
+%--------------------------------------------------------------
+\subsection{Agrégation Monte Carlo et allocation d'Euler}
+%--------------------------------------------------------------
+
+\paragraph{Simulation Monte Carlo.} L'agrégation finale des quatre briques
+est réalisée par simulation Monte Carlo. À chaque itération : (i)~un facteur
+systémique $\theta$ est tiré, déterminant le $PCD_i(\theta)$ de l'entité et
+la fréquence effective $\lambda_{S_x}$ ou $\lambda(PCD_i)$ ; (ii)~la
+fréquence de chaque vecteur est simulée par la binomiale négative calibrée
+en~3.2 ; (iii)~la sévérité de chaque événement est tirée dans la GPD
+calibrée en~3.3, sous la source retenue (OpRisk ou PRC) ; (iv)~la dépendance
+entre briques est imposée via la structure factorielle et la copule de
+Gumbel décrites en~3.4. Le recours à Monte Carlo n'est pas ici un simple
+choix technique : la grandeur recherchée n'est pas une perte moyenne, mais
+un quantile extrême de la distribution agrégée, dont la forme analytique
+n'existe pas sous une architecture à dépendance non gaussienne.
+
+\paragraph{Allocation d'Euler.} Une fois la perte agrégée simulée, il est
+nécessaire de répartir le capital total entre les quatre briques, pour
+identifier lesquelles contribuent le plus au risque extrême. L'allocation
+d'Euler, cohérente avec la propriété d'homogénéité de la VaR, répartit le
+capital total proportionnellement à la contribution marginale de chaque
+brique conditionnellement au scénario où la perte agrégée dépasse son
+quantile $\alpha$ :
+\begin{equation}
+AC_k = \mathbb{E}\!\left[L_k \,\middle|\, L_{DORA} = VaR_\alpha(L_{DORA})\right],
+\qquad
+\sum_{k} AC_k = VaR_\alpha(L_{DORA}),
+\end{equation}
+pour $k \in \{\text{remédiation}, \text{sanction}, \text{prestataire},
+\text{aggravation}\}$. En pratique, cette espérance conditionnelle est
+estimée numériquement par une fenêtre de tirages Monte Carlo au voisinage du
+quantile $\alpha$ recherché, faute de forme fermée pour l'architecture de
+dépendance retenue.
+
+Cette allocation permet de répondre à une question distincte de celle du
+niveau global de capital : non pas « combien faut-il provisionner ? », mais
+« quelle brique --- remédiation, sanction, prestataire ou aggravation ---
+consomme le plus de capital dans les scénarios extrêmes ? ». Cette
+décomposition est présentée et discutée en Partie~5, où elle est mise en
+regard des travaux antérieurs sur la structure du risque cyber.
+
+\vspace{1em}
+
+
+%==============================================================
+\section{Scénarios de conformité DORA}
+%==============================================================
+
+La Partie~3 a posé l'architecture de modélisation ; cette quatrième partie
+formalise la manière dont le niveau de conformité DORA se traduit
+concrètement dans les paramètres du modèle, puis se propage jusqu'à une
+mesure de surcoût de capital, le $\Delta_{DORA}$.
+
+%--------------------------------------------------------------
+\subsection{Les trois niveaux de non-conformité}
+%--------------------------------------------------------------
+
+Le modèle retient trois scénarios-types de conformité, $S_x \in \{S_0, S_1,
+S_2\}$, qui bornent l'espace des situations observables sur le marché.
+$S_0$ correspond à une entité pleinement conforme aux cinq piliers DORA
+détaillés en~1.2 ; $S_2$ correspond à une situation de non-conformité
+totale ; $S_1$ représente une conformité partielle, intermédiaire entre les
+deux régimes précédents.
+
+Ces trois scénarios ne sont pas de simples repères qualitatifs : ils
+ancrent les bornes numériques des multiplicateurs de fréquence calibrés en
+4.3, et servent également de cas limites à l'interpolation continue portée
+par la variable latente $PCD_i(\theta)$ introduite en~1.4. Le scénario $S_0$
+correspond ainsi à la limite $PCD_i(\theta) \to 0$, et $S_2$ à la limite
+$PCD_i(\theta) \to 1$, ce qui permet de faire cohabiter une lecture par
+scénarios de marché, utile pour la communication des résultats, et une
+lecture par profil d'entité, plus fine, mobilisée dans les applications
+individuelles du modèle.
+
+%--------------------------------------------------------------
+\subsection{Mapping vecteurs d'attaque $\rightarrow$ exigences DORA}
+%--------------------------------------------------------------
+
+La fréquence de référence $\lambda_{ref} = 341$ incidents/an, calibrée sur la
+PRC, est décomposée en sous-fréquences par vecteur d'attaque, pondérées par
+la structure observée dans Hackmageddon (1\,041 incidents, S1~2026) et
+reliées explicitement à l'article DORA censé les atténuer :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{>{\raggedright}p{4.5cm} c >{\raggedright\arraybackslash}p{6cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Vecteur} & \textbf{$\pi_v$} & \textbf{Exigence DORA atténuante} \\
+\midrule
+Phishing / ingénierie sociale & 38{,}8\,\% & Art.~13 --- Sensibilisation \& formation \\
+Exploitation de vulnérabilités & 33{,}8\,\% & Art.~26 --- Tests TLPT \\
+Supply chain / tiers ICT & 15{,}8\,\% & Art.~28-44 --- Gestion du risque tiers \\
+Identifiants compromis & 6{,}3\,\% & Art.~9 --- Contrôle d'accès et MFA \\
+Autres / transverse & 5{,}3\,\% & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Cette décomposition transforme un constat structurel --- la part de chaque
+vecteur dans la sinistralité observée --- en un levier de modélisation
+directement actionnable : un défaut de conformité sur une exigence donnée
+n'agit que sur la sous-fréquence du vecteur qu'elle est censée mitiger, et
+non sur l'ensemble de $\lambda_{ref}$. Cette granularité est ce qui distingue
+l'approche retenue d'un simple chargement multiplicatif global appliqué à la
+sinistralité totale.
+
+%--------------------------------------------------------------
+\subsection{Multiplicateurs de fréquence différenciés par exigence}
+%--------------------------------------------------------------
+
+Sous un scénario $S_x$, chaque vecteur $v$ se voit appliquer un
+multiplicateur $m_{v,S_x}$, non pas une valeur ponctuelle mais un
+\textbf{intervalle} $[m_{min}, m_{max}]$, dont les bornes sont ancrées sur la
+littérature empirique relative à l'efficacité des contrôles de sécurité
+correspondants.
+
+\paragraph{Phishing (Art.~13).} Ponemon/IBM \emph{Cost of a Data Breach
+2025} établit que la formation des employés peut réduire le risque jusqu'à
+86~\%, avec un retour sur investissement médian de 5 fois. Cette mesure
+étant agrégée sur l'ensemble des incidents et non spécifique au phishing,
+nous n'en retenons pas l'inverse littéral, mais une fraction prudente de cet
+effet : $[1{,}8\,;\,3{,}0]$ en scénario $S_2$.
+
+\paragraph{Exploitation de vulnérabilités (Art.~26).} ENISA \emph{Threat
+Landscape 2025} (4\,875 incidents, périmètre européen) mesure un taux de
+conversion tentative-vers-intrusion de 70~\% pour l'exploitation de
+vulnérabilités contre 27~\% pour le phishing, soit un ratio directement
+observé de $\times 2{,}6$ --- la seule borne de la grille fondée sur une
+probabilité de succès conditionnelle mesurée par un organisme réglementaire.
+Elle ancre l'intervalle $[2{,}0\,;\,2{,}6]$ en $S_2$.
+
+\paragraph{Supply chain et tiers ICT (Art.~28-44).} IBM/Ponemon mesurent un
+surcoût de 11{,}8~\% pour les brèches impliquant un partenaire commercial et
+de 8{,}3~\% pour celles impliquant une compromission logicielle ;
+SecurityScorecard documente une part des brèches d'origine tierce passée de
+15~\% à 36~\% en une année. La combinaison de ce surcoût mesuré et de cette
+tendance de marché donne l'intervalle $[1{,}9\,;\,2{,}6]$ en $S_2$.
+
+\paragraph{Identifiants compromis (Art.~9).} Microsoft Research
+(arXiv:2305.00945, étude \emph{peer-reviewed} sur comptes Azure Active
+Directory réels) établit que l'authentification multifacteur réduit le
+risque de compromission de 99{,}22~\% en population générale, et de
+98{,}56~\% même en cas de fuite préalable des identifiants. Il s'agit de la
+mesure la plus rigoureuse de la grille, mais aussi la plus susceptible
+d'être mal transposée à l'échelle d'une entité financière hétérogène : nous
+en retenons des bornes tempérées, $[3{,}0\,;\,8{,}0]$ en $S_2$ --- les plus
+élevées de la grille, sans reproduire l'inversion littérale que le
+99{,}22~\% suggérerait naïvement.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{3.8cm} c >{\centering}p{2.6cm} >{\centering\arraybackslash}p{2.6cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Vecteur} & \textbf{$\pi_v$} & \textbf{$S_1$ partiel} & \textbf{$S_2$ non conforme} \\
+\midrule
+Phishing & 38{,}8\,\% & [1{,}2 ; 1{,}6] & [1{,}8 ; 3{,}0] \\
+Exploit. vuln. & 33{,}8\,\% & [1{,}3 ; 1{,}8] & [2{,}0 ; 2{,}6] \\
+Supply chain & 15{,}8\,\% & [1{,}3 ; 1{,}9] & [1{,}9 ; 2{,}6] \\
+Identifiants & 6{,}3\,\% & [1{,}5 ; 3{,}0] & [3{,}0 ; 8{,}0] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Le principe central : l'intervalle, pas le point.} Pour chaque
+itération de simulation, un multiplicateur $m_{v,S_x}$ est \textbf{tiré
+uniformément} dans son intervalle --- jamais fixé à une valeur unique. Cette
+discipline, appliquée dès la calibration des hypothèses et non seulement en
+sortie de modèle, permet de propager une incertitude de \emph{calibration},
+et non la seule incertitude d'échantillonnage, jusqu'au résultat final.
+
+Sous ce cadre, la fréquence effective sous un scénario $S_x$ s'écrit :
+\begin{equation}
+\lambda_{S_x} = \sum_{v} \lambda_{ref} \times \pi_v \times m_{v,S_x},
+\end{equation}
+puis se propage dans la binomiale négative selon le mécanisme de
+sur-dispersion constante ($\phi = 9{,}2$) détaillé en~3.2.
+
+%--------------------------------------------------------------
+\subsection{Propagation et $\Delta_{DORA}$ : distribution, pas un point}
+%--------------------------------------------------------------
+
+Les résultats obtenus, pour $\alpha = 99{,}5~\%$, sous les deux sources de
+sévérité, sont les suivants :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{2.5cm} >{\raggedright}p{3.2cm} >{\centering}p{2.8cm} >{\centering\arraybackslash}p{3.8cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Source} & \textbf{Scénario} & \textbf{$\Delta_{DORA}$ médiane} & \textbf{IC90\,\%} \\
+\midrule
+PRC & $S_1$ partiel & 146{,}7 M\euro & [ 95.2; 165.1 ] M\euro \\
+PRC & $S_2$ non conforme & 183{,}6 M\euro & [ 
+155.0; 212.0] M\euro \\
+OpRisk & $S_1$ partiel & 1\,902{,}1 M\euro & [ 610.0 ; 8 850.0 ] M\euro \\
+OpRisk & $S_2$ non conforme & 2\,808{,}6 M\euro & [ 720.0 ; 12 100.0 ] M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Deux enseignements se dégagent. D'une part, un défaut de conformité DORA se traduit par une charge de capital massive et quantifiée (près de 2,8 milliards d'euros de surcoût sous OpRisk pour une non-conformité totale). D'autre part, l'écart entre les deux sources de sévérité (facteur supérieur à 15 sur le $\Delta$ en $S_2$) domine largement l'écart entre les scénarios internes à une même source.
+
+Deux enseignements se dégagent. D'une part, sous chaque source, le passage
+de $S_1$ à $S_2$ accroît le $\Delta_{DORA}$ médian d'un facteur de l'ordre
+de~1{,}5, cohérent avec le rapport des multiplicateurs globaux de fréquence
+entre les deux scénarios : un défaut de conformité DORA se traduit par une
+charge de capital quantifiée, non simplement qualitative. D'autre part,
+l'écart entre les deux sources de sévérité (facteur proche de~10 sur $S_2$)
+domine l'écart entre les deux scénarios de conformité sous une même source
+--- un résultat qui préfigure la discussion de la Partie~5 sur la hiérarchie
+des sources d'incertitude.
+
+%--------------------------------------------------------------
+\subsection{Bootstrap et intervalles de confiance}
+%--------------------------------------------------------------
+
+La distribution du $\Delta_{DORA}$ est obtenue par un bootstrap à deux
+niveaux, combiné à une architecture Monte Carlo.
+
+\begin{enumerate}[topsep=4pt]
+\item \textbf{Niveau 1 --- incertitude des multiplicateurs.} À chaque
+itération, un jeu de multiplicateurs $\{m_{v,S_x}\}$ est tiré dans les
+intervalles sourcés en~4.3, produisant un $\lambda_{S_x}$ lui-même
+aléatoire plutôt que fixé.
+\item \textbf{Niveau 2 --- incertitude de sévérité.} Un couple
+$(\hat\xi, \hat\sigma)$ est obtenu par rééchantillonnage bootstrap des excès
+réels --- pour la source OpRisk, sur les 91 excès observés au-dessus du seuil
+$u = 20$~M\euro (périmètre cyber$\times$finance de 582 incidents) ; pour la
+source PRC, faute de données brutes disponibles, ce niveau reste au point de
+calibration, limite signalée explicitement dans les résultats.
+\item \textbf{Simulation Monte Carlo.} Pour chaque tirage des niveaux 1 et
+2, le modèle LDA est simulé pour obtenir $SCR_{S_0}$ et $SCR_{S_x}$, avec la
+\textbf{même graine} de simulation pour les deux régimes, condition
+méthodologique centrale garantissant que l'écart observé provient
+uniquement du changement de conformité et non de la variance
+d'échantillonnage Monte Carlo (principe des \emph{common random numbers}).
+\item \textbf{Résultat.} $\Delta_{DORA} = SCR_{S_x} - SCR_{S_0}$ est
+accumulé sur l'ensemble des tirages, produisant un intervalle de confiance
+plutôt qu'un point.
+\end{enumerate}
+
+\paragraph{Asymétrie des intervalles.} L'intervalle de confiance associé à la
+source OpRisk est nettement plus large que celui de la source PRC (facteur
+proche de~14 contre facteur proche de~1{,}3 sur $S_2$). Cette asymétrie
+n'est pas un artefact : le bootstrap OpRisk intègre l'incertitude de
+sévérité mesurée sur données réelles, tandis que le bootstrap PRC, faute de
+données brutes, n'intègre que l'incertitude des multiplicateurs.
+L'intervalle PRC est donc structurellement sous-estimé relativement à celui
+d'OpRisk --- une limite assumée plutôt que dissimulée, qui sera reprise dans
+la décomposition de l'incertitude en Partie~5.
+
+\vspace{1em}
+
+% ==============================================================================
+\section*{Comparaison méthodologique : limites des approches standards face au risque cyber}
+% ==============================================================================
+
+L'introduction d'un Modèle Interne Partiel (LDA) stochastique, tel que développé dans ce mémoire, représente un investissement méthodologique lourd pour un assureur. Pour en justifier la pertinence, il convient de le confronter aux deux méthodes traditionnellement utilisées sur la place pour évaluer le risque opérationnel : l'approche forfaitaire de la Formule Standard (Pilier 1) et l'approche déterministe par scénarios (historiquement privilégiée dans l'ORSA, Pilier 2). L'application de nos propres données de calibration à ces méthodes permet d'en démontrer les limites structurelles face à la nature du risque cyber.
+
+%--------------------------------------------------------------
+\subsection{La Formule Standard (Solvabilité II) : une mesure aveugle à la résilience}
+%--------------------------------------------------------------
+
+Dans le cadre de la Formule Standard de Solvabilité II (Article 204 du Règlement Délégué 2015/35), le risque cyber n'est pas isolé : il est noyé dans le module global du risque opérationnel ($SCR_{Op}$).
+
+\paragraph{Rappel mathématique.} L'exigence de capital pour le risque opérationnel est calculée selon une approche modulaire, plafonnée à 30\,\% de l'exigence de capital de base ($BSCR$). En omettant la composante liée aux risques en unités de compte ($Exp_{ul}$), la formule se résume principalement à une fonction linéaire des primes acquises ($Earned_{premiums}$) et des provisions techniques ($TP$) :
+\begin{equation}
+SCR_{Op} \approx \min\Big( 0{,}3 \times BSCR \; ; \; \max(0{,}04 \times Earned_{premiums} \; ; \; 0{,}045 \times TP) \Big)
+\end{equation}
+(Note : la formule complète intègre également une pénalité marginale pour les croissances de primes annuelles supérieures à 20\,\%, que nous omettons ici par souci de clarté).
+
+\\paragraph{Démonstration numérique.} Appliquons cette formule à l'entité-type systémique utilisée pour le calibrage de nos résultats finaux (Partie 5), générant un volume de primes (Chiffre d'Affaires) de 15\,000 M\euro.
+En appliquant le coefficient simplifié de 4\,\%, la charge de capital pour l'intégralité de ses risques opérationnels s'élève à :
+\begin{equation}
+SCR_{Op} = 0{,}04 \times 15\,000 = 600 \text{ M\euro}
+\end{equation}
+La confrontation avec notre modèle LDA-EVT est révélatrice. Sous la calibration PRC (plafonnée), la VaR 99,5\,\% pour une entité médiane est de 1\,685,9 M\euro : la Formule Standard sous-estime déjà nettement le risque à ce stade. Face à la calibration OpRisk (la seule capturant véritablement le risque extrême sans plafond), la VaR atteint \textbf{8\,287,2 M\euro}. La Formule Standard sous-estime ainsi le risque de queue réel d'un facteur supérieur à 13 pour cette entité systémique.
+
+\paragraph{Synthèse comparative.} Le tableau ci-dessous résume cette confrontation pour notre entité de 15\,000 M\euro\ de CA, en observant le gain de capital obtenu en passant d'un profil non-conforme $S_2$ à un profil conforme $S_0$.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{4cm} >{\centering}p{2.5cm} >{\centering}p{3cm} >{\raggedright\arraybackslash}p{5cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Méthode d'évaluation} & \textbf{SCR Estimé (Médian)} & \textbf{Sensibilité DORA ($\Delta_{DORA}$)} & \textbf{Limites structurelles} \\
+\midrule
+Formule Standard (Pilier 1) & 600{,}0 M\euro & 0{,}0 M\euro & Aveugle à la résilience (aléa moral), sous-estimation extrême de la queue \\
+\addlinespace
+Déterministe (ORSA classique) & 200{,}0 M\euro & Difficile à quantifier & Biais d'ancrage expert, ignore l'agrégation et la contagion \\
+\addlinespace
+Modèle Interne Partiel (LDA -- PRC) & 1\,685{,}9 M\euro & \texttt{[EN ATTENTE — bootstrap Δ\_DORA à relancer, cf. notebooks/07\_bootstrap\_delta\_dora.py]} & Nécessite un plafonnement opérationnel (espérance infinie) \\
+\addlinespace
+Modèle Interne Partiel (LDA -- OpRisk) & 8\,287{,}2 M\euro & \texttt{[EN ATTENTE — nécessite data/raw/SAS\_OpRisk\_Global\_Data\_June\_2026.xlsx en local]} & Biais de taille lié aux grandes entités financières historiques \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%--------------------------------------------------------------
+\subsection{L'approche par scénarios déterministes (ORSA) : l'illusion de la précision}
+%--------------------------------------------------------------
+
+Pour pallier les lacunes de la Formule Standard, les assureurs s'appuient traditionnellement sur le Pilier 2 (ORSA) pour évaluer leurs risques extrêmes, souvent via une approche déterministe dite «~à dire d'expert~».
+
+\paragraph{Mécanique de l'approche déterministe.} Le Directeur des Risques et le Responsable de la Sécurité des Systèmes d'Information (RSSI) définissent de concert un «~scénario catastrophe~». Par exemple : \emph{«~Une attaque par rançongiciel paralyse nos serveurs centraux pendant 5~jours, entraînant une perte d'exploitation, des coûts d'investigation et de notification.~»} Les experts chiffrent ce scénario poste par poste, aboutissant à une perte ponctuelle, par exemple de 80 M\euro, qui est alors provisionnée comme exigence de capital.
+
+\paragraph{Le biais de cognition face à la queue lourde.} Si cette méthode présente l'avantage d'être hautement «~lisible~» pour la Direction Générale, nos données empiriques en démontrent la dangerosité statistique. L'expertise humaine a tendance à s'ancrer sur des moyennes ou des événements récents mémorisables. Dans la base SAS OpRisk Global, la moyenne des sinistres cyber est de 26,4 M\euro. Un expert fixant un scénario de crise à 80 M\euro\ (soit 3 fois la moyenne) pensera légitimement faire preuve d'un grand conservatisme.
+
+Pourtant, l'analyse par la Théorie des Valeurs Extrêmes (EVT) menée en Partie 3 prouve le contraire. L'ajustement de la distribution de Pareto Généralisée (GPD) sur les données OpRisk a révélé un indice de queue $\hat{\xi} = 0{,}595$, caractéristique d'un régime à queue lourde extrême. Empiriquement, la base documente un sinistre maximum à \textbf{1\,500 M\euro}. En se contentant d'un scénario expert à 80 M\euro, l'assureur ignore la forme asymptotique de la distribution et ne provisionne absolument pas le quantile à 99,5\,\% exigé par la directive.
+
+\paragraph{La supériorité de la simulation Monte-Carlo.} L'approche déterministe présente deux autres limites majeures que notre modèle LDA résout :
+\begin{itemize}
+    \item \textbf{La dépendance temporelle et l'agrégation :} Le scénario d'expert calcule le coût d'un incident isolé. Or, la VaR 99,5\,\% est une mesure annuelle. L'approche Monte-Carlo, en combinant des tirages de fréquence (loi binomiale négative) et de sévérité (GPD), permet d'explorer des années simulées où un sinistre majeur coïncide avec une myriade d'incidents d'attrition de taille moyenne, engendrant une perte agrégée supérieure à la simple addition déterministe.
+    \item \textbf{La contagion externe (Tiers ICT) :} Un scénario construit en silo ignore la probabilité d'occurrence conjointe. L'introduction de la \textbf{copule de Gumbel} dans notre architecture permet de modéliser mathématiquement ce qu'un expert peine à quantifier : la survenance d'une crise systémique de marché ($\theta$ fortement négatif) qui déclenche à la fois la défaillance d'un fournisseur cloud critique et des failles internes. 
+\end{itemize}
+
+% TODO(relecture) : ce second tableau duplique la logique du précédent (§ Formule
+% Standard) sur une entité fictive à 1 000 M€ de CA. Ses chiffres (415,4 / 7 355,4 /
+% 185,9 / 1 949,2 M€) proviennent d'une exécution antérieure du pipeline scénario-based
+% (delta_dora.py / robustness.py), aujourd'hui non reliée à aucun notebook et qui ne
+% gère pas de mise à l'échelle par chiffre d'affaires. Impossible de les revérifier ou
+% de les régénérer avec le code actuel : soit relancer/réadapter ce module, soit
+% envisager de retirer ce tableau redondant avec le précédent.
+\paragraph{Synthèse comparative.} Le tableau ci-dessous résume cette confrontation en appliquant les quatre approches à notre entité de référence (1\,000 M\euro\ de chiffre d'affaires, passage d'un profil conforme $S_0$ à un profil non-conforme $S_2$).
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{4cm} >{\centering}p{2.5cm} >{\centering}p{3cm} >{\raggedright\arraybackslash}p{5cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Méthode d'évaluation} & \textbf{SCR Estimé} & \textbf{Sensibilité DORA ($\Delta_{DORA}$)} & \textbf{Limites structurelles} \\
+\midrule
+Formule Standard (Pilier 1) & 40{,}0 M\euro & 0{,}0 M\euro & Aveugle à la résilience (aléa moral), sous-estimation extrême \\
+\addlinespace
+Déterministe (ORSA classique) & 80{,}0 M\euro & Difficile à quantifier & Biais d'ancrage expert, ignore l'agrégation et la contagion \\
+\addlinespace
+Modèle Interne Partiel (LDA -- PRC) & 415{,}4 M\euro & 185{,}9 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
+\addlinespace
+Modèle Interne Partiel (LDA -- OpRisk) & 7\,355{,}4 M\euro & 1\,949{,}2 M\euro & Biais de taille lié aux grandes entités financières historiques \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Conclusion sur les méthodes.} L'approche déterministe donne l'illusion de la précision en produisant un chiffre unique (ex: 80 M\euro), mais échoue à capturer le véritable risque de ruine. À l'inverse, l'approche stochastique développée dans ce mémoire assume l'incertitude (en produisant des intervalles de confiance par \textit{bootstrap}) et capture mathématiquement la réalité du risque cyber : une fréquence corrélée à l'environnement, une sévérité à queue lourde, et des pertes agrégées hautement non linéaires face à la qualité de la conformité DORA.
+
+%==============================================================
+\section{Résultats et discussion}
+%==============================================================
+
+Les quatre parties précédentes ont posé le cadre, les données, le moteur de
+simulation et les scénarios de conformité. Cette cinquième partie présente
+les résultats numériques obtenus, leur décomposition par source d'incertitude
+et par brique de perte, et leur mise en perspective avec la littérature
+existante et le pilotage prudentiel.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{5.5cm} c >{\raggedright\arraybackslash}p{6cm}}
+\toprule
+\rowcolor{navy}
+\textcolor{white}{\textbf{Paramètre}} & \textcolor{white}{\textbf{Valeur}} & \textcolor{white}{\textbf{Source / Justification}} \\
+\midrule
+\rowcolor{lightblue}\multicolumn{3}{l}{\textbf{Fréquence (Loi Binomiale Négative)}} \\
+Fréquence de base ($\lambda_{ref}$) & 341 inc./an & PRC (Proxy sectoriel US) \\
+Sur-dispersion ($\phi$) & 9{,}2 & Fixée pour maintenir la forme de variance \\
+\addlinespace
+\rowcolor{lightblue}\multicolumn{3}{l}{\textbf{Sévérité (GPD POT)}} \\
+Seuil OpRisk ($u$) & 20 M\euro & Analyse MEP et stabilité $\xi$ \\
+Indice de queue ($\hat{\xi}_{\text{OpRisk}}$) & 0{,}595 & MLE sur OpRisk (Moments finis) \\
+Indice de queue ($\hat{\xi}_{\text{PRC}}$) & 1{,}30 & Conversion Jacobs (Espérance infinie) \\
+Plafond opérationnel PRC & 40 M\euro & Capacité maximale réassurance \\
+\addlinespace
+\rowcolor{lightblue}\multicolumn{3}{l}{\textbf{Dépendance \& Variables latentes}} \\
+Paramètre Gumbel ($\theta_{\text{Gumbel}}$) & 1{,}5 & Dépendance de queue supérieure modérée \\
+Sensibilité systémique ($\rho_{\text{Vasicek}}$) & 0,2 à 0,8 & Calibré selon la criticité de l'entité \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Récapitulatif des paramètres centraux du modèle de simulation.}
+\end{center}
+
+%--------------------------------------------------------------
+\subsection{Distribution du SCR\_DORA : ancrage sur une entité de 15 000 M\euro}
+%--------------------------------------------------------------
+
+Pour ancrer les quantiles simulés dans une réalité bilancielle et évaluer le risque de ruine, l'ensemble des modélisations a été exécuté sous l'hypothèse d'une entité de référence générant un Chiffre d'Affaires (CA) annuel de \textbf{15 000 M\euro} (assureur ou bancassureur de dimension européenne).
+
+Le capital total à l'horizon 99{,}5~\% ($VaR_{99{,}5\%}$) et l'Expected Shortfall ($ES_{99{,}5\%}$) varient très fortement selon la source de sévérité retenue et le profil de conformité de l'entité.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{1.5cm} >{\raggedright}p{2cm} >{\centering}p{2.2cm} >{\centering}p{2.2cm} >{\centering}p{2cm} >{\centering\arraybackslash}p{2cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Source} & \textbf{Profil} & \textbf{VaR 99,5\,\%} & \textbf{ES 99,5\,\%} & \textbf{Ratio VaR/CA} & \textbf{Ratio ES/CA} \\
+\midrule
+PRC & Leader & 1\,088{,}9 M\euro & 1\,158{,}3 M\euro & 7{,}26\,\% & 7{,}72\,\% \\
+PRC & Médian & 1\,685{,}9 M\euro & 1\,771{,}2 M\euro & 11{,}24\,\% & 11{,}81\,\% \\
+PRC & Retardataire & 2\,268{,}4 M\euro & 2\,370{,}2 M\euro & 15{,}12\,\% & 15{,}80\,\% \\
+\addlinespace
+OpRisk & Leader & 5\,820{,}7 M\euro & 13\,228{,}8 M\euro & 38{,}80\,\% & 88{,}19\,\% \\
+OpRisk & Médian & 8\,287{,}2 M\euro & 18\,056{,}9 M\euro & 55{,}25\,\% & 120{,}38\,\% \\
+OpRisk & Retardataire & 9\,982{,}1 M\euro & 20\,104{,}8 M\euro & 66{,}55\,\% & 134{,}03\,\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Le SCR\_DORA se situe ainsi dans une fourchette globale de \textbf{1\,089~M\euro\ à près de 20\,105~M\euro} selon la source, le profil de conformité et la mesure de risque retenue.
+
+\paragraph{Plausibilité économique et risque de ruine.} La lecture des ratios relatifs au Chiffre d'Affaires est particulièrement éloquente. Sous la calibration OpRisk, l'Expected Shortfall d'une entité non-conforme atteint \textbf{126,10\,\%} de son CA annuel. En assurance classique, un sinistre dépassant le chiffre d'affaires est rare ; en risque cyber, une telle valeur traduit mathématiquement un risque de ruine certain de l'entité. Plutôt que d'invalider le modèle, ces montants confirment que la distribution sous-jacente (GPD avec $\hat{\xi} \approx 0{,}6$) modélise un régime de pertes qui outrepasse la capacité d'absorption financière stricte d'une institution individuelle. C'est précisément ce constat actuariel qui justifie la philosophie du règlement DORA : imposer la résilience technique \textit{ex-ante} face à un risque dont l'impact \textit{ex-post} est financièrement intenable.
+
+Cet écart, d'un facteur proche de~\textbf{18,5} entre la borne basse (PRC,
+profil leader, VaR) et la borne haute (OpRisk, profil retardataire, ES), est
+très supérieur à ce qu'une lecture fondée sur les seuls paramètres de queue
+(Partie~2) aurait pu laisser anticiper. Il confirme, de façon plus radicale
+encore que ne le suggérait l'écart entre $\hat{\xi}_{\text{PRC}}$ et
+$\hat{\xi}_{\text{OpRisk}}$ pris isolément, le principe déjà énoncé en
+Partie~2 : le SCR cyber ne peut être communiqué comme un point --- ni même
+comme une fourchette resserrée.
+
+Ce facteur~18,5 s'explique par le traitement correct de la queue de
+distribution OpRisk : le paramètre de forme
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595 < 1$ garantissant une espérance finie
+(cf.\ Partie~2), aucun plafonnement de la sévérité par sinistre n'y est
+appliqué, à la différence de la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}30 \geq 1$,
+espérance infinie, où le plafond de 40~M\euro\ reste nécessaire à la
+stabilité numérique de la simulation, cf.\ Partie~2.4). Le capital simulé
+sous OpRisk reflète ainsi directement les événements extrêmes réellement
+observés dans cette base (jusqu'à 1\,500~M\$ par sinistre), dont la
+calibration GPD elle-même annonçait un $VaR_{99,5\%}$ \emph{par sinistre} de
+662{,}8~M\euro --- déjà bien au-delà de tout plafond de 40~M\euro.
+
+La figure~\ref{fig:distribution-scr} illustre la forme de la distribution
+agrégée des pertes sous le régime OpRisk le plus sévère : une masse
+concentrée aux faibles montants, prolongée d'une queue extrêmement lourde qui
+repousse la VaR~99{,}5~\% très loin dans la distribution, matérialisant
+graphiquement le poids désormais dominant des scénarios extrêmes dans la
+constitution du capital.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/distribution_scr_oprisk_s2.png}
+\caption{Distribution simulée des pertes agrégées (SCR cyber), source de
+sévérité OpRisk, scénario de non-conformité totale $S_2$. La VaR~99{,}5~\%
+(pointillés rouges) est repoussée très à droite de la masse principale,
+signature de la queue lourde non plafonnée. La valeur exacte de la VaR
+dépend du profil de conformité et du scénario retenus (cf.\ tableau
+ci-dessus).}
+\label{fig:distribution-scr}
+\end{figure}
+
+
+
+%--------------------------------------------------------------
+\subsection{Décomposition de l'incertitude (variance par source)}
+%--------------------------------------------------------------
+
+Trois sources distinctes d'incertitude se superposent dans les résultats
+présentés, et leur hiérarchie --- désormais nettement plus contrastée qu'une
+première lecture ne le suggérait --- est elle-même un résultat central du
+mémoire.
+
+\paragraph{Le choix de source de sévérité domine les autres sources
+d'incertitude.} Entre PRC et OpRisk, pour un même profil et une même
+mesure de risque, le capital total varie d'un facteur proche de \textbf{5}
+(par exemple 1\,685{,}9~M\euro contre 8\,287{,}2~M\euro pour le profil
+médian en VaR, soit un facteur~4{,}9). Cet écart, supérieur au facteur
+associé au profil de conformité de l'entité (cf.\ paragraphe suivant),
+provient directement de l'écart entre $\hat{\xi}_{\text{PRC}} = 1{,}30$ et
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595$, combiné au plafond de sévérité
+appliqué de façon symétrique aux briques remédiation et prestataire sous PRC
+(Partie~2.4) : la PRC, plafonnée par nécessité numérique, ne peut restituer
+l'amplitude des sinistres extrêmes que la base OpRisk --- non plafonnée ---
+documente directement. Ce résultat confirme la hiérarchie des sources
+d'incertitude du modèle : le choix méthodologique de calibration de la
+sévérité pèse, à lui seul, davantage sur le niveau de capital que le seul
+levier du profil de conformité, sans toutefois l'écraser aussi radicalement
+qu'une lecture partielle du modèle pouvait initialement le suggérer.
+
+\paragraph{Le profil de conformité de l'entité conserve un effet net, d'une
+ampleur du même ordre de grandeur que le choix de source.} Sous la source
+OpRisk, le passage du profil leader au profil retardataire fait passer le
+capital de 5\,820{,}7 à 9\,982{,}1~M\euro en VaR, soit un facteur~1{,}72 ;
+sous PRC, le même passage fait passer le capital de 1\,088{,}9 à
+2\,268{,}4~M\euro, soit un facteur~2{,}08. Ces facteurs, du même ordre de
+grandeur entre les deux sources, confirment la robustesse \emph{qualitative}
+de l'effet de conformité, indépendamment du niveau absolu de sévérité
+retenu : quelle que soit la source de calibration, un profil de conformité
+dégradé multiplie le capital requis par un facteur compris entre~1{,}7
+et~2{,}1. Le choix de source reste le premier déterminant du niveau absolu
+de capital, mais l'écart avec l'effet de profil est nettement moins marqué
+qu'une lecture fondée sur une version antérieure du moteur ne le laissait
+penser --- un rappel que ce type de hiérarchie d'incertitude reste sensible
+aux choix de calibration internes au modèle (ici, le plafonnement de
+sévérité), et pas seulement aux sources de données elles-mêmes.
+
+\paragraph{L'environnement systémique amplifie la sensibilité au profil.}
+La comparaison des scénarios $\theta = 0$ et $\theta = -2{,}5$ (choc cyber
+sectoriel négatif) montre que la dégradation de l'environnement systémique
+accroît le capital de toutes les entités, mais de façon différenciée : le
+profil leader, sous OpRisk, voit son capital de base (5\,820{,}7~M\euro) s'accroître
+sous l'effet du choc, alors que son $PCD$ passe de 0{,}0045 à 0{,}385 --- une
+sensibilité au facteur commun directement héritée de la structure de Vasicek 
+introduite en~1.4. Sous PRC, l'effet est de même ampleur. Le profil retardataire, 
+déjà proche de $PCD = 1$ en régime normal, ne peut en revanche plus se dégrader 
+significativement sous le choc (augmentation marginale sous OpRisk comme sous PRC), 
+ce qui traduit un effet de saturation cohérent avec la forme de la fonction de lien $\Phi$.
+
+La figure~\ref{fig:sensibilite-theta} rend visible ce mécanisme sur la
+fréquence de sinistralité elle-même : à mesure que l'environnement se dégrade
+($\theta$ décroissant), la fréquence de l'entité médiane croît fortement pour
+rejoindre celle de l'entité en retard, tandis que le profil leader reste quasi
+insensible au choc. C'est cette différenciation de sensibilité, et non un
+simple décalage de niveau, qui constitue l'apport de la structure de Vasicek.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/sensibilite_theta.png}
+\caption{Sensibilité de la fréquence de sinistralité $\lambda$ au choc
+systémique $\theta$, par profil d'entité. Le profil leader (vert) reste quasi
+plat ; le profil médian (orange) rattrape le profil en retard (rouge) sous un
+choc sévère, illustrant l'effet de contagion différenciée hérité du modèle à
+facteur unique. L'axe des abscisses va de $\theta = 0$ (environnement normal)
+à $\theta = -3$ (crise majeure).}
+\label{fig:sensibilite-theta}
+\end{figure}
+
+%--------------------------------------------------------------
+\subsection{Allocation d'Euler : contribution de chaque brique}
+%--------------------------------------------------------------
+
+% NOTE(relecture) : le plafond de sévérité (40 M€) s'applique désormais à la
+% fois à la remédiation ET au prestataire sous PRC (correction du moteur, cf.
+% notebooks/04). Avant cette correction, le prestataire n'était jamais plafonné
+% alors que la remédiation l'était sous PRC (xi>=1), ce qui gonflait
+% artificiellement sa contribution. Une fois les deux briques plafonnées de
+% façon symétrique, le prestataire RESTE dominant sous PRC (~80% du capital),
+% ce qui n'est plus un artefact du plafond mais un écart d'échelle entre la
+% sévérité remédiation calibrée sur PRC/Jacobs (u=0,128 M€, très petite) et la
+% sévérité prestataire calibrée à dire d'expert (Lognormale, médiane ~5 M€).
+% Ce point mérite une discussion méthodologique avec l'encadrant avant
+% publication : soit la sévérité PRC de la remédiation est sous-calibrée,
+% soit le prestataire à dire d'expert est sur-calibré, soit c'est un résultat
+% réel à assumer et à commenter explicitement.
+Cette décomposition révèle un enseignement qui n'apparaissait pas dans une
+version antérieure du moteur, où le plafond de sévérité n'était appliqué qu'à
+la brique remédiation sous PRC, jamais à la brique prestataire (asymétrie de
+traitement, corrigée depuis). Sous la source OpRisk, non plafonnée sur
+aucune brique, la brique de \textbf{remédiation} reste quasi totalement
+dominante (98{,}7 à 98{,}9~\% du capital selon le profil) : les sinistres
+extrêmes réellement observés dans OpRisk Global écrasent numériquement les
+contributions des briques prestataire et sanction, dont les lois de sévérité
+(lognormale plafonnée, loi Bêta plafonnée réglementairement) ne peuvent
+structurellement pas produire des montants du même ordre de grandeur.
+
+Sous la source PRC, en revanche, c'est désormais la brique
+\textbf{prestataire} qui domine largement (80{,}1 à 80{,}5~\% du capital
+selon le profil), la remédiation ne représentant plus que 19{,}4 à 19{,}7~\%.
+Cette inversion, y compris après plafonnement symétrique des deux briques à
+40~M\euro, provient d'un écart d'échelle entre les paramètres de sévérité :
+la remédiation calibrée sur PRC/Jacobs repose sur un seuil très bas
+($u = 0{,}128$~M\euro) avec une probabilité de dépassement $p_u = 0{,}15$,
+tandis que la brique prestataire, calibrée à dire d'expert sur trois
+quantiles (Lognormale, médiane $\approx 5$~M\euro), produit des montants
+bien plus élevés dès qu'elle se déclenche (15{,}8~\% des incidents). Ce
+résultat --- que le plafonnement symétrique n'efface pas --- constitue une
+piste de discussion méthodologique à part entière : il documente soit un
+risque tiers ICT structurellement sous-estimé par la littérature de
+sinistralité PRC, soit une calibration experte du prestataire trop
+généreuse relativement à l'échelle PRC, question qui reste à trancher avec
+l'encadrement du mémoire plutôt qu'à figer arbitrairement ici.
+
+La contribution de la \textbf{sanction} reste, sous les deux sources, très
+en retrait (inférieure à~0{,}3~\% sous PRC, inférieure à~0{,}1~\% sous
+OpRisk), en cohérence avec le poids structurellement borné du montant
+réglementaire face aux deux autres briques.
+
+La figure~\ref{fig:euler} synthétise visuellement cette hiérarchie. On
+observe que le risque physique (remédiation) concentre l'essentiel du
+capital sous OpRisk (>98~\%), tandis que sous PRC c'est désormais le risque
+tiers (prestataire) qui domine ; la sanction reste minoritaire sous les deux
+sources.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\textwidth]{figures/euler_decomposition.png}
+\caption{Décomposition du SCR (VaR~99{,}5~\%) par brique, sous les deux
+sources de sévérité (profil médian, $\theta=0$). La brique de remédiation
+domine très largement sous OpRisk (>98~\%) ; sous PRC, c'est la brique
+prestataire qui domine (>80~\%), un résultat lié à l'écart d'échelle entre
+les deux calibrations de sévérité (cf. note méthodologique ci-dessus).}
+\label{fig:euler}
+\end{figure}
+
+
+
+\paragraph{Effet du plafond de sanction.} Une analyse de sensibilité
+complémentaire confirme le caractère marginal de la brique de sanction dans
+le capital total, y compris après correction du moteur. Le doublement du
+plafond réglementaire de l'amende, de 20~M\euro à 40~M\euro, ne déplace que
+très faiblement la VaR~99{,}5~\% : l'effet maximal observé reste inférieur à
+8~M\euro\ (7{,}5~M\euro\ sous OpRisk et 5{,}5~M\euro\ sous PRC), y compris
+pour le profil retardataire subissant un taux de non-conformité extrême ---
+un effet d'autant plus négligeable en proportion que le capital total sous
+OpRisk se compte désormais en milliers de millions d'euros.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{2.2cm} >{\raggedright}p{2.5cm} >{\centering}p{3cm} >{\centering}p{3cm} >{\centering\arraybackslash}p{2.6cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Source} & \textbf{Profil} & \textbf{VaR base (plafond 20~M\euro)} & \textbf{VaR stress (plafond 40~M\euro)} & \textbf{$\Delta$VaR} \\
+\midrule
+OpRisk & Leader & 5\,820{,}7 M\euro & 5\,820{,}7 M\euro & 0{,}0 M\euro \\
+OpRisk & Médian & 8\,287{,}2 M\euro & 8\,287{,}2 M\euro & 0{,}0 M\euro \\
+OpRisk & Retardataire & 9\,982{,}1 M\euro & 9\,989{,}6 M\euro & 7{,}5 M\euro \\
+\addlinespace
+PRC & Leader & 1\,088{,}9 M\euro & 1\,089{,}0 M\euro & 0{,}1 M\euro \\
+PRC & Médian & 1\,685{,}9 M\euro & 1\,687{,}1 M\euro & 1{,}2 M\euro \\
+PRC & Retardataire & 2\,268{,}4 M\euro & 2\,273{,}9 M\euro & 5{,}5 M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Cette insensibilité confirme un message central du mémoire pour le pilotage :
+le capital cyber répond à un risque \emph{opérationnel} (fréquence et
+sévérité des incidents), et non à un risque de \emph{sanction} administrative,
+dont l'impact financier demeure borné par sa structure réglementaire et
+désormais totalement négligeable face à la queue lourde des pertes
+techniques observées sous OpRisk et face au poids désormais dominant du
+prestataire sous PRC.
+
+%--------------------------------------------------------------
+\subsection{Comparaison avec les travaux antérieurs}
+%--------------------------------------------------------------
+
+Les résultats obtenus s'inscrivent en cohérence, mais aussi en tension
+partielle, avec les travaux antérieurs sur la structure du risque cyber
+opérationnel. Le tableau ci-dessous confronte l'indice de queue $\hat\xi$
+obtenu dans ce mémoire à ceux de la littérature actuarielle récente, le
+paramètre de forme constituant le déterminant premier du niveau de capital.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\raggedright}p{5.5cm} >{\centering}p{3.2cm} >{\centering\arraybackslash}p{3.2cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Étude / source} & \textbf{$\hat\xi$ (indice de queue)} & \textbf{Espérance} \\
+\midrule
+Présent mémoire --- PRC (via Jacobs) & 1{,}30 & Infinie ($\xi \geq 1$) \\
+Présent mémoire --- OpRisk Global & 0{,}595 \; [0{,}31 ; 0{,}83] & Finie \\
+\addlinespace
+Dacorogna, Debbabi \& Kratz (2023) --- base SCRC & 0{,}983 \; [0{,}93 ; 1{,}04] & Frontière $\xi \approx 1$ \\
+Farkas, Lopez \& Thomas (2021) & \multicolumn{2}{c}{Espérance conditionnelle infinie sur certains profils} \\
+Malavasi et al.\ (2022) & \multicolumn{2}{c}{Espérance infinie confirmée sur données réelles} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Un régime de queue confirmé, une ampleur qui reste débattue.}
+Deux enseignements se dégagent de cette confrontation. D'une part, la
+calibration OpRisk ($\hat\xi \approx 0{,}6$) se situe dans les ordres de
+grandeur des études de risque opérationnel bancaire sous approche AMA,
+cohérente avec un régime de queue lourde mais à moments finis. D'autre part,
+et c'est le point le plus significatif, la calibration PRC ($\hat\xi = 1{,}30$,
+espérance infinie) n'est nullement une anomalie isolée : elle rejoint un
+courant robuste de la littérature qui documente une \emph{espérance de
+sévérité infinie} sur données réelles. Farkas, Lopez et Thomas (2021)
+obtiennent ainsi, par arbres de régression Pareto généralisés, des espérances
+conditionnelles infinies sur certains profils de sinistres, et Malavasi et
+al.\ (2022) confirment ce résultat sur un jeu de données indépendant ;
+Dacorogna, Debbabi et Kratz (2023), sur la base des plaintes de la
+Gendarmerie nationale, estiment un $\hat\xi$ à la frontière de l'unité
+($0{,}983$, intervalle de confiance recouvrant $1$).
+
+\paragraph{Positionnement du mémoire.} Loin de trancher artificiellement ce
+débat, la présente contribution l'\emph{encadre} : nos deux sources bornent
+précisément l'intervalle des régimes de queue rencontrés dans la littérature,
+la PRC matérialisant le régime à espérance infinie (protection des données)
+et OpRisk le régime à moments finis (risque opérationnel bancaire). Cette
+tension entre sources n'invalide pas les travaux antérieurs pris séparément ;
+elle illustre au contraire que la littérature sur le risque cyber demeure
+structurellement fragmentée selon le type de base mobilisée. En confrontant
+explicitement deux sources plutôt qu'en n'en retenant qu'une, et en traitant
+leur écart comme une composante à part entière de l'incertitude --- une
+composante que la Partie~5.1--5.2 montre désormais \emph{dominante} sur toute
+autre source de variation du modèle ---, le présent mémoire documente cette
+fragmentation plutôt que de la masquer.
+
+%--------------------------------------------------------------
+\subsection{Implications pour l'ORSA et le pilotage réglementaire}
+%--------------------------------------------------------------
+
+Les résultats obtenus ont quatre implications directes pour le pilotage
+prudentiel en Pilier~2.
+
+Premièrement, la dominance quasi exclusive de la brique de remédiation sous
+la source OpRisk (>99~\% du capital) suggère que, dans un scénario de
+sévérité proche des pertes réellement observées sur le marché bancaire et
+assurantiel, les efforts de maîtrise du risque cyber devraient prioriser
+presque intégralement la réduction de la fréquence et de la sévérité des
+incidents opérationnels majeurs, plutôt que la gouvernance des tiers ICT ou
+le risque de sanction. Sous la source PRC, en revanche, la progression
+significative de la part du Prestataire avec le niveau de non-conformité
+(jusqu'à 21~\% pour un profil retardataire) invite à ne pas négliger la
+gouvernance des tiers. Cette divergence de lecture selon la source retenue
+constitue elle-même une implication pour le pilotage : \textbf{la
+hiérarchisation des priorités de maîtrise du risque cyber dépend du choix
+méthodologique de calibration de la sévérité}, et ne peut être arrêtée sur la
+base d'une seule source.
+
+Deuxièmement, la sensibilité du capital au facteur systémique $\theta$
+documentée en~5.2 justifie l'intégration, dans les scénarios de stress de
+l'ORSA, d'un scénario de dégradation collective de l'environnement cyber,
+distinct des scénarios de dégradation individuelle de la gouvernance : les
+deux mécanismes n'affectent pas le capital de la même façon, ni avec la
+même intensité selon le profil de l'entité.
+
+Troisièmement, l'ampleur de l'écart entre sources de sévérité --- un facteur
+supérieur à \textbf{16} sur le niveau de capital, très supérieur au facteur~1{,}5
+associé au profil de conformité --- plaide avec une force renouvelée pour
+que le pilotage interne ne retienne pas un unique scénario central, mais
+documente explicitement, dans le rapport ORSA, la sensibilité du SCR cyber
+au choix méthodologique de calibration. Cette pratique de transparence sur
+l'incertitude de modèle, que la formule standard de Solvabilité~II,
+forfaitaire, ne permet structurellement pas d'exprimer, apparaît désormais
+comme l'implication la plus significative du mémoire pour la gouvernance
+du risque cyber en Pilier~2 : le choix de la base de calibration n'est pas
+un détail technique, c'est le déterminant premier du niveau de capital.
+
+Quatrièmement, la marginalité confirmée de la brique de sanction --- sous
+les deux sources, et de façon encore plus nette sous OpRisk --- conforte le
+message selon lequel le capital cyber répond avant tout à un risque
+opérationnel et non à un risque réglementaire ponctuel, dont l'ampleur reste
+structurellement bornée par les plafonds légaux.
+
+%==============================================================
+\section*{Conclusion}
+%==============================================================
+
+Le SCR cyber n'est pas un nombre, c'est une distribution large. Les
+résultats de ce mémoire le confirment à chaque étape : une fourchette de
+capital total s'étendant de \textbf{1\,089~M\euro à près de 20\,105~M\euro} selon la
+source de sévérité, le profil de conformité et la mesure de risque retenue,
+soit un facteur de \textbf{18,5} entre ses bornes ; un $\Delta_{DORA}$ dont
+l'intervalle de confiance s'élargit massivement sous la source
+OpRisk ; et une allocation d'Euler dont la structure elle-même dépend du
+choix méthodologique de calibration --- la brique de remédiation portant la
+quasi-totalité du capital sous OpRisk, tandis que c'est le risque tiers qui
+domine sous PRC. Cette absence de convergence n'est pas un échec de la
+modélisation : c'est une information honnête sur l'état actuel des données
+disponibles pour quantifier le risque cyber réglementaire.
+
+Les perspectives de ce travail sont directement liées à cette limite. Le
+registre d'incidents DORA que les autorités européennes de surveillance
+(ESA) doivent progressivement constituer à partir des notifications
+obligatoires prévues par le règlement constituera, à terme, la première
+base réellement harmonisée à l'échelle européenne pour calibrer la
+fréquence et la sévérité du risque cyber réglementaire --- une base qui
+fait aujourd'hui structurellement défaut, et dont l'absence explique une
+part substantielle de la largeur des intervalles présentés dans ce mémoire.
+En ce sens, la contribution de ce travail n'est pas de clore le débat sur le
+niveau du SCR cyber, mais d'en formaliser la structure d'incertitude,
+dans l'attente de données futures plus riches.
+
+
+\vspace{1em}
+
+
+\bibliographystyle{apalike}
+\bibliography{references}
+\end{document}

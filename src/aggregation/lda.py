@@ -119,6 +119,10 @@ def simulate_year_3_briques(lambda_annual: float, severity_params: dict,
     sig_p = BRIQUE_PARAMS["prestataire"]["sigma_lognorm"]
     prestataire_events = np.zeros(total_events)
     prestataire_events[is_tiers] = rng.lognormal(mean=mu_p, sigma=sig_p, size=n_tiers)
+    # Même plafond de sévérité que la remédiation (cap PRC ξ≥1) : sans lui, la
+    # queue non bornée du prestataire écrase artificiellement la remédiation plafonnée.
+    if cap is not None:
+        prestataire_events = np.minimum(prestataire_events, cap)
 
     # --- COPULE (Dépendance de queue annuelle) ---
     if dependence == "gumbel":

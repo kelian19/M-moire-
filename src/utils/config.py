@@ -99,16 +99,22 @@ DELTA_DORA_GRID = {
     ("OPRISK", "S2_non_conforme"): {"median": 4092.2, "ic90": [1463.9, 19659.2], "bootstrap_sev": True},
 }
 
-# Décomposition par brique (allocation d'Euler), part moyenne du capital.
-# Valeurs de référence OpRisk (VaR 99.5%). Voir notebooks/results_euler_option_a.csv
-# pour la grille complète par profil d'entité et environnement.
+# Décomposition par brique (allocation d'Euler, VaR 99.5%, profil médian, theta=0),
+# architecture à 3 briques additives (remediation/prestataire/sanction) — l'aggravation
+# n'en fait PAS partie : c'est un delta contrefactuel (cf. src/aggregation/lda.py::
+# scr_4_briques_report), pas une composante de la somme. Voir
+# outputs/tables/results_euler_option_a.csv pour la grille complète par profil et source.
 EULER_DECOMPOSITION = {
-    "aggravation": 0.708,        # ~71% — brique dominante (seule calibrée statistiquement)
-    "remediation": 0.278,        # ~28% — IBM/Ponemon (économie 58% avec plan IR testé)
-    "prestataire": 0.011,        # ~1%  — déclenché sur incidents tiers (15.8%)
-    "sanction":    0.003,        # ~0.3% — marginal vs risque opérationnel (Art. 50 DORA)
-    "note": "La sanction est financièrement marginale : le capital DORA répond "
-            "à un risque OPÉRATIONNEL, non à un risque de sanction administrative.",
+    "OPRISK": {"remediation": 0.989, "prestataire": 0.011, "sanction": 0.0003},
+    "PRC":    {"remediation": 0.194, "prestataire": 0.805, "sanction": 0.001},
+    "note": (
+        "Sous OpRisk (non plafonnée), la remédiation domine quasi totalement. "
+        "Sous PRC (les deux briques plafonnées à 40 M€ depuis la correction du "
+        "moteur), c'est le prestataire qui domine — écart d'échelle entre la "
+        "sévérité remédiation (PRC/Jacobs, u=0.128 M€) et la sévérité prestataire "
+        "à dire d'expert (Lognormale, médiane ~5 M€), à discuter avec l'encadrement "
+        "avant publication. La sanction reste marginale sous les deux sources."
+    ),
 }
 
 SCR_DORA = {

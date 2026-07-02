@@ -137,16 +137,24 @@ def plot_xi_stability(losses: np.ndarray, save_path: str = None):
 # ---------------------------------------------------------------------------
 
 def plot_hill(losses: np.ndarray, reference_xi: float = 0.60, save_path: str = None):
-    """Trace le Hill Plot pour visualiser la stabilité de l'estimateur de queue."""
+    """Trace le Hill Plot avec bande de confiance asymptotique à 90%."""
     df_hill = hill_estimator(losses, k_max=200)
 
+    # Bande de confiance asymptotique : Var(xi_hill(k)) ~= xi_hill^2 / k (Hill, 1975)
+    z90 = 1.645
+    se = df_hill["xi_hill"] / np.sqrt(df_hill["k"])
+    ic_low = df_hill["xi_hill"] - z90 * se
+    ic_high = df_hill["xi_hill"] + z90 * se
+
     fig, ax = plt.subplots(figsize=(10, 5))
+    ax.fill_between(df_hill["k"], ic_low, ic_high, color="#2563eb", alpha=0.15,
+                     label="IC asymptotique 90%")
     ax.plot(df_hill["k"], df_hill["xi_hill"], color="#2563eb", linewidth=2, label="Estimateur de Hill")
-    ax.axhline(y=reference_xi, color="#dc2626", linestyle="--", linewidth=1.5, 
+    ax.axhline(y=reference_xi, color="#dc2626", linestyle="--", linewidth=1.5,
                label=f"MLE (Référence = {reference_xi:.2f})")
     ax.set_xlabel("Nombre d'extrêmes retenus (k)", fontsize=11)
     ax.set_ylabel("Estimation de ξ (Indice de queue)", fontsize=11)
-    ax.set_title("Hill Plot - SAS OpRisk Global Data", fontsize=13, fontweight='bold')
+    ax.set_title("Hill Plot avec IC90% - SAS OpRisk Global Data", fontsize=13, fontweight='bold')
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
     plt.tight_layout()
@@ -209,13 +217,13 @@ if __name__ == "__main__":
         losses = df['loss_eur_M'].values
 
         # 1. Mean Excess Plot
-        plot_mean_excess(losses, save_path='outputs/figures/mep_oprisk.png')
+        plot_mean_excess(losses, save_path='outputs/figures/mean_excess_oprisk.png')
 
-        # 2. Stabilité ξ (MLE)
-        plot_xi_stability(losses, save_path='outputs/figures/xi_stability_oprisk.png')
-        
-        # 3. Estimateur de Hill (Validation)
-        plot_hill(losses, reference_xi=OPRISK['xi'], save_path='outputs/figures/hill_plot_oprisk.png')
+        # 2. Stabilité ξ (MLE) — diagnostic GPD (stabilité + nombre d'excès)
+        plot_xi_stability(losses, save_path='outputs/figures/diagnostic_gpd_oprisk.png')
+
+        # 3. Estimateur de Hill avec IC90% (Validation)
+        plot_hill(losses, reference_xi=OPRISK['xi'], save_path='outputs/figures/hill_plot_ic90_oprisk.png')
 
         # 4. Calibration GPD (Rapport console)
         u = OPRISK['seuil_u_eur']
