@@ -92,15 +92,16 @@ COPULE = {
 # Grille Δ_DORA = SCR(scénario) - SCR(S0), bootstrap deux niveaux.
 # Médiane et IC90% en M€. bootstrap_severity=True uniquement pour OpRisk
 # (données brutes disponibles) ; False pour PRC (point fixe, IC sous-estimé).
-# Régénérée via notebooks/07_bootstrap_delta_dora.py (n_boot=200, n_sim=20 000).
-# ⚠️ PRC : valeurs héritées de la calibration prestataire PRÉCÉDENTE (Lognormale à
-# échelle absolue) -> À REGÉNÉRER après la recalibration en surcoût relatif
-# (cf. EULER_DECOMPOSITION ci-dessous), relancer notebooks/07_bootstrap_delta_dora.py.
+# Régénérée via notebooks/07_bootstrap_delta_dora.py (n_boot=200, n_sim=20 000)
+# APRÈS recalibration de la brique prestataire en surcoût relatif (commensurabilité).
+# PRC : régénéré et vérifié dans cet environnement (voir
+# outputs/tables/results_delta_dora_bootstrap.csv).
 # OPRISK : nécessite data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx, absent de cet
-# environnement -> valeurs ci-dessous NON RÉGÉNÉRÉES (héritées, encore plus anciennes).
+# environnement -> valeurs ci-dessous NON RÉGÉNÉRÉES (héritées, à revérifier en
+# relançant notebooks/07_bootstrap_delta_dora.py là où le fichier est disponible).
 DELTA_DORA_GRID = {
-    ("PRC", "S1_partiel"):      {"median": 434.9,  "ic90": [332.1, 534.9],      "bootstrap_sev": False},  # PÉRIMÉ
-    ("PRC", "S2_non_conforme"): {"median": 1203.4, "ic90": [963.7, 1389.0],     "bootstrap_sev": False},  # PÉRIMÉ
+    ("PRC", "S1_partiel"):      {"median": 114.6, "ic90": [89.3, 137.3],      "bootstrap_sev": False},
+    ("PRC", "S2_non_conforme"): {"median": 310.6, "ic90": [249.4, 358.7],     "bootstrap_sev": False},
     ("OPRISK", "S1_partiel"):   {"median": 1086.9, "ic90": [410.5, 4348.4],     "bootstrap_sev": True},  # NON REVÉRIFIÉ
     ("OPRISK", "S2_non_conforme"): {"median": 4092.2, "ic90": [1463.9, 19659.2], "bootstrap_sev": True},  # NON REVÉRIFIÉ
 }
@@ -128,8 +129,9 @@ SCR_DORA = {
     "cap_eur": 40.0,             # M€ — plafond de sévérité PRC (ξ≥1), ancré capacité réassurance
     "constat_source_domine": (
         "Le choix de source de sévérité (PRC ξ=1.30 vs OpRisk ξ=0.60) domine "
-        "le résultat plus que le scénario de conformité : écart ×17 sur S2 entre "
-        "sources, supérieur à l'écart S1↔S2 sous une même source."
+        "le résultat plus que le scénario de conformité : écart ×19 sur la VaR "
+        "médiane (profil médian) entre sources, supérieur à l'écart S1↔S2 sous "
+        "une même source."
     ),
     "note": (
         "Le SCR_DORA est une distribution large, pas un point. Trois sources "

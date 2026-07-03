@@ -76,18 +76,18 @@ Les multiplicateurs de fréquence sont calibrés à partir d’un mapping **vect
 
 | Indicateur | Valeur | Intervalle / commentaire |
 |------------|--------|--------------------------|
-| Capital total (fourchette globale) | 1 406 – 20 105 M€ | selon source, profil de conformité et mesure (VaR/ES) [file:24] |
-| \(\Delta_{DORA}\) — PRC, S1 | 91,5 M€ | IC 90% : [71,6 ; 114,2] M€ [file:34] |
-| \(\Delta_{DORA}\) — PRC, S2 | 238,7 M€ | IC 90% : [191,6 ; 288,0] M€ [file:34] |
-| \(\Delta_{DORA}\) — OpRisk, S1 | 1 086,9 M€ | IC 90% : [410,5 ; 4 348,4] M€ [file:34] |
-| \(\Delta_{DORA}\) — OpRisk, S2 | 4 092,2 M€ | IC 90% : [1 463,9 ; 19 659,2] M€ [file:34] |
-| \(\hat{\xi}_{PRC}\) | 1,30 | queue très lourde, espérance infinie \(\rightarrow\) cap à 40 M€ [file:32] |
-| \(\hat{\xi}_{OpRisk}\) | 0,595 | IC 90% : [0,31 ; 0,85] [file:32] |
+| Capital total (fourchette globale) | 333 – 21 720 M€ | selon source, profil de conformité et mesure (VaR/ES) |
+| \(\Delta_{DORA}\) — PRC, S1 | 114,6 M€ | IC 90% : [89,3 ; 137,3] M€ |
+| \(\Delta_{DORA}\) — PRC, S2 | 310,6 M€ | IC 90% : [249,4 ; 358,7] M€ |
+| \(\Delta_{DORA}\) — OpRisk, S1 | *à régénérer* | nécessite les données brutes OpRisk (sous licence) |
+| \(\Delta_{DORA}\) — OpRisk, S2 | *à régénérer* | nécessite les données brutes OpRisk (sous licence) |
+| \(\hat{\xi}_{PRC}\) | 1,30 | queue très lourde, espérance infinie \(\rightarrow\) cap à 40 M€ |
+| \(\hat{\xi}_{OpRisk}\) | 0,595 | IC 90% : [0,31 ; 0,85] |
 
 Trois résultats structurants ressortent du mémoire :
-- le choix de la **source de sévérité** domine l’effet du scénario de conformité [file:34][file:24] ;
-- la brique de **remédiation** concentre l’essentiel du capital alloué par Euler, souvent plus de 85% et jusqu’à près de 99% selon la source [file:22] ;
-- la **sanction** a un poids marginal sous OpRisk mais plus visible sous PRC, du fait de l’échelle relative des pertes [file:22][file:23].
+- le choix de la **source de sévérité** domine l’effet du scénario de conformité (écart ×19 sur la VaR médiane entre PRC et OpRisk) ;
+- la brique de **remédiation** concentre l’essentiel du capital alloué par Euler (85–86 % sous les deux sources), suivie du **prestataire** (~14 %), une structure désormais cohérente entre sources depuis la recalibration du prestataire en surcoût relatif ;
+- la **sanction** a un poids marginal sous les deux sources (< 1 %), confirmant que le capital cyber répond à un risque opérationnel et non à un risque de sanction administrative.
 
 ---
 

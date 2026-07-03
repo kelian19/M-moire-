@@ -1559,8 +1559,8 @@ sévérité, sont les suivants :
 \rowcolor{lightblue}
 \textbf{Source} & \textbf{Scénario} & \textbf{$\Delta_{DORA}$ médiane} & \textbf{IC90\,\%} \\
 \midrule
-PRC & $S_1$ partiel & 434{,}9 M\euro & [332{,}1~;~534{,}9] M\euro \\
-PRC & $S_2$ non conforme & 1\,203{,}4 M\euro & [963{,}7~;~1\,389{,}0] M\euro \\
+PRC & $S_1$ partiel & 114{,}6 M\euro & [89{,}3~;~137{,}3] M\euro \\
+PRC & $S_2$ non conforme & 310{,}6 M\euro & [249{,}4~;~358{,}7] M\euro \\
 \addlinespace
 OpRisk & $S_1$ partiel & \texttt{[EN ATTENTE]} & \texttt{[EN ATTENTE]} \\
 OpRisk & $S_2$ non conforme & \texttt{[EN ATTENTE]} & \texttt{[EN ATTENTE]} \\
@@ -1569,21 +1569,23 @@ OpRisk & $S_2$ non conforme & \texttt{[EN ATTENTE]} & \texttt{[EN ATTENTE]} \\
 \end{center}
 
 % NOTE(relecture) : grille PRC regénérée via notebooks/07_bootstrap_delta_dora.py
-% (200 tirages x 20 000 sim) après correction du plafond de sévérité prestataire.
-% La branche OpRisk nécessite data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx,
-% absent de l'environnement où cette régénération a été faite : à relancer avec
-% le même script là où ce fichier est disponible avant de remplir ces cellules.
+% (200 tirages x 20 000 sim) APRÈS recalibration de la brique prestataire en
+% surcoût relatif (commensurabilité). La branche OpRisk nécessite
+% data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx, absent de l'environnement où
+% cette régénération a été faite : relancer le même script là où ce fichier est
+% disponible pour remplir ces deux cellules.
 Sous PRC, un défaut de conformité DORA se traduit par une charge de capital
 quantifiée et non simplement qualitative : le passage de $S_1$ à $S_2$
-accroît le $\Delta_{DORA}$ médian d'un facteur~2{,}8 (434{,}9 à
-1\,203{,}4~M\euro), cohérent avec le rapport des multiplicateurs globaux de
-fréquence entre les deux scénarios. La comparaison avec la source OpRisk,
-qui dans une version antérieure du moteur suggérait un écart entre sources
-bien plus marqué que l'écart entre scénarios, doit être revérifiée avec le
-pipeline actuel (cf. note ci-dessus) avant d'être présentée comme un
-résultat définitif du mémoire --- la hiérarchie des sources d'incertitude
-discutée en Partie~5 repose sur l'allocation d'Euler (rejouée dans cet
-environnement) et reste valide indépendamment de cette grille $\Delta_{DORA}$.
+accroît le $\Delta_{DORA}$ médian d'un facteur~2{,}7 (114{,}6 à
+310{,}6~M\euro), cohérent avec le rapport des multiplicateurs globaux de
+fréquence entre les deux scénarios. Ce $\Delta_{DORA}$ mesure le surcoût
+strict de capital imputable au défaut de conformité, à profil de risque
+constant (contrefactuel à graine figée) : il reste modéré sous PRC, dont la
+sévérité dérivée de la conversion Jacobs borne l'amplitude des pertes. La
+comparaison avec la source OpRisk --- dont les montants observés directement
+laissent anticiper un $\Delta_{DORA}$ d'un ordre de grandeur supérieur ---
+requiert la relance du bootstrap sur les données brutes (cf. note ci-dessus)
+avant d'être chiffrée définitivement.
 
 %--------------------------------------------------------------
 \subsection{Bootstrap et intervalles de confiance}
@@ -1664,7 +1666,7 @@ Formule Standard (Pilier 1) & 600{,}0 M\euro & 0{,}0 M\euro & Aveugle à la rés
 \addlinespace
 Déterministe (ORSA classique) & 200{,}0 M\euro & Difficile à quantifier & Biais d'ancrage expert, ignore l'agrégation et la contagion \\
 \addlinespace
-Modèle Interne Partiel (LDA -- PRC) & 488{,}0 M\euro & \texttt{[EN ATTENTE]} & Nécessite un plafonnement opérationnel (espérance infinie) \\
+Modèle Interne Partiel (LDA -- PRC) & 488{,}0 M\euro & 310{,}6 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
 \addlinespace
 Modèle Interne Partiel (LDA -- OpRisk) & 9\,259{,}5 M\euro & \texttt{[EN ATTENTE]} & Biais de taille lié aux grandes entités financières historiques \\
 \bottomrule
@@ -1688,33 +1690,6 @@ Pourtant, l'analyse par la Théorie des Valeurs Extrêmes (EVT) menée en Partie
     \item \textbf{La dépendance temporelle et l'agrégation :} Le scénario d'expert calcule le coût d'un incident isolé. Or, la VaR 99,5\,\% est une mesure annuelle. L'approche Monte-Carlo, en combinant des tirages de fréquence (loi binomiale négative) et de sévérité (GPD), permet d'explorer des années simulées où un sinistre majeur coïncide avec une myriade d'incidents d'attrition de taille moyenne, engendrant une perte agrégée supérieure à la simple addition déterministe.
     \item \textbf{La contagion externe (Tiers ICT) :} Un scénario construit en silo ignore la probabilité d'occurrence conjointe. L'introduction de la \textbf{copule de Gumbel} dans notre architecture permet de modéliser mathématiquement ce qu'un expert peine à quantifier : la survenance d'une crise systémique de marché ($\theta$ fortement négatif) qui déclenche à la fois la défaillance d'un fournisseur cloud critique et des failles internes. 
 \end{itemize}
-
-% TODO(relecture) : ce second tableau duplique la logique du précédent (§ Formule
-% Standard) sur une entité fictive à 1 000 M€ de CA. Ses chiffres (415,4 / 7 355,4 /
-% 185,9 / 1 949,2 M€) proviennent d'une exécution antérieure du pipeline scénario-based
-% (delta_dora.py / robustness.py), aujourd'hui non reliée à aucun notebook et qui ne
-% gère pas de mise à l'échelle par chiffre d'affaires. Impossible de les revérifier ou
-% de les régénérer avec le code actuel : soit relancer/réadapter ce module, soit
-% envisager de retirer ce tableau redondant avec le précédent.
-\paragraph{Synthèse comparative.} Le tableau ci-dessous résume cette confrontation en appliquant les quatre approches à notre entité de référence (1\,000 M\euro\ de chiffre d'affaires, passage d'un profil conforme $S_0$ à un profil non-conforme $S_2$).
-
-\begin{center}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{>{\raggedright}p{4cm} >{\centering}p{2.5cm} >{\centering}p{3cm} >{\raggedright\arraybackslash}p{5cm}}
-\toprule
-\rowcolor{lightblue}
-\textbf{Méthode d'évaluation} & \textbf{SCR Estimé} & \textbf{Sensibilité DORA ($\Delta_{DORA}$)} & \textbf{Limites structurelles} \\
-\midrule
-Formule Standard (Pilier 1) & 40{,}0 M\euro & 0{,}0 M\euro & Aveugle à la résilience (aléa moral), sous-estimation extrême \\
-\addlinespace
-Déterministe (ORSA classique) & 80{,}0 M\euro & Difficile à quantifier & Biais d'ancrage expert, ignore l'agrégation et la contagion \\
-\addlinespace
-Modèle Interne Partiel (LDA -- PRC) & 415{,}4 M\euro & 185{,}9 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
-\addlinespace
-Modèle Interne Partiel (LDA -- OpRisk) & 7\,355{,}4 M\euro & 1\,949{,}2 M\euro & Biais de taille lié aux grandes entités financières historiques \\
-\bottomrule
-\end{tabular}
-\end{center}
 
 \paragraph{Conclusion sur les méthodes.} L'approche déterministe donne l'illusion de la précision en produisant un chiffre unique (ex: 80 M\euro), mais échoue à capturer le véritable risque de ruine. À l'inverse, l'approche stochastique développée dans ce mémoire assume l'incertitude (en produisant des intervalles de confiance par \textit{bootstrap}) et capture mathématiquement la réalité du risque cyber : une fréquence corrélée à l'environnement, une sévérité à queue lourde, et des pertes agrégées hautement non linéaires face à la qualité de la conformité DORA.
 
