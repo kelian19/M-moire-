@@ -1562,18 +1562,17 @@ sévérité, sont les suivants :
 PRC & $S_1$ partiel & 114{,}6 M\euro & [89{,}3~;~137{,}3] M\euro \\
 PRC & $S_2$ non conforme & 310{,}6 M\euro & [249{,}4~;~358{,}7] M\euro \\
 \addlinespace
-OpRisk & $S_1$ partiel & \texttt{[EN ATTENTE]} & \texttt{[EN ATTENTE]} \\
-OpRisk & $S_2$ non conforme & \texttt{[EN ATTENTE]} & \texttt{[EN ATTENTE]} \\
+OpRisk & $S_1$ partiel & 1\,514{,}4 M\euro & [522{,}5~;~7\,863{,}2] M\euro \\
+OpRisk & $S_2$ non conforme & 3\,879{,}3 M\euro & [1\,496{,}9~;~22\,249{,}3] M\euro \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-% NOTE(relecture) : grille PRC regénérée via notebooks/07_bootstrap_delta_dora.py
+% NOTE(relecture) : grille régénérée via notebooks/07_bootstrap_delta_dora.py
 % (200 tirages x 20 000 sim) APRÈS recalibration de la brique prestataire en
-% surcoût relatif (commensurabilité). La branche OpRisk nécessite
-% data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx, absent de l'environnement où
-% cette régénération a été faite : relancer le même script là où ce fichier est
-% disponible pour remplir ces deux cellules.
+% surcoût relatif. PRC : niveau 2 (sévérité) au point fixe (pas de données brutes
+% dans la PRC utilisée) -> IC sous-estimé. OpRisk : bootstrap RÉEL des 91 excès
+% (rééchantillonnage + refit GPD à chaque tirage) -> IC large et réaliste.
 Sous PRC, un défaut de conformité DORA se traduit par une charge de capital
 quantifiée et non simplement qualitative : le passage de $S_1$ à $S_2$
 accroît le $\Delta_{DORA}$ médian d'un facteur~2{,}7 (114{,}6 à
@@ -1581,11 +1580,19 @@ accroît le $\Delta_{DORA}$ médian d'un facteur~2{,}7 (114{,}6 à
 fréquence entre les deux scénarios. Ce $\Delta_{DORA}$ mesure le surcoût
 strict de capital imputable au défaut de conformité, à profil de risque
 constant (contrefactuel à graine figée) : il reste modéré sous PRC, dont la
-sévérité dérivée de la conversion Jacobs borne l'amplitude des pertes. La
-comparaison avec la source OpRisk --- dont les montants observés directement
-laissent anticiper un $\Delta_{DORA}$ d'un ordre de grandeur supérieur ---
-requiert la relance du bootstrap sur les données brutes (cf. note ci-dessus)
-avant d'être chiffrée définitivement.
+sévérité dérivée de la conversion Jacobs borne l'amplitude des pertes.
+
+Sous OpRisk, le même défaut de conformité produit un $\Delta_{DORA}$ d'un
+ordre de grandeur supérieur : 1\,514{,}4~M\euro en $S_1$ et 3\,879{,}3~M\euro
+en $S_2$, soit un facteur proche de~12 par rapport à la PRC sur $S_2$. Cet
+écart entre sources domine largement l'écart entre scénarios de conformité
+sous une même source (facteur~2{,}6 de $S_1$ à $S_2$ sous OpRisk), et
+préfigure le résultat central de la Partie~5 : le choix de la source de
+sévérité pèse davantage sur le capital que le niveau de conformité lui-même.
+L'intervalle de confiance OpRisk est en outre très large (facteur~15 entre
+bornes sur $S_2$), reflet du bootstrap réel de la sévérité sur données brutes,
+là où l'IC PRC --- sévérité au point fixe --- est structurellement
+sous-estimé (cf.~section suivante).
 
 %--------------------------------------------------------------
 \subsection{Bootstrap et intervalles de confiance}
@@ -1618,7 +1625,7 @@ plutôt qu'un point.
 
 \paragraph{Asymétrie des intervalles.} L'intervalle de confiance associé à la
 source OpRisk est nettement plus large que celui de la source PRC (facteur
-proche de~14 contre facteur proche de~1{,}3 sur $S_2$). Cette asymétrie
+proche de~15 contre facteur proche de~1{,}4 sur $S_2$). Cette asymétrie
 n'est pas un artefact : le bootstrap OpRisk intègre l'incertitude de
 sévérité mesurée sur données réelles, tandis que le bootstrap PRC, faute de
 données brutes, n'intègre que l'incertitude des multiplicateurs.
@@ -1668,7 +1675,7 @@ Déterministe (ORSA classique) & 200{,}0 M\euro & Difficile à quantifier & Biai
 \addlinespace
 Modèle Interne Partiel (LDA -- PRC) & 488{,}0 M\euro & 310{,}6 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
 \addlinespace
-Modèle Interne Partiel (LDA -- OpRisk) & 9\,259{,}5 M\euro & \texttt{[EN ATTENTE]} & Biais de taille lié aux grandes entités financières historiques \\
+Modèle Interne Partiel (LDA -- OpRisk) & 9\,259{,}5 M\euro & 3\,879{,}3 M\euro & Biais de taille lié aux grandes entités financières historiques \\
 \bottomrule
 \end{tabular}
 \end{center}

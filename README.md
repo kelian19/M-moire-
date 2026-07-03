@@ -79,8 +79,8 @@ Les multiplicateurs de fréquence sont calibrés à partir d’un mapping **vect
 | Capital total (fourchette globale) | 333 – 21 720 M€ | selon source, profil de conformité et mesure (VaR/ES) |
 | \(\Delta_{DORA}\) — PRC, S1 | 114,6 M€ | IC 90% : [89,3 ; 137,3] M€ |
 | \(\Delta_{DORA}\) — PRC, S2 | 310,6 M€ | IC 90% : [249,4 ; 358,7] M€ |
-| \(\Delta_{DORA}\) — OpRisk, S1 | *à régénérer* | nécessite les données brutes OpRisk (sous licence) |
-| \(\Delta_{DORA}\) — OpRisk, S2 | *à régénérer* | nécessite les données brutes OpRisk (sous licence) |
+| \(\Delta_{DORA}\) — OpRisk, S1 | 1 514,4 M€ | IC 90% : [522,5 ; 7 863,2] M€ (bootstrap réel) |
+| \(\Delta_{DORA}\) — OpRisk, S2 | 3 879,3 M€ | IC 90% : [1 496,9 ; 22 249,3] M€ (bootstrap réel) |
 | \(\hat{\xi}_{PRC}\) | 1,30 | queue très lourde, espérance infinie \(\rightarrow\) cap à 40 M€ |
 | \(\hat{\xi}_{OpRisk}\) | 0,595 | IC 90% : [0,31 ; 0,85] |
 
