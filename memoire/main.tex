@@ -1649,7 +1649,7 @@ En appliquant le coefficient simplifié de 4\,\%, la charge de capital pour l'in
 \begin{equation}
 SCR_{Op} = 0{,}04 \times 15\,000 = 600 \text{ M\euro}
 \end{equation}
-La confrontation avec notre modèle LDA-EVT est révélatrice. Sous la calibration PRC (plafonnée), la VaR 99,5\,\% pour une entité médiane est de 1\,685,9 M\euro : la Formule Standard sous-estime déjà nettement le risque à ce stade. Face à la calibration OpRisk (la seule capturant véritablement le risque extrême sans plafond), la VaR atteint \textbf{8\,287,2 M\euro}. La Formule Standard sous-estime ainsi le risque de queue réel d'un facteur supérieur à 13 pour cette entité systémique.
+La confrontation avec notre modèle LDA-EVT est révélatrice. Sous la calibration PRC (plafonnée, sévérité dérivée de la conversion Jacobs sur des montants de notification de fuite bien plus modestes qu'un coût opérationnel total), la VaR 99,5\,\% pour une entité médiane est de 488,0 M\euro, en-deçà même du forfait de Pilier~1 : sur ce seul régime, la Formule Standard ne serait pas absurde. Face à la calibration OpRisk (la seule capturant véritablement le risque extrême sans plafond, sur des montants réellement observés), la VaR atteint \textbf{9\,259,5 M\euro}. La Formule Standard sous-estime ainsi le risque de queue réel d'un facteur supérieur à 15 pour cette entité systémique --- et c'est précisément cette absence de convergence entre sources, plutôt qu'un chiffre unique, qui constitue le message actuariel central du mémoire (cf.~Partie~5).
 
 \paragraph{Synthèse comparative.} Le tableau ci-dessous résume cette confrontation pour notre entité de 15\,000 M\euro\ de CA, en observant le gain de capital obtenu en passant d'un profil non-conforme $S_2$ à un profil conforme $S_0$.
 
@@ -1664,9 +1664,9 @@ Formule Standard (Pilier 1) & 600{,}0 M\euro & 0{,}0 M\euro & Aveugle à la rés
 \addlinespace
 Déterministe (ORSA classique) & 200{,}0 M\euro & Difficile à quantifier & Biais d'ancrage expert, ignore l'agrégation et la contagion \\
 \addlinespace
-Modèle Interne Partiel (LDA -- PRC) & 1\,685{,}9 M\euro & 1\,203{,}4 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
+Modèle Interne Partiel (LDA -- PRC) & 488{,}0 M\euro & \texttt{[EN ATTENTE]} & Nécessite un plafonnement opérationnel (espérance infinie) \\
 \addlinespace
-Modèle Interne Partiel (LDA -- OpRisk) & 8\,287{,}2 M\euro & \texttt{[EN ATTENTE]} & Biais de taille lié aux grandes entités financières historiques \\
+Modèle Interne Partiel (LDA -- OpRisk) & 9\,259{,}5 M\euro & \texttt{[EN ATTENTE]} & Biais de taille lié aux grandes entités financières historiques \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1768,22 +1768,22 @@ Le capital total à l'horizon 99{,}5~\% ($VaR_{99{,}5\%}$) et l'Expected Shortfa
 \rowcolor{lightblue}
 \textbf{Source} & \textbf{Profil} & \textbf{VaR 99,5\,\%} & \textbf{ES 99,5\,\%} & \textbf{Ratio VaR/CA} & \textbf{Ratio ES/CA} \\
 \midrule
-PRC & Leader & 1\,088{,}9 M\euro & 1\,158{,}3 M\euro & 7{,}26\,\% & 7{,}72\,\% \\
-PRC & Médian & 1\,685{,}9 M\euro & 1\,771{,}2 M\euro & 11{,}24\,\% & 11{,}81\,\% \\
-PRC & Retardataire & 2\,268{,}4 M\euro & 2\,370{,}2 M\euro & 15{,}12\,\% & 15{,}80\,\% \\
+PRC & Leader & 333{,}1 M\euro & 363{,}3 M\euro & 2{,}22\,\% & 2{,}42\,\% \\
+PRC & Médian & 488{,}0 M\euro & 526{,}4 M\euro & 3{,}25\,\% & 3{,}51\,\% \\
+PRC & Retardataire & 636{,}2 M\euro & 677{,}8 M\euro & 4{,}24\,\% & 4{,}52\,\% \\
 \addlinespace
-OpRisk & Leader & 5\,820{,}7 M\euro & 13\,228{,}8 M\euro & 38{,}80\,\% & 88{,}19\,\% \\
-OpRisk & Médian & 8\,287{,}2 M\euro & 18\,056{,}9 M\euro & 55{,}25\,\% & 120{,}38\,\% \\
-OpRisk & Retardataire & 9\,982{,}1 M\euro & 20\,104{,}8 M\euro & 66{,}55\,\% & 134{,}03\,\% \\
+OpRisk & Leader & 6\,420{,}7 M\euro & 14\,255{,}0 M\euro & 42{,}80\,\% & 95{,}03\,\% \\
+OpRisk & Médian & 9\,259{,}5 M\euro & 20\,023{,}2 M\euro & 61{,}73\,\% & 133{,}49\,\% \\
+OpRisk & Retardataire & 10\,992{,}4 M\euro & 21\,720{,}1 M\euro & 73{,}28\,\% & 144{,}80\,\% \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Le SCR\_DORA se situe ainsi dans une fourchette globale de \textbf{1\,089~M\euro\ à près de 20\,105~M\euro} selon la source, le profil de conformité et la mesure de risque retenue.
+Le SCR\_DORA se situe ainsi dans une fourchette globale de \textbf{333~M\euro\ à près de 21\,720~M\euro} selon la source, le profil de conformité et la mesure de risque retenue.
 
-\paragraph{Plausibilité économique et risque de ruine.} La lecture des ratios relatifs au Chiffre d'Affaires est particulièrement éloquente. Sous la calibration OpRisk, l'Expected Shortfall d'une entité non-conforme atteint \textbf{126,10\,\%} de son CA annuel. En assurance classique, un sinistre dépassant le chiffre d'affaires est rare ; en risque cyber, une telle valeur traduit mathématiquement un risque de ruine certain de l'entité. Plutôt que d'invalider le modèle, ces montants confirment que la distribution sous-jacente (GPD avec $\hat{\xi} \approx 0{,}6$) modélise un régime de pertes qui outrepasse la capacité d'absorption financière stricte d'une institution individuelle. C'est précisément ce constat actuariel qui justifie la philosophie du règlement DORA : imposer la résilience technique \textit{ex-ante} face à un risque dont l'impact \textit{ex-post} est financièrement intenable.
+\paragraph{Plausibilité économique et risque de ruine.} La lecture des ratios relatifs au Chiffre d'Affaires est particulièrement éloquente. Sous la calibration OpRisk, l'Expected Shortfall d'une entité non-conforme atteint \textbf{144,80\,\%} de son CA annuel. En assurance classique, un sinistre dépassant le chiffre d'affaires est rare ; en risque cyber, une telle valeur traduit mathématiquement un risque de ruine certain de l'entité. Plutôt que d'invalider le modèle, ces montants confirment que la distribution sous-jacente (GPD avec $\hat{\xi} \approx 0{,}6$) modélise un régime de pertes qui outrepasse la capacité d'absorption financière stricte d'une institution individuelle. C'est précisément ce constat actuariel qui justifie la philosophie du règlement DORA : imposer la résilience technique \textit{ex-ante} face à un risque dont l'impact \textit{ex-post} est financièrement intenable.
 
-Cet écart, d'un facteur proche de~\textbf{18,5} entre la borne basse (PRC,
+Cet écart, d'un facteur proche de~\textbf{65} entre la borne basse (PRC,
 profil leader, VaR) et la borne haute (OpRisk, profil retardataire, ES), est
 très supérieur à ce qu'une lecture fondée sur les seuls paramètres de queue
 (Partie~2) aurait pu laisser anticiper. Il confirme, de façon plus radicale
@@ -1792,7 +1792,7 @@ $\hat{\xi}_{\text{OpRisk}}$ pris isolément, le principe déjà énoncé en
 Partie~2 : le SCR cyber ne peut être communiqué comme un point --- ni même
 comme une fourchette resserrée.
 
-Ce facteur~18,5 s'explique par le traitement correct de la queue de
+Ce facteur~65 s'explique par le traitement correct de la queue de
 distribution OpRisk : le paramètre de forme
 $\hat{\xi}_{\text{OpRisk}} = 0{,}595 < 1$ garantissant une espérance finie
 (cf.\ Partie~2), aucun plafonnement de la sévérité par sinistre n'y est
@@ -1834,45 +1834,44 @@ présentés, et leur hiérarchie --- désormais nettement plus contrastée qu'un
 première lecture ne le suggérait --- est elle-même un résultat central du
 mémoire.
 
-\paragraph{Le choix de source de sévérité domine les autres sources
-d'incertitude.} Entre PRC et OpRisk, pour un même profil et une même
-mesure de risque, le capital total varie d'un facteur proche de \textbf{5}
-(par exemple 1\,685{,}9~M\euro contre 8\,287{,}2~M\euro pour le profil
-médian en VaR, soit un facteur~4{,}9). Cet écart, supérieur au facteur
+\paragraph{Le choix de source de sévérité domine très largement les autres
+sources d'incertitude.} Entre PRC et OpRisk, pour un même profil et une même
+mesure de risque, le capital total varie d'un facteur proche de \textbf{19}
+(par exemple 488{,}0~M\euro contre 9\,259{,}5~M\euro pour le profil
+médian en VaR, soit un facteur~19{,}0). Cet écart, très supérieur au facteur
 associé au profil de conformité de l'entité (cf.\ paragraphe suivant),
-provient directement de l'écart entre $\hat{\xi}_{\text{PRC}} = 1{,}30$ et
-$\hat{\xi}_{\text{OpRisk}} = 0{,}595$, combiné au plafond de sévérité
-appliqué de façon symétrique aux briques remédiation et prestataire sous PRC
-(Partie~2.4) : la PRC, plafonnée par nécessité numérique, ne peut restituer
-l'amplitude des sinistres extrêmes que la base OpRisk --- non plafonnée ---
-documente directement. Ce résultat confirme la hiérarchie des sources
-d'incertitude du modèle : le choix méthodologique de calibration de la
-sévérité pèse, à lui seul, davantage sur le niveau de capital que le seul
-levier du profil de conformité, sans toutefois l'écraser aussi radicalement
-qu'une lecture partielle du modèle pouvait initialement le suggérer.
+provient de l'écart entre $\hat{\xi}_{\text{PRC}} = 1{,}30$ et
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595$ : la PRC, dont la sévérité dérive de la
+conversion Jacobs (calibrée sur un coût de notification de fuite de données,
+à une échelle bien plus modeste que le coût opérationnel total d'un
+incident) et plafonnée par nécessité numérique ($\xi \geq 1$), ne peut
+restituer l'amplitude des sinistres extrêmes que la base OpRisk --- sévérité
+observée directement, non plafonnée --- documente. Ce résultat confirme la
+hiérarchie des sources d'incertitude du modèle : le choix méthodologique de
+calibration de la sévérité pèse, à lui seul, davantage sur le niveau de
+capital que l'ensemble des leviers de conformité et de contexte systémique
+combinés.
 
-\paragraph{Le profil de conformité de l'entité conserve un effet net, d'une
-ampleur du même ordre de grandeur que le choix de source.} Sous la source
+\paragraph{Le profil de conformité de l'entité conserve un effet net, mais
+d'ampleur nettement plus modeste que le choix de source.} Sous la source
 OpRisk, le passage du profil leader au profil retardataire fait passer le
-capital de 5\,820{,}7 à 9\,982{,}1~M\euro en VaR, soit un facteur~1{,}72 ;
-sous PRC, le même passage fait passer le capital de 1\,088{,}9 à
-2\,268{,}4~M\euro, soit un facteur~2{,}08. Ces facteurs, du même ordre de
-grandeur entre les deux sources, confirment la robustesse \emph{qualitative}
-de l'effet de conformité, indépendamment du niveau absolu de sévérité
-retenu : quelle que soit la source de calibration, un profil de conformité
-dégradé multiplie le capital requis par un facteur compris entre~1{,}7
-et~2{,}1. Le choix de source reste le premier déterminant du niveau absolu
-de capital, mais l'écart avec l'effet de profil est nettement moins marqué
-qu'une lecture fondée sur une version antérieure du moteur ne le laissait
-penser --- un rappel que ce type de hiérarchie d'incertitude reste sensible
-aux choix de calibration internes au modèle (ici, le plafonnement de
-sévérité), et pas seulement aux sources de données elles-mêmes.
+capital de 6\,420{,}7 à 10\,992{,}4~M\euro en VaR, soit un facteur~1{,}71 ;
+sous PRC, le même passage fait passer le capital de 333{,}1 à
+636{,}2~M\euro, soit un facteur~1{,}91. Ces facteurs, proches entre les deux
+sources, confirment la robustesse \emph{qualitative} de l'effet de
+conformité, indépendamment du niveau absolu de sévérité retenu : quelle que
+soit la source de calibration, un profil de conformité dégradé multiplie le
+capital requis par un facteur de l'ordre de~1{,}7 à~1{,}9. Cette stabilité du
+facteur de conformité, contrastant avec la forte variabilité du niveau
+absolu selon la source, illustre que le modèle capture deux informations de
+nature différente --- une sensibilité relative au profil, robuste au choix
+de calibration, et un niveau absolu, qui ne l'est pas.
 
 \paragraph{L'environnement systémique amplifie la sensibilité au profil.}
 La comparaison des scénarios $\theta = 0$ et $\theta = -2{,}5$ (choc cyber
 sectoriel négatif) montre que la dégradation de l'environnement systémique
 accroît le capital de toutes les entités, mais de façon différenciée : le
-profil leader, sous OpRisk, voit son capital de base (5\,820{,}7~M\euro) s'accroître
+profil leader, sous OpRisk, voit son capital de base (6\,420{,}7~M\euro) s'accroître
 sous l'effet du choc, alors que son $PCD$ passe de 0{,}0045 à 0{,}385 --- une
 sensibilité au facteur commun directement héritée de la structure de Vasicek 
 introduite en~1.4. Sous PRC, l'effet est de même ampleur. Le profil retardataire, 
@@ -1903,66 +1902,63 @@ facteur unique. L'axe des abscisses va de $\theta = 0$ (environnement normal)
 \subsection{Allocation d'Euler : contribution de chaque brique}
 %--------------------------------------------------------------
 
-% NOTE(relecture) : le plafond de sévérité (40 M€) s'applique désormais à la
-% fois à la remédiation ET au prestataire sous PRC (correction du moteur, cf.
-% notebooks/04). Avant cette correction, le prestataire n'était jamais plafonné
-% alors que la remédiation l'était sous PRC (xi>=1), ce qui gonflait
-% artificiellement sa contribution. Une fois les deux briques plafonnées de
-% façon symétrique, le prestataire RESTE dominant sous PRC (~80% du capital),
-% ce qui n'est plus un artefact du plafond mais un écart d'échelle entre la
-% sévérité remédiation calibrée sur PRC/Jacobs (u=0,128 M€, très petite) et la
-% sévérité prestataire calibrée à dire d'expert (Lognormale, médiane ~5 M€).
-% Ce point mérite une discussion méthodologique avec l'encadrant avant
-% publication : soit la sévérité PRC de la remédiation est sous-calibrée,
-% soit le prestataire à dire d'expert est sur-calibré, soit c'est un résultat
-% réel à assumer et à commenter explicitement.
+% NOTE(relecture) : deux corrections successives ont été apportées à la brique
+% prestataire. (1) Le plafond de sévérité (40 M€) s'applique désormais à la
+% fois à la remédiation ET au prestataire sous PRC (avant, seule la remédiation
+% l'était sous PRC, xi>=1). (2) Cela ne suffisait pas : la brique prestataire
+% était calibrée en Lognormale à échelle ABSOLUE (médiane ~5 M€), indépendante
+% de la source active, alors que la remédiation change d'échelle selon la
+% source (PRC/Jacobs vs OpRisk). Sous PRC, cette échelle absolue écrasait la
+% remédiation (calibrée sur un seuil très bas, u=0,128 M€). La brique
+% prestataire est désormais un SURCOÛT RELATIF appliqué à la sévérité de
+% remédiation active (+8,3% à +11,8%, IBM/Ponemon Cost of a Data Breach 2025),
+% ce qui restaure la commensurabilité entre briques et entre sources.
 Cette décomposition révèle un enseignement qui n'apparaissait pas dans une
-version antérieure du moteur, où le plafond de sévérité n'était appliqué qu'à
-la brique remédiation sous PRC, jamais à la brique prestataire (asymétrie de
-traitement, corrigée depuis). Sous la source OpRisk, non plafonnée sur
-aucune brique, la brique de \textbf{remédiation} reste quasi totalement
-dominante (98{,}7 à 98{,}9~\% du capital selon le profil) : les sinistres
-extrêmes réellement observés dans OpRisk Global écrasent numériquement les
-contributions des briques prestataire et sanction, dont les lois de sévérité
-(lognormale plafonnée, loi Bêta plafonnée réglementairement) ne peuvent
-structurellement pas produire des montants du même ordre de grandeur.
+version antérieure du moteur, où la brique prestataire était calibrée sur une
+échelle absolue (Lognormale, médiane $\approx 5$~M\euro) indépendante de la
+source de sévérité active. Sous PRC, dont la remédiation repose sur un seuil
+très bas ($u = 0{,}128$~M\euro, sévérité dérivée de la conversion Jacobs),
+cette échelle absolue écrasait artificiellement la remédiation --- y compris
+après plafonnement symétrique des deux briques à 40~M\euro, le problème
+n'étant pas la queue mais le corps de la distribution. La brique prestataire
+est donc désormais calibrée comme un \textbf{surcoût relatif} sur la sévérité
+de remédiation active plutôt qu'une échelle absolue fixe : IBM/Ponemon
+\emph{Cost of a Data Breach 2025} mesure un surcoût de~8{,}3~\% à~11{,}8~\%
+lorsqu'un tiers est impliqué dans l'incident, fourchette tirée uniformément
+comme les multiplicateurs DORA (Partie~4.3). Cette reformulation restaure la
+commensurabilité entre briques \emph{et} entre sources : la brique
+prestataire suit désormais l'échelle de la source active, au lieu d'importer
+une échelle étrangère au régime simulé.
 
-Sous la source PRC, en revanche, c'est désormais la brique
-\textbf{prestataire} qui domine largement (80{,}1 à 80{,}5~\% du capital
-selon le profil), la remédiation ne représentant plus que 19{,}4 à 19{,}7~\%.
-Cette inversion, y compris après plafonnement symétrique des deux briques à
-40~M\euro, provient d'un écart d'échelle entre les paramètres de sévérité :
-la remédiation calibrée sur PRC/Jacobs repose sur un seuil très bas
-($u = 0{,}128$~M\euro) avec une probabilité de dépassement $p_u = 0{,}15$,
-tandis que la brique prestataire, calibrée à dire d'expert sur trois
-quantiles (Lognormale, médiane $\approx 5$~M\euro), produit des montants
-bien plus élevés dès qu'elle se déclenche (15{,}8~\% des incidents). Ce
-résultat --- que le plafonnement symétrique n'efface pas --- constitue une
-piste de discussion méthodologique à part entière : il documente soit un
-risque tiers ICT structurellement sous-estimé par la littérature de
-sinistralité PRC, soit une calibration experte du prestataire trop
-généreuse relativement à l'échelle PRC, question qui reste à trancher avec
-l'encadrement du mémoire plutôt qu'à figer arbitrairement ici.
+Sous les deux sources, la brique de \textbf{remédiation} domine nettement
+(83{,}1 à 86{,}1~\% du capital selon le profil et la source), suivie par le
+\textbf{prestataire} (13{,}9 à 16{,}9~\%). L'écart entre PRC et OpRisk sur
+cette décomposition est désormais faible (moins de~3 points sur chaque
+brique) : les deux sources, bien que très différentes en niveau absolu
+(cf.~5.1--5.2), s'accordent maintenant sur la \emph{structure} du risque une
+fois les briques rendues commensurables. C'est un résultat plus robuste, et
+plus conforme à l'intuition actuarielle, que l'inversion PRC/OpRisk observée
+avant cette correction.
 
 La contribution de la \textbf{sanction} reste, sous les deux sources, très
-en retrait (inférieure à~0{,}3~\% sous PRC, inférieure à~0{,}1~\% sous
-OpRisk), en cohérence avec le poids structurellement borné du montant
-réglementaire face aux deux autres briques.
+en retrait (inférieure à~1~\% sous PRC, inférieure à~0{,}1~\% sous OpRisk),
+en cohérence avec le poids structurellement borné du montant réglementaire
+face aux deux autres briques.
 
 La figure~\ref{fig:euler} synthétise visuellement cette hiérarchie. On
 observe que le risque physique (remédiation) concentre l'essentiel du
-capital sous OpRisk (>98~\%), tandis que sous PRC c'est désormais le risque
-tiers (prestataire) qui domine ; la sanction reste minoritaire sous les deux
-sources.
+capital sous les deux sources (83 à 86~\%), le risque tiers (prestataire)
+en représentant une part minoritaire mais non négligeable (14 à 17~\%) ; la
+sanction reste marginale sous les deux sources.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1\textwidth]{figures/euler_decomposition.png}
 \caption{Décomposition du SCR (VaR~99{,}5~\%) par brique, sous les deux
 sources de sévérité (profil médian, $\theta=0$). La brique de remédiation
-domine très largement sous OpRisk (>98~\%) ; sous PRC, c'est la brique
-prestataire qui domine (>80~\%), un résultat lié à l'écart d'échelle entre
-les deux calibrations de sévérité (cf. note méthodologique ci-dessus).}
+domine sous les deux sources (85 à 86~\%) ; le prestataire, désormais
+calibré en surcoût relatif sur la sévérité de remédiation active, représente
+une part minoritaire et cohérente entre sources (14~\%).}
 \label{fig:euler}
 \end{figure}
 
@@ -1973,7 +1969,7 @@ complémentaire confirme le caractère marginal de la brique de sanction dans
 le capital total, y compris après correction du moteur. Le doublement du
 plafond réglementaire de l'amende, de 20~M\euro à 40~M\euro, ne déplace que
 très faiblement la VaR~99{,}5~\% : l'effet maximal observé reste inférieur à
-8~M\euro\ (7{,}5~M\euro\ sous OpRisk et 5{,}5~M\euro\ sous PRC), y compris
+7~M\euro\ (6{,}9~M\euro\ sous OpRisk et 4{,}3~M\euro\ sous PRC), y compris
 pour le profil retardataire subissant un taux de non-conformité extrême ---
 un effet d'autant plus négligeable en proportion que le capital total sous
 OpRisk se compte désormais en milliers de millions d'euros.
@@ -1985,13 +1981,13 @@ OpRisk se compte désormais en milliers de millions d'euros.
 \rowcolor{lightblue}
 \textbf{Source} & \textbf{Profil} & \textbf{VaR base (plafond 20~M\euro)} & \textbf{VaR stress (plafond 40~M\euro)} & \textbf{$\Delta$VaR} \\
 \midrule
-OpRisk & Leader & 5\,820{,}7 M\euro & 5\,820{,}7 M\euro & 0{,}0 M\euro \\
-OpRisk & Médian & 8\,287{,}2 M\euro & 8\,287{,}2 M\euro & 0{,}0 M\euro \\
-OpRisk & Retardataire & 9\,982{,}1 M\euro & 9\,989{,}6 M\euro & 7{,}5 M\euro \\
+OpRisk & Leader & 6\,420{,}7 M\euro & 6\,420{,}7 M\euro & 0{,}0 M\euro \\
+OpRisk & Médian & 9\,259{,}5 M\euro & 9\,260{,}3 M\euro & 0{,}9 M\euro \\
+OpRisk & Retardataire & 10\,992{,}4 M\euro & 10\,999{,}3 M\euro & 6{,}9 M\euro \\
 \addlinespace
-PRC & Leader & 1\,088{,}9 M\euro & 1\,089{,}0 M\euro & 0{,}1 M\euro \\
-PRC & Médian & 1\,685{,}9 M\euro & 1\,687{,}1 M\euro & 1{,}2 M\euro \\
-PRC & Retardataire & 2\,268{,}4 M\euro & 2\,273{,}9 M\euro & 5{,}5 M\euro \\
+PRC & Leader & 333{,}1 M\euro & 333{,}1 M\euro & 0{,}0 M\euro \\
+PRC & Médian & 488{,}0 M\euro & 490{,}1 M\euro & 2{,}1 M\euro \\
+PRC & Retardataire & 636{,}2 M\euro & 640{,}5 M\euro & 4{,}3 M\euro \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -2114,14 +2110,18 @@ structurellement bornée par les plafonds légaux.
 
 Le SCR cyber n'est pas un nombre, c'est une distribution large. Les
 résultats de ce mémoire le confirment à chaque étape : une fourchette de
-capital total s'étendant de \textbf{1\,089~M\euro à près de 20\,105~M\euro} selon la
+capital total s'étendant de \textbf{333~M\euro à près de 21\,720~M\euro} selon la
 source de sévérité, le profil de conformité et la mesure de risque retenue,
-soit un facteur de \textbf{18,5} entre ses bornes ; un $\Delta_{DORA}$ dont
+soit un facteur de \textbf{65} entre ses bornes ; un $\Delta_{DORA}$ dont
 l'intervalle de confiance s'élargit massivement sous la source
-OpRisk ; et une allocation d'Euler dont la structure elle-même dépend du
-choix méthodologique de calibration --- la brique de remédiation portant la
-quasi-totalité du capital sous OpRisk, tandis que c'est le risque tiers qui
-domine sous PRC. Cette absence de convergence n'est pas un échec de la
+OpRisk ; et une allocation d'Euler qui, une fois la brique prestataire
+rendue commensurable avec la remédiation (surcoût relatif plutôt qu'échelle
+absolue, cf.~5.3), converge vers une structure cohérente entre sources : la
+brique de remédiation porte l'essentiel du capital (83 à 86~\%) sous PRC
+comme sous OpRisk. Le désaccord entre sources porte donc sur le
+\emph{niveau} de capital, pas sur sa \emph{structure} --- une distinction
+qui n'était pas visible avant la correction de calibration décrite en~5.3.
+Cette absence de convergence sur le niveau n'est pas un échec de la
 modélisation : c'est une information honnête sur l'état actuel des données
 disponibles pour quantifier le risque cyber réglementaire.
 

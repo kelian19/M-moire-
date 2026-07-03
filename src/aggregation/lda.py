@@ -42,11 +42,18 @@ from src.utils.config import PRC, OPRISK, FREQUENCY, SCR_DORA
 BRIQUE_PARAMS = {
     "prestataire": {
         "trigger_prop": HACKMAGEDDON_PROPORTIONS["supply_chain_tiers"],
-        # Calibration 3 quantiles (Expert/ORSA) traduite en Lognormale
-        # exp(1.6) ≈ 4.95 M€ (médiane), queue épaisse (sigma=1.2)
-        "mu_lognorm": 1.6, 
-        "sigma_lognorm": 1.2,
-        "source": "Scénarios d'experts — calibration Lognormale sur 3 quantiles"
+        # Surcoût RELATIF à la sévérité de remédiation active (même GPD, même
+        # source PRC/OpRisk), et non plus une Lognormale à échelle absolue fixe.
+        # Une échelle absolue indépendante de la source cassait la commensurabilité
+        # avec la remédiation : sous PRC (sévérité Jacobs, très petite échelle),
+        # elle écrasait artificiellement la remédiation ; recalibrée en surcoût
+        # relatif, la brique prestataire suit désormais l'échelle de la source active.
+        # Fourchette sourcée IBM/Ponemon Cost of a Data Breach 2025 : +8.3% (brèche
+        # via compromission logicielle tierce) à +11.8% (brèche via partenaire
+        # commercial). Tiré uniformément dans l'intervalle (principe déjà appliqué
+        # aux multiplicateurs DORA, cf. Partie 4.3 du mémoire).
+        "surcharge_range": (0.083, 0.118),
+        "source": "IBM/Ponemon Cost of a Data Breach 2025 — surcoût tiers +8.3%/+11.8%",
     },
     "sanction": {
         "montant_range_eur_m": (2.0, 20.0),
@@ -108,19 +115,22 @@ def simulate_year_3_briques(lambda_annual: float, severity_params: dict,
     # --- BRIQUE 1 : Remédiation (Base GPD) ---
     remediation_events = simulate_remediation_severity(total_events, xi, sigma, u, p_u, cap, rng)
 
-    # --- BRIQUE 2 : Prestataire (Scénario d'expert sur incidents tiers) ---
+    # --- BRIQUE 2 : Prestataire (surcoût relatif sur la sévérité de remédiation) ---
     vecteurs = rng.choice(list(HACKMAGEDDON_PROPORTIONS.keys()), size=total_events,
                           p=list(HACKMAGEDDON_PROPORTIONS.values()))
     is_tiers = vecteurs == "supply_chain_tiers"
     n_tiers = int(is_tiers.sum())
-    
-    # Tirage Lognormal pour les incidents impliquant un tiers
-    mu_p = BRIQUE_PARAMS["prestataire"]["mu_lognorm"]
-    sig_p = BRIQUE_PARAMS["prestataire"]["sigma_lognorm"]
+
+    # Sévérité de base identique à la remédiation (même GPD, même seuil, même
+    # source active), rehaussée du surcoût tiers observé empiriquement
+    # (IBM/Ponemon, tiré uniformément dans la fourchette sourcée).
+    low, high = BRIQUE_PARAMS["prestataire"]["surcharge_range"]
+    surcharge = rng.uniform(low, high, size=n_tiers)
+    base_severity = simulate_remediation_severity(n_tiers, xi, sigma, u, p_u, cap, rng)
     prestataire_events = np.zeros(total_events)
-    prestataire_events[is_tiers] = rng.lognormal(mean=mu_p, sigma=sig_p, size=n_tiers)
-    # Même plafond de sévérité que la remédiation (cap PRC ξ≥1) : sans lui, la
-    # queue non bornée du prestataire écrase artificiellement la remédiation plafonnée.
+    prestataire_events[is_tiers] = base_severity * (1.0 + surcharge)
+    # Même plafond que la remédiation : le surcoût ne doit pas contourner le
+    # plafond de réassurance appliqué à la source active (PRC, xi>=1).
     if cap is not None:
         prestataire_events = np.minimum(prestataire_events, cap)
 

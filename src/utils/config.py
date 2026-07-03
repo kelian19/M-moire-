@@ -93,14 +93,14 @@ COPULE = {
 # Médiane et IC90% en M€. bootstrap_severity=True uniquement pour OpRisk
 # (données brutes disponibles) ; False pour PRC (point fixe, IC sous-estimé).
 # Régénérée via notebooks/07_bootstrap_delta_dora.py (n_boot=200, n_sim=20 000).
-# PRC : relancé et vérifié dans cet environnement (voir
-# outputs/tables/results_delta_dora_bootstrap.csv).
+# ⚠️ PRC : valeurs héritées de la calibration prestataire PRÉCÉDENTE (Lognormale à
+# échelle absolue) -> À REGÉNÉRER après la recalibration en surcoût relatif
+# (cf. EULER_DECOMPOSITION ci-dessous), relancer notebooks/07_bootstrap_delta_dora.py.
 # OPRISK : nécessite data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx, absent de cet
-# environnement -> valeurs ci-dessous NON RÉGÉNÉRÉES (héritées, à revérifier en
-# relançant notebooks/07_bootstrap_delta_dora.py là où le fichier est disponible).
+# environnement -> valeurs ci-dessous NON RÉGÉNÉRÉES (héritées, encore plus anciennes).
 DELTA_DORA_GRID = {
-    ("PRC", "S1_partiel"):      {"median": 434.9,  "ic90": [332.1, 534.9],      "bootstrap_sev": False},
-    ("PRC", "S2_non_conforme"): {"median": 1203.4, "ic90": [963.7, 1389.0],     "bootstrap_sev": False},
+    ("PRC", "S1_partiel"):      {"median": 434.9,  "ic90": [332.1, 534.9],      "bootstrap_sev": False},  # PÉRIMÉ
+    ("PRC", "S2_non_conforme"): {"median": 1203.4, "ic90": [963.7, 1389.0],     "bootstrap_sev": False},  # PÉRIMÉ
     ("OPRISK", "S1_partiel"):   {"median": 1086.9, "ic90": [410.5, 4348.4],     "bootstrap_sev": True},  # NON REVÉRIFIÉ
     ("OPRISK", "S2_non_conforme"): {"median": 4092.2, "ic90": [1463.9, 19659.2], "bootstrap_sev": True},  # NON REVÉRIFIÉ
 }
@@ -110,16 +110,17 @@ DELTA_DORA_GRID = {
 # n'en fait PAS partie : c'est un delta contrefactuel (cf. src/aggregation/lda.py::
 # scr_4_briques_report), pas une composante de la somme. Voir
 # outputs/tables/results_euler_option_a.csv pour la grille complète par profil et source.
+# Prestataire recalibré en surcoût relatif IBM/Ponemon (+8.3%/+11.8%) sur la
+# sévérité de remédiation active, au lieu d'une Lognormale à échelle absolue :
+# restaure la commensurabilité entre briques et entre sources PRC/OpRisk.
 EULER_DECOMPOSITION = {
-    "OPRISK": {"remediation": 0.989, "prestataire": 0.011, "sanction": 0.0003},
-    "PRC":    {"remediation": 0.194, "prestataire": 0.805, "sanction": 0.001},
+    "OPRISK": {"remediation": 0.860, "prestataire": 0.140, "sanction": 0.0003},
+    "PRC":    {"remediation": 0.854, "prestataire": 0.141, "sanction": 0.005},
     "note": (
-        "Sous OpRisk (non plafonnée), la remédiation domine quasi totalement. "
-        "Sous PRC (les deux briques plafonnées à 40 M€ depuis la correction du "
-        "moteur), c'est le prestataire qui domine — écart d'échelle entre la "
-        "sévérité remédiation (PRC/Jacobs, u=0.128 M€) et la sévérité prestataire "
-        "à dire d'expert (Lognormale, médiane ~5 M€), à discuter avec l'encadrement "
-        "avant publication. La sanction reste marginale sous les deux sources."
+        "Remédiation dominante sous les deux sources (85-86%), prestataire "
+        "minoritaire mais non négligeable (14%), structure cohérente entre "
+        "sources depuis la recalibration du prestataire en surcoût relatif. "
+        "La sanction reste marginale sous les deux sources."
     ),
 }
 
