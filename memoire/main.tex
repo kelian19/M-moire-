@@ -138,9 +138,9 @@ non-conformité --- même hypothétique ou graduel --- en une distribution de
 pertes financières futures, puis en un surcroît de capital de solvabilité
 mesurable. Cette démarche prospective est ce qui distingue le présent travail
 d'un audit de conformité classique : l'ambition est de répondre à la
-question \emph{« que pourrait-il en coûter, en fonds propres, de ne pas se
-conformer à DORA ? »}, et non à la question \emph{« l'entité est-elle
-conforme aujourd'hui ? »}.
+question \emph{\og que pourrait-il en coûter, en fonds propres, de ne pas se
+conformer à DORA ?\fg{}}, et non à la question \emph{\og l'entité est-elle
+conforme aujourd'hui ?\fg{}}.
 
 C'est dans cet interstice, entre un règlement de résilience opérationnelle
 et un cadre de solvabilité financière, que se situe la problématique de ce
@@ -207,11 +207,11 @@ La formule standard de Solvabilité II utilise des matrices de corrélation lin�
 \subsection{De Solvabilité II à DORA : Le pont quantitatif}
 %--------------------------------------------------------------
 
-Historiquement, le risque cyber était relégué au sein du «~risque opérationnel~», quantifié de manière rudimentaire par la formule standard de Solvabilité II via un pourcentage des primes (BSCR). Cette approche «~forfaitaire~» ne récompense pas les investissements en cybersécurité. 
+Historiquement, le risque cyber était relégué au sein du \og risque opérationnel\fg{}, quantifié de manière rudimentaire par la formule standard de Solvabilité II via un pourcentage des primes (BSCR). Cette approche \og forfaitaire\fg{} ne récompense pas les investissements en cybersécurité. 
 
 Le règlement européen DORA (Digital Operational Resilience Act) change ce paradigme en imposant des standards stricts de résilience IT, de gestion des tiers prestataires et de report d'incidents. Cependant, DORA est un texte de conformité qualitative. Le défi actuel de la place financière est de traduire ces exigences en impacts bilanciels. 
 
-C'est très exactement dans cette dynamique d'innovation méthodologique que s'inscrivent les travaux internes menés chez Nexialog Consulting sous la supervision de \textbf{Hugo Rapior}. L'approche développée dans ce mémoire formalise cette traduction : il s'agit de passer d'un constat binaire (conforme / non-conforme) à une modélisation continue du risque (le Delta DORA). En isolant la brique «~Prestataires~» (Chapitre V de DORA) et la brique «~Sanctions~» administratives, ce modèle interne partiel de type LDA propose un premier pont quantitatif rigoureux entre la résilience opérationnelle numérique (DORA) et la solvabilité prudentielle (Pilier 1 et ORSA de Solvabilité II).
+C'est très exactement dans cette dynamique d'innovation méthodologique que s'inscrivent les travaux internes menés chez Nexialog Consulting sous la supervision de \textbf{Hugo Rapior}. L'approche développée dans ce mémoire formalise cette traduction : il s'agit de passer d'un constat binaire (conforme / non-conforme) à une modélisation continue du risque (le Delta DORA). En isolant la brique \og Prestataires\fg{} (Chapitre V de DORA) et la brique \og Sanctions\fg{} administratives, ce modèle interne partiel de type LDA propose un premier pont quantitatif rigoureux entre la résilience opérationnelle numérique (DORA) et la solvabilité prudentielle (Pilier 1 et ORSA de Solvabilité II).
 
 %==============================================================
 \section{Le cadre réglementaire : de Bâle III et Solvabilité II au règlement DORA}
@@ -765,7 +765,7 @@ Puisque $X_i \sim \mathcal{N}(0,1)$, on isole $X_i$ pour obtenir la formule ferm
 \begin{equation}
 PCD_i(y) = \Phi \left( \frac{\Phi^{-1}(PCD_{marginal}) - \sqrt{\rho}y}{\sqrt{1-\rho}} \right)
 \end{equation}
-Cette formulation mathématique rigoureuse justifie la dynamique asymétrique observée dans nos résultats : une entité «~Leader~» (dont le seuil $c_i$ est très bas) restera résiliente même si $Y$ se dégrade, tandis qu'une entité «~Médiane~» verra sa probabilité de défaut converger asymptotiquement vers 1, ce qui active mécaniquement la contagion entre la brique prestataire et la brique sanction dans l'allocation d'Euler.
+Cette formulation mathématique rigoureuse justifie la dynamique asymétrique observée dans nos résultats : une entité \og Leader\fg{} (dont le seuil $c_i$ est très bas) restera résiliente même si $Y$ se dégrade, tandis qu'une entité \og Médiane\fg{} verra sa probabilité de défaut converger asymptotiquement vers 1, ce qui active mécaniquement la contagion entre la brique prestataire et la brique sanction dans l'allocation d'Euler.
 
 %==============================================================
 \section{Données et limites}
@@ -774,7 +774,7 @@ Cette formulation mathématique rigoureuse justifie la dynamique asymétrique ob
 La modélisation développée dans ce mémoire ne repose sur aucune base de
 données unique. Chaque source mobilisée présente un périmètre, un biais et un
 niveau de granularité distincts, et c'est précisément leur articulation ---
-plutôt que le choix d'une source « privilégiée » --- qui constitue la
+plutôt que le choix d'une source \og privilégiée\fg{} --- qui constitue la
 démarche méthodologique retenue. Cette partie présente successivement les
 trois sources utilisées, avant de formaliser un cadre épistémique explicite
 sur les limites de l'exercice.
@@ -856,7 +856,7 @@ Pour respecter les exigences de l'Article 19, les sinistres historiques doivent 
 \end{equation}
 où $i_k^{cyber}$ est un taux d'inflation spécifique aux sinistres technologiques (souvent estimé par des indices sectoriels entre 5\,\% et 10\,\% annuels). Dans le cadre de ce mémoire, nous assumons que les bases commerciales traitées intègrent une homogénéisation monétaire, mais soulignons que la construction d'un indice d'inflation cyber robuste demeure un défi majeur pour la place financière.
 
-Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de Jacobs. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log présente la limite de «~lisser~» la variance et de minorer les extrêmes, justifiant notre décision de ne pas plafonner la calibration issue directement d'OpRisk (où les montants sont observés de bout en bout).
+Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de Jacobs. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log présente la limite de \og lisser\fg{} la variance et de minorer les extrêmes, justifiant notre décision de ne pas plafonner la calibration issue directement d'OpRisk (où les montants sont observés de bout en bout).
 
 %--------------------------------------------------------------
 \subsection{Perspectives : Le registre européen DORA comme solution pérenne}
@@ -951,8 +951,8 @@ entre vecteurs d'attaque.
 
 \paragraph{Limite 2 : taxonomie instable.} Une comparaison de structure entre
 2023 (3\,019 incidents, Q3 manquant) et 2026 a mis en évidence un artefact de
-taxonomie. La catégorie « Ransomware » n'existait pas en 2023, les incidents
-correspondants étant alors classés sous « Malware ». Une lecture naïve
+taxonomie. La catégorie \og Ransomware\fg{} n'existait pas en 2023, les incidents
+correspondants étant alors classés sous \og Malware\fg{}. Une lecture naïve
 suggérait une hausse du ransomware de +11 points ; après reclassement par
 grille de mots-clés commune, le ransomware \emph{recule} en réalité de
 23 points.
@@ -987,8 +987,8 @@ d'une base de ce type.
 historique du risque opérationnel au sens de Bâle~2/3, comptant
 \textbf{41\,975 incidents} après nettoyage d'une aberration de saisie. Le
 risque cyber n'y constitue pas une catégorie native : il est reconstruit à
-partir des catégories « Systems Security » et « Business Disruption and
-System Failures ». Le périmètre cyber $\times$ finance retenu compte
+partir des catégories \og Systems Security\fg{} et \og Business Disruption and
+System Failures\fg{}. Le périmètre cyber $\times$ finance retenu compte
 \textbf{582 incidents} sur la période 2000--2026.
 
 \paragraph{Lien avec l'approche AMA.} Cette base est historiquement celle
@@ -1055,18 +1055,18 @@ expliqué par le biais de taille d'OpRisk : les grandes entités financières y
 sont sur-représentées et absorbent mieux les chocs, d'où une queue
 apparemment plus légère. Les deux sources confirment néanmoins le même régime
 qualitatif de queue lourde ($\xi > 0$). Il n'existe donc pas de hiérarchie
-« source primaire » en sévérité : OpRisk fournit des montants réels, la PRC
+\og source primaire\fg{} en sévérité : OpRisk fournit des montants réels, la PRC
 un spectre de tailles plus large via la conversion Jacobs --- deux
 estimations indépendantes et complémentaires, dont l'écart constitue
 lui-même une information sur l'incertitude du modèle.
 
 La décomposition par sous-catégorie révèle en outre deux profils de risque
-distincts : les pannes (« Business Disruption ») sont moins fréquentes
+distincts : les pannes (\og Business Disruption\fg{}) sont moins fréquentes
 (19~\% des incidents) mais nettement plus coûteuses, avec une médiane cinq
-fois supérieure à celle des intrusions (« Systems Security »), suggérant que
+fois supérieure à celle des intrusions (\og Systems Security\fg{}), suggérant que
 les multiplicateurs DORA pourraient à terme être différenciés non seulement
 en fréquence mais aussi en sévérité --- sous réserve de la taille réduite de
-l'échantillon « pannes » (28 excès), qui rend cette calibration indicative.
+l'échantillon \og pannes\fg{} (28 excès), qui rend cette calibration indicative.
 
 %--------------------------------------------------------------
 \subsection{Cadre épistémique : ce qu'on sait faire et ce qu'on ne sait pas faire}
@@ -1343,7 +1343,7 @@ les deux calibrations s'explique par le biais de taille d'OpRisk : les
 grandes entités financières y sont sur-représentées et absorbent mieux les
 chocs, d'où une queue apparemment plus légère. Les deux sources confirment
 néanmoins le même régime qualitatif de queue lourde ($\xi > 0$), et aucune
-hiérarchie de type « source primaire » n'est retenue entre elles --- leur
+hiérarchie de type \og source primaire\fg{} n'est retenue entre elles --- leur
 écart est traité comme une composante de l'incertitude totale du modèle,
 non comme un désaccord à trancher.
 
@@ -1427,9 +1427,9 @@ quantile $\alpha$ recherché, faute de forme fermée pour l'architecture de
 dépendance retenue.
 
 Cette allocation permet de répondre à une question distincte de celle du
-niveau global de capital : non pas « combien faut-il provisionner ? », mais
-« quelle brique --- remédiation, sanction, prestataire ou aggravation ---
-consomme le plus de capital dans les scénarios extrêmes ? ». Cette
+niveau global de capital : non pas \og combien faut-il provisionner ?\fg{}, mais
+\og quelle brique --- remédiation, sanction, prestataire ou aggravation ---
+consomme le plus de capital dans les scénarios extrêmes ?\fg{}. Cette
 décomposition est présentée et discutée en Partie~5, où elle est mise en
 regard des travaux antérieurs sur la structure du risque cyber.
 
@@ -1711,11 +1711,11 @@ Modèle Interne Partiel (LDA -- OpRisk) & 9\,259{,}5 M\euro & 3\,879{,}3 M\euro 
 \subsection{L'approche par scénarios déterministes (ORSA) : l'illusion de la précision}
 %--------------------------------------------------------------
 
-Pour pallier les lacunes de la Formule Standard, les assureurs s'appuient traditionnellement sur le Pilier 2 (ORSA) pour évaluer leurs risques extrêmes, souvent via une approche déterministe dite «~à dire d'expert~».
+Pour pallier les lacunes de la Formule Standard, les assureurs s'appuient traditionnellement sur le Pilier 2 (ORSA) pour évaluer leurs risques extrêmes, souvent via une approche déterministe dite \og à dire d'expert\fg{}.
 
-\paragraph{Mécanique de l'approche déterministe.} Le Directeur des Risques et le Responsable de la Sécurité des Systèmes d'Information (RSSI) définissent de concert un «~scénario catastrophe~». Par exemple : \emph{«~Une attaque par rançongiciel paralyse nos serveurs centraux pendant 5~jours, entraînant une perte d'exploitation, des coûts d'investigation et de notification.~»} Les experts chiffrent ce scénario poste par poste, aboutissant à une perte ponctuelle, par exemple de 80 M\euro, qui est alors provisionnée comme exigence de capital.
+\paragraph{Mécanique de l'approche déterministe.} Le Directeur des Risques et le Responsable de la Sécurité des Systèmes d'Information (RSSI) définissent de concert un \og scénario catastrophe\fg{}. Par exemple : \emph{\og Une attaque par rançongiciel paralyse nos serveurs centraux pendant 5~jours, entraînant une perte d'exploitation, des coûts d'investigation et de notification.\fg{}} Les experts chiffrent ce scénario poste par poste, aboutissant à une perte ponctuelle, par exemple de 80 M\euro, qui est alors provisionnée comme exigence de capital.
 
-\paragraph{Le biais de cognition face à la queue lourde.} Si cette méthode présente l'avantage d'être hautement «~lisible~» pour la Direction Générale, nos données empiriques en démontrent la dangerosité statistique. L'expertise humaine a tendance à s'ancrer sur des moyennes ou des événements récents mémorisables. Dans la base SAS OpRisk Global, la moyenne des sinistres cyber est de 26,4 M\euro. Un expert fixant un scénario de crise à 80 M\euro\ (soit 3 fois la moyenne) pensera légitimement faire preuve d'un grand conservatisme.
+\paragraph{Le biais de cognition face à la queue lourde.} Si cette méthode présente l'avantage d'être hautement \og lisible\fg{} pour la Direction Générale, nos données empiriques en démontrent la dangerosité statistique. L'expertise humaine a tendance à s'ancrer sur des moyennes ou des événements récents mémorisables. Dans la base SAS OpRisk Global, la moyenne des sinistres cyber est de 26,4 M\euro. Un expert fixant un scénario de crise à 80 M\euro\ (soit 3 fois la moyenne) pensera légitimement faire preuve d'un grand conservatisme.
 
 Pourtant, l'analyse par la Théorie des Valeurs Extrêmes (EVT) menée en Partie 3 prouve le contraire. L'ajustement de la distribution de Pareto Généralisée (GPD) sur les données OpRisk a révélé un indice de queue $\hat{\xi} = 0{,}595$, caractéristique d'un régime à queue lourde extrême. Empiriquement, la base documente un sinistre maximum à \textbf{1\,500 M\euro}. En se contentant d'un scénario expert à 80 M\euro, l'assureur ignore la forme asymptotique de la distribution et ne provisionne absolument pas le quantile à 99,5\,\% exigé par la directive.
 
