@@ -5,12 +5,11 @@
 \usepackage{lmodern}
 \usepackage[french]{babel}
 \usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}          % justification fine, moins de débordements
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
-\usepackage[round,authoryear]{natbib}
-\usepackage[french]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{enumitem}
@@ -18,21 +17,29 @@
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage{caption}
-\usepackage{hyperref}
 \usepackage[official]{eurosym}
 \usepackage[round,authoryear]{natbib}
+\usepackage{hyperref}           % chargé en dernier (bonne pratique)
 
 \definecolor{navy}{HTML}{1F3864}
 \definecolor{bluemid}{HTML}{2E5496}
 \definecolor{lightblue}{HTML}{D6E0F0}
 
-\hypersetup{colorlinks=true, linkcolor=bluemid, urlcolor=bluemid}
+\hypersetup{
+  colorlinks=true, linkcolor=bluemid, urlcolor=bluemid, citecolor=bluemid,
+  bookmarksnumbered=true, bookmarksopen=true,
+  pdftitle={Quantification du SCR lié à la non-conformité au règlement DORA},
+  pdfauthor={Kélian Kaddouri}
+}
 
 \captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
 
 \titleformat{\section}{\color{navy}\large\bfseries}{\thesection}{0.6em}{}
 \titleformat{\subsection}{\color{bluemid}\normalsize\bfseries}{\thesubsection}{0.5em}{}
 \titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+% Respiration verticale autour des titres
+\titlespacing*{\section}{0pt}{2.4ex plus 1ex minus .2ex}{1.4ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{2.0ex plus .8ex minus .2ex}{1.0ex plus .2ex}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -43,6 +50,10 @@
 
 \setlength{\parskip}{0.4em}
 \setlength{\parindent}{1.2em}
+\setlength{\emergencystretch}{3em}   % réduit les débordements résiduels
+% Titres de figures/tables plus aérés
+\setlength{\intextsep}{14pt plus 2pt minus 2pt}
+\captionsetup{skip=6pt}
 
 \begin{document}
 
@@ -86,10 +97,23 @@
 \end{center}
 \end{titlepage}
 
+%==============================================================
+% TABLE DES MATIÈRES
+%==============================================================
+\begingroup
+\hypersetup{linkcolor=navy}
+\renewcommand{\contentsname}{\color{navy}Sommaire}
+\setcounter{tocdepth}{2}   % sections + sous-sections seulement (sommaire épuré)
+\tableofcontents
+\endgroup
+\thispagestyle{fancy}
+\clearpage
+
 \setcounter{page}{1}
 
 %==============================================================
 \section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
 %==============================================================
 
 Le risque cyber occupe aujourd'hui une place singulière dans le paysage
@@ -148,6 +172,7 @@ et leurs implications pour le pilotage prudentiel.
 
 % ==============================================================================
 \section*{État de l'art : de l'assurabilité du risque cyber à la réglementation DORA}
+\addcontentsline{toc}{section}{État de l'art}
 % ==============================================================================
 
 Avant de détailler la modélisation mathématique retenue pour quantifier le Capital de Solvabilité Requis (SCR) lié à DORA, il est indispensable de positionner ce travail dans la littérature actuarielle récente. Le risque cyber, de par sa nature évolutive et systémique, bouscule les paradigmes traditionnels de l'assurance non-vie et de la gestion des risques opérationnels. 
@@ -614,6 +639,7 @@ large.
 
 % ==============================================================================
 \section*{Cadre mathématique de la modélisation des risques extrêmes}
+\addcontentsline{toc}{section}{Cadre mathématique de la modélisation des risques extrêmes}
 % ==============================================================================
 
 La quantification du risque cyber, caractérisée par une asymétrie prononcée et la présence de sinistres d'une sévérité exceptionnelle, nécessite un cadre probabiliste robuste. Les lois de probabilité traditionnelles (Lognormale, Gamma, Weibull), souvent utilisées en assurance non-vie pour modéliser le corps de la distribution (la fréquence des sinistres d'attrition), échouent à capturer l'épaisseur des queues de distribution typiques des méga-fuites de données ou des paralysies systémiques. Cette section détaille les fondements théoriques de la Théorie des Valeurs Extrêmes (EVT) sous-jacents au modèle de distribution de pertes agrégées (LDA) implémenté, ainsi que la modélisation de la dépendance.
@@ -1637,6 +1663,7 @@ la décomposition de l'incertitude en Partie~5.
 
 % ==============================================================================
 \section*{Comparaison méthodologique : limites des approches standards face au risque cyber}
+\addcontentsline{toc}{section}{Comparaison méthodologique des approches}
 % ==============================================================================
 
 L'introduction d'un Modèle Interne Partiel (LDA) stochastique, tel que développé dans ce mémoire, représente un investissement méthodologique lourd pour un assureur. Pour en justifier la pertinence, il convient de le confronter aux deux méthodes traditionnellement utilisées sur la place pour évaluer le risque opérationnel : l'approche forfaitaire de la Formule Standard (Pilier 1) et l'approche déterministe par scénarios (historiquement privilégiée dans l'ORSA, Pilier 2). L'application de nos propres données de calibration à ces méthodes permet d'en démontrer les limites structurelles face à la nature du risque cyber.
@@ -1978,9 +2005,94 @@ Cette insensibilité confirme un message central du mémoire pour le pilotage :
 le capital cyber répond à un risque \emph{opérationnel} (fréquence et
 sévérité des incidents), et non à un risque de \emph{sanction} administrative,
 dont l'impact financier demeure borné par sa structure réglementaire et
-désormais totalement négligeable face à la queue lourde des pertes
-techniques observées sous OpRisk et face au poids désormais dominant du
-prestataire sous PRC.
+négligeable face à la queue lourde des pertes techniques, sous les deux
+sources.
+
+%--------------------------------------------------------------
+\subsection{Analyse de sensibilité aux hypothèses porteuses}
+%--------------------------------------------------------------
+
+Le modèle mobilise des paramètres de statut épistémique hétérogène : certains
+sont \emph{calibrés sur données} et assortis d'un intervalle de confiance
+(l'indice de queue $\hat\xi$ et l'échelle $\hat\sigma$ de la GPD, dont
+l'IC90\% est obtenu par bootstrap, cf.\ Partie~2) ; d'autres sont des
+\emph{hypothèses libres}, ancrées sur proxies ou avis d'expert et non estimées
+faute de données conditionnelles à la conformité (la corrélation systémique
+$\gamma$ du modèle de Vasicek, la non-conformité de référence $p_{ref}$, les
+bornes des multiplicateurs de fréquence, la surcharge tiers, la sur-dispersion
+$\varphi$, le paramètre de la copule). La légitimité du modèle exige de
+mesurer \emph{combien} chacun de ces leviers pèse réellement sur le capital,
+plutôt que de se contenter de les déclarer incertains.
+
+Nous perturbons donc chaque paramètre sur une plage plausible et documentée,
+toutes choses égales par ailleurs, et mesurons la réponse de la
+VaR~99{,}5~\% autour du cas de référence (OpRisk, profil médian, $\theta=0$,
+soit un SCR de base de 9\,259~M\euro). La figure~\ref{fig:tornado} classe les
+paramètres par amplitude d'effet (\emph{tornado}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/tornado_sensitivity.png}
+\caption{Sensibilité de la VaR~99{,}5~\% aux hypothèses porteuses du modèle,
+cas de référence OpRisk / profil médian / $\theta=0$. En bleu, les paramètres
+calibrés sur données (IC90\% bootstrap) ; en orange, les hypothèses libres.
+Le paramètre $\gamma$ étant inerte à $\theta=0$ par construction (terme
+$\gamma\cdot\theta$), sa sensibilité est évaluée sous choc systémique
+$\theta=-2{,}5$, d'où le décalage de sa barre.}
+\label{fig:tornado}
+\end{figure}
+
+\paragraph{Un résultat qui conforte la thèse du mémoire.} La hiérarchie est
+sans appel et va dans le sens de tout le reste du travail :
+\begin{itemize}[topsep=3pt,itemsep=1pt]
+\item l'indice de queue $\hat\xi$ domine \emph{massivement} : sur son seul
+IC90\% bootstrap $[0{,}30\,;\,0{,}83]$, la VaR passe de 3\,073 à
+32\,312~M\euro, soit une amplitude de plus de 300\,\% du SCR de base --- à lui
+seul, le paramètre de queue peut multiplier le capital par dix ;
+\item l'échelle $\hat\sigma$ vient ensuite ($\pm 69\,\%$) ; les deux
+paramètres calibrés sur données concentrent ainsi l'essentiel de
+l'incertitude ;
+\item parmi les hypothèses libres, seule la non-conformité de référence
+$p_{ref}$ a un effet notable ($\pm 18\,\%$) ; toutes les autres
+--- multiplicateurs de fréquence ($\pm 5\,\%$), sur-dispersion, corrélation
+systémique $\gamma$ même sous choc ($\sim 3\,\%$), surcharge tiers et copule
+($< 1\,\%$) --- déplacent le capital de façon marginale.
+\end{itemize}
+
+Cette analyse préempte directement la critique naturelle adressée à un modèle
+partiellement calibré à dire d'expert : les paramètres les moins solidement
+étayés ($\gamma$, la copule, la surcharge tiers) sont précisément ceux qui
+pèsent le moins sur le résultat, tandis que le déterminant premier du capital
+--- l'indice de queue de la sévérité --- est estimé sur données réelles et
+assorti de son intervalle de confiance. Le corollaire rejoint le message
+central des sections~5.1--5.2 : l'incertitude du SCR cyber est d'abord une
+incertitude \emph{de sévérité} (donc de source de données), très loin devant
+l'incertitude sur la mécanique de conformité. Investir dans une meilleure
+donnée de sévérité réduirait l'incertitude du capital bien davantage que
+raffiner la calibration du pont latent.
+
+\paragraph{Validation et perspectives de robustesse.} L'absence de données de
+pertes conditionnelles à la conformité DORA interdit, à ce stade, une
+validation \emph{out-of-sample} au sens strict : on ne peut confronter le
+$\Delta_{DORA}$ prédit à un $\Delta_{DORA}$ réalisé, faute d'historique. Trois
+formes de validation restent néanmoins accessibles et sont mobilisées dans ce
+travail. D'abord, une validation \emph{croisée entre sources} : la calibration
+de queue est confrontée à une source indépendante (PRC vs OpRisk), et leur
+écart --- plutôt que masqué --- est traité comme une composante de
+l'incertitude, ce qui constitue un test de robustesse du régime de queue
+(toutes deux confirment $\xi > 0$, cf.\ Partie~2). Ensuite, une validation
+\emph{de cohérence interne} : la décomposition d'Euler, une fois les briques
+rendues commensurables, converge entre sources sur la structure du risque
+(remédiation dominante, cf.\ 5.3), signe que le résultat n'est pas un artefact
+d'une source particulière. Enfin, l'analyse de sensibilité ci-dessus joue le
+rôle d'un \emph{stress-test de spécification} : elle borne l'effet de chaque
+hypothèse et localise l'incertitude résiduelle. À terme, la constitution du
+registre d'incidents DORA (cf.\ Partie~2.6) ouvrira la voie à une validation
+directe : rétro-tester la calibration de sévérité sur les pertes nouvellement
+observées, et surtout estimer les multiplicateurs de fréquence sur des comptes
+de sinistres réellement conditionnels au niveau de conformité --- remplaçant
+alors l'hypothèse experte porteuse par une quantité mesurée. Le modèle est
+construit pour absorber cette substitution sans changement d'architecture.
 
 %--------------------------------------------------------------
 \subsection{Comparaison avec les travaux antérieurs}
@@ -2088,6 +2200,7 @@ structurellement bornée par les plafonds légaux.
 
 %==============================================================
 \section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
 %==============================================================
 
 Le SCR cyber n'est pas un nombre, c'est une distribution large. Les
@@ -2124,5 +2237,6 @@ dans l'attente de données futures plus riches.
 
 
 \bibliographystyle{apalike}
+\addcontentsline{toc}{section}{Références}
 \bibliography{references}
 \end{document}
