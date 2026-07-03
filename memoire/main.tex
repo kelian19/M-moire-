@@ -2,6 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage[french]{babel}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{booktabs}
@@ -262,7 +263,7 @@ l'approche LDA en tant qu'outil de modélisation : il en restreint l'usage \emph
 calcul réglementaire de Pilier~1 dans le secteur bancaire}. La logique de la composante
 $LC$ --- faire dépendre le capital de l'historique réel des pertes --- demeure
 parfaitement pertinente, et c'est cette logique, transposée à l'assurance et enrichie de
-la théorie des valeurs extrêmes, que nous mettons en œuvre.
+la théorie des valeurs extrêmes, que nous mettons en oeuvre.
 
 \paragraph{Solvabilité II : l'asymétrie réglementaire et le maintien du choix méthodologique.}
 Contrairement au secteur bancaire, le secteur de l'assurance conserve sous Solvabilité~II
@@ -848,7 +849,7 @@ La constitution de ce registre européen résoudra structurellement les trois fa
 
 Dès lors, l'architecture du Modèle Interne Partiel développée dans ce mémoire (LDA, théorie des valeurs extrêmes, facteurs de Vasicek, allocation d'Euler) prend toute sa valeur. Le modèle mathématique et les scripts de simulation construits sont intégralement agnostiques à la source de données. Lorsqu'une base d'incidents DORA harmonisée sera rendue disponible à la profession actuarielle, il suffira de substituer ces nouvelles données aux actuelles bases PRC et OpRisk. Le moteur de calcul absorbera ces entrées qualifiées pour produire un SCR cyber d'une précision inédite, répondant simultanément aux exigences qualitatives de DORA et aux contraintes quantitatives de Solvabilité II.
 
-\paragraph{Automatisation du reclassement par NLP.} En attendant ce registre harmonisé, une partie du travail de fiabilisation des données peut d'ores et déjà être outillée. Le reclassement manuel par grille de mots-clés opéré en~2.5 sur la taxonomie Hackmageddon (nécessaire pour isoler le ransomware, absent en tant que catégorie en 2023) illustre une limite récurrente des bases de sinistralité cyber : une taxonomie déclarative instable, dont la correction repose aujourd'hui sur un travail manuel documenté mais non reproductible à grande échelle. Les travaux R\&D menés chez Nexialog Consulting sur l'exploitation du NLP et des modèles de langage pour l'enrichissement de bases de sinistralité cyber (rapports d'incidents, bases de vulnérabilités, publications techniques) ouvrent une voie directe pour systématiser ce type de reclassement --- en le rendant à la fois plus rigoureux (classification supervisée validée statistiquement plutôt que grille de mots-clés ad hoc) et transposable à d'autres bases (OpRisk, futur registre DORA). Cette piste n'a pas été mise en œuvre dans le présent mémoire, faute de corpus annoté disponible dans le périmètre de ce travail, mais constitue une perspective directe de prolongement.
+\paragraph{Automatisation du reclassement par NLP.} En attendant ce registre harmonisé, une partie du travail de fiabilisation des données peut d'ores et déjà être outillée. Le reclassement manuel par grille de mots-clés opéré en~2.5 sur la taxonomie Hackmageddon (nécessaire pour isoler le ransomware, absent en tant que catégorie en 2023) illustre une limite récurrente des bases de sinistralité cyber : une taxonomie déclarative instable, dont la correction repose aujourd'hui sur un travail manuel documenté mais non reproductible à grande échelle. Les travaux R\&D menés chez Nexialog Consulting sur l'exploitation du NLP et des modèles de langage pour l'enrichissement de bases de sinistralité cyber (rapports d'incidents, bases de vulnérabilités, publications techniques) ouvrent une voie directe pour systématiser ce type de reclassement --- en le rendant à la fois plus rigoureux (classification supervisée validée statistiquement plutôt que grille de mots-clés ad hoc) et transposable à d'autres bases (OpRisk, futur registre DORA). Cette piste n'a pas été mise en oeuvre dans le présent mémoire, faute de corpus annoté disponible dans le périmètre de ce travail, mais constitue une perspective directe de prolongement.
 
 %--------------------------------------------------------------
 \subsection{La PRC comme proxy de fréquence : périmètre, biais, justification}
@@ -911,7 +912,7 @@ Identifiants compromis & 6{,}3~\% & Art.~9 --- Contrôle d'accès \& MFA \\
 
 Deux chiffres sont structurants pour la construction des scénarios de la
 Partie~4 : \textbf{15{,}8~\%} des attaques empruntent le vecteur tiers/supply
-chain, cœur des articles~28--44 ; et \textbf{49{,}6~\%} relèvent de vecteurs
+chain, coeur des articles~28--44 ; et \textbf{49{,}6~\%} relèvent de vecteurs
 qu'un test TLPT (art.~26) est censé détecter en amont (exploitation et
 tiers cumulés).
 
@@ -1120,7 +1121,7 @@ L_{DORA} = L_{\text{remédiation}} + L_{\text{sanction}} + L_{\text{prestataire}
 
 La brique d'\textbf{aggravation} ne constitue pas une perte simulée supplémentaire s'ajoutant à cette somme, mais une mesure dérivée. Elle quantifie le surcroît de capital entre un état conforme et un état non conforme, au travers du différentiel $\Delta_{DORA} = VaR_\alpha(L_{DORA}^{\text{non conforme}}) - VaR_\alpha(L_{DORA}^{\text{conforme}})$, développé en Partie 4.
 
-La brique de \textbf{remédiation} constitue le cœur fréquence-sévérité du
+La brique de \textbf{remédiation} constitue le coeur fréquence-sévérité du
 modèle : elle représente le coût direct de gestion des incidents cyber,
 simulé par composition d'une fréquence (section~3.2) et d'une sévérité
 extrême (section~3.3). La brique de \textbf{sanction} traduit le risque
@@ -1582,7 +1583,7 @@ bien plus marqué que l'écart entre scénarios, doit être revérifiée avec le
 pipeline actuel (cf. note ci-dessus) avant d'être présentée comme un
 résultat définitif du mémoire --- la hiérarchie des sources d'incertitude
 discutée en Partie~5 repose sur l'allocation d'Euler (rejouée dans cet
-environnement) et reste valide indépendamment de cette grille Δ\_DORA.
+environnement) et reste valide indépendamment de cette grille $\Delta_{DORA}$.
 
 %--------------------------------------------------------------
 \subsection{Bootstrap et intervalles de confiance}
@@ -1643,7 +1644,7 @@ SCR_{Op} \approx \min\Big( 0{,}3 \times BSCR \; ; \; \max(0{,}04 \times Earned_{
 \end{equation}
 (Note : la formule complète intègre également une pénalité marginale pour les croissances de primes annuelles supérieures à 20\,\%, que nous omettons ici par souci de clarté).
 
-\\paragraph{Démonstration numérique.} Appliquons cette formule à l'entité-type systémique utilisée pour le calibrage de nos résultats finaux (Partie 5), générant un volume de primes (Chiffre d'Affaires) de 15\,000 M\euro.
+\paragraph{Démonstration numérique.} Appliquons cette formule à l'entité-type systémique utilisée pour le calibrage de nos résultats finaux (Partie 5), générant un volume de primes (Chiffre d'Affaires) de 15\,000 M\euro.
 En appliquant le coefficient simplifié de 4\,\%, la charge de capital pour l'intégralité de ses risques opérationnels s'élève à :
 \begin{equation}
 SCR_{Op} = 0{,}04 \times 15\,000 = 600 \text{ M\euro}
@@ -1665,7 +1666,7 @@ Déterministe (ORSA classique) & 200{,}0 M\euro & Difficile à quantifier & Biai
 \addlinespace
 Modèle Interne Partiel (LDA -- PRC) & 1\,685{,}9 M\euro & 1\,203{,}4 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
 \addlinespace
-Modèle Interne Partiel (LDA -- OpRisk) & 8\,287{,}2 M\euro & \texttt{[EN ATTENTE — nécessite data/raw/SAS\_OpRisk\_Global\_Data\_June\_2026.xlsx en local]} & Biais de taille lié aux grandes entités financières historiques \\
+Modèle Interne Partiel (LDA -- OpRisk) & 8\,287{,}2 M\euro & \texttt{[EN ATTENTE]} & Biais de taille lié aux grandes entités financières historiques \\
 \bottomrule
 \end{tabular}
 \end{center}

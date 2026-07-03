@@ -42,6 +42,18 @@ outputs/figures/*.png
 outputs/figures/*.pdf
 outputs/tables/*.xlsx
 
+# ===== LATEX (mémoire) =====
+memoire/tectonic
+memoire/*.pdf
+memoire/*.aux
+memoire/*.bbl
+memoire/*.bcf
+memoire/*.blg
+memoire/*.log
+memoire/*.out
+memoire/*.run.xml
+memoire/*.toc
+
 # ===== LOGS =====
 *.log
 logs/
