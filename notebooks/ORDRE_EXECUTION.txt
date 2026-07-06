@@ -1,0 +1,45 @@
+ORDRE D'EXECUTION DES SCRIPTS — pipeline SCR_DORA
+====================================================
+
+Lancer chaque script depuis la racine du projet (M-moire-) avec :
+    python notebooks/<nom_du_script>.py
+
+1. 01_oprisk_gpd_calibration.py
+   -> Calibration GPD sur SAS OpRisk Global Data (exploration + fit).
+
+2. 02_oprisk_exploratory.py
+   -> Analyse exploratoire complète de la base SAS OpRisk Global.
+   Nécessite : data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx
+
+3. 03_oprisk_sanity_check.py
+   -> Vérifications de cohérence sur les résultats OpRisk.
+
+4. 04_euler_allocation_check.py
+   -> Allocation d'Euler sur le modèle LDA (3 briques), fréquence pilotée
+      par la variable latente de conformité (Option A).
+   Produit : notebooks/results_euler_option_a.csv
+
+5. 05_sensitivity_sanction.py
+   -> Sensibilité de la brique "sanction" (borne haute 20 M€ vs 40 M€).
+   Produit : notebooks/results_sensitivity_sanction.csv
+
+6. 06_build_summary_table.py
+   -> Fusionne les CSV des étapes 4 et 5 en un tableau de synthèse final.
+   Dépend de : results_euler_option_a.csv (étape 4) + results_sensitivity_sanction.csv (étape 5)
+   Produit   : outputs/tables/...
+
+7. 07_bootstrap_delta_dora.py
+   -> Bootstrap à deux niveaux sur Δ_DORA (grille reproductible, 3 briques + copule).
+   Note : la branche OPRISK est sautée si le fichier SAS_OpRisk_Global_Data_June_2026.xlsx
+   est absent (donnée sous licence, gitignorée).
+
+8. 08_sensitivity_tornado.py
+   -> Analyse de sensibilité "tornado" du SCR (VaR 99.5%) aux hypothèses du modèle.
+   -> A lancer en dernier (utilise les résultats/paramètres des étapes précédentes).
+
+Dépendances clés :
+- Étapes 1 à 3 : exploration/calibration OpRisk (peuvent tourner indépendamment).
+- Étape 4 et 5 : indépendantes entre elles, mais toutes deux requises AVANT l'étape 6.
+- Étape 6 : nécessite les CSV produits par 4 et 5.
+- Étape 7 : nécessite data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx pour la branche OPRISK complète.
+- Étape 8 : dernière étape, synthèse de sensibilité globale.
