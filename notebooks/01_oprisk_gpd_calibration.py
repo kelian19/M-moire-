@@ -13,6 +13,15 @@ import matplotlib.pyplot as plt
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
+# Console Windows en cp1252 par défaut : incapable d'encoder les caractères
+# combinés (ex. ξ̂ = "xi" + accent circonflexe) utilisés dans les
+# affichages de gpd.py. Reconfiguration défensive, sans effet sur les données
+# ni sur les fichiers écrits (CSV/figures), uniquement sur la sortie console.
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 from src.severity.gpd import (
     mean_excess, fit_gpd, calibration_report,
     bootstrap_gpd, cross_validate, hill_estimator
@@ -174,22 +183,25 @@ def plot_hill(losses: np.ndarray, reference_xi: float = 0.60, save_path: str = N
 def print_cross_validation():
     """Affiche la comparaison PRC vs OpRisk pour le mémoire."""
     print("\n" + "="*65)
-    print("  VALIDATION CROISÉE — PRC 2025 vs SAS OpRisk Global")
+    print("  VALIDATION CROISÉE — PRC 2025 (Jacobs) vs SAS OpRisk Global")
     print("="*65)
-    print(f"  {'Paramètre':20s} {'PRC 2025':>15s} {'OpRisk (2000–2026)':>20s}")
+    print(f"  {'Paramètre':20s} {'PRC 2019-2025':>15s} {'OpRisk (2000–2026)':>20s}")
     print(f"  {'-'*55}")
-    print(f"  {'Seuil u':20s} {'0.128 M€ (128k€)':>15s} {'20.03 M€':>20s}")
-    print(f"  {'ξ̂ (queue)':20s} {'1.300':>15s} {OPRISK['xi']:>20.4f}")
-    print(f"  {'IC90% ξ':20s} {'—':>15s} {str(OPRISK['xi_ic90']):>20s}")
-    print(f"  {'σ̂':20s} {'0.257 M€':>15s} {OPRISK['sigma_eur']:>20.2f} M€")
-    print(f"  {'VaR 99.5% IC90%':20s} {'—':>15s} {str(OPRISK['var_995_ic90']):>20s}")
-    print(f"  {'n excès':20s} {'—':>15s} {OPRISK['n_excess']:>20d}")
+    print(f"  {'Seuil u':20s} {PRC['seuil_u_eur']:>12.3f} M€ {'20.03 M€':>20s}")
+    print(f"  {'ξ̂ (queue)':20s} {PRC['xi']:>15.4f} {OPRISK['xi']:>20.4f}")
+    print(f"  {'IC90% ξ':20s} {str(PRC['xi_ic90']):>15s} {str(OPRISK['xi_ic90']):>20s}")
+    print(f"  {'σ̂':20s} {PRC['sigma_eur']:>12.3f} M€ {OPRISK['sigma_eur']:>17.2f} M€")
+    print(f"  {'VaR 99.5% IC90%':20s} {str(PRC['var_995_ic90']):>15s} {str(OPRISK['var_995_ic90']):>20s}")
+    print(f"  {'n excès':20s} {PRC['n_excess']:>15d} {OPRISK['n_excess']:>20d}")
     print()
     print("  Lecture :")
     print("  → Même famille Pareto (ξ > 0) confirmée sur deux sources indépendantes")
-    print("  → ξ_PRC (1.30) > ξ_OpRisk (0.60) : cohérent avec le biais de taille OpRisk")
+    print(f"  → ξ_PRC ({PRC['xi']:.2f}) > ξ_OpRisk ({OPRISK['xi']:.2f}) : cohérent avec le biais de taille OpRisk")
     print("     Les grandes entités absorbent mieux les chocs → queue apparemment plus légère")
-    print("  → Validation QUALITATIVE : ✓  Validation QUANTITATIVE : impossible")
+    print("  → Les deux IC90% sur ξ ne se chevauchent pas : les deux sources restent")
+    print("     QUALITATIVEMENT alignées (queue lourde, ξ>0 des deux côtés, ξ_PRC≥1")
+    print("     i.e. moyenne infinie) mais QUANTITATIVEMENT distinctes (échelles et")
+    print("     périmètres différents — validation quantitative hors de portée).")
     print()
     print("  DEUX SOURCES COMPLÉMENTAIRES (pas de hiérarchie 'primaire') :")
     print("  • Sévérité : OpRisk fournit des montants RÉELS (biais grandes entités)")

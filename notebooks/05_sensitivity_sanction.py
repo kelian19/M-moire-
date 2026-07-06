@@ -18,6 +18,11 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 from src.aggregation.lda import simulate_year_3_briques, BRIQUE_PARAMS
 from src.scenarios.latent_bridge import lambda_from_entity
 from src.compliance.latent import PROFILS_TYPES

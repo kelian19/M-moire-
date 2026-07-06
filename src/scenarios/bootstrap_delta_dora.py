@@ -10,8 +10,9 @@ Bootstrap à DEUX NIVEAUX sur le Delta_DORA (Architecture 3 Briques) :
 
 ⚠️ TRANSPARENCE MÉTHODOLOGIQUE :
   - OpRisk : bootstrap RÉEL, rééchantillonnage des 582 incidents bruts.
-  - PRC : SEUL le point de calibration (ξ=1.30, σ=0.257 M€) est disponible
-    dans cet environnement. Le niveau 2 n'est donc PAS bootstrappé pour PRC.
+  - PRC : bootstrap RÉEL également, rééchantillonnage des excès de la
+    sévérité dérivée Jacobs (2258 excès, voir src/severity/prc_analysis.py
+    et notebooks/13_prc_jacobs_calibration.py).
 
 Résultat final : la distribution de Delta_DORA calculée sur le modèle complet 
 avec Copule (et non plus un simple processus de Poisson/GPD à plat).
@@ -86,6 +87,32 @@ def load_oprisk_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
 
     return excesses, u
 
+def load_prc_excesses(u: Optional[float] = None) -> Tuple[np.ndarray, float]:
+    """Charge les excès réels PRC (sévérité dérivée Jacobs) au-dessus du seuil."""
+    u = PRC["seuil_u_eur"] if u is None else float(u)
+
+    project_root = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "..")
+    )
+    path = os.path.join(project_root, "data", "raw", "Data_Breach_Chronology.xlsx")
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            f"Fichier PRC introuvable : {path}\n"
+            "Place la base sous data/raw/ (gitignorée)."
+        )
+
+    from src.severity.prc_analysis import load_prc, jacobs_severity_eur_m
+
+    df = load_prc(path)
+    severities = jacobs_severity_eur_m(df["total_affected"].values)
+    excesses = severities[severities > u] - u
+
+    if len(excesses) == 0:
+        raise ValueError(f"Aucun excès au-dessus du seuil u={u} M€.")
+
+    return excesses, u
+
+
 def bootstrap_gpd_params(excesses: np.ndarray, rng) -> tuple:
     """Un tirage bootstrap (ξ, σ) par rééchantillonnage des excès réels."""
     n = len(excesses)
@@ -111,10 +138,12 @@ def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
     # --- Setup Source ---
     if source == "PRC":
         lambda_ref = FREQUENCY["lambda_ref"]
-        xi0, sigma0, u0, p_u0 = PRC["xi"], PRC["sigma_eur"], PRC["seuil_u_eur"], PRC["p_u"]
+        excesses, u0 = load_prc_excesses()
+        xi_fit, _, sigma_fit = genpareto.fit(excesses, floc=0)
+        xi0, sigma0 = xi_fit, sigma_fit
+        p_u0 = PRC["p_u"]
         cap = SCR_DORA.get("cap_eur", 40.0)
-        bootstrap_severity = False
-        excesses = None
+        bootstrap_severity = True
     elif source == "OPRISK":
         lambda_ref = OPRISK["n_incidents"] / 27
         excesses, u0 = load_oprisk_excesses()
@@ -217,7 +246,8 @@ def bootstrap_delta_dora(source: str, scenario_x: str = "S2_non_conforme",
         "distribution": deltas,
     }
 
-    flag = "✓ bootstrap réel (582 obs)" if bootstrap_severity else "⚠ point fixe (pas de données brutes ici)"
+    n_obs = len(excesses) if excesses is not None else 0
+    flag = f"✓ bootstrap réel ({n_obs} excès)" if bootstrap_severity else "⚠ point fixe (pas de données brutes ici)"
     print(f"\n{'='*62}")
     print(f"  Δ_DORA (Modèle Complet) — {source} — {scenario_ref} → {scenario_x}")
     print(f"{'='*62}")

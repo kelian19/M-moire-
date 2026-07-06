@@ -30,7 +30,10 @@ import sys, os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from src.aggregation.copule import gumbel_copula_uniforms, common_factor_uniforms
+from src.aggregation.copule import (
+    gumbel_copula_uniforms, common_factor_uniforms,
+    clayton_copula_uniforms, frank_copula_uniforms, student_t_copula_uniforms,
+)
 from src.frequency.negbin import HACKMAGEDDON_PROPORTIONS
 from src.compliance.latent import pcd_conditional, ANCHORED_PARAMS, PROFILS_TYPES
 from src.utils.config import PRC, OPRISK, FREQUENCY, SCR_DORA
@@ -92,7 +95,8 @@ def simulate_remediation_severity(n_events: int, xi: float, sigma: float, u: flo
 def simulate_year_3_briques(lambda_annual: float, severity_params: dict,
                             pcd_sanction: float, n_sim: int,
                             dependence: str = "gumbel", theta: float = 1.8,
-                            p_sys: float = None, seed: int = 42) -> dict:
+                            p_sys: float = None, student_t_df: float = 4.0,
+                            seed: int = 42) -> dict:
     """
     Simule n_sim années de pertes agrégées sur les 3 briques "physiques" 
     (Remédiation, Prestataire, Sanction).
@@ -135,13 +139,28 @@ def simulate_year_3_briques(lambda_annual: float, severity_params: dict,
         prestataire_events = np.minimum(prestataire_events, cap)
 
     # --- COPULE (Dépendance de queue annuelle) ---
+    # Familles disponibles pour le test de robustesse (section 5.4bis du
+    # mémoire) : gumbel (référence, dépendance de queue supérieure),
+    # clayton (rotée, dépendance de queue supérieure — même direction que
+    # Gumbel mais forme fonctionnelle différente), frank (AUCUNE dépendance
+    # de queue — cas de contraste), student_t (dépendance de queue
+    # symétrique haute/basse), common_factor (choc binaire, alternative
+    # déjà présente avant ce test de robustesse).
     if dependence == "gumbel":
         U = gumbel_copula_uniforms(n_sim, theta, dim=3, seed=seed + 1)
+    elif dependence == "clayton":
+        U = clayton_copula_uniforms(n_sim, theta, dim=3, seed=seed + 1, rotated=True)
+    elif dependence == "frank":
+        U = frank_copula_uniforms(n_sim, theta, dim=3, seed=seed + 1)
+    elif dependence == "student_t":
+        U = student_t_copula_uniforms(n_sim, rho=theta, df=student_t_df, dim=3, seed=seed + 1)
     elif dependence == "common_factor":
         p_sys = p_sys if p_sys is not None else pcd_sanction
         U = common_factor_uniforms(n_sim, p_sys, dim=3, seed=seed + 1)
     else:
-        raise ValueError("dependence doit être 'gumbel' ou 'common_factor'")
+        raise ValueError(
+            "dependence doit être 'gumbel', 'clayton', 'frank', 'student_t' ou 'common_factor'"
+        )
 
     # --- Agrégation par année ---
     splits = np.cumsum(freqs)[:-1]
@@ -182,11 +201,20 @@ def simulate_year_3_briques(lambda_annual: float, severity_params: dict,
 # 4. RAPPORT & CONTREFACTUEL — SCR À 4 BRIQUES (Section 3.4 du PDF)
 # ---------------------------------------------------------------------------
 
-def scr_4_briques_report(source: str = "OPRISK", alpha: float = 0.995, 
-                         n_sim: int = 100_000, dependence: str = "gumbel"):
+def scr_4_briques_report(source: str = "OPRISK", alpha: float = 0.995,
+                         n_sim: int = 100_000, dependence: str = "gumbel",
+                         theta_nc: float = 1.8, theta_c: float = 1.2,
+                         student_t_df: float = 4.0, verbose: bool = True):
     """
     Calcule le SCR DORA en intégrant la 4ème brique (Aggravation) par la méthode
     du contrefactuel neutralisé (Section 3.5 du PDF).
+
+    theta_nc / theta_c : paramètre natif de la famille `dependence` (theta de
+    Gumbel/Clayton/Frank, ou rho pour student_t) respectivement en régime
+    non-conforme et conforme. Les valeurs par défaut (1.8 / 1.2) reproduisent
+    exactement le comportement historique du modèle (copule de Gumbel) ; pour
+    un test de robustesse sur une autre famille, ces valeurs doivent être
+    obtenues par appariement du tau de Kendall (cf. notebooks/09_copula_robustness.py).
     """
     from src.frequency.negbin import compute_lambda_scenario
 
@@ -206,8 +234,9 @@ def scr_4_briques_report(source: str = "OPRISK", alpha: float = 0.995,
     pcd_nc = pcd_conditional(PROFILS_TYPES["median"], 0.0, ANCHORED_PARAMS)
     
     # Graine figée pour bloquer le biais de sélection !
-    res_nc = simulate_year_3_briques(lam_nc, severity_params, pcd_nc, n_sim, 
-                                     dependence=dependence, theta=1.8, seed=42)
+    res_nc = simulate_year_3_briques(lam_nc, severity_params, pcd_nc, n_sim,
+                                     dependence=dependence, theta=theta_nc,
+                                     student_t_df=student_t_df, seed=42)
     scr_nc = np.quantile(res_nc["total"], alpha)
 
     # --- ÉTAT 2 : Entité CONFORME (Contrefactuel) ---
@@ -216,8 +245,9 @@ def scr_4_briques_report(source: str = "OPRISK", alpha: float = 0.995,
     pcd_c = pcd_conditional(PROFILS_TYPES["leader"], 0.0, ANCHORED_PARAMS)
     
     # Même graine (seed=42), seuls les paramètres métiers baissent
-    res_c = simulate_year_3_briques(lam_c, severity_params, pcd_c, n_sim, 
-                                    dependence=dependence, theta=1.2, seed=42)
+    res_c = simulate_year_3_briques(lam_c, severity_params, pcd_c, n_sim,
+                                    dependence=dependence, theta=theta_c,
+                                    student_t_df=student_t_df, seed=42)
     scr_c = np.quantile(res_c["total"], alpha)
 
     # --- BRIQUE 4 : Aggravation ---
@@ -225,26 +255,29 @@ def scr_4_briques_report(source: str = "OPRISK", alpha: float = 0.995,
     aggravation_scr = scr_nc - scr_c
 
     # --- AFFICHAGE ---
-    print(f"\n{'='*70}")
-    print(f"  SCR DORA (Modèle complet PDF) — {source} / {dependence.upper()}")
-    print(f"{'='*70}")
-    print(f"  État NON-CONFORME : λ = {lam_nc:.1f} | PCD = {pcd_nc:.1%} | θ = 1.8")
-    print(f"  État CONFORME     : λ = {lam_c:.1f} | PCD = {pcd_c:.1%} | θ = 1.2")
-    print(f"  n_sim = {n_sim:,} | Graine figée (Neutralisation biais de sélection)")
-    
-    print(f"\n  VaR {alpha*100:.1f}% (SCR_DORA Non-Conforme) = {scr_nc:>8.1f} M€")
-    print(f"  VaR {alpha*100:.1f}% (SCR_DORA Conforme)     = {scr_c:>8.1f} M€")
-    
-    print(f"\n  Décomposition du risque (Moyenne du run Non-Conforme) :")
+    if verbose:
+        print(f"\n{'='*70}")
+        print(f"  SCR DORA (Modèle complet PDF) — {source} / {dependence.upper()}")
+        print(f"{'='*70}")
+        print(f"  État NON-CONFORME : λ = {lam_nc:.1f} | PCD = {pcd_nc:.1%} | paramètre = {theta_nc}")
+        print(f"  État CONFORME     : λ = {lam_c:.1f} | PCD = {pcd_c:.1%} | paramètre = {theta_c}")
+        print(f"  n_sim = {n_sim:,} | Graine figée (Neutralisation biais de sélection)")
+
+        print(f"\n  VaR {alpha*100:.1f}% (SCR_DORA Non-Conforme) = {scr_nc:>8.1f} M€")
+        print(f"  VaR {alpha*100:.1f}% (SCR_DORA Conforme)     = {scr_c:>8.1f} M€")
+
+        print(f"\n  Décomposition du risque (Moyenne du run Non-Conforme) :")
     total_mean = res_nc["total"].mean()
     for brique in ["remediation", "prestataire", "sanction"]:
         m = res_nc[brique].mean()
-        print(f"    {brique.capitalize():14s} : {m:>8.1f} M€  ({100*m/total_mean:>5.1f}%)")
-    
-    print(f"\n  >> Brique AGGRAVATION (Contrefactuel Δ_DORA) : {aggravation_scr:>8.1f} M€")
-    print(f"     (Surcoût en capital imputable strictement au non-respect)")
-    print(f"{'='*70}")
-    
+        if verbose:
+            print(f"    {brique.capitalize():14s} : {m:>8.1f} M€  ({100*m/total_mean:>5.1f}%)")
+
+    if verbose:
+        print(f"\n  >> Brique AGGRAVATION (Contrefactuel Δ_DORA) : {aggravation_scr:>8.1f} M€")
+        print(f"     (Surcoût en capital imputable strictement au non-respect)")
+        print(f"{'='*70}")
+
     # On ajoute la valeur scalaire de l'aggravation au dictionnaire de sortie
     # pour tes notebooks aval s'ils en ont besoin.
     res_nc["scr_total"] = scr_nc

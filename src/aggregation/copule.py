@@ -92,6 +92,104 @@ def empirical_kendall_tau(theta: float, n_sim: int = 20_000, seed: int = 1) -> f
 # 2. ALTERNATIVE DE ROBUSTESSE — MODÈLE À FACTEUR COMMUN
 # ---------------------------------------------------------------------------
 
+def clayton_tau(theta: float) -> float:
+    """Tau de Kendall théorique d'une copule de Clayton de paramètre theta > 0."""
+    return theta / (theta + 2.0)
+
+
+def solve_clayton_theta(target_tau: float) -> float:
+    """Paramètre Clayton reproduisant un tau de Kendall cible (theta > 0)."""
+    if not (0 < target_tau < 1):
+        raise ValueError("target_tau doit être dans (0,1)")
+    return 2.0 * target_tau / (1.0 - target_tau)
+
+
+def clayton_copula_uniforms(n_sim: int, theta: float, dim: int = 4,
+                             seed: int = 42, rotated: bool = True) -> np.ndarray:
+    """
+    Génère n_sim tirages d'une copule de Clayton (méthode de la frailty Gamma,
+    Marshall-Olkin). theta > 0. La copule de Clayton \"brute\" a une dépendance
+    de queue INFÉRIEURE ; rotated=True (par défaut) applique la rotation à
+    180° (copule de survie), qui restaure une dépendance de queue SUPÉRIEURE,
+    directement comparable à celle de Gumbel — utile pour un test de
+    robustesse sur la FAMILLE de copule plutôt que sur son seul paramètre.
+    """
+    if theta <= 0:
+        raise ValueError("theta doit être > 0 pour Clayton")
+
+    rng = np.random.default_rng(seed)
+    V = rng.gamma(shape=1.0 / theta, scale=1.0, size=n_sim)
+    E = rng.exponential(1.0, size=(n_sim, dim))
+    U = (1.0 + E / V[:, None]) ** (-1.0 / theta)
+    if rotated:
+        U = 1.0 - U
+    return np.clip(U, 1e-10, 1 - 1e-10)
+
+
+def frank_tau(theta: float) -> float:
+    """Tau de Kendall théorique d'une copule de Frank (intégration numérique
+    de la fonction de Debye d'ordre 1)."""
+    from scipy.integrate import quad
+    if theta == 0:
+        return 0.0
+    debye, _ = quad(lambda t: t / (np.exp(t) - 1.0), 0, theta)
+    debye /= theta
+    return 1.0 + 4.0 / theta * (debye - 1.0)
+
+
+def solve_frank_theta(target_tau: float) -> float:
+    """Paramètre Frank reproduisant un tau de Kendall cible (theta > 0)."""
+    from scipy.optimize import brentq
+    return brentq(lambda th: frank_tau(th) - target_tau, 1e-6, 100.0)
+
+
+def frank_copula_uniforms(n_sim: int, theta: float, dim: int = 4,
+                           seed: int = 42) -> np.ndarray:
+    """
+    Génère n_sim tirages d'une copule de Frank (méthode de la frailty
+    logarithmique, Marshall-Olkin). theta > 0. La copule de Frank n'a AUCUNE
+    dépendance de queue (ni supérieure, ni inférieure) : c'est le cas de
+    contraste naturel face à Gumbel pour mesurer combien la dépendance de
+    queue supérieure, spécifiquement, pèse sur le capital simulé.
+    """
+    if theta == 0:
+        raise ValueError("theta doit être != 0 pour Frank")
+
+    from scipy.stats import logser
+    rng = np.random.default_rng(seed)
+    p = 1.0 - np.exp(-theta)
+    V = logser.rvs(p, size=n_sim, random_state=rng.integers(0, 2**31 - 1))
+    E = rng.exponential(1.0, size=(n_sim, dim))
+    U = -1.0 / theta * np.log(1.0 + np.exp(-E / V[:, None]) * (np.exp(-theta) - 1.0))
+    return np.clip(U, 1e-10, 1 - 1e-10)
+
+
+def rho_from_kendall_tau(tau: float) -> float:
+    """Corrélation de Pearson équivalente à un tau de Kendall cible, pour une
+    copule elliptique (Gaussienne ou Student) : rho = sin(pi/2 * tau)."""
+    return np.sin(np.pi / 2.0 * tau)
+
+
+def student_t_copula_uniforms(n_sim: int, rho: float, df: float = 4.0,
+                               dim: int = 4, seed: int = 42) -> np.ndarray:
+    """
+    Génère n_sim tirages d'une copule de Student (corrélation équicorrélée
+    rho, degré de liberté df). Dépendance de queue SYMÉTRIQUE (haute et
+    basse), contrairement à Gumbel (haute uniquement) — troisième famille de
+    contraste pour le test de robustesse sur le choix de copule.
+    """
+    from scipy.stats import t as student_t
+    rng = np.random.default_rng(seed)
+    Sigma = np.full((dim, dim), rho)
+    np.fill_diagonal(Sigma, 1.0)
+    L = np.linalg.cholesky(Sigma)
+    Z = rng.standard_normal((n_sim, dim)) @ L.T
+    W = rng.chisquare(df, size=n_sim)
+    T = Z * np.sqrt(df / W)[:, None]
+    U = student_t.cdf(T, df=df)
+    return np.clip(U, 1e-10, 1 - 1e-10)
+
+
 def common_factor_uniforms(n_sim: int, p_sys: float, dim: int = 4,
                             seed: int = 42) -> np.ndarray:
     """

@@ -14,16 +14,32 @@ avec les vrais résultats du pipeline (grille bootstrap Δ_DORA + LDA 4 briques
 # ---------------------------------------------------------------------------
 
 PRC = {
-    "source": "Privacy Rights Clearinghouse 2025",
+    "source": "Privacy Rights Clearinghouse 2025 — Data_Breach_Chronology.xlsx",
     "period": "2019–2025",
-    "n_records": None,           # à renseigner après accès
-    "seuil_u_eur": 0.128,        # M€ (seuil POT après conversion Jacobs)
-    "xi": 1.30,                  # paramètre de queue GPD
-    "sigma_eur": 0.257,          # M€ (paramètre d'échelle)
+    "n_records": 15053,          # incidents avec total_affected > 0, période retenue
+    "seuil_u_eur": 4.176,        # M€ (seuil POT après conversion Jacobs, percentile 85)
+    "xi": 1.0328,                # paramètre de queue GPD (MLE, IC90% [0.971, 1.094])
+    "xi_ic90": [0.9709, 1.0939],
+    "sigma_eur": 6.507,          # M€ (paramètre d'échelle, IC90% [6.091, 6.985])
+    "sigma_ic90": [6.091, 6.985],
+    "n_excess": 2258,
     "p_u": 0.15,                 # P(X > u)
-    "jacobs_a": 7.68,            # paramètre conversion log-log
+    "var_995": 209.18,           # M€
+    "var_995_ic90": [182.75, 240.52],
+    "jacobs_a": 7.68,            # ln(L_usd) = a + b*ln(X) — Jacobs (2014), base NATURELLE
     "jacobs_b": 0.76,            # paramètre conversion log-log
     "usd_eur": 0.92,             # taux de conversion
+    "note": (
+        "Calibration RECALCULÉE en propre sur les données PRC brutes (voir "
+        "notebooks/13_prc_jacobs_calibration.py). Les valeurs précédentes "
+        "(ξ=1.30, u=0.128 M€, σ=0.257 M€) provenaient d'une référence externe, "
+        "jamais reproduites en interne à partir de ce fichier (n_records=None "
+        "en attestait) : une validation empirique (log10 vs ln, coefficients "
+        "Jacobs 2014 vs extension 2018 CODB, sur plusieurs périodes/seuils) n'a "
+        "reproduit aucune des trois. Cette calibration-ci est reproductible et "
+        "tracée de bout en bout : conversion ln(L_usd)=7.68+0.76*ln(X), période "
+        "2019-2025, seuil = percentile 85 (p_u=0.15, même convention qu'OpRisk)."
+    ),
 }
 
 # ---------------------------------------------------------------------------
@@ -90,16 +106,20 @@ COPULE = {
 # ---------------------------------------------------------------------------
 
 # Grille Δ_DORA = SCR(scénario) - SCR(S0), bootstrap deux niveaux.
-# Médiane et IC90% en M€. bootstrap_severity=True uniquement pour OpRisk
-# (données brutes disponibles) ; False pour PRC (point fixe, IC sous-estimé).
+# Médiane et IC90% en M€. bootstrap_severity=True pour LES DEUX sources
+# désormais : OpRisk (91 excès bruts) ET PRC (2258 excès de la sévérité
+# dérivée Jacobs, cf. src/severity/prc_analysis.py). Les IC des deux sources
+# sont donc data-driven ; celui de PRC reste plus resserré car la conversion
+# Jacobs (transformation déterministe X->L) lisse la variance de sévérité.
 # Régénérée via notebooks/07_bootstrap_delta_dora.py (n_boot=200, n_sim=20 000)
-# APRÈS recalibration de la brique prestataire en surcoût relatif (commensurabilité).
+# APRÈS (a) recalibration de la brique prestataire en surcoût relatif et
+# (b) recalibration PRC en propre sur les données brutes (remplacement des
+# valeurs externes ξ=1.30/u=0.128/σ=0.257 par ξ=1.033/u=4.176/σ=6.507).
 # PRC et OPRISK régénérés et vérifiés dans cet environnement (voir
-# outputs/tables/results_delta_dora_bootstrap.csv). PRC : niveau 2 (sévérité) au
-# point fixe -> IC sous-estimé. OPRISK : bootstrap réel des 91 excès -> IC large.
+# outputs/tables/results_delta_dora_bootstrap.csv).
 DELTA_DORA_GRID = {
-    ("PRC", "S1_partiel"):      {"median": 114.6,  "ic90": [89.3, 137.3],       "bootstrap_sev": False},
-    ("PRC", "S2_non_conforme"): {"median": 310.6,  "ic90": [249.4, 358.7],      "bootstrap_sev": False},
+    ("PRC", "S1_partiel"):      {"median": 720.9,  "ic90": [555.7, 895.5],      "bootstrap_sev": True},
+    ("PRC", "S2_non_conforme"): {"median": 2014.7, "ic90": [1606.9, 2366.1],    "bootstrap_sev": True},
     ("OPRISK", "S1_partiel"):   {"median": 1514.4, "ic90": [522.5, 7863.2],     "bootstrap_sev": True},
     ("OPRISK", "S2_non_conforme"): {"median": 3879.3, "ic90": [1496.9, 22249.3], "bootstrap_sev": True},
 }
@@ -126,16 +146,23 @@ EULER_DECOMPOSITION = {
 SCR_DORA = {
     "cap_eur": 40.0,             # M€ — plafond de sévérité PRC (ξ≥1), ancré capacité réassurance
     "constat_source_domine": (
-        "Le choix de source de sévérité (PRC ξ=1.30 vs OpRisk ξ=0.60) domine "
-        "le résultat plus que le scénario de conformité : écart ×19 sur la VaR "
-        "médiane (profil médian) entre sources, supérieur à l'écart S1↔S2 sous "
-        "une même source."
+        "APRÈS recalibration PRC en propre (ξ=1.033 vs OpRisk ξ=0.595), l'écart "
+        "entre sources sur le Δ_DORA médian S2 s'est FORTEMENT RESSERRÉ : PRC "
+        "2014.7 M€ vs OpRisk 3879.3 M€, soit un facteur ~1.9 (contre ~12 avec "
+        "l'ancienne calibration PRC externe). Les deux sources indépendantes "
+        "CONVERGENT donc bien plus qu'anticipé une fois PRC calibrée de bout en "
+        "bout sur données réelles. Ce qui reste dominant n'est plus l'écart de "
+        "NIVEAU entre sources mais l'écart d'INCERTITUDE : l'IC90% OpRisk "
+        "(bootstrap 91 excès, facteur ~15 entre bornes) reste bien plus large "
+        "que celui de PRC (2258 excès, sévérité lissée par Jacobs)."
     ),
     "note": (
         "Le SCR_DORA est une distribution large, pas un point. Trois sources "
         "d'incertitude se cumulent : calibration (bootstrap), source de sévérité "
-        "(PRC vs OpRisk), et scénario de conformité (S0/S1/S2). L'IC90% PRC est "
-        "structurellement sous-estimé (sévérité au point fixe, pas de données brutes)."
+        "(PRC vs OpRisk), et scénario de conformité (S0/S1/S2). Les deux sources "
+        "sont désormais bootstrappées sur données brutes ; l'IC90% PRC reste plus "
+        "resserré que celui d'OpRisk car la conversion Jacobs lisse la variance "
+        "de sévérité (transformation déterministe du nombre d'enregistrements)."
     ),
 }
 

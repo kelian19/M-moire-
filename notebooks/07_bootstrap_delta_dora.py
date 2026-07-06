@@ -20,6 +20,11 @@ import csv
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 from src.scenarios.bootstrap_delta_dora import bootstrap_delta_dora
 
 N_BOOT = 200

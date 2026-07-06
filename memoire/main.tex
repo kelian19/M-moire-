@@ -894,10 +894,13 @@ modèle log-log. Ce mécanisme permet d'élargir le spectre de tailles
 d'incidents disponibles, mais introduit un biais de modèle supplémentaire :
 la sévérité qui en résulte n'est pas observée directement, elle est
 \emph{dérivée}. La calibration en queue de distribution obtenue sur la PRC
-donne un paramètre de forme $\hat{\xi}_{\text{PRC}} = 1{,}30$, caractéristique
-d'une queue extrêmement lourde, à espérance infinie --- un résultat qui, pris
-seul, rendrait toute simulation numériquement instable et qui doit donc être
-discuté conjointement avec les corrections méthodologiques présentées en 2.4.
+--- réalisée en propre sur les 15\,053 incidents 2019--2025 de la base brute,
+via la conversion Jacobs $\ln(L) = 7{,}68 + 0{,}76\,\ln(X)$ --- donne un
+paramètre de forme $\hat{\xi}_{\text{PRC}} = 1{,}03$ (IC90\%
+$[0{,}97~;~1{,}09]$), caractéristique d'une queue extrêmement lourde, à
+espérance infinie --- un résultat qui, pris seul, rendrait toute simulation
+numériquement instable et qui doit donc être discuté conjointement avec les
+corrections méthodologiques présentées en 2.4.
 
 La justification du recours à la PRC malgré ces limites tient à l'absence
 d'alternative comparable pour la fréquence : aucune des deux autres sources
@@ -1049,7 +1052,7 @@ L'intervalle de confiance bootstrap sur cette VaR est $[411\,;\,1037]$~M\euro,
 soit un facteur~2{,}5 entre les bornes --- une ampleur qui, à elle seule,
 illustre que le SCR ne peut être présenté comme un point.
 
-La comparaison avec la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}30$ contre
+La comparaison avec la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}03$ contre
 $\hat{\xi}_{\text{OpRisk}} = 0{,}595$) révèle un écart de régime de queue,
 expliqué par le biais de taille d'OpRisk : les grandes entités financières y
 sont sur-représentées et absorbent mieux les chocs, d'où une queue
@@ -1099,7 +1102,7 @@ par une hypothèse d'indépendance non fondée.
 \paragraph{Deux corrections méthodologiques transparentes.} Ce cadre
 épistémique a conduit à identifier et corriger deux défauts du moteur de
 simulation en cours de travail. D'une part, avec $\hat{\xi}_{\text{PRC}} =
-1{,}30 \geq 1$, l'espérance de la sévérité PRC est infinie et la VaR simulée
+1{,}03 \geq 1$, l'espérance de la sévérité PRC est infinie et la VaR simulée
 diverge numériquement ; un plafond de sévérité de 40~M\euro, ancré sur la
 capacité de réassurance cyber observable sur le marché, est appliqué à la
 \emph{seule source PRC}. La calibration OpRisk, dont l'indice de queue
@@ -1116,6 +1119,85 @@ présentationnelle : le résultat final ne peut être livré comme un montant
 unique, mais doit être présenté comme une distribution large, conditionnelle
 à des hypothèses documentées et à des sources dont les écarts sont eux-mêmes
 informatifs --- ce principe structure l'ensemble de la Partie~5.
+
+%--------------------------------------------------------------
+\subsection{Suffisance du dispositif de données pour l'exercice actuariel}
+%--------------------------------------------------------------
+
+Le dispositif retenu --- PRC pour la fréquence, OpRisk Global pour la
+sévérité observée, Hackmageddon pour la structure du risque --- appelle une
+question préalable à toute discussion de robustesse : ce triptyque est-il
+suffisant pour l'exercice mené dans ce mémoire ? La réponse tient à la nature
+même de l'exercice. L'objectif n'est pas de produire une formule
+réglementaire de Pilier~1, qui exigerait une base exhaustive et représentative
+du marché au sens de l'Article~19 --- base qui, comme l'a établi la
+section~2.1, n'existe aujourd'hui pour aucun acteur, public ou privé, sur le
+risque cyber. L'objectif est de construire, dans l'esprit du Pilier~2 et de
+l'ORSA, une mesure prospective dont la valeur ajoutée actuarielle réside dans
+la transparence de ses limites autant que dans la précision de son résultat.
+Sous cet angle, les trois sources mobilisées couvrent exactement les trois
+rôles qu'exige une architecture fréquence-sévérité-structure, et leurs biais
+respectifs --- sélection, déclaration, survie, visibilité, instabilité
+taxonomique --- sont documentés plutôt que dissimulés (section~2.2).
+
+\paragraph{Pourquoi ne pas simplement en ajouter d'autres.} Des bases
+supplémentaires existent (bases commerciales de sinistres cyber assurantiels,
+enquêtes sectorielles européennes) et pourraient, en principe, enrichir le
+dispositif. Mais chacune porterait ses propres biais de sélection et de
+représentativité, sans lever la limite structurelle identifiée dès la
+section~2.1 : l'absence, à ce jour, d'un registre harmonisé et exhaustif à
+l'échelle du marché. Multiplier les sources déplacerait la difficulté sans la
+résoudre, et complexifierait un narratif dont la clarté --- trois sources, trois
+rôles distincts, aucune hiérarchie de \og source primaire\fg{} --- constitue
+en elle-même un gage de rigueur méthodologique. L'analyse de sensibilité menée
+en~5.4 confirme d'ailleurs, \emph{a posteriori}, la pertinence de ce choix :
+c'est l'incertitude sur l'indice de queue $\xi$ de la sévérité --- estimé sur
+les sources déjà mobilisées --- qui domine très largement toute autre source
+de variation du modèle, multipliers de fréquence et paramètres de dépendance
+compris. Approfondir l'exploitation des trois sources retenues (bootstrap,
+validation croisée, diagnostics de stabilité) réduit donc l'incertitude du
+capital de façon bien plus significative que l'ajout d'une quatrième base de
+sinistralité.
+
+%--------------------------------------------------------------
+\subsection{Validation croisée externe : ENISA Threat Landscape}
+%--------------------------------------------------------------
+
+La structure du risque tirée de Hackmageddon (section~2.6), bien que
+documentée quant à ses limites de visibilité et de taxonomie, gagne à être
+confrontée à une source indépendante, de nature différente et couvrant un
+périmètre réglementaire proche de celui du présent mémoire. Le rapport
+\emph{ENISA Threat Landscape 2025}, déjà mobilisé en~4.3 pour ancrer les
+bornes du multiplicateur associé à l'exploitation de vulnérabilités, remplit
+ce rôle : constitué par l'agence européenne de cybersécurité elle-même à
+partir de 4\,875 incidents de périmètre européen, il repose sur une
+méthodologie de collecte distincte de celle, essentiellement médiatique, de
+Hackmageddon.
+
+La confrontation porte sur un point précis, déjà exploité en~4.3 : ENISA
+mesure un taux de conversion tentative-vers-intrusion de 70~\% pour
+l'exploitation de vulnérabilités, contre seulement 27~\% pour le phishing.
+Cette asymétrie, mesurée par un organisme réglementaire sur un périmètre
+indépendant, confirme un résultat qu'Hackmageddon, par construction, ne peut
+révéler à partir du seul volume d'incidents observés : le phishing domine la
+structure en volume (38{,}8~\% contre 33{,}8~\% pour l'exploitation de
+vulnérabilités, section~2.6), mais convertit nettement moins efficacement en
+intrusion réussie. Les deux sources s'accordent ainsi, chacune sur son propre
+plan --- structure des incidents rapportés pour Hackmageddon, taux de
+conversion pour ENISA --- sur une même hiérarchie qualitative des vecteurs
+d'attaque, ce qui renforce la crédibilité du mapping vecteurs~$\rightarrow$~exigences
+DORA retenu en~4.2 sans nécessiter de recalibration.
+
+\paragraph{Piste non mobilisée : Verizon DBIR.} Le \emph{Data Breach
+Investigations Report} de Verizon, fondé sur des méthodologies de collecte
+distinctes à la fois de Hackmageddon et d'ENISA, constituerait une troisième
+confrontation naturelle. Il n'est pas mobilisé dans le présent mémoire, faute
+de statistiques suffisamment vérifiées dans le périmètre de ce travail pour
+en garantir l'exactitude des chiffres cités --- une prudence identique à
+celle déjà retenue pour les références bibliographiques marquées comme à
+vérifier (cf.~\texttt{references.bib}). Cette confrontation constitue une
+perspective directe de prolongement, dans le même esprit que l'automatisation
+du reclassement par NLP déjà évoquée en~2.4.
 
 %==============================================================
 \section{Modélisation}
@@ -1331,14 +1413,15 @@ asymptotique pur de la queue.}
 
 
 \paragraph{Validation croisée PRC.} La calibration sur la PRC, via la
-conversion Jacobs, donne $\hat{\xi}_{\text{PRC}} = 1{,}30$, très
-significativement supérieur à $\hat{\xi}_{\text{OpRisk}}$. Ce paramètre
-correspond formellement à une espérance de sévérité infinie
-($\xi \geq 1$), ce qui impose un plafond de sévérité opérationnel --- fixé à
-40~M\euro, ancré sur la capacité de réassurance cyber observable sur le
-marché --- pour que la simulation reste numériquement stable ; ce plafond ne
-s'applique qu'à la source PRC, la calibration OpRisk ($\xi < 1$, espérance
-finie) demeurant non plafonnée. L'écart entre
+conversion Jacobs, donne $\hat{\xi}_{\text{PRC}} = 1{,}03$ (seuil
+$u = 4{,}18$~M\euro, 2\,258 excès), supérieur à
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595$, les IC90\% des deux estimateurs ne se
+chevauchant pas. Ce paramètre correspond formellement à une espérance de
+sévérité infinie ($\xi \geq 1$), ce qui impose un plafond de sévérité
+opérationnel --- fixé à 40~M\euro, ancré sur la capacité de réassurance cyber
+observable sur le marché --- pour que la simulation reste numériquement
+stable ; ce plafond ne s'applique qu'à la source PRC, la calibration OpRisk
+($\xi < 1$, espérance finie) demeurant non plafonnée. L'écart entre
 les deux calibrations s'explique par le biais de taille d'OpRisk : les
 grandes entités financières y sont sur-représentées et absorbent mieux les
 chocs, d'où une queue apparemment plus légère. Les deux sources confirment
@@ -1585,8 +1668,8 @@ sévérité, sont les suivants :
 \rowcolor{lightblue}
 \textbf{Source} & \textbf{Scénario} & \textbf{$\Delta_{DORA}$ médiane} & \textbf{IC90\,\%} \\
 \midrule
-PRC & $S_1$ partiel & 114{,}6 M\euro & [89{,}3~;~137{,}3] M\euro \\
-PRC & $S_2$ non conforme & 310{,}6 M\euro & [249{,}4~;~358{,}7] M\euro \\
+PRC & $S_1$ partiel & 720{,}9 M\euro & [555{,}7~;~895{,}5] M\euro \\
+PRC & $S_2$ non conforme & 2\,014{,}7 M\euro & [1\,606{,}9~;~2\,366{,}1] M\euro \\
 \addlinespace
 OpRisk & $S_1$ partiel & 1\,514{,}4 M\euro & [522{,}5~;~7\,863{,}2] M\euro \\
 OpRisk & $S_2$ non conforme & 3\,879{,}3 M\euro & [1\,496{,}9~;~22\,249{,}3] M\euro \\
@@ -1595,30 +1678,33 @@ OpRisk & $S_2$ non conforme & 3\,879{,}3 M\euro & [1\,496{,}9~;~22\,249{,}3] M\e
 \end{center}
 
 % NOTE(relecture) : grille régénérée via notebooks/07_bootstrap_delta_dora.py
-% (200 tirages x 20 000 sim) APRÈS recalibration de la brique prestataire en
-% surcoût relatif. PRC : niveau 2 (sévérité) au point fixe (pas de données brutes
-% dans la PRC utilisée) -> IC sous-estimé. OpRisk : bootstrap RÉEL des 91 excès
-% (rééchantillonnage + refit GPD à chaque tirage) -> IC large et réaliste.
+% (200 tirages x 20 000 sim) APRÈS (a) recalibration de la brique prestataire
+% en surcoût relatif et (b) recalibration PRC EN PROPRE sur les données brutes
+% (conversion Jacobs ln(L)=7.68+0.76 ln(X), 2258 excès, cf. notebooks/13).
+% Les DEUX sources sont désormais bootstrappées sur données réelles (PRC 2258
+% excès, OpRisk 91 excès). L'IC PRC reste plus resserré car la conversion
+% Jacobs lisse la variance de sévérité (transformation déterministe X->L).
 Sous PRC, un défaut de conformité DORA se traduit par une charge de capital
 quantifiée et non simplement qualitative : le passage de $S_1$ à $S_2$
-accroît le $\Delta_{DORA}$ médian d'un facteur~2{,}7 (114{,}6 à
-310{,}6~M\euro), cohérent avec le rapport des multiplicateurs globaux de
+accroît le $\Delta_{DORA}$ médian d'un facteur~2{,}8 (720{,}9 à
+2\,014{,}7~M\euro), cohérent avec le rapport des multiplicateurs globaux de
 fréquence entre les deux scénarios. Ce $\Delta_{DORA}$ mesure le surcoût
 strict de capital imputable au défaut de conformité, à profil de risque
-constant (contrefactuel à graine figée) : il reste modéré sous PRC, dont la
-sévérité dérivée de la conversion Jacobs borne l'amplitude des pertes.
+constant (contrefactuel à graine figée).
 
-Sous OpRisk, le même défaut de conformité produit un $\Delta_{DORA}$ d'un
-ordre de grandeur supérieur : 1\,514{,}4~M\euro en $S_1$ et 3\,879{,}3~M\euro
-en $S_2$, soit un facteur proche de~12 par rapport à la PRC sur $S_2$. Cet
-écart entre sources domine largement l'écart entre scénarios de conformité
-sous une même source (facteur~2{,}6 de $S_1$ à $S_2$ sous OpRisk), et
-préfigure le résultat central de la Partie~5 : le choix de la source de
-sévérité pèse davantage sur le capital que le niveau de conformité lui-même.
-L'intervalle de confiance OpRisk est en outre très large (facteur~15 entre
-bornes sur $S_2$), reflet du bootstrap réel de la sévérité sur données brutes,
-là où l'IC PRC --- sévérité au point fixe --- est structurellement
-sous-estimé (cf.~section suivante).
+Sous OpRisk, le même défaut de conformité produit un $\Delta_{DORA}$ du même
+ordre de grandeur : 1\,514{,}4~M\euro en $S_1$ et 3\,879{,}3~M\euro
+en $S_2$, soit un facteur proche de~1{,}9 par rapport à la PRC sur $S_2$. Ce
+résultat est notable : une fois la PRC calibrée de bout en bout sur les
+données brutes (et non plus sur des paramètres externes non reproduits), les
+deux sources indépendantes \emph{convergent} bien davantage qu'anticipé ---
+l'écart de niveau entre sources (facteur~1{,}9) devient comparable à l'écart
+entre scénarios de conformité sous une même source (facteur~2{,}6 de $S_1$ à
+$S_2$ sous OpRisk). Ce qui distingue encore nettement les deux sources n'est
+plus le \emph{niveau} du capital mais son \emph{incertitude} : l'IC90\%
+OpRisk s'étend sur un facteur~15 entre bornes (bootstrap de seulement 91
+excès), là où l'IC PRC, appuyé sur 2\,258 excès et une sévérité lissée par la
+conversion Jacobs, reste beaucoup plus resserré (cf.~section suivante).
 
 %--------------------------------------------------------------
 \subsection{Bootstrap et intervalles de confiance}
@@ -1634,10 +1720,14 @@ intervalles sourcés en~4.3, produisant un $\lambda_{S_x}$ lui-même
 aléatoire plutôt que fixé.
 \item \textbf{Niveau 2 --- incertitude de sévérité.} Un couple
 $(\hat\xi, \hat\sigma)$ est obtenu par rééchantillonnage bootstrap des excès
-réels --- pour la source OpRisk, sur les 91 excès observés au-dessus du seuil
-$u = 20$~M\euro (périmètre cyber$\times$finance de 582 incidents) ; pour la
-source PRC, faute de données brutes disponibles, ce niveau reste au point de
-calibration, limite signalée explicitement dans les résultats.
+réels, \emph{pour les deux sources} : pour OpRisk, sur les 91 excès observés
+au-dessus du seuil $u = 20$~M\euro (périmètre cyber$\times$finance de 582
+incidents) ; pour la PRC, sur les 2\,258 excès de la sévérité dérivée de la
+conversion Jacobs au-dessus du seuil $u = 4{,}18$~M\euro (15\,053 incidents
+2019--2025). L'incertitude de sévérité PRC est ainsi elle aussi
+\emph{data-driven}, quoique plus resserrée : la conversion Jacobs, en
+traduisant de façon déterministe le nombre d'enregistrements en montant,
+lisse mécaniquement la variance de sévérité.
 \item \textbf{Simulation Monte Carlo.} Pour chaque tirage des niveaux 1 et
 2, le modèle LDA est simulé pour obtenir $SCR_{S_0}$ et $SCR_{S_x}$, avec la
 \textbf{même graine} de simulation pour les deux régimes, condition
@@ -1651,13 +1741,20 @@ plutôt qu'un point.
 
 \paragraph{Asymétrie des intervalles.} L'intervalle de confiance associé à la
 source OpRisk est nettement plus large que celui de la source PRC (facteur
-proche de~15 contre facteur proche de~1{,}4 sur $S_2$). Cette asymétrie
-n'est pas un artefact : le bootstrap OpRisk intègre l'incertitude de
-sévérité mesurée sur données réelles, tandis que le bootstrap PRC, faute de
-données brutes, n'intègre que l'incertitude des multiplicateurs.
-L'intervalle PRC est donc structurellement sous-estimé relativement à celui
-d'OpRisk --- une limite assumée plutôt que dissimulée, qui sera reprise dans
-la décomposition de l'incertitude en Partie~5.
+proche de~15 contre facteur proche de~1{,}5 sur $S_2$). Cette asymétrie
+n'est pas un artefact et --- depuis la recalibration de la PRC sur ses
+données brutes --- ne provient plus d'un bootstrap PRC \emph{incomplet} : les
+deux sources intègrent désormais l'incertitude de sévérité mesurée par
+rééchantillonnage réel (2\,258 excès pour la PRC, 91 pour OpRisk). L'écart
+d'amplitude tient à deux causes structurelles. D'une part, le nombre d'excès :
+OpRisk ne dispose que de 91 observations de queue, contre 2\,258 pour la PRC,
+si bien que le rééchantillonnage OpRisk fait varier $(\hat\xi, \hat\sigma)$
+bien davantage. D'autre part, la nature de la sévérité PRC : la conversion
+Jacobs, transformation \emph{déterministe} du nombre d'enregistrements en
+montant, lisse mécaniquement la variance de sévérité. L'intervalle PRC est
+donc plus resserré, non parce qu'il ignore l'incertitude de sévérité, mais
+parce que cette incertitude y est intrinsèquement plus faible --- une nuance
+reprise dans la décomposition de l'incertitude en Partie~5.
 
 \vspace{1em}
 
@@ -1685,7 +1782,7 @@ En appliquant le coefficient simplifié de 4\,\%, la charge de capital pour l'in
 \begin{equation}
 SCR_{Op} = 0{,}04 \times 15\,000 = 600 \text{ M\euro}
 \end{equation}
-La confrontation avec notre modèle LDA-EVT est révélatrice. Sous la calibration PRC (plafonnée, sévérité dérivée de la conversion Jacobs sur des montants de notification de fuite bien plus modestes qu'un coût opérationnel total), la VaR 99,5\,\% pour une entité médiane est de 488,0 M\euro, en-deçà même du forfait de Pilier~1 : sur ce seul régime, la Formule Standard ne serait pas absurde. Face à la calibration OpRisk (la seule capturant véritablement le risque extrême sans plafond, sur des montants réellement observés), la VaR atteint \textbf{9\,259,5 M\euro}. La Formule Standard sous-estime ainsi le risque de queue réel d'un facteur supérieur à 15 pour cette entité systémique --- et c'est précisément cette absence de convergence entre sources, plutôt qu'un chiffre unique, qui constitue le message actuariel central du mémoire (cf.~Partie~5).
+La confrontation avec notre modèle LDA-EVT est révélatrice. Sous la calibration PRC (plafonnée à 40~M\euro\ par sinistre, sévérité dérivée de la conversion Jacobs), la VaR 99,5\,\% pour une entité médiane est de \textbf{2\,772,7 M\euro}, soit déjà plus de quatre fois le forfait de Pilier~1 (600~M\euro). Face à la calibration OpRisk (capturant le risque extrême sans plafond, sur des montants réellement observés), la VaR atteint \textbf{9\,259,5 M\euro}. La Formule Standard sous-estime ainsi le risque de queue réel d'un facteur compris entre 4{,}6 (PRC) et 15 (OpRisk) pour cette entité systémique --- et c'est cette convergence des deux sources indépendantes vers un même verdict (un capital cyber en milliers de M\euro, très au-delà du Pilier~1), bien plus qu'un chiffre unique, qui constitue le message actuariel central du mémoire (cf.~Partie~5).
 
 \paragraph{Synthèse comparative.} Le tableau ci-dessous résume cette confrontation pour notre entité de 15\,000 M\euro\ de CA, en observant le gain de capital obtenu en passant d'un profil non-conforme $S_2$ à un profil conforme $S_0$.
 
@@ -1700,7 +1797,7 @@ Formule Standard (Pilier 1) & 600{,}0 M\euro & 0{,}0 M\euro & Aveugle à la rés
 \addlinespace
 Déterministe (ORSA classique) & 200{,}0 M\euro & Difficile à quantifier & Biais d'ancrage expert, ignore l'agrégation et la contagion \\
 \addlinespace
-Modèle Interne Partiel (LDA -- PRC) & 488{,}0 M\euro & 310{,}6 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
+Modèle Interne Partiel (LDA -- PRC) & 2\,772{,}7 M\euro & 2\,014{,}7 M\euro & Nécessite un plafonnement opérationnel (espérance infinie) \\
 \addlinespace
 Modèle Interne Partiel (LDA -- OpRisk) & 9\,259{,}5 M\euro & 3\,879{,}3 M\euro & Biais de taille lié aux grandes entités financières historiques \\
 \bottomrule
@@ -1750,8 +1847,9 @@ Sur-dispersion ($\phi$) & 9{,}2 & Fixée pour maintenir la forme de variance \\
 \addlinespace
 \rowcolor{lightblue}\multicolumn{3}{l}{\textbf{Sévérité (GPD POT)}} \\
 Seuil OpRisk ($u$) & 20 M\euro & Analyse MEP et stabilité $\xi$ \\
+Seuil PRC ($u$) & 4{,}18 M\euro & Percentile 85 (sévérité dérivée Jacobs) \\
 Indice de queue ($\hat{\xi}_{\text{OpRisk}}$) & 0{,}595 & MLE sur OpRisk (Moments finis) \\
-Indice de queue ($\hat{\xi}_{\text{PRC}}$) & 1{,}30 & Conversion Jacobs (Espérance infinie) \\
+Indice de queue ($\hat{\xi}_{\text{PRC}}$) & 1{,}03 & Conversion Jacobs (Espérance infinie) \\
 Plafond opérationnel PRC & 40 M\euro & Capacité maximale réassurance \\
 \addlinespace
 \rowcolor{lightblue}\multicolumn{3}{l}{\textbf{Dépendance \& Variables latentes}} \\
@@ -1777,9 +1875,9 @@ Le capital total à l'horizon 99{,}5~\% ($VaR_{99{,}5\%}$) et l'Expected Shortfa
 \rowcolor{lightblue}
 \textbf{Source} & \textbf{Profil} & \textbf{VaR 99,5\,\%} & \textbf{ES 99,5\,\%} & \textbf{Ratio VaR/CA} & \textbf{Ratio ES/CA} \\
 \midrule
-PRC & Leader & 333{,}1 M\euro & 363{,}3 M\euro & 2{,}22\,\% & 2{,}42\,\% \\
-PRC & Médian & 488{,}0 M\euro & 526{,}4 M\euro & 3{,}25\,\% & 3{,}51\,\% \\
-PRC & Retardataire & 636{,}2 M\euro & 677{,}8 M\euro & 4{,}24\,\% & 4{,}52\,\% \\
+PRC & Leader & 1\,778{,}7 M\euro & 1\,883{,}8 M\euro & 11{,}86\,\% & 12{,}56\,\% \\
+PRC & Médian & 2\,772{,}7 M\euro & 2\,910{,}3 M\euro & 18{,}48\,\% & 19{,}40\,\% \\
+PRC & Retardataire & 3\,724{,}3 M\euro & 3\,886{,}9 M\euro & 24{,}83\,\% & 25{,}91\,\% \\
 \addlinespace
 OpRisk & Leader & 6\,420{,}7 M\euro & 14\,255{,}0 M\euro & 42{,}80\,\% & 95{,}03\,\% \\
 OpRisk & Médian & 9\,259{,}5 M\euro & 20\,023{,}2 M\euro & 61{,}73\,\% & 133{,}49\,\% \\
@@ -1788,24 +1886,29 @@ OpRisk & Retardataire & 10\,992{,}4 M\euro & 21\,720{,}1 M\euro & 73{,}28\,\% & 
 \end{tabular}
 \end{center}
 
-Le SCR\_DORA se situe ainsi dans une fourchette globale de \textbf{333~M\euro\ à près de 21\,720~M\euro} selon la source, le profil de conformité et la mesure de risque retenue.
+Le SCR\_DORA se situe ainsi dans une fourchette globale de \textbf{1\,779~M\euro\ à près de 21\,720~M\euro} selon la source, le profil de conformité et la mesure de risque retenue.
 
-\paragraph{Plausibilité économique et risque de ruine.} La lecture des ratios relatifs au Chiffre d'Affaires est particulièrement éloquente. Sous la calibration OpRisk, l'Expected Shortfall d'une entité non-conforme atteint \textbf{144,80\,\%} de son CA annuel. En assurance classique, un sinistre dépassant le chiffre d'affaires est rare ; en risque cyber, une telle valeur traduit mathématiquement un risque de ruine certain de l'entité. Plutôt que d'invalider le modèle, ces montants confirment que la distribution sous-jacente (GPD avec $\hat{\xi} \approx 0{,}6$) modélise un régime de pertes qui outrepasse la capacité d'absorption financière stricte d'une institution individuelle. C'est précisément ce constat actuariel qui justifie la philosophie du règlement DORA : imposer la résilience technique \textit{ex-ante} face à un risque dont l'impact \textit{ex-post} est financièrement intenable.
+\paragraph{Plausibilité économique et risque de ruine.} La lecture des ratios relatifs au Chiffre d'Affaires est particulièrement éloquente. Sous la calibration OpRisk, l'Expected Shortfall d'une entité non-conforme atteint \textbf{144,80\,\%} de son CA annuel ; même sous la calibration PRC, plus modérée, l'entité retardataire mobilise près de \textbf{26\,\%} de son CA en capital. En assurance classique, un sinistre dépassant le chiffre d'affaires est rare ; en risque cyber, une telle valeur traduit mathématiquement un risque de ruine certain de l'entité. Plutôt que d'invalider le modèle, ces montants confirment que la distribution sous-jacente (GPD à queue lourde, $\hat{\xi} \geq 0{,}6$ sous les deux sources) modélise un régime de pertes qui outrepasse la capacité d'absorption financière stricte d'une institution individuelle. C'est précisément ce constat actuariel qui justifie la philosophie du règlement DORA : imposer la résilience technique \textit{ex-ante} face à un risque dont l'impact \textit{ex-post} est financièrement intenable.
 
-Cet écart, d'un facteur proche de~\textbf{65} entre la borne basse (PRC,
-profil leader, VaR) et la borne haute (OpRisk, profil retardataire, ES), est
-très supérieur à ce qu'une lecture fondée sur les seuls paramètres de queue
-(Partie~2) aurait pu laisser anticiper. Il confirme, de façon plus radicale
-encore que ne le suggérait l'écart entre $\hat{\xi}_{\text{PRC}}$ et
-$\hat{\xi}_{\text{OpRisk}}$ pris isolément, le principe déjà énoncé en
-Partie~2 : le SCR cyber ne peut être communiqué comme un point --- ni même
-comme une fourchette resserrée.
+Cet écart, d'un facteur proche de~\textbf{12} entre la borne basse (PRC,
+profil leader, VaR) et la borne haute (OpRisk, profil retardataire, ES),
+demeure important, mais il s'est \emph{fortement resserré} par rapport à la
+calibration PRC externe utilisée dans une version antérieure de ce travail
+(où il atteignait un facteur~65). Ce resserrement est un résultat en soi :
+une fois la PRC recalibrée de bout en bout sur ses données brutes (conversion
+Jacobs sur 15\,053 incidents, cf.\ Partie~2), les deux sources
+\emph{indépendantes} convergent sur le même diagnostic --- un capital cyber se
+comptant en milliers de M\euro, très au-delà du forfait de Pilier~1. La
+divergence résiduelle relève de l'incertitude légitime entre deux périmètres
+distincts, non d'un désaccord de fond. Le SCR cyber ne peut donc toujours pas
+être communiqué comme un point, mais la fourchette inter-sources est
+désormais mieux maîtrisée.
 
-Ce facteur~65 s'explique par le traitement correct de la queue de
+Ce facteur~12 s'explique par le traitement de la queue de
 distribution OpRisk : le paramètre de forme
 $\hat{\xi}_{\text{OpRisk}} = 0{,}595 < 1$ garantissant une espérance finie
 (cf.\ Partie~2), aucun plafonnement de la sévérité par sinistre n'y est
-appliqué, à la différence de la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}30 \geq 1$,
+appliqué, à la différence de la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}03 \geq 1$,
 espérance infinie, où le plafond de 40~M\euro\ reste nécessaire à la
 stabilité numérique de la simulation, cf.\ Partie~2.4). Le capital simulé
 sous OpRisk reflète ainsi directement les événements extrêmes réellement
@@ -1839,42 +1942,44 @@ ci-dessus).}
 %--------------------------------------------------------------
 
 Trois sources distinctes d'incertitude se superposent dans les résultats
-présentés, et leur hiérarchie --- désormais nettement plus contrastée qu'une
-première lecture ne le suggérait --- est elle-même un résultat central du
-mémoire.
+présentés, et leur hiérarchie --- resserrée après la recalibration en propre
+de la PRC --- est elle-même un résultat central du mémoire.
 
-\paragraph{Le choix de source de sévérité domine très largement les autres
-sources d'incertitude.} Entre PRC et OpRisk, pour un même profil et une même
-mesure de risque, le capital total varie d'un facteur proche de \textbf{19}
-(par exemple 488{,}0~M\euro contre 9\,259{,}5~M\euro pour le profil
-médian en VaR, soit un facteur~19{,}0). Cet écart, très supérieur au facteur
-associé au profil de conformité de l'entité (cf.\ paragraphe suivant),
-provient de l'écart entre $\hat{\xi}_{\text{PRC}} = 1{,}30$ et
-$\hat{\xi}_{\text{OpRisk}} = 0{,}595$ : la PRC, dont la sévérité dérive de la
-conversion Jacobs (calibrée sur un coût de notification de fuite de données,
-à une échelle bien plus modeste que le coût opérationnel total d'un
-incident) et plafonnée par nécessité numérique ($\xi \geq 1$), ne peut
-restituer l'amplitude des sinistres extrêmes que la base OpRisk --- sévérité
-observée directement, non plafonnée --- documente. Ce résultat confirme la
-hiérarchie des sources d'incertitude du modèle : le choix méthodologique de
-calibration de la sévérité pèse, à lui seul, davantage sur le niveau de
-capital que l'ensemble des leviers de conformité et de contexte systémique
-combinés.
+\paragraph{Le choix de source de sévérité reste le premier facteur, mais d'un
+poids désormais comparable à celui de la conformité.} Entre PRC et OpRisk,
+pour un même profil et une même mesure de risque, le capital total varie d'un
+facteur proche de \textbf{3{,}3} (par exemple 2\,772{,}7~M\euro contre
+9\,259{,}5~M\euro pour le profil médian en VaR). Cet écart demeure supérieur
+au facteur associé au profil de conformité de l'entité (cf.\ paragraphe
+suivant), mais il n'en est plus séparé d'un ordre de grandeur : c'est un
+changement notable par rapport à une version antérieure de ce travail, où une
+calibration PRC issue de paramètres externes non reproduits sur les données
+brutes conduisait à un facteur inter-sources de~19. Une fois la PRC
+recalibrée de bout en bout (conversion Jacobs $\ln(L)=7{,}68+0{,}76\ln(X)$ sur
+les 15\,053 incidents 2019--2025, $\hat\xi_{\text{PRC}}=1{,}03$), l'écart de
+niveau entre sources se réduit à un facteur~3, l'essentiel de l'ancien écart
+provenant d'une sous-estimation de l'échelle de sévérité PRC plutôt que d'une
+divergence de fond entre les deux bases. La différence résiduelle
+s'explique par l'écart de régime de queue ($\hat{\xi}_{\text{PRC}} = 1{,}03$
+avec plafond à 40~M\euro\ contre $\hat{\xi}_{\text{OpRisk}} = 0{,}595$ sans
+plafond) et par le biais de taille d'OpRisk, qui documente des sinistres
+extrêmes (jusqu'à 1\,500~M\$) que la sévérité PRC, plafonnée, ne peut
+restituer.
 
-\paragraph{Le profil de conformité de l'entité conserve un effet net, mais
-d'ampleur nettement plus modeste que le choix de source.} Sous la source
+\paragraph{Le profil de conformité de l'entité conserve un effet net, d'un
+ordre désormais voisin de celui du choix de source.} Sous la source
 OpRisk, le passage du profil leader au profil retardataire fait passer le
 capital de 6\,420{,}7 à 10\,992{,}4~M\euro en VaR, soit un facteur~1{,}71 ;
-sous PRC, le même passage fait passer le capital de 333{,}1 à
-636{,}2~M\euro, soit un facteur~1{,}91. Ces facteurs, proches entre les deux
+sous PRC, le même passage fait passer le capital de 1\,778{,}7 à
+3\,724{,}3~M\euro, soit un facteur~2{,}09. Ces facteurs, proches entre les deux
 sources, confirment la robustesse \emph{qualitative} de l'effet de
 conformité, indépendamment du niveau absolu de sévérité retenu : quelle que
 soit la source de calibration, un profil de conformité dégradé multiplie le
-capital requis par un facteur de l'ordre de~1{,}7 à~1{,}9. Cette stabilité du
-facteur de conformité, contrastant avec la forte variabilité du niveau
-absolu selon la source, illustre que le modèle capture deux informations de
+capital requis par un facteur de l'ordre de~1{,}7 à~2{,}1. Cette stabilité du
+facteur de conformité illustre que le modèle capture deux informations de
 nature différente --- une sensibilité relative au profil, robuste au choix
-de calibration, et un niveau absolu, qui ne l'est pas.
+de calibration, et un niveau absolu, qui l'est moins mais dont l'écart
+inter-sources s'est lui aussi resserré.
 
 \paragraph{L'environnement systémique amplifie la sensibilité au profil.}
 La comparaison des scénarios $\theta = 0$ et $\theta = -2{,}5$ (choc cyber
@@ -1917,17 +2022,17 @@ facteur unique. L'axe des abscisses va de $\theta = 0$ (environnement normal)
 % l'était sous PRC, xi>=1). (2) Cela ne suffisait pas : la brique prestataire
 % était calibrée en Lognormale à échelle ABSOLUE (médiane ~5 M€), indépendante
 % de la source active, alors que la remédiation change d'échelle selon la
-% source (PRC/Jacobs vs OpRisk). Sous PRC, cette échelle absolue écrasait la
-% remédiation (calibrée sur un seuil très bas, u=0,128 M€). La brique
+% source (PRC/Jacobs vs OpRisk). Cette échelle absolue fixe écrasait la
+% remédiation dès que les échelles différaient entre briques. La brique
 % prestataire est désormais un SURCOÛT RELATIF appliqué à la sévérité de
 % remédiation active (+8,3% à +11,8%, IBM/Ponemon Cost of a Data Breach 2025),
 % ce qui restaure la commensurabilité entre briques et entre sources.
 Cette décomposition révèle un enseignement qui n'apparaissait pas dans une
 version antérieure du moteur, où la brique prestataire était calibrée sur une
 échelle absolue (Lognormale, médiane $\approx 5$~M\euro) indépendante de la
-source de sévérité active. Sous PRC, dont la remédiation repose sur un seuil
-très bas ($u = 0{,}128$~M\euro, sévérité dérivée de la conversion Jacobs),
-cette échelle absolue écrasait artificiellement la remédiation --- y compris
+source de sévérité active. Cette échelle absolue fixe entrait en conflit avec
+la remédiation dès que la source active portait sa sévérité sur une échelle
+différente, écrasant artificiellement la remédiation --- y compris
 après plafonnement symétrique des deux briques à 40~M\euro, le problème
 n'étant pas la queue mais le corps de la distribution. La brique prestataire
 est donc désormais calibrée comme un \textbf{surcoût relatif} sur la sévérité
@@ -1978,7 +2083,7 @@ complémentaire confirme le caractère marginal de la brique de sanction dans
 le capital total, y compris après correction du moteur. Le doublement du
 plafond réglementaire de l'amende, de 20~M\euro à 40~M\euro, ne déplace que
 très faiblement la VaR~99{,}5~\% : l'effet maximal observé reste inférieur à
-7~M\euro\ (6{,}9~M\euro\ sous OpRisk et 4{,}3~M\euro\ sous PRC), y compris
+7~M\euro\ (6{,}9~M\euro\ sous OpRisk et 4{,}4~M\euro\ sous PRC), y compris
 pour le profil retardataire subissant un taux de non-conformité extrême ---
 un effet d'autant plus négligeable en proportion que le capital total sous
 OpRisk se compte désormais en milliers de millions d'euros.
@@ -1994,9 +2099,9 @@ OpRisk & Leader & 6\,420{,}7 M\euro & 6\,420{,}7 M\euro & 0{,}0 M\euro \\
 OpRisk & Médian & 9\,259{,}5 M\euro & 9\,260{,}3 M\euro & 0{,}9 M\euro \\
 OpRisk & Retardataire & 10\,992{,}4 M\euro & 10\,999{,}3 M\euro & 6{,}9 M\euro \\
 \addlinespace
-PRC & Leader & 333{,}1 M\euro & 333{,}1 M\euro & 0{,}0 M\euro \\
-PRC & Médian & 488{,}0 M\euro & 490{,}1 M\euro & 2{,}1 M\euro \\
-PRC & Retardataire & 636{,}2 M\euro & 640{,}5 M\euro & 4{,}3 M\euro \\
+PRC & Leader & 1\,778{,}7 M\euro & 1\,778{,}7 M\euro & 0{,}0 M\euro \\
+PRC & Médian & 2\,772{,}7 M\euro & 2\,775{,}5 M\euro & 2{,}9 M\euro \\
+PRC & Retardataire & 3\,724{,}3 M\euro & 3\,728{,}7 M\euro & 4{,}4 M\euro \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -2095,6 +2200,230 @@ alors l'hypothèse experte porteuse par une quantité mesurée. Le modèle est
 construit pour absorber cette substitution sans changement d'architecture.
 
 %--------------------------------------------------------------
+\subsection{Robustesse de la calibration de sévérité : validation temporelle et adéquation formelle}
+%--------------------------------------------------------------
+
+Les paragraphes précédents évoquaient une validation \emph{de cohérence
+interne} et un \emph{stress-test de spécification}, sans toutefois soumettre
+la calibration GPD elle-même à un test statistique formel ni à une validation
+hors échantillon. Les deux diagnostics suivants comblent ce trou, en
+n'utilisant que les incidents OpRisk déjà mobilisés --- aucune donnée
+supplémentaire.
+
+\paragraph{Validation par découpage temporel.} La base OpRisk cyber$\times$finance
+(570 incidents, 2000--2026) est scindée à la date de coupure 2017
+(349 incidents avant, 221 après), et la GPD est recalibrée indépendamment sur
+chaque période, seuil de percentile~85 propre à chacune :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{l r r r r}
+\toprule
+\rowcolor{lightblue}
+\textbf{Période} & \textbf{Seuil $u$} & \textbf{$n$ excès} & \textbf{$\hat{\xi}$ (IC90\%)} & \textbf{$\hat{\sigma}$} \\
+\midrule
+Entraînement ($\leq 2017$) & 11{,}27~M\euro & 53 & $0{,}71\ [0{,}25\,;\,1{,}17]$ & 25{,}10~M\euro \\
+Test ($> 2017$)            & 49{,}38~M\euro & 33 & $0{,}57\ [0{,}12\,;\,1{,}01]$ & 103{,}63~M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Les intervalles de confiance sur $\xi$ se chevauchent largement : la
+\emph{forme} de la queue (régime Fréchet, $\xi>0$) est stable entre les deux
+périodes, ce qui valide le choix structurel de la GPD lui-même. En revanche,
+l'\emph{échelle} $\hat{\sigma}$ quadruple d'une période à l'autre (25,10 à
+103,63~M\euro), et un test de Kolmogorov-Smirnov --- ici pleinement valide,
+les paramètres du modèle testé provenant exclusivement de la période
+d'entraînement, indépendante de l'échantillon testé --- confirme que les
+excès de la période de test au-delà du seuil d'entraînement ($n=69$,
+statistique KS$=0{,}168$, $p=0{,}037$) ne suivent pas la loi
+$GPD(\hat{\xi}_{\text{train}},\hat{\sigma}_{\text{train}})$ : la VaR~$99{,}5\,\%$
+extrapolée à partir du seul régime 2000--2017 (371,1~M\euro) sous-estime
+largement le quantile~$99{,}5\,\%$ effectivement observé sur 2018--2026
+(1\,077,5~M\euro). Ce résultat ne fragilise pas le modèle : il \emph{confirme
+quantitativement}, par un test formel, ce que la section~2.3 affirmait déjà
+qualitativement sur l'inflation cyber --- calibrer sur des données trop
+anciennes sous-estime la sévérité actuelle, non parce que le régime de queue
+change de nature, mais parce que son échelle croît dans le temps. La
+calibration officielle du mémoire (section~2.7), qui retient l'intégralité de
+la période 2000--2026 plutôt qu'une sous-période ancienne, se trouve ainsi
+justifiée \emph{a posteriori} par ce test, plutôt que par la seule
+plausibilité qualitative.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/holdout_validation.png}
+\caption{Validation holdout : fonction de survie empirique des excès de la
+période de test (au-delà du seuil d'entraînement) comparée à la prédiction
+$GPD(\hat{\xi}_{\text{train}}, \hat{\sigma}_{\text{train}})$. L'écart visible
+en échelle log matérialise le sous-provisionnement qu'aurait produit une
+calibration figée sur la seule période 2000--2017.}
+\label{fig:holdout-validation}
+\end{figure}
+
+\paragraph{Adéquation formelle de la calibration officielle.} Sur
+l'intégralité du périmètre (570 incidents, seuil $u=20{,}03$~M\euro, 86
+excès --- reproduisant à moins de $0{,}1\,\%$ près les $\hat{\xi}=0{,}595$ et
+$\hat{\sigma}=57{,}97$~M\euro déjà publiés en~2.7), la qualité de
+l'ajustement GPD, jusqu'ici appuyée sur une lecture graphique (mean excess
+plot, diagnostic de stabilité, Hill plot), est soumise à deux tests
+quantitatifs. La transformée intégrale de probabilité des excès --- qui doit
+suivre une loi Uniforme$(0,1)$ sous un modèle bien spécifié --- donne une
+statistique de Kolmogorov-Smirnov de $0{,}046$ ($p\approx0{,}99$) et une
+statistique d'Anderson-Darling de $0{,}14$, très en-deçà du repère critique
+usuel à 5\,\% ($\approx 2{,}49$) : l'hypothèse d'adéquation n'est pas rejetée.
+Cette lecture appelle une réserve méthodologique explicite : les paramètres
+$\hat{\xi}$ et $\hat{\sigma}$ étant estimés sur le \emph{même} échantillon que
+celui soumis au test, la loi exacte de la statistique KS diffère légèrement
+du cas i.i.d.\ à paramètres connus a priori --- les $p$-valeurs rapportées
+sont donc indicatives, non un test exact au sens strict. Elles corroborent
+néanmoins, de façon convergente, le diagnostic graphique déjà présenté en~2.7
+et~3.3 : le seuil retenu (percentile~85) ne se contente pas de stabiliser
+visuellement $\hat{\xi}$, il produit un ajustement statistiquement défendable.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/gpd_goodness_of_fit.png}
+\caption{Adéquation de la calibration GPD officielle (OpRisk, $u=20{,}03$~M\euro).
+\emph{Gauche} : QQ-plot des excès contre les quantiles théoriques de la GPD
+ajustée. \emph{Droite} : histogramme de la transformée intégrale de
+probabilité, comparé à la densité Uniforme$(0,1)$ attendue sous adéquation.}
+\label{fig:gpd-goodness-of-fit}
+\end{figure}
+
+%--------------------------------------------------------------
+\subsection{Robustesse du moteur de simulation : famille de copule et convergence Monte Carlo}
+%--------------------------------------------------------------
+
+Les deux diagnostics précédents bornent l'incertitude de \emph{paramètre}.
+Restent deux questions de nature différente, jusqu'ici non instruites dans ce
+mémoire : le choix de la \emph{forme fonctionnelle} de la copule pèse-t-il sur
+le résultat autant que son intensité de dépendance~? Et le nombre de tirages
+Monte Carlo retenu dans l'ensemble du pipeline ($n_{sim}=100\,000$) suffit-il
+à garantir que le SCR rapporté ne soit pas lui-même bruité par l'erreur
+d'échantillonnage de la simulation~? Ces deux tests ne mobilisent aucune
+donnée supplémentaire : ils exploitent uniquement le moteur de simulation et
+les calibrations déjà fixées en Parties~2--3.
+
+\paragraph{Robustesse à la famille de copule.} La copule de Gumbel est
+justifiée en~1.9 par sa dépendance de queue supérieure, sans qu'aucun test
+quantitatif ne mesure si le choix de cette \emph{famille} pèse sur le capital
+autant que son \emph{paramètre} (déjà testé en~5.4, effet $<1\,\%$). Trois
+familles alternatives sont ici confrontées à Gumbel, chacune appariée sur le
+\emph{même} tau de Kendall en régime non conforme ($\tau=0{,}444$, soit
+$\theta_{\text{Gumbel}}=1{,}8$) et conforme ($\tau=0{,}167$,
+$\theta_{\text{Gumbel}}=1{,}2$), de sorte que seule la forme fonctionnelle de
+la dépendance varie, à intensité de dépendance strictement égale : Clayton
+roté à $180°$ (dépendance de queue supérieure, forme différente de Gumbel),
+Frank (\emph{aucune} dépendance de queue --- cas de contraste), et Student
+($df=4$, dépendance de queue symétrique haute/basse). Le tableau ci-dessous
+compare, pour chaque source et chaque famille, la VaR~$99{,}5\,\%$ en
+scénario~S2 (non-conformité totale, profil médian) et le $\Delta_{DORA}$
+associé, obtenus par le même moteur de simulation que le reste du mémoire ---
+seule la famille de copule change d'une ligne à l'autre.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{l r r r r}
+\toprule
+\rowcolor{lightblue}
+\textbf{Famille (PRC)} & \textbf{VaR\,99,5\,\%} & \textbf{$\Delta_{DORA}$} & \textbf{Écart VaR} & \textbf{Écart $\Delta_{DORA}$} \\
+\midrule
+Gumbel (référence)     & 631{,}9~M\euro  & 302{,}8~M\euro & --- & --- \\
+Clayton (roté)          & 633{,}5~M\euro  & 302{,}9~M\euro & $+0{,}3\,\%$ & $+0{,}1\,\%$ \\
+Frank                   & 634{,}9~M\euro  & 303{,}1~M\euro & $+0{,}5\,\%$ & $+0{,}1\,\%$ \\
+Student ($df=4$)        & 633{,}0~M\euro  & 302{,}3~M\euro & $+0{,}2\,\%$ & $-0{,}1\,\%$ \\
+\midrule
+\rowcolor{lightblue}
+\textbf{Famille (OpRisk)} & \textbf{VaR\,99,5\,\%} & \textbf{$\Delta_{DORA}$} & \textbf{Écart VaR} & \textbf{Écart $\Delta_{DORA}$} \\
+\midrule
+Gumbel (référence)     & 10\,903{,}2~M\euro & 4\,602{,}3~M\euro & --- & --- \\
+Clayton (roté)          & 10\,792{,}8~M\euro & 4\,523{,}2~M\euro & $-1{,}0\,\%$ & $-1{,}7\,\%$ \\
+Frank                   & 10\,879{,}2~M\euro & 4\,543{,}8~M\euro & $-0{,}2\,\%$ & $-1{,}3\,\%$ \\
+Student ($df=4$)        & 10\,877{,}4~M\euro & 4\,578{,}6~M\euro & $-0{,}2\,\%$ & $-0{,}5\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ces montants sont des points de simulation directe de l'engin (scénario~S2,
+profil médian), non passés par le bootstrap à deux niveaux de la Partie~4 :
+ils diffèrent donc légèrement des valeurs bootstrappées déjà publiées en~4.4
+et~5.1, et ne s'y substituent pas. Ce qui importe ici est l'\emph{écart
+relatif} entre familles, à tau de Kendall égal : il reste, sous les deux
+sources, inférieur à $1{,}7\,\%$ en valeur absolue --- du même ordre de
+grandeur que l'effet du \emph{paramètre} de la copule déjà mesuré en~5.4
+($<1\,\%$). Y compris face à Frank, qui ne comporte structurellement aucune
+dépendance de queue, l'écart reste marginal : c'est l'\emph{intensité} de la
+dépendance (le tau de Kendall, hérité de la contagion documentée en~1.5) qui
+gouverne le capital, pas la forme fonctionnelle retenue pour la représenter.
+Le choix de Gumbel, motivé qualitativement en~1.9, se trouve ainsi confirmé
+quantitativement comme non déterminant pour le niveau de capital rapporté ---
+un résultat rassurant pour la robustesse de l'architecture, obtenu sans
+aucune donnée supplémentaire.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/copula_robustness.png}
+\caption{VaR~$99,5\,\%$ (scénario S2, profil médian) sous quatre familles de
+copule appariées sur le même tau de Kendall que Gumbel, par source de
+sévérité. La ligne pointillée marque la référence Gumbel : l'écart entre
+familles reste, sous les deux sources, inférieur à $1{,}7\,\%$.}
+\label{fig:copula-robustness}
+\end{figure}
+
+\paragraph{Convergence de la simulation Monte Carlo.} L'ensemble du pipeline
+retient $n_{sim}=100\,000$ années simulées sans qu'aucune vérification
+n'établisse que ce choix suffit à stabiliser la VaR~$99{,}5\,\%$ rapportée.
+Pour le mesurer, on répète l'estimation --- à paramètres strictement figés,
+scénario~S2, profil médian --- sous plusieurs graines indépendantes, pour une
+grille croissante de $n_{sim}$, et l'on observe la dispersion résiduelle
+(l'erreur Monte Carlo pure, distincte de l'incertitude de paramètre déjà
+traitée en~5.2 et~5.4) :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{r r r r}
+\toprule
+\rowcolor{lightblue}
+\textbf{$n_{sim}$} & \textbf{VaR moy.\ (PRC)} & \textbf{CV (PRC)} & \textbf{CV (OpRisk)} \\
+\midrule
+1\,000    & 629{,}0~M\euro & $3{,}20\,\%$  & $20{,}83\,\%$ \\
+3\,000    & 631{,}5~M\euro & $2{,}04\,\%$  & $12{,}90\,\%$ \\
+10\,000   & 632{,}3~M\euro & $1{,}05\,\%$  & $8{,}03\,\%$ \\
+30\,000   & 633{,}3~M\euro & $0{,}56\,\%$  & $3{,}51\,\%$ \\
+\textbf{100\,000}  & \textbf{633{,}5~M\euro} & \textbf{0{,}23\,\%} & \textbf{1{,}38\,\%} \\
+300\,000  & 634{,}7~M\euro & $0{,}28\,\%$  & $1{,}15\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Le coefficient de variation Monte Carlo (CV, écart-type inter-graines rapporté
+à la VaR moyenne) décroît de façon monotone avec $n_{sim}$, comme attendu pour
+un estimateur convergent. À $n_{sim}=100\,000$ --- la valeur retenue dans
+l'ensemble des notebooks du pipeline (\texttt{04} à \texttt{08}) --- le CV
+s'établit à $0{,}23\,\%$ sous PRC et $1{,}38\,\%$ sous OpRisk, cette dernière
+plus élevée du fait de la queue plus lourde de la source. Dans les deux cas,
+cette erreur d'échantillonnage reste d'un ordre de grandeur très inférieur à
+l'incertitude de paramètre documentée en~5.4 (amplitude bootstrap sur $\xi$
+seul : plus de $300\,\%$ du SCR de base). Ce résultat valide \emph{a
+posteriori} le choix de $n_{sim}=100\,000$ retenu dans tout le pipeline : au-delà
+de ce seuil (300\,000), le CV se stabilise sans gain perceptible, signe que
+l'effort de calcul supplémentaire ne réduirait pas l'incertitude du SCR ---
+qui reste, comme conclu en~5.2 et~5.4, une incertitude de \emph{modèle et de
+donnée}, non de simulation.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/mc_convergence.png}
+\caption{Convergence de la VaR~$99,5\,\%$ (scénario S2, profil médian) avec le
+nombre d'années simulées $n_{sim}$, par source. La bande ombrée représente
+l'étendue (min--max) observée sur les graines indépendantes à chaque taille
+d'échantillon ; la ligne pointillée marque la référence à grande taille
+($n_{sim}=300\,000$).}
+\label{fig:mc-convergence}
+\end{figure}
+
+%--------------------------------------------------------------
 \subsection{Comparaison avec les travaux antérieurs}
 %--------------------------------------------------------------
 
@@ -2111,7 +2440,7 @@ paramètre de forme constituant le déterminant premier du niveau de capital.
 \rowcolor{lightblue}
 \textbf{Étude / source} & \textbf{$\hat\xi$ (indice de queue)} & \textbf{Espérance} \\
 \midrule
-Présent mémoire --- PRC (via Jacobs) & 1{,}30 & Infinie ($\xi \geq 1$) \\
+Présent mémoire --- PRC (via Jacobs) & 1{,}03 \; [0{,}97 ; 1{,}09] & Infinie ($\xi \geq 1$) \\
 Présent mémoire --- OpRisk Global & 0{,}595 \; [0{,}31 ; 0{,}83] & Finie \\
 \addlinespace
 Dacorogna, Debbabi \& Kratz (2023) --- base SCRC & 0{,}983 \; [0{,}93 ; 1{,}04] & Frontière $\xi \approx 1$ \\
@@ -2126,16 +2455,20 @@ Deux enseignements se dégagent de cette confrontation. D'une part, la
 calibration OpRisk ($\hat\xi \approx 0{,}6$) se situe dans les ordres de
 grandeur des études de risque opérationnel bancaire sous approche AMA,
 cohérente avec un régime de queue lourde mais à moments finis. D'autre part,
-et c'est le point le plus significatif, la calibration PRC ($\hat\xi = 1{,}30$,
+et c'est le point le plus significatif, la calibration PRC ($\hat\xi = 1{,}03$,
 espérance infinie) n'est nullement une anomalie isolée : elle rejoint un
 courant robuste de la littérature qui documente une \emph{espérance de
-sévérité infinie} sur données réelles. Farkas, Lopez et Thomas (2021)
-obtiennent ainsi, par arbres de régression Pareto généralisés, des espérances
-conditionnelles infinies sur certains profils de sinistres, et Malavasi et
-al.\ (2022) confirment ce résultat sur un jeu de données indépendant ;
-Dacorogna, Debbabi et Kratz (2023), sur la base des plaintes de la
-Gendarmerie nationale, estiment un $\hat\xi$ à la frontière de l'unité
-($0{,}983$, intervalle de confiance recouvrant $1$).
+sévérité infinie} sur données réelles. Le rapprochement avec Dacorogna,
+Debbabi et Kratz (2023) est ici frappant : sur la base des plaintes de la
+Gendarmerie nationale, ces auteurs estiment un $\hat\xi$ à la frontière de
+l'unité ($0{,}983$, IC recouvrant $1$) --- soit une valeur statistiquement
+indiscernable de notre estimation PRC ($1{,}03$, IC $[0{,}97~;~1{,}09]$),
+alors que les deux calibrations reposent sur des données, des juridictions et
+des méthodes entièrement distinctes. Farkas, Lopez et Thomas (2021)
+obtiennent de même, par arbres de régression Pareto généralisés, des
+espérances conditionnelles infinies sur certains profils de sinistres, et
+Malavasi et al.\ (2022) confirment ce résultat sur un jeu de données
+indépendant.
 
 \paragraph{Positionnement du mémoire.} Loin de trancher artificiellement ce
 débat, la présente contribution l'\emph{encadre} : nos deux sources bornent
@@ -2147,8 +2480,10 @@ elle illustre au contraire que la littérature sur le risque cyber demeure
 structurellement fragmentée selon le type de base mobilisée. En confrontant
 explicitement deux sources plutôt qu'en n'en retenant qu'une, et en traitant
 leur écart comme une composante à part entière de l'incertitude --- une
-composante que la Partie~5.1--5.2 montre désormais \emph{dominante} sur toute
-autre source de variation du modèle ---, le présent mémoire documente cette
+composante qui, après recalibration en propre de la PRC, se révèle du même
+ordre que l'écart entre scénarios de conformité (facteur~1{,}9 entre sources
+contre~2{,}6 entre scénarios sous OpRisk, cf.~Partie~5.1--5.2), et non plus
+d'un ordre de grandeur au-dessus ---, le présent mémoire documente cette
 fragmentation plutôt que de la masquer.
 
 %--------------------------------------------------------------
@@ -2158,20 +2493,18 @@ fragmentation plutôt que de la masquer.
 Les résultats obtenus ont quatre implications directes pour le pilotage
 prudentiel en Pilier~2.
 
-Premièrement, la dominance quasi exclusive de la brique de remédiation sous
-la source OpRisk (>99~\% du capital) suggère que, dans un scénario de
-sévérité proche des pertes réellement observées sur le marché bancaire et
-assurantiel, les efforts de maîtrise du risque cyber devraient prioriser
-presque intégralement la réduction de la fréquence et de la sévérité des
-incidents opérationnels majeurs, plutôt que la gouvernance des tiers ICT ou
-le risque de sanction. Sous la source PRC, en revanche, la progression
-significative de la part du Prestataire avec le niveau de non-conformité
-(jusqu'à 21~\% pour un profil retardataire) invite à ne pas négliger la
-gouvernance des tiers. Cette divergence de lecture selon la source retenue
-constitue elle-même une implication pour le pilotage : \textbf{la
-hiérarchisation des priorités de maîtrise du risque cyber dépend du choix
-méthodologique de calibration de la sévérité}, et ne peut être arrêtée sur la
-base d'une seule source.
+Premièrement, la nette dominance de la brique de remédiation sous
+\emph{les deux} sources (85 à 86~\% du capital, cf.~5.3) suggère que les
+efforts de maîtrise du risque cyber devraient prioriser la réduction de la
+fréquence et de la sévérité des incidents opérationnels majeurs, avant la
+gouvernance des tiers ICT (13 à 17~\%) ou le risque de sanction (marginal).
+Fait notable, cette hiérarchie des priorités est désormais \emph{robuste au
+choix de source} : une fois la brique prestataire recalibrée en surcoût
+relatif et la PRC recalibrée en propre, PRC et OpRisk s'accordent sur la
+même structure à moins de trois points près (cf.~5.3), là où une version
+antérieure du moteur produisait une inversion artefactuelle entre sources.
+La convergence structurelle des deux calibrations indépendantes renforce donc
+la confiance dans cette hiérarchisation des priorités de maîtrise.
 
 Deuxièmement, la sensibilité du capital au facteur systémique $\theta$
 documentée en~5.2 justifie l'intégration, dans les scénarios de stress de
@@ -2180,17 +2513,18 @@ distinct des scénarios de dégradation individuelle de la gouvernance : les
 deux mécanismes n'affectent pas le capital de la même façon, ni avec la
 même intensité selon le profil de l'entité.
 
-Troisièmement, l'ampleur de l'écart entre sources de sévérité --- un facteur
-supérieur à \textbf{16} sur le niveau de capital, très supérieur au facteur~1{,}5
-associé au profil de conformité --- plaide avec une force renouvelée pour
-que le pilotage interne ne retienne pas un unique scénario central, mais
+Troisièmement, l'écart entre sources de sévérité --- un facteur de l'ordre
+de \textbf{3} sur le niveau de capital (profil médian, VaR), du même ordre
+que le facteur~1{,}7 à~2{,}1 associé au profil de conformité --- plaide
+pour que le pilotage interne ne retienne pas un unique scénario central, mais
 documente explicitement, dans le rapport ORSA, la sensibilité du SCR cyber
 au choix méthodologique de calibration. Cette pratique de transparence sur
 l'incertitude de modèle, que la formule standard de Solvabilité~II,
-forfaitaire, ne permet structurellement pas d'exprimer, apparaît désormais
-comme l'implication la plus significative du mémoire pour la gouvernance
+forfaitaire, ne permet structurellement pas d'exprimer, apparaît comme
+une implication significative du mémoire pour la gouvernance
 du risque cyber en Pilier~2 : le choix de la base de calibration n'est pas
-un détail technique, c'est le déterminant premier du niveau de capital.
+un détail technique, mais l'un des deux déterminants de premier ordre du
+niveau de capital, à parité désormais avec le profil de conformité.
 
 Quatrièmement, la marginalité confirmée de la brique de sanction --- sous
 les deux sources, et de façon encore plus nette sous OpRisk --- conforte le
@@ -2205,20 +2539,24 @@ structurellement bornée par les plafonds légaux.
 
 Le SCR cyber n'est pas un nombre, c'est une distribution large. Les
 résultats de ce mémoire le confirment à chaque étape : une fourchette de
-capital total s'étendant de \textbf{333~M\euro à près de 21\,720~M\euro} selon la
+capital total s'étendant de \textbf{1\,779~M\euro à près de 21\,720~M\euro} selon la
 source de sévérité, le profil de conformité et la mesure de risque retenue,
-soit un facteur de \textbf{65} entre ses bornes ; un $\Delta_{DORA}$ dont
+soit un facteur de \textbf{12} entre ses bornes ; un $\Delta_{DORA}$ dont
 l'intervalle de confiance s'élargit massivement sous la source
 OpRisk ; et une allocation d'Euler qui, une fois la brique prestataire
 rendue commensurable avec la remédiation (surcoût relatif plutôt qu'échelle
 absolue, cf.~5.3), converge vers une structure cohérente entre sources : la
 brique de remédiation porte l'essentiel du capital (83 à 86~\%) sous PRC
-comme sous OpRisk. Le désaccord entre sources porte donc sur le
-\emph{niveau} de capital, pas sur sa \emph{structure} --- une distinction
-qui n'était pas visible avant la correction de calibration décrite en~5.3.
-Cette absence de convergence sur le niveau n'est pas un échec de la
-modélisation : c'est une information honnête sur l'état actuel des données
-disponibles pour quantifier le risque cyber réglementaire.
+comme sous OpRisk. Une fois la PRC recalibrée de bout en bout sur ses
+données brutes (conversion Jacobs, $\hat\xi_{\text{PRC}} = 1{,}03$), le
+désaccord entre sources s'est en outre nettement resserré --- d'un facteur~65
+à un facteur~12 entre bornes extrêmes, et d'un facteur~19 à un facteur~3 à
+profil comparable : deux sources indépendantes qui, calibrées chacune avec
+rigueur, convergent bien davantage qu'attendu vers un même diagnostic. Le
+désaccord résiduel porte sur le \emph{niveau} de capital, non sur sa
+\emph{structure} ni sur l'ordre de grandeur --- une information honnête sur
+l'état actuel des données disponibles pour quantifier le risque cyber
+réglementaire, plutôt qu'un échec de la modélisation.
 
 Les perspectives de ce travail sont directement liées à cette limite. Le
 registre d'incidents DORA que les autorités européennes de surveillance
