@@ -8,6 +8,7 @@
 \usepackage{microtype}          % justification fine, moins de débordements
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{multirow}
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
 \usepackage{amsmath}
@@ -246,6 +247,14 @@ Bien que les processus de Hawkes et les modèles SIR soient extrêmement perform
 La question de l'agrégation des risques extrêmes est centrale dans le calcul du SCR. Les travaux de \textbf{Farkas}, Lopez et Thomas \citep{FarkasLopezThomas2021} sur le risque opérationnel soulignent la difficulté d'allouer du capital lorsque les différentes lignes de métier (ou briques de risque) sont soumises à des chocs lourds simultanés ; leur méthode d'arbres de régression Pareto généralisés, qui segmente automatiquement la sévérité par sous-population homogène plutôt que d'imposer un seuil global unique, rejoint l'esprit de la segmentation manuelle Systems Security / Business Disruption que nous opérons en~2.4.4 sur OpRisk Global --- sans toutefois en reproduire l'automatisation par arbre.
 
 La formule standard de Solvabilité II utilise des matrices de corrélation linéaire qui échouent mathématiquement à capturer la dépendance dans les extrêmes (la queue de distribution). La littérature préconise l'usage de copules. Dans le sillage de ces recommandations, notre modèle rejette la copule Gaussienne au profit de la \textbf{copule de Gumbel}, garantissant une dépendance de queue supérieure stricte, essentielle pour simuler un scénario où une amende DORA majeure coïnciderait avec la défaillance systémique d'un prestataire cloud de rang 1.
+
+%--------------------------------------------------------------
+\subsection{La Théorie des Valeurs Extrêmes en actuariat : lignée et application au cyber}
+%--------------------------------------------------------------
+
+Le socle mathématique mobilisé dans ce mémoire s'inscrit dans une lignée actuarielle bien établie. La théorie asymptotique des extrêmes remonte aux résultats fondateurs de \citet{fishertippett1928} et \citet{gnedenko1943} sur les lois limites de maxima, prolongés par \citet{pickands1975} et \citet{balkemadehaan1974} qui fondent l'approche \emph{Peaks-Over-Threshold} en établissant la convergence des excès vers la GPD (Théorèmes~\ref{th:ftg} et~\ref{th:balkema}). La synthèse de référence pour l'assurance et la finance demeure l'ouvrage de \citet{Embrechts1997}, \emph{Modelling Extremal Events}, qui systématise l'usage de la GPD, de l'estimateur de \citet{Hill1975} et du \emph{mean excess plot} pour la tarification des risques à queue lourde ; \citet{mcneil2015} en donnent la formulation moderne intégrée aux mesures de risque cohérentes (VaR, Expected Shortfall) et à l'allocation de capital, cadre que nous adoptons.
+
+L'application spécifique de l'EVT au risque cyber est plus récente mais convergente. \citet{MaillartSornette2010} montrent, sur les fuites de données américaines, que la taille des brèches suit une loi de Pareto d'indice proche de l'unité --- résultat que notre calibration PRC ($\hat\xi=1{,}03$) reproduit et que le §\ref{sec:seuil-pot} confirme comme robuste au choix du seuil. \citet{wheatley2016} étendent ce constat par une analyse en valeurs extrêmes des méga-brèches, tandis que \citet{elingwirfs2019} appliquent explicitement une décomposition POT/GPD aux pertes opérationnelles cyber, documentant des indices de queue élevés et une frontière ténue avec le régime d'espérance infinie. \citet{elingloperfido2017} recourent aux copules et à l'analyse multivariée pour modéliser la dépendance entre types de brèches. Notre travail se situe au confluent de ces deux lignées : il applique l'appareil POT/GPD classique (Embrechts, McNeil) aux bases cyber (Maillart, Eling), mais en le connectant --- via la variable latente de Vasicek et l'allocation d'Euler --- à un objectif prudentiel inédit, la quantification du surcoût de capital lié à la non-conformité DORA.
 
 %--------------------------------------------------------------
 \subsection{De Solvabilité II à DORA : Le pont quantitatif}
@@ -2467,6 +2476,50 @@ probabilité, comparé à la densité Uniforme$(0,1)$ attendue sous adéquation.
 \end{figure}
 
 %--------------------------------------------------------------
+\subsection{Sensibilité au choix du seuil POT}
+\label{sec:seuil-pot}
+%--------------------------------------------------------------
+
+Le seuil $u$ a été fixé au percentile~$85$ par lecture graphique (\emph{mean excess plot} et \emph{Hill plot}). Une critique récurrente de l'approche POT est la subjectivité de ce choix : un seuil trop bas contamine la queue par le corps de la loi (biais), un seuil trop haut épuise l'échantillon (variance). Nous quantifions ici la sensibilité des estimateurs à ce choix, en recalibrant intégralement la GPD sur une grille de percentiles (tableau~\ref{tab:seuil}, figure~\ref{fig:threshold}).
+
+\begin{table}[h]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c c c c c c}
+\toprule
+\rowcolor{lightblue}
+\textbf{Source} & \textbf{Percentile} & \textbf{$u$ (M\euro)} & \textbf{$N_u$} & \textbf{$\hat\xi$} & \textbf{VaR $99{,}5\%$ (M\euro)} \\
+\midrule
+\multirow{5}{*}{OpRisk}
+ & $80$   & $12{,}88$ & $115$ & $0{,}750$ & $758{,}9$ \\
+ & $82{,}5$ & $16{,}90$ & $102$ & $0{,}698$ & $717{,}2$ \\
+ & \cellcolor{lightblue!40}$85$ & \cellcolor{lightblue!40}$22{,}03$ & \cellcolor{lightblue!40}$88$ & \cellcolor{lightblue!40}$0{,}601$ & \cellcolor{lightblue!40}$658{,}7$ \\
+ & $87{,}5$ & $31{,}82$ & $73$ & $0{,}541$ & $633{,}7$ \\
+ & $90$   & $47{,}42$ & $59$ & $0{,}534$ & $631{,}3$ \\
+\addlinespace
+\multirow{5}{*}{PRC}
+ & $80$   & $2{,}63$ & $3\,011$ & $1{,}065$ & $218{,}4$ \\
+ & $82{,}5$ & $3{,}27$ & $2\,635$ & $1{,}046$ & $212{,}8$ \\
+ & \cellcolor{lightblue!40}$85$ & \cellcolor{lightblue!40}$4{,}18$ & \cellcolor{lightblue!40}$2\,258$ & \cellcolor{lightblue!40}$1{,}033$ & \cellcolor{lightblue!40}$209{,}2$ \\
+ & $87{,}5$ & $5{,}58$ & $1\,881$ & $1{,}075$ & $218{,}4$ \\
+ & $90$   & $7{,}31$ & $1\,490$ & $0{,}998$ & $204{,}9$ \\
+\bottomrule
+\end{tabular}
+\caption{Recalibration complète de la GPD sur une grille de seuils. La ligne surlignée est le seuil retenu (percentile~$85$).}
+\label{tab:seuil}
+\end{table}
+
+Deux enseignements se dégagent. D'une part, la source \textbf{PRC} présente une stabilité remarquable de l'indice de queue : $\hat\xi$ reste confiné dans l'intervalle $[0{,}998\,;\,1{,}075]$ sur toute la grille, et la VaR varie de moins de $\pm3\,\%$ autour de sa valeur au seuil retenu. Ce plateau confirme de manière robuste le \emph{régime d'espérance infinie} ($\xi\ge1$) : il ne s'agit pas d'un artefact du seuil, mais d'une propriété structurelle de la sévérité PRC. D'autre part, la source \textbf{OpRisk} montre une légère décroissance de $\hat\xi$ avec le seuil ($0{,}75\to0{,}53$), signature classique d'un biais de contamination aux seuils bas ; néanmoins la VaR $99{,}5\,\%$ reste contenue dans une fourchette de $\pm10\,\%$ ($631$ à $759$~M\euro), et se stabilise nettement à partir du percentile~$85$, ce qui \emph{a posteriori} justifie le seuil retenu. Cette double lecture --- stabilité forte pour PRC, fourchette maîtrisée pour OpRisk --- ferme le dernier angle mort du diagnostic de calibration.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/threshold_sensitivity.png}
+\caption{Sensibilité au seuil POT. \emph{Gauche} : indice de queue $\hat\xi$ selon le percentile du seuil, par source (le plateau PRC autour de $1{,}03$ contraste avec la décroissance modérée d'OpRisk). \emph{Droite} : VaR $99{,}5\,\%$ normalisée au seuil retenu.}
+\label{fig:threshold}
+\end{figure}
+
+%--------------------------------------------------------------
 \subsection{Robustesse du moteur de simulation : famille de copule et convergence Monte Carlo}
 %--------------------------------------------------------------
 
@@ -2864,12 +2917,31 @@ Pour la binomiale négative amincie $\mathrm{NegBin}(r,p_2)$, $a=1-p_2$ et $b=(r
 
 \subsection{Information de Fisher de la GPD (Proposition~\ref{prop:fisher})}
 \label{ann:fisher}
-On part de la log-vraisemblance \eqref{eq:loglik-gpd}. En reparamétrant $\tau=\xi/\sigma$, les dérivées secondes de $\ell$ conduisent, après prise d'espérance sous $Y\sim\mathrm{GPD}(\xi,\sigma)$ (moments $\E[(1+\xi Y/\sigma)^{-1}]=1/(1+\xi)$ et $\E[(1+\xi Y/\sigma)^{-2}]=1/(1+2\xi)$, finis pour $\xi>-\tfrac12$), à l'information de Fisher par observation
+On part de la log-vraisemblance \eqref{eq:loglik-gpd}, écrite par observation avec $W_i=1+\xi Y_i/\sigma$ :
 \begin{equation}
-\mathcal{I}(\xi,\sigma)=\frac{1}{1+2\xi}\begin{pmatrix} 2 & \sigma^{-1}\\[2pt] \sigma^{-1} & \sigma^{-2}(1+\xi)\end{pmatrix}^{-1}\!\!,\quad\text{d'inverse}\quad
+\ell_i(\xi,\sigma)=-\ln\sigma-\Bigl(1+\tfrac1\xi\Bigr)\ln W_i.
+\end{equation}
+
+\paragraph{Moments-clés.} La transformation de probabilité intégrale donne $W_i^{-1/\xi}=\bar G(Y_i)\sim\mathcal U(0,1)$, donc $W_i\overset{d}{=}U^{-\xi}$ avec $U\sim\mathcal U(0,1)$. On en déduit les quatre moments qui suffisent au calcul :
+\begin{equation}
+\E[W^{-1}]=\E[U^{\xi}]=\tfrac{1}{1+\xi},\quad
+\E[W^{-2}]=\tfrac{1}{1+2\xi},\quad
+\E[\ln W]=-\xi\,\E[\ln U]=\xi,\quad
+\E[(\ln W)^2]=2\xi^2,
+\end{equation}
+tous finis dès que $\xi>-\tfrac12$ (condition assurant $\E[W^{-2}]<\infty$).
+
+\paragraph{Score et hessienne.} En dérivant $\ell_i$,
+\begin{align*}
+\partial_\xi\ell_i&=\tfrac{1}{\xi^2}\ln W_i-\Bigl(1+\tfrac1\xi\Bigr)\tfrac{Y_i/\sigma}{W_i},\qquad
+\partial_\sigma\ell_i=-\tfrac1\sigma+\Bigl(1+\tfrac1\xi\Bigr)\tfrac{\xi Y_i/\sigma^2}{W_i}.
+\end{align*}
+En prenant l'espérance de l'opposé des dérivées secondes et en substituant les moments ci-dessus, on obtient l'information de Fisher par observation
+\begin{equation}
+\mathcal{I}(\xi,\sigma)=\frac{1}{1+2\xi}\begin{pmatrix} 2 & \sigma^{-1}\\[2pt] \sigma^{-1} & \sigma^{-2}(1+\xi)\end{pmatrix},\qquad
 \mathcal{I}^{-1}=(1+\xi)\begin{pmatrix} 1+\xi & -\sigma\\[2pt] -\sigma & 2\sigma^2\end{pmatrix}.
 \end{equation}
-La variance asymptotique de $\hat\xi$ est le terme $(1,1)$ divisé par $N_u$, soit $(1+\xi)^2/N_u$. La condition $\xi>-\tfrac12$ garantit la finitude des moments impliqués, donc la validité de la normalité asymptotique classique de l'EMV \citep{smith1987}.
+La variance asymptotique de $\hat\xi$ est le terme $(1,1)$ de $\mathcal I^{-1}$ divisé par $N_u$, soit $(1+\xi)^2/N_u$ ; celle de $\hat\sigma$ vaut $2\sigma^2(1+\xi)/N_u$. Le terme hors-diagonal négatif $-\sigma(1+\xi)$ traduit la corrélation négative entre $\hat\xi$ et $\hat\sigma$, retrouvée empiriquement sur le nuage \emph{a posteriori} bayésien (figure~\ref{fig:mcmc}). La condition $\xi>-\tfrac12$ garantit la finitude des moments impliqués, donc la validité de la normalité asymptotique classique de l'EMV \citep{smith1987}.
 
 \subsection{Estimateur de Hill (Proposition~\ref{prop:hill})}
 \label{ann:hill}
