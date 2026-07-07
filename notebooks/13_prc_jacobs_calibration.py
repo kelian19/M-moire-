@@ -49,7 +49,7 @@ BRAND_LIGHT = "#f6f7f9"
 plt.rcParams["axes.facecolor"] = BRAND_LIGHT
 plt.rcParams["figure.facecolor"] = BRAND_LIGHT
 
-PRC_PATH = "data/raw/Data_Breach_Chronology.xlsx"
+PRC_PATH = "data/raw/Data_Breach_Chronology.csv"
 
 
 def plot_mean_excess(severities: np.ndarray, u_retained: float, save_path: str):

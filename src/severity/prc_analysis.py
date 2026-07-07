@@ -50,7 +50,14 @@ def load_prc(path: str,
     avec config.py::PRC["period"]) et sur les incidents avec un nombre
     d'enregistrements strictement positif renseigné.
     """
-    df = pd.read_excel(path)
+    if str(path).lower().endswith(".csv"):
+        # Export PRC brut : délimiteur pipe « | », champs entre guillemets
+        # pouvant contenir des retours à la ligne. On ne charge que les
+        # colonnes utiles pour éviter de matérialiser les 660 Mo en mémoire.
+        df = pd.read_csv(path, sep="|", usecols=["breach_date", "total_affected"],
+                         dtype=str, engine="c")
+    else:
+        df = pd.read_excel(path)
     df["year"] = pd.to_datetime(df["breach_date"], errors="coerce").dt.year
     df["total_affected"] = pd.to_numeric(df["total_affected"], errors="coerce")
 

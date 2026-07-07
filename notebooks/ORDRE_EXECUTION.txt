@@ -35,11 +35,54 @@ Lancer chaque script depuis la racine du projet (M-moire-) avec :
 
 8. 08_sensitivity_tornado.py
    -> Analyse de sensibilité "tornado" du SCR (VaR 99.5%) aux hypothèses du modèle.
-   -> A lancer en dernier (utilise les résultats/paramètres des étapes précédentes).
+   Produit : outputs/figures/tornado_sensitivity.png
+
+--- BLOC ROBUSTESSE (figures + tableaux du chapitre 5) -------------------------
+
+   Figures "socle" du LDA (distribution SCR, sensibilité theta, décomposition
+   d'Euler) : générées par
+       python src/visualization/plots.py
+   -> Produit : outputs/figures/{distribution_scr_oprisk_s2, sensibilite_theta,
+      euler_decomposition}.png
+   Dépend des CSV des étapes 4 et 5 (les lancer AVANT).
+
+9. 09_copula_robustness.py
+   -> Test de robustesse du choix de copule (Gumbel vs Clayton/Frank/Student-t)
+      sur la VaR 99.5% et Delta_DORA, via l'allocation d'Euler. Autonome.
+   Produit : outputs/figures/copula_robustness.png + results_copula_robustness.csv
+
+10. 10_mc_convergence.py
+   -> Diagnostic de convergence Monte Carlo de la VaR 99.5% (VaR vs nb de tirages).
+      Autonome mais lourd (~7 Go RAM, plusieurs minutes).
+   Produit : outputs/figures/mc_convergence.png
+
+11. 11_holdout_validation.py
+   -> Validation temporelle out-of-sample : GPD calée sur OpRisk <= année de
+      coupure, confrontée à la queue observée après. Nécessite le SAS OpRisk.
+   Produit : outputs/figures/holdout_validation.png + results_holdout_validation.csv
+
+12. 12_gpd_goodness_of_fit.py
+   -> Tests d'adéquation formels de la GPD (QQ-plot, Anderson-Darling, KS) sur
+      les excès OpRisk. Nécessite le SAS OpRisk.
+   Produit : outputs/figures/gpd_goodness_of_fit.png + results_gpd_goodness_of_fit.csv
+
+13. 13_prc_jacobs_calibration.py
+   -> PREMIÈRE calibration GPD + bootstrap réalisée directement sur la PRC brute
+      (Data_Breach_Chronology.csv, délimiteur « | »), sévérité dérivée via la
+      conversion Jacobs (2014). Comble l'asymétrie de bootstrap PRC vs OpRisk.
+   Produit : outputs/tables/results_prc_jacobs_calibration.csv (+ figures PRC).
 
 Dépendances clés :
 - Étapes 1 à 3 : exploration/calibration OpRisk (peuvent tourner indépendamment).
-- Étape 4 et 5 : indépendantes entre elles, mais toutes deux requises AVANT l'étape 6.
+- Étape 4 et 5 : indépendantes entre elles, mais toutes deux requises AVANT l'étape 6
+  ET avant src/visualization/plots.py (euler_decomposition).
 - Étape 6 : nécessite les CSV produits par 4 et 5.
-- Étape 7 : nécessite data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx pour la branche OPRISK complète.
-- Étape 8 : dernière étape, synthèse de sensibilité globale.
+- Étapes 7, 11, 12 : nécessitent data/raw/SAS_OpRisk_Global_Data_June_2026.xlsx.
+- Étape 13 : nécessite data/raw/Data_Breach_Chronology.csv.
+- Étapes 9, 10 : autonomes (calibrations figées dans config.py).
+- Lecture des .xlsx : dépendance 'openpyxl' requise (pip install openpyxl).
+
+Note figures -> mémoire :
+  memoire/figures est un lien symbolique vers ../outputs/figures ; les 11 figures
+  référencées par memoire/main.tex sont donc résolues automatiquement dès qu'elles
+  sont générées dans outputs/figures (aucune copie manuelle nécessaire).
