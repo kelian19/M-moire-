@@ -90,8 +90,20 @@ FREQUENCY = {
 
 COPULE = {
     "famille": "Gumbel",
-    "theta": 1.8,                # τ de Kendall ≈ 0.444 (validé : écart empirique 0.0013)
+    "theta": 1.8,                # = theta_nc (régime non-conforme). τ de Kendall ≈ 0.444
+    "theta_nc": 1.8,             # régime non-conforme
+    "theta_c": 1.2,              # régime conforme (contrefactuel)
     "justification": "Dépendance de queue supérieure entre les 4 briques",
+    # ANCRAGE EMPIRIQUE (notebooks/19_theta_empirical_anchoring.py) : le
+    # co-mouvement inter-vecteurs de la PRC (2019-2024, 35 998 incidents)
+    # implique θ ∈ [1.10, 1.23] (routes τ de Kendall + λ_U de queue), soit un
+    # PLANCHER de la dépendance inter-briques (la contagion intra-incident visée
+    # est plus forte qu'un co-mouvement inter-catégories). La FORME queue-
+    # supérieure est confirmée (λ_U empirique ≈ 0.25 ≈ 2× celui impliqué par le
+    # τ central). Surtout : le Δ_DORA varie <1.4% (OpRisk) / <0.3% (PRC) quand
+    # θ_nc balaie [1 (indépendance), 4] → le verdict ne repose PAS sur θ.
+    "theta_empirical_band": [1.10, 1.23],
+    "theta_delta_dora_sensitivity": "<1.4% sur θ_nc ∈ [1, 4] (invariant)",
     "alternative": "Facteur commun B~Bernoulli(p_sys)",
     # p_sys ancré sur γ de la variable latente (concentration marché cloud),
     # et non plus une valeur arbitraire. Voir compliance/latent.py ANCHORED_PARAMS.

@@ -72,6 +72,44 @@ Lancer chaque script depuis la racine du projet (M-moire-) avec :
       conversion Jacobs (2014). Comble l'asymétrie de bootstrap PRC vs OpRisk.
    Produit : outputs/tables/results_prc_jacobs_calibration.csv (+ figures PRC).
 
+14. 14_triangulation_scr.py
+   -> Triangulation méthodologique du SCR : confronte le quantile Monte Carlo à
+      trois méthodes indépendantes sur la brique remédiation dominante (~86%).
+   Produit : outputs/figures/triangulation_scr.png. Autonome.
+
+15. 15_threshold_sensitivity.py
+   -> Diagnostic de calibration : stabilité des estimateurs GPD (xi, sigma) et
+      de la VaR 99.5% au choix du seuil POT, sur une grille de percentiles.
+   Produit : outputs/figures/threshold_sensitivity.png (+ CSV).
+   Nécessite les fichiers bruts OpRisk et PRC.
+
+--- BLOC PRIX SCOR (robustesse du verdict Delta_DORA) --------------------------
+
+16. 16_delta_dora_mapping_sensitivity.py
+   -> Chantier 1 : tornado du Delta_DORA aux multiplicateurs de mapping DORA
+      (±50% par vecteur, graines communes). Établit la robustesse du verdict.
+   Produit : outputs/figures/delta_dora_mapping_tornado.png (+ CSV). Autonome.
+
+17. 17_reinsurance_last_resort.py
+   -> Chantier 2 : assurabilité de dernier recours du cyber (xi_PRC>1 =>
+      espérance infinie, plafond de sévérité = capacité de réassurance).
+   Produit : outputs/figures/reinsurance_last_resort.png (+ CSV). Autonome.
+
+18. 18_multiplier_empirical_anchoring.py
+   -> Chantier 3a : ancrage empirique des multiplicateurs de FRÉQUENCE sur la
+      littérature (MFA/Microsoft, formation phishing, ENISA) ; les valeurs
+      expertes sont des fractions conservatrices des effets documentés.
+   Produit : outputs/figures/multiplier_anchoring.png (+ CSV). Autonome.
+
+19. 19_theta_empirical_anchoring.py
+   -> Chantier 3b : ancrage empirique de la DÉPENDANCE DE QUEUE theta (copule de
+      Gumbel). Mesure le co-mouvement inter-vecteurs de la PRC (tau de Kendall +
+      lambda_U de queue) => theta impliqué dans [1.10, 1.23], puis montre que le
+      Delta_DORA est invariant (<1.4%) quand theta_nc balaie [1, 4].
+   Produit : outputs/figures/theta_empirical_anchoring.png
+             + results_theta_anchoring.csv + results_theta_sensitivity.csv
+   Nécessite data/raw/Data_Breach_Chronology.xlsx (partie sensibilité autonome).
+
 Dépendances clés :
 - Étapes 1 à 3 : exploration/calibration OpRisk (peuvent tourner indépendamment).
 - Étape 4 et 5 : indépendantes entre elles, mais toutes deux requises AVANT l'étape 6

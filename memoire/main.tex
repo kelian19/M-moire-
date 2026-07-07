@@ -2472,6 +2472,50 @@ En bornant les multiplicateurs ancrés à leurs propres bornes hautes expertes (
 \end{figure}
 
 %--------------------------------------------------------------
+\subsection{Ancrage empirique de la dépendance de queue \texorpdfstring{$\theta$}{theta} : un paramètre qui ne porte pas le résultat}
+\label{sec:theta-ancrage}
+%--------------------------------------------------------------
+
+Le paramètre $\theta$ de la copule de Gumbel, qui gouverne la dépendance de queue entre les trois briques de perte, est la \emph{dernière} hypothèse porteuse encore posée à dire d'expert ($\theta_{nc}=1{,}8$ en régime non conforme, $\theta_c=1{,}2$ en régime conforme). Le test de robustesse de la section~\ref{sec:copule} apparie plusieurs familles de copules sur un \emph{même} $\tau$ de Kendall --- il isole l'effet de la \emph{forme} de la dépendance, mais tient son \emph{intensité} $\tau$ (donc $\theta$) pour acquise. Nous la mesurons ici.
+
+Faute d'historique de pertes DORA conjointes par brique, nous ancrons $\theta$ sur un \textbf{proxy observable} : le co-mouvement temporel inter-vecteurs des incidents cyber de la chronologie publique des violations de données (Privacy Rights Clearinghouse, $35\,998$ incidents dédupliqués par identifiant de groupe, comptes mensuels par type de brèche, $2019$--$2024$). Pour ne pas confondre dépendance de queue et tendance commune de \emph{reporting}, la dépendance est estimée à la fois sur les niveaux et sur les \emph{différences premières}, via deux statistiques converties en $\theta$ de Gumbel impliqué : le $\tau$ de Kendall ($\tau_{\text{Gumbel}}=1-1/\theta$) et le coefficient de dépendance de queue supérieure empirique $\lambda_U$ (fréquence de co-dépassements d'un quantile élevé, $\lambda_{U,\text{Gumbel}}=2-2^{1/\theta}$) --- cette dernière étant précisément la quantité que la copule de Gumbel modélise.
+
+\begin{table}[h]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{>{\raggedright}p{6.3cm} c c}
+\toprule
+\rowcolor{lightblue}
+\textbf{Route empirique (PRC 2019--2024)} & \textbf{Statistique} & \textbf{$\theta$ impliqué} \\
+\midrule
+$\tau$ de Kendall (niveaux)              & $0{,}10$ & $1{,}11$ \\
+$\tau$ de Kendall (différences)         & $0{,}09$ & $1{,}10$ \\
+$\lambda_U$ de queue ($q=80\,\%$)       & $0{,}25$ & $1{,}23$ \\
+\midrule
+\emph{Valeur experte (référence)}       & \emph{$\tau=0{,}44$ ; $\lambda_U=0{,}53$} & \emph{$1{,}80$} \\
+\bottomrule
+\end{tabular}
+\caption{Dépendance de queue $\theta$ impliquée par l'ancrage empirique inter-vecteurs, par route d'estimation, comparée à la valeur experte du modèle.}
+\label{tab:theta-ancrage}
+\end{table}
+
+L'ancrage inter-vecteurs place $\theta$ dans une bande $[1{,}10\,;\,1{,}23]$, \emph{en deçà} de la valeur experte $1{,}8$. Deux lectures s'imposent, et aucune n'affaiblit le modèle. D'une part, ce proxy est un \textbf{plancher} de la dépendance recherchée : la contagion \emph{intra-incident} que capture la copule (un sinistre majeur déclenchant simultanément remédiation, recours prestataire et sanction) est structurellement plus forte qu'un co-mouvement \emph{inter-catégories} agrégé au mois. D'autre part, la \emph{forme} de Gumbel est empiriquement confirmée : la dépendance de queue observée ($\lambda_U\approx0{,}25$) est près du \textbf{double} de celle qu'impliquerait la dépendance centrale ($\lambda_U\approx0{,}12$ pour $\theta=1{,}10$). La dépendance se concentre bien dans la queue, ce qui justifie le choix d'une copule à dépendance de queue supérieure plutôt que, par exemple, de Frank.
+
+\begin{formulekey}[Le verdict ne repose pas sur $\theta$]
+Au-delà de son niveau, l'objection décisive est levée par la sensibilité : en balayant $\theta_{nc}$ de $1$ (\emph{indépendance totale} des briques) à $4$ (dépendance très forte, $\tau=0{,}75$), le $\Delta_{DORA}$ ne varie que de $\mathbf{1{,}4\,\%}$ sous OpRisk et de $\mathbf{0{,}3\,\%}$ sous PRC (figure~\ref{fig:theta-ancrage}, droite). Il reste sur son plateau --- plusieurs milliers de M\euro, soit $7{,}7\times$ (OpRisk) et $3{,}3\times$ (PRC) le forfait de Pilier~1 --- y compris en supprimant \emph{toute} dépendance inter-briques. Le paramètre de copule, réel objet d'incertitude, est ainsi dé-risqué jusqu'à l'insignifiance : le résultat central ne dépend pas de $\theta$.
+\end{formulekey}
+
+\noindent Ce résultat n'est pas fortuit : la copule n'injecte qu'un chargement systémique borné ($\le15\,\%$) sur les briques remédiation et prestataire et pilote le déclenchement de la brique sanction, marginale ($\sim0{,}3\,\%$ du capital). La queue lourde du SCR provient de la sévérité GPD ($\xi$ proche de/supérieur à~$1$), non de la structure de dépendance --- que celle-ci soit ancrée à sa borne empirique basse ou à la valeur experte haute.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.97\textwidth]{figures/theta_empirical_anchoring.png}
+\caption{\emph{Gauche} : $\theta$ de Gumbel impliqué par trois routes d'ancrage empirique (PRC, co-mouvement inter-vecteurs) --- toutes en deçà de la valeur experte $1{,}8$ (ligne rouge). \emph{Droite} : $\Delta_{DORA}$ en fonction de $\theta_{nc}$, de l'indépendance ($\theta=1$) à la dépendance forte ; les deux sources restent sur un plateau très au-dessus du forfait de Pilier~1 (pointillés), la bande empirique (ocre) et la valeur experte donnant un capital indiscernable.}
+\label{fig:theta-ancrage}
+\end{figure}
+
+%--------------------------------------------------------------
 \subsection{Robustesse de la calibration de sévérité : validation temporelle et adéquation formelle}
 %--------------------------------------------------------------
 
@@ -2609,6 +2653,7 @@ Deux enseignements se dégagent. D'une part, la source \textbf{PRC} présente un
 
 %--------------------------------------------------------------
 \subsection{Robustesse du moteur de simulation : famille de copule et convergence Monte Carlo}
+\label{sec:copule}
 %--------------------------------------------------------------
 
 Les deux diagnostics précédents bornent l'incertitude de \emph{paramètre}.
