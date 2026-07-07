@@ -38,7 +38,7 @@ build/
 Thumbs.db
 
 # ===== OUTPUTS VOLUMINEUX =====
-outputs/figures/*.png
+# Les figures PNG du mémoire sont versionnées (référencées par memoire/main.tex).
 outputs/figures/*.pdf
 outputs/tables/*.xlsx
 
