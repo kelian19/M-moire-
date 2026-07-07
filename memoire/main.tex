@@ -2823,6 +2823,43 @@ d'un ordre de grandeur au-dessus ---, le présent mémoire documente cette
 fragmentation plutôt que de la masquer.
 
 %--------------------------------------------------------------
+\subsection{Implications pour la réassurance cyber : l'assurabilité de dernier recours}
+\label{sec:reassurance}
+%--------------------------------------------------------------
+
+Le régime d'espérance infinie mis en évidence sur la source PRC ($\hat\xi=1{,}03$, confirmé robuste au seuil en §\ref{sec:seuil-pot}) n'est pas une curiosité mathématique : il porte une conséquence directe pour la (ré)assurance. Si $\E[X]=\infty$, la \emph{prime pure} d'une couverture pleine est infinie --- le risque, tel quel, n'est pas assurable. La question devient alors : \emph{jusqu'où} peut-on transférer cette queue ? La réponse tient dans un résultat de finitude.
+
+\begin{proposition}[Finitude du coût de cession en excédent]\label{prop:reass}
+Soit $X$ une sévérité POT/GPD de survie $\Prob(X>x)=\zeta_u(1+\xi(x-u)/\sigma)^{-1/\xi}$. Le coût espéré de cession en excédent d'un point d'attachement $a>u$, \emph{sans plafond}, vaut
+\begin{equation}
+\E[(X-a)_+]=\int_a^\infty \Prob(X>x)\,\dd x
+=\begin{dcases}
+\ \zeta_u\,\sigma\,\frac{\bigl(1+\xi(a-u)/\sigma\bigr)^{1-1/\xi}}{1-\xi} & \text{si } \xi<1,\\[4pt]
+\ +\infty & \text{si } \xi\ge1.
+\end{dcases}
+\end{equation}
+En revanche, la prime d'un \emph{layer plafonné} $[a,a+\ell]$, $\E[(X\wedge(a+\ell))-(X\wedge a)]=\int_a^{a+\ell}\Prob(X>x)\,\dd x$, est finie pour tout $\ell<\infty$, quel que soit $\xi$.
+\end{proposition}
+
+\begin{proof}
+Avec $w=1+\xi(x-u)/\sigma$, $\int_a^\infty \zeta_u w^{-1/\xi}\dd x=\zeta_u\frac\sigma\xi\int_{w_a}^\infty w^{-1/\xi}\dd w$, intégrale convergente en $+\infty$ si et seulement si $1/\xi>1$, i.e.\ $\xi<1$, auquel cas elle vaut $\zeta_u\sigma\,w_a^{1-1/\xi}/(1-\xi)$. Pour un layer borné, l'intégrande est bornée sur un intervalle borné, donc l'intégrale est finie sans condition sur $\xi$. \end{proof}
+
+\paragraph{Lecture actuarielle.} La Proposition~\ref{prop:reass} sépare nettement les deux sources. Sous \textbf{OpRisk} ($\xi=0{,}60<1$), un traité en excédent \emph{illimité} attaché à $40$~M\euro\ a une prime pure finie de $\E[(X-40)_+]=19{,}0$~M\euro\ par sinistre : la queue est cessible dans son intégralité. Sous \textbf{PRC} ($\xi=1{,}03\ge1$), la même intégrale \textbf{diverge} : aucun réassureur ne peut fermer un excédent illimité, car l'espérance de la part cédée n'existe pas. Le point n'est pas que la queue PRC serait, en euros, plus lourde à toute hauteur atteignable --- à troncature finie elle reste même numériquement modérée --- mais qu'elle \emph{n'a pas de moyenne} : la couverture ne converge jamais (figure~\ref{fig:reassurance}, gauche).
+
+\begin{formulekey}[Assurabilité de dernier recours]
+Dans le régime $\xi\ge1$, seul un \textbf{layer plafonné} est tarifable ; la couverture illimitée a une prime pure infinie. Le plafond de sévérité de $40$~M\euro\ retenu dans le modèle n'est donc pas un artefact de calcul, mais l'expression de la \textbf{capacité de réassurance} : la limite au-delà de laquelle la queue cyber cesse d'être transférable et devient un risque de dernier recours, porté \emph{in fine} par le bilan de l'assureur ou par un dispositif public (\emph{pool} cyber, garantie souveraine).
+\end{formulekey}
+
+\noindent La conséquence prudentielle est double. Pour le \textbf{réassureur}, la tarification cyber impose structurellement une limite par risque et par événement : la prime d'un layer $[40,40+\ell]$ croît sans borne avec $\ell$ sous PRC (figure~\ref{fig:reassurance}, droite), tandis qu'elle plafonne sous OpRisk --- ce qui commande une discipline de \emph{capacity management} radicalement différente selon la nature de la queue estimée. Pour l'\textbf{assureur}, le capital retenu après cession dépend crucialement du plafond négocié : abaisser le plafond réduit le SCR mais accroît la fraction de risque non transférée, arbitrage que la Proposition~\ref{prop:varestvar} rend explicite (l'Expected Shortfall retenu est fini dès que la couverture plafonne la queue à $\xi<1$ effectif). Ce mémoire fournit ainsi, au-delà du seul chiffre de capital, une grille de lecture du \emph{partage optimal} du risque cyber entre assureur, réassureur et garant de dernier ressort.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/reinsurance_last_resort.png}
+\caption{Assurabilité de la queue cyber. \emph{Gauche} : coût de cession en excédent de $40$~M\euro, tronqué à une borne $T$ croissante --- OpRisk ($\xi<1$) converge vers son asymptote finie ($19{,}0$~M\euro), PRC ($\xi\ge1$) croît sans borne (divergence). \emph{Droite} : prime pure d'un layer plafonné $[40,40+\ell]$ selon sa hauteur --- elle plafonne sous OpRisk, croît indéfiniment sous PRC.}
+\label{fig:reassurance}
+\end{figure}
+
+%--------------------------------------------------------------
 \subsection{Implications pour l'ORSA et le pilotage réglementaire}
 %--------------------------------------------------------------
 

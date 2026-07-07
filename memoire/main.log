@@ -1083,28 +1083,35 @@ File: figures/euler_decomposition.png Graphic file (type bmp)
 File: figures/tornado_sensitivity.png Graphic file (type bmp)
 <figures/tornado_sensitivity.png>
  [41] [42]
+File: figures/delta_dora_mapping_tornado.png Graphic file (type bmp)
+<figures/delta_dora_mapping_tornado.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[43] [44]
 File: figures/holdout_validation.png Graphic file (type bmp)
 <figures/holdout_validation.png>
 File: figures/gpd_goodness_of_fit.png Graphic file (type bmp)
 <figures/gpd_goodness_of_fit.png>
- [43]
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[44]
+[45]
 File: figures/threshold_sensitivity.png Graphic file (type bmp)
 <figures/threshold_sensitivity.png>
- [45]
-File: figures/copula_robustness.png Graphic file (type bmp)
-<figures/copula_robustness.png>
- [46]
-File: figures/mc_convergence.png Graphic file (type bmp)
-<figures/mc_convergence.png>
- [47]
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[48]
+[46] [47]
+File: figures/copula_robustness.png Graphic file (type bmp)
+<figures/copula_robustness.png>
+ [48]
+File: figures/mc_convergence.png Graphic file (type bmp)
+<figures/mc_convergence.png>
+ [49]
 File: figures/mcmc_diagnostics.png Graphic file (type bmp)
 <figures/mcmc_diagnostics.png>
 
@@ -1116,22 +1123,25 @@ File: figures/triangulation_scr.png Graphic file (type bmp)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[49] [50] [51] [52] [53] [54
+[50] [51] [52]
+File: figures/reinsurance_last_resort.png Graphic file (type bmp)
+<figures/reinsurance_last_resort.png>
+ [53] [54] [55] [56
 
-] [55] [56] [57
+] [57] [58] [59
 
-] [58
+] [60
 
-] [59
+] [61
 
-] (main.bbl [60
+] (main.bbl [62
 
-]) [61]
-(main.aux)
+])
+[63] (main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B34B60280E9CD89D703CCDC6FDABEAAE;24951.
+(rerunfilecheck)             Checksum: 0DF3E74AC000D41126E494E071A7805C;25810.
  )
-Output written on main.xdv (65 pages, 440164 bytes).
+Output written on main.xdv (67 pages, 468456 bytes).
