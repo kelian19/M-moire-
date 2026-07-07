@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[french]{babel}
+\usepackage[english,french]{babel}   % french = langue principale ; english pour l'abstract
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{microtype}          % justification fine, moins de débordements
 \usepackage{booktabs}
@@ -141,6 +141,82 @@
 
 \end{center}
 \end{titlepage}
+
+%==============================================================
+% RÉSUMÉ EXÉCUTIF (FR) / ABSTRACT (EN)
+%==============================================================
+\clearpage
+\thispagestyle{fancy}
+
+\section*{\color{navy}Résumé exécutif}
+
+Sous Solvabilité~II, le risque cyber est aujourd'hui capté par un chargement
+forfaitaire de risque opérationnel, \emph{insensible} à la résilience numérique
+réelle de l'assureur ; à l'inverse, le règlement DORA impose depuis 2025 des
+exigences de résilience détaillées mais purement qualitatives, sans traduction
+en capital. Ce mémoire construit le pont manquant entre ces deux cadres.
+
+\begin{formulekey}[Contribution]
+Nous proposons \textbf{un premier modèle interne partiel --- approche par
+distribution des pertes (LDA) enrichie par la théorie des valeurs extrêmes ---
+reliant le niveau de (non-)conformité à DORA à un surcoût de capital de
+solvabilité, via une variable latente de dépendance de type Vasicek (Merton)}.
+\end{formulekey}
+
+\noindent La sévérité est calibrée par une approche \emph{Peaks-Over-Threshold}
+/ GPD sur deux bases indépendantes (Privacy Rights Clearinghouse et SAS OpRisk
+Global) ; l'agrégation des briques (remédiation, prestataire, sanction) repose
+sur une copule de Gumbel à dépendance de queue supérieure et une allocation
+d'Euler. Le surcoût de non-conformité, mesuré par un contrefactuel à graine
+figée ($\Delta_{DORA}$), ressort à \textbf{plusieurs fois} le forfait de
+Pilier~1. Ce verdict est robuste : il résiste à une perturbation de
+$\pm50\,\%$ du mapping expert, se trouve \emph{renforcé} par l'ancrage empirique
+des multiplicateurs de fréquence, et demeure quasi invariant au paramètre de
+dépendance de queue $\theta$ (lui-même ancré sur données). La conclusion
+prudentielle est nette : la Formule Standard \textbf{sous-estime
+structurellement} le capital cyber --- ce ne sont pas son niveau exact, mais sa
+\emph{direction} et son \emph{ordre de grandeur}, qui sont établis.
+
+\medskip
+\noindent\textbf{Mots-clés :} risque cyber ; DORA ; Solvabilité~II ; SCR ;
+théorie des valeurs extrêmes (GPD) ; modèle LDA ; copule de Gumbel ; variable
+latente de Vasicek ; allocation d'Euler.
+
+\begin{otherlanguage}{english}
+\section*{\color{navy}Abstract}
+
+Under Solvency~II, cyber risk is currently captured through a flat
+operational-risk charge that is \emph{insensitive} to an insurer's actual
+digital resilience; conversely, the DORA regulation has imposed detailed but
+purely qualitative resilience requirements since 2025, with no translation into
+capital. This thesis builds the missing bridge between the two frameworks.
+
+\begin{formulekey}[Contribution]
+We propose \textbf{a first partial internal model --- a loss-distribution
+approach (LDA) enriched with extreme-value theory --- linking the level of
+(non-)compliance with DORA to an incremental solvency-capital requirement,
+through a Vasicek/Merton-type latent dependence variable}.
+\end{formulekey}
+
+\noindent Severity is calibrated via a Peaks-Over-Threshold / GPD approach on
+two independent datasets (Privacy Rights Clearinghouse and SAS OpRisk Global);
+the loss modules (remediation, third-party provider, sanction) are aggregated
+with an upper-tail Gumbel copula and an Euler capital allocation. The cost of
+non-compliance, measured by a fixed-seed counterfactual ($\Delta_{DORA}$),
+amounts to \textbf{several times} the Pillar~1 standard charge. This verdict is
+robust: it withstands a $\pm50\,\%$ perturbation of the expert mapping, is
+\emph{reinforced} by the empirical anchoring of the frequency multipliers, and
+remains almost invariant to the tail-dependence parameter $\theta$ (itself
+empirically anchored). The prudential conclusion is clear: the Standard Formula
+\textbf{structurally underestimates} cyber capital --- it is not its exact
+level, but its \emph{direction} and \emph{order of magnitude}, that are
+established.
+
+\medskip
+\noindent\textbf{Keywords:} cyber risk; DORA; Solvency~II; SCR; extreme value
+theory (GPD); loss distribution approach; Gumbel copula; Vasicek latent
+variable; Euler allocation.
+\end{otherlanguage}
 
 %==============================================================
 % TABLE DES MATIÈRES
