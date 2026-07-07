@@ -642,13 +642,13 @@ opérationnelle numérique (DORA) et le capital de solvabilité
 continue de fragilité réglementaire et opérationnelle de l'entité $i$,
 agrégeant de façon non observable ses faiblesses sur les cinq piliers DORA.
 Suivant la structure de Vasicek, $Z_i$ se décompose en un facteur
-systémique $\theta$, commun à l'ensemble du marché, et un facteur
+systémique $Y$, commun à l'ensemble du marché, et un facteur
 idiosyncratique $\varepsilon_i$, propre à l'entité :
 \begin{equation}
-Z_i = \sqrt{\rho_i}\,\theta + \sqrt{1-\rho_i}\,\varepsilon_i,
-\qquad \theta \sim \mathcal{N}(0,1), \quad \varepsilon_i \sim \mathcal{N}(0,1),
+Z_i = \sqrt{\rho_i}\,Y + \sqrt{1-\rho_i}\,\varepsilon_i,
+\qquad Y \sim \mathcal{N}(0,1), \quad \varepsilon_i \sim \mathcal{N}(0,1),
 \end{equation}
-avec $\theta$ et $\varepsilon_i$ indépendants, et $\rho_i \in [0,1]$ le
+avec $Y$ et $\varepsilon_i$ indépendants, et $\rho_i \in [0,1]$ le
 coefficient de corrélation de l'entité $i$ à l'environnement cyber
 systémique. Un $\rho_i$ élevé caractérise une entité dont la posture de
 conformité se dégrade fortement lorsque l'environnement sectoriel se
@@ -660,11 +660,11 @@ gouvernance reste robuste indépendamment du contexte général.
 défaut de conformité de l'entité $i$ est déclenché lorsque sa variable
 latente franchit un seuil $K_i$, calibré de sorte à retrouver le taux de
 non-conformité moyen observé sur le marché. La probabilité de défaut de
-conformité conditionnelle à l'état de l'environnement systémique $\theta$
+conformité conditionnelle à l'état de l'environnement systémique $Y$
 s'écrit alors :
 \begin{equation}
-PCD_i(\theta) = \mathbb{P}\bigl(Z_i \leq K_i \,\big|\, \theta\bigr)
-= \Phi\!\left(\frac{K_i - \sqrt{\rho_i}\,\theta}{\sqrt{1-\rho_i}}\right),
+PCD_i(Y) = \mathbb{P}\bigl(Z_i \leq K_i \,\big|\, Y\bigr)
+= \Phi\!\left(\frac{K_i - \sqrt{\rho_i}\,Y}{\sqrt{1-\rho_i}}\right),
 \end{equation}
 où $\Phi$ désigne la fonction de répartition de la loi normale centrée
 réduite. Le seuil $K_i$ est obtenu par inversion de la probabilité de défaut
@@ -672,10 +672,10 @@ inconditionnelle $\bar{PCD}_i$ (calibrée sur les taux de non-conformité
 observés en 2025) : $K_i = \Phi^{-1}(\bar{PCD}_i)$.
 
 Cette écriture retrouve les propriétés attendues : lorsque l'environnement
-systémique se dégrade ($\theta \to -\infty$, interprété comme un choc cyber
-sectoriel négatif), $PCD_i(\theta) \to 1$ pour toute entité présentant
+systémique se dégrade ($Y \to -\infty$, interprété comme un choc cyber
+sectoriel négatif), $PCD_i(Y) \to 1$ pour toute entité présentant
 $\rho_i > 0$ ; à l'inverse, une entité affichant $\rho_i \to 0$ conserve un
-$PCD_i(\theta)$ proche de son niveau inconditionnel $\bar{PCD}_i$, quasiment
+$PCD_i(Y)$ proche de son niveau inconditionnel $\bar{PCD}_i$, quasiment
 insensible au contexte de marché. Le paramètre $\rho_i$ joue ainsi le rôle
 d'un coefficient de dépendance à la contagion systémique, au sens strict du
 modèle à facteur unique de Vasicek.
@@ -683,14 +683,15 @@ modèle à facteur unique de Vasicek.
 \paragraph{Interpolation entre scénarios-types.} Cette formalisation permet de
 dépasser le choix discret d'un scénario de marché $S_x \in \{S_0, S_1, S_2\}$
 (conforme, partiellement conforme, non conforme) au profit d'une lecture
-continue : $S_0$ correspond au cas limite $PCD_i(\theta) \to 0$, $S_2$ au cas
-limite $PCD_i(\theta) \to 1$, et $S_1$ à une valeur intermédiaire calibrée sur
+continue : $S_0$ correspond au cas limite $PCD_i(Y) \to 0$, $S_2$ au cas
+limite $PCD_i(Y) \to 1$, et $S_1$ à une valeur intermédiaire calibrée sur
 les profils de conformité partielle observés en 2025. Le multiplicateur de
 fréquence appliqué à un vecteur d'attaque $v$ pour l'entité $i$ s'écrit alors
 comme une interpolation linéaire entre le régime conforme et le régime de
 non-conformité totale sourcé empiriquement :
 \begin{equation}
-m_v\bigl(PCD_i(\theta)\bigr) = 1 + PCD_i(\theta) \times \left(\bar{m}_v^{S_2} - 1\right),
+\label{eq:mv-interp}
+m_v\bigl(PCD_i(Y)\bigr) = 1 + PCD_i(Y) \times \left(\bar{m}_v^{S_2} - 1\right),
 \end{equation}
 où $\bar{m}_v^{S_2}$ est le centre de l'intervalle de multiplicateur sourcé en
 scénario de non-conformité totale pour le vecteur $v$ (cf. Partie~4). Cette
@@ -698,11 +699,11 @@ scénario de non-conformité totale pour le vecteur $v$ (cf. Partie~4). Cette
 $\bar{PCD}_i$ : elle réutilise directement les multiplicateurs déjà sourcés
 par vecteur d'attaque, en substituant au choix manuel d'un scénario de marché
 la probabilité propre à chaque profil d'entité, conditionnellement à l'état
-de l'environnement cyber systémique $\theta$.
+de l'environnement cyber systémique $Y$.
 
 Trois avantages méthodologiques découlent de ce choix de structure. Premièrement,
 le cadre de Vasicek est un standard éprouvé de la modélisation actuarielle et
-prudentielle des risques corrélés, ce qui confère au $PCD_i(\theta)$ une
+prudentielle des risques corrélés, ce qui confère au $PCD_i(Y)$ une
 assise théorique plus solide qu'une fonction de lien ad hoc. Deuxièmement, le
 paramètre $\rho_i$ offre une lecture économique directe et interprétable de
 la sensibilité de chaque entité à la contagion systémique --- une lecture
@@ -710,7 +711,7 @@ qui prépare naturellement la discussion de la contagion interne et externe
 menée en 1.5. Troisièmement, la structure à facteur unique est immédiatement
 compatible avec l'architecture de dépendance retenue en Partie~3 (copule de
 Gumbel et modèle à facteur commun), puisqu'elle repose sur le même principe
-de décomposition entre un choc commun $\theta$ et des chocs idiosyncratiques
+de décomposition entre un choc commun $Y$ et des chocs idiosyncratiques
 $\varepsilon_i$.
 
 Cette variable latente n'est pas un simple artifice de modélisation : elle
@@ -945,21 +946,21 @@ Le coefficient de dépendance de queue supérieure $\lambda_U$ entre deux variab
 \begin{equation}
 \lambda_U = \lim_{q \to 1^-} \mathbb{P}(X_1 > F_1^{-1}(q) \mid X_2 > F_2^{-1}(q))
 \end{equation}
-La copule Gaussienne possède une dépendance de queue asymptotiquement nulle ($\lambda_U = 0$), ce qui la disqualifie pour modéliser le risque de crise systémique. C'est pourquoi nous avons opté pour la famille archimédienne, et spécifiquement la \emph{copule de Gumbel}, définie pour $\eta \in [1, +\infty)$ par :
+La copule Gaussienne possède une dépendance de queue asymptotiquement nulle ($\lambda_U = 0$), ce qui la disqualifie pour modéliser le risque de crise systémique. C'est pourquoi nous avons opté pour la famille archimédienne, et spécifiquement la \emph{copule de Gumbel}, définie pour $\theta \in [1, +\infty)$ par :
 \begin{equation}
-C_\eta(u, v) = \exp \left( - \left[ (-\ln u)^\eta + (-\ln v)^\eta \right]^{1/\eta} \right)
+C_\theta(u, v) = \exp \left( - \left[ (-\ln u)^\theta + (-\ln v)^\theta \right]^{1/\theta} \right)
 \end{equation}
-Pour la copule de Gumbel, $\lambda_U = 2 - 2^{1/\eta}$. Le paramètre $\eta$ permet ainsi de piloter finement la propension des briques de risque à générer des pertes extrêmes conjointes. Cette formule, souvent admise, se démontre en trois lignes et fournit la justification \emph{quantitative} du choix de Gumbel.
+Pour la copule de Gumbel, $\lambda_U = 2 - 2^{1/\theta}$. Le paramètre $\theta$ permet ainsi de piloter finement la propension des briques de risque à générer des pertes extrêmes conjointes. Cette formule, souvent admise, se démontre en trois lignes et fournit la justification \emph{quantitative} du choix de Gumbel.
 
 \begin{proposition}[Dépendance de queue de la copule de Gumbel]\label{prop:gumbel}
-La copule de Gumbel de paramètre $\eta\ge1$ possède une dépendance de queue supérieure $\lambda_U=2-2^{1/\eta}$ et une dépendance de queue inférieure nulle $\lambda_L=0$. Son $\tau$ de Kendall vaut $\tau=1-1/\eta$.
+La copule de Gumbel de paramètre $\theta\ge1$ possède une dépendance de queue supérieure $\lambda_U=2-2^{1/\theta}$ et une dépendance de queue inférieure nulle $\lambda_L=0$. Son $\tau$ de Kendall vaut $\tau=1-1/\theta$.
 \end{proposition}
 
 \begin{proof}
-Le long de la diagonale, $C_\eta(q,q)=\exp\!\bigl(-[2(-\ln q)^\eta]^{1/\eta}\bigr)=\exp\!\bigl(-2^{1/\eta}(-\ln q)\bigr)=q^{\,2^{1/\eta}}$. Le coefficient de queue supérieure s'écrit $\lambda_U=\lim_{q\to1^-}\frac{1-2q+C_\eta(q,q)}{1-q}=2-\lim_{q\to1^-}\frac{1-q^{2^{1/\eta}}}{1-q}$. Or $\lim_{q\to1}\frac{1-q^a}{1-q}=a$ (règle de L'Hôpital), d'où $\lambda_U=2-2^{1/\eta}$. Pour $\lambda_L$, un développement de $C_\eta(q,q)/q$ en $q\to0^+$ montre que le rapport tend vers~$0$. Enfin $\tau=1-1/\eta$ résulte de l'intégration du générateur archimédien $\phi(t)=(-\ln t)^\eta$ (Annexe~\ref{ann:gumbel}).
+Le long de la diagonale, $C_\theta(q,q)=\exp\!\bigl(-[2(-\ln q)^\theta]^{1/\theta}\bigr)=\exp\!\bigl(-2^{1/\theta}(-\ln q)\bigr)=q^{\,2^{1/\theta}}$. Le coefficient de queue supérieure s'écrit $\lambda_U=\lim_{q\to1^-}\frac{1-2q+C_\theta(q,q)}{1-q}=2-\lim_{q\to1^-}\frac{1-q^{2^{1/\theta}}}{1-q}$. Or $\lim_{q\to1}\frac{1-q^a}{1-q}=a$ (règle de L'Hôpital), d'où $\lambda_U=2-2^{1/\theta}$. Pour $\lambda_L$, un développement de $C_\theta(q,q)/q$ en $q\to0^+$ montre que le rapport tend vers~$0$. Enfin $\tau=1-1/\theta$ résulte de l'intégration du générateur archimédien $\phi(t)=(-\ln t)^\theta$ (Annexe~\ref{ann:gumbel}).
 \end{proof}
 
-\noindent Le calibrage retenu $\eta=1{,}8$ (apparié au $\tau$ de Kendall empirique $0{,}444$ entre briques) correspond ainsi à $\lambda_U=2-2^{1/1{,}8}=0{,}530$ : en régime de crise, deux briques de risque ont une probabilité limite de $53\,\%$ de franchir \emph{conjointement} un quantile extrême. Le régime conforme ($\eta=1{,}2$) abaisse cette probabilité à $\lambda_U=0{,}218$. C'est cette dépendance de queue \emph{strictement positive} --- impossible à reproduire avec une copule gaussienne --- qui matérialise la contagion systémique visée par DORA, et dont le test de robustesse du §5.6 mesure l'impact sur le capital.
+\noindent Le calibrage retenu $\theta=1{,}8$ (apparié au $\tau$ de Kendall empirique $0{,}444$ entre briques) correspond ainsi à $\lambda_U=2-2^{1/1{,}8}=0{,}530$ : en régime de crise, deux briques de risque ont une probabilité limite de $53\,\%$ de franchir \emph{conjointement} un quantile extrême. Le régime conforme ($\theta=1{,}2$) abaisse cette probabilité à $\lambda_U=0{,}218$. C'est cette dépendance de queue \emph{strictement positive} --- impossible à reproduire avec une copule gaussienne --- qui matérialise la contagion systémique visée par DORA, et dont le test de robustesse du §5.6 mesure l'impact sur le capital.
 
 %--------------------------------------------------------------
 \subsection{Transformation d'un choc systémique en risque de conformité : le modèle de Vasicek}
@@ -1469,7 +1470,7 @@ modèle : elle représente le coût direct de gestion des incidents cyber,
 simulé par composition d'une fréquence (section~3.2) et d'une sévérité
 extrême (section~3.3). La brique de \textbf{sanction} traduit le risque
 réglementaire explicite prévu par les articles 50-52 de DORA, pilotée par la
-probabilité de défaut de conformité $PCD_i(\theta)$ introduite en~1.4. La
+probabilité de défaut de conformité $PCD_i(Y)$ introduite en~1.4. La
 brique de \textbf{prestataire} modélise un événement indépendant impliquant
 un tiers ICT critique, dont la probabilité d'occurrence diminue lorsque
 l'entité maîtrise mieux la gestion de ses tiers (chapitre~V de DORA). Enfin,
@@ -1532,14 +1533,12 @@ n'est pas lui-même observé, faute d'historique de crise DORA.
 \paragraph{De la fréquence par scénario à la fréquence par entité.} Le choix
 d'un scénario $S_x \in \{S_0, S_1, S_2\}$ reste, par construction, discret et
 appliqué uniformément à l'ensemble du marché. La variable latente de
-conformité $PCD_i(\theta)$ introduite en~1.4 permet de dépasser cette
-limite, en substituant à ce choix discret une interpolation continue :
-\begin{equation}
-m_v\bigl(PCD_i(\theta)\bigr) = 1 + PCD_i(\theta) \times \left(\bar{m}_v^{S_2} - 1\right),
-\end{equation}
+conformité $PCD_i(Y)$ introduite en~1.4 permet de dépasser cette
+limite, en substituant à ce choix discret l'interpolation continue
+$m_v\bigl(PCD_i(Y)\bigr)$ introduite précédemment (éq.~\eqref{eq:mv-interp}),
 où $\bar{m}_v^{S_2}$ est le centre de l'intervalle de multiplicateur sourcé
 en scénario $S_2$. Une entité au profil de conformité mature conserve ainsi
-une fréquence proche de $S_0$ même en cas de choc systémique $\theta$
+une fréquence proche de $S_0$ même en cas de choc systémique $Y$
 défavorable, tandis qu'une entité en retard de conformité peut, sous un
 $\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
 
@@ -1672,18 +1671,18 @@ non comme un désaccord à trancher.
 \paragraph{Pourquoi l'indépendance est intenable.} Une architecture purement
 additive des quatre briques, simulées indépendamment, ignorerait la
 discussion de contagion menée en~1.5 : une même dégradation de
-l'environnement cyber systémique $\theta$ tend à accroître simultanément la
-fréquence de remédiation, la probabilité de sanction (via le $PCD_i(\theta)$)
+l'environnement cyber systémique $Y$ tend à accroître simultanément la
+fréquence de remédiation, la probabilité de sanction (via le $PCD_i(Y)$)
 et l'occurrence d'un événement prestataire. Traiter ces briques comme
 indépendantes sous-estimerait mécaniquement les quantiles extrêmes de la
 perte agrégée, précisément là où le capital réglementaire est évalué.
 
 \paragraph{Modèle à facteur commun.} La contagion \emph{interne}, décrite
 en~1.5, est capturée par la structure factorielle de Vasicek déjà introduite
-pour le $PCD_i(\theta)$ : le facteur $\theta$ agit comme un choc commun
+pour le $PCD_i(Y)$ : le facteur $Y$ agit comme un choc commun
 affectant simultanément la brique de remédiation (via la fréquence) et la
 brique de sanction (via le $PCD_i$). Ce choix évite d'introduire une seconde
-structure de dépendance ad hoc : le même $\theta$ qui module la conformité
+structure de dépendance ad hoc : le même $Y$ qui module la conformité
 individuelle module également l'intensité de la sinistralité observée.
 
 \paragraph{Copule de Gumbel pour la dépendance de queue.} La contagion
@@ -1692,14 +1691,14 @@ par une simple corrélation gaussienne : le risque prestataire se matérialise
 typiquement de façon conjointe avec les événements les plus extrêmes de
 remédiation, lors de chocs systémiques affectant un fournisseur mutualisé.
 Cette dépendance de queue positive est représentée par une copule de
-Gumbel, dont le paramètre $\eta \geq 1$ contrôle l'intensité de la
+Gumbel, dont le paramètre $\theta \geq 1$ contrôle l'intensité de la
 dépendance dans les scénarios extrêmes :
 \begin{equation}
-C_\eta(u,v) = \exp\!\left[-\left((-\ln u)^\eta + (-\ln v)^\eta\right)^{1/\eta}\right],
+C_\theta(u,v) = \exp\!\left[-\left((-\ln u)^\theta + (-\ln v)^\theta\right)^{1/\theta}\right],
 \end{equation}
 appliquée entre les rangs simulés de $L_{\text{remédiation}}$ et
-$L_{\text{prestataire}}$. Le cas $\eta = 1$ correspond à l'indépendance ; des
-valeurs de $\eta$ croissantes renforcent la probabilité que les deux briques
+$L_{\text{prestataire}}$. Le cas $\theta = 1$ correspond à l'indépendance ; des
+valeurs de $\theta$ croissantes renforcent la probabilité que les deux briques
 réalisent simultanément une valeur extrême, conformément à l'intuition
 selon laquelle une crise cyber sectorielle majeure implique souvent à la
 fois une remédiation interne lourde et une défaillance de tiers.
@@ -1715,7 +1714,7 @@ que de les fondre artificiellement dans une unique matrice de corrélation.
 
 \paragraph{Simulation Monte Carlo.} L'agrégation finale des quatre briques
 est réalisée par simulation Monte Carlo. À chaque itération : (i)~un facteur
-systémique $\theta$ est tiré, déterminant le $PCD_i(\theta)$ de l'entité et
+systémique $Y$ est tiré, déterminant le $PCD_i(Y)$ de l'entité et
 la fréquence effective $\lambda_{S_x}$ ou $\lambda(PCD_i)$ ; (ii)~la
 fréquence de chaque vecteur est simulée par la binomiale négative calibrée
 en~3.2 ; (iii)~la sévérité de chaque événement est tirée dans la GPD
@@ -1767,7 +1766,7 @@ L'homogénéité de degré~1, $\rho(tL)=t\,\rho(L)$, permet d'appliquer le théo
 \text{Capital mono-perte} &\quad \VaR_\alpha(X)=u+\tfrac{\sigma}{\xi}\bigl[((1-\alpha)/\zeta_u)^{-\xi}-1\bigr] \\[2pt]
 \text{Queue moyenne} &\quad \TVaR_\alpha(X)=\tfrac{\VaR_\alpha}{1-\xi}+\tfrac{\sigma-\xi u}{1-\xi}\quad(\xi<1) \\[2pt]
 \text{Fréquence} &\quad N\sim\mathrm{NegBin}(r,p),\ \ \tfrac{\Var(N)}{\E[N]}=9{,}2 \\[2pt]
-\text{Dépendance (Gumbel)} &\quad C_\eta(u,v)=\exp\!\bigl(-[(-\ln u)^\eta+(-\ln v)^\eta]^{1/\eta}\bigr),\ \ \lambda_U=2-2^{1/\eta} \\[2pt]
+\text{Dépendance (Gumbel)} &\quad C_\theta(u,v)=\exp\!\bigl(-[(-\ln u)^\theta+(-\ln v)^\theta]^{1/\theta}\bigr),\ \ \lambda_U=2-2^{1/\theta} \\[2pt]
 \text{Conformité (Vasicek)} &\quad \mathrm{PCD}_i(y)=\Phi\!\bigl((\Phi^{-1}(p)-\sqrt\rho\,y)/\sqrt{1-\rho}\bigr) \\[2pt]
 \text{Agrégation} &\quad L_{DORA}=L_{\text{rem}}+L_{\text{sanct}}+L_{\text{prest}} \\[2pt]
 \text{Allocation d'Euler} &\quad AC_k=\E[L_k\mid L_{DORA}=\VaR_\alpha],\ \ \textstyle\sum_k AC_k=\VaR_\alpha \\[2pt]
@@ -1809,9 +1808,9 @@ deux régimes précédents.
 Ces trois scénarios ne sont pas de simples repères qualitatifs : ils
 ancrent les bornes numériques des multiplicateurs de fréquence calibrés en
 4.3, et servent également de cas limites à l'interpolation continue portée
-par la variable latente $PCD_i(\theta)$ introduite en~1.4. Le scénario $S_0$
-correspond ainsi à la limite $PCD_i(\theta) \to 0$, et $S_2$ à la limite
-$PCD_i(\theta) \to 1$, ce qui permet de faire cohabiter une lecture par
+par la variable latente $PCD_i(Y)$ introduite en~1.4. Le scénario $S_0$
+correspond ainsi à la limite $PCD_i(Y) \to 0$, et $S_2$ à la limite
+$PCD_i(Y) \to 1$, ce qui permet de faire cohabiter une lecture par
 scénarios de marché, utile pour la communication des résultats, et une
 lecture par profil d'entité, plus fine, mobilisée dans les applications
 individuelles du modèle.
@@ -2087,7 +2086,7 @@ Pourtant, l'analyse par la Théorie des Valeurs Extrêmes (EVT) menée en Partie
 \paragraph{La supériorité de la simulation Monte-Carlo.} L'approche déterministe présente deux autres limites majeures que notre modèle LDA résout :
 \begin{itemize}
     \item \textbf{La dépendance temporelle et l'agrégation :} Le scénario d'expert calcule le coût d'un incident isolé. Or, la VaR 99,5\,\% est une mesure annuelle. L'approche Monte-Carlo, en combinant des tirages de fréquence (loi binomiale négative) et de sévérité (GPD), permet d'explorer des années simulées où un sinistre majeur coïncide avec une myriade d'incidents d'attrition de taille moyenne, engendrant une perte agrégée supérieure à la simple addition déterministe.
-    \item \textbf{La contagion externe (Tiers ICT) :} Un scénario construit en silo ignore la probabilité d'occurrence conjointe. L'introduction de la \textbf{copule de Gumbel} dans notre architecture permet de modéliser mathématiquement ce qu'un expert peine à quantifier : la survenance d'une crise systémique de marché ($\theta$ fortement négatif) qui déclenche à la fois la défaillance d'un fournisseur cloud critique et des failles internes. 
+    \item \textbf{La contagion externe (Tiers ICT) :} Un scénario construit en silo ignore la probabilité d'occurrence conjointe. L'introduction de la \textbf{copule de Gumbel} dans notre architecture permet de modéliser mathématiquement ce qu'un expert peine à quantifier : la survenance d'une crise systémique de marché ($Y$ fortement négatif) qui déclenche à la fois la défaillance d'un fournisseur cloud critique et des failles internes. 
 \end{itemize}
 
 \paragraph{Conclusion sur les méthodes.} L'approche déterministe donne l'illusion de la précision en produisant un chiffre unique (ex: 80 M\euro), mais échoue à capturer le véritable risque de ruine. À l'inverse, l'approche stochastique développée dans ce mémoire assume l'incertitude (en produisant des intervalles de confiance par \textit{bootstrap}) et capture mathématiquement la réalité du risque cyber : une fréquence corrélée à l'environnement, une sévérité à queue lourde, et des pertes agrégées hautement non linéaires face à la qualité de la conformité DORA.
@@ -2251,7 +2250,7 @@ de calibration, et un niveau absolu, qui l'est moins mais dont l'écart
 inter-sources s'est lui aussi resserré.
 
 \paragraph{L'environnement systémique amplifie la sensibilité au profil.}
-La comparaison des scénarios $\theta = 0$ et $\theta = -2{,}5$ (choc cyber
+La comparaison des scénarios $Y = 0$ et $Y = -2{,}5$ (choc cyber
 sectoriel négatif) montre que la dégradation de l'environnement systémique
 accroît le capital de toutes les entités, mais de façon différenciée : le
 profil leader, sous OpRisk, voit son capital de base (6\,420{,}7~M\euro) s'accroître
@@ -2264,7 +2263,7 @@ ce qui traduit un effet de saturation cohérent avec la forme de la fonction de 
 
 La figure~\ref{fig:sensibilite-theta} rend visible ce mécanisme sur la
 fréquence de sinistralité elle-même : à mesure que l'environnement se dégrade
-($\theta$ décroissant), la fréquence de l'entité médiane croît fortement pour
+($Y$ décroissant), la fréquence de l'entité médiane croît fortement pour
 rejoindre celle de l'entité en retard, tandis que le profil leader reste quasi
 insensible au choc. C'est cette différenciation de sensibilité, et non un
 simple décalage de niveau, qui constitue l'apport de la structure de Vasicek.
@@ -2273,11 +2272,11 @@ simple décalage de niveau, qui constitue l'apport de la structure de Vasicek.
 \centering
 \includegraphics[width=0.9\textwidth]{figures/sensibilite_theta.png}
 \caption{Sensibilité de la fréquence de sinistralité $\lambda$ au choc
-systémique $\theta$, par profil d'entité. Le profil leader (vert) reste quasi
+systémique $Y$, par profil d'entité. Le profil leader (vert) reste quasi
 plat ; le profil médian (orange) rattrape le profil en retard (rouge) sous un
 choc sévère, illustrant l'effet de contagion différenciée hérité du modèle à
-facteur unique. L'axe des abscisses va de $\theta = 0$ (environnement normal)
-à $\theta = -3$ (crise majeure).}
+facteur unique. L'axe des abscisses va de $Y = 0$ (environnement normal)
+à $Y = -3$ (crise majeure).}
 \label{fig:sensibilite-theta}
 \end{figure}
 
@@ -2338,7 +2337,7 @@ sanction reste marginale sous les deux sources.
 \centering
 \includegraphics[width=1\textwidth]{figures/euler_decomposition.png}
 \caption{Décomposition du SCR (VaR~99{,}5~\%) par brique, sous les deux
-sources de sévérité (profil médian, $\theta=0$). La brique de remédiation
+sources de sévérité (profil médian, $Y=0$). La brique de remédiation
 domine sous les deux sources (85 à 86~\%) ; le prestataire, désormais
 calibré en surcoût relatif sur la sévérité de remédiation active, représente
 une part minoritaire et cohérente entre sources (14~\%).}
@@ -2400,7 +2399,7 @@ plutôt que de se contenter de les déclarer incertains.
 
 Nous perturbons donc chaque paramètre sur une plage plausible et documentée,
 toutes choses égales par ailleurs, et mesurons la réponse de la
-VaR~99{,}5~\% autour du cas de référence (OpRisk, profil médian, $\theta=0$,
+VaR~99{,}5~\% autour du cas de référence (OpRisk, profil médian, $Y=0$,
 soit un SCR de base de 9\,259~M\euro). La figure~\ref{fig:tornado} classe les
 paramètres par amplitude d'effet (\emph{tornado}).
 
@@ -2408,11 +2407,11 @@ paramètres par amplitude d'effet (\emph{tornado}).
 \centering
 \includegraphics[width=\textwidth]{figures/tornado_sensitivity.png}
 \caption{Sensibilité de la VaR~99{,}5~\% aux hypothèses porteuses du modèle,
-cas de référence OpRisk / profil médian / $\theta=0$. En bleu, les paramètres
+cas de référence OpRisk / profil médian / $Y=0$. En bleu, les paramètres
 calibrés sur données (IC90\% bootstrap) ; en orange, les hypothèses libres.
-Le paramètre $\gamma$ étant inerte à $\theta=0$ par construction (terme
-$\gamma\cdot\theta$), sa sensibilité est évaluée sous choc systémique
-$\theta=-2{,}5$, d'où le décalage de sa barre.}
+Le paramètre $\gamma$ étant inerte à $Y=0$ par construction (terme
+$\gamma\cdot Y$), sa sensibilité est évaluée sous choc systémique
+$Y=-2{,}5$, d'où le décalage de sa barre.}
 \label{fig:tornado}
 \end{figure}
 
@@ -3056,7 +3055,7 @@ antérieure du moteur produisait une inversion artefactuelle entre sources.
 La convergence structurelle des deux calibrations indépendantes renforce donc
 la confiance dans cette hiérarchisation des priorités de maîtrise.
 
-Deuxièmement, la sensibilité du capital au facteur systémique $\theta$
+Deuxièmement, la sensibilité du capital au facteur systémique $Y$
 documentée en~5.2 justifie l'intégration, dans les scénarios de stress de
 l'ORSA, d'un scénario de dégradation collective de l'environnement cyber,
 distinct des scénarios de dégradation individuelle de la gouvernance : les
@@ -3217,7 +3216,7 @@ La forme fermée de la VaR découle directement de l'inversion de la fonction de
 
 \subsection{Queues de la copule de Gumbel (Proposition~\ref{prop:gumbel})}
 \label{ann:gumbel}
-La dépendance de queue supérieure est calculée dans le corps. Pour la dépendance inférieure, $\lambda_L=\lim_{q\to0^+}C_\eta(q,q)/q=\lim_{q\to0^+}q^{\,2^{1/\eta}-1}=0$ car $2^{1/\eta}>1$ pour $\eta>1$. Le $\tau$ de Kendall d'une copule archimédienne de générateur $\phi$ vaut $\tau=1+4\int_0^1\frac{\phi(t)}{\phi'(t)}\dd t$ ; avec $\phi(t)=(-\ln t)^\eta$ on obtient $\tau=1-1/\eta$.
+La dépendance de queue supérieure est calculée dans le corps. Pour la dépendance inférieure, $\lambda_L=\lim_{q\to0^+}C_\theta(q,q)/q=\lim_{q\to0^+}q^{\,2^{1/\theta}-1}=0$ car $2^{1/\theta}>1$ pour $\theta>1$. Le $\tau$ de Kendall d'une copule archimédienne de générateur $\phi$ vaut $\tau=1+4\int_0^1\frac{\phi(t)}{\phi'(t)}\dd t$ ; avec $\phi(t)=(-\ln t)^\theta$ on obtient $\tau=1-1/\theta$.
 
 \subsection{Sensibilité du modèle de Vasicek (Proposition~\ref{prop:vasicek})}
 \label{ann:vasicek}
@@ -3244,7 +3243,7 @@ $N_u$ & Nombre d'excès au-delà de $u$ \\
 $\VaR_\alpha,\ \TVaR_\alpha$ & Value-at-Risk et Tail-VaR (Expected Shortfall) au niveau $\alpha=99{,}5\,\%$ \\
 $\lambda,\ \lambda_{\text{eff}}$ & Fréquence annuelle d'incidents ; fréquence de pertes non nulles \\
 $r,\ p$ & Paramètres de la loi binomiale négative de fréquence \\
-$\eta$ & Paramètre de la copule de Gumbel ($\eta\ge1$) \\
+$\theta$ & Paramètre de la copule de Gumbel ($\theta\ge1$) \\
 $\lambda_U,\ \lambda_L$ & Coefficients de dépendance de queue supérieure / inférieure \\
 $\tau$ & $\tau$ de Kendall \\
 $\rho$ & Corrélation d'actifs du modèle de Vasicek \\
@@ -3266,7 +3265,7 @@ $S_0,S_1,S_2$ & Scénarios conforme / partiel / non-conforme \\
 \item Tirer la fréquence $N\sim\mathrm{NegBin}(r,p)$ (moyenne $\lambda$, dispersion $9{,}2$).
 \item Pour chaque événement : tirer un indicateur de queue $\sim\mathrm{Bernoulli}(p_u)$ ; si actif, sévérité $=u+\mathrm{GPD}(\xi,\sigma)$ (plafonnée si source PRC), sinon $0$.
 \item Agréger par brique (remédiation, prestataire) ; tirer la brique sanction via une loi Bêta pilotée par $\mathrm{PCD}$.
-\item Tirer les uniformes de la copule de Gumbel $U\sim C_\eta$ et appliquer la surcharge systémique $L_k\leftarrow L_k(1+U_k\cdot s_{\max})$.
+\item Tirer les uniformes de la copule de Gumbel $U\sim C_\theta$ et appliquer la surcharge systémique $L_k\leftarrow L_k(1+U_k\cdot s_{\max})$.
 \item Sommer les briques ; répéter $n_{sim}$ fois ; estimer $\VaR_\alpha$ par quantile empirique.
 \end{enumerate}
 
@@ -3317,8 +3316,8 @@ Régime de moment & $\E[X]<\infty$ & $\E[X]=\infty$ ($\xi\ge1$) \\
 \midrule
 Fréquence de référence $\lambda$ (PRC) & $341$ /an \\
 Facteur de dispersion (Var/Moyenne) & $9{,}20$ \\
-Copule de Gumbel --- non conforme $\eta_{S_2}$ & $1{,}8$ ($\lambda_U=0{,}53$) \\
-Copule de Gumbel --- conforme $\eta_{S_0}$ & $1{,}2$ ($\lambda_U=0{,}22$) \\
+Copule de Gumbel --- non conforme $\theta_{S_2}$ & $1{,}8$ ($\lambda_U=0{,}53$) \\
+Copule de Gumbel --- conforme $\theta_{S_0}$ & $1{,}2$ ($\lambda_U=0{,}22$) \\
 $\tau$ de Kendall (non conforme) & $0{,}444$ \\
 Plafond de sévérité PRC (réassurance) & $40$ M\euro \\
 Allocation d'Euler (OpRisk) & remédiation $86\,\%$ / prestataire $14\,\%$ / sanction $\approx0\,\%$ \\
