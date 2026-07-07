@@ -12,6 +12,8 @@
 \usepackage{colortbl}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
@@ -33,6 +35,29 @@
 }
 
 \captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+
+% --- Environnements mathématiques (théorèmes, définitions, preuves) ---
+\newtheoremstyle{navystyle}{0.8em}{0.8em}{\itshape}{}%
+  {\bfseries\color{navy}}{.}{.5em}{}
+\theoremstyle{navystyle}
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemme}
+\newtheoremstyle{navydef}{0.8em}{0.8em}{\normalfont}{}%
+  {\bfseries\color{bluemid}}{.}{.5em}{}
+\theoremstyle{navydef}
+\newtheorem{definition}[theorem]{Définition}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+% Raccourcis de notation
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\VaR}{\mathrm{VaR}}
+\newcommand{\TVaR}{\mathrm{TVaR}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\indic}{\mathbf{1}}
+\providecommand{\up}[1]{\textsuperscript{#1}}
 
 \titleformat{\section}{\color{navy}\large\bfseries}{\thesection}{0.6em}{}
 \titleformat{\subsection}{\color{bluemid}\normalsize\bfseries}{\thesubsection}{0.5em}{}
@@ -719,8 +744,54 @@ Bien que cet estimateur soit asymptotiquement convergent et sans biais sous la s
 Pour pallier le biais de l'estimateur de Hill hors du régime asymptotique strict, ce mémoire privilégie l'estimation par Maximum de Vraisemblance (MLE) sur les excès de la GPD. La log-vraisemblance pour un échantillon de $N_u$ excès $y_i$ au-delà du seuil $u$ s'écrit (pour $\xi \neq 0$) :
 \begin{equation}
 \ell(\xi, \sigma) = -N_u \ln(\sigma) - \left(1 + \frac{1}{\xi}\right) \sum_{i=1}^{N_u} \ln\left(1 + \frac{\xi y_i}{\sigma}\right)
+\label{eq:loglik-gpd}
 \end{equation}
 La maximisation numérique de cette fonction fournit des estimateurs $(\hat{\xi}_{MLE}, \hat{\sigma}_{MLE})$ qui, bien que nécessitant des méthodes d'optimisation (telles que l'algorithme de Nelder-Mead utilisé dans nos scripts Python), offrent une robustesse supérieure face à la variance d'échantillonnage des bases de sinistres cyber comme OpRisk ou PRC.
+
+\paragraph{Loi asymptotique et information de Fisher.} La qualité d'un intervalle de confiance sur $\xi$ conditionne toute l'interprétation du SCR. Nous en donnons ici le fondement théorique, qui servira de contrôle indépendant du bootstrap employé en partie~5.
+
+\begin{proposition}[Normalité asymptotique de l'EMV de la GPD]\label{prop:fisher}
+Pour $\xi > -\tfrac{1}{2}$, l'estimateur du maximum de vraisemblance $(\hat\xi,\hat\sigma)$ de la GPD est consistant et asymptotiquement normal :
+\begin{equation}
+\sqrt{N_u}\,\begin{pmatrix}\hat\xi-\xi\\[2pt]\hat\sigma-\sigma\end{pmatrix}
+\;\xrightarrow{\;d\;}\;
+\mathcal{N}\!\left(\mathbf{0},\; (1+\xi)\begin{pmatrix}1+\xi & -\sigma\\[2pt] -\sigma & 2\sigma^2\end{pmatrix}\right).
+\end{equation}
+En particulier, la variance asymptotique de l'indice de queue est
+$\Var(\hat\xi)\simeq (1+\xi)^2/N_u$.
+\end{proposition}
+
+\begin{proof}[Esquisse]
+La matrice de covariance limite est l'inverse de l'information de Fisher $\mathcal{I}(\xi,\sigma)$, obtenue en prenant l'espérance de l'opposé de la hessienne de $\ell$. Le détail du calcul de $\mathcal{I}$ (dérivées secondes de \eqref{eq:loglik-gpd} et intégration contre la densité GPD, valide pour $\xi>-\tfrac12$ où l'information est finie) est reporté en Annexe~\ref{ann:fisher}. Le résultat classique remonte à \citet{smith1987}.
+\end{proof}
+
+\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment (§5.5) : la concordance des deux approches --- l'une paramétrique et asymptotique, l'autre par rééchantillonnage --- renforce la fiabilité de l'incertitude reportée sur~$\xi$.
+
+\begin{proposition}[Loi asymptotique de l'estimateur de Hill]\label{prop:hill}
+Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alors pour une suite $k=k(n)\to\infty$ avec $k/n\to0$,
+\begin{equation}
+\sqrt{k}\,\bigl(\hat\xi_{Hill}(k)-\xi\bigr)\;\xrightarrow{\;d\;}\;\mathcal{N}(0,\;\xi^2).
+\end{equation}
+\end{proposition}
+
+\noindent L'écart-type $\xi/\sqrt{k}$ décroît en $\sqrt{k}$ : d'où l'arbitrage biais--variance qui gouverne le choix de $k$ dans le \emph{Hill plot}, et qui explique l'instabilité signalée plus haut lorsque $k$ est pris trop grand (contamination par le corps de la loi) ou trop petit (variance explosive). La preuve, fondée sur la représentation de Rényi des espacements exponentiels, est esquissée en Annexe~\ref{ann:hill}.
+
+\paragraph{Quantile extrême et capital : formules fermées.} Le passage des paramètres $(\xi,\sigma)$ au capital réglementaire est explicite. Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil.
+
+\begin{proposition}[VaR et Expected Shortfall d'une queue GPD]\label{prop:varestvar}
+Sous le modèle POT, pour $\alpha$ tel que $\mathrm{VaR}_\alpha>u$ et $\xi\in(0,1)$ :
+\begin{align}
+\VaR_\alpha(X) &= u + \frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\zeta_u}\right)^{-\xi}-1\right],\label{eq:var-gpd}\\[4pt]
+\TVaR_\alpha(X) = \E[X\mid X>\VaR_\alpha] &= \frac{\VaR_\alpha(X)}{1-\xi}+\frac{\sigma-\xi u}{1-\xi}.\label{eq:tvar-gpd}
+\end{align}
+Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\TVaR_\alpha$ n'est pas définie.
+\end{proposition}
+
+\begin{proof}
+Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\bigr)^{-1/\xi}$. En posant ce membre égal à $1-\alpha$ et en inversant, on obtient \eqref{eq:var-gpd}. Pour \eqref{eq:tvar-gpd}, la stabilité de la GPD par franchissement de seuil implique que l'excès au-delà de $\VaR_\alpha$ suit encore une GPD de paramètre $\xi$ et d'échelle $\sigma+\xi(\VaR_\alpha-u)$, d'espérance $\bigl(\sigma+\xi(\VaR_\alpha-u)\bigr)/(1-\xi)$ pour $\xi<1$ ; en ajoutant $\VaR_\alpha$ et en réarrangeant, on retrouve \eqref{eq:tvar-gpd}. La divergence pour $\xi\ge1$ découle de $\E[X]=\int_u^\infty \Prob(X>x)\,\dd x=+\infty$ dès que $1/\xi\le1$. Détail en Annexe~\ref{ann:varestvar}.
+\end{proof}
+
+\noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{eq:var-gpd} une VaR mono-perte $\VaR_{99{,}5\%}=663{,}0$~M\euro\ et par \eqref{eq:tvar-gpd} $\TVaR_{99{,}5\%}=1\,752{,}4$~M\euro. La Proposition~\ref{prop:varestvar} éclaire surtout le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en \textbf{régime d'espérance infinie} --- l'Expected Shortfall y est mathématiquement indéfini, ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable.
 
 %--------------------------------------------------------------
 \subsection{Modélisation de la dépendance de queue : le choix de la Copule de Gumbel}
@@ -743,7 +814,17 @@ La copule Gaussienne possède une dépendance de queue asymptotiquement nulle ($
 \begin{equation}
 C_\eta(u, v) = \exp \left( - \left[ (-\ln u)^\eta + (-\ln v)^\eta \right]^{1/\eta} \right)
 \end{equation}
-Pour la copule de Gumbel, $\lambda_U = 2 - 2^{1/\eta}$. Le paramètre $\eta$ permet ainsi de piloter finement la propension des briques de risque à générer des pertes extrêmes conjointes.
+Pour la copule de Gumbel, $\lambda_U = 2 - 2^{1/\eta}$. Le paramètre $\eta$ permet ainsi de piloter finement la propension des briques de risque à générer des pertes extrêmes conjointes. Cette formule, souvent admise, se démontre en trois lignes et fournit la justification \emph{quantitative} du choix de Gumbel.
+
+\begin{proposition}[Dépendance de queue de la copule de Gumbel]\label{prop:gumbel}
+La copule de Gumbel de paramètre $\eta\ge1$ possède une dépendance de queue supérieure $\lambda_U=2-2^{1/\eta}$ et une dépendance de queue inférieure nulle $\lambda_L=0$. Son $\tau$ de Kendall vaut $\tau=1-1/\eta$.
+\end{proposition}
+
+\begin{proof}
+Le long de la diagonale, $C_\eta(q,q)=\exp\!\bigl(-[2(-\ln q)^\eta]^{1/\eta}\bigr)=\exp\!\bigl(-2^{1/\eta}(-\ln q)\bigr)=q^{\,2^{1/\eta}}$. Le coefficient de queue supérieure s'écrit $\lambda_U=\lim_{q\to1^-}\frac{1-2q+C_\eta(q,q)}{1-q}=2-\lim_{q\to1^-}\frac{1-q^{2^{1/\eta}}}{1-q}$. Or $\lim_{q\to1}\frac{1-q^a}{1-q}=a$ (règle de L'Hôpital), d'où $\lambda_U=2-2^{1/\eta}$. Pour $\lambda_L$, un développement de $C_\eta(q,q)/q$ en $q\to0^+$ montre que le rapport tend vers~$0$. Enfin $\tau=1-1/\eta$ résulte de l'intégration du générateur archimédien $\phi(t)=(-\ln t)^\eta$ (Annexe~\ref{ann:gumbel}).
+\end{proof}
+
+\noindent Le calibrage retenu $\eta=1{,}8$ (apparié au $\tau$ de Kendall empirique $0{,}444$ entre briques) correspond ainsi à $\lambda_U=2-2^{1/1{,}8}=0{,}530$ : en régime de crise, deux briques de risque ont une probabilité limite de $53\,\%$ de franchir \emph{conjointement} un quantile extrême. Le régime conforme ($\eta=1{,}2$) abaisse cette probabilité à $\lambda_U=0{,}218$. C'est cette dépendance de queue \emph{strictement positive} --- impossible à reproduire avec une copule gaussienne --- qui matérialise la contagion systémique visée par DORA, et dont le test de robustesse du §5.6 mesure l'impact sur le capital.
 
 %--------------------------------------------------------------
 \subsection{Transformation d'un choc systémique en risque de conformité : le modèle de Vasicek}
@@ -765,7 +846,21 @@ Puisque $X_i \sim \mathcal{N}(0,1)$, on isole $X_i$ pour obtenir la formule ferm
 \begin{equation}
 PCD_i(y) = \Phi \left( \frac{\Phi^{-1}(PCD_{marginal}) - \sqrt{\rho}y}{\sqrt{1-\rho}} \right)
 \end{equation}
-Cette formulation mathématique rigoureuse justifie la dynamique asymétrique observée dans nos résultats : une entité \og Leader\fg{} (dont le seuil $c_i$ est très bas) restera résiliente même si $Y$ se dégrade, tandis qu'une entité \og Médiane\fg{} verra sa probabilité de défaut converger asymptotiquement vers 1, ce qui active mécaniquement la contagion entre la brique prestataire et la brique sanction dans l'allocation d'Euler.
+Cette formulation mathématique rigoureuse justifie la dynamique asymétrique observée dans nos résultats : une entité \og Leader\fg{} (dont le seuil $c_i$ est très bas) restera résiliente même si $Y$ se dégrade, tandis qu'une entité \og Médiane\fg{} verra sa probabilité de défaut converger asymptotiquement vers 1, ce qui active mécaniquement la contagion entre la brique prestataire et la brique sanction dans l'allocation d'Euler. On peut résumer ces propriétés dans l'énoncé suivant.
+
+\begin{proposition}[Probabilité de défaut de conformité conditionnelle]\label{prop:vasicek}
+Sous le modèle à facteur unique $Z_i=\sqrt{\rho}\,Y+\sqrt{1-\rho}\,X_i$ avec $Y,X_i\sim\mathcal{N}(0,1)$ indépendantes et seuil $c_i=\Phi^{-1}(p)$ où $p=\mathrm{PCD}_{marginal}$, la probabilité de défaut conditionnelle au facteur systémique $Y=y$ vaut
+\begin{equation}
+\mathrm{PCD}_i(y)=\Phi\!\left(\frac{\Phi^{-1}(p)-\sqrt{\rho}\,y}{\sqrt{1-\rho}}\right).
+\label{eq:vasicek}
+\end{equation}
+La fonction $y\mapsto\mathrm{PCD}_i(y)$ est décroissante ; sa sensibilité au choc augmente avec $\rho$, et pour $\rho\to1$ elle tend vers un échelon (défaut certain dès $y<\Phi^{-1}(p)$).
+\end{proposition}
+
+\begin{proof}
+Le défaut survient si $Z_i<c_i$. Conditionnellement à $Y=y$, $Z_i=\sqrt\rho\,y+\sqrt{1-\rho}\,X_i$ avec $X_i\sim\mathcal N(0,1)$, donc
+$\mathrm{PCD}_i(y)=\Prob\!\bigl(\sqrt{1-\rho}\,X_i<c_i-\sqrt\rho\,y\bigr)=\Prob\!\bigl(X_i<(c_i-\sqrt\rho\,y)/\sqrt{1-\rho}\bigr)$, d'où \eqref{eq:vasicek} en appliquant $\Phi$ et $c_i=\Phi^{-1}(p)$. La monotonie provient du signe négatif de $y$ dans l'argument ; la dérivée $\partial\,\mathrm{PCD}_i/\partial\rho$ et la limite en échelon sont détaillées en Annexe~\ref{ann:vasicek}.
+\end{proof}
 
 %==============================================================
 \section{Données et limites}
@@ -1508,6 +1603,22 @@ pour $k \in \{\text{remédiation}, \text{sanction}, \text{prestataire},
 estimée numériquement par une fenêtre de tirages Monte Carlo au voisinage du
 quantile $\alpha$ recherché, faute de forme fermée pour l'architecture de
 dépendance retenue.
+
+Le fondement de cette règle de partage n'est pas conventionnel : c'est la \emph{seule} allocation compatible avec une mesure de performance ajustée du risque (RORAC), ce que formalise le résultat suivant.
+
+\begin{theorem}[Allocation d'Euler]\label{th:euler}
+Soit $\rho$ une mesure de risque positivement homogène de degré~$1$, différentiable, appliquée à une perte agrégée $L=\sum_{k=1}^{d} L_k$. Alors
+\begin{equation}
+\rho(L)=\sum_{k=1}^{d}\underbrace{\left.\frac{\dd}{\dd h}\,\rho\!\left(L+h\,L_k\right)\right|_{h=0}}_{\text{contribution } AC_k}.
+\end{equation}
+Pour $\rho=\VaR_\alpha$, cette contribution vaut $AC_k=\E[L_k\mid L=\VaR_\alpha(L)]$ ; pour $\rho=\TVaR_\alpha$, $AC_k=\E[L_k\mid L\ge\VaR_\alpha(L)]$. Dans les deux cas $\sum_k AC_k=\rho(L)$, et cette allocation est l'unique à satisfaire la compatibilité RORAC \citep{tasche1999}.
+\end{theorem}
+
+\begin{proof}[Esquisse]
+L'homogénéité de degré~1, $\rho(tL)=t\,\rho(L)$, permet d'appliquer le théorème d'Euler sur les fonctions homogènes à $\rho$ vue comme fonction des expositions $(h_1,\dots,h_d)$ via $\rho\bigl(\sum_k h_k L_k\bigr)$ : la somme des dérivées partielles pondérées reconstitue $\rho$. Le calcul de la dérivée directionnelle pour $\VaR_\alpha$ et $\TVaR_\alpha$ (dérivation sous le signe espérance, régularité de la densité de $L$ au voisinage du quantile) est reporté en Annexe~\ref{ann:euler} ; l'unicité RORAC est due à \citet{tasche1999}.
+\end{proof}
+
+\noindent Ce théorème garantit que la décomposition présentée en Partie~5 (remédiation $\approx86\,\%$, prestataire $\approx14\,\%$, sanction $\approx0\,\%$ sous OpRisk) est \emph{additive et cohérente} : les contributions se somment exactement au capital total, sans résidu d'agrégation.
 
 Cette allocation permet de répondre à une question distincte de celle du
 niveau global de capital : non pas \og combien faut-il provisionner ?\fg{}, mais
@@ -2426,6 +2537,57 @@ d'échantillon ; la ligne pointillée marque la référence à grande taille
 \end{figure}
 
 %--------------------------------------------------------------
+\subsection{Triangulation méthodologique : le SCR par quatre méthodes indépendantes}
+\label{sec:triangulation}
+%--------------------------------------------------------------
+
+La convergence Monte Carlo établie ci-dessus garantit la stabilité \emph{interne} de l'estimateur, mais non sa justesse : un biais systématique de la simulation resterait invisible à un simple diagnostic de convergence. Pour lever ce doute, nous confrontons l'estimation Monte Carlo à trois méthodes \textbf{structurellement indépendantes}. Afin que les quatre méthodes portent sur le \emph{même} objet mathématique, la comparaison est menée sur la loi composée de la brique dominante (remédiation, $\approx86\,\%$ du risque, cf.~allocation d'Euler), isolée de la surcharge systémique multiplicative :
+\begin{equation}
+S=\sum_{i=1}^{M} X_i,\qquad X_i=u+\mathrm{GPD}(\xi,\sigma),\qquad M\sim\text{fréquence de pertes annuelle},
+\end{equation}
+où $M$ résulte de l'amincissement de la fréquence NegBin par la probabilité de dépassement $p_u$.
+
+\paragraph{A. Approximation analytique par perte unique (SLA).} Pour une loi composée à sévérité sous-exponentielle, \citet{bockerkluppelberg2005} établissent que le quantile agrégé est asymptotiquement gouverné par la plus grande perte individuelle :
+\begin{equation}
+\VaR_\alpha(S)\;\approx\;F_X^{-1}\!\left(1-\frac{1-\alpha}{\lambda_{\text{eff}}}\right)
+= u+\frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\lambda_{\text{eff}}}\right)^{-\xi}-1\right],
+\label{eq:sla}
+\end{equation}
+où $\lambda_{\text{eff}}=\E[M]$ est la fréquence annuelle de pertes non nulles. \citet{bockersprittulla2006} raffinent l'approximation par une correction de moyenne $+(\lambda_{\text{eff}}-1)\,\E[X]$. Cette formule fermée fournit un \emph{repère analytique} totalement exogène au Monte Carlo.
+
+\paragraph{B. Inversion exacte par FFT.} La distribution agrégée exacte s'obtient par inversion de la fonction génératrice composée $G_M\!\circ\varphi_X$ (où $\varphi_X$ est la transformée de Fourier discrétisée de la sévérité et $G_M$ la fonction génératrice de la loi de comptage), via une FFT. Cette approche constitue la réalisation numériquement stable de la récursion de Panjer, cette dernière devenant inexploitable pour une queue aussi lourde (grille de plusieurs millions de points, propagation d'erreur). Elle donne la loi agrégée \emph{sans aléa de simulation}.
+
+\paragraph{Résultats.} Le tableau~\ref{tab:triangulation} rassemble les quatre estimations. L'accord est frappant : la FFT (agrégation exacte) et le Monte Carlo coïncident à $0{,}5\,\%$ près, et l'approximation analytique SLA au second ordre --- pourtant obtenue sans aucune simulation --- tombe à $4{,}6\,\%$ de la référence. Cette convergence de méthodes aussi hétérogènes (stochastique, analytique asymptotique, inversion spectrale exacte) constitue la validation la plus forte que le moteur d'agrégation ne souffre d'aucun biais structurel.
+
+\begin{table}[h]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{>{\raggedright}p{6.5cm} >{\centering}p{3cm} >{\centering\arraybackslash}p{3cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Méthode} & \textbf{Nature} & \textbf{VaR $99{,}5\,\%$ (M\euro)} \\
+\midrule
+Monte Carlo ($2\times10^6$ tirages) & stochastique & $9\,436$ \\
+FFT (inversion FGP composée) & numérique exact & $9\,478$ \\
+SLA 2\up{e} ordre (Böcker--Sprittulla) & analytique & $9\,007$ \\
+SLA 1\up{er} ordre (Böcker--Klüppelberg) & analytique & $7\,849$ \\
+\bottomrule
+\end{tabular}
+\caption{Triangulation du capital de la brique remédiation (OpRisk, médian $S_2$) : quatre méthodes indépendantes. Écarts à la référence Monte Carlo : FFT $+0{,}5\,\%$, SLA-2 $-4{,}6\,\%$.}
+\label{tab:triangulation}
+\end{table}
+
+\paragraph{C. Contrepoint bayésien sur l'incertitude de paramètre.} Enfin, nous opposons au bootstrap fréquentiste du §5.5 une estimation bayésienne de la GPD par algorithme de Metropolis (priors faiblement informatifs sur les $91$ excès OpRisk). La loi \emph{a posteriori} de l'indice de queue, $\hat\xi=0{,}654$ avec intervalle de crédibilité à $90\,\%$ $[0{,}375\,;\,0{,}991]$, englobe le point EMV du mémoire ($0{,}595$) et recoupe l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ (figure~\ref{fig:triangulation}, droite). La VaR mono-perte prédictive \emph{a posteriori} vaut $700{,}6$~M\euro\ (IC crédible $90\,\%$ $[449\,;\,1\,412]$), à comparer aux $663$~M\euro\ de l'estimation ponctuelle : l'approche bayésienne intègre nativement l'incertitude de calibration dans le capital, là où le bootstrap la reconstruit par rééchantillonnage. La concordance des deux paradigmes clôt la validation de l'incertitude reportée.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/triangulation_scr.png}
+\caption{\emph{Gauche} : VaR $99{,}5\,\%$ de la brique remédiation estimée par quatre méthodes indépendantes (Monte Carlo, SLA 1\up{er}/2\up{e} ordre, FFT). \emph{Droite} : loi \emph{a posteriori} bayésienne de l'indice de queue $\xi$ (Metropolis) confrontée au point EMV et à l'intervalle de confiance bootstrap du mémoire.}
+\label{fig:triangulation}
+\end{figure}
+
+%--------------------------------------------------------------
 \subsection{Comparaison avec les travaux antérieurs}
 %--------------------------------------------------------------
 
@@ -2576,6 +2738,145 @@ dans l'attente de données futures plus riches.
 \vspace{1em}
 
 
+%==============================================================
+\appendix
+\clearpage
+\section{Démonstrations complémentaires}
+\label{ann:preuves}
+%==============================================================
+
+Cette annexe rassemble les démonstrations détaillées des résultats énoncés dans le corps du mémoire, dont seule l'esquisse y figurait.
+
+\subsection{Information de Fisher de la GPD (Proposition~\ref{prop:fisher})}
+\label{ann:fisher}
+On part de la log-vraisemblance \eqref{eq:loglik-gpd}. En reparamétrant $\tau=\xi/\sigma$, les dérivées secondes de $\ell$ conduisent, après prise d'espérance sous $Y\sim\mathrm{GPD}(\xi,\sigma)$ (moments $\E[(1+\xi Y/\sigma)^{-1}]=1/(1+\xi)$ et $\E[(1+\xi Y/\sigma)^{-2}]=1/(1+2\xi)$, finis pour $\xi>-\tfrac12$), à l'information de Fisher par observation
+\begin{equation}
+\mathcal{I}(\xi,\sigma)=\frac{1}{1+2\xi}\begin{pmatrix} 2 & \sigma^{-1}\\[2pt] \sigma^{-1} & \sigma^{-2}(1+\xi)\end{pmatrix}^{-1}\!\!,\quad\text{d'inverse}\quad
+\mathcal{I}^{-1}=(1+\xi)\begin{pmatrix} 1+\xi & -\sigma\\[2pt] -\sigma & 2\sigma^2\end{pmatrix}.
+\end{equation}
+La variance asymptotique de $\hat\xi$ est le terme $(1,1)$ divisé par $N_u$, soit $(1+\xi)^2/N_u$. La condition $\xi>-\tfrac12$ garantit la finitude des moments impliqués, donc la validité de la normalité asymptotique classique de l'EMV \citep{smith1987}.
+
+\subsection{Estimateur de Hill (Proposition~\ref{prop:hill})}
+\label{ann:hill}
+Sous variation régulière $\bar F(x)=x^{-1/\xi}\ell(x)$ avec $\ell$ à variation lente, les $\log$-espacements $\log X_{(i)}-\log X_{(i+1)}$ des $k$ plus grandes statistiques d'ordre sont, à la limite, des variables exponentielles indépendantes d'espérance $\xi/i$ (représentation de Rényi). L'estimateur $\hat\xi_{Hill}(k)=\frac1k\sum_{i=1}^k(\log X_{(i)}-\log X_{(k+1)})$ est alors une moyenne empirique d'espérance $\xi$ et de variance $\xi^2/k$ ; le théorème central limite donne $\sqrt k(\hat\xi_{Hill}-\xi)\xrightarrow{d}\mathcal N(0,\xi^2)$, sous la condition de second ordre $\sqrt k\,A(n/k)\to0$ contrôlant le biais dû à $\ell$.
+
+\subsection{VaR et TVaR de la GPD (Proposition~\ref{prop:varestvar})}
+\label{ann:varestvar}
+La forme fermée de la VaR découle directement de l'inversion de la fonction de survie POT $\bar F(x)=\zeta_u(1+\xi(x-u)/\sigma)^{-1/\xi}$. Pour la TVaR, on utilise $\TVaR_\alpha=\frac{1}{1-\alpha}\int_\alpha^1\VaR_s\,\dd s$ ; la stabilité de la GPD (l'excès au-delà de tout seuil $v>u$ reste GPD de forme $\xi$ et d'échelle $\sigma+\xi(v-u)$) donne $\E[X-\VaR_\alpha\mid X>\VaR_\alpha]=\frac{\sigma+\xi(\VaR_\alpha-u)}{1-\xi}$ pour $\xi<1$, d'où \eqref{eq:tvar-gpd}. Pour $\xi\ge1$, $\int_u^\infty\bar F=\infty$ : la moyenne de queue diverge.
+
+\subsection{Queues de la copule de Gumbel (Proposition~\ref{prop:gumbel})}
+\label{ann:gumbel}
+La dépendance de queue supérieure est calculée dans le corps. Pour la dépendance inférieure, $\lambda_L=\lim_{q\to0^+}C_\eta(q,q)/q=\lim_{q\to0^+}q^{\,2^{1/\eta}-1}=0$ car $2^{1/\eta}>1$ pour $\eta>1$. Le $\tau$ de Kendall d'une copule archimédienne de générateur $\phi$ vaut $\tau=1+4\int_0^1\frac{\phi(t)}{\phi'(t)}\dd t$ ; avec $\phi(t)=(-\ln t)^\eta$ on obtient $\tau=1-1/\eta$.
+
+\subsection{Sensibilité du modèle de Vasicek (Proposition~\ref{prop:vasicek})}
+\label{ann:vasicek}
+En dérivant \eqref{eq:vasicek} par rapport à $y$, $\partial_y\mathrm{PCD}_i(y)=-\frac{\sqrt\rho}{\sqrt{1-\rho}}\,\varphi\!\left(\frac{\Phi^{-1}(p)-\sqrt\rho y}{\sqrt{1-\rho}}\right)<0$ : la fonction est décroissante. Lorsque $\rho\to1$, l'argument tend vers $\pm\infty$ selon le signe de $\Phi^{-1}(p)-y$, et $\mathrm{PCD}_i(y)\to\indic\{y<\Phi^{-1}(p)\}$ : le défaut devient déterministe conditionnellement au facteur systémique, régime de contagion maximale.
+
+\subsection{Allocation d'Euler (Théorème~\ref{th:euler})}
+\label{ann:euler}
+$\rho$ étant homogène de degré~1 en les expositions $\mathbf h=(h_1,\dots,h_d)$ via $r(\mathbf h)=\rho(\sum_k h_k L_k)$, le théorème d'Euler sur les fonctions homogènes donne $r(\mathbf h)=\sum_k h_k\,\partial_{h_k} r(\mathbf h)$ ; évalué en $\mathbf h=\mathbf 1$, $\rho(L)=\sum_k \partial_{h_k}r(\mathbf 1)$. Pour $\rho=\VaR_\alpha$, un résultat de \citet{tasche1999} montre que $\partial_{h_k}\VaR_\alpha(\sum_j h_j L_j)=\E[L_k\mid \sum_j h_j L_j=\VaR_\alpha]$ sous régularité de la densité jointe, d'où $AC_k=\E[L_k\mid L=\VaR_\alpha(L)]$ ; le passage à $\TVaR_\alpha$ s'obtient par intégration sur $\alpha$. L'unicité comme seule allocation compatible RORAC est démontrée dans la même référence.
+
+\clearpage
+\section{Table des notations}
+\label{ann:notations}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{center}
+\begin{tabular}{>{\raggedright}p{3cm} >{\raggedright\arraybackslash}p{11.5cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Symbole} & \textbf{Signification} \\
+\midrule
+$\xi,\ \sigma,\ u$ & Indice de queue, échelle et seuil POT de la GPD de sévérité \\
+$\zeta_u=p_u$ & Probabilité de dépassement du seuil $\Prob(X>u)$ \\
+$N_u$ & Nombre d'excès au-delà de $u$ \\
+$\VaR_\alpha,\ \TVaR_\alpha$ & Value-at-Risk et Tail-VaR (Expected Shortfall) au niveau $\alpha=99{,}5\,\%$ \\
+$\lambda,\ \lambda_{\text{eff}}$ & Fréquence annuelle d'incidents ; fréquence de pertes non nulles \\
+$r,\ p$ & Paramètres de la loi binomiale négative de fréquence \\
+$\eta$ & Paramètre de la copule de Gumbel ($\eta\ge1$) \\
+$\lambda_U,\ \lambda_L$ & Coefficients de dépendance de queue supérieure / inférieure \\
+$\tau$ & $\tau$ de Kendall \\
+$\rho$ & Corrélation d'actifs du modèle de Vasicek \\
+$Y,\ X_i,\ Z_i$ & Facteur systémique, facteur idiosyncratique, robustesse latente \\
+$\mathrm{PCD}_i(y)$ & Probabilité conditionnelle de défaut de conformité \\
+$L_{DORA},\ AC_k$ & Perte agrégée DORA ; contribution d'Euler de la brique $k$ \\
+$\Delta_{DORA}$ & Surcoût de capital imputable à la non-conformité \\
+$S_0,S_1,S_2$ & Scénarios conforme / partiel / non-conforme \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\clearpage
+\section{Algorithmes}
+\label{ann:algos}
+
+\paragraph{Algorithme 1 --- Agrégation LDA par Monte Carlo (une année simulée).}
+\begin{enumerate}[leftmargin=2.2em,itemsep=1pt]
+\item Tirer la fréquence $N\sim\mathrm{NegBin}(r,p)$ (moyenne $\lambda$, dispersion $9{,}2$).
+\item Pour chaque événement : tirer un indicateur de queue $\sim\mathrm{Bernoulli}(p_u)$ ; si actif, sévérité $=u+\mathrm{GPD}(\xi,\sigma)$ (plafonnée si source PRC), sinon $0$.
+\item Agréger par brique (remédiation, prestataire) ; tirer la brique sanction via une loi Bêta pilotée par $\mathrm{PCD}$.
+\item Tirer les uniformes de la copule de Gumbel $U\sim C_\eta$ et appliquer la surcharge systémique $L_k\leftarrow L_k(1+U_k\cdot s_{\max})$.
+\item Sommer les briques ; répéter $n_{sim}$ fois ; estimer $\VaR_\alpha$ par quantile empirique.
+\end{enumerate}
+
+\paragraph{Algorithme 2 --- Agrégation exacte par FFT (§\ref{sec:triangulation}).}
+\begin{enumerate}[leftmargin=2.2em,itemsep=1pt]
+\item Discrétiser la sévérité $X=u+\mathrm{GPD}$ sur une grille de pas $h$ : $f_X[j]=F_X(e_{j+1})-F_X(e_j)$.
+\item Calculer $\varphi_X=\mathrm{FFT}(f_X)$.
+\item Composer par la fonction génératrice de comptage : $G=\bigl(p_2/(1-(1-p_2)\varphi_X)\bigr)^{r}$ (NegBin amincie).
+\item Inverser : $g=\mathrm{FFT}^{-1}(G)$ ; en déduire la fonction de répartition cumulée et le quantile $\alpha$.
+\end{enumerate}
+
+\paragraph{Algorithme 3 --- GPD bayésienne (Metropolis).}
+\begin{enumerate}[leftmargin=2.2em,itemsep=1pt]
+\item Initialiser $(\xi,\log\sigma)$ ; priors $\xi\sim\mathcal U(-0{,}5,2)$, $\sigma$ log-uniforme.
+\item À chaque itération : proposer $(\xi',\log\sigma')$ par marche aléatoire gaussienne.
+\item Accepter avec probabilité $\min\{1,\exp(\ell'-\ell+\text{jacobien})\}$.
+\item Après rodage, résumer la chaîne : moyenne \emph{a posteriori}, intervalle de crédibilité, VaR prédictive.
+\end{enumerate}
+
+\clearpage
+\section{Paramètres calibrés}
+\label{ann:parametres}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{center}
+\begin{tabular}{>{\raggedright}p{5cm} >{\centering}p{3.2cm} >{\centering\arraybackslash}p{3.2cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Paramètre} & \textbf{OpRisk} & \textbf{PRC (Jacobs)} \\
+\midrule
+Indice de queue $\hat\xi$ & $0{,}595$ & $1{,}033$ \\
+\quad IC $90\,\%$ (bootstrap) & $[0{,}304\,;\,0{,}831]$ & $[0{,}971\,;\,1{,}094]$ \\
+Échelle $\hat\sigma$ (M\euro) & $57{,}97$ & $6{,}51$ \\
+Seuil $u$ (M\euro) & $20{,}03$ & $4{,}18$ \\
+$p_u=\Prob(X>u)$ & $0{,}151$ & $0{,}150$ \\
+Nombre d'excès $N_u$ & $91$ & $2\,258$ \\
+VaR $99{,}5\,\%$ mono-perte (M\euro) & $663{,}0$ & $209{,}2$ \\
+Régime de moment & $\E[X]<\infty$ & $\E[X]=\infty$ ($\xi\ge1$) \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.8em}
+
+\begin{tabular}{>{\raggedright}p{7cm} >{\centering\arraybackslash}p{4cm}}
+\toprule
+\rowcolor{lightblue}
+\textbf{Autres paramètres du modèle} & \textbf{Valeur} \\
+\midrule
+Fréquence de référence $\lambda$ (PRC) & $341$ /an \\
+Facteur de dispersion (Var/Moyenne) & $9{,}20$ \\
+Copule de Gumbel --- non conforme $\eta_{S_2}$ & $1{,}8$ ($\lambda_U=0{,}53$) \\
+Copule de Gumbel --- conforme $\eta_{S_0}$ & $1{,}2$ ($\lambda_U=0{,}22$) \\
+$\tau$ de Kendall (non conforme) & $0{,}444$ \\
+Plafond de sévérité PRC (réassurance) & $40$ M\euro \\
+Allocation d'Euler (OpRisk) & remédiation $86\,\%$ / prestataire $14\,\%$ / sanction $\approx0\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\clearpage
 \bibliographystyle{apalike}
 \addcontentsline{toc}{section}{Références}
 \bibliography{references}
