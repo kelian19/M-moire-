@@ -21,6 +21,7 @@
 \usepackage{caption}
 \usepackage[official]{eurosym}
 \usepackage[round,authoryear]{natbib}
+\usepackage[most]{tcolorbox}    % encadrés « formule clé » (mémoire d'actuaire)
 \usepackage{hyperref}           % chargé en dernier (bonne pratique)
 
 \definecolor{navy}{HTML}{1F3864}
@@ -58,6 +59,24 @@
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\indic}{\mathbf{1}}
 \providecommand{\up}[1]{\textsuperscript{#1}}
+
+% --- Encadré « formule clé » : met en avant les résultats mathématiques centraux ---
+\newtcolorbox{formulekey}[1][Formule clé]{
+  enhanced, breakable,
+  colback=lightblue!35, colframe=navy, boxrule=0.8pt, arc=2pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{white},
+  coltitle=white, colbacktitle=navy,
+  title={#1}, attach boxed title to top left={xshift=8pt,yshift=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt, arc=1pt}
+}
+% Encadré sobre pour un formulaire récapitulatif
+\newtcolorbox{formulaire}[1][Formulaire]{
+  enhanced, breakable,
+  colback=white, colframe=bluemid, boxrule=0.6pt, arc=2pt,
+  left=8pt, right=8pt, top=8pt, bottom=8pt,
+  title={#1}, fonttitle=\bfseries\color{white}, colbacktitle=bluemid
+}
 
 \titleformat{\section}{\color{navy}\large\bfseries}{\thesection}{0.6em}{}
 \titleformat{\subsection}{\color{bluemid}\normalsize\bfseries}{\thesubsection}{0.5em}{}
@@ -699,6 +718,16 @@ définie sur l'ensemble $\{x : 1 + \xi x > 0\}$. Le paramètre $\xi$ (indice de 
     \item \textbf{$\xi < 0$ (Loi de Weibull) :} La distribution a un support fini supérieur (queue courte).
 \end{itemize}
 
+\noindent On peut énoncer formellement ce résultat fondateur, qui joue pour les maxima le rôle du théorème central limite pour les sommes.
+
+\begin{theorem}[Fisher--Tippett--Gnedenko]\label{th:ftg}
+Soit $(X_i)_{i\ge1}$ i.i.d.\ de fonction de répartition $F$ et $M_n=\max(X_1,\dots,X_n)$. S'il existe des suites $a_n>0$, $b_n\in\R$ et une loi non dégénérée $H$ telles que $(M_n-b_n)/a_n \xrightarrow{d} H$, alors $H$ est, à un changement d'échelle et de position près, une loi GEV $H_\xi$. Le signe de $\xi$ détermine le domaine d'attraction : Fréchet ($\xi>0$, queue lourde), Gumbel ($\xi=0$) ou Weibull ($\xi<0$, support borné).
+\end{theorem}
+
+\begin{proof}[Éléments]
+La loi limite $H$ est nécessairement \emph{max-stable} : pour tout $n$, $H^n(a_nx+b_n)=H(x)$, car $M_{nk}$ est le maximum de $k$ blocs de taille $n$. L'équation fonctionnelle de max-stabilité, résolue via la théorie des fonctions à variation régulière, n'admet (à normalisation près) que la famille à un paramètre $H_\xi$. La correspondance queue de $F$ $\leftrightarrow$ signe de $\xi$ s'obtient en caractérisant les $F$ dont la fonction de survie est à variation régulière d'indice $-1/\xi$ (cas Fréchet). Le détail figure en Annexe~\ref{ann:ftg}.
+\end{proof}
+
 %--------------------------------------------------------------
 \subsection{Le passage au Peaks-Over-Threshold (POT) et la GPD}
 %--------------------------------------------------------------
@@ -725,7 +754,19 @@ G_{\xi, \sigma}(y) =
 1 - \exp\left(-\frac{y}{\sigma}\right) & \text{si } \xi = 0 
 \end{cases}
 \end{equation}
-avec $y \ge 0$ si $\xi \ge 0$, et $0 \le y \le -\sigma/\xi$ si $\xi < 0$. Le paramètre de forme $\xi$ de la GPD est strictement le même que celui de la loi GEV correspondante. Dans le contexte du risque cyber, un indice de queue $\xi > 0$ traduit une distribution à queue lourde de type Fréchet, impliquant des moments potentiellement infinis (l'espérance est infinie si $\xi \ge 1$, la variance si $\xi \ge 0.5$).
+avec $y \ge 0$ si $\xi \ge 0$, et $0 \le y \le -\sigma/\xi$ si $\xi < 0$. Le paramètre de forme $\xi$ de la GPD est strictement le même que celui de la loi GEV correspondante. Dans le contexte du risque cyber, un indice de queue $\xi > 0$ traduit une distribution à queue lourde de type Fréchet, impliquant des moments potentiellement infinis (l'espérance est infinie si $\xi \ge 1$, la variance si $\xi \ge 0.5$). Le résultat s'énonce formellement ainsi.
+
+\begin{theorem}[Pickands--Balkema--de Haan]\label{th:balkema}
+Soit $F$ dans le domaine d'attraction d'une GEV $H_\xi$ (Théorème~\ref{th:ftg}). Alors il existe une fonction $\sigma(u)>0$ telle que la loi des excès converge uniformément vers une GPD lorsque le seuil approche la borne supérieure $x_F$ du support :
+\begin{equation}
+\lim_{u\to x_F}\ \sup_{0\le y< x_F-u}\bigl|F_u(y)-G_{\xi,\sigma(u)}(y)\bigr|=0,
+\end{equation}
+où $F_u(y)=\Prob(X-u\le y\mid X>u)$ et $G_{\xi,\sigma}$ est la fonction de répartition de la GPD. L'indice de queue $\xi$ est identique à celui de la GEV limite.
+\end{theorem}
+
+\begin{proof}[Esquisse]
+L'appartenance de $F$ au domaine d'attraction de $H_\xi$ équivaut à une condition de variation régulière sur la fonction de survie $\bar F$. On montre que $\bar F(u+y\,a(u))/\bar F(u)\to(1+\xi y)^{-1/\xi}$ quand $u\to x_F$, pour une fonction d'échelle $a(u)$ adéquate ; ce membre de droite est exactement la fonction de survie GPD. La convergence uniforme découle de la monotonie des fonctions de répartition (théorème de Pólya). Détail et lien avec le Théorème~\ref{th:ftg} en Annexe~\ref{ann:balkema}.
+\end{proof}
 
 %--------------------------------------------------------------
 \subsection{Estimation des paramètres : Maximum de Vraisemblance vs Estimateur de Hill}
@@ -781,8 +822,8 @@ Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alo
 \begin{proposition}[VaR et Expected Shortfall d'une queue GPD]\label{prop:varestvar}
 Sous le modèle POT, pour $\alpha$ tel que $\mathrm{VaR}_\alpha>u$ et $\xi\in(0,1)$ :
 \begin{align}
-\VaR_\alpha(X) &= u + \frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\zeta_u}\right)^{-\xi}-1\right],\label{eq:var-gpd}\\[4pt]
-\TVaR_\alpha(X) = \E[X\mid X>\VaR_\alpha] &= \frac{\VaR_\alpha(X)}{1-\xi}+\frac{\sigma-\xi u}{1-\xi}.\label{eq:tvar-gpd}
+\VaR_\alpha(X) &= \boxed{\,u + \frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\zeta_u}\right)^{-\xi}-1\right]\,},\label{eq:var-gpd}\\[4pt]
+\TVaR_\alpha(X) = \E[X\mid X>\VaR_\alpha] &= \boxed{\,\frac{\VaR_\alpha(X)}{1-\xi}+\frac{\sigma-\xi u}{1-\xi}\,}.\label{eq:tvar-gpd}
 \end{align}
 Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\TVaR_\alpha$ n'est pas définie.
 \end{proposition}
@@ -851,7 +892,7 @@ Cette formulation mathématique rigoureuse justifie la dynamique asymétrique ob
 \begin{proposition}[Probabilité de défaut de conformité conditionnelle]\label{prop:vasicek}
 Sous le modèle à facteur unique $Z_i=\sqrt{\rho}\,Y+\sqrt{1-\rho}\,X_i$ avec $Y,X_i\sim\mathcal{N}(0,1)$ indépendantes et seuil $c_i=\Phi^{-1}(p)$ où $p=\mathrm{PCD}_{marginal}$, la probabilité de défaut conditionnelle au facteur systémique $Y=y$ vaut
 \begin{equation}
-\mathrm{PCD}_i(y)=\Phi\!\left(\frac{\Phi^{-1}(p)-\sqrt{\rho}\,y}{\sqrt{1-\rho}}\right).
+\mathrm{PCD}_i(y)=\boxed{\;\Phi\!\left(\frac{\Phi^{-1}(p)-\sqrt{\rho}\,y}{\sqrt{1-\rho}}\right)\;}.
 \label{eq:vasicek}
 \end{equation}
 La fonction $y\mapsto\mathrm{PCD}_i(y)$ est décroissante ; sa sensibilité au choc augmente avec $\rho$, et pour $\rho\to1$ elle tend vers un échelon (défaut certain dès $y<\Phi^{-1}(p)$).
@@ -1322,7 +1363,12 @@ Le modèle retenu décompose la perte physique simulée $L_{DORA}$ en trois briq
 L_{DORA} = L_{\text{remédiation}} + L_{\text{sanction}} + L_{\text{prestataire}}
 \end{equation}
 
-La brique d'\textbf{aggravation} ne constitue pas une perte simulée supplémentaire s'ajoutant à cette somme, mais une mesure dérivée. Elle quantifie le surcroît de capital entre un état conforme et un état non conforme, au travers du différentiel $\Delta_{DORA} = VaR_\alpha(L_{DORA}^{\text{non conforme}}) - VaR_\alpha(L_{DORA}^{\text{conforme}})$, développé en Partie 4.
+La brique d'\textbf{aggravation} ne constitue pas une perte simulée supplémentaire s'ajoutant à cette somme, mais une mesure dérivée. Elle quantifie le surcroît de capital entre un état conforme et un état non conforme, au travers du différentiel qui constitue la grandeur centrale du mémoire :
+\begin{equation}
+\boxed{\;\Delta_{DORA} \;=\; \VaR_\alpha\!\bigl(L_{DORA}^{\text{non conforme}}\bigr) \;-\; \VaR_\alpha\!\bigl(L_{DORA}^{\text{conforme}}\bigr)\;}
+\label{eq:delta-dora}
+\end{equation}
+développé en Partie~4.
 
 La brique de \textbf{remédiation} constitue le coeur fréquence-sévérité du
 modèle : elle représente le coût direct de gestion des incidents cyber,
@@ -1619,6 +1665,22 @@ L'homogénéité de degré~1, $\rho(tL)=t\,\rho(L)$, permet d'appliquer le théo
 \end{proof}
 
 \noindent Ce théorème garantit que la décomposition présentée en Partie~5 (remédiation $\approx86\,\%$, prestataire $\approx14\,\%$, sanction $\approx0\,\%$ sous OpRisk) est \emph{additive et cohérente} : les contributions se somment exactement au capital total, sans résidu d'agrégation.
+
+\begin{formulaire}[Formulaire synthétique du modèle SCR\_DORA]
+\small
+\begin{align*}
+\text{Sévérité (POT/GPD)} &\quad \Prob(X>x)=\zeta_u\Bigl(1+\tfrac{\xi(x-u)}{\sigma}\Bigr)^{-1/\xi},\ x>u \\[2pt]
+\text{Capital mono-perte} &\quad \VaR_\alpha(X)=u+\tfrac{\sigma}{\xi}\bigl[((1-\alpha)/\zeta_u)^{-\xi}-1\bigr] \\[2pt]
+\text{Queue moyenne} &\quad \TVaR_\alpha(X)=\tfrac{\VaR_\alpha}{1-\xi}+\tfrac{\sigma-\xi u}{1-\xi}\quad(\xi<1) \\[2pt]
+\text{Fréquence} &\quad N\sim\mathrm{NegBin}(r,p),\ \ \tfrac{\Var(N)}{\E[N]}=9{,}2 \\[2pt]
+\text{Dépendance (Gumbel)} &\quad C_\eta(u,v)=\exp\!\bigl(-[(-\ln u)^\eta+(-\ln v)^\eta]^{1/\eta}\bigr),\ \ \lambda_U=2-2^{1/\eta} \\[2pt]
+\text{Conformité (Vasicek)} &\quad \mathrm{PCD}_i(y)=\Phi\!\bigl((\Phi^{-1}(p)-\sqrt\rho\,y)/\sqrt{1-\rho}\bigr) \\[2pt]
+\text{Agrégation} &\quad L_{DORA}=L_{\text{rem}}+L_{\text{sanct}}+L_{\text{prest}} \\[2pt]
+\text{Allocation d'Euler} &\quad AC_k=\E[L_k\mid L_{DORA}=\VaR_\alpha],\ \ \textstyle\sum_k AC_k=\VaR_\alpha \\[2pt]
+\text{Surcoût de conformité} &\quad \Delta_{DORA}=\VaR_\alpha(L_{DORA}^{nc})-\VaR_\alpha(L_{DORA}^{c}) \\[2pt]
+\text{Repère analytique (SLA)} &\quad \VaR_\alpha(S)\approx u+\tfrac{\sigma}{\xi}\bigl[((1-\alpha)/\lambda_{\text{eff}})^{-\xi}-1\bigr]
+\end{align*}
+\end{formulaire}
 
 Cette allocation permet de répondre à une question distincte de celle du
 niveau global de capital : non pas \og combien faut-il provisionner ?\fg{}, mais
@@ -2550,7 +2612,7 @@ où $M$ résulte de l'amincissement de la fréquence NegBin par la probabilité 
 \paragraph{A. Approximation analytique par perte unique (SLA).} Pour une loi composée à sévérité sous-exponentielle, \citet{bockerkluppelberg2005} établissent que le quantile agrégé est asymptotiquement gouverné par la plus grande perte individuelle :
 \begin{equation}
 \VaR_\alpha(S)\;\approx\;F_X^{-1}\!\left(1-\frac{1-\alpha}{\lambda_{\text{eff}}}\right)
-= u+\frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\lambda_{\text{eff}}}\right)^{-\xi}-1\right],
+= \boxed{\,u+\frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\lambda_{\text{eff}}}\right)^{-\xi}-1\right]\,},
 \label{eq:sla}
 \end{equation}
 où $\lambda_{\text{eff}}=\E[M]$ est la fréquence annuelle de pertes non nulles. \citet{bockersprittulla2006} raffinent l'approximation par une correction de moyenne $+(\lambda_{\text{eff}}-1)\,\E[X]$. Cette formule fermée fournit un \emph{repère analytique} totalement exogène au Monte Carlo.
@@ -2578,7 +2640,16 @@ SLA 1\up{er} ordre (Böcker--Klüppelberg) & analytique & $7\,849$ \\
 \label{tab:triangulation}
 \end{table}
 
-\paragraph{C. Contrepoint bayésien sur l'incertitude de paramètre.} Enfin, nous opposons au bootstrap fréquentiste du §5.5 une estimation bayésienne de la GPD par algorithme de Metropolis (priors faiblement informatifs sur les $91$ excès OpRisk). La loi \emph{a posteriori} de l'indice de queue, $\hat\xi=0{,}654$ avec intervalle de crédibilité à $90\,\%$ $[0{,}375\,;\,0{,}991]$, englobe le point EMV du mémoire ($0{,}595$) et recoupe l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ (figure~\ref{fig:triangulation}, droite). La VaR mono-perte prédictive \emph{a posteriori} vaut $700{,}6$~M\euro\ (IC crédible $90\,\%$ $[449\,;\,1\,412]$), à comparer aux $663$~M\euro\ de l'estimation ponctuelle : l'approche bayésienne intègre nativement l'incertitude de calibration dans le capital, là où le bootstrap la reconstruit par rééchantillonnage. La concordance des deux paradigmes clôt la validation de l'incertitude reportée.
+\paragraph{C. Contrepoint bayésien sur l'incertitude de paramètre.} Enfin, nous opposons au bootstrap fréquentiste du §5.5 une estimation bayésienne de la GPD par algorithme de Metropolis (priors faiblement informatifs sur les $91$ excès OpRisk, chaîne de $60\,000$ itérations, taux d'acceptation $0{,}60$). La loi \emph{a posteriori} de l'indice de queue, $\hat\xi=0{,}651$ avec intervalle de crédibilité à $90\,\%$ $[0{,}373\,;\,0{,}988]$, englobe le point EMV du mémoire ($0{,}595$) et recoupe l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ (figure~\ref{fig:triangulation}, droite). La VaR mono-perte prédictive \emph{a posteriori} vaut $696{,}9$~M\euro\ (IC crédible $90\,\%$ $[453\,;\,1\,414]$), à comparer aux $663$~M\euro\ de l'estimation ponctuelle : l'approche bayésienne intègre nativement l'incertitude de calibration dans le capital, là où le bootstrap la reconstruit par rééchantillonnage. La concordance des deux paradigmes clôt la validation de l'incertitude reportée.
+
+Les diagnostics de convergence de la chaîne sont reportés en figure~\ref{fig:mcmc}. La trace des deux paramètres $(\xi,\sigma)$ se stabilise dès le rodage (\emph{burn-in}), l'autocorrélation de $\xi$ décroît en une dizaine de décalages --- signe d'un mélange satisfaisant --- et le nuage \emph{a posteriori} joint révèle la corrélation négative attendue entre indice de queue et échelle (déjà lue dans l'information de Fisher, Proposition~\ref{prop:fisher}, dont le terme hors-diagonal $-\sigma(1+\xi)$ est négatif). Cette cohérence entre la géométrie de la vraisemblance (fréquentiste) et la forme du posterior (bayésienne) confirme que l'incertitude sur $\xi$ n'est pas un artefact de méthode, mais une propriété intrinsèque de la rareté des excès cyber.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/mcmc_diagnostics.png}
+\caption{Diagnostics de la chaîne de Metropolis (GPD OpRisk). \emph{Haut} : traces de $\xi$ et $\sigma$ (ligne pointillée = fin du rodage). \emph{Bas gauche} : autocorrélation de $\xi$ post-rodage. \emph{Bas droite} : loi jointe \emph{a posteriori} $(\xi,\sigma)$, illustrant leur corrélation négative.}
+\label{fig:mcmc}
+\end{figure}
 
 \begin{figure}[h]
 \centering
@@ -2737,6 +2808,24 @@ dans l'attente de données futures plus riches.
 
 \vspace{1em}
 
+%==============================================================
+\section*{Perspectives de raffinement}
+\addcontentsline{toc}{section}{Perspectives de raffinement}
+%==============================================================
+
+Au-delà de l'enrichissement des données, quatre axes de raffinement méthodologique prolongent naturellement ce mémoire.
+
+\paragraph{1. D'un capital statique à un capital dynamique (Hawkes / SIR-Cox).} Le modèle retenu adopte, conformément à l'exigence réglementaire de la VaR à un an, une vision \emph{statique} du risque. Or la littérature récente \citep{BessyRolandBoumezouedHillairet2021, HillairetLopezSopgoui2026} montre que la sinistralité cyber est fortement \emph{auto-excitée} : une faille \textit{zero-day} déclenche une grappe temporelle de sinistres. Remplacer la fréquence binomiale négative par un processus de Hawkes multivarié --- ou par le couplage SIR-Cox de \citet{HillairetLopezSopgoui2026} --- permettrait de capturer cette dynamique de contagion et de produire un SCR \emph{multi-périodes}, au prix d'une réévaluation dynamique du capital. La variable latente de Vasicek utilisée ici (Proposition~\ref{prop:vasicek}) constitue une approximation statique de premier ordre de ce mécanisme ; son remplacement par un facteur systémique à mémoire est la voie de raffinement la plus directe.
+
+\paragraph{2. Une inférence bayésienne hiérarchique inter-sources.} La triangulation du §\ref{sec:triangulation} a montré la cohérence des estimations, mais traite PRC et OpRisk comme deux calibrations séparées. Un modèle bayésien \emph{hiérarchique} --- où les indices de queue $\xi_{\text{PRC}}$ et $\xi_{\text{OpRisk}}$ seraient tirés d'une loi commune de niveau supérieur --- permettrait un partage d'information (\emph{shrinkage}) entre sources, réduisant la variance d'estimation là où chaque base est individuellement pauvre en excès ($N_u=91$ pour OpRisk). L'algorithme de Metropolis développé en Annexe~\ref{ann:algos} en fournit la brique élémentaire.
+
+\paragraph{3. Le registre DORA comme socle de calibration.} Le registre d'incidents que les autorités européennes de surveillance constituent à partir des notifications obligatoires offrira, pour la première fois, une base harmonisée couvrant toutes les strates du marché. Il lèvera le biais de sélection (§données) et rendra empiriquement estimable la structure de dépendance entre l'entité et ses tiers ICT --- validant ou infirmant le coefficient de queue de Gumbel $\lambda_U=0{,}53$ postulé ici (Proposition~\ref{prop:gumbel}). La méthodologie de ce mémoire est explicitement conçue pour accueillir cette donnée dès qu'elle sera disponible.
+
+\paragraph{4. Vers une allocation d'Euler dynamique et une mesure ES.} Enfin, Solvabilité~II raisonne en VaR $99{,}5\,\%$, mais la nature à queue lourde du risque cyber (indice $\xi$ proche, voire supérieur à~1) plaide pour une mesure d'Expected Shortfall, cohérente au sens d'Artzner. La forme fermée établie en Proposition~\ref{prop:varestvar} rend ce passage immédiat lorsque $\xi<1$ ; le régime d'espérance infinie de la source PRC ($\xi=1{,}03$) rappelle toutefois que, sans plafond de réassurance, l'ES cyber peut ne pas exister --- un résultat qui interroge la pertinence même d'un capital fini pour les strates les plus extrêmes du risque numérique, et ouvre le débat sur l'assurabilité de dernier recours.
+
+
+\vspace{1em}
+
 
 %==============================================================
 \appendix
@@ -2746,6 +2835,32 @@ dans l'attente de données futures plus riches.
 %==============================================================
 
 Cette annexe rassemble les démonstrations détaillées des résultats énoncés dans le corps du mémoire, dont seule l'esquisse y figurait.
+
+\subsection{Fisher--Tippett--Gnedenko (Théorème~\ref{th:ftg})}
+\label{ann:ftg}
+La loi limite $H$ des maxima normalisés est \emph{max-stable} : $H^t(x)=H(a_tx+b_t)$ pour tout $t>0$. En posant $g(x)=-\ln H(x)$, la max-stabilité devient l'équation fonctionnelle $t\,g(a_tx+b_t)=g(x)$. Sa résolution (via la théorie des fonctions à variation régulière de Karamata) impose $g(x)=(1+\xi x)^{-1/\xi}$, soit $H=H_\xi$. Le domaine d'attraction se caractérise ensuite par le comportement de queue : $F\in\mathrm{DA}(H_\xi)$ avec $\xi>0$ si et seulement si $\bar F$ est à variation régulière d'indice $-1/\xi$, i.e.\ $\bar F(tx)/\bar F(x)\to t^{-1/\xi}$. Les lois lognormale et gamma relèvent du cas $\xi=0$ (Gumbel) ; les lois à support borné du cas $\xi<0$ (Weibull).
+
+\subsection{Pickands--Balkema--de Haan (Théorème~\ref{th:balkema})}
+\label{ann:balkema}
+Pour $F\in\mathrm{DA}(H_\xi)$, il existe une fonction positive $a(\cdot)$ telle que, pour $y\ge0$,
+$\lim_{u\to x_F}\bar F(u+y\,a(u))/\bar F(u)=(1+\xi y)^{-1/\xi}$.
+Or $\bar F(u+ya(u))/\bar F(u)=\Prob(X>u+ya(u)\mid X>u)=1-F_u(y\,a(u))$, dont la limite est la survie GPD $\bar G_{\xi,1}(y)$. En posant $\sigma(u)=a(u)$, on obtient $F_u(y)\to G_{\xi,\sigma(u)}(y)$. La convergence est uniforme car les $F_u$ sont des fonctions de répartition monotones convergeant vers une limite continue (théorème de Pólya). Le paramètre $\xi$ est préservé car il gouverne à la fois la variation régulière de $\bar F$ et la forme de la GPD limite.
+
+\subsection{Dérivation de l'approximation SLA (§\ref{sec:triangulation})}
+\label{ann:sla}
+Soit $S=\sum_{i=1}^M X_i$ avec $M$ de fonction génératrice $G_M$ et $X_i$ i.i.d.\ \emph{sous-exponentielles} ($\bar F^{*n}(x)\sim n\bar F(x)$). La sous-exponentialité entraîne $\bar F_S(x)\sim \E[M]\,\bar F_X(x)$ quand $x\to\infty$ : la queue de la somme est dominée par celle de la plus grande perte. En inversant $\bar F_S(\VaR_\alpha)=1-\alpha$, on obtient $\bar F_X(\VaR_\alpha)\approx(1-\alpha)/\E[M]$, d'où, avec $\E[M]=\lambda_{\text{eff}}$ et la forme GPD de $X$,
+\begin{equation}
+\VaR_\alpha(S)\approx F_X^{-1}\!\bigl(1-(1-\alpha)/\lambda_{\text{eff}}\bigr)=u+\tfrac{\sigma}{\xi}\bigl[((1-\alpha)/\lambda_{\text{eff}})^{-\xi}-1\bigr].
+\end{equation}
+La correction du second ordre \citep{bockersprittulla2006} ajoute la moyenne des pertes restantes $(\lambda_{\text{eff}}-1)\,\E[X]$, d'où l'écart observé ($-4{,}6\,\%$ contre $-16\,\%$ au premier ordre) sur la calibration OpRisk.
+
+\subsection{Récursion de Panjer : principe et exemple}
+\label{ann:panjer}
+Lorsque la loi de comptage appartient à la classe $(a,b,0)$ --- $\Prob(M=k)=(a+b/k)\Prob(M=k-1)$, ce qui couvre Poisson, binomiale et binomiale négative --- et que la sévérité est discrétisée sur une grille $\{0,h,2h,\dots\}$ de masses $f_j$, la loi agrégée $g_k=\Prob(S=kh)$ se calcule par la récursion exacte
+\begin{equation}
+g_k=\frac{1}{1-a f_0}\sum_{j=1}^{k}\Bigl(a+\frac{b\,j}{k}\Bigr) f_j\, g_{k-j},\qquad g_0=G_M(f_0).
+\end{equation}
+Pour la binomiale négative amincie $\mathrm{NegBin}(r,p_2)$, $a=1-p_2$ et $b=(r-1)(1-p_2)$. \emph{Exemple minimal} : avec $r=2$, $p_2=0{,}5$ et une sévérité à deux points $f_1=f_2=0{,}5$, on obtient $g_0=0{,}25$, $g_1=0{,}125$, $g_2\approx0{,}148$, etc. La récursion est exacte mais souffre, pour une queue GPD $\xi\approx0{,}6$, d'une grille de plusieurs millions de points et d'une accumulation d'erreurs d'arrondi ; la FFT (Algorithme~2) en constitue la réalisation numériquement stable, d'où son choix pour la triangulation.
 
 \subsection{Information de Fisher de la GPD (Proposition~\ref{prop:fisher})}
 \label{ann:fisher}

@@ -154,13 +154,13 @@ def gpd_loglik(exc, xi, sigma):
     return -len(exc) * np.log(sigma) - (1.0 + 1.0 / xi) * np.log(z).sum()
 
 
-def bayesian_gpd(exc, n_iter=40000, burn=10000, seed=7):
+def bayesian_gpd(exc, n_iter=60000, burn=15000, seed=7):
     rng = np.random.default_rng(seed)
     # priors faiblement informatifs : xi ~ U(-0.5, 2), sigma ~ log-uniforme
     xi, log_sig = 0.6, np.log(50.0)
     lp = gpd_loglik(exc, xi, np.exp(log_sig))
     chain = np.empty((n_iter, 2))
-    step = np.array([0.06, 0.06])
+    step = np.array([0.13, 0.14])   # pas relevé -> meilleur mélange (acc ~ 0.3-0.4)
     acc = 0
     for t in range(n_iter):
         xi_p = xi + step[0] * rng.standard_normal()
@@ -171,8 +171,42 @@ def bayesian_gpd(exc, n_iter=40000, burn=10000, seed=7):
                 xi, log_sig, lp = xi_p, log_sig_p, gpd_loglik(exc, xi_p, np.exp(log_sig_p))
                 acc += 1
         chain[t] = (xi, np.exp(log_sig))
+    return chain, burn, acc / n_iter
+
+
+def autocorr(x, nlags=60):
+    x = x - x.mean()
+    ac = np.correlate(x, x, mode="full")[len(x) - 1:]
+    ac = ac / ac[0]
+    return ac[:nlags]
+
+
+def plot_mcmc_diagnostics(chain, burn, fig_path):
     post = chain[burn:]
-    return post, acc / n_iter
+    fig, ax = plt.subplots(2, 2, figsize=(13, 8))
+    # trace xi
+    ax[0, 0].plot(chain[:, 0], color=BRAND_BLUE, lw=0.4)
+    ax[0, 0].axvline(burn, color=BRAND_ORANGE, ls="--", lw=1.2, label="fin du rodage")
+    ax[0, 0].set_title(r"Trace de $\xi$ (chaîne de Metropolis)", fontweight="bold")
+    ax[0, 0].set_xlabel("itération"); ax[0, 0].set_ylabel(r"$\xi$")
+    ax[0, 0].legend(fontsize=9); ax[0, 0].grid(alpha=0.3)
+    # trace sigma
+    ax[0, 1].plot(chain[:, 1], color=BRAND_GREEN, lw=0.4)
+    ax[0, 1].axvline(burn, color=BRAND_ORANGE, ls="--", lw=1.2)
+    ax[0, 1].set_title(r"Trace de $\sigma$ (M\euro)".replace("\\euro", "€"), fontweight="bold")
+    ax[0, 1].set_xlabel("itération"); ax[0, 1].set_ylabel(r"$\sigma$"); ax[0, 1].grid(alpha=0.3)
+    # ACF xi
+    ac = autocorr(post[:, 0])
+    ax[1, 0].bar(range(len(ac)), ac, color=BRAND_BLUE, width=0.8)
+    ax[1, 0].set_title(r"Autocorrélation de $\xi$ (post-rodage)", fontweight="bold")
+    ax[1, 0].set_xlabel("décalage"); ax[1, 0].set_ylabel("ACF"); ax[1, 0].grid(alpha=0.3)
+    # posterior joint
+    ax[1, 1].scatter(post[::10, 0], post[::10, 1], s=3, alpha=0.25, color=BRAND_DARK)
+    ax[1, 1].set_title(r"Loi jointe a posteriori $(\xi,\sigma)$", fontweight="bold")
+    ax[1, 1].set_xlabel(r"$\xi$"); ax[1, 1].set_ylabel(r"$\sigma$ (M€)"); ax[1, 1].grid(alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(fig_path, dpi=300, bbox_inches="tight")
+    plt.close()
 
 
 def var_single_loss(xi, sigma, u, p_u, alpha=ALPHA):
@@ -213,9 +247,11 @@ def main():
 
     # --- D. Bayésien ---
     post = None
+    chain = None
     if os.path.exists(OPRISK_PATH):
         exc, u = load_oprisk_excesses(OPRISK_PATH)
-        post, acc = bayesian_gpd(exc)
+        chain, burn, acc = bayesian_gpd(exc)
+        post = chain[burn:]
         xi_hat, sig_hat = post.mean(0)
         xi_lo, xi_hi = np.percentile(post[:, 0], [5, 95])
         var_bayes = np.array([var_single_loss(xi, sg, u, par["p_u"])
@@ -281,6 +317,11 @@ def main():
     plt.savefig(fig_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Figure : {fig_path}")
+
+    if chain is not None:
+        diag_path = os.path.join(fig_dir, "mcmc_diagnostics.png")
+        plot_mcmc_diagnostics(chain, burn, diag_path)
+        print(f"Figure : {diag_path}")
 
 
 if __name__ == "__main__":
