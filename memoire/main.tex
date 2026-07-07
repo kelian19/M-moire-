@@ -2384,6 +2384,54 @@ alors l'hypothèse experte porteuse par une quantité mesurée. Le modèle est
 construit pour absorber cette substitution sans changement d'architecture.
 
 %--------------------------------------------------------------
+\subsection{Robustesse du verdict aux hypothèses de mapping DORA}
+\label{sec:mapping-sensitivity}
+%--------------------------------------------------------------
+
+L'analyse précédente teste la sensibilité aux paramètres \emph{statistiques} ($\xi,\sigma,\theta$). Reste l'hypothèse la plus discutable du modèle : les \textbf{multiplicateurs de fréquence} qui traduisent un niveau de non-conformité DORA en une intensité de sinistres par vecteur d'attaque (mapping expert vers les articles du règlement, §4.3). Le $\Delta_{DORA}$ en dépend directement. Un résultat qui ne survivrait pas à une perturbation de ces multiplicateurs serait un artefact d'hypothèse ; nous montrons qu'il n'en est rien.
+
+Nous perturbons chaque multiplicateur du scénario non-conforme $S_2$ de $\pm50\,\%$, les autres figés, à \emph{graines communes} (l'écart mesuré reflète le multiplicateur, non le bruit Monte Carlo). Le tornado (tableau~\ref{tab:mapping}, figure~\ref{fig:mapping-tornado}) classe les hypothèses par pouvoir explicatif.
+
+\begin{table}[h]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{>{\raggedright}p{5.2cm} c c c c}
+\toprule
+\rowcolor{lightblue}
+\textbf{Vecteur (article DORA)} & \textbf{Poids} & \textbf{$-50\,\%$} & \textbf{$+50\,\%$} & \textbf{Amplitude} \\
+\midrule
+Phishing / ing.\ sociale (Art.~13) & $38{,}8\,\%$ & $3\,798$ & $6\,405$ & $2\,607$ \\
+Exploit vulnérabilité (Art.~26 TLPT) & $33{,}8\,\%$ & $3\,848$ & $6\,337$ & $2\,490$ \\
+Chaîne d'appro.\ / tiers (Art.~28-44) & $15{,}8\,\%$ & $4\,040$ & $5\,554$ & $1\,514$ \\
+Identifiants / accès (Art.~9 MFA) & $6{,}3\,\%$ & $4\,196$ & $5\,516$ & $1\,320$ \\
+Autres (transverse) & $5{,}3\,\%$ & $4\,417$ & $5\,200$ & $784$ \\
+\bottomrule
+\end{tabular}
+\caption{Tornado du $\Delta_{DORA}$ (M\euro, OpRisk, profil médian) : effet d'une perturbation de $\pm50\,\%$ de chaque multiplicateur $S_2$. Baseline $=4\,602$~M\euro.}
+\label{tab:mapping}
+\end{table}
+
+Deux enseignements. D'une part, la hiérarchie n'est pas arbitraire : elle épouse le poids fréquentiel des vecteurs, si bien que les leviers dominants sont les articles de \textbf{formation} (Art.~13) et de \textbf{tests de résilience} (Art.~26 TLPT) --- un enseignement managérial exploitable, puisqu'il indique où l'effort de conformité déplace le plus de capital. D'autre part, et c'est l'essentiel, nous bornons le verdict en perturbant \emph{simultanément tous} les multiplicateurs :
+\begin{itemize}[leftmargin=1.5em,itemsep=1pt]
+\item mapping \textbf{prudent} (tous $-50\,\%$) : $\Delta_{DORA}=762$~M\euro, soit encore $1{,}3\times$ le forfait de Pilier~1 ($600$~M\euro) ;
+\item mapping \textbf{sévère} (tous $+50\,\%$) : $\Delta_{DORA}=8\,823$~M\euro, soit $14{,}7\times$ le forfait.
+\end{itemize}
+
+\begin{formulekey}[Robustesse du verdict central]
+Même sous l'hypothèse de mapping la plus prudente (division par deux de \emph{tous} les multiplicateurs experts), le surcoût de capital lié à la non-conformité DORA demeure \textbf{supérieur à l'intégralité de la charge opérationnelle} de la Formule Standard. Le verdict qualitatif du mémoire --- un capital cyber structurellement sous-estimé par le Pilier~1 --- ne dépend donc pas du calibrage précis du mapping, mais de sa seule direction.
+\end{formulekey}
+
+\noindent Cette conclusion déplace la charge de la preuve : ce n'est plus au modèle de justifier des multiplicateurs exacts, mais à la Formule Standard de justifier son \emph{invariance} à la résilience numérique, alors même que le plus conservateur des mappings révèle déjà un déficit de capital. C'est, du point de vue prudentiel, le message le plus solide du travail.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/delta_dora_mapping_tornado.png}
+\caption{Tornado du $\Delta_{DORA}$ aux multiplicateurs de mapping DORA ($\pm50\,\%$ par vecteur, graines communes). La bande globale (tous multiplicateurs $\pm50\,\%$) reste au-dessus du forfait de Pilier~1 (ligne rouge), établissant la robustesse du verdict.}
+\label{fig:mapping-tornado}
+\end{figure}
+
+%--------------------------------------------------------------
 \subsection{Robustesse de la calibration de sévérité : validation temporelle et adéquation formelle}
 %--------------------------------------------------------------
 
