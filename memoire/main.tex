@@ -160,7 +160,8 @@ en capital. Ce mémoire construit le pont manquant entre ces deux cadres.
 Nous proposons \textbf{un premier modèle interne partiel --- approche par
 distribution des pertes (LDA) enrichie par la théorie des valeurs extrêmes ---
 reliant le niveau de (non-)conformité à DORA à un surcoût de capital de
-solvabilité, via une variable latente de dépendance de type Vasicek (Merton)}.
+solvabilité, via une variable latente de dépendance de type Vasicek (Merton) ---
+le \emph{pont de Vasicek--conformité}}.
 \end{formulekey}
 
 \noindent La sévérité est calibrée par une approche \emph{Peaks-Over-Threshold}
@@ -195,7 +196,8 @@ capital. This thesis builds the missing bridge between the two frameworks.
 We propose \textbf{a first partial internal model --- a loss-distribution
 approach (LDA) enriched with extreme-value theory --- linking the level of
 (non-)compliance with DORA to an incremental solvency-capital requirement,
-through a Vasicek/Merton-type latent dependence variable}.
+through a Vasicek/Merton-type latent dependence variable --- the
+\emph{Vasicek--compliance bridge}}.
 \end{formulekey}
 
 \noindent Severity is calibrated via a Peaks-Over-Threshold / GPD approach on
@@ -269,7 +271,8 @@ mémoire : \emph{comment transformer la non-conformité à DORA en une variable
 quantitative susceptible d'alimenter une mesure interne de capital sous
 Solvabilité~II ?} Il ne s'agit pas de proposer une nouvelle formule
 réglementaire de Pilier~1, mais de construire, dans l'esprit du Pilier~2 et
-de l'ORSA, un premier pont quantitatif entre les deux cadres. Cette
+de l'ORSA, un premier pont quantitatif entre les deux cadres --- le \emph{pont de
+Vasicek--conformité} que nous formalisons en Partie~3. Cette
 articulation n'a, à notre connaissance, pas encore été formalisée de façon
 aussi directe dans la littérature actuarielle française : l'essentiel des
 travaux traite soit du risque cyber comme risque assurantiel classique, soit
@@ -628,6 +631,12 @@ latente à structure factorielle}, sur le modèle du cadre de Merton-Vasicek
 utilisé pour la modélisation des défauts corrélés en risque de crédit --- et
 qui constitue également le fondement de l'approche IRB de Bâle pour la
 corrélation des probabilités de défaut.
+
+Nous désignons cette construction --- transposition au risque de conformité
+DORA du mécanisme de défaut structurel de Merton --- comme le \emph{pont de
+Vasicek--conformité} : le trait d'union quantitatif entre la résilience
+opérationnelle numérique (DORA) et le capital de solvabilité
+(Solvabilité~II), qui constitue la contribution centrale de ce mémoire.
 
 \paragraph{Structure à facteur unique.} Soit $Z_i$ la variable latente
 continue de fragilité réglementaire et opérationnelle de l'entité $i$,
@@ -2512,7 +2521,14 @@ Même sous l'hypothèse de mapping la plus prudente (division par deux de \emph{
 \label{sec:ancrage}
 %--------------------------------------------------------------
 
-Le tornado établit la robustesse du verdict à une perturbation \emph{symétrique} des multiplicateurs. Reste une objection plus profonde : et si les valeurs expertes elles-mêmes étaient biaisées ? Nous y répondons en les \textbf{ancrant} sur des effets de contrôle documentés dans la littérature de sécurité, par une dérivation transparente. Si un contrôle DORA (MFA, formation, tests) neutralise une fraction $e$ des attaques d'un vecteur, une entité non conforme (contrôle absent) subit une fréquence d'incidents $1/(1-e)$ fois celle d'une entité conforme ; une réduction de susceptibilité d'un facteur $k$ (taux de clic phishing avant/après formation) implique de même un multiplicateur $k$.
+Le tornado établit la robustesse du verdict à une perturbation \emph{symétrique} des multiplicateurs. Reste une objection plus profonde : et si les valeurs expertes elles-mêmes étaient biaisées ? Nous y répondons en les \textbf{ancrant} sur des effets de contrôle documentés dans la littérature de sécurité, par une dérivation transparente. Si un contrôle DORA (MFA, formation, tests) neutralise une fraction $e$ des attaques d'un vecteur, une entité non conforme (contrôle absent) subit une fréquence d'incidents $1/(1-e)$ fois celle d'une entité conforme ; une réduction de susceptibilité d'un facteur $k$ (taux de clic phishing avant/après formation) implique de même un multiplicateur $k$.\footnote{Les analyses d'ancrage de ce
+chapitre (multiplicateurs et $\theta$) rapportent le $\Delta_{DORA}$ à son
+estimation \emph{ponctuelle} (graine fixée, profil médian), soit
+$\approx 4\,600$~M\euro\ sous OpRisk. Cette valeur est comprise dans l'IC90\%
+bootstrap de la Partie~4 $[1\,497\,;\,22\,249]$~M\euro, dont la médiane
+($3\,879$~M\euro) diffère du fait de la forte asymétrie de la queue OpRisk ;
+les conclusions, exprimées en \emph{ratios} au forfait de Pilier~1, y sont
+insensibles.}
 
 \begin{table}[h]
 \centering
@@ -3100,9 +3116,11 @@ base réellement harmonisée à l'échelle européenne pour calibrer la
 fréquence et la sévérité du risque cyber réglementaire --- une base qui
 fait aujourd'hui structurellement défaut, et dont l'absence explique une
 part substantielle de la largeur des intervalles présentés dans ce mémoire.
-En ce sens, la contribution de ce travail n'est pas de clore le débat sur le
-niveau du SCR cyber, mais d'en formaliser la structure d'incertitude,
-dans l'attente de données futures plus riches.
+En ce sens, la contribution centrale de ce travail --- le \emph{pont de
+Vasicek--conformité}, qui relie le niveau de (non-)conformité DORA au capital
+de Solvabilité~II via une latente de défaut structurel --- n'est pas de clore
+le débat sur le niveau du SCR cyber, mais d'en formaliser la structure
+d'incertitude, dans l'attente de données futures plus riches.
 
 
 \vspace{1em}
