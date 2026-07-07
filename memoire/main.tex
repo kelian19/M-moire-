@@ -2432,6 +2432,46 @@ Même sous l'hypothèse de mapping la plus prudente (division par deux de \emph{
 \end{figure}
 
 %--------------------------------------------------------------
+\subsection{Ancrage empirique des multiplicateurs : une hypothèse conservatrice}
+\label{sec:ancrage}
+%--------------------------------------------------------------
+
+Le tornado établit la robustesse du verdict à une perturbation \emph{symétrique} des multiplicateurs. Reste une objection plus profonde : et si les valeurs expertes elles-mêmes étaient biaisées ? Nous y répondons en les \textbf{ancrant} sur des effets de contrôle documentés dans la littérature de sécurité, par une dérivation transparente. Si un contrôle DORA (MFA, formation, tests) neutralise une fraction $e$ des attaques d'un vecteur, une entité non conforme (contrôle absent) subit une fréquence d'incidents $1/(1-e)$ fois celle d'une entité conforme ; une réduction de susceptibilité d'un facteur $k$ (taux de clic phishing avant/après formation) implique de même un multiplicateur $k$.
+
+\begin{table}[h]
+\centering
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{>{\raggedright}p{3.9cm} >{\raggedright}p{4.2cm} c c c}
+\toprule
+\rowcolor{lightblue}
+\textbf{Vecteur (article)} & \textbf{Effet documenté (source)} & \textbf{Impl.} & \textbf{Modèle} & \textbf{Mod./impl.} \\
+\midrule
+Identifiants (Art.~9 MFA) & MFA bloque $\sim99{,}2\,\%$ des compromissions \citep{microsoft2019} & $125$ & $5{,}5$ & $\mathbf{4{,}4\,\%}$ \\
+Phishing (Art.~13 formation) & Clic phishing $\div\,6$ après formation & $6{,}0$ & $2{,}4$ & $40\,\%$ \\
+Exploit (Art.~26 TLPT) & Ratio $\sim2{,}6$ \citep{enisa2023} & $2{,}6$ & $2{,}3$ & $88\,\%$ \\
+\bottomrule
+\end{tabular}
+\caption{Multiplicateurs de fréquence $S_2$ : valeur impliquée par la littérature vs valeur experte retenue. Les multiplicateurs du modèle sont des fractions \emph{conservatrices} des effets documentés.}
+\label{tab:ancrage}
+\end{table}
+
+Le tableau~\ref{tab:ancrage} est sans appel : loin de surévaluer l'effet de la conformité, le modèle le \textbf{sous-estime} systématiquement. Le cas des identifiants est frappant --- le multiplicateur retenu ($5{,}5$) ne représente que $4{,}4\,\%$ de l'effet impliqué par l'efficacité de l'authentification multifacteur ($\sim125$). Conséquence directe : substituer aux valeurs expertes un ancrage empirique déplace le $\Delta_{DORA}$ vers le \emph{haut}, non vers le bas.
+
+\begin{formulekey}[L'ancrage empirique renforce le verdict]
+En bornant les multiplicateurs ancrés à leurs propres bornes hautes expertes (discipline conservatrice), le $\Delta_{DORA}$ passe de $4\,602$~M\euro\ ($7{,}7\times$ le forfait Pilier~1) à $6\,706$~M\euro\ ($11{,}2\times$) ; en retenant littéralement le ratio phishing documenté ($\times6$), il atteint $9\,086$~M\euro\ ($15{,}1\times$). Combiné à la borne basse du tornado ($762$~M\euro, $1{,}3\times$, sous un mapping divisé par deux), le verdict est désormais \textbf{encadré des deux côtés} : sous \emph{toute} hypothèse de mapping physiquement plausible, le surcoût de non-conformité DORA excède la charge opérationnelle de la Formule Standard.
+\end{formulekey}
+
+\noindent Cette double borne --- prudente ($1{,}3\times$) et empirique ($11$ à $15\times$) --- transforme la principale faiblesse annoncée du modèle en l'un de ses résultats les plus solides. L'incertitude sur le mapping, réelle, ne porte pas sur la \emph{direction} ni sur l'\emph{ordre de grandeur} du verdict, mais seulement sur son intensité exacte. La véritable donnée manquante --- des fréquences de sinistres conditionnelles au niveau de conformité, qu'apportera le registre DORA --- viendra trancher entre ces bornes, sans en sortir.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/multiplier_anchoring.png}
+\caption{\emph{Gauche} : multiplicateur de fréquence impliqué par la littérature (échelle log) vs valeur experte du modèle (barre d'erreur = borne haute) ; le modèle est systématiquement en-deçà de l'effet documenté. \emph{Droite} : $\Delta_{DORA}$ sous ancrage empirique --- l'ancrage éloigne le capital du forfait de Pilier~1, jamais l'inverse.}
+\label{fig:ancrage}
+\end{figure}
+
+%--------------------------------------------------------------
 \subsection{Robustesse de la calibration de sévérité : validation temporelle et adéquation formelle}
 %--------------------------------------------------------------
 
