@@ -1,0 +1,213 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{softgrey}{HTML}{F2F2F2}
+\definecolor{accent}{HTML}{C0491F}
+
+\hypersetup{colorlinks=true, linkcolor=bluemid, urlcolor=bluemid,
+  pdftitle={Fiche pedagogique - Modele qualitatif de cascade DORA},
+  pdfauthor={Kelian Kaddouri}}
+
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+
+\newcommand{\chaine}[1]{\ensuremath{#1}}
+\newcommand{\fl}{\ensuremath{\!\rightarrow\!}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Fiche pédagogique\\[2pt]
+  \large Comment sont construits les scores du modèle qualitatif de cascade DORA}
+\author{Kélian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.6cm}
+
+\begin{cle}
+\textbf{Idée centrale.} On n'évalue pas un \emph{ensemble} de piliers DORA, mais une
+\emph{chaîne ordonnée} d'effondrement. Une cascade qui suit une direction causale
+plausible (amont~\fl~aval, gouvernance~\fl~conséquences) est un vrai emballement
+systémique : plus \textbf{probable} \emph{et} plus \textbf{grave}. Le même ensemble pris
+à l'envers est rare et peu grave. \textbf{L'ordre pilote donc le verdict.}
+\end{cle}
+
+\section{Les cinq piliers et les trois tables de jugement}
+
+Les cinq piliers de DORA (Règlement UE 2022/2554) sont indexés de 1 à 5 :
+P1~gouvernance \& gestion du risque TIC ; P2~gestion des incidents ; P3~tests de
+résilience (TLPT) ; P4~gestion du risque lié aux tiers ; P5~partage d'informations.
+
+Tout le modèle repose sur \textbf{trois barèmes d'expert} — et rien d'autre. Aucune valeur
+n'est mesurée : ce sont des jugements \emph{ordonnés}, dont seule la \textbf{hiérarchie}
+est défendable (la sensibilité, §\ref{sec:sensi}, montre que les décimales exactes
+importent peu).
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{2.1cm} p{5.3cm} p{6.9cm}@{}}
+\toprule
+\textbf{Table} & \textbf{Rôle} & \textbf{Ancrage logique + DORA} \\
+\midrule
+$\text{ROOT}[p]$ & Propension du pilier $p$ à \emph{amorcer} une cascade.
+  & P1$=1{,}0$ (fondation gouvernance, responsabilité de l'organe de direction, chap.~II) ;
+    P4$=0{,}9$ (surface d'attaque externe, cloud) ; P5$=0{,}3$ (rarement déclencheur). \\
+$\text{TRANS}[a][b]$ & Force dirigée «~$a$ entraîne $b$~», \textbf{asymétrique}.
+  & P1$\fl$tout fort ; tout$\fl$P1 faible ; P4$\fl$P2$=0{,}8$. C'est l'asymétrie qui fait
+    que l'ordre compte. \\
+$\text{GBASE}[p]$ & Gravité intrinsèque du pilier s'il tombe seul.
+  & P4$=7$ : \textbf{contagion systémique} (cadre de supervision des tiers critiques) ;
+    P1$=6$ (fondation) ; P5$=1$ : partage \textbf{volontaire} (art.~45) $\Rightarrow$ le
+    moins critique. \\
+\bottomrule
+\end{tabular}
+\caption{Les seuls chiffres d'entrée du modèle et leur justification.}
+\end{table}
+
+\section{Construction des deux dernières colonnes}
+
+\subsection*{Colonne « Probabilité conceptuelle » (rappel, préalable)}
+
+La probabilité part du pilier amorceur et se dégrade à chaque maillon de la chaîne :
+\begin{equation}
+p \;=\; \operatorname{round}\!\Big(10 \times \text{ROOT}[\text{départ}]
+      \times \!\!\prod_{\text{maillons } a\fl b}\!\! \text{TRANS}[a][b]\Big),
+\qquad p \in [1,10].
+\end{equation}
+Une chaîne longue est mécaniquement plus rare (chaque facteur~$<1$).
+
+\subsection*{Colonne « Gravité conceptuelle »}
+
+La gravité = \emph{étendue des dégâts} \textbf{amplifiée ou amortie} par la cohérence
+causale de l'ordre. Elle se lit en trois temps :
+
+\begin{align}
+\text{étendue} &= \min\!\Big(10,\; \max(\text{GBASE}) + 0{,}40\times\!\!\sum_{\text{autres piliers}}\!\!\text{GBASE}\Big) \\[2pt]
+\text{cohérence} &= \operatorname{moyenne}\big(\text{TRANS}[\text{maillons}]\big) \in [0,1],
+\qquad \text{amplification} = 0{,}5 + 0{,}8\times\text{cohérence} \in [0{,}5,\,1{,}3] \\[2pt]
+g &= \operatorname{round}\big(\text{étendue}\times\text{amplification}\big), \qquad g\in[1,10].
+\end{align}
+Le pire pilier donne le socle ; les autres n'ajoutent que 40~\% chacun. Un ordre plausible
+amplifie jusqu'à $\times1{,}3$ (vrai emballement) ; un ordre absurde amortit jusqu'à
+$\times0{,}5$ (pannes indépendantes, non compoundées).
+
+\subsection*{Colonne « Criticité » = moyenne géométrique}
+
+\begin{cle}
+\[
+\text{criticité} \;=\; \operatorname{round}\!\big(\sqrt{\,p \times g\,}\big).
+\]
+La moyenne \emph{géométrique} (et non arithmétique) \textbf{pénalise le déséquilibre} :
+il faut être à la fois assez probable \emph{et} assez grave. C'est pourquoi, au calage de
+base, aucun scénario n'atteint «~Extrême~».
+\end{cle}
+
+\subsection*{Exemple travaillé : le même ensemble $\{$P1,\,P2$\}$, deux sens}
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l c c@{}}
+\toprule
+ & \chaine{1\fl2} & \chaine{2\fl1} \\
+ & \footnotesize\emph{gouvernance $\Rightarrow$ incident} & \footnotesize\emph{incident $\Rightarrow$ gouvernance} \\
+\midrule
+Étendue        & $6 + 0{,}4\times4 = \mathbf{7{,}6}$ & \emph{identique} $= \mathbf{7{,}6}$ \\
+Cohérence      & $\text{TRANS}[1][2]=\mathbf{0{,}80}$ & $\text{TRANS}[2][1]=\mathbf{0{,}20}$ \\
+Amplification  & $0{,}5+0{,}8\times0{,}80 = \mathbf{1{,}14}$ & $0{,}5+0{,}8\times0{,}20 = \mathbf{0{,}66}$ \\
+Gravité        & $7{,}6\times1{,}14 \to \mathbf{9}$ \;(Critique) & $7{,}6\times0{,}66 \to \mathbf{5}$ \;(Modérée) \\
+Probabilité    & $10\times1{,}0\times0{,}80 \to \mathbf{8}$ \;(Probable) & $10\times0{,}6\times0{,}20 \to \mathbf{1}$ \;(Très rare) \\
+\textbf{Criticité} & $\sqrt{8\times9}=8{,}49 \to \mathbf{8}$ \;\textbf{(Majeure)} & $\sqrt{1\times5}=2{,}24 \to \mathbf{2}$ \;\textbf{(Faible)} \\
+\bottomrule
+\end{tabular}
+\caption{L'étendue est \emph{identique} dans les deux sens (mêmes piliers). Tout l'écart
+de verdict (Majeure vs Faible) vient de la seule \textbf{cohérence causale de l'ordre}.}
+\end{table}
+
+\section{Justification des scores absolus}
+
+Trois points à défendre devant le jury :
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+\item \textbf{Ce sont des hypothèses, pas des mesures.} La valeur d'un tel modèle
+  (comme une matrice de risque ORSA / Pilier~2) est sa \emph{cohérence interne} et sa
+  \emph{traçabilité}, pas une prétendue précision.
+\item \textbf{Seule la hiérarchie est revendiquée.} Le résultat défendable n'est pas
+  «~\chaine{1\fl2} vaut 8~» mais «~un ordre causalement cohérent est plus critique que son
+  inverse~» — vrai tant que TRANS est asymétrique, quelles que soient les décimales.
+\item \textbf{Les paramètres de forme ($0{,}40$, $0{,}5$, $0{,}8$) sont les moins ancrés}
+  — purement des choix de modélisation — mais la §\ref{sec:sensi} montre qu'ils ne portent
+  pas la conclusion.
+\end{enumerate}
+
+\begin{figure}[h]\centering
+\includegraphics[width=\linewidth]{figures/F7_coefficients_ancrage.png}
+\caption{D'où vient chaque coefficient : hiérarchie ordonnée, ancrée sur la structure de DORA.}
+\end{figure}
+
+\section{Robustesse : ce qui tient, ce qui ne tient pas}
+\label{sec:sensi}
+
+On ne nie pas que «~tout dépend des valeurs~» : on le \textbf{teste}. On perturbe tous les
+coefficients autour de leur base sur \textbf{3\,000 tirages} Monte-Carlo et on regarde si
+les \emph{conclusions} survivent.
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{7.2cm} l p{5.2cm}@{}}
+\toprule
+\textbf{Conclusion} & \textbf{Statut} & \textbf{Résultat} \\
+\midrule
+L'ordre renverse le verdict & \textcolor{navy}{\textbf{robuste}} & $91\%$ des paires en moyenne ; jamais $<80\%$ (100~\% des tirages) \\
+Classement des pires cascades & \textcolor{navy}{\textbf{robuste}} & un scénario du Top-15 y reste dans $84\%$ des tirages \\
+Plafond «~jamais Extrême~» & \textcolor{accent}{\textbf{fragile}} & franchi dans $55\%$ des tirages $\Rightarrow$ propriété du calage, à ne pas sur-vendre \\
+\bottomrule
+\end{tabular}
+\caption{La distinction essentielle : deux conclusions robustes, une fragile.}
+\end{table}
+
+\paragraph{Qu'est-ce qui porte le résultat ?} En neutralisant chaque hypothèse
+(coefficients rendus égaux), on mesure ce qui reste de l'effet d'ordre
+(amplitude moyenne $|\Delta\text{criticité}|$ entre un ordre et son inverse) :
+\[
+\underbrace{2{,}90}_{\text{modèle complet}} \;\longrightarrow\;
+\underbrace{0{,}90}_{\text{sans asymétrie TRANS}} \;\;;\quad
+2{,}50\ (\text{sans écart ROOT})\;;\quad 2{,}30\ (\text{sans écart GBASE})\;;\quad
+0{,}00\ (\text{sans les trois}).
+\]
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.82\linewidth]{figures/F11_knockout_hypotheses.png}
+\caption{Neutraliser l'\textbf{asymétrie causale (TRANS)} efface l'essentiel de l'effet
+($-69\%$) : c'est \emph{elle} qui porte le résultat. ROOT et GBASE ne font qu'affiner.}
+\end{figure}
+
+\begin{cle}
+\textbf{Conclusion.} La seule hypothèse forte à défendre est la \textbf{direction causale
+entre piliers} (TRANS asymétrique). À partir d'elle, deux résultats tiennent quel que soit
+le calage : \emph{l'ordre renverse le verdict} et \emph{le classement des cascades les plus
+critiques}. Le plafond de criticité, lui, dépend des chiffres et n'est pas présenté comme un
+résultat. Connaître et énoncer soi-même cette limite est ce qui distingue le modèle.
+\end{cle}
+
+\end{document}

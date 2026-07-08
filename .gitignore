@@ -11,6 +11,10 @@ data/raw/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
+# Exception : chantier exploratoire (modèle qualitatif DORA, sorties NON sensibles)
+!exploratory/*.xlsx
+!exploratory/**/*.xlsx
+
 # ===== PYTHON =====
 __pycache__/
 *.py[cod]
