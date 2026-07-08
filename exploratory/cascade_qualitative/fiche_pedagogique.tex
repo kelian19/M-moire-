@@ -60,7 +60,7 @@ Les cinq piliers de DORA (Règlement UE 2022/2554) sont indexés de 1 à 5 :
 P1~gouvernance \& gestion du risque TIC ; P2~gestion des incidents ; P3~tests de
 résilience (TLPT) ; P4~gestion du risque lié aux tiers ; P5~partage d'informations.
 
-Tout le modèle repose sur \textbf{trois barèmes d'expert} --- et rien d'autre. Aucune valeur
+Tout le modèle repose sur \textbf{trois barèmes d'expert}, et rien d'autre. Aucune valeur
 n'est mesurée : ce sont des jugements \emph{ordonnés}, dont seule la \textbf{hiérarchie}
 est défendable (la sensibilité, \S\,\ref{sec:sensi}, montre que les décimales exactes
 importent peu).
@@ -106,8 +106,8 @@ p(a\fl b\fl c) \;=\; \underbrace{\text{ROOT}[a]\times\text{TRANS}[a][b]}_{p(a\fl
   \times\text{TRANS}[b][c]
   \;=\; p(a\fl b)\times\text{TRANS}[b][c].
 \end{equation}
-On engendre ainsi tous les ordres en insérant le pilier suivant à chaque position
---- récurrence $N_n = n\,N_{n-1}$ (2, 6, 24, 120 ordres pour 5~piliers). La
+On engendre ainsi tous les ordres en insérant le pilier suivant à chaque position,
+suivant la récurrence $N_n = n\,N_{n-1}$ (2, 6, 24, 120 ordres pour 5~piliers). La
 figure~\ref{fig:arbre} déroule cet arbre sur l'exemple à trois piliers, avec les valeurs
 réelles du modèle : partir de P1 (gouvernance) est la seule racine vraiment probable~;
 toute branche amorcée en aval retombe au plancher.
@@ -179,9 +179,9 @@ Trois points à défendre devant le jury :
   \emph{traçabilité}, pas une prétendue précision.
 \item \textbf{Seule la hiérarchie est revendiquée.} Le résultat défendable n'est pas
   \og{}\chaine{1\fl2} vaut 8\fg{} mais \og{}un ordre causalement cohérent est plus critique que son
-  inverse\fg{} --- vrai tant que TRANS est asymétrique, quelles que soient les décimales.
+  inverse\fg{}, vrai tant que TRANS est asymétrique, quelles que soient les décimales.
 \item \textbf{Les paramètres de forme ($0{,}40$, $0{,}5$, $0{,}8$) sont les moins ancrés}
-  --- purement des choix de modélisation --- mais la \S\,\ref{sec:sensi} montre qu'ils ne portent
+  (purement des choix de modélisation), mais la \S\,\ref{sec:sensi} montre qu'ils ne portent
   pas la conclusion.
 \end{enumerate}
 

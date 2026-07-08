@@ -34,7 +34,7 @@
 \newtcolorbox{attention}[1][]{colback=accent!8,colframe=accent,boxrule=0.6pt,
   arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
 
-% --- mise en page : titres, légendes, flottants ---
+% mise en page : titres, legendes, flottants
 \titleformat{\section}{\normalfont\large\bfseries\color{navy}}{\thesection}{0.6em}{}
 \titlespacing*{\section}{0pt}{1.9ex plus .3ex minus .2ex}{1.0ex plus .2ex}
 \captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
@@ -48,7 +48,7 @@
 \newcommand{\eps}{\varepsilon}
 
 \title{\vspace{-1.2cm}\color{navy}\bfseries Vers un Vasicek dirigé pour les piliers DORA\\[2pt]
-  \large Note pédagogique --- la structure systémique dépend du pilier}
+  \large Note pédagogique : la structure systémique dépend du pilier}
 \author{Kélian Kaddouri}
 \date{\today}
 
@@ -59,7 +59,7 @@
 \begin{cle}
 \textbf{Le fil de la note.} On part du modèle de Vasicek standard (un seul facteur
 systémique, une seule corrélation), on l'ouvre en \textbf{deux temps} : \emph{(A)} chaque
-pilier DORA reçoit \textbf{son propre} facteur systémique et sa propre sensibilité ---
+pilier DORA reçoit \textbf{son propre} facteur systémique et sa propre sensibilité :
 la structure systémique \textbf{dépend du pilier~$j$} ; \emph{(B)} les piliers se
 propagent l'un l'autre de façon \textbf{dirigée} (asymétrique). Le seuil de déclenchement
 $K_j$ n'est plus $\Phi^{-1}(\mathrm{PD})$ mais un seuil \textbf{réglementaire calibré}.
@@ -67,8 +67,8 @@ $K_j$ n'est plus $\Phi^{-1}(\mathrm{PD})$ mais un seuil \textbf{réglementaire c
 
 \section{Le point de départ : le Vasicek à un facteur}
 
-Pour une entité~$i$ (à l'origine : un emprunteur), on écrit une \textbf{variable latente}
---- une \og{}santé\fg{} non observée :
+Pour une entité~$i$ (à l'origine : un emprunteur), on écrit une \textbf{variable latente},
+une \og{}santé\fg{} non observée :
 \begin{equation}
 X_i \;=\; \sqrt{\rho}\;\Y \;+\; \sqrt{1-\rho}\;\eps_i .
 \end{equation}
@@ -124,14 +124,14 @@ Ce qui change concrètement :
 \end{itemize}
 
 \begin{attention}
-\textbf{Trois niveaux de finesse pour le chargement --- le point à trancher avec le tuteur.}
+\textbf{Trois niveaux de finesse pour le chargement, à trancher.}
 \begin{enumerate}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
-\item $\rho$ \emph{global} : une seule valeur --- c'est le Vasicek classique (trop pauvre).
+\item $\rho$ \emph{global} : une seule valeur, c'est le Vasicek classique (trop pauvre).
 \item $\rho_j$ \emph{par pilier} : \textbf{cas homogène}, une sensibilité par pilier commune
   aux entités. C'est le \textbf{benchmark marché} (comparaison sectorielle DORA) : peu de
   paramètres, robuste.
 \item $\rho_{ij}$ \emph{entité $\times$ pilier} : le plus riche, mais ${\approx}\,5N$
-  paramètres --- \textbf{ingérable} sur des données cyber rares et sous-déclarées
+  paramètres, \textbf{ingérable} sur des données cyber rares et sous-déclarées
   (sur-paramétrage, non identifiable).
 \end{enumerate}
 \textbf{Choix actuariel recommandé : le compromis hiérarchique} (effets aléatoires) :
@@ -195,14 +195,14 @@ un pilier en effet sur tous les autres, \emph{dans le sens} imposé par $W$.
 
 \noindent\textbf{Le sous-réseau de l'exemple.} Pour rester vérifiable à la main, on se limite
 aux trois piliers $\{$P1, P2, P4$\}$ (ordre des lignes/colonnes : P1, P2, P4). La matrice
-dirigée $W$ --- \emph{ligne $j$ = ce que le pilier $j$ reçoit} --- et son amplificateur de
+dirigée $W$ (\emph{ligne $j$ = ce que le pilier $j$ reçoit}) et son amplificateur de
 cascade :
 \begin{equation}
 W = \begin{pmatrix} 0 & 0 & 0 \\ 0{,}5 & 0 & 0{,}4 \\ 0{,}3 & 0 & 0 \end{pmatrix},
 \qquad
 (I-W)^{-1} = \begin{pmatrix} 1 & 0 & 0 \\ 0{,}62 & 1 & 0{,}4 \\ 0{,}3 & 0 & 1 \end{pmatrix}.
 \end{equation}
-En clair : P2 reçoit $0{,}5$ de P1 et $0{,}4$ de P4 ; P4 reçoit $0{,}3$ de P1. Le $0{,}62$
+P2 reçoit $0{,}5$ de P1 et $0{,}4$ de P4 ; P4 reçoit $0{,}3$ de P1. Le $0{,}62$
 vient du chemin direct P1$\to$P2 \emph{plus} le détour P1$\to$P4$\to$P2
 ($0{,}5 + 0{,}4\times 0{,}3$).
 
@@ -291,8 +291,8 @@ Deux enseignements robustes :
 \end{itemize}
 
 \begin{attention}
-\textbf{Ce que ce banc d'essai prouve --- et ne prouve pas.} Les sévérités sont simulées
-\emph{déjà} en loi de Pareto : l'EVT ne peut qu'y gagner. Il ne \og{}prouve\fg{} donc pas que le
+\textbf{Portée du banc d'essai.} Les sévérités sont simulées
+\emph{déjà} en loi de Pareto : l'EVT ne peut qu'y gagner. Il n'établit donc pas que le
 cyber est GPD ; il \textbf{illustre} deux propriétés statistiques \emph{connues} (invariance de
 l'indice de queue par troncature à gauche ; instabilité de $\Phi^{-1}(\mathrm{PD})$ sous
 non-stationnarité). La défendabilité vient de la \emph{plausibilité du modèle de sévérité
@@ -320,7 +320,7 @@ ou \textbf{dirigé}. C'est le c\oe ur de l'adaptation à DORA.}
 \end{table}
 
 \begin{cle}
-\textbf{À retenir.} \emph{(A)} un facteur systémique \textbf{par pilier} $\Y_j$ et une
+\textbf{Synthèse.} \emph{(A)} un facteur systémique \textbf{par pilier} $\Y_j$ et une
 sensibilité $\rho_{ij}=\rho_j+u_{ij}$ \textbf{hiérarchique} (moyenne de pilier $\rho_j$ +
 écart entité $u_{ij}$) ; \emph{(B)} une contagion \textbf{dirigée} entre piliers ($W$
 asymétrique, structure TRANS) ; \emph{(C)} un seuil $K_j$ \textbf{réglementaire} et une queue
@@ -329,7 +329,7 @@ standard, qu'on retrouve en annulant les extensions.
 \end{cle}
 
 \clearpage
-\section{Décisions à trancher et données : l'agenda tuteur}
+\section{Décisions à trancher et données}
 
 Ce modèle ouvre des choix que le mémoire doit \textbf{assumer explicitement}. Les voici, avec
 ma recommandation :
@@ -356,13 +356,13 @@ Contagion $W$ & fixée à dire d'expert / calibrée & à \textbf{estimer} (cf. d
 (structure de $W$) et de la simulation. Pour \emph{calibrer} $\rho_j$, $W$ et $\xi$, il faut des
 sources réelles :
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
-\item \textbf{registres d'incidents DORA} (déclarations obligatoires depuis 2025) --- la source
+\item \textbf{registres d'incidents DORA} (déclarations obligatoires depuis 2025), la source
   native, mais courte et en montée en charge ;
 \item \textbf{rapports ANSSI / ENISA / CERT} pour la fréquence sectorielle ;
 \item \textbf{bases publiques} (p.\,ex. notifications RGPD) comme ancrage partiel du biais de
   déclaration.
 \end{itemize}
-La \textbf{calibration de $W$} --- qui entraîne qui, et de combien --- est le verrou
+La \textbf{calibration de $W$} (qui entraîne qui, et de combien) est le verrou
 méthodologique : sans données, $W$ reste une hypothèse ; avec elles, c'est la \textbf{contribution
 empirique} du mémoire.
 \end{attention}
