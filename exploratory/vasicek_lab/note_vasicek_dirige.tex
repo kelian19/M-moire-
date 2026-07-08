@@ -299,6 +299,53 @@ non-stationnarité). La défendabilité vient de la \emph{plausibilité du modè
 cyber}, pas de ce test.
 \end{attention}
 
+\section{Calibrer $W$ : un protocole prêt pour les données}
+
+Comment estimera-t-on $W$ sur des données réelles ? On décrit le protocole et on le
+\textbf{valide sur des données simulées} dont on connaît la vérité.
+
+\begin{cle}
+\textbf{Point d'identification.} L'asymétrie de $W$ (qui entraîne qui) ne s'identifie que par
+l'information \textbf{temporelle} : qui déclenche \emph{avant} qui. La co-occurrence
+transversale seule ne donne qu'une dépendance \emph{symétrique}, la limite établie en
+introduction. Le modèle de calibration est donc \textbf{dynamique}.
+\end{cle}
+
+\noindent Pour l'entité~$i$, le pilier~$j$ et la période~$t$ :
+\begin{equation}
+X_{ij,t} = \text{base}_j + \sum_{k\neq j} W_{jk}\,D_{ik,t-1} + s_j\,\Y_{j,t} + \eps_{ij,t},
+\qquad D_{ij,t} = \mathbf 1\{X_{ij,t} \ge 0\},
+\end{equation}
+où $D_{ik,t-1}$ indique si le pilier~$k$ a subi un incident à la période précédente.
+
+\paragraph{Estimateur.} Pour chaque pilier~$j$, une \textbf{régression logistique} de $D_{ij,t}$
+sur les incidents \emph{retardés} des autres piliers $\{D_{ik,t-1}\}_{k\neq j}$, avec des effets
+fixes de période qui absorbent le systémique $\Y_{j,t}$. Les coefficients estiment la ligne~$j$
+de $W$. Simple, interprétable, et directement une matrice dirigée.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/K1_calibration_W.png}
+\caption{Sur un panel simulé, l'estimateur retrouve la structure dirigée de $W$ : corrélation
+$0{,}97$ entre estimation et vérité, sens de l'asymétrie correct pour $100\%$ des paires.
+L'estimé est en unités logit (échelle différente), mais la structure et les magnitudes
+\emph{relatives} sont exactes, le résultat défendable.}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/K2_calibration_diagnostics.png}
+\caption{(a) Quelques centaines d'entités suffisent : la corrélation passe de $0{,}75$
+($N=50$) à $0{,}92$ ($N\ge 400$). (b) La récupération résiste à la sous-déclaration jusqu'à
+$60\%$ : tronquer les petits incidents n'efface pas le sens de la propagation.}
+\end{figure}
+
+\begin{attention}
+\textbf{Portée.} Le monde simulé est propre (signal net, estimateur bien spécifié). Le
+protocole établit que la méthode est \textbf{consistante} et chiffre le besoin en données ;
+il ne prétend pas que la calibration réelle sera aussi facile (données plus bruitées,
+périodes plus courtes, confusion possible). La brique méthodologique est acquise : il ne
+manque que le \textbf{panel d'incidents daté}.
+\end{attention}
+
 \section{Récapitulatif : le modèle en un tableau}
 
 \begin{table}[htbp]\centering\small
