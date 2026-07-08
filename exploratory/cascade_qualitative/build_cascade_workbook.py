@@ -17,6 +17,7 @@ Résultat exprimé en CATÉGORIES (qualitatif), pas en nombres bruts :
 Les scores /10 restent en colonnes d'appoint (grises) juste pour trier.
 """
 
+import os
 from itertools import combinations, permutations
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
@@ -250,6 +251,6 @@ cl.freeze_panes = "A4"
 for i, w in enumerate([6, 11, 14, 14, 16, 17, 13, 6], start=1):
     cl.column_dimensions[get_column_letter(i)].width = w
 
-out = "exploratory/cascade_piliers_DORA.xlsx"
+out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cascade_piliers_DORA.xlsx")
 wb.save(out)
 print(f"OK — {len(records)} lignes ; verdict qualitatif piloté par l'ordre -> {out}")
