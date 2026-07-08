@@ -4,13 +4,13 @@
 Ancrage documentaire + analyse de sensibilité du modèle qualitatif de cascade DORA.
 
 Objet : répondre à la question « tout dépend des valeurs, non ? ».
-On ne le nie pas — on le TESTE.
+On ne le nie pas : on le TESTE.
 
-  F7  — Coefficients & ancrage (logique pure + DORA)  : d'où vient chaque nombre.
-  F8  — Robustesse du classement                       : le Top-15 tient-il sous bruit ?
-  F9  — « L'ordre renverse le verdict » sous bruit     : la conclusion phare survit-elle ?
-  F10 — Plafond de criticité sous bruit                : « jamais Extrême » est-il structurel ?
-  F11 — Tornado                                        : quelle hypothèse PORTE le résultat ?
+  F7 : Coefficients & ancrage (logique pure + DORA)  : d'où vient chaque nombre.
+  F8 : Robustesse du classement                       : le Top-15 tient-il sous bruit ?
+  F9 : « L'ordre renverse le verdict » sous bruit     : la conclusion phare survit-elle ?
+  F10 : Plafond de criticité sous bruit                : « jamais Extrême » est-il structurel ?
+  F11 : Tornado                                        : quelle hypothèse PORTE le résultat ?
 
 Perturbation Monte-Carlo : chaque coefficient est tiré autour de sa valeur de base
 (± une marge), sur N tirages ; on recalcule les 326 scénarios à chaque tirage et on
@@ -154,15 +154,15 @@ for d in range(NDRAW):
 
 base_flip = order_flip_fraction(BASE)
 print(f"\n--- Synthèse sensibilité ({NDRAW} tirages) ---")
-print(f"Ordre renverse le verdict — baseline {base_flip:.0%} ; "
+print(f"Ordre renverse le verdict : baseline {base_flip:.0%} ; "
       f"moyenne {flip_draws.mean():.0%} ; ≥80% dans {np.mean(flip_draws >= .8):.0%} des tirages")
-print(f"Criticité max — Extrême (≥9) atteinte dans {np.mean(maxc_draws >= 9):.1%} des tirages "
+print(f"Criticité max : Extrême (≥9) atteinte dans {np.mean(maxc_draws >= 9):.1%} des tirages "
       f"(baseline max = {max_crit(BASE)})")
 stab = np.mean([np.mean(np.array(rank_hist[o]) <= 15) for o in top15])
-print(f"Top-15 — un scénario du top baseline reste dans le top-15 dans {stab:.0%} des tirages\n")
+print(f"Top-15 : un scénario du top baseline reste dans le top-15 dans {stab:.0%} des tirages\n")
 
 
-# ================================================================ F7 — coefficients & ancrage
+# ================================================================ F7 : coefficients & ancrage
 def fig7():
     fig, axes = plt.subplots(1, 3, figsize=(16, 5.4),
                              gridspec_kw={"width_ratios": [1, 1, 1.25]})
@@ -176,7 +176,7 @@ def fig7():
     for p in order:
         ax.text(ROOT0[p] - .04, f"P{p}", f"{ROOT0[p]:.2f}", va="center", ha="right",
                 color="#fff", fontsize=9)
-    ax.set_xlim(0, 1.05); ax.set_title("ROOT — propension à AMORCER", fontsize=11,
+    ax.set_xlim(0, 1.05); ax.set_title("ROOT : propension à AMORCER", fontsize=11,
                                        color=INK, loc="left", pad=8)
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
@@ -190,7 +190,7 @@ def fig7():
     for p in order:
         ax.text(GBASE0[p] - .2, f"P{p}", f"{GBASE0[p]}", va="center", ha="right",
                 color="#fff", fontsize=9)
-    ax.set_xlim(0, 7.5); ax.set_title("GBASE — gravité intrinsèque", fontsize=11,
+    ax.set_xlim(0, 7.5); ax.set_title("GBASE : gravité intrinsèque", fontsize=11,
                                       color=INK, loc="left", pad=8)
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
@@ -209,19 +209,19 @@ def fig7():
                 ax.text(j, i, f"{M[i, j]:.1f}", ha="center", va="center", fontsize=9,
                         color="#fff" if M[i, j] >= .5 else INK)
             else:
-                ax.text(j, i, "—", ha="center", va="center", color=MUTED)
+                ax.text(j, i, "-", ha="center", va="center", color=MUTED)
     ax.set_xticks(range(N)); ax.set_yticks(range(N))
     ax.set_xticklabels([f"P{j}" for j in range(1, N + 1)])
     ax.set_yticklabels([f"P{i}" for i in range(1, N + 1)])
-    ax.set_title("TRANS — « i entraîne j » (asymétrique)", fontsize=11, color=INK,
+    ax.set_title("TRANS : « i entraîne j » (asymétrique)", fontsize=11, color=INK,
                  loc="left", pad=8)
     ax.set_xlabel("vers j", color=INK2); ax.set_ylabel("de i", color=INK2)
     ax.tick_params(length=0)
 
-    fig.text(0.06, 0.95, "F7 — D'où vient chaque coefficient (logique pure + DORA)",
+    fig.text(0.06, 0.95, "F7 : D'où vient chaque coefficient (logique pure + DORA)",
              fontsize=15, fontweight="bold", color=INK)
     fig.text(0.06, 0.905, "Aucune valeur n'est mesurée : jugements ORDONNÉS, ancrés sur DORA. "
-             "La HIÉRARCHIE est défendable, pas les décimales — d'où l'analyse de sensibilité (F8–F11).",
+             "La HIÉRARCHIE est défendable, pas les décimales : d'où l'analyse de sensibilité (F8-F11).",
              fontsize=9.5, color=INK2)
     fig.text(0.06, 0.865, "ROOT : P1 fondation · P4 surface externe · P5 rare déclencheur.   "
              "GBASE : P4 contagion systémique (cloud) · P5 = 1 (partage VOLONTAIRE, art. 45).   "
@@ -229,7 +229,7 @@ def fig7():
     finish(fig, os.path.join(OUT, "F7_coefficients_ancrage.png"))
 
 
-# ================================================================ F8 — robustesse du classement
+# ================================================================ F8 : robustesse du classement
 def fig8():
     y = np.arange(len(top15))
     data = [rank_hist[o] for o in top15]           # top15 est déjà trié (meilleur en 0)
@@ -246,10 +246,10 @@ def fig8():
     ax.text(15.6, len(top15) - 0.5, "frontière\ndu Top-15", color=ACCENT, fontsize=8.5, va="top")
     ax.set_yticks(y); ax.set_yticklabels([chain(o) for o in top15], fontsize=9.5)
     ax.invert_yaxis()
-    ax.set_xlabel("Rang du scénario sur 325 (1 = le plus critique) — sur 3000 perturbations",
+    ax.set_xlabel("Rang du scénario sur 325 (1 = le plus critique) : sur 3000 perturbations",
                   color=INK2)
     ax.set_xlim(0, max(60, np.percentile(np.concatenate(data), 99)))
-    ax.set_title("F8 — Le classement tient sous perturbation", fontsize=15,
+    ax.set_title("F8 : Le classement tient sous perturbation", fontsize=15,
                  fontweight="bold", color=INK, pad=26, loc="left")
     ax.text(0, -1.0, "Rangs des 15 chaînes du Top baseline quand on tire tous les "
             "coefficients au hasard. Ils restent près du sommet → le classement est robuste.",
@@ -261,7 +261,7 @@ def fig8():
     finish(fig, os.path.join(OUT, "F8_robustesse_classement.png"))
 
 
-# ================================================================ F9 — l'ordre renverse le verdict
+# ================================================================ F9 : l'ordre renverse le verdict
 def fig9():
     fig, ax = plt.subplots(figsize=(8.6, 5.6))
     ax.hist(flip_draws * 100, bins=np.arange(45, 102, 5), color="#9ec5f4",
@@ -279,14 +279,14 @@ def fig9():
         ax.spines[s].set_visible(False)
     ax.yaxis.grid(True, color=GRID, lw=0.8); ax.set_axisbelow(True)
     fig.subplots_adjust(top=0.83)
-    fig.text(0.09, 0.95, "F9 — « L'ordre renverse le verdict » survit au bruit",
+    fig.text(0.09, 0.95, "F9 : « L'ordre renverse le verdict » survit au bruit",
              fontsize=15, fontweight="bold", color=INK)
     fig.text(0.09, 0.90, "Sur 3000 jeux de coefficients tirés au hasard, la conclusion phare "
              "reste vraie pour la grande majorité des paires.", fontsize=9, color=INK2)
     finish(fig, os.path.join(OUT, "F9_ordre_robuste.png"))
 
 
-# ================================================================ F10 — plafond de criticité (FRAGILE)
+# ================================================================ F10 : plafond de criticité (FRAGILE)
 def fig10():
     fig, ax = plt.subplots(figsize=(8.6, 5.6))
     vals, cnts = np.unique(maxc_draws.astype(int), return_counts=True)
@@ -307,16 +307,16 @@ def fig10():
         ax.spines[s].set_visible(False)
     ax.yaxis.grid(True, color=GRID, lw=0.8); ax.set_axisbelow(True)
     fig.subplots_adjust(top=0.82)
-    fig.text(0.09, 0.95, "F10 — Le plafond de criticité, lui, est FRAGILE",
+    fig.text(0.09, 0.95, "F10 : Le plafond de criticité, lui, est FRAGILE",
              fontsize=15, fontweight="bold", color=INK)
     fig.text(0.09, 0.895, f"Dès qu'on tire les coefficients au hasard, {breach:.0%} des mondes "
              "franchissent « Extrême » (baseline = 8, Majeure). Contrairement aux autres, "
-             "cette conclusion n'est PAS robuste — à ne pas sur-vendre.",
+             "cette conclusion n'est PAS robuste : à ne pas sur-vendre.",
              fontsize=9, color=INK2)
     finish(fig, os.path.join(OUT, "F10_plafond_fragile.png"))
 
 
-# ================================================================ F11 — knockout : qui porte le résultat ?
+# ================================================================ F11 : knockout : qui porte le résultat ?
 def fig11():
     pairs = list(combinations(range(1, N + 1), 2))
 
@@ -333,10 +333,10 @@ def fig11():
 
     configs = [
         ("Modèle complet (baseline)", BASE, BLUE),
-        ("— sans asymétrie TRANS", (ROOT0, sym_trans(), GBASE0, KFAC0, AMPB0, AMPS0), "#9ec5f4"),
-        ("— sans écart ROOT", (ROOT_flat, TRANS0, GBASE0, KFAC0, AMPB0, AMPS0), "#9ec5f4"),
-        ("— sans écart GBASE", (ROOT0, TRANS0, GBASE_flat, KFAC0, AMPB0, AMPS0), "#9ec5f4"),
-        ("— sans aucun des trois", (ROOT_flat, sym_trans(), GBASE_flat, KFAC0, AMPB0, AMPS0), ACCENT),
+        ("sans asymétrie TRANS", (ROOT0, sym_trans(), GBASE0, KFAC0, AMPB0, AMPS0), "#9ec5f4"),
+        ("sans écart ROOT", (ROOT_flat, TRANS0, GBASE0, KFAC0, AMPB0, AMPS0), "#9ec5f4"),
+        ("sans écart GBASE", (ROOT0, TRANS0, GBASE_flat, KFAC0, AMPB0, AMPS0), "#9ec5f4"),
+        ("sans aucun des trois", (ROOT_flat, sym_trans(), GBASE_flat, KFAC0, AMPB0, AMPS0), ACCENT),
     ]
     names = [c[0] for c in configs]
     vals = [order_effect(c[1]) for c in configs]
@@ -357,7 +357,7 @@ def fig11():
     ax.tick_params(axis="y", length=0)
     ax.xaxis.grid(True, color=GRID, lw=0.8); ax.set_axisbelow(True)
     fig.subplots_adjust(top=0.82)
-    fig.text(0.09, 0.95, "F11 — Qu'est-ce qui fait que l'ordre compte ?",
+    fig.text(0.09, 0.95, "F11 : Qu'est-ce qui fait que l'ordre compte ?",
              fontsize=15, fontweight="bold", color=INK)
     fig.text(0.09, 0.895, "On NEUTRALISE chaque hypothèse (coefficients rendus égaux) et on mesure "
              "ce qui reste de l'effet d'ordre. La barre qui chute le plus = l'hypothèse porteuse.",

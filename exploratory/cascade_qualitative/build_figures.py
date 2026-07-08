@@ -4,11 +4,11 @@
 5 figures qualitatives à partir de cascade_piliers_DORA.xlsx.
 
 Chaque figure isole UN « message caché » du modèle conceptuel :
-  F1 — L'ordre renverse le verdict          (asymétrie i→j vs j→i)
-  F2 — Jamais très probable ET très grave    (plafond de criticité)
-  F3 — Mêmes piliers, autre histoire         (amplitude du ré-ordonnancement)
-  F4 — Les cascades les plus critiques        (classement, toutes amont→aval)
-  F5 — Là où la cascade démarre décide        (pilier-racine → profil de criticité)
+  F1 : L'ordre renverse le verdict          (asymétrie i→j vs j→i)
+  F2 : Jamais très probable ET très grave    (plafond de criticité)
+  F3 : Mêmes piliers, autre histoire         (amplitude du ré-ordonnancement)
+  F4 : Les cascades les plus critiques        (classement, toutes amont→aval)
+  F5 : Là où la cascade démarre décide        (pilier-racine → profil de criticité)
 
 Le moteur de score (ROOT / TRANS / GBASE) est RÉ-DÉCLARÉ ici à l'identique de
 build_cascade_workbook.py : les figures sont ainsi reproductibles seules, sans
@@ -114,7 +114,7 @@ mpl.rcParams.update({
 })
 INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
 GRID = "#e1e0d9"
-ACCENT = "#eb6834"   # orange slot 8 — un seul point d'attention par figure
+ACCENT = "#eb6834"   # orange slot 8 : un seul point d'attention par figure
 # rampe séquentielle BLEUE validée (palette.md, steps 100→700), pour la magnitude
 BLUES = ["#cde2fb", "#86b6ef", "#3987e5", "#256abf", "#184f95", "#0d366b"]
 SEQ = LinearSegmentedColormap.from_list("blues_seq", BLUES)
@@ -135,7 +135,7 @@ def finish(fig, path):
     print(f"  ✓ {os.path.relpath(path)}")
 
 
-# ================================================================ F1 — asymétrie i→j
+# ================================================================ F1 : asymétrie i→j
 def fig1():
     M = np.full((N, N), np.nan)
     for r in SCORED:
@@ -152,7 +152,7 @@ def fig1():
                 ax.text(j, i, CRIT_LAB[lvl(v)], ha="center", va="center",
                         fontsize=8.5, color="#ffffff" if v >= 5 else INK)
             else:
-                ax.text(j, i, "—", ha="center", va="center", color=MUTED)
+                ax.text(j, i, "-", ha="center", va="center", color=MUTED)
     ax.set_xticks(range(N)); ax.set_yticks(range(N))
     ax.set_xticklabels([f"P{j}" for j in range(1, N + 1)])
     ax.set_yticklabels([f"P{i}" for i in range(1, N + 1)])
@@ -169,7 +169,7 @@ def fig1():
     fig.text(0.125, 0.95, "L'ordre renverse le verdict", fontsize=15,
              fontweight="bold", color=INK)
     fig.text(0.125, 0.90, "Criticité d'une cascade à 2 piliers selon le SENS. "
-             "Cadres orange : 1→2 « Majeure » vs 2→1 « Faible » — mêmes piliers.",
+             "Cadres orange : 1→2 « Majeure » vs 2→1 « Faible » : mêmes piliers.",
              fontsize=9, color=INK2)
     cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.03, ticks=[1, 4, 8])
     cb.ax.set_yticklabels(["faible", "moyenne", "élevée"], fontsize=8)
@@ -177,7 +177,7 @@ def fig1():
     finish(fig, os.path.join(OUT, "F1_asymetrie_ordre.png"))
 
 
-# ================================================================ F2 — plafond de criticité
+# ================================================================ F2 : plafond de criticité
 def fig2():
     xs = np.array([r["p"] for r in SCORED], float)
     ys = np.array([r["g"] for r in SCORED], float)
@@ -217,7 +217,7 @@ def fig2():
     finish(fig, os.path.join(OUT, "F2_plafond_criticite.png"))
 
 
-# ================================================================ F3 — amplitude du ré-ordonnancement
+# ================================================================ F3 : amplitude du ré-ordonnancement
 def fig3():
     sets = {}
     for r in SCORED:
@@ -241,7 +241,7 @@ def fig3():
                zorder=3, label="pire ordre (max)")
     ax.set_yticks(y); ax.set_yticklabels(labels, fontsize=8.5)
     ax.set_xlim(0.5, 8.7)
-    ax.set_xlabel("Criticité — de l'ordre le plus favorable au plus défavorable", color=INK2)
+    ax.set_xlabel("Criticité : de l'ordre le plus favorable au plus défavorable", color=INK2)
     for xb, lab in zip([1.5, 3.5, 5.5, 7.5], CRIT_LAB[:4]):
         ax.axvline(xb + 0.5, color=GRID, lw=0.8, zorder=0)
     ax.set_title("Mêmes piliers, autre histoire", fontsize=15, fontweight="bold",
@@ -255,7 +255,7 @@ def fig3():
     finish(fig, os.path.join(OUT, "F3_amplitude_reordonnancement.png"))
 
 
-# ================================================================ F4 — top des cascades critiques
+# ================================================================ F4 : top des cascades critiques
 def fig4():
     top = sorted(SCORED, key=lambda r: (r["c"], r["g"], r["p"]), reverse=True)[:15]
     top = top[::-1]
@@ -275,7 +275,7 @@ def fig4():
     ax.set_title("Les 15 cascades les plus critiques", fontsize=15, fontweight="bold",
                  color=INK, pad=24, loc="left")
     ax.text(0, len(top) + 0.2, "Toutes démarrent en amont (P1 gouvernance / P4 tiers) "
-            "et descendent vers l'aval — jamais l'inverse.", fontsize=9, color=INK2)
+            "et descendent vers l'aval : jamais l'inverse.", fontsize=9, color=INK2)
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
     ax.tick_params(axis="y", length=0)
@@ -284,7 +284,7 @@ def fig4():
     finish(fig, os.path.join(OUT, "F4_top_cascades.png"))
 
 
-# ================================================================ F5 — pilier-racine décide
+# ================================================================ F5 : pilier-racine décide
 def fig5():
     # profil de criticité (répartition %) selon le pilier qui AMORCE la cascade
     roots = range(1, N + 1)
@@ -294,7 +294,7 @@ def fig5():
     pct = prof / prof.sum(axis=1, keepdims=True) * 100
     # ordonner les racines par part de criticité élevée (Élevée+Majeure)
     order_idx = np.argsort(pct[:, 2:].sum(axis=1))
-    pct = pct[order_idx]; root_lbls = [f"P{i+1} — {PILIERS[i+1]}" for i in order_idx]
+    pct = pct[order_idx]; root_lbls = [f"P{i+1} : {PILIERS[i+1]}" for i in order_idx]
 
     fig, ax = plt.subplots(figsize=(8.8, 5.6))
     left = np.zeros(N)
@@ -323,7 +323,7 @@ def fig5():
     finish(fig, os.path.join(OUT, "F5_pilier_racine.png"))
 
 
-# ================================================================ F6 — carte de tous les scores
+# ================================================================ F6 : carte de tous les scores
 def fig6():
     # tous les scénarios notés, du plus critique au moins critique
     rows = sorted(SCORED, key=lambda r: (r["c"], r["g"], r["p"]), reverse=True)
@@ -367,7 +367,7 @@ def fig6():
             cell(x0 + chain_w + 2 * cell_w, y, rec["c"], 8)
 
     fig.subplots_adjust(top=0.90, left=0.02, right=0.99, bottom=0.02)
-    fig.text(0.02, 0.965, "Carte des scores — 325 scénarios notés de piliers DORA",
+    fig.text(0.02, 0.965, "Carte des scores : 325 scénarios notés de piliers DORA",
              fontsize=16, fontweight="bold", color=INK)
     fig.text(0.02, 0.935, "Chaque chaîne d'apparition avec ses scores conceptuels "
              "proba (p) · gravité (g) · criticité (c). Trié du plus critique (haut) au moins critique. "

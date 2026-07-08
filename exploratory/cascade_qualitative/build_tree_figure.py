@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-F12 — L'arbre récursif des ordres.
+F12 : L'arbre récursif des ordres.
 
 Illustre la formalisation du tuteur : la probabilité d'un ordre de n piliers se
 CONSTRUIT récursivement à partir du préfixe de (n-1) piliers, en multipliant par
 la transition ajoutée.  On le montre sur l'exemple à 3 piliers (6 feuilles), avec
 les VRAIES valeurs ROOT / TRANS du modèle.  Le calcul reste identique à
-build_cascade_workbook.py — l'arbre n'est qu'une relecture, pas un nouveau modèle.
+build_cascade_workbook.py : l'arbre n'est qu'une relecture, pas un nouveau modèle.
 
     p(a→b→c) = ROOT[a] · TRANS[a→b] · TRANS[b→c]
              = p(a→b)  · TRANS[b→c]          <-- récurrence : enfant = parent × lien
@@ -56,7 +56,7 @@ ACCENT = "#eb6834"
 PCOL = {1: "#184f95", 2: "#3987e5", 3: "#86b6ef", 4: ACCENT, 5: "#a9a79e"}
 PSHORT = {1: "P1", 2: "P2", 3: "P3", 4: "P4", 5: "P5"}
 
-SUBSET = (1, 2, 3)  # exemple à 3 piliers — 6 feuilles, lisible
+SUBSET = (1, 2, 3)  # exemple à 3 piliers : 6 feuilles, lisible
 
 # colonnes x
 X1, X2, X3, XLEAF = 0.0, 1.0, 2.0, 2.62
@@ -141,7 +141,7 @@ def main():
 
     # titre + sous-titre
     fig.subplots_adjust(top=0.80, left=0.02, right=0.98, bottom=0.10)
-    fig.text(0.02, 0.945, "L'arbre récursif des ordres  —  la proba se construit lien par lien",
+    fig.text(0.02, 0.945, "L'arbre récursif des ordres : la proba se construit lien par lien",
              fontsize=13.5, fontweight="bold", color=INK, ha="left")
     fig.text(0.02, 0.895,
              "Exemple à 3 piliers (P1·P2·P3). Chaque feuille = un ordre ; sa proba est le produit ROOT × transitions le long du chemin.",

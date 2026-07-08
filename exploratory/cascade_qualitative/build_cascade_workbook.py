@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Combinaisons de piliers DORA — sortie QUALITATIVE, l'ORDRE pilote fortement.
+Combinaisons de piliers DORA : sortie QUALITATIVE, l'ORDRE pilote fortement.
 
 Principe : une cascade qui suit une direction causale PLAUSIBLE (amont → aval,
 gouvernance → conséquences) est un vrai emballement systémique → plus PROBABLE
@@ -121,14 +121,14 @@ def suffixe(p):
 wb = Workbook()
 
 # ==========================================================================
-# Feuille 1 — Combinaisons
+# Feuille 1 : Combinaisons
 # ==========================================================================
 ws = wb.active
 ws.title = "Combinaisons"
-ws["A1"] = "Combinaisons de piliers DORA — verdict qualitatif, l'ORDRE pilote"
+ws["A1"] = "Combinaisons de piliers DORA : verdict qualitatif, l'ORDRE pilote"
 ws["A1"].font = Font(bold=True, size=13)
 ws["A2"] = ("Piliers : " + "  |  ".join(f"P{j} = {PILIERS[j]}" for j in range(1, N + 1))
-            + "   —   cascade cohérente (amont→aval) = probable ET grave ; à l'envers = rare et peu grave.")
+            + " : cascade cohérente (amont→aval) = probable ET grave ; à l'envers = rare et peu grave.")
 ws["A2"].font = Font(italic=True, color="808080")
 
 HEAD_ROW = 4
@@ -147,7 +147,7 @@ for k in range(0, N + 1):
         perms = [()] if k == 0 else list(permutations(subset))
         for p_idx, order in enumerate(perms, start=1):
             ref = f"{combo_num}{suffixe(p_idx)}"
-            ordre = "—" if k == 0 else "→".join(str(x) for x in order)
+            ordre = "-" if k == 0 else "→".join(str(x) for x in order)
             ps, gs = proba_score(order), gravite_score(order)
             cs = crit_score(ps, gs)
             records.append((ref, combo_num, k, bincode, ordre, ps, gs, cs))
@@ -165,7 +165,7 @@ for i, (ref, cnum, k, bincode, ordre, ps, gs, cs) in enumerate(records):
     # colonnes qualitatives : label + couleur verte->rouge selon le niveau
     for col, (score, labs) in zip((6, 7, 8), [(ps, PROBA_LAB), (gs, GRAV_LAB), (cs, CRIT_LAB)]):
         li = lvl(score)
-        cell = ws.cell(row=r, column=col, value=(labs[li] if li is not None else "—"))
+        cell = ws.cell(row=r, column=col, value=(labs[li] if li is not None else "-"))
         cell.border = BORDER
         cell.alignment = CENTER
         cell.font = Font(bold=(col == 8))
@@ -183,10 +183,10 @@ for i, w in enumerate([12, 9, 7, 15, 14, 16, 17, 13, 6, 6, 6], start=1):
     ws.column_dimensions[get_column_letter(i)].width = w
 
 # ==========================================================================
-# Feuille 2 — Justification
+# Feuille 2 : Justification
 # ==========================================================================
 js = wb.create_sheet("Justification")
-js["A1"] = "Justification — comment l'ordre pilote le verdict (ancré DORA / mémoire)"
+js["A1"] = "Justification : comment l'ordre pilote le verdict (ancré DORA / mémoire)"
 js["A1"].font = Font(bold=True, size=13)
 notes = [
     "",
@@ -195,7 +195,7 @@ notes = [
     ("ROOT = qui amorce : P1=1.0 (gouvernance, cause racine), P4=0.9 (tiers/cloud), P2=0.6, P3=0.5, P5=0.3.", False),
     ("TRANS = force dirigée « i entraîne j », ASYMÉTRIQUE : P1→X fort, X→P1 faible, P4→P2 fort, P5 faible partout.", False),
     ("", False),
-    ("GRAVITÉ (dépend de l'ordre — c'est le changement clé)", True),
+    ("GRAVITÉ (dépend de l'ordre : c'est le changement clé)", True),
     ("étendue = MIN(10 ; max(GBASE) + 0.4 × somme(GBASE des autres piliers du combo)).", False),
     ("gravité = étendue × amplification, avec amplification = 0.5 + 0.8 × cohérence de l'ordre.", False),
     ("cohérence = moyenne des TRANS le long de la chaîne : ordre PLAUSIBLE (amont→aval) ⇒ ×1.3 (vrai emballement) ;", False),
@@ -203,9 +203,9 @@ notes = [
     ("GBASE (gravité d'un pilier) : P4=7 (systémique, contagion externe cloud rang-3) > P1=6 (fondation, sanctions)", False),
     ("   > P2=4 (notification ACPR) > P3=3 (impréparation latente) > P5=1 (« moins mobilisable », mémoire).", False),
     ("", False),
-    ("CRITICITÉ = moyenne géométrique( proba , gravité ) — croise likelihood et impact.", True),
+    ("CRITICITÉ = moyenne géométrique( proba , gravité ) : croise likelihood et impact.", True),
     ("", False),
-    ("Effet de l'ordre — exemple {P1,P2} :", True),
+    ("Effet de l'ordre : exemple {P1,P2} :", True),
     ("  1→2 (gouvernance ⇒ incident) : Proba « Probable », Gravité « Critique », Criticité « Majeure ».", False),
     ("  2→1 (incident ⇒ gouvernance) : Proba « Très rare », Gravité « Modérée », Criticité « Faible ».", False),
     ("(La criticité plafonne à « Majeure » : proba et gravité étant anti-corrélées, aucun scénario n'est à la fois très probable ET très grave.)", False),
@@ -219,7 +219,7 @@ for item in notes:
 js.column_dimensions["A"].width = 115
 
 # ==========================================================================
-# Feuille 3 — Classement (326 scénarios triés par Criticité décroissante)
+# Feuille 3 : Classement (326 scénarios triés par Criticité décroissante)
 # ==========================================================================
 cl = wb.create_sheet("Classement", 1)
 cl["A1"] = "Scénarios classés par Criticité décroissante (l'ordre compte)"
@@ -253,4 +253,4 @@ for i, w in enumerate([6, 11, 14, 14, 16, 17, 13, 6], start=1):
 
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cascade_piliers_DORA.xlsx")
 wb.save(out)
-print(f"OK — {len(records)} lignes ; verdict qualitatif piloté par l'ordre -> {out}")
+print(f"OK : {len(records)} lignes ; verdict qualitatif piloté par l'ordre -> {out}")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-H1 — Le reseau dirige W et un mini-exemple de cascade.
+H1 : Le reseau dirige W et un mini-exemple de cascade.
 
 Panneau A : la structure DIRIGEE de W sur les 5 piliers (derivee de TRANS).
             Les fleches epaisses partent de P1 (super-emetteur) ; peu reviennent

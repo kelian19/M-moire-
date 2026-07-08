@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-01 — Pourquoi il faut revoir Merton-Vasicek DE ZERO.
+01 : Pourquoi il faut revoir Merton-Vasicek DE ZERO.
 
 On montre, chiffres a l'appui, que la dependance dirigee entre piliers (matrice
 TRANS du modele qualitatif) ne peut PAS etre representee par un modele a facteur
@@ -43,7 +43,7 @@ ASym = T - T.T
 asym_fro = np.linalg.norm(ASym, "fro")
 frob_T = np.linalg.norm(T - np.eye(n), "fro")
 print("=" * 68)
-print("(A) ASYMETRIE  —  une correlation est SYMETRIQUE par definition")
+print("(A) ASYMETRIE : une correlation est SYMETRIQUE par definition")
 print("=" * 68)
 print(f"  ||TRANS - TRANS^T||_F = {asym_fro:.3f}   (0 = symetrique)")
 print(f"  rapport asymetrie/intensite = {asym_fro/frob_T:.1%}")

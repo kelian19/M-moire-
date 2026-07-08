@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-02 — Banc d'essai du seuil K_i : Phi^-1(PD) vs EVT.
+02 : Banc d'essai du seuil K_i : Phi^-1(PD) vs EVT.
 
 On simule des severites cyber REELLEMENT a queue lourde (Pareto generalisee) avec
 SOUS-DECLARATION (les petits incidents sont rarement declares). On compare trois
 facons d'estimer le capital de queue (VaR 99,5 %) et la stabilite du seuil.
 
   M1  monde gaussien/lognormal : on ajuste une loi lognormale (queue fine) et on
-      lit son quantile 99,5 % — l'esprit de K = Phi^-1(PD).
+      lit son quantile 99,5 % : l'esprit de K = Phi^-1(PD).
   M2  quantile empirique 99,5 % des pertes observees.
   M3  EVT / POT : loi de Pareto generalisee (GPD) sur les depassements d'un seuil
-      haut — n'utilise que les GROS incidents, fiablement declares.
+      haut : n'utilise que les GROS incidents, fiablement declares.
 
 Deux resultats :
   (J1)  la sous-declaration des PETITS incidents ne biaise PAS l'indice de queue
