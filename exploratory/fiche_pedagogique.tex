@@ -98,6 +98,31 @@ p \;=\; \operatorname{round}\!\Big(10 \times \text{ROOT}[\text{départ}]
 \end{equation}
 Une chaîne longue est mécaniquement plus rare (chaque facteur~$<1$).
 
+\paragraph{Lecture récursive (structure d'arbre).} Ce produit n'est pas arbitraire : il a
+une structure d'\textbf{arbre}. La probabilité d'un ordre de $n$ piliers se \emph{construit}
+à partir de son préfixe de $n-1$ piliers, en multipliant par le seul maillon ajouté :
+\begin{equation}
+p(a\fl b\fl c) \;=\; \underbrace{\text{ROOT}[a]\times\text{TRANS}[a][b]}_{p(a\fl b)}
+  \times\text{TRANS}[b][c]
+  \;=\; p(a\fl b)\times\text{TRANS}[b][c].
+\end{equation}
+On engendre ainsi tous les ordres en insérant le pilier suivant à chaque position
+--- récurrence $N_n = n\,N_{n-1}$ (2, 6, 24, 120 ordres pour 5~piliers). La
+figure~\ref{fig:arbre} déroule cet arbre sur l'exemple à trois piliers, avec les valeurs
+réelles du modèle : partir de P1 (gouvernance) est la seule racine vraiment probable~;
+toute branche amorcée en aval retombe au plancher.
+
+\begin{figure}[h]\centering
+\includegraphics[width=\linewidth]{figures/F12_arbre_recursif.png}
+\caption{La probabilité se construit lien par lien le long de l'arbre des ordres :
+proba de l'enfant $=$ proba du parent $\times$ transition ajoutée. L'asymétrie de
+TRANS (p.\,ex. P1\fl P3 à $0{,}70$ contre P3\fl P1 à $0{,}30$) est ce qui sépare les
+verdicts. \emph{N.B.} seule la \textbf{probabilité} se décompose ainsi~; la gravité, elle,
+dépend de l'\emph{ensemble} des piliers présents (étendue) et n'est pas multiplicative
+le long de l'arbre.}
+\label{fig:arbre}
+\end{figure}
+
 \subsection*{Colonne \og{}Gravité conceptuelle\fg{}}
 
 La gravité = \emph{étendue des dégâts} \textbf{amplifiée ou amortie} par la cohérence
