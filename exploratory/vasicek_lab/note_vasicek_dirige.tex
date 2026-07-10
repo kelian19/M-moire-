@@ -320,6 +320,35 @@ On abandonne la contagion \emph{simultanée sur latentes} au profit de la contag
 \boxed{\;X_{ij,t} \;=\; \text{base}_j \;+\; \sum_{k\neq j} W_{jk}\,D_{ik,t-1}
   \;+\; s_j\,\Y_{j,t} \;+\; \eps_{ij,t}, \qquad D_{ij,t} = \mathbf 1\{X_{ij,t} \ge 0\}\;}
 \end{equation}
+
+\begin{cle}
+\textbf{D'où sort la charge $s_j$, et où sont passés les $\sqrt{\rho}$ ?} La formule
+\eqref{eq:dyn} n'introduit \emph{aucun} objet nouveau : c'est la même décomposition qu'en
+partie~A, \textbf{réécrite dans les unités de l'estimation}. On met les deux côte à côte :
+\[
+\underbrace{X_{ij} \;=\; \sqrt{\rho_j}\;\Y_j \;+\; \sqrt{1-\rho_j}\;\eps_{ij}}_{\text{ancienne écriture : on fixe } \mathrm{Var}(X)=1}
+\;\;\longrightarrow\;\;
+\underbrace{X_{ij,t} \;=\; \text{base}_j + s_j\,\Y_{j,t} + \eps_{ij,t}}_{\text{nouvelle écriture : on fixe } \mathrm{Var}(\eps)=1}
+\]
+L'incident ne dépend que du \emph{signe} de $X-K$~: on peut donc multiplier $X$ par n'importe
+quelle constante positive sans le changer, à condition de multiplier le seuil autant. On
+choisit la constante qui met le coefficient de $\eps$ à~$1$ --- la \textbf{normalisation du
+probit}, indispensable puisqu'on va estimer par probit --- c'est-à-dire on divise par
+$\sqrt{1-\rho_j}$. Le facteur systémique se retrouve alors chargé par
+\[
+\boxed{\;s_j \;=\; \sqrt{\dfrac{\rho_j}{1-\rho_j}}\;}, \qquad\text{de réciproque}\qquad
+\rho_j \;=\; \dfrac{s_j^2}{1+s_j^2}.
+\]
+$s_j$ n'est donc pas parachuté : c'est \textbf{$\sqrt{\rho_j}$ exprimé en unités
+idiosyncratiques}, et les deux paramétrages sont en \emph{bijection}. Cette réécriture
+explique aussi, par avance, l'atténuation du protocole~: dans ces unités
+$\mathrm{Var}(X)=1+s_j^2$, si bien qu'oublier d'absorber $s_j\Y_{j,t}$ divise le probit par
+$\sqrt{1+s_j^2}$ (le \emph{même} $1+s_j^2$ qu'à la section~\ref{sec:calib}). Enfin
+$\text{base}_j$ n'est que le seuil déplacé du côté du stress~: là où l'ancienne écriture posait
+$X\ge K_j$, la nouvelle centre en $\text{base}_j = -K_j/\sqrt{1-\rho_j}$ et déclenche en
+$X\ge 0$.
+\end{cle}
+
 Ce modèle est un \textbf{processus de branchement multitype} : un incident sur le pilier~$k$
 engendre, à la période suivante, un nombre aléatoire d'incidents sur les autres piliers. Toute
 la théorie de l'extinction des épidémies s'applique. L'objet central n'est plus $W$, mais la
@@ -707,6 +736,25 @@ La généralisation~A posait un facteur systémique \emph{par pilier} et des dé
 croisées $\Sigma_Y$, sans jamais dire comment on les estimerait. C'est le dernier bloc du
 modèle laissé en suspens. Deux protocoles le comblent, et leur \emph{différence} est le
 résultat.
+
+\begin{attention}
+\textbf{Pourquoi $\Y_j$ s'estime \emph{ici}, et pas en partie~A.} La question est légitime :
+$\Y_j$ existe depuis la partie~A, pourquoi ne le calibrait-on pas déjà~? Parce que la
+partie~A est écrite sur une \textbf{coupe transversale} --- un seul instant, donc une seule
+réalisation (non observée) de chaque $\Y_j$. Une réalisation unique est \textbf{inestimable} :
+avec un seul point, on ne peut pas distinguer \og{}toutes les entités ont été frappées\fg{}
+d'un \og{}$\Y_j$ élevé\fg{}. Ce qu'une coupe identifie, c'est seulement la \emph{corrélation}
+$\rho_j$ que $\Y_j$ induit entre entités, pas sa \emph{valeur}. En partie~A, $\Y_j$ est un
+objet \textbf{distributionnel}, intégré~; il n'est pas une donnée.
+
+\smallskip
+\noindent La forme dynamique \eqref{eq:dyn} ajoute un \textbf{indice de temps}. Dès lors
+$\Y_{j,t}$ est une \textbf{série} : chaque période fournit une réalisation, et le mouvement
+\emph{commun} qu'elle imprime à l'incidence de \emph{toutes} les entités à la date~$t$ est
+exactement ce que capte l'effet fixe de période. Une seule réalisation ne s'estime pas~; une
+série, oui. Rien n'a été \og{}oublié\fg{} en partie~A : il n'y avait tout simplement rien à
+estimer tant que le temps n'était pas dans le modèle.
+\end{attention}
 
 \paragraph{Route A : lire les effets fixes de période.} Ils n'ont jamais été regardés. Or,
 dans le probit du protocole \eqref{eq:dyn}, le coefficient de l'indicatrice de période~$t$
