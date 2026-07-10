@@ -61,32 +61,46 @@
 systémique, une seule corrélation), on l'ouvre en \textbf{deux temps} : \emph{(A)} chaque
 pilier DORA reçoit \textbf{son propre} facteur systémique et sa propre sensibilité :
 la structure systémique \textbf{dépend du pilier~$j$} ; \emph{(B)} les piliers se
-propagent l'un l'autre de façon \textbf{dirigée} (asymétrique). Le seuil de déclenchement
-$K_j$ n'est plus $\Phi^{-1}(\mathrm{PD})$ mais un seuil \textbf{réglementaire calibré}.
+propagent l'un l'autre de façon \textbf{dirigée} (asymétrique), ce qui fait de la cascade un
+\textbf{processus de branchement} gouverné par un $R_0$. Le seuil de déclenchement $K_j$
+n'est plus $\Phi^{-1}(\mathrm{PD})$ : il s'obtient toujours en inversant une répartition,
+mais sur une fréquence \textbf{ancrée sur la barre de matérialité} du règlement.
 \end{cle}
 
 \section{Le point de départ : le Vasicek à un facteur}
 
-Pour une entité~$i$ (à l'origine : un emprunteur), on écrit une \textbf{variable latente},
-une \og{}santé\fg{} non observée :
+Pour une entité~$i$ (à l'origine : un emprunteur), on écrit une \textbf{variable latente}
+non observée. \textbf{Convention retenue dans toute la note} : $X_i$ mesure le
+\textbf{stress}, pas la santé. Un $X_i$ élevé est une mauvaise nouvelle.
 \begin{equation}
-X_i \;=\; \sqrt{\rho}\;\Y \;+\; \sqrt{1-\rho}\;\eps_i .
+X_i \;=\; \sqrt{\rho}\;\Y \;+\; \sqrt{1-\rho}\;\eps_i , \qquad \mathrm{Var}(X_i)=1 .
 \end{equation}
 Chaque terme a un sens précis :
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
 \item $\Y \sim \mathcal N(0,1)$ : le \textbf{facteur systémique}, commun à \emph{toutes}
-  les entités (le \og{}temps qu'il fait\fg{} sur le marché). Une mauvaise réalisation de
-  $\Y$ fragilise tout le monde en même temps.
+  les entités (le \og{}temps qu'il fait\fg{} sur le marché). Une forte réalisation de
+  $\Y$ stresse tout le monde en même temps.
 \item $\eps_i \sim \mathcal N(0,1)$ : le \textbf{choc idiosyncratique}, propre à~$i$ et
   indépendant du reste.
 \item $\rho \in [0,1]$ : la \textbf{part du systémique}. Plus $\rho$ est grand, plus les
-  entités bougent ensemble. C'est \emph{la même valeur pour tout le monde}.
+  entités bougent ensemble. C'est \emph{la même valeur pour tout le monde}. La
+  normalisation $\rho + (1-\rho) = 1$ est ce qui donne $\mathrm{Var}(X_i)=1$, et c'est
+  \emph{elle} qui rend le seuil lisible comme un quantile.
 \end{itemize}
-L'incident (à l'origine : le défaut) se produit quand la santé passe sous un \textbf{seuil} :
+L'incident (à l'origine : le défaut) se produit quand le stress franchit un \textbf{seuil} :
 \begin{equation}
-D_i = 1 \iff X_i < K_i, \qquad\text{avec, dans le modèle classique,}\quad
-K_i = \Phi^{-1}(\mathrm{PD}_i).
+D_i = 1 \iff X_i \ge K_i, \qquad\text{avec, dans le modèle classique,}\quad
+K_i = \Phi^{-1}(1-\mathrm{PD}_i).
 \end{equation}
+
+\begin{cle}
+\textbf{Pourquoi cette convention, et pourquoi la fixer une fois pour toutes.} La
+littérature du crédit écrit $X$ = valeur d'actif et déclenche en $X < K$. Avec une
+contagion \textbf{positive} $W_{jk} > 0$, cette convention ferait dire au modèle que
+\og{}la bonne santé de $k$ améliore celle de $j$\fg{}, donc \emph{réduit} les incidents :
+l'inverse de ce que l'on veut encoder. En posant $X$ = stress et en déclenchant
+en $X \ge K$, un $W_{jk} > 0$ signifie bien \og{}$k$ contamine $j$\fg{}.
+\end{cle}
 
 \begin{attention}
 \textbf{Deux hypothèses de ce modèle sont fausses pour le cyber/DORA.}
@@ -156,20 +170,31 @@ Le cas d'un seul facteur ($\mathbf Y = \Y$, $\boldsymbol\beta_{ij}=\sqrt\rho$) r
 \textbf{exactement} le Vasicek de départ : c'est bien une \emph{généralisation}, pas un autre
 modèle.
 
+\begin{cle}
+\textbf{Cette partie~A n'est pas neuve, et il faut le dire.} Le Merton-Vasicek multifacteur
+à matrice de corrélation générale, $X = \mathbf a^\top \mathbf Z + \sqrt{1 - \mathbf a^\top
+\Sigma \mathbf a}\;\eps$, est celui de Li~(2000), employé tel quel dans les modèles de
+stress-test climatique (Garnier et coll., 2021 ; Pineau et Zu\~niga, 2023, éq.~2). La
+contribution de cette note ne commence qu'en partie~B, avec la contagion \textbf{dirigée},
+et se poursuit sur le seuil. Le revendiquer clairement évite de se voir opposer une
+littérature qu'on aurait ignorée.
+\end{cle}
+
 \section{Généralisation B : la propagation dirigée entre piliers}
 
 La partie A rend le systémique \emph{propre à chaque pilier}, mais la dépendance reste
 \textbf{symétrique} (via $\Sigma_Y$). Pour encoder \og{}P1 entraîne P2 plus que l'inverse\fg{},
-on ajoute un terme de \textbf{réseau dirigé} : la santé du pilier~$j$ subit celle des autres
-piliers~$k$ de la \emph{même} entité, pondérée par une matrice \textbf{asymétrique} $W$ :
+on ajoute un terme de \textbf{réseau dirigé} : le stress du pilier~$j$ subit celui des autres
+piliers~$k$ de la \emph{même} entité, pondéré par une matrice \textbf{asymétrique} $W$ :
 \begin{equation}
 \boxed{\;X_{ij} \;=\; \underbrace{\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion dirigée}}
    \;+\; \underbrace{\sqrt{\rho_{ij}}\,\Y_j}_{\text{systémique du pilier}}
    \;+\; \underbrace{\sqrt{1-\rho_{ij}}\,\eps_{ij}}_{\text{idiosyncratique}}\;}
 \end{equation}
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
-\item $W_{jk}$ : \textbf{force dirigée} de $k$ vers $j$. C'est ici que se branche la
-  \textbf{structure} (et non les chiffres bruts) de votre matrice TRANS.
+\item $W_{jk}$ : \textbf{force dirigée} de $k$ vers $j$. TRANS donne la \textbf{structure}
+  (qui entraîne qui) ; elle n'est \emph{pas} $W$. La normalisation qui les sépare est
+  l'objet de l'encadré ci-dessous.
 \item $W$ \textbf{asymétrique} ($W_{jk}\neq W_{kj}$) $\Rightarrow$ dépendance \textbf{orientée} :
   ce que le Vasicek classique ne sait pas faire.
 \item Si $W=0$, on retombe sur la partie~A ; si en plus un seul facteur, sur le Vasicek
@@ -177,13 +202,77 @@ piliers~$k$ de la \emph{même} entité, pondérée par une matrice \textbf{asym�
 \end{itemize}
 
 \noindent En forme matricielle sur les 5 piliers d'une entité, $\mathbf X_i = W\mathbf X_i +
-\text{(systémique)} + \text{(idio)}$, d'où la \textbf{forme réduite} qui montre comment un
-choc se propage dans tout le réseau :
+\text{(systémique)} + \text{(idio)}$, d'où la \textbf{forme réduite} :
 \begin{equation}
-\mathbf X_i \;=\; (I - W)^{-1}\big(\text{systémique} + \text{idio}\big).
+\mathbf X_i \;=\; (I - W)^{-1}\big(\text{systémique} + \text{idio}\big),
+\qquad\text{\textbf{sous réserve que} } \rho(W) < 1 .
 \end{equation}
-La matrice $(I-W)^{-1}$ est l'\textbf{amplificateur de cascade} : elle transforme un choc sur
-un pilier en effet sur tous les autres, \emph{dans le sens} imposé par $W$.
+
+\begin{attention}
+\textbf{Brancher TRANS telle quelle est une erreur de catégorie.}
+$(I-W)^{-1}$ ne représente une cascade que si la série $I + W + W^2 + \cdots$ converge,
+c'est-à-dire si $\rho(W) < 1$. Or les lignes de TRANS somment jusqu'à $2{,}3$, et
+\[
+\rho(\mathrm{TRANS}) \;=\; \mathbf{1{,}461} \;>\; 1 .
+\]
+La matrice $(I-\mathrm{TRANS})^{-1}$ reste \emph{inversible}, mais elle contient
+\textbf{21 entrées négatives sur 25} : un choc positif sur P1 produirait un stress
+\emph{négatif} sur d'autres piliers. Ce n'est pas un problème de calibration : TRANS
+n'a jamais été une \emph{matrice de parts}.
+
+\smallskip
+\noindent\textbf{L'exemple de la section suivante ne teste pas la condition} : son
+sous-réseau à trois piliers est strictement triangulaire, donc nilpotent ($\rho = 0$).
+C'est le cas le plus favorable qui existe. Il illustre, il ne valide pas.
+\end{attention}
+
+\begin{cle}
+\textbf{La leçon de Leontief.} Le modèle entrées-sorties emploie exactement le même objet,
+$B = (I-A)^{-1} = \sum_{k\ge 0} A^k$, qu'il appelle \emph{inverse de Leontief} et interprète
+comme la somme de tous les cycles de la chaîne de valeur (Leontief, 1949 ; Pineau et
+Zu\~niga, 2023, remarque~1). Pourquoi n'explose-t-il jamais ? Parce que
+$A_{ij} = x_{ij}/x_j$ est une \textbf{matrice de parts} : les colonnes de $A$ somment à
+\emph{moins de~1}, la différence étant la valeur ajoutée, strictement positive. La stabilité
+n'y est pas une hypothèse technique, elle est \textbf{garantie par la comptabilité}.
+
+\smallskip
+\noindent On applique la même discipline. La ligne $j$ de $W$ doit se lire comme les
+\emph{parts} du stress de $j$ provenant des autres piliers :
+\begin{equation}
+\label{eq:norm}
+\boxed{\;W \;=\; g \cdot \frac{\mathrm{TRANS}}{\max_j \sum_k \mathrm{TRANS}_{jk}}\;,
+\qquad g \in (0,\,1]\;}
+\end{equation}
+où $g$ est la \textbf{part de contagion du pilier le plus exposé}. La contrainte $g\le 1$
+n'est pas ad hoc : c'est la \textbf{décomposition de variance de Vasicek}
+(contagion $+$ systémique $+$ idiosyncratique $=1$), le strict analogue de la valeur ajoutée
+positive. Alors $\sum_k W_{jk} \le g \le 1$, donc
+\[
+\rho(W) \;\le\; \max_j \sum_k W_{jk} \;\le\; g \;<\; 1 .
+\]
+\textbf{La stabilité devient gratuite}, sur tout le domaine admissible. Numériquement,
+$\rho(W) = 0{,}635\,g$.
+\end{cle}
+
+\noindent Trois remarques sur cette normalisation.
+
+\paragraph{On divise par un scalaire, pas ligne à ligne.} Normaliser chaque ligne à~1
+aplatirait ce que \emph{reçoit} chaque pilier et détruirait la revendication \og{}P1 émet
+fort et reçoit peu\fg{}. En divisant par le seul maximum, les parts reçues restent
+hétérogènes : $s_j = (0{,}35\,;\,1{,}00\,;\,0{,}70\,;\,0{,}65\,;\,0{,}74)$ pour $g=1$.
+\textbf{P1 reçoit trois fois moins que P2.}
+
+\paragraph{Le résultat sur ROOT survit.} La progéniture $(I-M)^{-1}$ calculée sur le $W$
+normalisé reproduit toujours \emph{exactement} le classement ROOT (Spearman $=1{,}00$), et
+ce pour toute valeur de $g$. La réduction de paramètres n'était pas un artefact d'échelle.
+
+\paragraph{Ce modèle simultané n'est pas celui que l'on estime.} La contagion écrite ici
+est \textbf{contemporaine} et porte sur des \emph{latentes}. Le protocole de calibration
+(section~\ref{sec:calib}) estime une contagion \textbf{retardée} portant sur des
+\emph{incidents binaires}. Ce sont deux matrices $W$ différentes, d'unités différentes. La
+section suivante tranche en faveur de la seconde. Notons que la variance de $X_{ij}$ n'est
+alors plus~1 après contagion : il faut \textbf{renormaliser} pour que $K_j$ reste lisible
+comme un quantile et $\rho_{ij}$ comme une part du systémique.
 
 \section{Un schéma et un exemple chiffré}
 
@@ -218,9 +307,77 @@ P1, mais la structure dirigée a \emph{propagé} l'incident jusqu'à P2.
 \textbf{L'asymétrie en un chiffre.} Le \emph{même} choc $+2$ placé sur \textbf{P2}
 ($g=(0,2,0)^\top$) donne $X=(0\,;\,2\,;\,0)$ : il reste \textbf{local} (P2 n'entraîne personne
 ici). Source P1 $\Rightarrow$ \textbf{2 incidents} ; source P2 $\Rightarrow$ \textbf{1 incident}.
-C'est exactement l'effet d'ordre du modèle qualitatif, désormais \emph{quantifié} par
-$(I-W)^{-1}$.
+C'est exactement l'effet d'ordre du modèle qualitatif, désormais \emph{quantifié}.
 \end{cle}
+
+\section{Le bon modèle : la cascade est un processus de branchement}
+\label{sec:branch}
+
+On abandonne la contagion \emph{simultanée sur latentes} au profit de la contagion
+\textbf{retardée sur incidents}, qui est celle que les données peuvent identifier :
+\begin{equation}
+\label{eq:dyn}
+\boxed{\;X_{ij,t} \;=\; \text{base}_j \;+\; \sum_{k\neq j} W_{jk}\,D_{ik,t-1}
+  \;+\; s_j\,\Y_{j,t} \;+\; \eps_{ij,t}, \qquad D_{ij,t} = \mathbf 1\{X_{ij,t} \ge 0\}\;}
+\end{equation}
+Ce modèle est un \textbf{processus de branchement multitype} : un incident sur le pilier~$k$
+engendre, à la période suivante, un nombre aléatoire d'incidents sur les autres piliers. Toute
+la théorie de l'extinction des épidémies s'applique. L'objet central n'est plus $W$, mais la
+\textbf{matrice de génération suivante} $M$, qui compte des \emph{incidents} et non des
+écarts-types latents :
+\begin{equation}
+M_{jk} \;=\; \underbrace{\Phi(\text{base}_j + W_{jk})}_{\text{proba d'incident en } j \text{ si } k \text{ a frappé}}
+        \;-\; \underbrace{\Phi(\text{base}_j)}_{\text{proba de fond}} .
+\end{equation}
+
+\begin{cle}
+\textbf{Deux rayons spectraux, à ne surtout pas confondre.}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt,topsep=2pt]
+\item $\rho(W)$ gouverne le système \textbf{latent simultané} : c'est lui qui doit être $<1$
+  pour que $(I-W)^{-1}$ existe.
+\item $R_0 = \rho(M)$ gouverne la \textbf{cascade d'incidents} : la cascade s'éteint si et
+  seulement si $R_0 < 1$. C'est le $R_0$ des épidémiologistes.
+\end{itemize}
+Avec l'incidence de fond de $4{,}5\,\%$ et le gain $g=0{,}9$, la normalisation
+\eqref{eq:norm} donne $\rho(W) = 0{,}572$ et $R_0 = \mathbf{0{,}062}$ : les deux lectures
+sont stables, mais elles ne le sont pas \emph{du même ordre}.
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/K3_branchement_R0.png}
+\caption{(a) Sur le domaine admissible $g\le 1$ (zone bleue), les deux rayons spectraux
+restent $<1$ : la normalisation \eqref{eq:norm} rend la stabilité gratuite. Les seuils
+critiques ($\rho(W)=1$ à $g=1{,}57$ ; $R_0=1$ à $g=7{,}2$) sont hors domaine. Le point gris
+marque $\rho(\mathrm{TRANS})=1{,}46$, la valeur non normalisée. (b) La progéniture
+$(I-M)^{-1}$ reproduit \emph{exactement} le classement ROOT du jugement d'expert.}
+\end{figure}
+
+\noindent Deux résultats en découlent, et ce sont les plus solides de la note.
+
+\paragraph{La forme simultanée est structurellement alarmiste.} Même normalisée, elle
+approche son seuil critique \textbf{cinq fois plus vite} que la cascade réelle
+($g^\star = 1{,}57$ contre $7{,}2$). Si l'on force le modèle hors de son domaine, comme le
+fait toute lecture naïve de TRANS, $(I-W)^{-1}$ crie à l'emballement systémique dans un
+régime où la contagion s'éteint tranquillement. Le prix d'une jolie formule fermée est une
+exigence de capital surévaluée.
+
+\paragraph{La progéniture retrouve ROOT, qui devient donc redondant.} Quand $R_0<1$, la
+matrice $(I-M)^{-1}$ est bien définie et se lit comme la \textbf{progéniture totale
+attendue} : sa colonne~$k$ donne le nombre de descendants engendrés par un incident initial
+sur le pilier~$k$. Le calcul donne $0{,}127$ pour P1, $0{,}080$ pour P4, $0{,}068$ pour P2,
+$0{,}063$ pour P3, $0{,}030$ pour P5 (validé contre une simulation directe du branchement).
+Le classement $\mathrm{P1} > \mathrm{P4} > \mathrm{P2} > \mathrm{P3} > \mathrm{P5}$ est
+\textbf{identique} à celui du barème ROOT du modèle qualitatif (Spearman $=1{,}00$), et il
+l'est \emph{pour toute valeur de $g$}.
+
+\begin{attention}
+\textbf{Ce que cela prouve, et ce que cela ne prouve pas.} ROOT (\og{}qui amorce une
+cascade\fg{}) et TRANS (\og{}qui entraîne qui\fg{}) ont été élicités par le \emph{même} expert.
+Retrouver ROOT à partir de TRANS n'est donc pas une validation \emph{externe} : c'est un
+test de \textbf{cohérence interne} du jugement d'expert, et il est réussi. Sa portée réelle
+est une \textbf{réduction de paramètres} : ROOT se \emph{déduit} de TRANS au lieu d'être
+posé. Cinq paramètres d'expert en moins, et un barème arbitraire de moins à défendre.
+\end{attention}
 
 \section{Le seuil $K_j$ : ce qui remplace $\Phi^{-1}(\mathrm{PD})$}
 
@@ -232,62 +389,201 @@ dénué de sens}. De plus il serait \emph{spécifique à l'entité} et \emph{mob
 incompatible avec un seuil \emph{global} et \emph{stable}.
 \end{attention}
 
-\noindent \textbf{On inverse la logique.} Dans le crédit, la PD est l'entrée et $K$ la sortie.
-En cyber, on fixe $K_j$ et la PD devient une \emph{sortie} :
-\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
-\item \textbf{Ancrage réglementaire (global + stable).} DORA définit l'\og{}incident majeur\fg{}
-  (art.~18 : clients affectés, durée, pertes de données, impact). On prend ce seuil de
-  matérialité $u_j$ comme déclencheur : \emph{même définition pour toutes les entités}
-  (benchmarking) et \emph{fixée par le règlement} (stable dans le temps).
-\item \textbf{Queue calibrée par la théorie des valeurs extrêmes (robuste au biais).}
-  Au-dessus de $u_j$, la sévérité suit une loi de Pareto généralisée (GPD). Comme la
-  sous-déclaration frappe surtout les \emph{petits} incidents, calibrer la queue sur les
-  \emph{gros} (fiablement observés) est robuste. Le seuil devient un seuil EVT, pas
-  $\Phi^{-1}$.
-\end{enumerate}
-La probabilité de dépassement se lit alors comme une \textbf{sortie} du modèle, conditionnelle
-à l'état systémique et à la contagion :
+\begin{cle}
+\textbf{Deux seuils, deux espaces. Il faut cesser de les confondre.}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt,topsep=2pt]
+\item $u_j$ : le seuil de \textbf{matérialité} (DORA art.~18). Il vit dans l'espace des
+  sévérités \textbf{observables} : clients affectés, heures d'indisponibilité, euros.
+\item $K_j$ : le seuil sur la variable \textbf{latente} $X_{ij}$. Il est sans unité.
+\end{itemize}
+On ne peut donc pas \og{}prendre $u_j$ comme $K_j$\fg{}. Mais les deux définissent le
+\textbf{même événement}, l'incident majeur : $\{S_{ij} \ge u_j\} = \{X_{ij} \ge K_j\}$.
+D'où, $X_{ij}$ étant normalisée à variance unitaire, une identité \textbf{inévitable} :
 \begin{equation}
-\pi_{ij}(\mathbf Y) = \mathbb P\big(X_{ij} \ge K_j \mid \mathbf Y\big),\qquad
-\mathrm{PD}_j = \mathbb E[\pi_{ij}] = 1 - t_\nu(K_j)\ \ \text{(queue lourde, cf. copule $t$)}.
+\label{eq:Kj}
+\boxed{\;K_j \;=\; F^{-1}\!\big(1 - p_j\big), \qquad p_j \;=\; \mathbb P\big(S_{ij} \ge u_j\big).\;}
 \end{equation}
+\end{cle}
+
+\begin{cle}
+\textbf{La littérature fait déjà exactement cela, et l'assume.} Dans la représentation
+CreditMetrics des matrices de transition (Morgan et coll., 1997), reprise telle quelle par
+les modèles de stress-test réglementaire (Schuermann, 2014 ; Pineau et Zu\~niga, 2023,
+éq.~1), le seuil de migration s'obtient par
+\[
+L^{i,j} \;=\; \Phi^{-1}\!\Big(\textstyle\sum_{k=j}^{K} \mathrm{TM}^{i,k}\Big),
+\]
+c'est-à-dire en \textbf{inversant une gaussienne sur une fréquence cumulée observée}.
+Le seuil n'y est jamais \og{}fixé\fg{} : il est \emph{lu} dans les données via l'inverse
+d'une répartition. Notre $K_j = F^{-1}(1-p_j)$ est le même objet, à deux différences près :
+la fréquence $p_j$ est ancrée sur un événement \emph{défini par le règlement}, et $F$ n'est
+pas nécessairement $\Phi$.
+\end{cle}
+
+\noindent \textbf{On inverse donc \emph{toujours} une fonction de répartition}, et il faut
+l'assumer plutôt que de prétendre \og{}fixer $K_j$\fg{}. Ce que l'on reproche à
+$\Phi^{-1}(\mathrm{PD})$, ce n'est pas l'inversion : ce sont ses \textbf{deux entrées}.
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+\item \textbf{L'entrée de fréquence.} La PD du crédit n'est ni stable ni mesurable. On la
+  remplace par $p_j$, la fréquence d'un événement \textbf{défini par le règlement} :
+  même définition pour toutes les entités (benchmarking), fixée par le texte (stable).
+\item \textbf{L'entrée de loi.} La gaussienne $\Phi$ a une queue trop fine. On lui substitue
+  une loi à queue lourde $F$ cohérente avec la structure de dépendance retenue.
+\end{enumerate}
+La probabilité de dépassement devient alors une \textbf{sortie} du modèle, conditionnelle à
+l'état systémique et à la contagion : $\pi_{ij}(\mathbf Y) = \mathbb P(X_{ij} \ge K_j \mid
+\mathbf Y)$, et $\mathrm{PD}_j = \mathbb E[\pi_{ij}]$.
+
+\begin{attention}
+\textbf{Sur le choix de $F$ : la copule $t$ ne se déduit pas du modèle.} Dans
+l'équation~\eqref{eq:dyn}, $X_{ij,t}$ est une combinaison \textbf{linéaire} de gaussiennes
+($\Y_{j,t}$ et $\eps_{ij,t}$) : sa marge est \textbf{gaussienne}, et $F = \Phi$. Écrire
+$\mathrm{PD}_j = 1 - t_\nu(K_j)$ serait un v\oe u, pas un résultat. Pour obtenir des marges
+de Student il faut introduire \emph{explicitement} une variable de mélange commune
+$\;\zeta = \sqrt{\nu/\chi^2_\nu}\;$ et poser $X_{ij} \mapsto \zeta\,X_{ij}$ : la dépendance
+de queue apparaît alors, et $F = t_\nu$. \textbf{Décision à prendre} : soit on ajoute ce
+mélange, soit on reste gaussien et on ne parle plus de copule~$t$. Les deux se défendent ;
+l'ambiguïté, non.
+\end{attention}
+
+\subsection*{D'où vient réellement le biais sur $K_j$}
+
+L'équation~\eqref{eq:Kj} déplace la question : tout se joue désormais sur l'estimation de
+$p_j$. Or on ne compte que les incidents \emph{déclarés}. En notant $q(s)$ la probabilité
+qu'un incident de sévérité~$s$ soit déclaré, la simulation donne une identité \textbf{exacte}
+(vérifiée à la quatrième décimale) :
+\begin{equation}
+\frac{\hat p_j^{\;\text{naïf}}}{p_j} \;=\; \mathbb E\big[\,q(S)\ \big|\ S \ge u_j\,\big]
+\;<\; 1 .
+\end{equation}
+On sous-estime donc $p_j$, donc on \textbf{sur-estime} $K_j$, donc on
+\textbf{sous-provisionne}. C'est le mécanisme derrière le sous-provisionnement du banc
+d'essai, enfin expliqué au lieu d'être constaté. Et ce biais \textbf{s'évanouit quand la
+barre monte dans la queue}, puisqu'alors $q(u_j) \to 1$ :
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}c c c c c@{}}
+\toprule
+\textbf{barre $u_j$} & \textbf{taux de décl. $q(u_j)$} & \textbf{$K_j$ vrai} & \textbf{$K_j$ naïf} & \textbf{biais} \\
+\midrule
+$0{,}5$ & $0{,}44$ & $-0{,}416$ & $-0{,}047$ & $+0{,}369$ \\
+$1{,}0$ & $0{,}66$ & $+0{,}025$ & $+0{,}192$ & $+0{,}167$ \\
+$3{,}0$ & $0{,}89$ & $+0{,}727$ & $+0{,}763$ & $+0{,}036$ \\
+$8{,}0$ & $0{,}97$ & $+1{,}300$ & $+1{,}309$ & $+0{,}008$ \\
+$15{,}0$ & $0{,}98$ & $+1{,}632$ & $+1{,}635$ & $+0{,}003$ \\
+$40{,}0$ & $1{,}00$ & $+2{,}095$ & $+2{,}095$ & $\mathbf{+0{,}001}$ \\
+\bottomrule
+\end{tabular}
+\caption{Le biais de $K_j$ est toujours positif (sous-provisionnement) et s'effondre quand
+la barre de matérialité monte. C'est \emph{là}, et non dans l'EVT, que se joue la robustesse
+du seuil.}
+\end{table}
+
+\begin{cle}
+\textbf{Le vrai argument en faveur de la barre DORA.} Elle n'est pas défendable parce
+qu'elle est \og{}réglementaire\fg{}. Elle est défendable parce qu'elle est placée assez
+\textbf{haut} pour que la déclaration y soit quasi complète, et c'est cela, et cela seul, qui
+rend $K_j$ non biaisé. C'est une propriété \textbf{vérifiable} : il suffit d'estimer
+$q(u_j)$.
+\end{cle}
+
+\begin{attention}
+\textbf{Une tension à gérer : trop haut, le seuil diverge.} Monter la barre débiaise $K_j$,
+mais $F^{-1}(1-p_j) \to +\infty$ quand $p_j \to 0$. Sur un panel fini, une barre placée si
+haut qu'aucun incident ne la franchit rend le seuil non estimable. C'est le problème que la
+littérature CreditMetrics traite par \textbf{écrêtage} des probabilités
+(Engelmann, 2021 ; Pineau et Zu\~niga, 2023). Il existe donc un \emph{compromis
+biais--variance} sur $u_j$ : assez haut pour que $q(u_j)\approx 1$, assez bas pour que
+$\hat p_j$ soit estimable. Notre tableau le situe autour de $q(u_j) \in [0{,}97\,;\,0{,}99]$.
+\end{attention}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/L_seuil_Kj.png}
+\caption{(a) Le biais de $K_j$ suit le taux de déclaration à la barre, et non la méthode
+d'estimation de la queue. (b) Extrapoler le \emph{taux} depuis un seuil haut $v$ vers la
+barre $u$ ne débiaise pas : le biais se déplace de $q(u)$ vers $q(v)$, et le bras de levier
+$(v-u)$ amplifie le bruit sur $\xi$ et $\beta$.}
+\end{figure}
+
+\begin{attention}
+\textbf{Un résultat négatif, assumé.} On pourrait espérer que l'EVT débiaise $p_j$ en
+extrapolant le \emph{taux} depuis un seuil haut $v$ (bien déclaré) jusqu'à la barre $u$, via
+$\lambda_u = \lambda_v\,(1 + \xi(v-u)/\beta_u)^{1/\xi}$. \textbf{Cet estimateur n'est pas
+pilotable}, et la raison est structurelle. Son biais se décompose en
+\[
+\frac{p^{\text{EVT}}}{p_j} \;=\;
+\underbrace{\mathbb E[\,q(S)\mid S>v\,]}_{\text{plancher de déclaration à } v}
+\;\times\;
+\underbrace{\big(\widehat{\text{ratio}}\,/\,\text{ratio}\big)}_{\text{bruit sur }\xi,\beta,\ \text{levier } (v-u)} .
+\]
+Quand $v$ monte, le \emph{plancher} tend vers~1 (bon), mais l'\emph{erreur de ratio} s'écarte
+de~1 sans règle : elle passe de $0{,}98$ à $0{,}59$ selon $v$. Le biais résultant sur $K_j$
+va de $-0{,}066$ à $+0{,}365$, contre $+0{,}036$ pour un simple comptage. Un $v$ optimal
+existe, mais \textbf{on ne peut pas le localiser sans connaître la vérité}. Et le gain
+éventuel provient du \emph{plancher} --- c'est-à-dire du seul fait de regarder plus haut,
+exactement le levier déjà établi. L'extrapolation n'ajoute que du bruit.
+
+\smallskip
+\noindent\textbf{Le rôle de l'EVT est ailleurs, et il tient.} Elle modélise la
+\textbf{sévérité au-dessus de $u_j$}, donc le \emph{capital}, avec un indice de queue $\xi$
+invariant à la troncature à gauche ($0{,}902$ contre $0{,}886$, vrai $0{,}90$). Elle ne
+touche pas au seuil. Ne lui faisons pas porter plus que cela.
+\end{attention}
 
 \section{Banc d'essai : $\Phi^{-1}(\mathrm{PD})$ contre l'EVT}
 
 On teste numériquement l'argument précédent : sévérités cyber \textbf{à queue lourde} (GPD,
-indice $\xi=0{,}40$) avec \textbf{sous-déclaration} des petits incidents ; on compare trois
-estimations du capital de queue (VaR~99,5~\%) sur 500 tirages.
+indice $\xi=0{,}90$, \textbf{ancré sur SAS OpRisk}, cf.~\S\ref{sec:donnees}) avec
+\textbf{sous-déclaration} des petits incidents ; on compare trois estimations du capital de
+queue (VaR~99,5~\%) sur 500 tirages. La barre de matérialité est placée à $u=15$, là où le
+taux de déclaration $q(u)$ atteint $0{,}985$.
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{figures/J_seuil_Ki.png}
 \caption{(J2) La lognormale sous-provisionne, l'empirique est instable, l'EVT tombe juste.
-(J1) Quand la menace monte, $K=\Phi^{-1}(\mathrm{PD})$ dérive tandis que l'indice de queue EVT
-reste stable.}
+(J1) Recalibrer le seuil à chaque période le fait dériver mécaniquement ; l'estimer une fois
+le laisse plat, et c'est la probabilité de dépassement qui absorbe la montée de la menace.}
 \end{figure}
 
 \begin{table}[htbp]\centering\small
 \renewcommand{\arraystretch}{1.25}
-\begin{tabular}{@{}l c l@{}}
+\begin{tabular}{@{}l c c l@{}}
 \toprule
-\textbf{Méthode} & \textbf{Biais médian} & \textbf{Lecture} \\
+\textbf{Méthode} & \textbf{Biais médian} & \textbf{IQR} & \textbf{Lecture} \\
 \midrule
-M1 lognormale (monde $\Phi^{-1}$) & $-13{,}6\%$ & sous-provisionne le capital \\
-M2 quantile empirique & $-9{,}6\%$ & biaisé \emph{et} très instable \\
-M3 EVT / POT & $\mathbf{-1{,}4\%}$ & quasi sans biais \\
+M1 lognormale (monde $\Phi^{-1}$) & $-63{,}9\%$ & $0{,}09$ & \textbf{précise et fausse} \\
+M2 quantile empirique & $-15{,}7\%$ & $0{,}58$ & biaisé \emph{et} instable \\
+M3 EVT / POT & $\mathbf{-0{,}8\%}$ & $0{,}62$ & \textbf{juste et imprécise} \\
 \bottomrule
 \end{tabular}
-\caption{Capital estimé / vérité (VaR~99,5~\%). Vérité $=24{,}1$ unités de perte.}
+\caption{Capital estimé / vérité (VaR~99,5~\%). Vérité $=212{,}9$ unités de perte.
+Avec $\xi = 0{,}90 > 0{,}5$ la \emph{variance} de la sévérité est infinie : le RMSE d'un
+estimateur de quantile perd son contenu asymptotique, et l'on doit lire le biais médian et
+l'écart interquartile.}
 \end{table}
 
-Deux enseignements robustes :
+\begin{cle}
+\textbf{Le vrai reproche à la lognormale n'est pas d'être bruyante, c'est d'être
+confiante.} Son écart interquartile vaut $0{,}09$ --- dix fois plus resserré que celui de
+l'EVT --- et elle rate la cible de $64\,\%$. Elle produit un capital \emph{reproductible} et
+\emph{faux}. L'EVT, elle, est sans biais mais dispersée : c'est le prix honnête d'une queue
+d'indice $0{,}9$, où la variance de la sévérité n'existe pas.
+\end{cle}
+
+\noindent Deux enseignements robustes :
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
-\item \textbf{Invariance de la queue à la sous-déclaration.} L'indice de queue vaut $0{,}39$
-  sur données complètes et $0{,}38$ sur données sous-déclarées (vrai $0{,}40$) : tronquer les
+\item \textbf{Invariance de la queue à la sous-déclaration.} L'indice de queue vaut $0{,}902$
+  sur données complètes et $0{,}886$ sur données sous-déclarées (vrai $0{,}90$) : tronquer les
   \emph{petits} incidents ne biaise pas la queue. L'EVT est donc robuste au biais de
   déclaration ; un ajustement lognormal, non.
-\item \textbf{Dérive du seuil classique.} $K=\Phi^{-1}(\mathrm{PD})$ passe de $0{,}71$ à
-  $0{,}35$ quand la menace monte : cible mouvante, inutilisable comme exigence stable ; l'indice
-  de queue EVT reste plat à $0{,}40$.
+\item \textbf{Un seuil ne peut pas être à la fois fixe et recalculé.} Recalibré à chaque
+  période sur la fréquence de la période, $K$ passe de $1{,}36$ à $1{,}16$ : la dérive n'est
+  pas une propriété de $\Phi^{-1}$, c'est ce qui arrive quand on ré-inverse une fréquence qui
+  monte. Estimé \emph{une fois} sur une période de référence, il reste à $1{,}36$, et la
+  menace croissante passe dans la \textbf{sortie} du modèle : la probabilité de dépassement
+  monte de $8{,}8\,\%$ à $12{,}3\,\%$. Le message réglementaire est qu'un seuil recalibré
+  chaque trimestre détruit le benchmarking.
 \end{itemize}
 
 \begin{attention}
@@ -297,12 +593,23 @@ cyber est GPD ; il \textbf{illustre} deux propriétés statistiques \emph{connue
 l'indice de queue par troncature à gauche ; instabilité de $\Phi^{-1}(\mathrm{PD})$ sous
 non-stationnarité). La défendabilité vient de la \emph{plausibilité du modèle de sévérité
 cyber}, pas de ce test.
+
+\smallskip
+\noindent Ce qui \textbf{n'est plus} arbitraire, en revanche, c'est la \emph{sévérité} de la
+queue : $\xi = 0{,}90$ est mesuré sur $20\,599$ pertes opérationnelles réelles, en dollars
+(\S\ref{sec:donnees}). Le banc d'essai a d'abord tourné à $\xi = 0{,}40$, une valeur posée ;
+l'ancrage empirique fait passer le biais de la lognormale de $-13{,}6\,\%$ à
+$\mathbf{-63{,}9\,\%}$. \textbf{L'ancrage ne fragilise pas la conclusion, il la durcit.}
 \end{attention}
 
-\section{Calibrer $W$ : un protocole prêt pour les données}
+\section{Le protocole de calibration de $W$, et sa validation en simulation}
+\label{sec:calib}
 
-Comment estimera-t-on $W$ sur des données réelles ? On décrit le protocole et on le
-\textbf{valide sur des données simulées} dont on connaît la vérité.
+Comment estimerait-on $W$ sur un panel réel ? On décrit le protocole et on le \textbf{valide
+sur des données simulées} dont on connaît la vérité. Le modèle estimé est exactement celui de
+l'équation~\eqref{eq:dyn}. La section~\ref{sec:donnees} examinera ensuite si un tel panel
+existe --- la réponse sera négative, et c'est précisément pour cela que ce protocole doit être
+établi proprement : il définit la donnée qui manque.
 
 \begin{cle}
 \textbf{Point d'identification.} L'asymétrie de $W$ (qui entraîne qui) ne s'identifie que par
@@ -311,40 +618,331 @@ transversale seule ne donne qu'une dépendance \emph{symétrique}, la limite ét
 introduction. Le modèle de calibration est donc \textbf{dynamique}.
 \end{cle}
 
-\noindent Pour l'entité~$i$, le pilier~$j$ et la période~$t$ :
-\begin{equation}
-X_{ij,t} = \text{base}_j + \sum_{k\neq j} W_{jk}\,D_{ik,t-1} + s_j\,\Y_{j,t} + \eps_{ij,t},
-\qquad D_{ij,t} = \mathbf 1\{X_{ij,t} \ge 0\},
-\end{equation}
-où $D_{ik,t-1}$ indique si le pilier~$k$ a subi un incident à la période précédente.
+\paragraph{Estimateur : un probit, et non un logit.} Le modèle générateur pose
+$\eps_{ij,t}$ gaussien et $D_{ij,t} = \mathbf 1\{X_{ij,t} \ge 0\}$ : c'est
+\emph{littéralement} un probit. Pour chaque pilier~$j$, on régresse donc $D_{ij,t}$ sur les
+incidents \textbf{retardés} des autres piliers $\{D_{ik,t-1}\}_{k\neq j}$, avec des effets
+fixes de période qui absorbent le systémique $\Y_{j,t}$. Les coefficients estiment la
+ligne~$j$ de $W$, \textbf{dans les unités de $W$}.
 
-\paragraph{Estimateur.} Pour chaque pilier~$j$, une \textbf{régression logistique} de $D_{ij,t}$
-sur les incidents \emph{retardés} des autres piliers $\{D_{ik,t-1}\}_{k\neq j}$, avec des effets
-fixes de période qui absorbent le systémique $\Y_{j,t}$. Les coefficients estiment la ligne~$j$
-de $W$. Simple, interprétable, et directement une matrice dirigée.
+\begin{attention}
+\textbf{Le lien n'est pas un détail cosmétique.} Une régression \emph{logistique} sur le même
+panel retrouve la bonne structure (corrélation $0{,}92$) mais des \textbf{magnitudes fausses} :
+la pente de $\hat W$ contre $W$ vaut $\mathbf{2{,}11}$ au lieu de~1, l'inflation classique
+entre échelles logit et probit. Un $\hat W$ en unités logit ne peut être ni injecté dans la
+matrice de génération suivante, ni comparé au $\Phi^{-1}$ du seuil. Avec le probit, la pente
+vaut $\mathbf{1{,}08}$ : on passe d'une revendication de \emph{structure} à une revendication
+d'\emph{amplitude}.
+\end{attention}
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{figures/K1_calibration_W.png}
-\caption{Sur un panel simulé, l'estimateur retrouve la structure dirigée de $W$ : corrélation
-$0{,}97$ entre estimation et vérité, sens de l'asymétrie correct pour $100\%$ des paires.
-L'estimé est en unités logit (échelle différente), mais la structure et les magnitudes
-\emph{relatives} sont exactes, le résultat défendable.}
-\end{figure}
-
-\begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{figures/K2_calibration_diagnostics.png}
-\caption{(a) Quelques centaines d'entités suffisent : la corrélation passe de $0{,}75$
-($N=50$) à $0{,}92$ ($N\ge 400$). (b) La récupération résiste à la sous-déclaration jusqu'à
-$60\%$ : tronquer les petits incidents n'efface pas le sens de la propagation.}
+\caption{Sur un panel simulé ($800$ entités $\times$ $60$ périodes), le probit retrouve $W$
+dans ses propres unités : corrélation $0{,}92$, pente $1{,}08$, sens de l'asymétrie correct
+pour $100\,\%$ des paires. Le logit, lui, gonfle systématiquement les coefficients.}
 \end{figure}
 
 \begin{attention}
-\textbf{Portée.} Le monde simulé est propre (signal net, estimateur bien spécifié). Le
-protocole établit que la méthode est \textbf{consistante} et chiffre le besoin en données ;
-il ne prétend pas que la calibration réelle sera aussi facile (données plus bruitées,
-périodes plus courtes, confusion possible). La brique méthodologique est acquise : il ne
-manque que le \textbf{panel d'incidents daté}.
+\textbf{La normalisation \eqref{eq:norm} rend la calibration plus exigeante, et c'est une
+information.} Le coefficient maximal de $W$ tombe de $0{,}72$ (TRANS brut) à $0{,}31$ : le
+signal à détecter est \emph{trois fois plus faible}. La courbe de puissance s'en ressent
+directement --- il faut désormais $N \approx 400$ entités pour atteindre une corrélation de
+$0{,}90$. \textbf{La contagion admissible est faible}, donc l'exigence en données est plus
+lourde que ne le laissait croire la version non normalisée.
 \end{attention}
+
+\begin{attention}
+\textbf{Un bug d'indexation, et sa signature.} Dans une première version de ce protocole, les
+indicatrices de période étaient affectées aux mauvaises observations
+(\texttt{np.repeat} au lieu de \texttt{np.tile} : le panel est aplati entité par entité, non
+période par période). Elles n'absorbaient donc \textbf{rien}, et le systémique $s_j\Y_{j,t}$
+restait dans le terme d'erreur, dont la variance passe de $1$ à $1+s_j^2$. Le probit s'en
+trouvait \emph{atténué} d'un facteur $1/\sqrt{1+s_j^2} = 0{,}894$ pour $s_j = 0{,}5$, et la
+pente rapportée valait alors $0{,}92$ --- une valeur \textbf{indiscernable} de celle d'un
+estimateur qui fonctionne. Seule la tentative d'extraire $\Y_{j,t}$ de ces effets fixes
+(section~\ref{sec:systemique}) a révélé l'erreur. \emph{Un estimateur qui rend le chiffre
+attendu n'est pas pour autant correct.}
+\end{attention}
+
+\paragraph{Deux tests de falsification.} Ce sont eux qui séparent \og{}j'ai un résultat\fg{}
+de \og{}mon résultat est crédible\fg{}. \emph{(i)~Placebo temporel} : on permute les périodes
+à l'intérieur de chaque entité, ce qui préserve la co-occurrence mais détruit l'antériorité.
+L'asymétrie de $\hat W$ s'effondre de $1{,}57$ à $0{,}38$. \emph{(ii)~Temps inversé} : on
+ré-estime sur la chronologie renversée. La corrélation entre le $\hat W$ initial et le $\hat W$
+inversé vaut $-0{,}70$ : le sens s'inverse bien, donc on capte de la \textbf{direction} et non
+de la co-occurrence contemporaine.
+
+\begin{attention}
+\textbf{Le test du temps inversé est dégénéré si on l'applique à un comptage brut.} Sur une
+simple matrice de comptages de transitions, renverser la chronologie échange exactement les
+rôles de $k$ et de $j$ sur chaque paire de périodes consécutives : on obtient
+$M_{\text{inv}} = M^\top$ \emph{par construction}, donc une corrélation des asymétries
+égale à $-1$ quel que soit le contenu des données. Le test ne prouve alors rien, et se valide
+tout seul. Il ne porte de l'information que sur l'estimateur \textbf{probit avec effets fixes
+de période}, dont la structure brise cette symétrie : c'est bien pourquoi il rend $-0{,}70$
+et non~$-1$. \emph{Le placebo par permutation, lui, reste valide dans les deux cas} : c'est
+sur lui qu'il faut s'appuyer.
+\end{attention}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/K2_calibration_diagnostics.png}
+\caption{(a) Avec la contagion \emph{admissible} (normalisée), quelques centaines d'entités
+ne suffisent plus : la corrélation passe de $0{,}43$ ($N=50$) à $0{,}90$ ($N=400$), et
+le sens de l'asymétrie de $72\,\%$ à $91\,\%$ des paires. (b) La récupération se dégrade
+progressivement avec la sous-déclaration (corrélation $0{,}85 \to 0{,}50$ entre $0\,\%$ et
+$60\,\%$), et le \emph{sens} de la propagation se dégrade aussi ($91\,\% \to 69\,\%$).}
+\end{figure}
+
+\begin{attention}
+\textbf{Portée du monde simulé.} Il est propre : signal net, estimateur bien spécifié. Le
+protocole établit que la méthode est \textbf{consistante} et chiffre le besoin en données. Il
+ne dit rien de la faisabilité réelle. C'est l'objet de la section suivante, et la réponse
+est~\emph{non}.
+\end{attention}
+
+\section{Calibrer le systémique : $\Y_j$, les charges $s_j$ et $\Sigma_Y$}
+\label{sec:systemique}
+
+La généralisation~A posait un facteur systémique \emph{par pilier} et des dépendances
+croisées $\Sigma_Y$, sans jamais dire comment on les estimerait. C'est le dernier bloc du
+modèle laissé en suspens. Deux protocoles le comblent, et leur \emph{différence} est le
+résultat.
+
+\paragraph{Route A : lire les effets fixes de période.} Ils n'ont jamais été regardés. Or,
+dans le probit du protocole \eqref{eq:dyn}, le coefficient de l'indicatrice de période~$t$
+pour le pilier~$j$ vaut exactement
+\[
+\varphi_{j,t} \;=\; \text{base}_j \;+\; s_j\,\Y_{j,t}.
+\]
+Il suffit donc de les lire : $\text{base}_j = \overline{\varphi_j}$, $s_j =
+\mathrm{sd}_t(\varphi_j)$, $\Y_{j,t} = (\varphi_{j,t}-\text{base}_j)/s_j$, et
+$\Sigma_Y = \mathrm{corr}(\varphi)$ --- l'échelle $s_j$ n'affectant pas la corrélation. Sur
+panel simulé : $\mathrm{corr}(\hat\Y_j,\Y_j) = \mathbf{0{,}981}$ en moyenne, et les charges
+sont retrouvées presque sans biais ($\hat s = 0{,}38\,;\,0{,}50\,;\,0{,}47\,;\,0{,}66\,;\,0{,}30$
+contre $0{,}35\,;\,0{,}55\,;\,0{,}45\,;\,0{,}60\,;\,0{,}30$).
+
+\paragraph{Route B : la distance de Frobenius, sur données agrégées.} C'est la transposition
+directe de Pineau et Zu\~niga (2023, éq.~5), qui extraient leur facteur $Z$ en minimisant la
+distance de Frobenius entre matrices de transition observées et engendrées. Ici, pour chaque
+période, on observe la matrice $5\times 5$ des \textbf{co-incidences retardées}
+$\Pi_{jk} = \mathbb P(\text{incident en } j \text{ à } t \;\wedge\; \text{incident en } k
+\text{ à } t\!-\!1)$ et les cinq \textbf{incidences marginales}, puis l'on résout
+\begin{equation}
+\Y_t \;=\; \arg\min_{\Y} \;\big\|\,\text{moments observés} - \text{moments du modèle}(\Y)\,\big\|^2 ,
+\end{equation}
+soit $30$ équations pour $5$ inconnues. Résultat : $\mathrm{corr}(\hat\Y_j,\Y_j) =
+\mathbf{0{,}969}$, à peine moins bien que la route~A.
+
+\begin{attention}
+\textbf{Les moments marginaux ne sont pas décoratifs.} Avec les seules co-incidences
+($25$~moments), $\Y$ n'est estimé que sur les entités ayant \emph{déjà} subi un incident à
+$t\!-\!1$, soit ${\approx}\,6\,\%$ de l'échantillon. L'identification y est si faible que
+l'estimateur absorbe une partie du systémique \textbf{retardé} : le résidu corrèle jusqu'à
+$+0{,}36$ avec $\Y_{t-1}$, l'écart-type de $\hat s_j$ est gonflé du double, et
+$\mathrm{corr}(\hat\Y,\Y)$ tombe à $0{,}835$. Le fractionnement d'échantillon ne corrige
+rien, car le biais est \emph{commun} aux deux moitiés. Ajouter les cinq incidences marginales
+rétablit tout.
+\end{attention}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/N_facteur_systemique.png}
+\caption{(a) Le facteur systémique du pilier P4 est restitué par les deux routes. (b) Par
+pilier, la corrélation dépasse $0{,}90$ partout. (c) Les dépendances croisées $\Sigma_Y$ sont
+retrouvées avec une erreur absolue moyenne de $0{,}09$.}
+\end{figure}
+
+\begin{cle}
+\textbf{Le verrou est plus étroit qu'annoncé, et c'est un résultat positif.} La route~B
+n'utilise \textbf{aucun identifiant d'entité} : uniquement des comptages agrégés par pilier
+et par période. Or c'est précisément ce que publient les registres DORA, l'ENISA et les CERT.
+\[
+\underbrace{W}_{\text{panel individuel horodaté au mois : introuvable}}
+\qquad\text{contre}\qquad
+\underbrace{\Y_j,\; s_j,\; \Sigma_Y}_{\text{statistiques agrégées publiques : disponibles}}
+\]
+Le chapitre suivant montre que $W$ n'est calibrable sur aucune source. Le systémique, lui,
+l'est déjà.
+\end{cle}
+
+\section{Peut-on calibrer $W$ sur les données disponibles ? Non.}
+\label{sec:donnees}
+
+Deux sources sérieuses ont été examinées. Aucune ne permet d'estimer $W$, et les deux
+échouent pour des raisons \textbf{différentes}. C'est cette différence qui est instructive.
+
+\subsection*{Source 1 : chronologie des violations de données (74\,783 incidents)}
+
+Notifications de violations de données personnelles auprès de procureurs d'États américains.
+$25\,009$ organisations, huit types d'incident.
+
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+\item \textbf{Taxonomie incompatible.} Les types (\textsc{hack}, \textsc{disc},
+  \textsc{insd}, \textsc{port}, \textsc{phys}\dots) sont des \emph{vecteurs d'attaque}
+  --- comment la brèche est arrivée. Les piliers DORA sont des \emph{domaines de contrôle}.
+  Un incident \textsc{hack} ne dit pas quel pilier a cédé : gouvernance (P1), tiers (P4) ou
+  absence de tests (P3). Rien ne touche P3 ni P5. La catégorie \textsc{unkn} pèse
+  $53\,\%$ à elle seule.
+\item \textbf{Puissance insuffisante.} Une fois \textsc{unkn} retiré, il reste
+  \textbf{89 transitions} $k(t\!-\!1)\to j(t)$ sur trimestres consécutifs dans toute la base,
+  soit $4{,}5$ observations par cellule hors-diagonale, et $38$ seulement sur le secteur
+  financier. La figure~K2 exigeait plusieurs centaines d'entités sur des dizaines de périodes.
+\item \textbf{La date piège des deux côtés.} La date de survenance n'est exploitable que pour
+  $54{,}8\,\%$ des lignes, et le manquant est violemment non aléatoire : de $2{,}6\,\%$
+  (\textsc{card}) et $15{,}8\,\%$ (\textsc{hack}) à $89{,}4\,\%$ (\textsc{phys}). L'utiliser
+  \emph{élimine} \textsc{phys} du panel. Recourir à la date de déclaration les récupère mais
+  corrompt l'ordre : le délai médian de déclaration va de $44$ jours (\textsc{disc}) à $131$
+  jours (\textsc{hack}), un facteur~$3$. Sur \emph{les mêmes} incidents, changer d'axe
+  temporel inverse le sens de l'asymétrie dans \textbf{6 paires sur 9}.
+\end{itemize}
+
+\subsection*{Source 2 : SAS OpRisk Global Data (41\,976 pertes opérationnelles)}
+
+Pertes opérationnelles réelles, en dollars, catégorisées selon Bâle. Ici, \textbf{le volume
+est au rendez-vous} : sur le secteur financier, après déduplication des événements éclatés en
+plusieurs pertes, on obtient \textbf{4\,329 transitions} annuelles consécutives sur les sept
+catégories de niveau~1, soit $103$ observations par cellule et $1\,552$ firmes qualifiées.
+C'est la première fois que le seuil de puissance de la figure~K2 est atteint.
+
+\begin{cle}
+\textbf{Et pourtant, le signal directionnel est nul.} On applique le placebo par permutation :
+on permute les années à l'intérieur de chaque firme, ce qui préserve la co-occurrence et
+détruit l'antériorité.
+\[
+\text{asymétrie réelle} = 119, \qquad
+\text{asymétrie sous placebo} = 128 \pm 27, \qquad
+z = -0{,}3 .
+\]
+L'asymétrie observée est \emph{en dessous} du bruit. Le test binomial paire par paire le
+confirme : sur $18$ paires, \textbf{aucune n'est significative}, même sans correction pour
+tests multiples, la plus faible $p$-value valant $0{,}180$. Les comptages sont d'une symétrie
+frappante : Clients$\leftrightarrow$Fraude~externe $412/414$, Clients$\leftrightarrow$Fraude
+interne $414/412$, Fraude externe$\leftrightarrow$interne $400/411$.
+\end{cle}
+
+\noindent \textbf{La cause est la granularité temporelle.} La seule date de survenance
+disponible est \emph{l'année}. La contagion entre types de risque opérationnel opère
+vraisemblablement en semaines ou en mois. Avec un pas annuel, les deux ordres apparaissent
+également et l'asymétrie qui identifie $W$ est lessivée. Les sous-catégories les plus proches
+du TIC sont par ailleurs famélot : \emph{Systems Security} $753$ événements, \emph{Systems}
+$335$, \emph{Vendors \& Suppliers} $\mathbf{35}$, ce qui ne donne que $141$ transitions.
+
+\begin{cle}
+\textbf{Un échec qui démontre l'argument d'identification.} La note affirmait, sur la base
+d'un raisonnement, que l'asymétrie de $W$ ne s'identifie que par l'information temporelle
+fine. La source~2 en apporte la \textbf{confirmation empirique} : avec un volume amplement
+suffisant mais un pas d'un an, la matrice de transition devient \emph{exactement symétrique}.
+Ce n'est pas le volume qui manque, c'est la résolution.
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/M_faisabilite.png}
+\caption{(a) Sur le volume, seule SAS OpRisk franchit l'ordre de grandeur requis par la
+figure~K2. (b) Et pourtant son asymétrie réelle tombe \emph{sous} la distribution placebo
+obtenue en permutant les années : le pas annuel a lessivé la direction. (c) Ce que les
+données identifient sans ambiguïté, c'est l'indice de queue $\xi$, et son hétérogénéité entre
+catégories.}
+\end{figure}
+
+\begin{attention}
+\textbf{Recommandation de conception réglementaire.} Les deux échecs sont complémentaires :
+la source~1 manque de volume et de taxonomie, la source~2 manque de résolution temporelle.
+Ensemble, elles délimitent ce qu'un registre exploitable devrait être. \textbf{Les registres
+d'incidents DORA doivent horodater la \emph{survenance} au mois ou à la semaine, et
+catégoriser par domaine de contrôle et non par vecteur d'attaque.} À défaut, la structure
+dirigée de la contagion restera inidentifiable \emph{quel que soit le volume collecté}.
+C'est un résultat de conception, dérivé d'une analyse de puissance.
+\end{attention}
+
+\subsection*{Ce que les données permettent : ancrer l'indice de queue}
+
+SAS OpRisk donne des pertes \textbf{en dollars}, avec un plancher de collecte à
+$0{,}1$~M\$. Cette troncature à gauche est exactement la structure de sous-déclaration du
+banc d'essai, et l'indice de queue y est \emph{invariant} : l'ancrage est donc légitime.
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}c c c c@{}}
+\toprule
+\textbf{seuil} & \textbf{dépassements} & $\boldsymbol{\hat\xi}$ brut & $\boldsymbol{\hat\xi}$ nettoyé \\
+\midrule
+$75$~M\$ & $2\,049$ & $0{,}95$ & $0{,}93$ \\
+$195$~M\$ & $1\,028$ & $0{,}88$ & $0{,}83$ \\
+$1\,031$~M\$ & $206$ & $0{,}92$ & $0{,}68$ \\
+\bottomrule
+\end{tabular}
+\caption{Indice de queue de $20\,590$ pertes opérationnelles du secteur financier.
+$\hat\xi \approx 0{,}9$ : c'est la valeur désormais retenue dans les bancs d'essai, en lieu
+et place du $0{,}40$ initialement postulé. Elle varie aussi par catégorie
+(exécution/livraison $1{,}27$ ; fraude interne $1{,}37$ ; fraude externe $0{,}98$), ce qui
+appuie un paramétrage \textbf{par pilier} plutôt que global.}
+\end{table}
+
+\begin{attention}
+\textbf{Fragilité à documenter.} La plus grosse perte de la base est un Citigroup~2024 à
+$81\,000\,000$~M\$, c'est-à-dire l'erreur de saisie où $81\,000$ milliards furent crédités au
+lieu de $280$ dollars, opération \emph{annulée}. Ce n'est pas une perte réalisée. Le retirer
+fait passer $\hat\xi$ de $0{,}92$ à $0{,}68$ au seuil $q_{99}$ : \textbf{un seul point déplace
+l'indice de queue de près de $0{,}25$}. Toute estimation devra s'accompagner d'un nettoyage
+documenté et d'une analyse de sensibilité aux plus grandes valeurs.
+
+\smallskip
+\noindent Signalons un piège rencontré en chemin : la déduplication (firme, année, catégorie)
+est \emph{indispensable} pour compter les transitions, car un même événement éclaté en
+plusieurs pertes gonflerait la co-occurrence. Mais elle est \emph{fautive} pour estimer la
+sévérité, où chaque perte est une observation légitime. Les deux échantillons ne coïncident
+pas ($17\,198$ couples contre $20\,590$ pertes).
+\end{attention}
+
+\section{La méthode retenue}
+\label{sec:methode}
+
+Faute de panel identifiant, on \textbf{conserve $W$} et l'on assume que la contribution est
+\emph{méthodologique}. Ce qui suit énonce, sans ambiguïté, le statut de chaque objet du
+modèle : ce qui est posé, ce qui est dérivé, ce qui est ancré sur données, ce qui est balayé
+en sensibilité.
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{2.9cm} >{\raggedright\arraybackslash}p{8.4cm}@{}}
+\toprule
+\textbf{Objet} & \textbf{Statut} & \textbf{Justification et traitement} \\
+\midrule
+Structure de $W$ (TRANS) & \textbf{posée} (expert) & Assumée comme hypothèse déclarée, non comme mesure. Aucune des deux sources ne l'identifie (\S\ref{sec:donnees}). \\
+\addlinespace[2pt]
+Normalisation de $W$ & \textbf{dérivée} & Éq.~\eqref{eq:norm} : $W$ est une matrice de \emph{parts}, comme la matrice technique de Leontief. Stabilité garantie, pas supposée. \\
+\addlinespace[2pt]
+Gain $g$ & \textbf{borné puis balayé} & $g\in(0,1]$ par la décomposition de variance. Les résultats sont rapportés sur toute la plage plutôt qu'en un point. \\
+\addlinespace[2pt]
+Amorce ROOT & \textbf{dérivée} & Se déduit de TRANS comme progéniture $(I-M)^{-1}$ (Spearman $=1{,}00$). Cinq paramètres d'expert supprimés. \\
+\addlinespace[2pt]
+$R_0 = \rho(M)$ & \textbf{dérivé} & Gouverne l'extinction. Remplace $\rho(W)$, qui est alarmiste d'un facteur $4{,}6$. \\
+\addlinespace[2pt]
+Indice de queue $\xi$ & \textbf{ancré} (SAS OpRisk) & $\hat\xi \approx 0{,}9$ sur pertes en dollars, avec sensibilité aux valeurs extrêmes. Invariant à la troncature à gauche. \\
+\addlinespace[2pt]
+Seuil $K_j$ & \textbf{dérivé} & $K_j = F^{-1}(1-p_j)$, $p_j$ ancré sur la barre de matérialité $u_j$, choisie là où $q(u_j)\approx 1$. \\
+\addlinespace[2pt]
+Chargement $\rho_j$ & \textbf{balayé} & Hiérarchique $\rho_{ij}=\rho_j+u_{ij}$, non identifiable ici : rapporté en sensibilité. \\
+\addlinespace[2pt]
+Estimateur (si données) & \textbf{probit} & Le lien du modèle générateur. Protocole validé en simulation, prêt à brancher. \\
+\bottomrule
+\end{tabular}
+\caption{Statut de chaque paramètre. \textbf{Aucun chiffre de $W$ n'est présenté comme
+empirique.} Ce qui est empirique, c'est $\xi$ ; ce qui est dérivé l'est explicitement ; le
+reste est balayé.}
+\end{table}
+
+\begin{cle}
+\textbf{Ce que la note revendique, et ce qu'elle ne revendique pas.} Elle \emph{ne} revendique
+\emph{pas} une matrice de contagion mesurée. Elle revendique : \emph{(i)} que la
+directionnalité, et non la non-transitivité, est ce qui casse le Vasicek mono-facteur ;
+\emph{(ii)} que la forme simultanée $(I-W)^{-1}$ est mal posée sur TRANS et surévalue le
+risque d'emballement d'un facteur $4{,}6$, là où la lecture par \textbf{processus de
+branchement} est bien définie ; \emph{(iii)} que le barème ROOT est redondant ; \emph{(iv)}
+que le seuil s'obtient toujours en inversant une répartition, et que son biais vaut exactement
+le taux de déclaration à la barre ; \emph{(v)} qu'aucune des deux grandes sources disponibles
+n'identifie $W$, pour des raisons opposées, d'où une exigence chiffrée sur les registres
+futurs. Ces cinq énoncés sont établis, et aucun ne dépend d'un panel réel.
+\end{cle}
 
 \section{Récapitulatif : le modèle en un tableau}
 
@@ -354,12 +952,15 @@ manque que le \textbf{panel d'incidents daté}.
 \toprule
 \textbf{Objet} & \textbf{Rôle} & \textbf{Dépend de} \\
 \midrule
+$X_{ij}$ & \textbf{stress} latent (pas la santé) & de l'entité $i$ et du pilier $j$ \\
 $\Y_j$ & facteur systémique du pilier & \textbf{du pilier $j$} \\
 $\rho_{ij}=\rho_j+u_{ij}$ & sensibilité au systémique & \textbf{de l'entité $i$ et du pilier $j$} (moyenne $\rho_j$) \\
 $\Sigma_Y$ & dépendances croisées (symétriques) & des paires de piliers \\
-$W_{jk}$ & contagion \textbf{dirigée} $k\to j$ & de l'ordre (asymétrique, TRANS) \\
+$W = g\cdot\mathrm{TRANS}$ & contagion \textbf{dirigée} $k\to j$, retardée & de la structure TRANS et du gain $g$ \\
+$M_{jk}$ & matrice de \textbf{génération suivante} & de $W$ et de l'incidence de fond \\
+$R_0 = \rho(M)$ & extinction de la cascade & $<1$ requis \\
 $\eps_{ij}$ & choc idiosyncratique & de l'entité et du pilier \\
-$K_j$ & seuil de déclenchement & \textbf{réglementaire} (DORA), \emph{pas} $\Phi^{-1}(\mathrm{PD})$ \\
+$K_j = F^{-1}(1-p_j)$ & seuil de déclenchement & de la \textbf{barre $u_j$} (DORA) via $p_j$ \\
 \bottomrule
 \end{tabular}
 \caption{Tout ce qui portait un indice global dans Vasicek devient \textbf{propre au pilier}
@@ -368,11 +969,12 @@ ou \textbf{dirigé}. C'est le c\oe ur de l'adaptation à DORA.}
 
 \begin{cle}
 \textbf{Synthèse.} \emph{(A)} un facteur systémique \textbf{par pilier} $\Y_j$ et une
-sensibilité $\rho_{ij}=\rho_j+u_{ij}$ \textbf{hiérarchique} (moyenne de pilier $\rho_j$ +
-écart entité $u_{ij}$) ; \emph{(B)} une contagion \textbf{dirigée} entre piliers ($W$
-asymétrique, structure TRANS) ; \emph{(C)} un seuil $K_j$ \textbf{réglementaire} et une queue
-\textbf{EVT}, à la place de $\Phi^{-1}(\mathrm{PD})$. Les trois s'emboîtent sur le Vasicek
-standard, qu'on retrouve en annulant les extensions.
+sensibilité $\rho_{ij}=\rho_j+u_{ij}$ \textbf{hiérarchique} ; \emph{(B)} une contagion
+\textbf{dirigée et retardée} entre piliers, lue comme un \textbf{processus de branchement}
+dont l'extinction est gouvernée par $R_0 = \rho(M)$ ; \emph{(C)} un seuil
+$K_j = F^{-1}(1-p_j)$ ancré sur la \textbf{barre de matérialité} DORA, et une queue
+\textbf{EVT} pour le capital. Les trois s'emboîtent sur le Vasicek standard, qu'on retrouve
+en annulant les extensions.
 \end{cle}
 
 \clearpage
@@ -387,31 +989,51 @@ ma recommandation :
 \toprule
 \textbf{Décision} & \textbf{Options} & \textbf{Recommandation} \\
 \midrule
+Forme de la contagion & simultanée sur latentes / retardée sur incidents & \textbf{retardée} : c'est la seule identifiable, et elle évite l'explosion de $(I-W)^{-1}$ \\
+\addlinespace[2pt]
 Chargement systémique & $\rho$ global / $\rho_j$ pilier / $\rho_{ij}$ entité & \textbf{hiérarchique} $\rho_{ij}=\rho_j+u_{ij}$ \\
 \addlinespace[2pt]
-Structure de dépendance & copule gaussienne / Student-$t$ / archimédienne & \textbf{copule $t$} (queue lourde, un seul $\nu$) \\
+Structure de dépendance & gaussienne / Student-$t$ avec mélange explicite & \textbf{à trancher} : le modèle linéaire donne des marges gaussiennes ; la copule $t$ exige d'ajouter $\zeta=\sqrt{\nu/\chi^2_\nu}$ \\
 \addlinespace[2pt]
-Seuil $K_j$ & $\Phi^{-1}(\mathrm{PD})$ / matérialité + EVT & \textbf{matérialité DORA + EVT} \\
+Seuil $K_j$ & $\Phi^{-1}(\mathrm{PD})$ / $F^{-1}(1-p_j)$ ancré sur $u_j$ & \textbf{$F^{-1}(1-p_j)$}, avec $u_j$ placé là où $q(u_j)\approx 1$ \\
 \addlinespace[2pt]
-Contagion $W$ & fixée à dire d'expert / calibrée & à \textbf{estimer} (cf. données) \\
+Estimateur de $W$ & logit / probit & \textbf{probit} (le lien du modèle générateur) \\
+\addlinespace[2pt]
+Gain $g$ et amorce ROOT & posés à dire d'expert / dérivés & $g$ \textbf{balayé} en sensibilité (non identifiable, cf. \S\ref{sec:donnees}) ; ROOT se \textbf{déduit} de TRANS \\
+\addlinespace[2pt]
+Indice de queue $\xi$ & posé / ancré sur données & \textbf{ancré} : $\hat\xi\approx 0{,}9$ (SAS OpRisk, pertes en dollars) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{attention}
-\textbf{Le vrai chantier suivant : la donnée.} Tout repose aujourd'hui sur du jugement d'expert
-(structure de $W$) et de la simulation. Pour \emph{calibrer} $\rho_j$, $W$ et $\xi$, il faut des
-sources réelles :
-\begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
-\item \textbf{registres d'incidents DORA} (déclarations obligatoires depuis 2025), la source
-  native, mais courte et en montée en charge ;
-\item \textbf{rapports ANSSI / ENISA / CERT} pour la fréquence sectorielle ;
-\item \textbf{bases publiques} (p.\,ex. notifications RGPD) comme ancrage partiel du biais de
-  déclaration.
-\end{itemize}
-La \textbf{calibration de $W$} (qui entraîne qui, et de combien) est le verrou
-méthodologique : sans données, $W$ reste une hypothèse ; avec elles, c'est la \textbf{contribution
-empirique} du mémoire.
+\textbf{Le verrou n'est pas levé, et il ne le sera pas avec les données publiques.} La
+\textbf{calibration de $W$} (qui entraîne qui, et de combien) reste le verrou méthodologique.
+La section~\ref{sec:donnees} montre qu'aucune des deux grandes sources accessibles ne
+l'ouvre : l'une manque de volume et de taxonomie, l'autre a le volume mais un pas temporel
+annuel qui rend la matrice de transition \emph{exactement symétrique}. $W$ demeure donc une
+\textbf{hypothèse déclarée}, et le mémoire l'assume comme telle.
+
+\smallskip
+\noindent Ce qui \emph{est} ancré sur données réelles, c'est l'\textbf{indice de queue $\xi$}
+(SAS OpRisk, pertes en dollars). Et ce que le mémoire apporte à la place d'une calibration,
+c'est une \textbf{spécification de la donnée manquante} : pour identifier $W$, un registre
+d'incidents doit horodater la \emph{survenance} au mois ou à la semaine et catégoriser par
+\emph{domaine de contrôle}. Cette exigence est chiffrée, pas rhétorique : elle sort d'une
+analyse de puissance et d'un placebo.
 \end{attention}
+
+\begin{cle}
+\textbf{Les sources à surveiller} pour lever le verrou le jour venu :
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
+\item \textbf{registres d'incidents DORA} (déclarations obligatoires depuis 2025), la seule
+  source \emph{nativement} taxonomisée par pilier ; encore courte et en montée en charge,
+  mais c'est la seule qui puisse satisfaire les deux exigences ;
+\item \textbf{rapports ANSSI / ENISA / CERT} pour la fréquence sectorielle, à défaut de
+  granularité entité ;
+\item \textbf{SAS OpRisk} reste utile pour $\xi$ et pour l'hétérogénéité de queue entre
+  catégories, jamais pour $W$.
+\end{itemize}
+\end{cle}
 
 \end{document}

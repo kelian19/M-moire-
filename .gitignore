@@ -35,6 +35,7 @@ build/
 
 # ===== IDE =====
 .vscode/settings.json
+.claude/settings.local.json
 .idea/
 *.swp
 *.swo
