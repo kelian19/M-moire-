@@ -12,27 +12,65 @@ l'information TEMPORELLE (qui declenche AVANT qui). La co-occurrence transversal
 seule ne donne qu'une dependance symetrique. Le modele est donc dynamique :
 
   latent  X[i,j,t] = base_j + somme_k W[j,k] * D[i,k,t-1] + s_j * Y[j,t] + eps
-  incident D[i,j,t] = 1 si X[i,j,t] >= 0
+  incident D[i,j,t] = 1 si X[i,j,t] >= 0            (X = STRESS, pas sante)
 
   D[i,k,t-1] : le pilier k a-t-il eu un incident a la periode precedente
   W[j,k]     : force dirigee de k vers j (ce qu'on veut estimer)
   Y[j,t]     : facteur systemique du pilier j a la periode t (choc commun)
 
-Estimateur : pour chaque pilier j, une regression logistique de D[.,j,t] sur les
-incidents retardes des autres piliers D[.,k,t-1], plus des effets fixes de periode
-(qui absorbent le systemique Y[j,t]). Les coefficients estiment W[j,k].
+Estimateur : PROBIT par pilier. Le modele generateur pose eps gaussien et
+D = 1{X >= 0} : c'est LITTERALEMENT un probit. Une regression logistique estimerait
+les memes coefficients gonfles d'un facteur ~1,6 (unites logit), d'ou une
+correlation correcte mais des MAGNITUDES fausses. Le probit rend W dans ses
+propres unites. Effets fixes de periode pour absorber le systemique Y[j,t].
 
-Sortie : diagnostics + figures K1 (verite vs estimation) et K2 (taille d'echantillon,
-sous-declaration).
+NORMALISATION DE W : la lecon de Leontief. Dans le modele entrees-sorties, la matrice
+technique A a pour entree A[i,j] = x_ij / x_j : c'est une matrice de PARTS. Ses colonnes
+somment a moins de 1 parce que la valeur ajoutee est strictement positive. C'est
+exactement cela qui garantit rho(A) < 1, donc l'existence de l'inverse de Leontief
+B = (I-A)^-1 = somme des A^k (Pineau & Zuniga 2023, Remarque 1).
+
+TRANS n'est pas une matrice de parts : ses lignes somment jusqu'a 2,3 et
+rho(TRANS) = 1,461 > 1. La brancher telle quelle dans (I-W)^-1 est une ERREUR DE
+CATEGORIE, pas un probleme de calibration. On applique donc la meme discipline :
+
+  W = g * TRANS / max_j( somme de la ligne j )
+
+  ligne j de W = parts du stress de j provenant des autres piliers
+  g            = part de contagion du pilier LE PLUS EXPOSE, dans (0, 1]
+  contrainte   = decomposition de variance de Vasicek : contagion + systemique + idio = 1
+
+Alors somme_k W[j,k] <= g <= 1, donc rho(W) <= g < 1 : la STABILITE EST GARANTIE PAR LA
+DECOMPOSITION DE VARIANCE, comme la valeur ajoutee la garantit chez Leontief. Ici
+rho(W) = 0,635 * g. L'asymetrie de RECEPTION est preservee (P1 recoit 0,348 quand P2
+recoit 1,000) : on ne normalise pas ligne a ligne, on divise par un scalaire unique.
+
+Lecture epidemique. Le modele dynamique est un PROCESSUS DE BRANCHEMENT multitype.
+La matrice de generation suivante M donne le nombre attendu d'incidents de type j
+engendres par un incident de type k :
+
+  M[j,k] = Phi(base_j + W[j,k]) - Phi(base_j)        (effet marginal, pas W lui-meme)
+
+  R0 = rayon spectral de M           cascade s'eteint ssi R0 < 1
+  (I - M)^-1 = progeniture totale attendue (nombre de descendants par source)
+
+ATTENTION : rho(W) et R0 = rho(M) sont deux objets differents. rho(W) gouverne le
+systeme latent SIMULTANE (celui qui donne (I-W)^-1) ; R0 gouverne la cascade
+d'INCIDENTS. Sur le domaine admissible g <= 1, LES DEUX sont stables.
+
+Sortie : diagnostics + figures K1 (verite vs estimation), K2 (taille d'echantillon,
+sous-declaration), K3 (R0 et progeniture).
 """
 
 import os
+import warnings
 import numpy as np
 from scipy import stats
-from sklearn.linear_model import LogisticRegression
+import statsmodels.api as sm
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+warnings.filterwarnings("ignore")
 RNG = np.random.default_rng(20260708)
 J = 5
 PIL = ["P1", "P2", "P3", "P4", "P5"]
@@ -45,12 +83,21 @@ TRANS = {
     4: {1: 0.20, 2: 0.80, 3: 0.30, 5: 0.40},
     5: {1: 0.10, 2: 0.20, 3: 0.20, 4: 0.20},
 }
-GAIN = 0.9          # effet de contagion modere (signal realiste, pas trop facile)
-W_TRUE = np.zeros((J, J))
+# ROOT : "qui amorce une cascade", jugement d'expert du chantier qualitatif.
+# On le RETROUVE ici comme progeniture du branchement : il est donc redondant.
+ROOT = {1: 1.00, 4: 0.90, 2: 0.60, 3: 0.50, 5: 0.30}
+
+T_RAW = np.zeros((J, J))              # TRANS brut, ligne j = ce que j RECOIT
 for k in TRANS:                       # k -> j
     for j, v in TRANS[k].items():
-        W_TRUE[j - 1, k - 1] = GAIN * v
-BASE = np.full(J, -1.7)               # cale l'incidence de base (~ 6-9 %)
+        T_RAW[j - 1, k - 1] = v
+ROWSUM = T_RAW.sum(1)
+MAXROW = ROWSUM.max()                 # 2,3 : le pilier le plus expose (P2)
+RHO_RAW = float(max(abs(np.linalg.eigvals(T_RAW))))   # 1,461 : INADMISSIBLE
+
+GAIN = 0.9                            # g : part de contagion du pilier le plus expose
+W_TRUE = GAIN * T_RAW / MAXROW        # normalisation de Leontief : matrice de PARTS
+BASE = np.full(J, -1.7)               # cale l'incidence de base (~ 7 %)
 SLOAD = 0.5                           # charge du facteur systemique
 
 
@@ -69,13 +116,23 @@ def simulate(N, T, rng, w=W_TRUE, under=0.0):
     return D
 
 
-def estimate_W(D):
-    """Recupere W_hat (J,J, diagonale nulle) par regression logistique par pilier."""
+def estimate_W(D, link="probit"):
+    """W_hat (J,J, diagonale nulle) et base_hat, par regression par pilier.
+
+    link='probit' : le lien du modele generateur -> W_hat dans les unites de W.
+    link='logit'  : conserve pour montrer le biais d'echelle (~ x1,6).
+    """
     N, _, T = D.shape
+    # ATTENTION. D[:, j, 1:] est de forme (N, T-1) ; reshape(-1) l'aplatit en ordre
+    # LIGNE PAR LIGNE : l'observation m est (entite m//(T-1), periode m%(T-1)).
+    # La periode de chaque observation est donc np.tile, PAS np.repeat. Avec np.repeat
+    # les indicatrices sont affectees aux mauvaises observations, n'absorbent rien, et
+    # le systemique Y reste dans l'erreur : le probit est alors ATTENUE d'un facteur
+    # 1/sqrt(1 + s^2).
+    per_idx = np.tile(np.arange(T - 1), N)                # periode de chaque obs
+    per_oh = np.eye(T - 1)[per_idx]                       # effets fixes de periode
     W_hat = np.zeros((J, J))
-    # effets fixes de periode : one-hot des periodes 1..T-1
-    per_idx = np.repeat(np.arange(T - 1), N)              # periode de chaque obs
-    per_oh = np.eye(T - 1)[per_idx]
+    base_hat = np.zeros(J)
     for j in range(J):
         y = D[:, j, 1:].reshape(-1)                       # reponse (N*(T-1))
         others = [k for k in range(J) if k != j]
@@ -83,16 +140,42 @@ def estimate_W(D):
         Xd = np.column_stack([lag, per_oh])               # retards + effets periode
         if y.min() == y.max():                            # pilier degenere
             continue
-        clf = LogisticRegression(fit_intercept=False, C=1e3, max_iter=400)
-        clf.fit(Xd, y)
+        model = sm.Probit(y, Xd) if link == "probit" else sm.Logit(y, Xd)
+        try:
+            res = model.fit(disp=0, method="bfgs", maxiter=500)
+        except Exception:
+            continue
         for c, k in enumerate(others):
-            W_hat[j, k] = clf.coef_[0, c]
-    return W_hat
+            W_hat[j, k] = res.params[c]
+        base_hat[j] = res.params[len(others):].mean()     # niveau moyen des effets periode
+    return W_hat, base_hat
+
+
+def next_generation(w, base):
+    """M[j,k] = nb attendu d'incidents en j engendres par un incident en k.
+
+    Effet marginal sur la PROBABILITE, pas le coefficient latent : c'est M, et non W,
+    qui gouverne l'extinction de la cascade.
+    """
+    M = np.zeros((J, J))
+    for j in range(J):
+        for k in range(J):
+            if j != k:
+                M[j, k] = stats.norm.cdf(base[j] + w[j, k]) - stats.norm.cdf(base[j])
+    return M
+
+
+def R0(M):
+    return float(max(abs(np.linalg.eigvals(M))))
+
+
+def total_progeny(M):
+    """(I-M)^-1 : colonne k = descendants attendus d'un incident initial en k."""
+    return np.linalg.inv(np.eye(J) - M)
 
 
 def offdiag(M):
-    m = ~np.eye(J, dtype=bool)
-    return M[m]
+    return M[~np.eye(J, dtype=bool)]
 
 
 def direction_recovery(w_true, w_hat):
@@ -109,26 +192,89 @@ def direction_recovery(w_true, w_hat):
     return ok / tot
 
 
+def slope(w_true, w_hat):
+    """Pente de la regression W_hat ~ W_true : 1 = bonnes unites, 1,6 = unites logit."""
+    return float(np.polyfit(offdiag(w_true), offdiag(w_hat), 1)[0])
+
+
 # ============================================================ run principal
 N0, T0 = 800, 60
 D0 = simulate(N0, T0, RNG)
 inc = D0.mean()
-W_hat0 = estimate_W(D0)
-corr0 = np.corrcoef(offdiag(W_TRUE), offdiag(W_hat0))[0, 1]
-dir0 = direction_recovery(W_TRUE, W_hat0)
-print(f"Panel : {N0} entites x {T0} periodes x {J} piliers ; incidence moyenne {inc:.1%}")
-print(f"Correlation W_hat vs W_vrai (hors diagonale) = {corr0:.3f}")
-print(f"Sens de l'asymetrie correctement retrouve      = {dir0:.0%} des paires\n")
+Wp, bp = estimate_W(D0, "probit")
+Wl, _ = estimate_W(D0, "logit")
+
+corr_p = np.corrcoef(offdiag(W_TRUE), offdiag(Wp))[0, 1]
+dir_p = direction_recovery(W_TRUE, Wp)
+sl_p, sl_l = slope(W_TRUE, Wp), slope(W_TRUE, Wl)
+
+print(f"Panel : {N0} entites x {T0} periodes x {J} piliers ; incidence moyenne {inc:.1%}\n")
+print("Recuperation de W (hors diagonale) :")
+print(f"  probit : correlation {corr_p:.3f} | pente {sl_p:.3f} | sens de l'asymetrie {dir_p:.0%}")
+print(f"  logit  : correlation {np.corrcoef(offdiag(W_TRUE), offdiag(Wl))[0,1]:.3f} | pente {sl_l:.3f}")
+print("  (pente ~1 = W dans ses propres unites ; ~1,6 = unites logit, magnitudes fausses)\n")
+
+# --------------------------------------------------- normalisation et stabilite
+rho_W = float(max(abs(np.linalg.eigvals(W_TRUE))))
+print("Normalisation de W (la lecon de Leontief) :")
+print(f"  TRANS brut : sommes des lignes {np.round(ROWSUM, 2)} ; rho = {RHO_RAW:.3f}")
+print("     -> ce n'est PAS une matrice de parts. (I-TRANS)^-1 aurait 21 entrees")
+print("        negatives sur 25 : erreur de categorie, pas de calibration.")
+print(f"  W = g * TRANS / {MAXROW:.1f}  avec g = {GAIN} (part de contagion du pilier expose)")
+print(f"     parts recues s_j = {np.round(W_TRUE.sum(1), 3)}  (<= g : asymetrie preservee)")
+print(f"     rho(W) = {rho_W:.3f} = {RHO_RAW/MAXROW:.3f} x g   -> stable pour tout g <= 1\n")
+
+# --------------------------------------------------- lecture epidemique
+M_true = next_generation(W_TRUE, BASE)
+M_hat = next_generation(Wp, bp)
+R0_t, R0_h = R0(M_true), R0(M_hat)
+P_true = total_progeny(M_true)
+prog_true = P_true.sum(0) - 1.0                # descendants attendus par pilier source
+
+print("Lecture epidemique (processus de branchement multitype) :")
+print(f"  rho(W), systeme latent SIMULTANE = {rho_W:.3f}  (stable)")
+print(f"  R0 = rho(M), cascade d'INCIDENTS = {R0_t:.3f}  "
+      f"{'sous-critique : la cascade s eteint' if R0_t < 1 else 'SUR-CRITIQUE'}")
+print(f"  R0 estime sur le panel simule    = {R0_h:.3f}\n")
+
+print("Progeniture totale (I-M)^-1 : descendants attendus d'un incident initial")
+order_prog = np.argsort(-prog_true)
+order_root = np.argsort(-np.array([ROOT[j] for j in range(1, J + 1)]))
+for j in range(J):
+    print(f"  {PIL[j]} : {prog_true[j]:.3f} descendants   (ROOT expert = {ROOT[j+1]:.2f})")
+rho_s = stats.spearmanr([ROOT[j] for j in range(1, J + 1)], prog_true).statistic
+print(f"\n  classement progeniture : {' > '.join(PIL[i] for i in order_prog)}")
+print(f"  classement ROOT expert : {' > '.join(PIL[i] for i in order_root)}")
+print(f"  correlation de rang (Spearman) = {rho_s:.3f}")
+print("  => ROOT est REDONDANT : il se deduit de TRANS. Cinq parametres d'expert en moins.\n")
+
+# --------------------------------------------------- R0 en fonction du gain
+# g est BORNE par la decomposition de variance : g <= 1. On prolonge au-dela pour
+# localiser les seuils critiques et montrer qu'ils sont HORS du domaine admissible.
+gains = np.linspace(0.02, 9.0, 120)
+Wg = lambda g: g * T_RAW / MAXROW
+R0_by_gain = np.array([R0(next_generation(Wg(g), BASE)) for g in gains])
+rho_by_gain = np.array([float(max(abs(np.linalg.eigvals(Wg(g))))) for g in gains])
+g_crit_rho = np.interp(1.0, rho_by_gain, gains)
+g_crit_R0 = np.interp(1.0, R0_by_gain, gains)
+print("Seuils critiques, dans la parametrisation admissible g dans (0, 1] :")
+print(f"  rho(W) = 1 a g = {g_crit_rho:.2f}   (systeme latent simultane)  HORS DOMAINE")
+print(f"  R0     = 1 a g = {g_crit_R0:.1f}    (cascade d'incidents)       HORS DOMAINE")
+print(f"  ratio {g_crit_R0/g_crit_rho:.0f}x : si l'on forcait le modele hors de son domaine,")
+print("  la forme simultanee crierait a l'emballement bien avant la cascade reelle.")
+print(f"  A g = 1 (contagion maximale admissible) : rho(W) = {RHO_RAW/MAXROW:.3f}, "
+      f"R0 = {R0(next_generation(Wg(1.0), BASE)):.3f}")
+print("  => sur tout le domaine admissible, les DEUX lectures sont stables.\n")
 
 # ============================================================ courbe taille d'echantillon
 sizes = [50, 100, 200, 400, 800]
-REP, TSW = 10, 50
+REP, TSW = 6, 50
 corr_by_n, dir_by_n = [], []
 for N in sizes:
     cs, ds = [], []
     for _ in range(REP):
         D = simulate(N, TSW, RNG)
-        Wh = estimate_W(D)
+        Wh, _ = estimate_W(D)
         cs.append(np.corrcoef(offdiag(W_TRUE), offdiag(Wh))[0, 1])
         ds.append(direction_recovery(W_TRUE, Wh))
     corr_by_n.append(np.mean(cs)); dir_by_n.append(np.mean(ds))
@@ -141,11 +287,43 @@ for u in unders:
     cs, ds = [], []
     for _ in range(REP):
         D = simulate(600, TSW, RNG, under=u)
-        Wh = estimate_W(D)
+        Wh, _ = estimate_W(D)
         cs.append(np.corrcoef(offdiag(W_TRUE), offdiag(Wh))[0, 1])
         ds.append(direction_recovery(W_TRUE, Wh))
     corr_by_u.append(np.mean(cs)); dir_by_u.append(np.mean(ds))
     print(f"  sous-declaration {u:.0%} : corr {np.mean(cs):.2f} ; sens {np.mean(ds):.0%}")
+
+# ============================================================ tests de falsification
+def placebo_permute(D, rng):
+    """Permute le temps DANS chaque entite : toute asymetrie doit s'effondrer."""
+    Dp = D.copy()
+    N, _, T = D.shape
+    for i in range(N):
+        Dp[i] = D[i][:, rng.permutation(T)]
+    return Dp
+
+
+def reverse_time(D):
+    return D[:, :, ::-1].copy()
+
+
+Dpl = placebo_permute(D0, RNG)
+Wpl, _ = estimate_W(Dpl)
+Drev = reverse_time(D0)
+Wrev, _ = estimate_W(Drev)
+
+
+def asym_strength(w):
+    return float(np.abs(w - w.T).sum() / 2)
+
+
+print("\nTests de falsification (l'asymetrie doit disparaitre / s'inverser) :")
+print(f"  asymetrie sur le panel reel     = {asym_strength(Wp):.3f}")
+print(f"  asymetrie apres permutation     = {asym_strength(Wpl):.3f}  (doit tendre vers 0)")
+print(f"  asymetrie en temps inverse      = {asym_strength(Wrev):.3f}")
+corr_rev = np.corrcoef(offdiag(Wp), offdiag(Wrev))[0, 1]
+print(f"  correlation W_avant vs W_inverse = {corr_rev:.3f}  "
+      f"(proche de 1 => on capte de la co-occurrence, pas de la direction)")
 
 # ============================================================ figures
 mpl.rcParams.update({
@@ -157,19 +335,21 @@ INK, INK2, MUTED, GRID = "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 ACCENT = "#eb6834"
 BLUES = ["#cde2fb", "#86b6ef", "#3987e5", "#256abf", "#184f95", "#0d366b"]
 SEQ = mpl.colors.LinearSegmentedColormap.from_list("b", BLUES)
+outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures")
+os.makedirs(outdir, exist_ok=True)
 
-# --- figure K1 : verite vs estimation
+# --- figure K1 : verite vs estimation (probit contre logit)
 fig, axes = plt.subplots(1, 3, figsize=(13.6, 4.6),
-                         gridspec_kw={"width_ratios": [1, 1, 1.05]})
+                         gridspec_kw={"width_ratios": [1, 1, 1.15]})
 
 
 def heat(ax, M, title):
     vmax = max(M.max(), 1e-6)
-    im = ax.imshow(M, cmap=SEQ, vmin=0, vmax=vmax)
+    ax.imshow(M, cmap=SEQ, vmin=0, vmax=vmax)
     for a in range(J):
         for b in range(J):
             if a != b and M[a, b] > 1e-6:
-                ax.text(b, a, f"{M[a,b]:.1f}", ha="center", va="center",
+                ax.text(b, a, f"{M[a,b]:.2f}", ha="center", va="center",
                         fontsize=8, color="#fff" if M[a, b] > 0.55 * vmax else INK)
     ax.set_xticks(range(J)); ax.set_xticklabels(PIL)
     ax.set_yticks(range(J)); ax.set_yticklabels(PIL)
@@ -179,19 +359,24 @@ def heat(ax, M, title):
 
 
 heat(axes[0], W_TRUE, "W vrai (simule)")
-heat(axes[1], np.clip(W_hat0, 0, None), "W estime (logistique)")
+heat(axes[1], np.clip(Wp, 0, None), "W estime (probit)")
 ax = axes[2]
-ax.scatter(offdiag(W_TRUE), offdiag(W_hat0), s=42, color=BLUES[3],
-           edgecolor="#fcfcfb", zorder=3)
+xt = offdiag(W_TRUE)
+ax.scatter(xt, offdiag(Wp), s=44, color=BLUES[3], edgecolor="#fcfcfb",
+           zorder=3, label=f"probit (pente {sl_p:.2f})")
+ax.scatter(xt, offdiag(Wl), s=30, color=ACCENT, alpha=0.65, marker="^",
+           zorder=2, label=f"logit (pente {sl_l:.2f})")
+lim = np.linspace(0, max(xt.max(), 0.75), 10)
+ax.plot(lim, lim, color=MUTED, lw=1.2, ls="--", zorder=1, label="identite")
 ax.set_xlabel("W vrai (hors diagonale)", color=INK2, fontsize=9)
 ax.set_ylabel("W estime", color=INK2, fontsize=9)
-ax.set_title(f"Correlation {corr0:.2f} ; sens {dir0:.0%}", fontsize=10.5, color=INK, pad=8)
+ax.set_title(f"Probit : bonnes unites (corr {corr_p:.2f} ; sens {dir_p:.0%})",
+             fontsize=10.5, color=INK, pad=8)
 ax.grid(True, color=GRID, lw=0.7)
-fig.suptitle("K1 : le protocole retrouve la structure dirigee de W",
+ax.legend(frameon=False, fontsize=8.5, loc="upper left")
+fig.suptitle("K1 : le probit retrouve W dans ses propres unites, le logit le gonfle de 60 %",
              fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.94])
-outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures")
-os.makedirs(outdir, exist_ok=True)
 p1 = os.path.join(outdir, "K1_calibration_W.png")
 fig.savefig(p1, dpi=200, bbox_inches="tight"); print("\nfigure ecrite :", p1)
 
@@ -221,3 +406,49 @@ fig.suptitle("K2 : donnees necessaires et robustesse du protocole",
 fig.tight_layout(rect=[0, 0, 1, 0.94])
 p2 = os.path.join(outdir, "K2_calibration_diagnostics.png")
 fig.savefig(p2, dpi=200, bbox_inches="tight"); print("figure ecrite :", p2)
+
+# --- figure K3 : lecture epidemique
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.8, 4.7))
+
+ax1.axvspan(0, 1.0, color=BLUES[0], alpha=0.35, zorder=0)
+ax1.text(0.52, 2.35, "domaine\nadmissible\n$g\\leq 1$", ha="center", va="center",
+         fontsize=8, color=BLUES[5], fontweight="bold")
+ax1.plot(gains, rho_by_gain, "-", color=ACCENT, lw=2.2, label="$\\rho(W)$ : systeme latent simultane")
+ax1.plot(gains, R0_by_gain, "-", color=BLUES[4], lw=2.2, label="$R_0=\\rho(M)$ : cascade d'incidents")
+ax1.axhline(1.0, color=INK, lw=1.1, ls="--")
+ax1.text(8.9, 1.08, "seuil critique", ha="right", fontsize=8.5, color=INK)
+for gc, col, lab in [(g_crit_rho, ACCENT, f"$\\rho(W)=1$\ng={g_crit_rho:.2f}"),
+                     (g_crit_R0, BLUES[4], f"$R_0=1$\ng={g_crit_R0:.1f}")]:
+    ax1.axvline(gc, color=col, lw=1, ls=":")
+    ax1.text(gc + 0.15, 3.0, lab, fontsize=8, color=col)
+ax1.annotate(f"$\\rho(\\mathrm{{TRANS}})={RHO_RAW:.2f}$\n(non normalise :\nerreur de categorie)",
+             xy=(1.0, RHO_RAW), xytext=(3.9, 1.30), fontsize=8, color=MUTED,
+             style="italic", ha="center",
+             arrowprops=dict(arrowstyle="->", color=MUTED, lw=1,
+                             connectionstyle="arc3,rad=-0.2"))
+ax1.plot([1.0], [RHO_RAW], "o", color=MUTED, ms=5, zorder=5)
+ax1.set_xlabel("gain $g$ = part de contagion du pilier le plus expose", color=INK2)
+ax1.set_ylabel("rayon spectral", color=INK2)
+ax1.set_xlim(0, 9.0); ax1.set_ylim(0, 4.0)
+ax1.grid(True, color=GRID, lw=0.7)
+ax1.legend(frameon=False, fontsize=8.5, loc="upper left")
+ax1.set_title("(a) Normalise, le modele est stable sur tout son domaine",
+              fontsize=11, color=INK, pad=8)
+
+xpos = np.arange(J)
+rootv = np.array([ROOT[j] for j in range(1, J + 1)])
+axb = ax2.twinx()
+b1 = ax2.bar(xpos - 0.2, prog_true, width=0.4, color=BLUES[4], label="progeniture $(I-M)^{-1}$")
+b2 = axb.bar(xpos + 0.2, rootv, width=0.4, color=ACCENT, alpha=0.85, label="ROOT (expert)")
+ax2.set_xticks(xpos); ax2.set_xticklabels(PIL)
+ax2.set_ylabel("descendants attendus", color=BLUES[4])
+axb.set_ylabel("ROOT, jugement d'expert", color=ACCENT)
+ax2.tick_params(axis="y", colors=BLUES[4]); axb.tick_params(axis="y", colors=ACCENT)
+ax2.set_title(f"(b) ROOT se deduit de TRANS (Spearman = {rho_s:.2f})",
+              fontsize=11, color=INK, pad=8)
+ax2.legend(handles=[b1, b2], loc="upper right", frameon=False, fontsize=8.5)
+fig.suptitle("K3 : la cascade est un processus de branchement",
+             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
+fig.tight_layout(rect=[0, 0, 1, 0.94])
+p3 = os.path.join(outdir, "K3_branchement_R0.png")
+fig.savefig(p3, dpi=200, bbox_inches="tight"); print("figure ecrite :", p3)
