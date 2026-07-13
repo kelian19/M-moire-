@@ -56,14 +56,17 @@ systémique : plus \textbf{probable} \emph{et} plus \textbf{grave}. Le même ens
 
 \section{Les cinq piliers et les trois tables de jugement}
 
-Les cinq piliers de DORA (Règlement UE 2022/2554) sont indexés de 1 à 5 :
+Les cinq piliers de DORA (Règlement UE 2022/2554~\cite{DORA2022}) sont indexés de 1 à 5 :
 P1~gouvernance \& gestion du risque TIC ; P2~gestion des incidents ; P3~tests de
 résilience (TLPT) ; P4~gestion du risque lié aux tiers ; P5~partage d'informations.
 
-Tout le modèle repose sur \textbf{trois barèmes d'expert}, et rien d'autre. Aucune valeur
-n'est mesurée : ce sont des jugements \emph{ordonnés}, dont seule la \textbf{hiérarchie}
-est défendable (la sensibilité, \S\,\ref{sec:sensi}, montre que les décimales exactes
-importent peu).
+Tout le modèle repose sur \textbf{trois barèmes d'expert}~\cite{Cooke1991,OHagan2006}, et
+rien d'autre. Aucune valeur n'est mesurée : ce sont des jugements \emph{ordonnés}, dont
+seule la \textbf{hiérarchie} est défendable --- une matrice de risque ne doit jamais être
+lue plus finement que son ordre~\cite{Cox2008} (la sensibilité, \S\,\ref{sec:sensi}, montre
+que les décimales exactes importent peu). Le principe même d'un score
+\emph{criticité $=$ f(probabilité, gravité)} est celui des référentiels de gestion des
+risques~\cite{ISO31000,ISO27005}.
 
 \begin{table}[h]\centering\small
 \renewcommand{\arraystretch}{1.25}
@@ -85,6 +88,28 @@ $\text{GBASE}[p]$ & Gravité intrinsèque du pilier s'il tombe seul.
 \end{tabular}
 \caption{Les seuls chiffres d'entrée du modèle et leur justification.}
 \end{table}
+
+\begin{cle}
+\textbf{D'où viennent ces trois barèmes ?} Les \emph{valeurs} sont un jugement d'expert ancré
+sur la structure de DORA. Les \emph{concepts}, eux, sont trois primitives standard de
+l'analyse de risque, ici recombinées :
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
+\item \textbf{ROOT} instancie l'\emph{événement initiateur} de l'analyse probabiliste de
+  risque et le \emph{nœud-graine} des modèles de cascade, dont l'influence se mesure par la
+  taille attendue de la propagation~\cite{KaplanGarrick1981,Kempe2003}.
+\item \textbf{TRANS} est une \emph{matrice de transition dirigée}, au sens des chaînes de
+  Markov, des réseaux bayésiens~\cite{Pearl1988}, des probabilités d'activation d'arête des
+  modèles de cascade~\cite{Kempe2003}, et des matrices d'influence du risque
+  systémique~\cite{Battiston2012}.
+\item \textbf{GBASE} est l'axe de \emph{sévérité intrinsèque} par composant : la gravité de
+  l'AMDEC~\cite{IEC60812} et le score de base CVSS~\cite{CVSS}.
+\end{itemize}
+Réunies, ces trois briques sont le \textbf{triplet du risque} de Kaplan \& Garrick~\cite{KaplanGarrick1981} :
+\emph{quel scénario (ROOT, TRANS), avec quelle probabilité, pour quelle conséquence (GBASE)}.
+\textbf{L'apport propre} de ce modèle n'est aucune de ces briques, mais leur mise en
+\emph{dépendance de l'ordre} --- le même ensemble de piliers étant noté différemment selon la
+direction de la chaîne.
+\end{cle}
 
 \section{Construction des deux dernières colonnes}
 
@@ -144,7 +169,7 @@ $\times0{,}5$ (pannes indépendantes, non compoundées).
 \[
 \text{criticité} \;=\; \operatorname{round}\!\big(\sqrt{\,p \times g\,}\big).
 \]
-La moyenne \emph{géométrique} (et non arithmétique) \textbf{pénalise le déséquilibre} :
+La moyenne \emph{géométrique} (et non arithmétique) \textbf{pénalise le déséquilibre}~\cite{Grabisch2009} :
 il faut être à la fois assez probable \emph{et} assez grave. C'est pourquoi, au calage de
 base, aucun scénario n'atteint \og{}Extrême\fg{}.
 \end{cle}
@@ -175,8 +200,8 @@ de verdict (Majeure vs Faible) vient de la seule \textbf{cohérence causale de l
 Trois points à défendre devant le jury :
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
 \item \textbf{Ce sont des hypothèses, pas des mesures.} La valeur d'un tel modèle
-  (comme une matrice de risque ORSA / Pilier~2) est sa \emph{cohérence interne} et sa
-  \emph{traçabilité}, pas une prétendue précision.
+  (comme une matrice de risque ORSA / Pilier~2 sous Solvabilité~II~\cite{SolvencyII2009}) est
+  sa \emph{cohérence interne} et sa \emph{traçabilité}, pas une prétendue précision.
 \item \textbf{Seule la hiérarchie est revendiquée.} Le résultat défendable n'est pas
   \og{}\chaine{1\fl2} vaut 8\fg{} mais \og{}un ordre causalement cohérent est plus critique que son
   inverse\fg{}, vrai tant que TRANS est asymétrique, quelles que soient les décimales.
@@ -184,6 +209,15 @@ Trois points à défendre devant le jury :
   (purement des choix de modélisation), mais la \S\,\ref{sec:sensi} montre qu'ils ne portent
   pas la conclusion.
 \end{enumerate}
+
+\noindent \textbf{À quelle famille de méthode cet instrument appartient-il ?} Il est original,
+mais non isolé. Le scoring multiplicatif d'ordinaux est celui de l'\textbf{AMDEC} et de son
+\emph{Risk Priority Number} $\text{RPN}=\text{Gravité}\times\text{Occurrence}\times\text{Détection}$~\cite{IEC60812} ;
+la décomposition \emph{dirigée} d'une défaillance en chaîne est celle des \textbf{arbres
+d'attaque}~\cite{Schneier1999} et des arbres de défaillance de l'analyse probabiliste de
+risque~\cite{Vesely1981}. Notre modèle se distingue de tous par un seul trait : la
+\textbf{dépendance à l'ordre}, absente de l'AMDEC (qui ignore la séquence) comme de la matrice
+de risque.
 
 \begin{figure}[h]\centering
 \includegraphics[width=\linewidth]{figures/F7_coefficients_ancrage.png}
@@ -195,7 +229,8 @@ Trois points à défendre devant le jury :
 
 On ne nie pas que \og{}tout dépend des valeurs\fg{} : on le \textbf{teste}. On perturbe tous les
 coefficients autour de leur base sur \textbf{3\,000 tirages} Monte-Carlo et on regarde si
-les \emph{conclusions} survivent.
+les \emph{conclusions} survivent. C'est une \textbf{analyse de sensibilité globale}, où l'on
+neutralise une hypothèse à la fois pour mesurer ce qu'elle porte~\cite{Saltelli2008}.
 
 \begin{table}[h]\centering\small
 \renewcommand{\arraystretch}{1.25}
@@ -232,10 +267,136 @@ Plafond \og{}jamais Extrême\fg{} & \textcolor{accent}{\textbf{fragile}} & franc
 
 \begin{cle}
 \textbf{Conclusion.} La seule hypothèse forte à défendre est la \textbf{direction causale
-entre piliers} (TRANS asymétrique). À partir d'elle, deux résultats tiennent quel que soit
+entre piliers} (TRANS asymétrique) --- l'idée qu'une attaque suit une chaîne orientée, de
+l'amont vers l'aval~\cite{Hutchins2011}, et se propage de proche en proche comme une
+contagion~\cite{HillairetLopez2021}. À partir d'elle, deux résultats tiennent quel que soit
 le calage : \emph{l'ordre renverse le verdict} et \emph{le classement des cascades les plus
 critiques}. Le plafond de criticité, lui, dépend des chiffres et n'est pas présenté comme un
 résultat. Connaître et énoncer soi-même cette limite est ce qui distingue le modèle.
 \end{cle}
+
+\section{Sources des concepts mobilisés}
+
+Le modèle qualitatif combine un socle réglementaire (DORA, Solvabilité~II) et des méthodes
+établies de gestion des risques. Aucun de ces concepts n'est original~; l'apport est leur
+\emph{articulation} autour de l'ordre causal. Le tableau ci-dessous relie chaque brique à sa
+source.
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{6.3cm} p{1.6cm} p{6.2cm}@{}}
+\toprule
+\textbf{Concept dans la fiche} & \textbf{Section} & \textbf{Source} \\
+\midrule
+Cinq piliers, gouvernance, tiers, partage volontaire & \S1 & Règlement UE 2022/2554 (DORA)~\cite{DORA2022} \\
+Score \emph{criticité $=$ f(probabilité, gravité)} & \S1--2 & ISO~31000~\cite{ISO31000} ; ISO/IEC~27005~\cite{ISO27005} \\
+Ne lire une matrice de risque que par son \emph{ordre} & \S1, \S4 & Cox~(2008)~\cite{Cox2008} \\
+Trois barèmes = jugement d'expert structuré & \S1 & Cooke~(1991)~\cite{Cooke1991} ; O'Hagan et coll.~(2006)~\cite{OHagan2006} \\
+\textbf{ROOT} = événement initiateur / nœud-graine & \S1 & Kaplan \& Garrick~(1981)~\cite{KaplanGarrick1981} ; Kempe et coll.~(2003)~\cite{Kempe2003} \\
+\textbf{TRANS} = matrice de transition / influence dirigée & \S1--2 & Pearl~(1988)~\cite{Pearl1988} ; Kempe et coll.~(2003)~\cite{Kempe2003} ; Battiston et coll.~(2012)~\cite{Battiston2012} \\
+\textbf{GBASE} = axe de sévérité intrinsèque par composant & \S1 & AMDEC / IEC~60812~\cite{IEC60812} ; CVSS~\cite{CVSS} \\
+Les trois barèmes ensemble = triplet du risque & \S1 & Kaplan \& Garrick~(1981)~\cite{KaplanGarrick1981} \\
+Famille de méthode : RPN multiplicatif, arbres d'attaque & \S4 & IEC~60812~\cite{IEC60812} ; Schneier~(1999)~\cite{Schneier1999} ; Vesely et coll.~(1981)~\cite{Vesely1981} \\
+Analogie matrice ORSA / Pilier~2 & \S4 & Directive Solvabilité~II 2009/138~\cite{SolvencyII2009} \\
+Moyenne géométrique pénalisant le déséquilibre & \S2 & Grabisch et coll.~(2009)~\cite{Grabisch2009} \\
+Ordre causal dirigé / chaîne d'attaque orientée & \S1--2, \S5 & Hutchins et coll.~(2011)~\cite{Hutchins2011} \\
+Cascade / contagion entre composants & intro, \S5 & Hillairet \& Lopez~(2021)~\cite{HillairetLopez2021} \\
+Analyse de sensibilité globale (Monte-Carlo, knockout) & \S5 & Saltelli et coll.~(2008)~\cite{Saltelli2008} \\
+\bottomrule
+\end{tabular}
+\caption{Chaque concept et sa source. La contribution de la fiche n'est pas un concept neuf,
+mais leur \emph{combinaison} autour de la direction causale entre piliers.}
+\end{table}
+
+\begin{thebibliography}{99}
+
+\bibitem{DORA2022}
+Parlement européen et Conseil de l'Union européenne.
+\emph{Règlement (UE) 2022/2554 sur la résilience opérationnelle numérique du secteur
+financier (DORA)}. Journal officiel de l'Union européenne, 2022.
+
+\bibitem{SolvencyII2009}
+Parlement européen et Conseil de l'Union européenne.
+\emph{Directive 2009/138/CE (Solvabilité~II)}, art.~45 (ORSA). 2009.
+
+\bibitem{ISO31000}
+Organisation internationale de normalisation.
+\emph{ISO 31000:2018 --- Management du risque : lignes directrices}. Genève, 2018.
+
+\bibitem{ISO27005}
+Organisation internationale de normalisation.
+\emph{ISO/IEC 27005 --- Gestion des risques liés à la sécurité de l'information}. Genève.
+
+\bibitem{Cox2008}
+Cox, L.~A. Jr.
+\og What's Wrong with Risk Matrices?\fg{}
+\emph{Risk Analysis}, 28(2):497--512, 2008.
+
+\bibitem{Cooke1991}
+Cooke, R.~M.
+\emph{Experts in Uncertainty: Opinion and Subjective Probability in Science}.
+Oxford University Press, 1991.
+
+\bibitem{OHagan2006}
+O'Hagan, A., Buck, C.~E., Daneshkhah, A. et coll.
+\emph{Uncertain Judgements: Eliciting Experts' Probabilities}. Wiley, 2006.
+
+\bibitem{Grabisch2009}
+Grabisch, M., Marichal, J.-L., Mesiar, R. et Pap, E.
+\emph{Aggregation Functions}. Cambridge University Press, 2009.
+
+\bibitem{Saltelli2008}
+Saltelli, A., Ratto, M., Andres, T. et coll.
+\emph{Global Sensitivity Analysis: The Primer}. Wiley, 2008.
+
+\bibitem{Hutchins2011}
+Hutchins, E.~M., Cloppert, M.~J. et Amin, R.~M.
+\og Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary
+Campaigns and Intrusion Kill Chains\fg{}.
+\emph{Leading Issues in Information Warfare \& Security Research}, 1:80, 2011.
+
+\bibitem{HillairetLopez2021}
+Hillairet, C. et Lopez, O.
+\og Propagation of cyber incidents in an insurance portfolio\fg{}.
+\emph{Scandinavian Actuarial Journal}, 2021.
+
+\bibitem{KaplanGarrick1981}
+Kaplan, S. et Garrick, B.~J.
+\og On the Quantitative Definition of Risk\fg{}.
+\emph{Risk Analysis}, 1(1):11--27, 1981.
+
+\bibitem{Kempe2003}
+Kempe, D., Kleinberg, J. et Tardos, {\'E}.
+\og Maximizing the Spread of Influence through a Social Network\fg{}.
+\emph{Proc. 9th ACM SIGKDD}, p.~137--146, 2003.
+
+\bibitem{Pearl1988}
+Pearl, J.
+\emph{Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference}.
+Morgan Kaufmann, 1988.
+
+\bibitem{Battiston2012}
+Battiston, S., Puliga, M., Kaushik, R., Tasca, P. et Caldarelli, G.
+\og DebtRank: Too Central to Fail? Financial Networks, the FED and Systemic Risk\fg{}.
+\emph{Scientific Reports}, 2:541, 2012.
+
+\bibitem{IEC60812}
+Commission électrotechnique internationale.
+\emph{IEC 60812 --- Analyse des modes de défaillance et de leurs effets (AMDEC)}. 2018.
+
+\bibitem{CVSS}
+Forum of Incident Response and Security Teams (FIRST).
+\emph{Common Vulnerability Scoring System (CVSS) --- Specification Document}.
+
+\bibitem{Schneier1999}
+Schneier, B.
+\og Attack Trees\fg{}.
+\emph{Dr.\ Dobb's Journal}, 24(12):21--29, 1999.
+
+\bibitem{Vesely1981}
+Vesely, W.~E., Goldberg, F.~F., Roberts, N.~H. et Haasl, D.~F.
+\emph{Fault Tree Handbook (NUREG-0492)}. U.S. Nuclear Regulatory Commission, 1981.
+
+\end{thebibliography}
 
 \end{document}
