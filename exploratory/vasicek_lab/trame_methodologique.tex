@@ -1,0 +1,487 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{green}{HTML}{2E6B4F}
+\definecolor{lightgreen}{HTML}{D6EADF}
+
+\hypersetup{colorlinks=true, linkcolor=bluemid, urlcolor=bluemid,
+  pdftitle={Trame methodologique - Vasicek dirige DORA},
+  pdfauthor={Kelian Kaddouri}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+\newtcolorbox{attention}[1][]{colback=accent!8,colframe=accent,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+\newtcolorbox{apport}[1][]{colback=lightgreen!60,colframe=green,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+
+\titleformat{\section}{\normalfont\large\bfseries\color{navy}}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{2.0ex plus .3ex minus .2ex}{1.0ex plus .2ex}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{bluemid}}{\thesubsection}{0.6em}{}
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
+
+\newcommand{\Y}{Y}
+\newcommand{\eps}{\varepsilon}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Trame méthodologique\\[2pt]
+  \large De A à Z : la méthode, les sources, ce que j'ai créé,\\ce qui existait déjà, et les problèmes rencontrés}
+\author{Kélian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.5cm}
+
+\begin{cle}
+\textbf{À quoi sert ce document.} La note \emph{note\_vasicek\_dirige} présente le
+\emph{résultat} du travail. Celui-ci présente le \emph{chemin} : dans quel ordre les questions
+se sont posées, ce qu'on a testé à chaque étape, ce qui a marché, ce qui a échoué, et où
+s'arrête l'existant pour laisser place à ma contribution. Il se lit de haut en bas et doit
+permettre de \textbf{tout expliquer}, y compris les impasses --- qui font partie de la méthode.
+Trois couleurs d'encadré~: \colorbox{lightblue!60}{bleu} = idée-clé, \colorbox{lightgreen!80}{vert}
+= ce que j'apporte, \colorbox{accent!15}{orange} = problème rencontré et sa résolution.
+\end{cle}
+
+% ============================================================
+\section{La question de départ, et la démarche en une page}
+
+\textbf{Le problème.} Le règlement DORA (UE 2022/2554) structure le risque cyber d'une entité
+financière en \textbf{cinq piliers} (gouvernance, gestion d'incidents, tests de résilience,
+risque tiers, partage d'information). L'intuition du mémoire~: \emph{l'ordre dans lequel les
+piliers cèdent pilote le risque}. Une défaillance de gouvernance (P1) en entraîne d'autres~;
+l'inverse est plus rare. Cette \textbf{directionnalité} est le fait stylisé à modéliser.
+
+\textbf{L'outil de référence.} Le modèle de Vasicek (le standard du risque de crédit) sait
+relier des défaillances par un facteur commun, mais il est \textbf{symétrique}~: il ne peut pas
+dire \og{}P1 entraîne P2 plus que l'inverse\fg{}. Toute la démarche consiste à l'\textbf{ouvrir}
+pour y faire entrer la direction, sans casser ce qui faisait sa cohérence.
+
+\textbf{La démarche, en cinq mouvements.}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item \textbf{Généralisation A} --- donner à chaque pilier son propre facteur systémique. \emph{(existe déjà)}
+\item \textbf{Généralisation B} --- ajouter une contagion \emph{dirigée} entre piliers. \emph{(ma contribution)}
+\item \textbf{Requalifier} cette contagion en \emph{processus de branchement}, pour éviter une explosion mathématique. \emph{(ma contribution)}
+\item \textbf{Refonder le seuil} de déclenchement sur la barre réglementaire, pas sur une probabilité de défaut. \emph{(adaptation)}
+\item \textbf{Confronter aux données réelles}~: peut-on calibrer tout cela ? \emph{(résultat empirique)}
+\end{enumerate}
+
+\begin{cle}
+\textbf{Le résultat en une phrase.} La moitié \og{}systémique\fg{} du modèle est calibrable dès
+aujourd'hui sur des données publiques~; la moitié \og{}contagion dirigée\fg{} ne l'est sur aucune
+source existante, pour des raisons qu'on démontre --- et cet échec se transforme en une
+\textbf{spécification chiffrée} de la donnée qu'il faudrait collecter.
+\end{cle}
+
+% ============================================================
+\section{Les équations phares}
+\label{sec:formulaire}
+
+Le formulaire minimal, dans l'ordre de la construction. Chaque bloc donne l'équation, ce
+qu'elle dit en une ligne, et son statut. \textbf{Notation} : $X$ = stress latent (invisible),
+$D=\mathbf 1\{\cdot\}$ = incident observé ($0/1$), $\Phi$ = loi normale, $\rho(\cdot)$ = rayon
+spectral (plus grande valeur propre en module).
+
+\paragraph{0. Le point de départ --- Vasicek à un facteur.}
+\begin{equation}
+X_i = \sqrt{\rho}\,\Y + \sqrt{1-\rho}\,\eps_i, \qquad \mathrm{Var}(X_i)=1, \qquad
+D_i = \mathbf 1\{X_i \ge K_i\}, \quad K_i = \Phi^{-1}(1-\mathrm{PD}_i).
+\end{equation}
+Stress $=$ un facteur commun $\Y$ $+$ un choc propre $\eps_i$~; l'incident déclenche au-dessus
+d'un seuil. \emph{(existe)}
+
+\paragraph{1. Généralisation A --- un facteur \emph{par pilier}.}
+\begin{equation}
+X_{ij} = \sqrt{\rho_{ij}}\,\Y_j + \sqrt{1-\rho_{ij}}\,\eps_{ij}, \qquad
+\mathbf Y = (\Y_1,\dots,\Y_5)^\top \sim \mathcal N(\mathbf 0, \Sigma_Y).
+\end{equation}
+Chaque pilier a sa \og{}météo\fg{} $\Y_j$~; la matrice $\Sigma_Y$ relie les météos entre elles.
+\emph{(existe --- Li, 2000)}
+
+\paragraph{2. Généralisation B --- la contagion \emph{dirigée}.}
+\begin{equation}
+X_{ij} = \underbrace{\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion } k\to j}
+ + \sqrt{\rho_{ij}}\,\Y_j + \sqrt{1-\rho_{ij}}\,\eps_{ij}
+ \;\Longrightarrow\; \mathbf X_i = (I-W)^{-1}(\cdots), \;\; \text{si } \rho(W)<1.
+\end{equation}
+$W$ \emph{asymétrique} ($W_{jk}\neq W_{kj}$) encode la direction~; mais la forme fermée exige
+$\rho(W)<1$. \textbf{(créé)}
+
+\paragraph{2b. La normalisation qui rend $\rho(W)<1$ gratuit --- discipline de Leontief.}
+\begin{equation}
+\boxed{\;W = g\cdot\dfrac{\mathrm{TRANS}}{\max_j \sum_k \mathrm{TRANS}_{jk}}\;,\quad g\in(0,1]\;}
+\qquad\Longrightarrow\qquad \rho(W) \le g < 1 \quad (\rho(W)=0{,}635\,g).
+\end{equation}
+$W$ devient une \emph{matrice de parts}~: la stabilité est \textbf{garantie}, pas supposée.
+\textbf{(créé, d'après Leontief 1949)}
+
+\paragraph{3. Le bon modèle --- contagion \emph{retardée sur incidents}.}
+\begin{equation}
+\boxed{\;X_{ij,t} = \text{base}_j + \sum_{k\neq j} W_{jk}\,D_{ik,t-1} + s_j\,\Y_{j,t} + \eps_{ij,t}\;}
+\qquad D_{ij,t} = \mathbf 1\{X_{ij,t}\ge 0\}.
+\end{equation}
+Le stress d'aujourd'hui dépend des \emph{incidents d'hier} $D_{ik,t-1}$~: c'est \emph{ce}
+modèle qu'on estime (par probit). \textbf{(créé)} Le lien avec l'écriture statique~:
+\begin{equation}
+s_j = \sqrt{\dfrac{\rho_j}{1-\rho_j}}, \qquad \text{base}_j = -\dfrac{K_j}{\sqrt{1-\rho_j}}.
+\end{equation}
+$s_j$ n'est pas un nouveau paramètre~: c'est $\sqrt{\rho_j}$ réexprimé en unités
+idiosyncratiques.
+
+\paragraph{4. La cascade comme processus de branchement.}
+\begin{equation}
+M_{jk} = \underbrace{\Phi(\text{base}_j + W_{jk})}_{\text{proba si } k \text{ a frappé}}
+       - \underbrace{\Phi(\text{base}_j)}_{\text{proba de fond}}, \qquad
+R_0 = \rho(M), \qquad \text{progéniture} = (I-M)^{-1}.
+\end{equation}
+$M$ compte des \emph{incidents}~; la cascade s'éteint si et seulement si $R_0<1$~; le barème
+ROOT $=$ colonnes de $(I-M)^{-1}$. \textbf{(créé)}
+
+\paragraph{5. Le seuil, et l'origine exacte de son biais.}
+\begin{equation}
+\boxed{\;K_j = F^{-1}(1-p_j)\;}, \;\; p_j = \mathbb P(S_{ij}\ge u_j)
+\qquad ; \qquad
+\frac{\hat p_j^{\text{naïf}}}{p_j} = \mathbb E\big[\,q(S)\mid S\ge u_j\,\big] < 1.
+\end{equation}
+On inverse une répartition $F$ sur la barre de matérialité $u_j$~; le biais vaut \emph{exactement}
+le taux de déclaration $q$ à la barre. \emph{(adaptation CreditMetrics} $+$ \textbf{créé)}
+
+\paragraph{6. La calibration du systémique --- deux routes.}
+\begin{align}
+\text{Route A (panel) :}\quad & \varphi_{j,t} = \text{base}_j + s_j\,\Y_{j,t}
+  \;\Rightarrow\; s_j = \mathrm{sd}_t(\varphi_j),\;\; \Sigma_Y = \mathrm{corr}(\varphi). \\
+\text{Route B (agrégé) :}\quad & \Y_t = \arg\min_{\Y}\;\big\| \text{moments}_{\text{obs}}
+  - \text{moments}_{\text{modèle}}(\Y)\big\|^2 .
+\end{align}
+A \emph{lit} les effets fixes de période~; B \emph{ajuste} 30 moments agrégés (comptages
+publics, aucun identifiant). \textbf{(créé, d'après Pineau \& Zuñiga 2023, éq.~5)}
+
+% ============================================================
+\section{Ce qui existait déjà, et ce que j'ai créé}
+
+C'est la distinction que le tuteur voudra voir nette. Elle est faite explicitement, source par
+source.
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.6cm} >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Ce qui existe déjà (repris, cité)} & \textbf{Ce que j'apporte (adapté ou créé)} \\
+\midrule
+Vasicek à un facteur (risque de crédit) & La \textbf{contagion dirigée} $W$ entre les 5 piliers DORA : une matrice \emph{asymétrique}, absente du Vasicek \\
+\addlinespace[2pt]
+Vasicek multifacteur à matrice de corrélation générale (Li, 2000 ; Pineau \& Zuñiga, 2023, éq.~2) = ma \textbf{généralisation A} & La lecture de cette contagion comme \textbf{processus de branchement} : $R_0=\rho(M)$ au lieu de $(I-W)^{-1}$ \\
+\addlinespace[2pt]
+Seuil CreditMetrics $L=\Phi^{-1}(\text{fréquence cumulée})$ (Morgan et coll., 1997 ; Schuermann, 2014) & Le \textbf{seuil ancré sur la barre de matérialité} DORA, et l'identité exacte \emph{biais~=~taux de sous-déclaration} \\
+\addlinespace[2pt]
+Inverse de Leontief $(I-A)^{-1}$ en économie entrées-sorties (Leontief, 1949) & La \textbf{normalisation de $W$ en matrice de parts} qui rend la stabilité \emph{gratuite} \\
+\addlinespace[2pt]
+Extraction de facteur par distance de Frobenius (Pineau \& Zuñiga, 2023, éq.~5) & Sa \textbf{transposition à des comptages DORA agrégés} (route B), et la preuve que le systémique est calibrable sans données individuelles \\
+\addlinespace[2pt]
+Théorie des valeurs extrêmes, GPD / POT (standard) & Le \textbf{verdict de faisabilité} sur deux sources réelles, et la \textbf{recommandation de conception réglementaire} qui en découle \\
+\addlinespace[2pt]
+Processus de branchement multitype (épidémiologie, standard) & La preuve que le barème d'expert \textbf{ROOT est redondant} (il se déduit de la contagion) \\
+\bottomrule
+\end{tabularx}
+\caption{La colonne de gauche est de la littérature établie, citée comme telle. La contribution
+est \textbf{la colonne de droite}, et elle commence à la \emph{contagion dirigée}, pas avant.}
+\end{table}
+
+\begin{attention}
+\textbf{Le piège d'honnêteté à ne pas rater.} La généralisation A (un facteur par pilier) n'est
+\textbf{pas} neuve : c'est le multifacteur de Li (2000). Si on la revendique, on se fait opposer
+la littérature. Il faut dire clairement \og{}A est un repli sur l'existant~; ma contribution
+commence en B\fg{}. Cette franchise \emph{renforce} le propos, elle ne l'affaiblit pas.
+\end{attention}
+
+% ============================================================
+\section{Les sources}
+
+\subsection{Sources de littérature (le socle théorique)}
+
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+\item \textbf{Li (2000)} et \textbf{Pineau \& Zuñiga (2023)} --- le Merton-Vasicek multifacteur
+  (éq.~2) et l'extraction de facteur par Frobenius (éq.~5). Le second est le \emph{plus proche}
+  de mon travail ; c'est sur lui que je m'appuie et me démarque.
+\item \textbf{Morgan et coll. (1997), CreditMetrics} et \textbf{Schuermann (2014)} --- le seuil
+  obtenu en inversant une fréquence observée. Ma défense du seuil DORA repose dessus.
+\item \textbf{Leontief (1949)} --- l'inverse entrées-sorties et la matrice de parts. Justifie ma
+  normalisation de $W$.
+\item \textbf{Engelmann (2021)} --- l'écrêtage des probabilités dans CreditMetrics. Cadre le
+  compromis biais-variance sur la barre.
+\end{itemize}
+
+\subsection{Sources de données (les deux jeux réels testés)}
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.4cm} c c >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Source} & \textbf{Volume} & \textbf{Pas de temps} & \textbf{Ce qu'elle apporte / son défaut} \\
+\midrule
+Data Breach Chronology (violations de données, procureurs US) & 74\,783 incidents, 25\,009 orgs & trimestre & Taxonomie par \emph{vecteur d'attaque}, pas par pilier ; trop peu de transitions \\
+\addlinespace[2pt]
+SAS OpRisk Global Data (pertes opérationnelles Bâle) & 41\,976 pertes & \textbf{année} & Volume suffisant \emph{et} pertes en dollars ; mais pas annuel qui efface la direction \\
+\bottomrule
+\end{tabularx}
+\caption{Deux sources sérieuses, deux échecs pour calibrer $W$, \textbf{de nature opposée}
+(§\ref{sec:donnees}). La seconde fournit tout de même l'indice de queue $\xi$.}
+\end{table}
+
+% ============================================================
+\section{La trame : tout ce qu'on a testé, dans l'ordre}
+\label{sec:trame}
+
+Chaque script répond à \textbf{une} question. Voici le fil complet.
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}p{0.7cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}X c@{}}
+\toprule
+& \textbf{Question posée} & \textbf{Ce qu'on teste et ce qu'on trouve} & \textbf{Fig.} \\
+\midrule
+\textbf{01} & La direction, est-ce juste une corrélation ? &
+Non. TRANS est asymétrique à \textbf{81\,\%} : la co-occurrence symétrique ne peut pas la
+représenter. C'est ce qui justifie tout le reste. & G1 \\
+\addlinespace[3pt]
+\textbf{02} & Quel seuil / quelle loi pour le capital ? &
+Banc d'essai sur 500 tirages. Lognormale $-63{,}9\,\%$ (fausse mais sûre d'elle), empirique
+$-15{,}7\,\%$ (instable), \textbf{EVT $-0{,}8\,\%$} (juste). & J \\
+\addlinespace[3pt]
+\textbf{03} & Sait-on estimer $W$ (en principe) ? &
+Oui, par \textbf{probit} sur données simulées : corr $0{,}92$, pente $1{,}08$, sens de
+l'asymétrie $100\,\%$. Deux tests de falsification passent. & K1,K2,K3 \\
+\addlinespace[3pt]
+\textbf{03} & La cascade explose-t-elle ? &
+Non si on lit en \textbf{branchement} : $R_0=0{,}062$. La forme $(I-W)^{-1}$, elle, est
+alarmiste d'un facteur $\sim$5. Et \textbf{ROOT se déduit} de $W$ (Spearman $=1{,}00$). & K3 \\
+\addlinespace[3pt]
+\textbf{04} & D'où vient le biais du seuil $K_j$ ? &
+Du \textbf{taux de sous-déclaration à la barre}, exactement. Il s'effondre quand la barre
+monte ($+0{,}369 \to +0{,}001$). L'EVT ne le corrige \emph{pas} (résultat négatif). & L \\
+\addlinespace[3pt]
+\textbf{05} & Peut-on calibrer $W$ sur le réel ? &
+\textbf{Non}, sur aucune des deux sources. L'une manque de volume/taxonomie (89 transitions) ;
+l'autre a le volume mais un pas annuel qui rend $W$ \emph{symétrique} ($z=-0{,}3$). & M \\
+\addlinespace[3pt]
+\textbf{06} & Et le systémique $\Y_j,s_j,\Sigma_Y$ ? &
+\textbf{Oui}, deux routes. Route A (panel) corr $0{,}981$ ; route B (\textbf{comptages
+agrégés seuls}) corr $0{,}969$. Le verrou est plus étroit qu'annoncé. & N \\
+\bottomrule
+\end{tabularx}
+\caption{La trame complète. On monte le modèle (01--04), puis on le confronte au réel
+(05--06). La bascule est en 05 : $W$ échoue, mais 06 sauve le systémique.}
+\end{table}
+
+\noindent Le détail de chaque étape, avec les termes expliqués, est dans la note principale.
+Ce qui suit insiste sur \textbf{les deux ou trois idées} que chaque étape a produites.
+
+\subsection{01 --- La direction n'est pas une corrélation}
+Une corrélation est \emph{symétrique} : \og{}A et B varient ensemble\fg{} ne distingue pas
+\og{}A cause B\fg{} de \og{}B cause A\fg{}. Or le barème d'expert TRANS est dirigé à $81\,\%$.
+\textbf{Conclusion} : il faut un objet asymétrique, une matrice $W$ où $W_{jk}\neq W_{kj}$.
+C'est le point de départ de toute la note.
+
+\subsection{02 --- Le capital : quelle loi de sévérité}
+On compare trois façons d'estimer le capital de queue (la VaR à $99{,}5\,\%$, la perte que l'on
+ne dépasse qu'une fois sur 200). La \textbf{lognormale} sous-provisionne de $64\,\%$ tout en
+étant très \emph{resserrée} : reproductible et fausse. L'\textbf{EVT} (théorie des valeurs
+extrêmes, qui modélise spécifiquement la queue) tombe juste. \textbf{Leçon} : en cyber, la
+queue est lourde, une loi à queue fine ment avec assurance.
+
+\subsection{03 --- Estimer $W$, et ne pas confondre deux stabilités}
+On simule un panel dont on \emph{connaît} $W$, et on vérifie qu'un \textbf{probit} (la
+régression adaptée à un seuil gaussien) le retrouve. Puis on distingue deux nombres qu'on
+confond souvent :
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+\item $\rho(W)$ = \emph{rayon spectral} de $W$ (sa plus grande valeur propre en module). Il
+  gouverne la version \emph{simultanée} du modèle.
+\item $R_0=\rho(M)$ = le \og{}$R_0$\fg{} des épidémies, sur la matrice des \emph{incidents}
+  engendrés. Il gouverne la \emph{vraie} cascade.
+\end{itemize}
+On trouve $\rho(W)=0{,}57$ mais $R_0=0{,}06$ : la cascade s'éteint tranquillement, alors que la
+formule simultanée $(I-W)^{-1}$ crierait à l'emballement. \textbf{Résultat bonus} : la
+\og{}progéniture\fg{} $(I-M)^{-1}$ classe les piliers exactement comme le barème d'expert ROOT
+--- donc ROOT est redondant, il se déduit de $W$.
+
+\subsection{04 --- Le seuil, et l'honnêteté sur ce que l'EVT peut faire}
+On remplace le seuil de crédit $\Phi^{-1}(\mathrm{PD})$ par $K_j=F^{-1}(1-p_j)$, où $p_j$ est
+la fréquence de dépassement de la \emph{barre de matérialité} DORA. On \textbf{prouve} que le
+biais du seuil vaut exactement le taux de sous-déclaration à la barre, et qu'il disparaît quand
+la barre est haute. \textbf{Puis on teste} si l'EVT peut débiaiser ce taux : \emph{elle ne le
+peut pas} --- résultat négatif, assumé et documenté.
+
+\subsection{05 --- La confrontation au réel : le verdict}
+On applique le protocole de 03 aux deux sources. \textbf{Les deux échouent, mais pas de la même
+façon}, et c'est cette \emph{opposition} qui a de la valeur (cf.~§\ref{sec:donnees}).
+
+\subsection{06 --- Le sauvetage : le systémique se calibre, lui}
+On montre que $\Y_j$ (la \og{}météo\fg{} de chaque pilier), $s_j$ (sa sensibilité) et
+$\Sigma_Y$ (les liens entre piliers) s'estiment de \emph{deux} façons, dont une
+(\textbf{route B}) qui n'a besoin que de \emph{comptages agrégés publics}. La moitié du modèle
+est donc calibrable dès maintenant.
+
+% ============================================================
+\section{Les problèmes rencontrés, et comment on les a résolus}
+\label{sec:problemes}
+
+C'est la partie qui rend le document \emph{méthodique} plutôt que promotionnel. Aucun de ces
+problèmes n'est cosmétique~: chacun a changé une conclusion.
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{4.4cm}@{}}
+\toprule
+\textbf{Problème} & \textbf{Symptôme et cause} & \textbf{Résolution} \\
+\midrule
+\textbf{(1)} $(I-W)^{-1}$ explose &
+$\rho(\mathrm{TRANS})=1{,}46>1$ : 21 entrées négatives sur 25. TRANS n'est pas une matrice de
+parts. &
+Normalisation de Leontief : $W=g\cdot\mathrm{TRANS}/\max_j(\text{ligne}_j)$, $g\le 1$. Stabilité
+garantie. \\
+\addlinespace[2pt]
+\textbf{(2)} Comment normaliser ? &
+Normaliser \emph{chaque ligne} à 1 aplatit ce que chaque pilier \emph{reçoit} : détruit
+\og{}P1 reçoit peu\fg{}. &
+Diviser par le \emph{seul} maximum (un scalaire), pas ligne à ligne. L'asymétrie survit. \\
+\addlinespace[2pt]
+\textbf{(3)} L'EVT débiaise-t-elle le seuil ? &
+J'ai d'abord \emph{cru} que oui. Test : le biais se déplace juste de la barre $u$ vers le seuil
+haut $v$. Non pilotable. &
+Retracté et documenté comme \textbf{résultat négatif}. L'EVT sert à la sévérité, pas au seuil. \\
+\addlinespace[2pt]
+\textbf{(4)} Le bug d'indexation &
+\texttt{np.repeat} au lieu de \texttt{np.tile} : les effets fixes n'absorbaient rien. Pente
+$0{,}92$ au lieu de $1$ --- \emph{indiscernable} d'un bon résultat. &
+Corrigé. Signature : atténuation $1/\sqrt{1+s^2}=0{,}894$. Démasqué seulement en voulant
+extraire $\Y_j$. \\
+\addlinespace[2pt]
+\textbf{(5)} Route B ratée (systémique) &
+Avec 25 moments seuls, corr $0{,}835$ et $s_j$ doublé. L'estimateur ne voyait que les $6\,\%$
+d'entités déjà touchées. &
+Ajouter les 5 moments \emph{marginaux} (toute la population). corr remonte à $0{,}969$. \\
+\addlinespace[2pt]
+\textbf{(6)} $\xi$ sur pertes dédupliquées &
+Dédupliquer est requis pour compter les \emph{transitions}, mais fausse la \emph{sévérité}. &
+Deux échantillons distincts : 20\,590 pertes pour $\xi$, 17\,198 couples pour les transitions. \\
+\addlinespace[2pt]
+\textbf{(7)} Test du temps inversé dégénéré &
+Sur un comptage brut, renverser le temps donne $M^\top$ \emph{par construction} : corrélation
+$-1$ automatique, ne prouve rien. &
+N'utiliser que le \textbf{placebo par permutation}. Le temps inversé ne vaut que sur
+l'estimateur probit. \\
+\addlinespace[2pt]
+\textbf{(8)} Une valeur aberrante déplace $\xi$ &
+La plus grosse perte est l'erreur Citigroup 2024 (81\,000 Md\$, \emph{annulée}). La retirer :
+$\xi$ passe de $0{,}92$ à $0{,}68$. &
+Nettoyage documenté + analyse de sensibilité aux extrêmes, obligatoires. \\
+\bottomrule
+\end{tabularx}
+\caption{Huit problèmes, huit corrections. Les (4) et (5) sont les plus instructifs : un
+estimateur peut rendre \emph{le chiffre attendu} tout en étant faux.}
+\end{table}
+
+\begin{attention}
+\textbf{La morale des problèmes (4) et (5).} Dans les deux cas, un estimateur donnait un
+résultat \emph{plausible} mais \emph{faux}, et n'a été démasqué que par la tâche suivante.
+\emph{Un estimateur qui rend le chiffre attendu n'est pas pour autant correct.} C'est la raison
+d'être des tests de falsification et de la validation en simulation : sans vérité connue à
+laquelle se comparer, on ne voit pas ces erreurs.
+\end{attention}
+
+% ============================================================
+\section{Pourquoi $W$ échoue, en détail}
+\label{sec:donnees}
+
+Le c\oe ur du résultat empirique. Les deux sources échouent pour des raisons \emph{opposées},
+et c'est démontré, pas affirmé.
+
+\begin{cle}
+\textbf{Source 1 --- manque de volume et de taxonomie.} Les incidents sont classés par
+\emph{comment} l'attaque est arrivée (piratage, perte physique\dots), pas par \emph{quel pilier}
+a cédé. Après nettoyage il ne reste que \textbf{89 transitions} dans toute la base
+($4{,}5$ par cellule), là où il en faudrait des centaines. Et la date de survenance manque de
+façon massive et \emph{non aléatoire} (de $2{,}6\,\%$ à $89{,}4\,\%$ selon le type).
+\end{cle}
+
+\begin{cle}
+\textbf{Source 2 --- le volume est là, mais le pas annuel efface la direction.} On atteint enfin
+\textbf{4\,329 transitions} ($103$ par cellule). Et pourtant, le test placebo donne une
+asymétrie réelle de $119$ \emph{en dessous} du bruit de permutation ($128\pm 27$, $z=-0{,}3$).
+Aucune des 18 paires n'est significative. \textbf{Cause} : la contagion opère en semaines, mais
+on ne dispose que de l'\emph{année} ; à ce pas, les deux ordres apparaissent également et
+l'asymétrie est lessivée.
+\end{cle}
+
+\begin{apport}
+\textbf{L'échec devient une contribution.} Ces deux échecs, mis côte à côte, disent
+\emph{exactement} ce qu'il faudrait : un registre d'incidents qui \textbf{horodate la survenance
+au mois ou à la semaine} et \textbf{catégorise par domaine de contrôle} (les piliers), pas par
+vecteur d'attaque. C'est une \textbf{recommandation de conception réglementaire}, dérivée d'une
+analyse de puissance --- pas une opinion. Les registres DORA obligatoires (depuis 2025) sont la
+seule source qui puisse, à terme, satisfaire les deux exigences.
+\end{apport}
+
+\noindent \textbf{Ce que les données donnent quand même} : l'indice de queue $\xi\approx 0{,}9$,
+mesuré sur $20\,590$ pertes réelles en dollars. C'est la seule quantité du modèle \emph{ancrée
+sur des données réelles} ; tout le reste est posé, dérivé, ou balayé en sensibilité.
+
+% ============================================================
+\section{Le statut final de chaque objet}
+
+Pour clore : qui est quoi. \textbf{Aucun chiffre de $W$ n'est présenté comme mesuré.}
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Objet} & \textbf{Statut} & \textbf{Pourquoi} \\
+\midrule
+Structure de $W$ & posée (expert) & Hypothèse déclarée. Aucune source ne l'identifie. \\
+Normalisation de $W$ & dérivée & Matrice de parts (Leontief). Stabilité garantie. \\
+Gain $g$ & borné puis balayé & $g\in(0,1]$ par décomposition de variance ; résultats sur toute la plage. \\
+ROOT & dérivée & Se déduit de $W$ (Spearman $=1{,}00$). \\
+$R_0=\rho(M)$ & dérivé & Gouverne l'extinction. Remplace $\rho(W)$, alarmiste. \\
+$\xi$ (queue) & \textbf{ancré} & $\approx 0{,}9$ sur 20\,590 pertes réelles. \\
+Seuil $K_j$ & dérivé & $F^{-1}(1-p_j)$, $p_j$ sur la barre DORA. \\
+$\Y_j,s_j,\Sigma_Y$ & \textbf{calibrables} & Route B, sur comptages agrégés publics. \\
+Estimateur & probit & Le lien du modèle générateur. Validé en simulation. \\
+\bottomrule
+\end{tabularx}
+\caption{Un seul objet est \emph{empirique} ($\xi$) ; un groupe est \emph{calibrable dès
+aujourd'hui} ($\Y_j,s_j,\Sigma_Y$) ; le reste est dérivé ou balayé. $W$ demeure une hypothèse
+déclarée, faute de donnée --- et le mémoire l'assume.}
+\end{table}
+
+\begin{cle}
+\textbf{Ce que je peux défendre sans réserve.} \emph{(i)} C'est la \emph{directionnalité}, pas
+la non-transitivité, qui casse le Vasicek ; \emph{(ii)} la forme $(I-W)^{-1}$ est mal posée sur
+TRANS et surévalue l'emballement, là où le \emph{branchement} est bien défini ; \emph{(iii)}
+ROOT est redondant ; \emph{(iv)} le seuil s'obtient toujours en inversant une répartition, et
+son biais vaut le taux de sous-déclaration à la barre ; \emph{(v)} aucune source publique
+n'identifie $W$, pour des raisons opposées, d'où une exigence chiffrée sur les registres futurs.
+\textbf{Ces cinq énoncés sont établis, et aucun ne dépend d'un panel réel.}
+\end{cle}
+
+\end{document}
