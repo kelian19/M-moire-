@@ -244,14 +244,15 @@ n'y est pas une hypothèse technique, elle est \textbf{garantie par la comptabil
 \qquad g \in (0,\,1]\;}
 \end{equation}
 où $g$ est la \textbf{part de contagion du pilier le plus exposé}. La contrainte $g\le 1$
-n'est pas ad hoc : c'est la \textbf{décomposition de variance de Vasicek}
-(contagion $+$ systémique $+$ idiosyncratique $=1$), le strict analogue de la valeur ajoutée
-positive. Alors $\sum_k W_{jk} \le g \le 1$, donc
+n'est pas ad hoc : $W$ est une matrice \textbf{positive} dont chaque ligne somme à au plus $g$,
+si bien que par Perron-Frobenius (le strict analogue de la valeur ajoutée positive de Leontief)
 \[
-\rho(W) \;\le\; \max_j \sum_k W_{jk} \;\le\; g \;<\; 1 .
+\rho(W) \;\le\; \max_j \sum_k W_{jk} \;\le\; g \;<\; 1 ,
 \]
-\textbf{La stabilité devient gratuite}, sur tout le domaine admissible. Numériquement,
-$\rho(W) = 0{,}635\,g$.
+et $(I-W)^{-1}$ existe. C'est une \textbf{condition de stabilité spectrale}, et non une
+décomposition de variance (la contagion se superpose au budget systémique $+$ idiosyncratique,
+elle ne s'y ajoute pas). \textbf{La stabilité est garantie par la normalisation}, sur tout le
+domaine admissible. Numériquement, $\rho(W) = 0{,}635\,g$.
 \end{cle}
 
 \noindent Trois remarques sur cette normalisation.
@@ -425,9 +426,11 @@ incompatible avec un seuil \emph{global} et \emph{stable}.
   sévérités \textbf{observables} : clients affectés, heures d'indisponibilité, euros.
 \item $K_j$ : le seuil sur la variable \textbf{latente} $X_{ij}$. Il est sans unité.
 \end{itemize}
-On ne peut donc pas \og{}prendre $u_j$ comme $K_j$\fg{}. Mais les deux définissent le
-\textbf{même événement}, l'incident majeur : $\{S_{ij} \ge u_j\} = \{X_{ij} \ge K_j\}$.
-D'où, $X_{ij}$ étant normalisée à variance unitaire, une identité \textbf{inévitable} :
+On ne peut donc pas \og{}prendre $u_j$ comme $K_j$\fg{}. On \textbf{apparie leurs probabilités} :
+on choisit $K_j$ pour que l'événement latent $\{X_{ij}\ge K_j\}$ ait la \emph{même probabilité}
+que l'incident majeur observable $\{S_{ij}\ge u_j\}$ (et non pour que les deux ensembles soient
+égaux, ce qui exigerait $X$ et $S$ comonotones). En notant $F$ la fonction de répartition de
+$X_{ij}$, cela donne :
 \begin{equation}
 \label{eq:Kj}
 \boxed{\;K_j \;=\; F^{-1}\!\big(1 - p_j\big), \qquad p_j \;=\; \mathbb P\big(S_{ij} \ge u_j\big).\;}
@@ -919,10 +922,10 @@ $1\,031$~M\$ & $206$ & $0{,}92$ & $0{,}68$ \\
 \bottomrule
 \end{tabular}
 \caption{Indice de queue de $20\,590$ pertes opérationnelles du secteur financier.
-$\hat\xi \approx 0{,}9$ : c'est la valeur désormais retenue dans les bancs d'essai, en lieu
-et place du $0{,}40$ initialement postulé. Elle varie aussi par catégorie
-(exécution/livraison $1{,}27$ ; fraude interne $1{,}37$ ; fraude externe $0{,}98$), ce qui
-appuie un paramétrage \textbf{par pilier} plutôt que global.}
+$\hat\xi \approx 0{,}9$ remplace le $0{,}40$ initialement postulé. L'estimation varie par catégorie
+(exécution/livraison $1{,}27$ ; fraude interne $1{,}37$ ; fraude externe $0{,}98$), ce qui appuie
+un paramétrage \textbf{par pilier} ; mais les valeurs $\hat\xi \ge 1$ (moyenne infinie) trahissent
+surtout le petit échantillon et la contamination, et sont à régulariser (voir ci-dessous).}
 \end{table}
 
 \begin{attention}
@@ -931,7 +934,11 @@ $81\,000\,000$~M\$, c'est-à-dire l'erreur de saisie où $81\,000$ milliards fur
 lieu de $280$ dollars, opération \emph{annulée}. Ce n'est pas une perte réalisée. Le retirer
 fait passer $\hat\xi$ de $0{,}92$ à $0{,}68$ au seuil $q_{99}$ : \textbf{un seul point déplace
 l'indice de queue de près de $0{,}25$}. Toute estimation devra s'accompagner d'un nettoyage
-documenté et d'une analyse de sensibilité aux plus grandes valeurs.
+documenté et d'une analyse de sensibilité aux plus grandes valeurs. Conséquence pour le capital :
+$\hat\xi > 0{,}5$ donne déjà une \emph{variance} infinie, et $\hat\xi \ge 1$ une \emph{moyenne}
+infinie. La VaR à $99{,}5\,\%$ reste finie et calculable, mais la TVaR ne l'est plus pour
+$\hat\xi \ge 1$ : on retiendra un $\hat\xi < 1$ estimé aux seuils élevés et borné, plutôt que les
+$1{,}27$ ou $1{,}37$ par catégorie.
 
 \smallskip
 \noindent Signalons un piège rencontré en chemin : la déduplication (firme, année, catégorie)
