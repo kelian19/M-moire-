@@ -765,12 +765,19 @@ pour le pilier~$j$ vaut exactement
 \[
 \varphi_{j,t} \;=\; \text{base}_j \;+\; s_j\,\Y_{j,t}.
 \]
-Il suffit donc de les lire : $\text{base}_j = \overline{\varphi_j}$, $s_j =
-\mathrm{sd}_t(\varphi_j)$, $\Y_{j,t} = (\varphi_{j,t}-\text{base}_j)/s_j$, et
-$\Sigma_Y = \mathrm{corr}(\varphi)$ --- l'échelle $s_j$ n'affectant pas la corrélation. Sur
+Il suffit donc de les lire :
+\[
+\text{base}_j = \overline{\varphi_j}, \quad
+s_j = \mathrm{sd}_t(\varphi_j), \quad
+\Y_{j,t} = \frac{\varphi_{j,t}-\text{base}_j}{s_j}, \quad
+\Sigma_Y = \mathrm{corr}(\varphi),
+\]
+l'échelle $s_j$ n'affectant pas la corrélation. Sur
 panel simulé : $\mathrm{corr}(\hat\Y_j,\Y_j) = \mathbf{0{,}981}$ en moyenne, et les charges
-sont retrouvées presque sans biais ($\hat s = 0{,}38\,;\,0{,}50\,;\,0{,}47\,;\,0{,}66\,;\,0{,}30$
-contre $0{,}35\,;\,0{,}55\,;\,0{,}45\,;\,0{,}60\,;\,0{,}30$).
+sont retrouvées presque sans biais :
+\[
+\hat s = (0{,}38\,;0{,}50\,;0{,}47\,;0{,}66\,;0{,}30) \quad\text{contre}\quad (0{,}35\,;0{,}55\,;0{,}45\,;0{,}60\,;0{,}30).
+\]
 
 \paragraph{Route B : la distance de Frobenius, sur données agrégées.} C'est la transposition
 directe de Pineau et Zu\~niga (2023, éq.~5), qui extraient leur facteur $Z$ en minimisant la
