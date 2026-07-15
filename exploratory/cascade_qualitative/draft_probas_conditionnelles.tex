@@ -173,6 +173,69 @@ la loi de $S_{i,j}$, puis l'agrégation sur les cellules et la VaR/TVaR à $99{,
 SCR~\cite{mcneil2015,SolvencyII2009}.
 \end{cle}
 
+\section{Sachant quels piliers ont fait défaut : la probabilité de l'ordre}
+
+\begin{cle}
+\textbf{La question.} On \emph{sait} que $m$ piliers donnés ont fait défaut, par exemple
+$S=\{\text{P1},\text{P2},\text{P3}\}$. On ne sait pas dans quel \textbf{ordre} la défaillance
+s'est propagée. On cherche la \textbf{probabilité conditionnelle de chaque ordre, sachant
+l'ensemble} $S$. Il y a $m!$ ordres possibles ($3!=6$ pour trois piliers) : c'est exactement le
+comptage $N_m = m\cdot N_{m-1}$.
+\end{cle}
+
+À chaque ordre on associe un \textbf{poids}, égal à la probabilité de ce chemin dans le modèle :
+la propension à \emph{amorcer} sur le premier pilier (ROOT), multipliée par les forces
+d'enchaînement dirigées (TRANS) le long de la chaîne,
+\begin{equation}
+W(j_1 \to j_2 \to \dots \to j_m) \;=\; \text{ROOT}[j_1]\,\prod_{\ell=1}^{m-1}\text{TRANS}[j_\ell][j_{\ell+1}].
+\end{equation}
+La probabilité conditionnelle d'un ordre est son poids \textbf{divisé par la somme des poids de
+tous les ordres} du même ensemble (le conditionnement \og{}sachant que ce sont ces piliers\fg{}
+se lit dans le dénominateur, qui ne parcourt que les permutations de $S$) :
+\begin{equation}
+\boxed{\;\mathbb P\big(j_1 \to \dots \to j_m \;\big|\; \text{défaut de } S\big)
+\;=\; \frac{W(j_1 \to \dots \to j_m)}{\displaystyle\sum_{\sigma \in \mathfrak S(S)} W(\sigma)}\;.}
+\end{equation}
+
+\noindent\textbf{Exemple chiffré, $S=\{\text{P1},\text{P2},\text{P3}\}$.} Avec
+$\text{ROOT}=\{1{,}0\,;0{,}6\,;0{,}5\}$ pour (P1, P2, P3) et la matrice TRANS du modèle :
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Ordre & Poids $W$ (ROOT $\times$ TRANS $\times$ TRANS) & Poids & Probabilité \\
+\midrule
+\rowcolor{lightblue!40} P1 $\to$ P3 $\to$ P2 & $1{,}0 \times 0{,}70 \times 0{,}50$ & $0{,}350$ & $\mathbf{35{,}1\,\%}$ \\
+P1 $\to$ P2 $\to$ P3 & $1{,}0 \times 0{,}80 \times 0{,}40$ & $0{,}320$ & $32{,}1\,\%$ \\
+P3 $\to$ P1 $\to$ P2 & $0{,}5 \times 0{,}30 \times 0{,}80$ & $0{,}120$ & $12{,}0\,\%$ \\
+P2 $\to$ P1 $\to$ P3 & $0{,}6 \times 0{,}20 \times 0{,}70$ & $0{,}084$ & $8{,}4\,\%$ \\
+P2 $\to$ P3 $\to$ P1 & $0{,}6 \times 0{,}40 \times 0{,}30$ & $0{,}072$ & $7{,}2\,\%$ \\
+P3 $\to$ P2 $\to$ P1 & $0{,}5 \times 0{,}50 \times 0{,}20$ & $0{,}050$ & $5{,}0\,\%$ \\
+\midrule
+\multicolumn{2}{r}{somme des poids} & $0{,}996$ & $100\,\%$ \\
+\bottomrule
+\end{tabular}
+\caption{Probabilité conditionnelle de chaque ordre, sachant que P1, P2, P3 ont fait défaut.
+On calcule les six poids, puis on divise par leur somme pour ramener le total à $100\,\%$.}
+\end{table}
+
+\begin{cle}
+\textbf{Lecture.} Sachant que ces trois piliers ont fait défaut, l'ordre le plus probable est
+\textbf{P1 $\to$ P3 $\to$ P2} ($35{,}1\,\%$). Les deux ordres qui démarrent par P1 totalisent
+$67\,\%$ : c'est cohérent, P1 est le plus fort amorceur (ROOT $=1{,}0$) et le plus fort émetteur.
+On répond ainsi précisément à la question \og{}dans quel ordre~?\fg{} : le modèle fournit la
+\textbf{loi de probabilité sur les ordres}, pas un ordre unique.
+\end{cle}
+
+\begin{attention}
+\textbf{Précision.} Ce calcul suppose que l'on conditionne sur \emph{ces piliers exactement}, et
+compare leurs $m!$ ordres entre eux : les probabilités d'arrêt et de non-propagation vers les
+autres piliers, communes à la comparaison, disparaissent au rapport. Si l'on veut la probabilité
+\emph{jointe} \og{}exactement ces piliers, dans cet ordre, et aucun autre\fg{}, il faut réintégrer
+l'état d'arrêt de la section précédente ; la loi sur les ordres, elle, reste celle du tableau.
+\end{attention}
+
 \section{Le jour où l'on aura des données}
 
 Les scores TRANS jouent aujourd'hui le rôle des comptages. Le jour où un registre fournit les
