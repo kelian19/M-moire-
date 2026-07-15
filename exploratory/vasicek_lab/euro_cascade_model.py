@@ -48,9 +48,9 @@ MEMOIRE_DELTA = {                                       # Delta_DORA median + IC
 }
 
 
-def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng):
+def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI):
     """Perte annuelle agregee (M€) par la cascade. lam = frequence annuelle d'AMORCES."""
-    r = lam / (PHI - 1.0)
+    r = lam / (phi - 1.0)
     p = r / (r + lam)
     counts = rng.negative_binomial(r, p, size=n_years)
     T = int(counts.sum())
@@ -128,3 +128,17 @@ def bootstrap_sev_from_excesses(excesses, rng):
     s = rng.choice(excesses, size=len(excesses), replace=True)
     xi, _, sg = genpareto.fit(s, floc=0)
     return float(np.clip(xi, 0.05, 0.98)), max(1.0, float(sg))
+
+
+def oprisk_losses():
+    """Les pertes cyber x finance OpRisk (M€), lues LOCALEMENT. None si absente.
+
+    Sert aux tests de robustesse au SEUIL POT (refit GPD a differents seuils).
+    """
+    import os
+    path = os.path.join(_REPO, "data", "raw", "SAS_OpRisk_Global_Data_June_2026.xlsx")
+    if not os.path.exists(path):
+        return None
+    from src.severity.oprisk_analysis import load_clean, filter_cyber, filter_finance, USD_EUR
+    cf = filter_finance(filter_cyber(load_clean(path)))
+    return cf["loss"].values * USD_EUR
