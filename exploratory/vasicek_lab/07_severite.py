@@ -47,8 +47,9 @@ def titre(s):
 
 # ============================================================ parametres
 # Tous partages sauf l'echelle par pilier, portee par GBASE. Voir ossature_scr.tex.
-MU0 = 0.0        # ancrage : mediane du pilier le moins grave = exp(MU0) = 1 unite
-CPENTE = 0.50    # pente de la carte GBASE -> mu_j
+MU0 = 0.0            # ancrage : mediane du pilier le moins grave = exp(MU0) = 1 unite
+RATIO_GRADE = 2.0    # choix de modelisation : chaque echelon de gravite GBASE DOUBLE la mediane
+CPENTE = np.log(RATIO_GRADE)   # pente de la carte GBASE -> mu_j (= ln 2)
 SIGMA = 0.80     # dispersion du corps lognormal (commune)
 P_U = 0.90       # niveau du seuil de raccord corps -> queue
 XI_BASE = 0.70   # indice de queue commun (axe de sensibilite ; 0,9 = stress SAS, cf. 05)
