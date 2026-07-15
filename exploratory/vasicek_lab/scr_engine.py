@@ -104,6 +104,32 @@ def simulate_annual_losses(n_years, rng, g=G_BASE, xi=sev.XI_BASE, a=freq.A_LOAD
     return annual
 
 
+def simulate_losses_by_pillar(n_years, rng, g=G_BASE, xi=sev.XI_BASE, a=freq.A_LOAD):
+    """Perte annuelle ventilee par pilier d'AMORCE : matrice [n_years x len(PIL)].
+
+    Colonne c = perte des incidents amorces au pilier PIL[c] (severite de cascade
+    incluse). La somme des colonnes redonne la perte agregee de simulate_annual_losses.
+    Sert aux copules (marges par pilier) et a l'allocation d'Euler.
+    """
+    tables = build_cascade_tables(g)
+    Y = rng.standard_normal(n_years)
+    m = np.exp(a * Y - a * a / 2.0)
+    mat = np.zeros((n_years, len(PIL)))
+    for c, j in enumerate(PIL):
+        Nj = rng.poisson(LAMBDA[j] * m)
+        M = int(Nj.sum())
+        if M == 0:
+            continue
+        year_of = np.repeat(np.arange(n_years), Nj)
+        ind, probs = tables[j]
+        idx = rng.choice(len(probs), size=M, p=probs)
+        inc_ind = ind[idx]
+        L = np.column_stack([sev.draw_loss(p, M, rng, xi) for p in PIL])
+        X = (L * inc_ind).sum(axis=1)
+        mat[:, c] = np.bincount(year_of, weights=X, minlength=n_years)
+    return mat
+
+
 # ============================================================ mesures de risque
 def var(losses, alpha=0.995):
     return float(np.quantile(losses, alpha))
