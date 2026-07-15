@@ -95,12 +95,13 @@ sur la structure de DORA. Les \emph{concepts}, eux, sont trois primitives standa
 l'analyse de risque, ici recombinées :
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
 \item \textbf{ROOT} instancie l'\emph{événement initiateur} de l'analyse probabiliste de
-  risque et le \emph{nœud-graine} des modèles de cascade, dont l'influence se mesure par la
+  risque et le \emph{n\oe{}ud-graine} des modèles de cascade, dont l'influence se mesure par la
   taille attendue de la propagation~\cite{KaplanGarrick1981,Kempe2003}.
-\item \textbf{TRANS} est une \emph{matrice de transition dirigée}, au sens des chaînes de
-  Markov, des réseaux bayésiens~\cite{Pearl1988}, des probabilités d'activation d'arête des
-  modèles de cascade~\cite{Kempe2003}, et des matrices d'influence du risque
-  systémique~\cite{Battiston2012}.
+\item \textbf{TRANS} est une \emph{matrice d'influence dirigée} : ses entrées sont des forces
+  d'entraînement, non des probabilités (les lignes ne somment pas à~1). Normalisée ligne à
+  ligne, elle devient le \emph{noyau de transition} d'une chaîne de Markov et rejoint les
+  réseaux bayésiens~\cite{Pearl1988}, les probabilités d'activation d'arête des modèles de
+  cascade~\cite{Kempe2003} et les matrices d'influence du risque systémique~\cite{Battiston2012}.
 \item \textbf{GBASE} est l'axe de \emph{sévérité intrinsèque} par composant : la gravité de
   l'AMDEC~\cite{IEC60812} et le score de base CVSS~\cite{CVSS}.
 \end{itemize}
@@ -121,7 +122,10 @@ p \;=\; \operatorname{round}\!\Big(10 \times \text{ROOT}[\text{départ}]
       \times \!\!\prod_{\text{maillons } a\fl b}\!\! \text{TRANS}[a][b]\Big),
 \qquad p \in [1,10].
 \end{equation}
-Une chaîne longue est mécaniquement plus rare (chaque facteur~$<1$).
+Une chaîne longue est mécaniquement plus rare (chaque facteur~$<1$). Ce $p$ est une
+\textbf{cotation ordinale} sur $[1,10]$, non une probabilité normalisée : il \emph{classe} les
+ordres, comme le recommande Cox~(2008)~\cite{Cox2008} pour une matrice de risque, sans prétendre
+se sommer à~1. La normalisation en vraie probabilité conditionnelle est traitée à part.
 
 \paragraph{Lecture récursive (structure d'arbre).} Ce produit n'est pas arbitraire : il a
 une structure d'\textbf{arbre}. La probabilité d'un ordre de $n$ piliers se \emph{construit}
@@ -156,22 +160,28 @@ causale de l'ordre. Elle se lit en trois temps :
 \begin{align}
 \text{étendue} &= \min\!\Big(10,\; \max(\text{GBASE}) + 0{,}40\times\!\!\sum_{\text{autres piliers}}\!\!\text{GBASE}\Big) \\[2pt]
 \text{cohérence} &= \operatorname{moyenne}\big(\text{TRANS}[\text{maillons}]\big) \in [0,1] \\[2pt]
-\text{amplification} &= 0{,}5 + 0{,}8\times\text{cohérence} \in [0{,}5,\,1{,}3] \\[2pt]
+\text{amplification} &= 0{,}5 + 0{,}8\times\text{cohérence} \in [0{,}5,\,1{,}3]\quad(\text{bornes théoriques}) \\[2pt]
 g &= \operatorname{round}\big(\text{étendue}\times\text{amplification}\big), \qquad g\in[1,10].
 \end{align}
-Le pire pilier donne le socle ; les autres n'ajoutent que 40~\% chacun. Un ordre plausible
-amplifie jusqu'à $\times1{,}3$ (vrai emballement) ; un ordre absurde amortit jusqu'à
-$\times0{,}5$ (pannes indépendantes, non compoundées).
+Le pire pilier donne le socle ; les autres n'ajoutent que 40~\% chacun. Avec les valeurs du
+modèle (TRANS de $0{,}10$ à $0{,}80$), la cohérence effective borne l'amplification à environ
+$[\times0{,}6,\ \times1{,}1]$ : un ordre plausible emballe (vers $\times1{,}1$), un ordre absurde
+amortit (vers $\times0{,}6$, pannes quasi indépendantes). Les extrêmes $\times0{,}5$ et
+$\times1{,}3$ ne sont pas atteints.
 
-\subsection*{Colonne \og{}Criticité\fg{} = moyenne géométrique}
+\subsection*{Colonne \og{}Criticité\fg{}}
 
 \begin{cle}
 \[
 \text{criticité} \;=\; \operatorname{round}\!\big(\sqrt{\,p \times g\,}\big).
 \]
-La moyenne \emph{géométrique} (et non arithmétique) \textbf{pénalise le déséquilibre}~\cite{Grabisch2009} :
-il faut être à la fois assez probable \emph{et} assez grave. C'est pourquoi, au calage de
-base, aucun scénario n'atteint \og{}Extrême\fg{}.
+La racine ramène le produit $p\times g$ (le \emph{RPN} de l'AMDEC~\cite{IEC60812}) sur la même
+échelle de~1 à~10 que $p$ et~$g$, et \textbf{comprime} les valeurs : il faut être à la fois assez
+probable \emph{et} assez grave~\cite{Grabisch2009}. Le \emph{classement} des scénarios reste
+celui du produit $p\times g$ (la racine est monotone)~; ce que la racine change, c'est
+l'\emph{échelle}. Qu'aucun scénario n'atteigne \og{}Extrême\fg{} au calage de base n'est donc pas
+une propriété de la moyenne géométrique, mais une conséquence du calage (produit maximal, arrondi,
+plage $[1,10]$)~: la sensibilité (plus bas) montre que ce plafond est \textbf{fragile}.
 \end{cle}
 
 \subsection*{Exemple travaillé : le même ensemble $\{$P1,\,P2$\}$, deux sens}
@@ -292,7 +302,7 @@ Cinq piliers, gouvernance, tiers, partage volontaire & \S1 & Règlement UE 2022/
 Score \emph{criticité $=$ f(probabilité, gravité)} & \S1--2 & ISO~31000~\cite{ISO31000} ; ISO/IEC~27005~\cite{ISO27005} \\
 Ne lire une matrice de risque que par son \emph{ordre} & \S1, \S4 & Cox~(2008)~\cite{Cox2008} \\
 Trois barèmes = jugement d'expert structuré & \S1 & Cooke~(1991)~\cite{Cooke1991} ; O'Hagan et coll.~(2006)~\cite{OHagan2006} \\
-\textbf{ROOT} = événement initiateur / nœud-graine & \S1 & Kaplan \& Garrick~(1981)~\cite{KaplanGarrick1981} ; Kempe et coll.~(2003)~\cite{Kempe2003} \\
+\textbf{ROOT} = événement initiateur / n\oe{}ud-graine & \S1 & Kaplan \& Garrick~(1981)~\cite{KaplanGarrick1981} ; Kempe et coll.~(2003)~\cite{Kempe2003} \\
 \textbf{TRANS} = matrice de transition / influence dirigée & \S1--2 & Pearl~(1988)~\cite{Pearl1988} ; Kempe et coll.~(2003)~\cite{Kempe2003} ; Battiston et coll.~(2012)~\cite{Battiston2012} \\
 \textbf{GBASE} = axe de sévérité intrinsèque par composant & \S1 & AMDEC / IEC~60812~\cite{IEC60812} ; CVSS~\cite{CVSS} \\
 Les trois barèmes ensemble = triplet du risque & \S1 & Kaplan \& Garrick~(1981)~\cite{KaplanGarrick1981} \\
