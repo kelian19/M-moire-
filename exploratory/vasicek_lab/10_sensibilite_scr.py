@@ -128,10 +128,8 @@ for iy in range(len(XI_GRID)):
     for ix in range(len(G_GRID)):
         axA.text(ix, iy, f"{SURF[iy, ix]:.0f}", ha="center", va="center",
                  fontsize=7.6, color="#222")
-# bande instable xi > 0,9
+# bande instable xi > 0,9 (marquee par la ligne ; note explicite en bas de figure)
 axA.axhline(len(XI_GRID) - 1.5, color=ACCENT, lw=1.2, ls="--")
-axA.text(len(G_GRID) - 0.5, len(XI_GRID) - 1, "zone instable (xi>0,9)",
-         ha="right", va="center", fontsize=7.8, color=ACCENT)
 axA.set_xlabel("g : propagation  —  calibrable si horodatage (identifiable)",
                fontsize=9, color=INK2)
 axA.set_ylabel("xi : queue  —  importe SAS (non identifiable ici)",
@@ -151,6 +149,9 @@ for i, (name, lo, s_lo, hi, s_hi, amp) in enumerate(tor):
 axB.axvline(base_scr, color=ACCENT, lw=1.4, ls="--")
 axB.text(base_scr, len(tor) - 0.35, f" base {base_scr:.0f}", color=ACCENT,
          fontsize=8.5, va="bottom")
+# marge a gauche pour ne pas couper la barre la plus basse ni son etiquette
+_lo_min = min(min(r[2], r[4]) for r in tor)
+axB.set_xlim(left=_lo_min - 350)
 axB.set_yticks(ypos)
 axB.set_yticklabels([r[0] for r in tor])
 axB.set_xlabel("SCR = VaR 99,5 % (unites normalisees)", fontsize=9, color=INK2)
@@ -161,7 +162,10 @@ axB.grid(alpha=0.25, lw=0.5, axis="x")
 fig.suptitle("La sensibilite du SCR : ce que la donnee pourrait pincer (g) vs "
              "l'hypothese pure (xi)",
              fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.94])
+fig.tight_layout(rect=[0, 0.03, 1, 0.94])
+fig.text(0.01, 0.01, "(A) ligne pointillee : au-dela de xi = 0,9 la VaR 99,5 % "
+         "devient numeriquement instable (queue tres lourde).",
+         fontsize=8, color=ACCENT, ha="left", va="bottom")
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
