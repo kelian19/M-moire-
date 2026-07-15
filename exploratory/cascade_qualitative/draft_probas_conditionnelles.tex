@@ -165,6 +165,13 @@ La \textbf{sévérité} de l'incident se déduit des piliers atteints, via GBASE
 aussi P2, le coût devient $6+4=10$. La loi conditionnelle des sévérités est donc
 \emph{entièrement déterminée} par les probabilités conditionnelles de propagation.
 
+\noindent\textbf{Hypothèse de sévérité, à assumer.} On prend ici la sévérité \textbf{additive} :
+le coût d'une cascade est la somme des GBASE des piliers atteints. C'est une hypothèse de travail,
+pas une loi. GBASE est un score de gravité \emph{ordinal} (échelle AMDEC de 0 à 10), pas un
+montant, et la somme peut dépasser 10. À trancher : recaler GBASE en unité de perte en gardant
+l'additivité (avec éventuelle sur-gravité de cascade), ou adopter une règle non additive (le
+maximum, une agrégation concave). La brique de propagation ne dépend pas de ce choix.
+
 \begin{cle}
 \textbf{La perte de la cellule, et le pont vers le SCR.} La perte agrégée est une
 \textbf{somme composée}~\cite{Buhlmann1970,KlugmanPanjerWillmot} : sachant $N_{i,j}=n$, on somme
@@ -184,9 +191,17 @@ SCR~\cite{mcneil2015,SolvencyII2009}.
 \textbf{La question.} On \emph{sait} que $m$ piliers donnés ont fait défaut, par exemple
 $S=\{\text{P1},\text{P2},\text{P3}\}$. On ne sait pas dans quel \textbf{ordre} la défaillance
 s'est propagée. On cherche la \textbf{probabilité conditionnelle de chaque ordre, sachant
-l'ensemble} $S$. Il y a $m!$ ordres possibles ($3!=6$ pour trois piliers) : c'est exactement le
-comptage $N_m = m\cdot N_{m-1}$.
+l'ensemble} $S$. Il y a $m!$ ordres possibles ($3!=6$ pour trois piliers), le nombre
+d'arrangements, qui suit la récurrence $m! = m\,(m-1)!$.
 \end{cle}
+
+\noindent\textbf{Changement de point de vue.} Dans les sections précédentes on était \emph{dans}
+une cellule $(i,j)$ : l'incident entre par $j$, la cascade démarre donc sur $j$ (fixé) et ROOT
+n'intervenait pas. Ici on ne fixe plus le pilier d'entrée ; on demande, parmi les défaillances
+observées, sur quel pilier la cascade a \emph{amorcé} et dans quel ordre elle s'est propagée.
+C'est ROOT qui gouverne alors l'amorce : $\pi(j)=\text{ROOT}[j]/\sum_k\text{ROOT}[k]$ est la
+probabilité qu'un incident amorce sur $j$, donc qu'il alimente la cellule d'entrée $j$. Les
+sections précédentes conditionnaient sur cette amorce ; celle-ci la rend aléatoire.
 
 À chaque ordre on associe un \textbf{poids}, égal à la probabilité de ce chemin dans le modèle :
 la propension à \emph{amorcer} sur le premier pilier (ROOT), multipliée par les forces
