@@ -92,9 +92,39 @@ def lambda_scenario(source, scenario, mode="center", rng=None):
 
 
 def sample_severity_params(source, rng):
-    """Tire (xi, sigma) dans leur IC90 (approx normale) : incertitude de severite bootstrap."""
+    """Tire (xi, sigma) dans leur IC90 (approx normale) : incertitude de severite bootstrap.
+
+    Approximation : la normale non bornee peut tirer xi vers 1 et gonfler l'IC. Pour
+    OpRisk, preferer oprisk_excesses()+bootstrap_sev_from_excesses() (reechantillonnage
+    des vrais exces, methode du memoire), qui reste realiste. Voir script 14.
+    """
     xi_lo, xi_hi = PARAMS[source]["xi_ic90"]
     sg_lo, sg_hi = PARAMS[source]["sigma_ic90"]
     xi = rng.normal((xi_lo + xi_hi) / 2, (xi_hi - xi_lo) / (2 * 1.645))
     sg = rng.normal((sg_lo + sg_hi) / 2, (sg_hi - sg_lo) / (2 * 1.645))
     return max(0.05, float(xi)), max(1.0, float(sg))
+
+
+def oprisk_excesses():
+    """Les exces reels OpRisk (M€) au-dessus du seuil, lus LOCALEMENT (data/raw, non pousse).
+
+    Renvoie None si la donnee sous licence est absente. Perimetre cyber x finance,
+    conversion USD->EUR, seuil u de la config (doit redonner ~91 exces, xi~0,595).
+    """
+    import os
+    path = os.path.join(_REPO, "data", "raw", "SAS_OpRisk_Global_Data_June_2026.xlsx")
+    if not os.path.exists(path):
+        return None
+    from src.severity.oprisk_analysis import load_clean, filter_cyber, filter_finance, USD_EUR
+    cf = filter_finance(filter_cyber(load_clean(path)))
+    losses = cf["loss"].values * USD_EUR
+    u = PARAMS["OPRISK"]["u"]
+    return losses[losses > u] - u
+
+
+def bootstrap_sev_from_excesses(excesses, rng):
+    """(xi, sigma) par reechantillonnage des exces reels + fit GPD (methode du memoire)."""
+    from scipy.stats import genpareto
+    s = rng.choice(excesses, size=len(excesses), replace=True)
+    xi, _, sg = genpareto.fit(s, floc=0)
+    return float(np.clip(xi, 0.05, 0.98)), max(1.0, float(sg))
