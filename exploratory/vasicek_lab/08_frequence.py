@@ -41,7 +41,11 @@ import matplotlib.pyplot as plt
 HERE = os.path.dirname(os.path.abspath(__file__))
 CASCADE = os.path.abspath(os.path.join(HERE, "..", "cascade_qualitative"))
 sys.path.insert(0, CASCADE)
+sys.path.insert(0, HERE)
 from cascade_model import ROOT  # noqa: E402  (propension d'amorce = source unique)
+from frequence_model import (  # noqa: E402  (source unique de la loi de frequence)
+    LAMBDA_TOT, A_LOAD, PIL, LAMBDA, draw_counts, disp_index, corr_pair,
+)
 
 RNG = np.random.default_rng(20260715)
 W = 74
@@ -49,40 +53,6 @@ W = 74
 
 def titre(s):
     print("\n" + "=" * W + f"\n{s}\n" + "=" * W)
-
-
-# ============================================================ parametres
-LAMBDA_TOT = 12.0   # incidents attendus par an (ancrage de frequence, choix de modele)
-A_LOAD = 0.60       # charge systemique commune en cas de base (axe de sensibilite)
-
-PIL = sorted(ROOT)                       # [1,2,3,4,5]
-sroot = sum(ROOT.values())
-LAMBDA = {j: LAMBDA_TOT * ROOT[j] / sroot for j in PIL}   # taux de base par pilier
-
-
-def draw_counts(size, rng, a=A_LOAD):
-    """Tire size annees. Renvoie un tableau (size x 5) des N_j, meme Y par annee."""
-    Y = rng.standard_normal(size)                         # facteur systemique commun
-    m = np.exp(a * Y - a * a / 2.0)                        # multiplicateur (E[m]=1)
-    out = np.empty((size, len(PIL)), dtype=int)
-    for c, j in enumerate(PIL):
-        out[:, c] = rng.poisson(LAMBDA[j] * m)
-    return out
-
-
-# --- formules exactes (melange lognormal, charge commune a) ------------------
-def disp_index(lam, a=A_LOAD):
-    """Var/E d'un Poisson melange : 1 + lam*(exp(a^2)-1)."""
-    return 1.0 + lam * (np.exp(a * a) - 1.0)
-
-
-def corr_pair(lj, lk, a=A_LOAD):
-    """Correlation induite par Y entre deux piliers (charge commune)."""
-    ea = np.exp(a * a) - 1.0
-    cov = lj * lk * ea
-    vj = lj + lj * lj * ea
-    vk = lk + lk * lk * ea
-    return cov / np.sqrt(vj * vk)
 
 
 # ============================================================ diagnostics
