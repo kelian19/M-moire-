@@ -65,6 +65,14 @@ propagent l'un l'autre de façon \textbf{dirigée} (asymétrique), ce qui fait d
 \textbf{processus de branchement} gouverné par un $R_0$. Le seuil de déclenchement $K_j$
 n'est plus $\Phi^{-1}(\mathrm{PD})$ : il s'obtient toujours en inversant une répartition,
 mais sur une fréquence \textbf{ancrée sur la barre de matérialité} du règlement.
+
+\smallskip
+\noindent\textbf{La note établit surtout un résultat d'identifiabilité}, souvent plus utile
+qu'une calibration : la matrice de contagion~$W$, c\oe{}ur de la généralisation~(B), n'est estimable
+sur \textbf{aucune} source disponible, et les deux qui s'en approchent échouent pour des raisons
+\emph{opposées}. Ce n'est pas une impasse mais un \textbf{résultat de conception}, qui spécifie
+exactement ce que les registres DORA devront horodater et catégoriser pour rendre la contagion
+mesurable.
 \end{cle}
 
 \section{Le point de départ : le Vasicek à un facteur}
@@ -822,7 +830,7 @@ Le chapitre suivant montre que $W$ n'est calibrable sur aucune source. Le systé
 l'est déjà.
 \end{cle}
 
-\section{Peut-on calibrer $W$ sur les données disponibles ? Non.}
+\section{Peut-on calibrer $W$ sur les données disponibles ? Non, et c'est un résultat}
 \label{sec:donnees}
 
 Deux sources sérieuses ont été examinées. Aucune ne permet d'estimer $W$, et les deux
@@ -973,7 +981,7 @@ Structure de $W$ (TRANS) & \textbf{posée} (expert) & Assumée comme hypothèse 
 \addlinespace[2pt]
 Normalisation de $W$ & \textbf{dérivée} & Éq.~\eqref{eq:norm} : $W$ est une matrice de \emph{parts}, comme la matrice technique de Leontief. Stabilité garantie, pas supposée. \\
 \addlinespace[2pt]
-Gain $g$ & \textbf{borné puis balayé} & $g\in(0,1]$ par la décomposition de variance. Les résultats sont rapportés sur toute la plage plutôt qu'en un point. \\
+Gain $g$ & \textbf{borné puis balayé} & $g\in(0,1]$ par la borne spectrale (Perron-Frobenius, cf. Leontief). Les résultats sont rapportés sur toute la plage plutôt qu'en un point. \\
 \addlinespace[2pt]
 Amorce ROOT & \textbf{dérivée} & Se déduit de TRANS comme progéniture $(I-M)^{-1}$ (Spearman $=1{,}00$). Cinq paramètres d'expert supprimés. \\
 \addlinespace[2pt]
