@@ -1,0 +1,212 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{green}{HTML}{2E6B4F}
+\definecolor{lightgreen}{HTML}{D6EADF}
+
+\hypersetup{colorlinks=true, linkcolor=bluemid, urlcolor=bluemid,
+  pdftitle={Ossature SCR - construction chiffree DORA},
+  pdfauthor={Kelian Kaddouri}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+\newtcolorbox{attention}[1][]{colback=accent!8,colframe=accent,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+\newtcolorbox{apport}[1][]{colback=lightgreen!60,colframe=green,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+
+\titleformat{\section}{\normalfont\large\bfseries\color{navy}}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{2.0ex plus .3ex minus .2ex}{1.0ex plus .2ex}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{bluemid}}{\thesubsection}{0.6em}{}
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
+
+\newcommand{\Ind}{\mathbf{1}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\VaR}{\mathrm{VaR}}
+\newcommand{\TVaR}{\mathrm{TVaR}}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Ossature du SCR DORA\\[2pt]
+  \large De la cascade qualitative a une charge de capital : conventions,
+  severite, frequence, agregation, mesure de risque}
+\author{Kelian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.5cm}
+
+\begin{cle}
+\textbf{Ce que fait ce document.} Il pose le squelette mathematique de la partie
+chiffree. La brique \emph{severite} (section~3) est entierement specifiee, car
+c'est celle qu'implemente le script \texttt{07\_severite.py}. Les briques
+\emph{frequence}, \emph{agregation} et \emph{mesure de risque} (sections~4 a~6)
+sont posees comme charpente, a remplir par les scripts \texttt{08} a \texttt{10}.
+\end{cle}
+
+\begin{attention}
+\textbf{Cadre honnete, a garder present partout.} DORA (UE 2022/2554) impose de la
+resilience operationnelle, \emph{pas} une exigence de capital : il n'existe pas de
+SCR DORA reglementaire. On construit ici cet objet par analogie avec Solvabilite~II.
+Sans donnees de perte calibrees sur l'entite, le \emph{niveau absolu} du SCR n'est
+pas identifiable : seules sa \emph{structure} et sa \emph{sensibilite} le sont. On
+travaille donc en unites normalisees et le livrable est la surface $\mathrm{SCR}(g,\xi)$,
+pas un montant en euros.
+\end{attention}
+
+% ============================================================
+\section{Conventions de modelisation}
+
+\begin{apport}
+\textbf{Deux echelles de dependance, disjointes.} C'est le choix structurant qui
+evite le double comptage.
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
+  \item \textbf{Inter-incidents} : un facteur systemique commun $Y\sim\mathcal N(0,1)$
+        gouverne la \emph{frequence} des incidents et la co-occurrence des cellules
+        (une mauvaise annee en declenche beaucoup).
+  \item \textbf{Intra-incident} : la cascade dirigee (\texttt{ROOT}/\texttt{TRANS})
+        gouverne l'\emph{etendue} d'un incident donne, l'ensemble $S$ des piliers
+        touches. Le gain de propagation $g$ est deterministe en cas de base ($g$
+        pilote par $Y$ est mentionne comme extension, non calibre).
+  \item \textbf{Severites} tirees \emph{independamment sachant $S$} : la dependance
+        est deja portee par la formation de $S$ (intra) et par $Y$ (inter). Aucun
+        troisieme canal.
+\end{itemize}
+\end{apport}
+
+% ============================================================
+\section{Notations}
+
+$P=\{1,\dots,5\}$ les cinq piliers DORA ; $\mathrm{GBASE}_j$ la gravite de base
+ordinale du pilier $j$ ; $S\subseteq P$ l'ensemble des piliers touches par un
+incident (issu du moteur de cascade auto-evitant) ; $L_j$ la perte generee par le
+pilier $j$ ; $X(S)=\sum_{j\in S} L_j$ la severite d'un incident ; $N_{ij}$ le nombre
+d'incidents de la cellule $(i,j)$ sur un an ; $\Phi$ la fonction de repartition
+normale standard, $\phi$ sa densite.
+
+% ============================================================
+\section{Severite : de l'ordinal aux unites monetaires}
+
+\subsection{Loi de perte d'un pilier}
+
+Le score $\mathrm{GBASE}_j$ ne fixe pas un montant, il fixe l'\emph{echelle} de la
+loi du pilier $j$. La forme est un corps lognormal prolonge par une queue de Pareto
+generalisee (GPD) au-dela d'un seuil (methode des exces, POT). L'indice de queue
+$\xi$ est \textbf{commun} a tous les piliers : c'est un regime de queue du risque
+cyber, pas une propriete d'un pilier.
+
+\begin{equation}
+\ln L_j \sim \mathcal N(\mu_j,\sigma^2)\ \text{dans le corps},\qquad
+\mu_j=\mu_0+c\,(\mathrm{GBASE}_j-\min_k \mathrm{GBASE}_k).
+\end{equation}
+
+Le seuil de raccord $u_j$ est le quantile de niveau $p_u$ du corps, et l'echelle de
+queue $\beta_j$ est \textbf{derivee} par continuite de la densite au raccord (elle
+n'est pas un parametre libre) :
+\begin{equation}
+u_j=\exp\!\big(\mu_j+\sigma z_{p_u}\big),\quad z_{p_u}=\Phi^{-1}(p_u),\qquad
+\beta_j=\frac{1-p_u}{f_{\mathrm{LN}}(u_j)}=\frac{(1-p_u)\,u_j\,\sigma}{\phi(z_{p_u})}.
+\end{equation}
+
+Au-dessus du seuil, la survie suit la GPD :
+\begin{equation}
+\Pr(L_j>x)=(1-p_u)\Big[1+\xi\,\tfrac{x-u_j}{\beta_j}\Big]^{-1/\xi},\qquad x>u_j .
+\end{equation}
+
+\begin{attention}
+\textbf{Ce qui est pose, pas estime.} Le point de raccord $p_u$ et la pente $c$ de la
+carte $\mathrm{GBASE}\!\to\!\mu$ sont des hypotheses, non des estimations sur donnees
+de l'entite. L'ancrage des unites (le niveau de $\mu_0$) est une convention de
+normalisation. On l'assume ; on ne le deguise pas en mesure.
+\end{attention}
+
+\subsection{Simulation exacte par inverse de la fonction de repartition}
+
+Pour $U\sim\mathcal U(0,1)$ :
+\begin{equation}
+L_j=
+\begin{cases}
+\exp\!\big(\mu_j+\sigma\,\Phi^{-1}(U)\big) & U<p_u \quad(\text{corps}),\\[4pt]
+u_j+\dfrac{\beta_j}{\xi}\Big[(1-V)^{-\xi}-1\Big],\ \ V=\dfrac{U-p_u}{1-p_u} & U\ge p_u \quad(\text{queue}).
+\end{cases}
+\end{equation}
+
+La moyenne de queue est finie car $\xi<1$ : l'exces moyen au-dela du seuil vaut
+$\beta_j/(1-\xi)$. Pour $\xi\ge 1$ la moyenne diverge : on impose donc $\xi<1$ et on
+signale l'instabilite numerique quand $\xi$ approche $0{,}9$.
+
+\subsection{Severite d'une cascade}
+
+Un incident touche l'ensemble $S$ ; chaque pilier touche tire sa perte, et on somme :
+\begin{equation}
+X(S)=\sum_{j\in S} L_j .
+\end{equation}
+Les $L_j$ sont independantes sachant $S$ (conformement aux conventions). C'est le
+point de jonction avec la cascade qualitative : le moteur \texttt{ROOT}/\texttt{TRANS}
+produit $S$, la loi de severite produit $X(S)$.
+
+% ============================================================
+\section{Frequence a facteur systemique commun (charpente, script 08)}
+
+Un unique facteur $Y\sim\mathcal N(0,1)$ pilote la surdispersion et la co-occurrence :
+\begin{equation}
+N_{ij}\mid Y \sim \mathrm{Poisson}\!\big(\lambda_{ij}\,e^{\,a_j Y-\tfrac12 a_j^2}\big),
+\qquad \E[N_{ij}]=\lambda_{ij},\quad \Var(N_{ij})>\E[N_{ij}].
+\end{equation}
+Le terme $-\tfrac12 a_j^2$ recentre l'esperance ; l'intensite de $Y$ ($a_j$)
+remplace une binomiale negative bricolee a cote d'un Vasicek : une seule source de
+risque systemique, celle du lab existant.
+
+% ============================================================
+\section{Agregation et mesure de risque (charpente, scripts 09 et 10)}
+
+Perte agregee sur un an, par Monte-Carlo (tirer $Y$, puis $N_{ij}$, puis pour chaque
+incident son ensemble $S_k$ et sa severite $X_k$) :
+\begin{equation}
+S_{\text{total}}=\sum_{(i,j)}\ \sum_{k=1}^{N_{ij}} X_k(S_k).
+\end{equation}
+
+Le SCR est la Value-at-Risk a $99{,}5\%$, par mandat Solvabilite~II (art.~101) :
+\begin{equation}
+\mathrm{SCR}=\VaR_{0{,}995}\big(S_{\text{total}}\big).
+\end{equation}
+
+\begin{attention}
+\textbf{VaR, pas TVaR, et pour la bonne raison.} On retient la VaR parce que la norme
+Solvabilite~II l'impose, \emph{pas} parce que la TVaR serait incalculable : la TVaR
+reste finie tant que $\xi<1$. On la reporte a titre indicatif
+($\TVaR_{0{,}995}=\VaR_{0{,}995}/(1-\xi)+\dots$) sans en faire la mesure retenue.
+Le centrage (SCR brut $\VaR$, ou capital economique $\VaR-\E$) est precise au calcul.
+\end{attention}
+
+\begin{apport}
+\textbf{Le livrable.} Pas un nombre mais la surface $\mathrm{SCR}(g,\xi)$ : le capital
+en fonction du gain de propagation $g$ et de l'indice de queue $\xi$, avec la zone
+instable ($\xi>0{,}9$) marquee et la frontiere identifiable / non-identifiable tracee
+dessus. Le message : le capital est une fonction d'hypotheses expertes explicites, et
+voici lesquelles le deplacent le plus.
+\end{apport}
+
+\end{document}
