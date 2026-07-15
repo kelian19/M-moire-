@@ -216,8 +216,10 @@ P3 $\to$ P2 $\to$ P1 & $0{,}5 \times 0{,}50 \times 0{,}20$ & $0{,}050$ & $5{,}0\
 \multicolumn{2}{r}{somme des poids} & $0{,}996$ & $100\,\%$ \\
 \bottomrule
 \end{tabular}
-\caption{Probabilité conditionnelle de chaque ordre, sachant que P1, P2, P3 ont fait défaut.
-On calcule les six poids, puis on divise par leur somme pour ramener le total à $100\,\%$.}
+\caption{Probabilité conditionnelle de chaque ordre, sachant que P1, P2, P3 ont fait défaut,
+\emph{au niveau du score qualitatif} (poids ROOT $\times$ TRANS, sans l'état d'arrêt). On calcule
+les six poids, puis on divise par leur somme pour ramener le total à $100\,\%$. La version qui
+intègre l'état d'arrêt est donnée plus bas.}
 \end{table}
 
 \begin{cle}
@@ -228,12 +230,57 @@ On répond ainsi précisément à la question \og{}dans quel ordre~?\fg{} : le m
 \textbf{loi de probabilité sur les ordres}, pas un ordre unique.
 \end{cle}
 
+\medskip
+\noindent\textbf{La probabilité jointe : le scénario complet, avec l'état d'arrêt.} La loi
+ci-dessus répond à \og{}sachant l'ensemble, quel ordre\fg{}. On veut aussi la probabilité
+\emph{absolue} du scénario entier : \og{}la cascade amorce sur $j_1$, suit exactement l'ordre
+$j_1\to\dots\to j_m$, puis s'arrête, sans toucher aucun autre pilier\fg{}. On y réintègre l'état
+d'arrêt de la section~4 :
+\begin{equation}
+\mathbb P_{\text{jointe}}(j_1\to\dots\to j_m\to\varnothing)
+= \pi(j_1)\prod_{\ell=1}^{m-1}\mathbb P(j_{\ell+1}\mid j_\ell)\;\mathbb P(\varnothing\mid j_m),
+\end{equation}
+avec $\pi(j_1)=\text{ROOT}[j_1]/\sum_k\text{ROOT}[k]$ la loi d'amorce (ici $\sum_k\text{ROOT}[k]=3{,}3$),
+$\mathbb P(j'\mid j)=e_j\,\text{TRANS}[j][j']/s_j$ la transition, et
+$\mathbb P(\varnothing\mid j_m)=1-e_{j_m}$ l'arrêt final. Détail pour P1$\to$P3$\to$P2 :
+\[
+\underbrace{\tfrac{1{,}0}{3{,}3}}_{\pi(\text{P1})=0{,}303}\times
+\underbrace{0{,}90\tfrac{0{,}70}{2{,}60}}_{\mathbb P(\text{P3}\mid\text{P1})=0{,}242}\times
+\underbrace{0{,}48\tfrac{0{,}50}{1{,}40}}_{\mathbb P(\text{P2}\mid\text{P3})=0{,}173}\times
+\underbrace{(1-0{,}52)}_{\mathbb P(\varnothing\mid\text{P2})=0{,}481}
+= 0{,}0061 .
+\]
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Ordre & Probabilité jointe & Conditionnelle avec arrêt \\
+\midrule
+\rowcolor{lightblue!40} P1 $\to$ P3 $\to$ P2 & $0{,}611\,\%$ & $37{,}7\,\%$ \\
+P1 $\to$ P2 $\to$ P3 & $0{,}599\,\%$ & $36{,}9\,\%$ \\
+P3 $\to$ P1 $\to$ P2 & $0{,}209\,\%$ & $12{,}9\,\%$ \\
+P2 $\to$ P1 $\to$ P3 & $0{,}157\,\%$ & $9{,}7\,\%$ \\
+P2 $\to$ P3 $\to$ P1 & $0{,}026\,\%$ & $1{,}6\,\%$ \\
+P3 $\to$ P2 $\to$ P1 & $0{,}018\,\%$ & $1{,}1\,\%$ \\
+\midrule
+\textbf{total (défaut = exactement \{P1,P2,P3\})} & $\mathbf{1{,}62\,\%}$ & $100\,\%$ \\
+\bottomrule
+\end{tabular}
+\caption{Probabilité jointe de chaque scénario complet (amorce, ordre, arrêt). Leur somme,
+$1{,}62\,\%$, est la probabilité que le défaut porte sur \emph{exactement} ces trois piliers. La
+dernière colonne, jointe renormalisée, est la probabilité conditionnelle \emph{rigoureuse} de
+l'ordre sachant l'ensemble.}
+\end{table}
+
 \begin{attention}
-\textbf{Précision.} Ce calcul suppose que l'on conditionne sur \emph{ces piliers exactement}, et
-compare leurs $m!$ ordres entre eux : les probabilités d'arrêt et de non-propagation vers les
-autres piliers, communes à la comparaison, disparaissent au rapport. Si l'on veut la probabilité
-\emph{jointe} \og{}exactement ces piliers, dans cet ordre, et aucun autre\fg{}, il faut réintégrer
-l'état d'arrêt de la section précédente ; la loi sur les ordres, elle, reste celle du tableau.
+\textbf{Ce que l'état d'arrêt change (et pourquoi c'est correct).} Pour que le défaut soit
+\emph{exactement} $\{$P1,P2,P3$\}$, la cascade doit \textbf{s'arrêter sur le dernier pilier}.
+Un ordre qui finit sur P1 (qui ne s'arrête que dans $10\,\%$ des cas) est donc pénalisé : P2$\to$P3$\to$P1
+passe de $7{,}2\,\%$ (score qualitatif) à $1{,}6\,\%$ (avec arrêt). Les probabilités d'arrêt ne
+\emph{disparaissent donc pas} au rapport : elles repondèrent les ordres selon la propension du
+dernier pilier à éteindre la cascade. La version rigoureuse est la dernière colonne ; le score
+qualitatif du tableau précédent en est l'approximation quand on néglige l'arrêt.
 \end{attention}
 
 \section{Le jour où l'on aura des données}
