@@ -13,12 +13,13 @@ On ne le nie pas : on le TESTE.
   F11 : Tornado                                        : quelle hypothèse PORTE le résultat ?
 
 Perturbation Monte-Carlo : chaque coefficient est tiré autour de sa valeur de base
-(± une marge), sur N tirages ; on recalcule les 326 scénarios à chaque tirage et on
+(± une marge), sur N tirages ; on recalcule les 325 scénarios à chaque tirage et on
 regarde si les CONCLUSIONS QUALITATIVES tiennent (pas les scores exacts).
 """
 
 from itertools import combinations, permutations
 import os
+import sys
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -34,16 +35,10 @@ PILIERS = {
     5: "Partage d'informations",
 }
 N = 5
-ROOT0 = {1: 1.00, 4: 0.90, 2: 0.60, 3: 0.50, 5: 0.30}
-TRANS0 = {
-    1: {2: 0.80, 3: 0.70, 4: 0.70, 5: 0.40},
-    2: {1: 0.20, 3: 0.40, 4: 0.30, 5: 0.60},
-    3: {1: 0.30, 2: 0.50, 4: 0.30, 5: 0.30},
-    4: {1: 0.20, 2: 0.80, 3: 0.30, 5: 0.40},
-    5: {1: 0.10, 2: 0.20, 3: 0.20, 4: 0.20},
-}
-GBASE0 = {4: 7, 1: 6, 2: 4, 3: 3, 5: 1}
-KFAC0, AMPB0, AMPS0 = 0.40, 0.50, 0.80         # étendue / amplification (base, pente)
+# --- jugement et barème de base : source unique (cascade_model.py) ----------
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cascade_model import (ROOT as ROOT0, TRANS as TRANS0, GBASE as GBASE0,
+                           KFAC as KFAC0, AMPB as AMPB0, AMPS as AMPS0)
 
 ORDERS = [o for k in range(1, N + 1)
           for subset in combinations(range(1, N + 1), k)
@@ -234,7 +229,7 @@ def fig8():
     y = np.arange(len(top15))
     data = [rank_hist[o] for o in top15]           # top15 est déjà trié (meilleur en 0)
     fig, ax = plt.subplots(figsize=(8.6, 6.8))
-    bp = ax.boxplot(data, vert=False, positions=y, widths=0.6, patch_artist=True,
+    bp = ax.boxplot(data, orientation="horizontal", positions=y, widths=0.6, patch_artist=True,
                     showfliers=False)
     for box in bp["boxes"]:
         box.set(facecolor="#cfe0f7", edgecolor=BLUE, linewidth=1.1)
@@ -300,7 +295,7 @@ def fig10():
         ax.text(v, c / NDRAW * 100 + 1.2, f"{c/NDRAW:.0%}", ha="center", fontsize=8.5, color=INK2)
     ax.text(0.02, 0.9, "Baseline : max = 8 (Majeure)", transform=ax.transAxes,
             fontsize=9, color=INK2)
-    ax.set_xlabel("Criticité MAXIMALE atteinte parmi les 326 scénarios (par tirage)", color=INK2)
+    ax.set_xlabel("Criticité MAXIMALE atteinte parmi les 325 scénarios (par tirage)", color=INK2)
     ax.set_ylabel("Part des tirages  (%)", color=INK2)
     ax.set_xticks(range(int(vals.min()), 11))
     for s in ("top", "right"):

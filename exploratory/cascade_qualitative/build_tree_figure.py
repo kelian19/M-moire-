@@ -3,7 +3,7 @@
 """
 F12 : L'arbre récursif des ordres.
 
-Illustre la formalisation du tuteur : la probabilité d'un ordre de n piliers se
+Illustre la formalisation récursive : la probabilité d'un ordre de n piliers se
 CONSTRUIT récursivement à partir du préfixe de (n-1) piliers, en multipliant par
 la transition ajoutée.  On le montre sur l'exemple à 3 piliers (6 feuilles), avec
 les VRAIES valeurs ROOT / TRANS du modèle.  Le calcul reste identique à
@@ -15,20 +15,15 @@ build_cascade_workbook.py : l'arbre n'est qu'une relecture, pas un nouveau modè
 
 from itertools import permutations
 import os
+import sys
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
-# ---------------------------------------------------------------- moteur (miroir du .xlsx)
-ROOT = {1: 1.00, 4: 0.90, 2: 0.60, 3: 0.50, 5: 0.30}
-TRANS = {
-    1: {2: 0.80, 3: 0.70, 4: 0.70, 5: 0.40},
-    2: {1: 0.20, 3: 0.40, 4: 0.30, 5: 0.60},
-    3: {1: 0.30, 2: 0.50, 4: 0.30, 5: 0.30},
-    4: {1: 0.20, 2: 0.80, 3: 0.30, 5: 0.40},
-    5: {1: 0.10, 2: 0.20, 3: 0.20, 4: 0.20},
-}
+# --- ROOT / TRANS : source unique (cascade_model.py) ------------------------
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cascade_model import ROOT, TRANS
 
 
 def proba_raw(order):

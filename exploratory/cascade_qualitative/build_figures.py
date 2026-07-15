@@ -7,16 +7,18 @@ Chaque figure isole UN « message caché » du modèle conceptuel :
   F1 : L'ordre renverse le verdict          (asymétrie i→j vs j→i)
   F2 : Jamais très probable ET très grave    (plafond de criticité)
   F3 : Mêmes piliers, autre histoire         (amplitude du ré-ordonnancement)
-  F4 : Les cascades les plus critiques        (classement, toutes amont→aval)
+  F4 : Les scénarios les plus critiques       (classement : piliers amont seuls + cascades)
   F5 : Là où la cascade démarre décide        (pilier-racine → profil de criticité)
 
-Le moteur de score (ROOT / TRANS / GBASE) est RÉ-DÉCLARÉ ici à l'identique de
-build_cascade_workbook.py : les figures sont ainsi reproductibles seules, sans
-ré-écrire le classeur. Toute modification du jugement doit rester synchrone.
+Le moteur de score (ROOT / TRANS / GBASE) et le barème sont importés de
+cascade_model.py, source unique partagée avec le classeur et la sensibilité :
+aucune re-déclaration, donc aucun risque de désynchronisation. Seuls les noms
+courts des piliers (labels de figures) restent locaux.
 """
 
 from itertools import combinations, permutations
 import os
+import sys
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -33,50 +35,10 @@ PILIERS = {
 }
 N = len(PILIERS)
 
-ROOT = {1: 1.00, 4: 0.90, 2: 0.60, 3: 0.50, 5: 0.30}
-TRANS = {
-    1: {2: 0.80, 3: 0.70, 4: 0.70, 5: 0.40},
-    2: {1: 0.20, 3: 0.40, 4: 0.30, 5: 0.60},
-    3: {1: 0.30, 2: 0.50, 4: 0.30, 5: 0.30},
-    4: {1: 0.20, 2: 0.80, 3: 0.30, 5: 0.40},
-    5: {1: 0.10, 2: 0.20, 3: 0.20, 4: 0.20},
-}
-GBASE = {4: 7, 1: 6, 2: 4, 3: 3, 5: 1}
-
-CRIT_LAB = ["Faible", "Modérée", "Élevée", "Majeure", "Extrême"]
-
-
-def lvl(score):
-    if score is None:
-        return None
-    return 0 if score <= 2 else 1 if score <= 4 else 2 if score <= 6 else 3 if score <= 8 else 4
-
-
-def proba_score(order):
-    if not order:
-        return None
-    prop = ROOT[order[0]]
-    for a, b in zip(order, order[1:]):
-        prop *= TRANS[a][b]
-    return max(1, min(10, round(10 * prop)))
-
-
-def gravite_score(order):
-    if not order:
-        return None
-    bases = [GBASE[p] for p in order]
-    etendue = min(10, max(bases) + 0.40 * (sum(bases) - max(bases)))
-    if len(order) <= 1:
-        raw = etendue
-    else:
-        links = [TRANS[a][b] for a, b in zip(order, order[1:])]
-        coherence = sum(links) / len(links)
-        raw = etendue * (0.5 + 0.8 * coherence)
-    return max(1, min(10, round(raw)))
-
-
-def crit_score(p, g):
-    return None if (p is None or g is None) else round((p * g) ** 0.5)
+# --- jugement et barème : source unique (cascade_model.py) ------------------
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cascade_model import (ROOT, TRANS, GBASE, CRIT_LAB,
+                           lvl, proba_score, gravite_score, crit_score)
 
 
 # ---------------------------------------------------------------- construction des records
@@ -272,10 +234,10 @@ def fig4():
     ax.set_yticks(y); ax.set_yticklabels(labels, fontsize=10, fontfamily="DejaVu Sans")
     ax.set_xlim(0, 10.2)
     ax.set_xlabel("Score de criticité", color=INK2)
-    ax.set_title("Les 15 cascades les plus critiques", fontsize=15, fontweight="bold",
+    ax.set_title("Les 15 scénarios les plus critiques", fontsize=15, fontweight="bold",
                  color=INK, pad=24, loc="left")
-    ax.text(0, len(top) + 0.2, "Toutes démarrent en amont (P1 gouvernance / P4 tiers) "
-            "et descendent vers l'aval : jamais l'inverse.", fontsize=9, color=INK2)
+    ax.text(0, len(top) + 0.2, "En tête : des piliers amont seuls (P1 gouvernance / P4 tiers) "
+            "et des cascades qui en partent vers l'aval ; jamais l'inverse.", fontsize=9, color=INK2)
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
     ax.tick_params(axis="y", length=0)

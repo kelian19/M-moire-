@@ -8,7 +8,7 @@ gouvernance → conséquences) est un vrai emballement systémique → plus PROB
 ET plus GRAVE. Le même ensemble de piliers pris à l'envers est peu probable et,
 s'il survient, bien moins grave (défaillances quasi indépendantes, non compoundées).
 
-=> L'ordre change fortement le verdict (ex. 1→2 « Extrême » vs 2→1 « Faible »).
+=> L'ordre change fortement le verdict (ex. 1→2 « Majeure » vs 2→1 « Faible »).
 
 Résultat exprimé en CATÉGORIES (qualitatif), pas en nombres bruts :
   Proba    : Très rare · Rare · Possible · Probable · Très probable
@@ -18,73 +18,20 @@ Les scores /10 restent en colonnes d'appoint (grises) juste pour trier.
 """
 
 import os
+import sys
 from itertools import combinations, permutations
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-PILIERS = {
-    1: "Gouvernance & gestion du risque TIC",
-    2: "Gestion / classification / notification des incidents",
-    3: "Tests de résilience opérationnelle (TLPT)",
-    4: "Gestion du risque lié aux tiers ICT",
-    5: "Partage d'informations sur les cybermenaces",
-}
-N = len(PILIERS)
+# --- jugement et barème : source unique (cascade_model.py) ------------------
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cascade_model import (PILIERS, N,
+                           PROBA_LAB, GRAV_LAB, CRIT_LAB,
+                           lvl, proba_score, gravite_score, crit_score)
 
-# --- jugement ancré DORA / mémoire ----------------------------------------
-ROOT = {1: 1.00, 4: 0.90, 2: 0.60, 3: 0.50, 5: 0.30}     # amorce d'une cascade
-TRANS = {                                                # « i entraîne j » dirigé
-    1: {2: 0.80, 3: 0.70, 4: 0.70, 5: 0.40},
-    2: {1: 0.20, 3: 0.40, 4: 0.30, 5: 0.60},
-    3: {1: 0.30, 2: 0.50, 4: 0.30, 5: 0.30},
-    4: {1: 0.20, 2: 0.80, 3: 0.30, 5: 0.40},
-    5: {1: 0.10, 2: 0.20, 3: 0.20, 4: 0.20},
-}
-GBASE = {4: 7, 1: 6, 2: 4, 3: 3, 5: 1}                    # gravité de base d'un pilier
-
-# --- labels ----------------------------------------------------------------
-PROBA_LAB = ["Très rare", "Rare", "Possible", "Probable", "Très probable"]
-GRAV_LAB = ["Négligeable", "Mineure", "Modérée", "Majeure", "Critique"]
-CRIT_LAB = ["Faible", "Modérée", "Élevée", "Majeure", "Extrême"]
-# vert -> rouge
+# vert -> rouge (échelle de couleurs, spécifique au classeur)
 LEVEL_FILL = ["C6EFCE", "E2EFDA", "FFEB9C", "FCE4D6", "FFC7CE"]
-
-
-def lvl(score):
-    if score is None:
-        return None
-    return 0 if score <= 2 else 1 if score <= 4 else 2 if score <= 6 else 3 if score <= 8 else 4
-
-
-def proba_score(order):
-    """Coherence causale de la chaîne ordonnée -> /10. Dépend de l'ordre."""
-    if not order:
-        return None
-    prop = ROOT[order[0]]
-    for a, b in zip(order, order[1:]):
-        prop *= TRANS[a][b]
-    return max(1, min(10, round(10 * prop)))
-
-
-def gravite_score(order):
-    """Étendue des dégâts AMPLIFIÉE/AMORTIE par la cohérence de l'ordre. Dépend de l'ordre."""
-    if not order:
-        return None
-    bases = [GBASE[p] for p in order]
-    etendue = min(10, max(bases) + 0.40 * (sum(bases) - max(bases)))
-    if len(order) <= 1:
-        raw = etendue
-    else:
-        links = [TRANS[a][b] for a, b in zip(order, order[1:])]
-        coherence = sum(links) / len(links)          # 0..1
-        amplification = 0.5 + 0.8 * coherence         # 0.5 (incohérent) .. 1.3 (cohérent)
-        raw = etendue * amplification
-    return max(1, min(10, round(raw)))
-
-
-def crit_score(p, g):
-    return None if (p is None or g is None) else round((p * g) ** 0.5)   # moyenne géométrique
 
 
 # --- styles ----------------------------------------------------------------
@@ -219,7 +166,7 @@ for item in notes:
 js.column_dimensions["A"].width = 115
 
 # ==========================================================================
-# Feuille 3 : Classement (326 scénarios triés par Criticité décroissante)
+# Feuille 3 : Classement (325 scénarios notés triés par Criticité décroissante)
 # ==========================================================================
 cl = wb.create_sheet("Classement", 1)
 cl["A1"] = "Scénarios classés par Criticité décroissante (l'ordre compte)"
