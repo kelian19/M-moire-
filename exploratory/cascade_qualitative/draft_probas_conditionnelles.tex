@@ -36,7 +36,7 @@
 \titlespacing*{\section}{0pt}{1.9ex plus .3ex minus .2ex}{1.0ex plus .2ex}
 \captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
 
-\title{\vspace{-1.2cm}\color{navy}\bfseries Draft --- Probabilités conditionnelles au sein d'un comptage $N_{i,j}$\\[2pt]
+\title{\vspace{-1.2cm}\color{navy}\bfseries Draft : probabilités conditionnelles au sein d'un comptage $N_{i,j}$\\[2pt]
   \large De la cascade qualitative à la brique fréquence/sévérité d'un SCR}
 \author{Kélian Kaddouri}
 \date{\today}
@@ -60,12 +60,12 @@ ici : c'est l'étape d'après.
 On décompose la perte d'une cellule en deux étages, comme tout \textbf{modèle collectif de
 risque}~\cite{Buhlmann1970,KlugmanPanjerWillmot,Mikosch2009}.
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt]
-\item \textbf{Fréquence} --- $N_{i,j}$, le nombre d'incidents entrant par le pilier~$j$ dans le
+\item \textbf{Fréquence} : $N_{i,j}$, le nombre d'incidents entrant par le pilier~$j$ dans le
   segment~$i$ sur la période. C'est un comptage aléatoire. Pour le cyber, on le prendra
   \emph{surdispersé} (un \textbf{Poisson mixte}~\cite{Grandell1997} plutôt qu'un Poisson simple :
   un choc commun fait varier l'intensité, ce qui est le pendant fréquentiel du facteur
   systémique et rejoint les modèles de contagion cyber~\cite{BessyRolandBoumezouedHillairet2021,HillairetLopez2021}).
-\item \textbf{Sévérité conditionnelle} --- \emph{sachant} $N_{i,j}=n$, chacun des $n$ incidents
+\item \textbf{Sévérité conditionnelle} : \emph{sachant} $N_{i,j}=n$, chacun des $n$ incidents
   produit un dommage. C'est \textbf{ici} que vit \og{}au sein d'un même $N_{i,j}$\fg{} : la loi
   des dommages \emph{conditionnelle au comptage}.
 \end{itemize}
@@ -117,7 +117,7 @@ colonne $s_j$ retient la force d'émission de chaque pilier.}
 \textbf{Sans arrêt, la cascade ne s'éteint jamais.} Si chaque pilier touché en entraîne toujours
 un autre (lignes sommant à~1), l'incident se propage sans fin et sa sévérité diverge. Il faut un
 \textbf{état d'arrêt} $\varnothing$ (un état \emph{absorbant}) pour que le nombre de piliers
-atteints soit fini --- exactement la condition d'extinction d'un processus de
+atteints soit fini, exactement la condition d'extinction d'un processus de
 branchement~\cite{AthreyaNey1972}.
 \end{attention}
 
@@ -240,7 +240,7 @@ l'état d'arrêt de la section précédente ; la loi sur les ordres, elle, reste
 
 Les scores TRANS jouent aujourd'hui le rôle des comptages. Le jour où un registre fournit les
 transitions observées, la probabilité conditionnelle s'estime \emph{de la même façon}, par le
-comptage normalisé --- l'estimateur classique des transitions d'une chaîne de
+comptage normalisé, l'estimateur classique des transitions d'une chaîne de
 Markov~\cite{AndersonGoodman1957} :
 \[
 \widehat{\mathbb P}(j' \mid j) \;=\; \frac{N_{j,j'}}{\sum_{k} N_{j,k}} .
