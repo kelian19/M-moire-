@@ -490,8 +490,8 @@ l'ambiguïté, non.
 
 L'équation~\eqref{eq:Kj} déplace la question : tout se joue désormais sur l'estimation de
 $p_j$. Or on ne compte que les incidents \emph{déclarés}. En notant $q(s)$ la probabilité
-qu'un incident de sévérité~$s$ soit déclaré, la simulation donne une identité \textbf{exacte}
-(vérifiée à la quatrième décimale) :
+qu'un incident de sévérité~$s$ soit déclaré, on a une identité \textbf{algébrique exacte}
+(que la simulation confirme à la quatrième décimale) :
 \begin{equation}
 \frac{\hat p_j^{\;\text{naïf}}}{p_j} \;=\; \mathbb E\big[\,q(S)\ \big|\ S \ge u_j\,\big]
 \;<\; 1 .
@@ -1007,9 +1007,11 @@ reste est balayé.}
 directionnalité, et non la non-transitivité, est ce qui casse le Vasicek mono-facteur ;
 \emph{(ii)} que la forme simultanée $(I-W)^{-1}$ est mal posée sur TRANS et surévalue le
 risque d'emballement d'un facteur $4{,}6$, là où la lecture par \textbf{processus de
-branchement} est bien définie ; \emph{(iii)} que le barème ROOT est redondant ; \emph{(iv)}
-que le seuil s'obtient toujours en inversant une répartition, et que son biais vaut exactement
-le taux de déclaration à la barre ; \emph{(v)} qu'aucune des deux grandes sources disponibles
+branchement} est bien définie ; \emph{(iii)} que le barème ROOT se \emph{déduit} de TRANS par cohérence interne (une réduction
+de paramètres, non une validation externe) ; \emph{(iv)}
+que le seuil s'obtient toujours en inversant une répartition, et que le biais de sous-déclaration
+sur $p_j$ vaut exactement la déclaration \emph{moyenne dans la queue}
+$\mathbb E[q(S)\mid S\ge u_j]$, lequel s'évanouit quand la barre monte ; \emph{(v)} qu'aucune des deux grandes sources disponibles
 n'identifie $W$, pour des raisons opposées, d'où une exigence chiffrée sur les registres
 futurs. Ces cinq énoncés sont établis, et aucun ne dépend d'un panel réel.
 \end{cle}
