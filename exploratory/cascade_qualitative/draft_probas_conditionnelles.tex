@@ -146,19 +146,24 @@ $\mathbb P(\text{arrêt}\mid j) = 1-e_j$ & $0{,}10$ & $0{,}48$ & $0{,}52$ & $0{,
 d'émission est restaurée, et toute cascade se termine presque sûrement.}
 \end{table}
 
+\noindent\textbf{Cascade auto-évitante.} Un pilier ne défaille qu'une fois. Si la propagation
+vise un pilier déjà touché, la cascade s'éteint (cette branche n'a plus de cible neuve). La
+probabilité d'arrêt effective croît donc à mesure que l'ensemble atteint grandit ; au premier
+pas, aucun autre pilier n'est encore touché et elle vaut exactement $1-e_j$ (le tableau ci-dessus).
+
 \section{Ce que \og{}au sein d'un même $N_{i,j}$\fg{} donne concrètement}
 
 Sachant $N_{i,j}=n$ incidents dans la cellule, \textbf{chacun} des $n$ incidents part du
 pilier~$j$ et réalise une cascade tirée du noyau ci-dessus. La probabilité d'un chemin est un
 produit de probabilités conditionnelles. Exemple, incident entré en P1 :
 \begin{align}
-\mathbb P(\text{P1 seul}) &= \mathbb P(\varnothing\mid\text{P1}) = 0{,}10, \\
-\mathbb P(\text{P1}\to\text{P2}\to\varnothing) &= \underbrace{e_1\tfrac{0{,}80}{2{,}60}}_{\mathbb P(\text{P2}\mid\text{P1})=0{,}277}\times \underbrace{\mathbb P(\varnothing\mid\text{P2})}_{0{,}48} = 0{,}133 .
+\mathbb P(\text{extinction immédiate, P1 seule}) &= 1-e_1 = 0{,}10, \\
+\mathbb P(\text{propagation P1}\to\text{P2}) &= e_1\,\tfrac{\text{TRANS}[\text{P1}][\text{P2}]}{s_1} = 0{,}90\times\tfrac{0{,}80}{2{,}60} = 0{,}277 .
 \end{align}
 La \textbf{sévérité} de l'incident se déduit des piliers atteints, via GBASE
-(P1$=6$, P2$=4$, P3$=3$, P4$=7$, P5$=1$) : \og{}P1 seul\fg{} coûte $6$ ; \og{}P1$\to$P2\fg{}
-coûte $6+4=10$. La loi conditionnelle des sévérités est donc \emph{entièrement déterminée} par
-les probabilités conditionnelles de propagation.
+(P1$=6$, P2$=4$, P3$=3$, P4$=7$, P5$=1$) : \og{}P1 seule\fg{} coûte $6$ ; si la cascade atteint
+aussi P2, le coût devient $6+4=10$. La loi conditionnelle des sévérités est donc
+\emph{entièrement déterminée} par les probabilités conditionnelles de propagation.
 
 \begin{cle}
 \textbf{La perte de la cellule, et le pont vers le SCR.} La perte agrégée est une
@@ -223,64 +228,70 @@ intègre l'état d'arrêt est donnée plus bas.}
 \end{table}
 
 \begin{cle}
-\textbf{Lecture.} Sachant que ces trois piliers ont fait défaut, l'ordre le plus probable est
+\textbf{Lecture.} Au niveau du score qualitatif, l'ordre le mieux classé est
 \textbf{P1 $\to$ P3 $\to$ P2} ($35{,}1\,\%$). Les deux ordres qui démarrent par P1 totalisent
 $67\,\%$ : c'est cohérent, P1 est le plus fort amorceur (ROOT $=1{,}0$) et le plus fort émetteur.
-On répond ainsi précisément à la question \og{}dans quel ordre~?\fg{} : le modèle fournit la
-\textbf{loi de probabilité sur les ordres}, pas un ordre unique.
+On répond ainsi à la question \og{}dans quel ordre~?\fg{} : le modèle fournit la \textbf{loi de
+probabilité sur les ordres}, pas un ordre unique. Le modèle rigoureux ci-dessous, qui intègre
+l'extinction, affine ce classement.
 \end{cle}
 
 \medskip
-\noindent\textbf{La probabilité jointe : le scénario complet, avec l'état d'arrêt.} La loi
-ci-dessus répond à \og{}sachant l'ensemble, quel ordre\fg{}. On veut aussi la probabilité
-\emph{absolue} du scénario entier : \og{}la cascade amorce sur $j_1$, suit exactement l'ordre
-$j_1\to\dots\to j_m$, puis s'arrête, sans toucher aucun autre pilier\fg{}. On y réintègre l'état
-d'arrêt de la section~4 :
+\noindent\textbf{La probabilité jointe : le scénario complet.} La loi ci-dessus répond à
+\og{}sachant l'ensemble, quel ordre\fg{}. On veut aussi la probabilité \emph{absolue} du scénario
+entier, sous l'hypothèse auto-évitante : \og{}la cascade amorce sur $j_1$, touche successivement
+$j_1,\dots,j_m$, puis s'éteint sans atteindre de pilier extérieur à $S$\fg{}. Sa probabilité est
 \begin{equation}
-\mathbb P_{\text{jointe}}(j_1\to\dots\to j_m\to\varnothing)
-= \pi(j_1)\prod_{\ell=1}^{m-1}\mathbb P(j_{\ell+1}\mid j_\ell)\;\mathbb P(\varnothing\mid j_m),
+\mathbb P_{\text{jointe}}(j_1\to\dots\to j_m)
+= \pi(j_1)\,\Big[\prod_{\ell=1}^{m-1}\mathbb P(j_{\ell+1}\mid j_\ell)\Big]\;t(j_m\mid S),
 \end{equation}
-avec $\pi(j_1)=\text{ROOT}[j_1]/\sum_k\text{ROOT}[k]$ la loi d'amorce (ici $\sum_k\text{ROOT}[k]=3{,}3$),
-$\mathbb P(j'\mid j)=e_j\,\text{TRANS}[j][j']/s_j$ la transition, et
-$\mathbb P(\varnothing\mid j_m)=1-e_{j_m}$ l'arrêt final. Détail pour P1$\to$P3$\to$P2 :
+avec $\pi(j_1)=\text{ROOT}[j_1]/\sum_k\text{ROOT}[k]$ la loi d'amorce ($\sum_k\text{ROOT}[k]=3{,}3$), la
+propagation $\mathbb P(j'\mid j)$ de la section~3, et
 \[
-\underbrace{\tfrac{1{,}0}{3{,}3}}_{\pi(\text{P1})=0{,}303}\times
-\underbrace{0{,}90\tfrac{0{,}70}{2{,}60}}_{\mathbb P(\text{P3}\mid\text{P1})=0{,}242}\times
-\underbrace{0{,}48\tfrac{0{,}50}{1{,}40}}_{\mathbb P(\text{P2}\mid\text{P3})=0{,}173}\times
-\underbrace{(1-0{,}52)}_{\mathbb P(\varnothing\mid\text{P2})=0{,}481}
-= 0{,}0061 .
+t(j_m\mid S)\;=\;1 - e_{j_m}\,\frac{\sum_{j'\notin S}\text{TRANS}[j_m][j']}{s_{j_m}}
+\]
+la probabilité de s'éteindre au dernier pilier \emph{sans sortir de $S$}. Elle dépend de
+l'ensemble : sortir vers un pilier hors de $S$ l'agrandirait, revenir sur un pilier déjà touché
+arrête la cascade. Détail pour P1$\to$P3$\to$P2, $S=\{$P1,P2,P3$\}$, extérieur $\{$P4,P5$\}$ :
+\[
+\underbrace{\tfrac{1{,}0}{3{,}3}}_{\pi(\text{P1})=0{,}303}\cdot
+\underbrace{0{,}90\tfrac{0{,}70}{2{,}60}}_{0{,}242}\cdot
+\underbrace{0{,}48\tfrac{0{,}50}{1{,}40}}_{0{,}173}\cdot
+\underbrace{(1-0{,}312)}_{t(\text{P2}\mid S)=0{,}688}
+\approx 0{,}875\,\% .
 \]
 
 \begin{table}[h]\centering\small
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{@{}lcc@{}}
 \toprule
-Ordre & Probabilité jointe & Conditionnelle avec arrêt \\
+Ordre & Probabilité jointe & Conditionnelle (rigoureuse) \\
 \midrule
-\rowcolor{lightblue!40} P1 $\to$ P3 $\to$ P2 & $0{,}611\,\%$ & $37{,}7\,\%$ \\
-P1 $\to$ P2 $\to$ P3 & $0{,}599\,\%$ & $36{,}9\,\%$ \\
-P3 $\to$ P1 $\to$ P2 & $0{,}209\,\%$ & $12{,}9\,\%$ \\
-P2 $\to$ P1 $\to$ P3 & $0{,}157\,\%$ & $9{,}7\,\%$ \\
-P2 $\to$ P3 $\to$ P1 & $0{,}026\,\%$ & $1{,}6\,\%$ \\
-P3 $\to$ P2 $\to$ P1 & $0{,}018\,\%$ & $1{,}1\,\%$ \\
+\rowcolor{lightblue!40} P1 $\to$ P2 $\to$ P3 & $0{,}921\,\%$ & $35{,}3\,\%$ \\
+P1 $\to$ P3 $\to$ P2 & $0{,}875\,\%$ & $33{,}5\,\%$ \\
+P3 $\to$ P1 $\to$ P2 & $0{,}300\,\%$ & $11{,}5\,\%$ \\
+P2 $\to$ P1 $\to$ P3 & $0{,}242\,\%$ & $9{,}3\,\%$ \\
+P2 $\to$ P3 $\to$ P1 & $0{,}162\,\%$ & $6{,}2\,\%$ \\
+P3 $\to$ P2 $\to$ P1 & $0{,}112\,\%$ & $4{,}3\,\%$ \\
 \midrule
-\textbf{total (défaut = exactement \{P1,P2,P3\})} & $\mathbf{1{,}62\,\%}$ & $100\,\%$ \\
+\textbf{total (défaut = exactement \{P1,P2,P3\})} & $\mathbf{2{,}61\,\%}$ & $100\,\%$ \\
 \bottomrule
 \end{tabular}
-\caption{Probabilité jointe de chaque scénario complet (amorce, ordre, arrêt). Leur somme,
-$1{,}62\,\%$, est la probabilité que le défaut porte sur \emph{exactement} ces trois piliers. La
-dernière colonne, jointe renormalisée, est la probabilité conditionnelle \emph{rigoureuse} de
-l'ordre sachant l'ensemble.}
+\caption{Modèle \textbf{auto-évitant}. Probabilité jointe de chaque scénario complet (amorce,
+ordre, extinction sans sortir de l'ensemble) ; leur somme, $2{,}61\,\%$, est la probabilité que le
+défaut porte sur \emph{exactement} ces trois piliers (valeur confirmée par simulation). La
+dernière colonne, jointe renormalisée, est la probabilité conditionnelle de l'ordre sachant
+l'ensemble.}
 \end{table}
 
 \begin{attention}
-\textbf{Ce que l'état d'arrêt change (et pourquoi c'est correct).} Pour que le défaut soit
-\emph{exactement} $\{$P1,P2,P3$\}$, la cascade doit \textbf{s'arrêter sur le dernier pilier}.
-Un ordre qui finit sur P1 (qui ne s'arrête que dans $10\,\%$ des cas) est donc pénalisé : P2$\to$P3$\to$P1
-passe de $7{,}2\,\%$ (score qualitatif) à $1{,}6\,\%$ (avec arrêt). Les probabilités d'arrêt ne
-\emph{disparaissent donc pas} au rapport : elles repondèrent les ordres selon la propension du
-dernier pilier à éteindre la cascade. La version rigoureuse est la dernière colonne ; le score
-qualitatif du tableau précédent en est l'approximation quand on néglige l'arrêt.
+\textbf{Ce que l'auto-évitement change.} Pour que l'ensemble soit \emph{exactement}
+$\{$P1,P2,P3$\}$, la cascade doit s'éteindre au dernier pilier \textbf{sans s'échapper} vers P4
+ou P5. Or les piliers s'échappent inégalement : $t(\text{P3}\mid S)=0{,}79$ (P3 fuit peu vers
+P4/P5) contre $t(\text{P1}\mid S)=0{,}62$. Les ordres qui \emph{finissent} sur P3 sont donc
+favorisés, et l'ordre le plus probable devient \textbf{P1$\to$P2$\to$P3} ($35{,}3\,\%$), là où le
+score qualitatif sans arrêt plaçait P1$\to$P3$\to$P2 en tête. Tenir compte de l'extinction ne fait
+pas que repondérer : cela \emph{change l'ordre de tête}. C'est la version à retenir.
 \end{attention}
 
 \section{Le jour où l'on aura des données}
