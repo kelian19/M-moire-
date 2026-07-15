@@ -7,6 +7,11 @@ Objectif : montrer COMMENT on estimera W sur des donnees reelles, et VALIDER la
 methode sur des donnees simulees dont on connait la verite. Pret a brancher sur
 un vrai panel d'incidents (entite x pilier x periode) le jour venu.
 
+Portee : ce script VALIDE L'ESTIMATEUR (on simule depuis le modele, on le
+retrouve), il ne prouve PAS que le modele decrit le monde. Et l'asymetrie n'est
+identifiable ici que parce que la simulation fournit un ordre temporel propre ;
+sur les donnees reelles disponibles elle ne l'est pas (cf. script 05).
+
 Idee cle : l'ASYMETRIE de W (qui entraine qui) n'est identifiable que par
 l'information TEMPORELLE (qui declenche AVANT qui). La co-occurrence transversale
 seule ne donne qu'une dependance symetrique. Le modele est donc dynamique :
@@ -70,6 +75,8 @@ import statsmodels.api as sm
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+# Avertissements de convergence / overflow attendus des probits sur cellules peu
+# peuplees ; les echecs reels sont comptes dans estimate_W, on les masque donc ici.
 warnings.filterwarnings("ignore")
 RNG = np.random.default_rng(20260708)
 J = 5
@@ -133,21 +140,27 @@ def estimate_W(D, link="probit"):
     per_oh = np.eye(T - 1)[per_idx]                       # effets fixes de periode
     W_hat = np.zeros((J, J))
     base_hat = np.zeros(J)
+    n_skip = 0                                            # piliers non estimes (degeneres / non convergents)
     for j in range(J):
         y = D[:, j, 1:].reshape(-1)                       # reponse (N*(T-1))
         others = [k for k in range(J) if k != j]
         lag = np.column_stack([D[:, k, :-1].reshape(-1) for k in others])
         Xd = np.column_stack([lag, per_oh])               # retards + effets periode
-        if y.min() == y.max():                            # pilier degenere
+        if y.min() == y.max():                            # pilier degenere (aucune variation)
+            n_skip += 1
             continue
         model = sm.Probit(y, Xd) if link == "probit" else sm.Logit(y, Xd)
         try:
             res = model.fit(disp=0, method="bfgs", maxiter=500)
-        except Exception:
+        except Exception as exc:                          # non convergence : on compte, on ne masque pas
+            n_skip += 1
+            print(f"    [estimate_W] pilier {j} non estime : {type(exc).__name__}")
             continue
         for c, k in enumerate(others):
             W_hat[j, k] = res.params[c]
         base_hat[j] = res.params[len(others):].mean()     # niveau moyen des effets periode
+    if n_skip:
+        print(f"    [estimate_W] {n_skip}/{J} piliers non estimes (laisses a zero)")
     return W_hat, base_hat
 
 
@@ -246,7 +259,7 @@ rho_s = stats.spearmanr([ROOT[j] for j in range(1, J + 1)], prog_true).statistic
 print(f"\n  classement progeniture : {' > '.join(PIL[i] for i in order_prog)}")
 print(f"  classement ROOT expert : {' > '.join(PIL[i] for i in order_root)}")
 print(f"  correlation de rang (Spearman) = {rho_s:.3f}")
-print("  => ROOT est REDONDANT : il se deduit de TRANS. Cinq parametres d'expert en moins.\n")
+print("  => ROOT se deduit de TRANS par coherence interne (Spearman=1.00) : reduction de parametres, non validation externe.\n")
 
 # --------------------------------------------------- R0 en fonction du gain
 # g est BORNE par la decomposition de variance : g <= 1. On prolonge au-dela pour

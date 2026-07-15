@@ -6,8 +6,9 @@ H1 : Le reseau dirige W et un mini-exemple de cascade.
 Panneau A : la structure DIRIGEE de W sur les 5 piliers (derivee de TRANS).
             Les fleches epaisses partent de P1 (super-emetteur) ; peu reviennent
             vers lui -> asymetrie visible.
-Panneau B : le sous-reseau {P1,P2,P4} utilise dans l'exemple chiffre de la note,
-            avec les poids exacts et la propagation d'un choc +2 sur P1.
+Panneau B : le sous-reseau {P1,P2,P4} de l'exemple chiffre de la note, avec ses
+            poids ILLUSTRATIFS (arrondis pour le calcul a la main, ce ne sont pas
+            les entrees calibrees de W) et la propagation d'un choc +2 sur P1.
 """
 
 import os

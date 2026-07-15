@@ -7,6 +7,10 @@ C'est le dernier bloc du modele pour lequel la note ne proposait aucun protocole
 generalisation A (un facteur systemique PAR PILIER, des dependances croisees Sigma_Y)
 etait posee sans jamais dire comment on l'estimerait.
 
+Portee : recovery en simulation (on simule Y / s / Sigma_Y, on les retrouve). La
+Route B recoit W et base en entree, connus ici parce que simules ; la revendication
+"sur donnees agregees" reste donc conditionnelle a W, non calibrable ailleurs (cf. 05).
+
 --------------------------------------------------------------------------------
 DEUX ROUTES, ET C'EST LA LE POINT.
 
@@ -53,6 +57,8 @@ import statsmodels.api as sm
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+# Avertissements de convergence / overflow attendus (probits et moindres carres) ;
+# la recovery est validee sur donnees simulees, on masque donc ces avertissements.
 warnings.filterwarnings("ignore")
 RNG = np.random.default_rng(20260710)
 J = 5
