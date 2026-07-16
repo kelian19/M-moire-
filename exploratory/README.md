@@ -232,6 +232,24 @@ chapitre-là).
   mais le verdict (la non-conformité coûte, pluri-milliard, > 0) l'est sur tous les
   leviers testés, structurels et statistiques.
 
+### 2.7 Conformité multi-états : SCR par état et Delta_DORA (16)
+
+`16_scr_multi_etats_global.py`, figure S10_scr_multi_etats. Établit le SCR_DORA pour les
+**trois états de conformité** de l'entité (Conforme, Partiellement conforme, Non conforme),
+alignés sur les scénarios sources S0/S1/S2, au lieu des deux états de 13. État global
+(tous piliers alignés), cas particulier du modèle par pilier à venir (16b). Décisions
+validées : le Markov multi-états remplace la latente statique du mémoire ; l'état est par
+pilier, mis en scène global d'abord.
+
+Deux lectures, comme 13 : lecture A (fréquence seule, g constant, comparable au mémoire)
+et lecture B (fréquence + propagation, g croît de C à NC). Résultats (entité type,
+graine MC commune entre états) :
+- échelle de SCR monotone C < PC < NC ; l'état intermédiaire PC est le nouvel apport.
+- Delta_DORA NC vs C bootstrap : OpRisk médiane 6230 M€ IC90 [1997 ; 34195], PRC médiane
+  2995 M€ IC90 [2461 ; 3396], 100 % > 0. Même ordre que le mémoire (OpRisk 3879, PRC 2015),
+  amplifié par la propagation de la cascade.
+- Delta_DORA PC vs C : surcoût intermédiaire chiffré (OpRisk médiane 2404 M€, PRC 1082 M€).
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions

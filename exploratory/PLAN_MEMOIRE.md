@@ -60,9 +60,11 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
 - Réécrire abstract / énoncé de contribution
 - Re-trianguler et re-tester la robustesse sur le modèle cascade
 
-**Décision de périmètre en attente (à trancher avec Hugo)**
-- Le Markov multi-états remplace-t-il la variable latente statique du mémoire ?
-  (recommandation : oui, remplacement, cf. plus bas)
+**Décisions de périmètre : VALIDÉES par Hugo (juillet 2026)**
+- Décision A : le Markov multi-états REMPLACE la variable latente statique du mémoire.
+- Décision B : état de conformité PAR PILIER, mis en scène global d'abord (16a) puis par
+  pilier (16b). L'état global est un cas particulier du par-pilier.
+- Fait : script 16a (SCR par état C/PC/NC global + Delta_DORA euros, figure S10).
 
 ---
 
