@@ -48,7 +48,7 @@ outputs/figures/*.pdf
 outputs/tables/*.xlsx
 
 # ===== LATEX (mémoire) =====
-memoire/tectonic
+memoire/tectonic*
 memoire/*.pdf
 memoire/*.aux
 memoire/*.bbl
