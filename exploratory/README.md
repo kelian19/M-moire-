@@ -341,6 +341,23 @@ et jusque dans la VaR du PRC plafonné (+800 M€ stable). Mécanisme : un pilie
 aussi les cascades amorcées ailleurs qui le traversent. Conséquence : l'encadré du chapitre
 résultats est formulé sur la moyenne et le PRC, pas sur la VaR OpRisk.
 
+### 2.12 Résidu de la conversion Jacobs : l'IC PRC interrogé (21)
+
+`21_prc_jacobs_residu.py`, figure S16_prc_jacobs_residu. La sévérité PRC est dérivée des
+enregistrements compromis par la conversion log-log de Jacobs 2014 (ln L = 7,68 + 0,76 ln X),
+un transport déterministe qui écrase la dispersion résiduelle de la régression d'origine
+(RSE 0,523 en ln, R² 0,51, source primaire Data Driven Security : facteur de coût ~2,4 à
+90 % autour de la droite). Le script réinjecte ce résidu par enregistrement dans le
+bootstrap 2 niveaux, variantes ON/OFF à mêmes records rééchantillonnés et mêmes fréquences
+(l'écart isole le résidu). Verdict contre-intuitif, rapporté tel quel : l'IC90 ne se rouvre
+presque pas (facteur ~1,4 dans les deux variantes ; 15 053 enregistrements moyennent le
+bruit dans le fit GPD, le cap 40 M€ borne la queue épaissie), mais le **niveau** monte de
+7 % (médiane NC vs C 3600 → 3861 M€ ; xi dérivé 1,033 → 1,072 ; p_u 0,150 → 0,157).
+L'étroitesse de l'IC PRC n'est donc pas un artefact de la conversion déterministe d'après
+ce test. L'incertitude qui ne se moyenne pas est celle des coefficients (a, b), estimés sur
+115 observations : à traiter en axe de sensibilité (à venir), pas en bruit par
+enregistrement.
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions

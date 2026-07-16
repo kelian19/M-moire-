@@ -162,6 +162,16 @@ intermédiaire (PC contre C) est chiffré pour la première fois : OpRisk média
 large parce que la queue l'est (facteur $\sim 14$) : la direction du surcoût est certaine, son
 niveau non pinçable, exactement la thèse du mémoire.
 
+Le pendant PRC de cette honnêteté est le script~\texttt{21} : la sévérité PRC étant dérivée
+des enregistrements compromis (conversion log-log de Jacobs 2014), on réinjecte dans le
+bootstrap le résidu de la régression d'origine ($\mathrm{RSE} = 0{,}523$ en log naturel,
+$R^2 = 0{,}51$). L'IC ne se rouvre presque pas (facteur $\approx 1{,}4$ avec comme sans
+résidu : $15\,053$ enregistrements moyennent le bruit dans l'ajustement GPD et le cap borne
+la queue), mais le niveau monte de $7\,\%$ (médiane NC contre C de $3\,600$ à
+$3\,861$~M\euro, queue dérivée $\xi$ de $1{,}03$ à $1{,}07$). L'étroitesse de l'IC PRC n'est
+donc pas un artefact de la conversion déterministe~; l'incertitude restante est celle des
+coefficients $(a,b)$, à traiter en axe de sensibilité.
+
 \section{État de conformité par pilier}
 \label{sec:pilier}
 
@@ -420,6 +430,7 @@ Script & Rôle & Figure \\
 \texttt{19}  & Robustesse : tornado, priorité P1 robuste, invariance aux taux Markov & S14 \\
 \texttt{20}  & Allocation : Shapley du surcoût ($=$ ROOT), Euler du niveau (TVaR) & S15 \\
 \texttt{20b} & Interaction : signe non pinçable en VaR OpRisk, super-additive en moyenne et sur PRC & \textendash{} \\
+\texttt{21}  & Résidu Jacobs : IC PRC robuste au résidu, niveau $+7\,\%$, queue dérivée épaissie & S16 \\
 \bottomrule
 \end{tabularx}
 \caption{État du chantier multi-états au moment de cette version du document.}

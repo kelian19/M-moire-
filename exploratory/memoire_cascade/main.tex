@@ -611,6 +611,29 @@ intrinsèquement imprécis. L'écart typique (interquartile) est bien plus resse
 l'intervalle à $90\,\%$, et le \emph{signe} du surcoût, lui, est certain. On retrouve la thèse du
 mémoire : le SCR est une distribution, pas un point.
 
+\paragraph{L'intervalle PRC est étroit, et il le reste quand on cesse de croire la conversion
+exacte.} La sévérité PRC est dérivée du nombre d'enregistrements compromis par la relation
+log-log de Jacobs (2014), dont la sortie de régression donne un écart-type résiduel de
+$0{,}523$ en logarithme naturel ($R^2 = 0{,}51$) : à volume donné, le coût réel varie d'un
+facteur $2{,}4$ autour de la droite à $90\,\%$. Réinjecter ce résidu enregistrement par
+enregistrement dans le bootstrap (script~\texttt{21}, figure~\ref{fig:jacobsresidu}) ne
+rouvre pourtant presque pas l'intervalle (facteur d'IC $\approx 1{,}4$ avec comme sans
+résidu) : sur $15\,053$ enregistrements, le bruit se moyenne dans l'ajustement GPD, et le
+plafond de sévérité borne la queue épaissie. L'effet est un déplacement de \emph{niveau} :
+la queue dérivée s'épaissit ($\xi$ de $1{,}03$ à $1{,}07$, taux de matérialité de $0{,}150$
+à $0{,}157$) et la médiane du surcoût monte de $7\,\%$ (de $3\,600$ à $3\,861$~M\euro).
+L'étroitesse de l'intervalle PRC n'est donc pas un artefact de la conversion déterministe.
+L'incertitude qui ne se moyenne pas, elle, est celle des coefficients $(a,b)$ de la
+régression, estimés sur $115$ observations : elle relève d'un axe de sensibilité, non d'un
+bruit par enregistrement.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{S16_prc_jacobs_residu.png}
+\caption{Le résidu de la conversion Jacobs ($\mathrm{RSE} = 0{,}523$) : la distribution du
+surcoût PRC se déplace plus qu'elle ne s'élargit. Source : script~\texttt{21}.}
+\label{fig:jacobsresidu}
+\end{figure}
+
 \section{Décomposition par pilier}
 
 En basculant un pilier à la fois de conforme à non conforme, le surcoût se décompose
