@@ -74,7 +74,20 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
 - Fait : ÉTAPE 5, script 19 (robustesse multi-états, S14). Tornado : xi domine (facteur 6,4),
   Delta > 0 partout, priorité P1 robuste sur tous les leviers ; ordre optimal invariant aux
   taux Markov. Classement robuste, niveau non (thèse du chantier cascade).
-- Note LaTeX note_conformite_multietats.tex/.pdf : synthèse du chantier 16-19, compilée
+- Fait : bootstrap Delta_DORA PAR ÉTAT à méthode honnête (16 upgradé : excès réels OpRisk,
+  lectures A et B). Chiffres de tête lecture B : NC vs C OpRisk 7401 [2830 ; 38793],
+  PRC 3668 [3201 ; 4094] ; PC vs C chiffré. 100 % des tirages > 0.
+- Fait : scripts 20/20b (allocation Shapley + Euler en euros, S15). Shapley == ROOT sur les
+  deux périmètres, somme exacte au Delta total ; anti-circularité explicitée (P1 34 % vs
+  30 % d'amorce). Interaction : signe non pinçable en VaR OpRisk (multi-graines), super-
+  additive robuste en moyenne (~1/5 du surcoût) et sur PRC ; encadré du mémoire reformulé.
+  Euler : queue extrême OpRisk non résoluble (xi > 0,5, variance infinie), PRC stable.
+- Fait : script 21 (résidu Jacobs RSE 0,523 réinjecté, S16). L'IC PRC ne se rouvre presque
+  pas (le bruit par enregistrement se moyenne sur 15 053 records, le cap borne la queue) ;
+  niveau +7 %. L'incertitude PRC restante = coefficients (a, b) -> script 22.
+- Fait : script 22 (sensibilités des hypothèses restantes, S17) : coefficients Jacobs
+  stressés en pivotant au centroïde déduit des SE publiés, gamma, ancrage des probas d'état.
+- Note LaTeX note_conformite_multietats.tex/.pdf : synthèse du chantier 16-22, compilée
   (Tectonic installé en local, memoire/tectonic.exe non versionné).
 - En cours : ÉTAPE 4, nouveau mémoire cascade dans exploratory/memoire_cascade/main.tex
   (compile, figures intégrées). Parties agnostiques en sections-relais [À migrer] depuis

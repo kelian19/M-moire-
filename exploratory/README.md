@@ -358,6 +358,25 @@ ce test. L'incertitude qui ne se moyenne pas est celle des coefficients (a, b), 
 115 observations : à traiter en axe de sensibilité (à venir), pas en bruit par
 enregistrement.
 
+### 2.13 Sensibilités des hypothèses restantes (22)
+
+`22_sensibilites_hypotheses.py`, figure S17_sensibilites_hypotheses. Complète le tornado
+(19) et le résidu (21) par les trois entrées non calibrées restantes du chantier.
+- **Coefficients Jacobs (a, b)** : b stressé à ±1,645 SE en pivotant la droite au centroïde
+  de la régression, déduit des erreurs-types publiées (SE_a 0,7013, SE_b 0,0697, RSE 0,523,
+  n 115 → x̄ = 10,04, ~23 000 enregistrements) ; stresser a et b indépendamment ignorerait
+  leur corrélation négative. Recalibration complète en aval (u = P85, refit GPD) : xi dérivé
+  0,846 → 1,214, Delta PRC 3125 → 3977 M€ autour du central 3577 (le cap borne l'effet).
+  Axe d'hypothèse dominant du PRC ; la re-dérivation centrale retombe sur la calibration
+  figée (écarts au 3e chiffre).
+- **Gamma** (0,50 / 0,68 / 0,85) : SCR espéré normal invariant par construction (10 644 M€,
+  la marginale redonne l'ancrage) ; gamma ne commande que la bascule en crise (P(NC|crise)
+  84 → 100 %, SCR espéré crise 14 148 → 15 071 M€).
+- **Ancrage NC/PC/C** (25/40/35 ; 35/35/30 ; 45/35/20) : déplace le capital espéré actuel
+  (9951 → 11 485 M€) et le point de départ de la trajectoire (17), jamais le SCR par état
+  ni le Delta NC vs C (conditionnels à l'état).
+Verdict commun : les hypothèses bougent des niveaux, jamais la direction ni le classement.
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions

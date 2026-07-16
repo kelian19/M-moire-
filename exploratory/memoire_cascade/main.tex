@@ -844,6 +844,33 @@ fixent le calendrier de la trajectoire, jamais la séquence recommandée. Le ver
 rejoint celui de toute la démarche : le classement est robuste là où le niveau ne l'est pas.
 \end{cle}
 
+\paragraph{Les hypothèses restantes ont leur axe de stress.} Trois entrées du chantier ne
+figuraient pas dans le tornado : les coefficients de la conversion Jacobs, la charge
+systémique $\gamma$ et l'ancrage des probabilités d'état (figure~\ref{fig:hypotheses}).
+Les coefficients $(a,b)$, estimés sur $115$ observations, sont stressés à $\pm 1{,}645$
+écart-type en \emph{pivotant la droite au centroïde} de la régression, déduit des
+erreurs-types publiées ($\bar{x} = 10{,}04$, soit environ $23\,000$ enregistrements)~;
+stresser $a$ et $b$ indépendamment ignorerait leur corrélation négative. L'élasticité $b$
+commande l'épaisseur de la queue dérivée ($\xi$ de $0{,}85$ à $1{,}21$) mais le surcoût PRC
+reste contenu, de $3\,125$ à $3\,977$~M\euro{} autour du central ($3\,577$), le plafond de
+sévérité bornant l'effet : c'est l'axe d'hypothèse dominant du périmètre PRC, et le verdict
+y survit. $\gamma$ ne touche, par construction, ni le SCR par état ni le SCR espéré en
+régime normal (invariant à $10\,644$~M\euro) : il ne commande que la sévérité de la bascule
+en crise ($\mathrm{P}(\text{NC} \mid \text{crise})$ de $84$ à $100\,\%$, SCR espéré en crise
+de $14\,148$ à $15\,071$). L'ancrage des probabilités d'état, enfin, déplace le capital
+espéré actuel ($9\,951$ à $11\,485$~M\euro{} selon les enquêtes retenues) mais jamais le SCR
+par état ni le surcoût NC contre C, qui lui sont conditionnels. Les trois axes confirment la
+ligne de partage du chantier : les hypothèses bougent des niveaux, jamais la direction ni le
+classement. Source : script~\texttt{22}.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{S17_sensibilites_hypotheses.png}
+\caption{Sensibilités des hypothèses restantes : coefficients Jacobs (pivotés au centroïde
+déduit des erreurs-types publiées), charge systémique $\gamma$, ancrage des probabilités
+d'état. Source : script~\texttt{22}.}
+\label{fig:hypotheses}
+\end{figure}
+
 \section{Mise en regard réglementaire}
 
 \areprendre{Reprendre de l'ancien mémoire les résultats agnostiques qui restent valables :
