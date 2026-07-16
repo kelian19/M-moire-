@@ -1,0 +1,309 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{eurosym}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{green}{HTML}{2E6B4F}
+\definecolor{lightgreen}{HTML}{D6EADF}
+
+\hypersetup{colorlinks=true, linkcolor=bluemid, urlcolor=bluemid,
+  pdftitle={Conformite multi-etats et trajectoire du SCR DORA},
+  pdfauthor={Kelian Kaddouri}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+\newtcolorbox{portee}[1][]{colback=lightgreen!50,colframe=green,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+
+\titleformat{\section}{\normalfont\large\bfseries\color{navy}}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{2.0ex plus .3ex minus .2ex}{1.0ex plus .2ex}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{bluemid}}{\thesubsection}{0.6em}{}
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Conformité multi-états et trajectoire du SCR DORA\\[2pt]
+  \large Du Vasicek dirigé à un capital qui dépend de l'état de conformité, par pilier et dans le temps}
+\author{Kélian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.5cm}
+
+\begin{cle}
+\textbf{Idée.} Le chantier cascade (Vasicek dirigé) chiffre un SCR pour une entité
+\emph{figée}. On ajoute ici que ce SCR \textbf{dépend de l'état de conformité} de l'entité,
+état qui n'est ni binaire ni statique. Trois briques : (i)~un Vasicek \textbf{multi-états} qui
+définit les états de conformité par des seuils ordonnés sur une latente et les fait piloter
+la cascade~; (ii)~une déclinaison \textbf{par pilier} qui décompose le surcoût de
+non-conformité~; (iii)~une chaîne de \textbf{Markov} qui donne la \textbf{trajectoire} du
+capital le long de la mise en conformité. C'est le remplacement dynamique de la variable
+latente statique de l'ancien mémoire.
+\end{cle}
+
+\noindent Ce document accompagne les scripts \texttt{16} (état global), \texttt{16b} (état
+par pilier) et \texttt{17} (Markov et trajectoire) du dossier \texttt{vasicek\_lab}. Il sera
+complété au fil du chantier (script~\texttt{18}, priorisation de la remédiation).
+
+\paragraph{Deux décisions de cadrage (validées).}
+\begin{enumerate}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
+\item \textbf{Remplacement.} La chaîne multi-états remplace la variable latente de conformité
+  statique du mémoire. Un seul modèle de conformité, pas deux concurrents.
+\item \textbf{Par pilier.} L'état de conformité est propre à chaque pilier, ce qui fait
+  interagir la conformité avec la cascade (un pilier non conforme propage plus et détecte
+  moins que ses voisins). On l'établit d'abord en état global (\S\ref{sec:global}), cas
+  particulier du par-pilier (\S\ref{sec:pilier}).
+\end{enumerate}
+
+\section{Le Vasicek multi-états : état global}
+\label{sec:global}
+
+\subsection{Les états viennent de seuils ordonnés sur une latente (1.1)}
+
+Chaque entité (\S\ref{sec:global}) ou chaque pilier (\S\ref{sec:pilier}) porte une
+\textbf{capacité de conformité latente} $C^\star\sim\mathcal N(0,1)$, décomposée à la Vasicek
+en un facteur systémique commun et un choc idiosyncratique :
+\begin{equation}
+C^\star \;=\; \gamma\,\Theta \;+\; \sqrt{1-\gamma^2}\,\varepsilon,
+\qquad \Theta,\varepsilon\sim\mathcal N(0,1),\quad \gamma=0{,}68.
+\end{equation}
+Au lieu d'un seul seuil de défaut, on en pose \textbf{deux}, ordonnés, qui découpent trois
+états de conformité :
+\begin{equation}
+\text{NC si } C^\star\le K_{\text{bas}}, \qquad
+\text{PC si } K_{\text{bas}}<C^\star\le K_{\text{haut}}, \qquad
+\text{C si } C^\star>K_{\text{haut}}.
+\end{equation}
+Les seuils sont fixés par les probabilités d'état \textbf{ancrées} (enquêtes de conformité
+fin 2025) : $K_{\text{bas}}=\Phi^{-1}(p_{\text{NC}})$ et
+$K_{\text{haut}}=\Phi^{-1}(p_{\text{NC}}+p_{\text{PC}})$, avec
+$(p_{\text{NC}},p_{\text{PC}},p_{\text{C}})=(0{,}35\,;0{,}35\,;0{,}30)$, d'où
+$K_{\text{bas}}=-0{,}385$ et $K_{\text{haut}}=+0{,}524$.
+
+\paragraph{Le facteur systémique rend les probabilités conditionnelles.} La probabilité
+d'être dans chaque état sachant l'environnement $\Theta$ s'écrit
+\begin{equation}
+\mathbb P(\text{NC}\mid\Theta)=\Phi\!\Big(\tfrac{K_{\text{bas}}-\gamma\Theta}{\sqrt{1-\gamma^2}}\Big),
+\qquad
+\mathbb P(\text{C}\mid\Theta)=1-\Phi\!\Big(\tfrac{K_{\text{haut}}-\gamma\Theta}{\sqrt{1-\gamma^2}}\Big).
+\end{equation}
+Intégrée sur $\Theta$, la marginale redonne exactement l'ancrage (contrôle de cohérence). En
+crise systémique ($\Theta=-2{,}5$), la masse bascule massivement vers la non-conformité :
+$\mathbb P(\text{NC})$ passe de $35\,\%$ à $96\,\%$. C'est la version à trois états ordonnés de
+l'amplification systémique que portait l'ancienne variable latente.
+
+\subsection{L'état pilote les trois canaux (1.2)}
+
+L'état de conformité $c$ agit sur la cascade par trois canaux, câblés sans réécrire
+l'agrégation (le moteur euro-cascade est réutilisé tel quel) :
+\begin{enumerate}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
+\item \textbf{Fréquence} $\lambda$ : multiplicateurs de scénario $S_0/S_1/S_2$ sourcés
+  (ENISA, Ponemon, Microsoft Research). Un état dégradé produit plus d'incidents.
+\item \textbf{Propagation} $g$ : une entité plus conforme contient mieux la contagion, donc
+  un gain plus faible. La propension à propager depuis un pilier est $e_j=g(c_j)\,s_j/\max_k s_k$
+  (gain du pilier \textbf{source}).
+\item \textbf{Détection} $p_u$ : le taux de matérialité. Une entité conforme intercepte et
+  remédie tôt, donc une moindre fraction d'incidents atteint la sévérité matérielle.
+\end{enumerate}
+On présente trois lectures emboîtées : \textbf{A}~fréquence seule (comparable au mémoire),
+\textbf{B}~$+$~propagation, \textbf{C}~$+$~détection. Cet emboîtement rend visible la
+contribution marginale de chaque canal et évite qu'un canal domine en silence.
+
+\subsection{Résultats : SCR par état et Delta\_DORA}
+
+Le SCR de chaque état est la VaR à $99{,}5\,\%$ de la perte annuelle agrégée par la cascade.
+Le \textbf{Delta\_DORA} est le surcoût strictement imputable à la non-conformité, à graine
+Monte-Carlo \textbf{commune} entre états (l'écart ne vient que du changement d'état) :
+\begin{equation}
+\Delta_{\text{DORA}}(\text{état}) \;=\; \mathrm{SCR}(\text{état}) - \mathrm{SCR}(\text{C}).
+\end{equation}
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l ccc@{}}
+\toprule
+SCR (M\euro, OpRisk) & lecture A & lecture B & lecture C \\
+\midrule
+Conforme               & 8301  & 6664  & 5932 \\
+Partiellement conforme & 11059 & 9625  & 9625 \\
+Non conforme           & 15074 & 15074 & 16595 \\
+\bottomrule
+\end{tabular}
+\caption{SCR par état de conformité, entité type du mémoire (script~\texttt{16}). Échelle
+monotone C~$<$~PC~$<$~NC. L'état intermédiaire PC est l'apport par rapport au mémoire.}
+\end{table}
+
+Le Delta\_DORA (NC contre C), en bootstrap deux niveaux (multiplicateurs $+$ sévérité), reste
+du même ordre que le mémoire, amplifié par la propagation : OpRisk médiane $6230$~M\euro{}
+(IC90 $[1997\,;34195]$, mémoire $3879$), PRC médiane $2995$~M\euro{} (IC90 $[2461\,;3396]$,
+mémoire $2015$), et $100\,\%$ des tirages positifs. Le surcoût intermédiaire (PC contre C) est
+chiffré pour la première fois : OpRisk médiane $2404$~M\euro, PRC $1082$~M\euro.
+
+\section{État de conformité par pilier}
+\label{sec:pilier}
+
+Chaque pilier porte désormais son propre état. Les trois canaux deviennent indexés par pilier
+(dictionnaires $\lambda_j$, $g_j$, $p_{u,j}$), passés à un moteur \texttt{simulate\_euro\_pp}
+qui se réduit exactement à la version globale quand tous les piliers partagent un état
+(contrôle de cohérence : configurations homogènes redonnent le~\S\ref{sec:global}).
+
+\begin{cle}
+\textbf{Décomposition du Delta\_DORA.} On bascule \textbf{un seul} pilier de Conforme à Non
+conforme, les autres restant conformes, et l'on mesure le surcoût propre du pilier $k$ :
+\[
+\Delta_k \;=\; \mathrm{SCR}(k~\text{seul NC, autres C}) - \mathrm{SCR}(\text{tous C}).
+\]
+\end{cle}
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l cc@{}}
+\toprule
+Pilier basculé en NC (OpRisk) & $\Delta_k$ (M\euro) & part \\
+\midrule
+P1 gouvernance   & 3481 & 37\,\% \\
+P4 tiers ICT     & 2658 & 28\,\% \\
+P2 incidents     & 1634 & 17\,\% \\
+P3 tests         & 1094 & 11\,\% \\
+P5 partage       & 665  & 7\,\% \\
+\bottomrule
+\end{tabular}
+\caption{Contribution de chaque pilier à la non-conformité (script~\texttt{16b}). Le classement
+$P1>P4>P2>P3>P5$ \textbf{reproduit le classement ROOT} du modèle qualitatif (validation
+croisée euro~$\leftrightarrow$~ordinal).}
+\end{table}
+
+\noindent Deux enseignements. D'abord, la \textbf{validation croisée} : la hiérarchie des
+piliers obtenue par le chiffrage en euros coïncide avec le classement ROOT posé par jugement
+d'expert dans le modèle qualitatif, deux voies indépendantes qui convergent. Ensuite,
+\textbf{l'interaction} : le Delta total (tous NC contre tous~C, $10\,927$~M\euro) dépasse la
+somme des $\Delta_k$ ($9\,531$~M\euro) de $+1\,395$~M\euro. Le surcoût de la non-conformité
+totale est \emph{super-additif}, précisément parce que la cascade fait interagir les piliers,
+ce qu'un modèle sans propagation ne peut pas capturer.
+
+\section{Markov et trajectoire du SCR(t)}
+\label{sec:markov}
+
+Le~\S\ref{sec:global} donne le SCR pour un état \emph{figé}. On ajoute la dimension temps par
+une chaîne de Markov empilée sur le moteur, en deux échelles de temps (\emph{fast-slow}) : une
+couche \textbf{lente} fait progresser l'état de conformité, une couche \textbf{rapide} chiffre
+le SCR de chaque état par la cascade.
+
+\subsection{La chaîne et ses séjours (2.1, 2.2)}
+
+Chaîne à temps continu $\text{NC}\to\text{PC}\to\text{C}$, l'état Conforme étant
+\textbf{absorbant} en cas de base (une fois conforme, on le reste~; la régression est un axe de
+sensibilité). Les séjours ne sont pas exponentiels mais de \textbf{type phase} (Erlang-$k$) :
+une exponentielle autoriserait une remédiation quasi instantanée (densité maximale en~0),
+irréaliste, alors qu'un projet DORA a une durée minimale. L'Erlang-$k$ (somme de $k$
+exponentielles) a un mode strictement positif, en cloche, qui capte cette durée. On développe
+chaque macro-état transitoire en $k$ phases et l'on résout le générateur $Q$ sur l'espace de
+phases :
+\begin{equation}
+\big(\mathbb P(\text{NC},t),\mathbb P(\text{PC},t),\mathbb P(\text{C},t)\big)
+\;=\; \text{(sommes de phases de)}\;\; v_0\,\exp(Qt),
+\end{equation}
+avec $v_0$ la distribution initiale (ici la marginale ancrée $35/35/30$). Les durées moyennes
+de séjour sont ancrées sur des calendriers de projet ($\sim 1{,}5$~an par transition, soit
+$\sim 3$~ans de NC à~C).
+
+\subsection{Emboîtement et couplage systémique (2.3, 2.4)}
+
+À chaque horizon $t$, la distribution des états agrège les SCR du~\S\ref{sec:global} :
+\begin{equation}
+\mathrm{SCR}(t) \;=\; \mathbb P(\text{NC},t)\,\mathrm{SCR}_{\text{NC}}
++ \mathbb P(\text{PC},t)\,\mathrm{SCR}_{\text{PC}}
++ \mathbb P(\text{C},t)\,\mathrm{SCR}_{\text{C}}.
+\end{equation}
+Les deux couches sont \textbf{couplées par le même facteur systémique $\Theta$}, ce qui
+restaure la corrélation qu'auraient perdue des couches indépendantes. Un environnement dégradé
+($\Theta<0$) fait deux choses à la fois, avec le même tirage :
+\begin{equation}
+\underbrace{\mu(\Theta)=\mu_0\,e^{\beta_{\text{rem}}\Theta}}_{\text{ralentit la remédiation}}
+\qquad\text{et}\qquad
+\underbrace{\mathrm{SCR}_{\text{état}}(\Theta)=\mathrm{SCR}_{\text{état}}\,e^{-\beta_{\text{casc}}\Theta}}_{\text{durcit la cascade}}.
+\end{equation}
+La dispersion de $\Theta\sim\mathcal N(0,1)$ engendre la \textbf{bande d'incertitude} de la
+trajectoire.
+
+\subsection{Résultat : la trajectoire (2.5)}
+
+Partant de l'état marginal actuel, le capital décroît vers le SCR conforme à mesure que la
+remédiation aboutit, et le \textbf{Delta\_DORA($t$)}, surcoût résiduel de non-conformité, tend
+vers zéro.
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}c ccc@{}}
+\toprule
+$t$ (ans) & SCR($t$) médiane & bande 90\,\% & $\Delta_{\text{DORA}}(t)$ \\
+\midrule
+0 & 10752 & $[9092\,;12654]$ & 3827 \\
+1 & 9576  & $[7205\,;12040]$ & 2652 \\
+2 & 8310  & $[6194\,;11042]$ & 1385 \\
+3 & 7575  & $[5924\,;10164]$ & 650 \\
+5 & 7041  & $[5857\,;9028]$  & 116 \\
+\bottomrule
+\end{tabular}
+\caption{Trajectoire du capital DORA (M\euro, OpRisk, script~\texttt{17}), vers le SCR conforme
+$\approx 6925$. La bande reste large et haute : en environnement dégradé, la remédiation traîne
+et le capital reste élevé plus longtemps.}
+\end{table}
+
+\begin{portee}
+\textbf{Portée et limites (à énoncer devant le jury).}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
+\item \textbf{Ce qui se calibre} : la sévérité en euros (GPD sur SAS OpRisk).
+\item \textbf{Ce qui est axe de sensibilité, non calibré} : le triplet de gains de propagation
+  $(g_{\text{C}}<g_{\text{PC}}<g_{\text{NC}})$~; le triplet de détection~; les probabilités
+  d'état et $\gamma$~; les taux de transition de la chaîne (DORA appliqué depuis 2025, aucun
+  historique) et les couplages $\beta_{\text{rem}},\beta_{\text{casc}}$, ancrés sur des durées
+  de projet types.
+\item \textbf{En attente de validation} : le canal détection ($p_u$) se compose avec la
+  fréquence et pourrait gonfler l'effet~; il est isolé en lecture séparée et exclu de la
+  trajectoire tant qu'il n'est pas tranché.
+\item \textbf{Données} : SAS OpRisk porte la sévérité en euros~; Data Breach n'informe que la
+  structure de cascade (la direction $W$ n'est pas calibrable sur les sources ouvertes,
+  cf.~script~\texttt{05}).
+\end{itemize}
+\end{portee}
+
+\section*{Table des scripts couverts}
+\addcontentsline{toc}{section}{Table des scripts}
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{@{}l X l@{}}
+\toprule
+Script & Rôle & Figure \\
+\midrule
+\texttt{16}  & Vasicek multi-états global : latente à seuils ordonnés, 3 canaux, SCR par état & S10 \\
+\texttt{16b} & État par pilier : décomposition du Delta\_DORA, validation croisée ROOT & S11 \\
+\texttt{17}  & Markov (Erlang-2) et trajectoire SCR($t$), couplage systémique $\Theta$ & S12 \\
+\texttt{18}  & (à venir) priorisation de la remédiation & --- \\
+\bottomrule
+\end{tabularx}
+\caption{État du chantier multi-états au moment de cette version du document.}
+\end{table}
+
+\end{document}
