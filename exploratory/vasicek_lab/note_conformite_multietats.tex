@@ -270,6 +270,56 @@ $\approx 6925$. La bande reste large et haute : en environnement dégradé, la r
 et le capital reste élevé plus longtemps.}
 \end{table}
 
+\section{Priorisation de la remédiation}
+\label{sec:priorisation}
+
+On ne peut pas tout remédier à la fois. Sous budget contraint (un pilier à la fois), l'ordre
+de remédiation décide de la trajectoire du capital porté pendant la mise en conformité. On
+cherche l'ordre qui minimise le capital intégré sur l'horizon (script~\texttt{18}).
+
+\paragraph{Valeur d'accélération (3.1).} Gain de capital immédiat si un pilier est remédié en
+premier, par différence finie depuis l'état tout-non-conforme (même logique que le tornado du
+script~\texttt{15}) : $v_k = \mathrm{SCR}(\text{tous NC}) - \mathrm{SCR}(\text{tous NC sauf }k)$.
+Résultat (OpRisk, base $14\,394$~M\euro) : P1 $2398$, P4 $1637$, P5 $969$, P3 $699$, P2
+$\approx 0$ (dans le bruit Monte-Carlo).
+
+\paragraph{Ordre optimal (3.2).} Un pilier remédié par période $\tau$, le coût d'un ordre est
+la somme des SCR des configurations traversées,
+$\text{coût}(\pi)=\tau\sum_{i=0}^{4}\mathrm{SCR}(\{\pi_1,\dots,\pi_i\})$. On énumère les
+$5!=120$ ordres (SCR de chaque sous-ensemble mémoïsé).
+
+\begin{table}[h]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l r@{}}
+\toprule
+Ordre & Séquence & capital intégré (M\euro) \\
+\midrule
+\textbf{Optimal} & P1 $\to$ P4 $\to$ P2 $\to$ P3 $\to$ P5 & 51471 \\
+Glouton (valeur d'accél.) & P1 $\to$ P4 $\to$ P5 $\to$ P3 $\to$ P2 & 53236 \\
+ROOT (qualitatif) & P1 $\to$ P4 $\to$ P2 $\to$ P3 $\to$ P5 & 51471 \\
+Pire & P3 $\to$ P5 $\to$ P2 $\to$ P4 $\to$ P1 & 62273 \\
+\bottomrule
+\end{tabular}
+\caption{Ordre de remédiation (script~\texttt{18}, OpRisk). L'écart pire/optimal est de
+$21\,\%$ : l'ordre change le capital porté d'un cinquième.}
+\end{table}
+
+\begin{cle}
+\textbf{Deux résultats.} D'abord, \textbf{l'ordre optimal coïncide avec l'ordre ROOT} du
+modèle qualitatif : la hiérarchie posée par jugement d'expert est la séquence de remédiation
+qui minimise le capital, retrouvée par une voie entièrement chiffrée. Ensuite, l'ordre optimal
+\textbf{diffère de l'ordre glouton} (par valeur d'accélération immédiate) : à cause des
+interactions de cascade, remédier au coup par coup le pilier au plus fort gain instantané
+n'est pas optimal. Il faut raisonner sur l'horizon, pas myopiquement.
+\end{cle}
+
+\paragraph{Cohérence des approches (3.3).} La priorité de remédiation se compare à trois
+autres vues : la décomposition $\Delta_k$ (\S\ref{sec:pilier}) et le classement ROOT donnent
+la même hiérarchie côté amorce ($P1>P4>P2>P3>P5$) ; l'allocation d'Euler du SCR
+(script~\texttt{11}, concentration de queue) remonte P4 en tête (sévérité des tiers), vue
+complémentaire et non contradictoire. Trois chemins indépendants qui se recoupent sur les
+piliers de tête.
+
 \begin{portee}
 \textbf{Portée et limites (à énoncer devant le jury).}
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
@@ -300,7 +350,7 @@ Script & Rôle & Figure \\
 \texttt{16}  & Vasicek multi-états global : latente à seuils ordonnés, 3 canaux, SCR par état & S10 \\
 \texttt{16b} & État par pilier : décomposition du Delta\_DORA, validation croisée ROOT & S11 \\
 \texttt{17}  & Markov (Erlang-2) et trajectoire SCR($t$), couplage systémique $\Theta$ & S12 \\
-\texttt{18}  & (à venir) priorisation de la remédiation & --- \\
+\texttt{18}  & Priorisation de la remédiation : ordre optimal $=$ ordre ROOT & S13 \\
 \bottomrule
 \end{tabularx}
 \caption{État du chantier multi-états au moment de cette version du document.}

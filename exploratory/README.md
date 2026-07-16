@@ -281,6 +281,22 @@ non-conformité) tombe de 3827 à 116 M€ sur 5 ans. Bande 90 % large et persis
 dans un environnement dégradé, la remédiation traîne et le capital reste élevé plus
 longtemps.
 
+### 2.9 Priorisation de la remédiation (18)
+
+`18_priorisation_remediation.py`, figure S13_priorisation. Sous budget contraint (un pilier
+remédié à la fois), dans quel ordre remédier les 5 piliers pour minimiser le capital porté ?
+Valeur d'accélération par pilier (différence finie, gain si remédié en premier : P1 2398,
+P4 1637, P5 969, P3 699, P2 ~0 M€), puis énumération des 120 ordres pour l'ordre optimal.
+Deux résultats forts :
+- **l'ordre optimal coïncide avec l'ordre ROOT** du modèle qualitatif (P1 > P4 > P2 > P3 > P5) :
+  la hiérarchie d'expert est la séquence de remédiation qui minimise le capital, retrouvée
+  par une voie entièrement chiffrée.
+- **l'ordre optimal diffère de l'ordre glouton** (par valeur immédiate) : à cause des
+  interactions de cascade, remédier myopiquement le plus fort gain instantané n'est pas
+  optimal. Écart pire/optimal : 21 % du capital intégré.
+La cohérence est confirmée avec la décomposition Delta_k (16b) et l'allocation d'Euler (11,
+qui remonte P4 en tête côté sévérité, vue complémentaire).
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions
