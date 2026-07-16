@@ -51,7 +51,8 @@ def cascade_set_dist(amorce, g):
     dist = {}
 
     def rec(cur, visited, p):
-        e = g * _SROW[cur] / _MAXS
+        gcur = g[cur] if isinstance(g, dict) else g   # g scalaire (global) ou par pilier source
+        e = gcur * _SROW[cur] / _MAXS
         srow = _SROW[cur]
         # fin ici : arret pur (1-e) OU propagation vers un pilier deja visite
         p_rehit = e * sum(w for k, w in TRANS[cur].items() if k in visited) / srow

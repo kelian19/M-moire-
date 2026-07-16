@@ -64,7 +64,9 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
 - Décision A : le Markov multi-états REMPLACE la variable latente statique du mémoire.
 - Décision B : état de conformité PAR PILIER, mis en scène global d'abord (16a) puis par
   pilier (16b). L'état global est un cas particulier du par-pilier.
-- Fait : script 16a (SCR par état C/PC/NC global + Delta_DORA euros, figure S10).
+- Fait : script 16 (Vasicek multi-états global, latente à seuils ordonnés + 3 canaux, S10).
+- Fait : script 16b (état par pilier, décomposition du Delta_DORA, S11). La décomposition
+  euro reproduit le classement ROOT du modèle qualitatif (P1>P4>P2>P3>P5).
 
 ---
 

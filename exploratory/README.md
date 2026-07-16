@@ -250,6 +250,18 @@ graine MC commune entre états) :
   amplifié par la propagation de la cascade.
 - Delta_DORA PC vs C : surcoût intermédiaire chiffré (OpRisk médiane 2404 M€, PRC 1082 M€).
 
+`16b_scr_multi_etats_par_pilier.py`, figure S11_decomp_par_pilier. État de conformité
+**par pilier** (chaque pilier dans son propre état), via `simulate_euro_pp` qui indexe les
+trois canaux par pilier sans réécrire l'agrégation. Gain de propagation indexé sur le
+pilier source. Deux résultats :
+- cohérence : les configurations homogènes redonnent l'ordre du 16 (tous C 6085, tous NC
+  17012 M€ OpRisk), contrôle du moteur par pilier.
+- décomposition du Delta_DORA : basculer un seul pilier en Non conforme chiffre sa
+  contribution. Classement OpRisk P1 (37 %) > P4 (28 %) > P2 (17 %) > P3 (11 %) > P5 (7 %),
+  qui **reproduit le classement ROOT du modèle qualitatif** (validation croisée). Effet
+  d'interaction super-additif (+1395 M€) : les cascades interagissent, le total dépasse la
+  somme des contributions isolées. Prépare la priorisation de remédiation (script 18).
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions

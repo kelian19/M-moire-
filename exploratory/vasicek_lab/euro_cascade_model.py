@@ -80,6 +80,51 @@ def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI):
     return annual
 
 
+def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, phi=PHI):
+    """Perte annuelle par la cascade avec parametres PAR PILIER (script 16b).
+
+    Meme moteur que simulate_euro (agregation non reecrite), mais les canaux sont
+    indexes par pilier via des dict {pilier -> valeur} :
+      - lam_vec  : frequence d'amorce par pilier (l'amorce est tiree ~ lam_vec) ;
+      - g_vec    : gain de propagation du pilier SOURCE (e_j = g_vec[j]*s_j/max_s) ;
+      - p_u_vec  : taux de materialite du pilier TOUCHE (severite per-pilier).
+    Quand tous les piliers partagent le meme etat, se reduit exactement a simulate_euro.
+    """
+    lam = float(sum(lam_vec[j] for j in PIL))
+    annual = np.zeros(n_years)
+    if lam <= 0:
+        return annual
+    r = lam / (phi - 1.0)
+    p = r / (r + lam)
+    counts = rng.negative_binomial(r, p, size=n_years)
+    T = int(counts.sum())
+    if T == 0:
+        return annual
+    year_of_event = np.repeat(np.arange(n_years), counts)
+    tables = eng.build_cascade_tables(g_vec)             # g_vec dict -> gains par pilier source
+    w = np.array([lam_vec[j] for j in PIL], float)
+    w /= w.sum()                                          # amorce ~ frequence par pilier
+    amorce = rng.choice(len(PIL), size=T, p=w)
+    for c_am, j in enumerate(PIL):
+        ev = np.where(amorce == c_am)[0]
+        if ev.size == 0:
+            continue
+        yr = year_of_event[ev]
+        ind, probs = tables[j]
+        idx = rng.choice(len(probs), size=ev.size, p=probs)
+        for s in range(len(probs)):
+            sel = idx == s
+            if not sel.any():
+                continue
+            yrs = yr[sel]
+            for c_p, pil in enumerate(PIL):              # un tirage par pilier TOUCHE, p_u propre
+                if ind[s][c_p] == 1.0:
+                    sev = simulate_remediation_severity(yrs.size, xi, sigma, u,
+                                                        p_u_vec[pil], cap, rng)
+                    annual += np.bincount(yrs, weights=sev, minlength=n_years)
+    return annual
+
+
 def var(x, alpha=0.995):
     return float(np.quantile(x, alpha))
 
