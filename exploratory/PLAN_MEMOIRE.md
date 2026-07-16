@@ -79,9 +79,11 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
 - En cours : ÉTAPE 4, nouveau mémoire cascade dans exploratory/memoire_cascade/main.tex
   (compile, figures intégrées). Parties agnostiques en sections-relais [À migrer] depuis
   l'ancien memoire/main.tex (non touché).
-  - Chapitre cascade dirigée : ÉTOFFÉ au niveau rédactionnel (Vasicek 1 facteur -> gén. A -> gén. B
-    -> normalisation Leontief -> branchement/R0 -> seuil K_j -> faisabilité), figures H1, K3.
-  - Reste à étoffer : chapitre conformité multi-états, chapitre résultats (déjà avec figures).
+  - Chapitre cascade dirigée : ÉTOFFÉ (Vasicek 1 facteur -> gén. A -> gén. B -> normalisation
+    Leontief -> branchement/R0 -> seuil K_j -> faisabilité), figures H1, K3.
+  - Chapitre conformité multi-états : ÉTOFFÉ (deux échelles fast-slow, latente à seuils ordonnés,
+    3 canaux, état par pilier, Markov Erlang, couplage Theta, analogie migration de rating).
+  - Reste à étoffer : chapitre résultats (déjà avec les 5 figures + chiffres clés, à développer).
   - Reste à migrer : intro, état de l'art, réglementaire, données, socle mécaniste, annexes EVT.
 - Reste : finir ÉTAPE 4 (migration + étoffage) ; décision canal détection avec Hugo.
 
