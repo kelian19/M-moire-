@@ -147,37 +147,61 @@ for source in ("OPRISK", "PRC"):
               f"  |  SCR espere normal={esp_n:6.0f}  crise={esp_c:6.0f} M")
 
 
-# ============================================================ Delta_DORA bootstrap (canal frequence)
-titre("Delta_DORA bootstrap 2 niveaux (canal FREQUENCE, lecture A, g=0,90 fixe)")
-print("  Comparable au memoire : la conformite agit sur la frequence (S0/S1/S2).")
+# ============================================================ Delta_DORA bootstrap par etat
+titre("Delta_DORA bootstrap 2 niveaux, par etat (lectures A freq et B +propagation)")
+print("  Incertitude a 2 niveaux : (1) frequence par etat (S0/S1/S2 en mode sample),")
+print("  (2) severite de queue. Pour OpRisk, REECHANTILLONNAGE DES EXCES REELS (methode")
+print("  honnete du memoire, script 14) si la donnee sous licence est presente ; sinon")
+print("  repli sur l'IC90 normal (sample_severity_params, plus large).")
+print("  Graine MC COMMUNE entre etats ET entre lectures a chaque tirage : l'ecart ne")
+print("  vient que du changement d'etat (canal frequence) et du gain de propagation g.")
+
+EXC = ec.oprisk_excesses()          # exces reels OpRisk (None si donnee sous licence absente)
+if EXC is not None:
+    print(f"\n  OpRisk : {len(EXC)} exces reels charges -> bootstrap non-parametrique de la queue.")
+else:
+    print("\n  OpRisk : exces reels absents (licence) -> repli sur IC90 normal.")
+
+
+def _sev_boot(source, rng):
+    """(xi, sigma) d'un tirage : exces reels OpRisk si dispo, sinon IC90 normal."""
+    if source == "OPRISK" and EXC is not None:
+        return ec.bootstrap_sev_from_excesses(EXC, rng)
+    return ec.sample_severity_params(source, rng)
+
+
+BOOT_LECT = {"A": G_FREQ, "B": G_PROP}      # A frequence seule ; B + propagation (chiffre de tete)
 boot = {}
 for source in ("OPRISK", "PRC"):
     cfg = BOOT[source]
     sp = PARAMS[source]
     orng = np.random.default_rng(20260716)
-    acc = {"PC": [], "NC": []}
+    acc = {(lect, cible): [] for lect in BOOT_LECT for cible in ("PC", "NC")}
     for b in range(cfg["B"]):
         lam = {e: ec.lambda_scenario(source, SCENARIO[e], mode="sample", rng=orng) for e in ETATS}
-        xi_b, sg_b = ec.sample_severity_params(source, orng)
+        xi_b, sg_b = _sev_boot(source, orng)
         seed_b = 2000 + b
-        v = {}
-        for e in ETATS:
-            rng_e = np.random.default_rng(seed_b)
-            v[e] = var(ec.simulate_euro(lam[e], G_FREQ[e], xi_b, sg_b,
-                                        sp["u"], sp["p_u"], sp["cap"], cfg["ny"], rng_e))
-        acc["PC"].append(v["PC"] - v["C"])
-        acc["NC"].append(v["NC"] - v["C"])
-    for cible in ("PC", "NC"):
-        d = np.array(acc[cible])
-        boot[(source, cible)] = d
-        med = np.median(d)
-        lo, hi = np.percentile(d, [5, 95])
-        print(f"\n  {source} - Delta_DORA({cible} vs C)  ({cfg['B']} tirages x {cfg['ny']:,} annees) :")
-        print(f"    median = {med:8.0f} M EUR   IC90% [{lo:.0f} ; {hi:.0f}]   "
-              f"part > 0 : {100.0 * (d > 0).mean():.0f}%")
+        for lect, gmap in BOOT_LECT.items():
+            v = {}
+            for e in ETATS:
+                rng_e = np.random.default_rng(seed_b)       # CRN entre etats et entre lectures
+                v[e] = var(ec.simulate_euro(lam[e], gmap[e], xi_b, sg_b,
+                                            sp["u"], sp["p_u"], sp["cap"], cfg["ny"], rng_e))
+            acc[(lect, "PC")].append(v["PC"] - v["C"])
+            acc[(lect, "NC")].append(v["NC"] - v["C"])
+    for lect in BOOT_LECT:
+        print(f"\n  {source}  lecture {lect} ({LEC_LAB[lect]})  "
+              f"({cfg['B']} tirages x {cfg['ny']:,} annees) :")
+        for cible in ("PC", "NC"):
+            d = np.array(acc[(lect, cible)])
+            boot[(source, lect, cible)] = d
+            med = np.median(d)
+            lo, hi = np.percentile(d, [5, 95])
+            print(f"    Delta_DORA({cible} vs C) : median = {med:8.0f} M EUR"
+                  f"   IC90% [{lo:.0f} ; {hi:.0f}]   part > 0 : {100.0 * (d > 0).mean():.0f}%")
     ref = MEMOIRE_DELTA[source]
-    print(f"    memoire (NC vs C, 07) = {ref['median']:8.0f} M EUR   "
-          f"IC90% [{ref['ic90'][0]:.0f} ; {ref['ic90'][1]:.0f}]")
+    print(f"    reference memoire (NC vs C, 07) = {ref['median']:8.0f} M EUR"
+          f"   IC90% [{ref['ic90'][0]:.0f} ; {ref['ic90'][1]:.0f}]")
 
 
 # ============================================================ figure

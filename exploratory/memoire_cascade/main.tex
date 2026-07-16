@@ -588,14 +588,17 @@ positifs}.
 \toprule
 & médiane & IC90\,\% & & mémoire (réf.) \\
 \midrule
-$\Delta_{\text{DORA}}$ NC vs C (OpRisk) & 6230 & $[1997\,;34195]$ & & 3879 \\
-$\Delta_{\text{DORA}}$ PC vs C (OpRisk) & 2404 & $[696\,;15288]$  & & --- \\
-$\Delta_{\text{DORA}}$ NC vs C (PRC)    & 2995 & $[2461\,;3396]$  & & 2015 \\
-$\Delta_{\text{DORA}}$ PC vs C (PRC)    & 1082 & $[819\,;1368]$   & & --- \\
+$\Delta_{\text{DORA}}$ NC vs C (OpRisk) & 7401 & $[2830\,;38793]$ & & 3879 \\
+$\Delta_{\text{DORA}}$ PC vs C (OpRisk) & 2556 & $[963\,;12768]$  & & --- \\
+$\Delta_{\text{DORA}}$ NC vs C (PRC)    & 3668 & $[3201\,;4094]$  & & 2015 \\
+$\Delta_{\text{DORA}}$ PC vs C (PRC)    & 1257 & $[1077\,;1466]$  & & --- \\
 \bottomrule
 \end{tabular}
-\caption{Surcoût de non-conformité en euros (M\euro), bootstrap. Le surcoût intermédiaire
-(PC vs C) est chiffré pour la première fois. Source : script~\texttt{16}.}
+\caption{Surcoût de non-conformité en euros (M\euro), lecture B (fréquence $+$ propagation),
+bootstrap deux niveaux. Côté OpRisk la sévérité de queue est ré-échantillonnée sur les
+$91$ excès réels (méthode du mémoire, script~\texttt{14}), non tirée dans une approximation
+normale~; l'intervalle reste large parce que la queue l'est, non par artefact de méthode.
+Le surcoût intermédiaire (PC vs C) est chiffré pour la première fois. Source : script~\texttt{16}.}
 \label{tab:delta}
 \end{table}
 
