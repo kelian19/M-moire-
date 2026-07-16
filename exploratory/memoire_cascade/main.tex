@@ -1,0 +1,324 @@
+\documentclass[11pt,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{eurosym}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+% figures produites par les scripts du chantier exploratoire
+\graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{green}{HTML}{2E6B4F}
+\definecolor{lightgreen}{HTML}{D6EADF}
+
+\hypersetup{colorlinks=true, linkcolor=bluemid, urlcolor=bluemid, citecolor=green,
+  pdftitle={Quantification du SCR lie a la non-conformite DORA par la cascade dirigee},
+  pdfauthor={Kelian Kaddouri}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
+\newtcolorbox{migration}[1][]{colback=accent!7,colframe=accent!70,boxrule=0.5pt,
+  arc=2pt,left=8pt,right=8pt,top=5pt,bottom=5pt,before skip=8pt,after skip=8pt,#1}
+
+% Encadre de MIGRATION : marque le contenu agnostique a reprendre de l'ancien memoire.
+\newcommand{\areprendre}[1]{\begin{migration}\footnotesize\textbf{[À migrer]}~#1\end{migration}}
+
+\titleformat{\chapter}[hang]{\normalfont\huge\bfseries\color{navy}}{\thechapter}{0.6em}{}
+\titleformat{\section}{\normalfont\large\bfseries\color{navy}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{bluemid}}{\thesubsection}{0.5em}{}
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
+
+\title{\vspace{-1cm}\color{navy}\bfseries Quantification du SCR lié à la non-conformité au règlement DORA\\[6pt]
+  \large Une cascade dirigée entre les cinq piliers, dont l'état de conformité pilote le capital}
+\author{Kélian Kaddouri \\ \small ENSAE --- Nexialog Consulting \\ \small Tuteurs : Hugo Rapior, Caroline Hillairet}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% =====================================================================
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+
+Ce mémoire quantifie le coût en capital de solvabilité d'un défaut de conformité au règlement
+DORA (UE 2022/2554) pour un assureur exposé au risque cyber. Il propose un modèle interne
+partiel où la dépendance entre les cinq piliers de DORA n'est pas portée par une copule
+\emph{a posteriori}, mais par une \textbf{cascade dirigée} : un incident amorcé sur un pilier
+se propage aux autres selon une matrice d'influence asymétrique, normalisée à la Leontief de
+sorte que la stabilité du système est \emph{garantie} et non supposée. Le capital est la
+VaR à $99{,}5\,\%$ de la perte annuelle ainsi agrégée.
+
+La contribution centrale est de faire dépendre ce capital de l'\textbf{état de conformité} de
+l'entité, modélisé comme un objet à deux échelles de temps. À l'échelle rapide, un
+\textbf{Vasicek multi-états} définit l'état de conformité (non conforme, partiellement
+conforme, conforme) de chaque pilier par des seuils ordonnés sur une variable latente, et cet
+état pilote la fréquence, la propagation et la détection dans la cascade. À l'échelle lente,
+une \textbf{chaîne de Markov} fait progresser la conformité le long de la mise en conformité,
+d'où une \textbf{trajectoire de SCR} et non un chiffre unique. Les deux couches sont couplées
+par un même facteur systémique, sur le modèle d'une migration de rating de crédit assortie
+d'un modèle de défaut conditionnel.
+
+On en tire le surcoût de non-conformité $\Delta_{\text{DORA}}$ en euros, sa décomposition par
+pilier, et l'ordre de remédiation qui minimise le capital porté. Résultat saillant :
+\textbf{l'ordre de remédiation optimal coïncide avec le classement d'importance des piliers
+obtenu indépendamment par jugement d'expert}, et il est invariant aux paramètres non
+calibrables. Comme pour la queue de sévérité, le classement est robuste là où le niveau ne
+l'est pas.
+
+\paragraph{Mots-clés.} Risque cyber ; DORA ; SCR ; Solvabilité II ; théorie des valeurs
+extrêmes ; cascade dirigée ; processus de branchement ; chaîne de Markov ; Vasicek.
+
+\bigskip
+\noindent\textbf{Abstract.} \emph{This thesis quantifies the solvency-capital cost of DORA
+non-compliance for a cyber-exposed insurer. Dependence across the five DORA pillars is carried
+by a \textbf{directed cascade} rather than an \emph{a posteriori} copula: a pillar-initiated
+incident propagates through an asymmetric influence matrix, Leontief-normalised so that
+stability is guaranteed rather than assumed. The capital charge is made to depend on the firm's
+\textbf{compliance state}, modelled at two time scales: a multi-state Vasicek layer sets each
+pillar's compliance state and drives the cascade, while a Markov layer advances remediation
+over time, yielding a \textbf{capital trajectory}. The resulting non-compliance surcharge is
+decomposed by pillar, and the capital-optimal remediation order is shown to coincide with the
+expert importance ranking and to be invariant to the non-calibratable parameters.}
+
+% =====================================================================
+\tableofcontents
+
+% =====================================================================
+\chapter{Introduction}
+
+\begin{cle}
+\textbf{Question centrale.} Comment traduire un niveau de non-conformité à DORA, même
+hypothétique ou graduel, en une distribution de pertes puis en une charge de capital ? Le
+mémoire ne pose pas la question \emph{l'entité est-elle conforme aujourd'hui}, mais
+\emph{combien coûte en capital de ne pas se conformer}.
+\end{cle}
+
+\areprendre{Introduction et problématique de l'ancien \texttt{memoire/main.tex} (paragraphes
+d'ouverture, motivation cyber/DORA, positionnement Solvabilité~II). \textbf{Adapter} le
+paragraphe annonçant l'architecture : remplacer l'annonce du pont Vasicek latent et du LDA à
+quatre briques par l'annonce de la cascade dirigée et de la conformité multi-états.}
+
+\section{Contribution et plan}
+Trois apports articulés : (i)~une \textbf{cascade dirigée} qui porte la dépendance
+inter-piliers par un mécanisme structurel (partie~\ref{chap:cascade})~; (ii)~une
+\textbf{conformité multi-états} qui fait dépendre le capital de l'état de conformité, par
+pilier et dans le temps (partie~\ref{chap:multietats})~; (iii)~une lecture décisionnelle : le
+surcoût $\Delta_{\text{DORA}}$, sa décomposition et l'\textbf{ordre de remédiation optimal}
+(partie~\ref{chap:resultats}).
+
+% =====================================================================
+\chapter{État de l'art}
+
+\areprendre{État de l'art de l'ancien mémoire, quasi tel quel : assurabilité du risque cyber
+(Biener-Eling-Wirfs), contagion et dynamique systémique, copules et dépendance de queue, EVT en
+actuariat, du passage Solvabilité~II à DORA. \textbf{Ajouter} un court paragraphe sur les
+processus de branchement multitype et les modèles multi-états (chaînes de Markov, migration de
+rating) pour ancrer la contribution.}
+
+% =====================================================================
+\chapter{Cadre réglementaire}
+
+\areprendre{Cadre réglementaire de l'ancien mémoire : Bâle~III, Solvabilité~II, les cinq
+piliers ICT de DORA, recouvrement ORSA~$\leftrightarrow$~DORA. Se garde tel quel~; la
+sous-section sur les cinq piliers devient le support des cinq n\oe{}uds de la cascade et des
+cinq chaînes de conformité.}
+
+% =====================================================================
+\chapter{Données et limites}
+
+\areprendre{Chapitre données de l'ancien mémoire : article~19 de Solvabilité~II, les trois
+biais, inflation cyber, PRC comme proxy de fréquence, Hackmageddon, SAS OpRisk comme proxy de
+sévérité, validation croisée ENISA.}
+
+\begin{cle}
+\textbf{Verdict de faisabilité (à intégrer, script~\texttt{05}).} La matrice de contagion $W$
+n'est calibrable sur aucune source ouverte : la chronologie des brèches manque de volume et de
+taxonomie, et le pas annuel de SAS OpRisk lessive la direction ($z=-0{,}3$ contre le placebo).
+Ce qui \emph{est} mesurable est la queue de sévérité $\xi\approx 0{,}9$. Cette lucidité, loin
+d'affaiblir le travail, en fixe le périmètre honnête : la structure dirigée est un axe de
+sensibilité, la sévérité est calibrée.
+\end{cle}
+
+% =====================================================================
+\chapter{Le socle mécaniste : fréquence et sévérité}
+
+\areprendre{Sévérité EVT/GPD (calibration OpRisk, validation PRC) et fréquence NegBin/Poisson
+mélangé de l'ancien mémoire : ces briques sont réutilisées telles quelles par le moteur
+euro-cascade. Réutiliser les sections correspondantes.}
+
+\noindent Ces deux briques (loi de sévérité GPD par pilier, fréquence surdispersée pilotée par
+un facteur commun) alimentent l'agrégation, qui est le seul élément remplacé par la cascade.
+
+% =====================================================================
+\chapter{La cascade dirigée}
+\label{chap:cascade}
+
+\begin{cle}
+\textbf{Idée.} La dépendance entre piliers n'est pas ajoutée après coup par une copule : elle
+est \emph{produite} par la propagation d'un incident le long d'une matrice d'influence dirigée.
+La cascade est la vue structurelle (bottom-up) de la dépendance, en regard de la vue copule
+(top-down) de l'ancien mémoire.
+\end{cle}
+
+\section{Du modèle qualitatif au noyau de propagation}
+Trois barèmes d'expert ordonnés (ROOT, TRANS asymétrique, GBASE) établissent qualitativement
+que l'ordre d'une cascade pilote sa probabilité et sa gravité. La matrice TRANS, normalisée
+ligne à ligne, devient le noyau de transition d'une chaîne de Markov sur les piliers :
+\begin{equation}
+\mathbb P(j'\mid j) = \frac{\text{TRANS}[j][j']}{s_j}, \qquad s_j=\sum_{j'}\text{TRANS}[j][j'].
+\end{equation}
+Un état d'arrêt (propension $e_j=g\,s_j/\max_k s_k$) garantit une cascade finie, exactement la
+condition d'extinction d'un processus de branchement.
+
+\areprendre{Développer à partir de \texttt{cascade\_qualitative/fiche\_pedagogique} (construction
+des scores, sensibilité : seule l'asymétrie TRANS porte le résultat) et de
+\texttt{cascade\_qualitative/draft\_probas\_conditionnelles} (probabilités conditionnelles,
+état d'arrêt, probabilité de l'ordre).}
+
+\section{Le Vasicek dirigé}
+La contagion est portée par une matrice de parts $W = g\cdot\text{TRANS}/\max_j(\sum_{j'}\text{TRANS}[j][j'])$,
+normalisée comme la matrice technique de Leontief, d'où $\rho(W)\le g<1$ : \textbf{la stabilité
+est garantie, pas supposée}. La forme retardée est un processus de branchement multitype
+d'extinction gouvernée par $R_0=\rho(M)$. La progéniture reproduit exactement le classement
+ROOT (Spearman $=1{,}00$), rendant ROOT redondant.
+
+\areprendre{Développer à partir de \texttt{vasicek\_lab/note\_vasicek\_dirige} : preuve de
+stabilité, estimateur probit, tests de falsification (permutation temporelle, temps inversé),
+calibration du facteur systémique (routes A et B). Reprendre aussi \texttt{ossature\_scr} pour
+les conventions de passage à l'euro.}
+
+% =====================================================================
+\chapter{La conformité multi-états}
+\label{chap:multietats}
+
+\begin{cle}
+\textbf{Idée.} Le SCR dépend de l'état de conformité de l'entité, objet ni binaire ni statique.
+Un Vasicek multi-états définit l'état (échelle rapide, il pilote la cascade) ; une chaîne de
+Markov le fait évoluer (échelle lente, la mise en conformité). C'est le remplacement dynamique
+de la variable latente statique de l'ancien mémoire.
+\end{cle}
+
+\section{Vasicek multi-états : seuils ordonnés et trois canaux}
+Une capacité de conformité latente $C^\star=\gamma\Theta+\sqrt{1-\gamma^2}\,\varepsilon$ est
+découpée par deux seuils ordonnés en trois états (NC, PC, C). L'état pilote trois canaux de la
+cascade : fréquence $\lambda$, propagation $g$ (gain du pilier source), détection $p_u$ (taux
+de matérialité). Le facteur $\Theta$ rend les probabilités d'état conditionnelles à
+l'environnement : en crise, la masse bascule vers la non-conformité.
+
+\section{Chaîne de Markov et trajectoire}
+Une chaîne à temps continu $\text{NC}\to\text{PC}\to\text{C}$ (Conforme absorbant, séjours de
+type phase Erlang pour une durée de projet réaliste) donne, à chaque horizon $t$, la
+distribution des états, d'où
+\begin{equation}
+\mathrm{SCR}(t)=\sum_{e\in\{\text{NC,PC,C}\}}\mathbb P(e,t)\,\mathrm{SCR}_e .
+\end{equation}
+Les deux couches sont couplées par le même $\Theta$ : un environnement dégradé ralentit la
+remédiation et durcit la cascade. \textbf{Analogie de crédit} : la chaîne de Markov est une
+migration de rating de conformité, le Vasicek un modèle de défaut conditionnel au rating.
+
+\areprendre{Développer à partir de \texttt{vasicek\_lab/note\_conformite\_multietats} (sections
+1.1, 1.2, Markov, robustesse, portée). Toute la matière et les figures sont prêtes.}
+
+% =====================================================================
+\chapter{Résultats}
+\label{chap:resultats}
+
+\section{SCR par état et surcoût de non-conformité}
+Le SCR croît de l'état conforme au non conforme (figure~\ref{fig:multietats}). Le surcoût
+$\Delta_{\text{DORA}}=\mathrm{SCR}(\text{NC})-\mathrm{SCR}(\text{C})$, à graine Monte-Carlo
+commune, ressort du même ordre que celui du mémoire, amplifié par la propagation : OpRisk
+médiane $\sim 6\,230$~M\euro, PRC $\sim 2\,995$~M\euro, $100\,\%$ des tirages positifs.
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.92\linewidth]{S10_scr_multi_etats.png}
+\caption{SCR par état de conformité (trois canaux emboîtés) et bascule des états en crise
+systémique. Source : script~\texttt{16}.}
+\label{fig:multietats}
+\end{figure}
+
+\section{Décomposition par pilier}
+En basculant un pilier à la fois, le surcoût se décompose (figure~\ref{fig:decomp}). Le
+classement $P1>P4>P2>P3>P5$ \textbf{reproduit le classement ROOT} du modèle qualitatif, et
+l'interaction est super-additive : le tout dépasse la somme des parts, signature de la cascade.
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.92\linewidth]{S11_decomp_par_pilier.png}
+\caption{Décomposition du $\Delta_{\text{DORA}}$ par pilier et validation croisée avec ROOT.
+Source : script~\texttt{16b}.}
+\label{fig:decomp}
+\end{figure}
+
+\section{Trajectoire du capital}
+Le long de la mise en conformité, le capital décroît vers le SCR conforme et le surcoût
+résiduel $\Delta_{\text{DORA}}(t)$ tend vers zéro (figure~\ref{fig:traj}). La bande
+d'incertitude, issue du facteur systémique, reste haute en environnement dégradé.
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.92\linewidth]{S12_trajectoire_scr.png}
+\caption{Trajectoire SCR($t$) et évolution des états. Source : script~\texttt{17}.}
+\label{fig:traj}
+\end{figure}
+
+\section{Priorisation de la remédiation}
+Sous budget contraint, l'énumération des ordres de remédiation donne l'ordre optimal
+$P1\to P4\to P2\to P3\to P5$, \textbf{égal à l'ordre ROOT} et distinct de l'ordre glouton :
+les interactions imposent un raisonnement sur l'horizon (figure~\ref{fig:prio}).
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.92\linewidth]{S13_priorisation.png}
+\caption{Valeur d'accélération et ordre de remédiation optimal. Source : script~\texttt{18}.}
+\label{fig:prio}
+\end{figure}
+
+\section{Robustesse}
+Le niveau du capital bouge (l'indice de queue $\xi$ domine, facteur $\sim 6$), mais la
+direction ($\Delta_{\text{DORA}}>0$) et la priorité (P1 en tête) tiennent sur tous les leviers
+(figure~\ref{fig:robust}). L'ordre optimal est \textbf{invariant aux taux de transition Markov},
+les moins calibrables : la recommandation ne dépend d'aucun paramètre non mesurable.
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.92\linewidth]{S14_robustesse_multietats.png}
+\caption{Robustesse : le classement tient, le niveau non. Source : script~\texttt{19}.}
+\label{fig:robust}
+\end{figure}
+
+\areprendre{Ajouter les résultats agnostiques réutilisables de l'ancien mémoire : comparaison à
+la Formule Standard, implications ORSA, réassurance de dernier recours (ancien notebook~17).}
+
+% =====================================================================
+\chapter{Conclusion}
+La cascade dirigée porte la dépendance inter-piliers par un mécanisme structurel stable par
+construction ; la conformité multi-états fait du SCR une trajectoire pilotée par l'état de
+conformité ; et la lecture décisionnelle (ordre de remédiation) est robuste et invariante aux
+paramètres non calibrables. Le niveau du capital n'est pas pinçable (queue lourde), mais le
+verdict et la priorité le sont.
+
+% =====================================================================
+\appendix
+\chapter{Démonstrations}
+\areprendre{Annexes EVT de l'ancien mémoire : Fisher-Tippett-Gnedenko, Pickands-Balkema-de Haan,
+Hill, information de Fisher, VaR/TVaR de la GPD. Se gardent. \textbf{Remplacer} les annexes sur
+la copule de Gumbel et le Vasicek scalaire par la preuve de stabilité de la cascade ($\rho(W)<1$
+par normalisation) et la propriété du processus de branchement.}
+
+\end{document}
