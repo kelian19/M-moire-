@@ -87,6 +87,10 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
   niveau +7 %. L'incertitude PRC restante = coefficients (a, b) -> script 22.
 - Fait : script 22 (sensibilités des hypothèses restantes, S17) : coefficients Jacobs
   stressés en pivotant au centroïde déduit des SE publiés, gamma, ancrage des probas d'état.
+- Fait : script 23 (benchmark copule, S18). Photo : gaussienne = SCR cascade à +0,1 %
+  (perte unique dominante), Student +17 % (co-extrêmes forcés) : copule non identifiable et
+  conséquente. Intervention : surcoût sous-estimé de 38 %, interaction moyenne nulle par
+  construction (vs +560 M€ cascade, signature falsifiable), priorité inversée sur P2/P3.
 - Note LaTeX note_conformite_multietats.tex/.pdf : synthèse du chantier 16-22, compilée
   (Tectonic installé en local, memoire/tectonic.exe non versionné).
 - En cours : ÉTAPE 4, nouveau mémoire cascade dans exploratory/memoire_cascade/main.tex

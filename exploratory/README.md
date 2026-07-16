@@ -377,6 +377,24 @@ enregistrement.
   ni le Delta NC vs C (conditionnels à l'état).
 Verdict commun : les hypothèses bougent des niveaux, jamais la direction ni le classement.
 
+### 2.14 Benchmark copule : la dépendance n'est pas le mécanisme (23)
+
+`23_benchmark_copule.py`, figure S18_benchmark_copule. Referme la boucle avec le monde
+copule que la cascade a remplacé, en confrontant la cascade à des jumeaux construits pour
+lui ressembler (OpRisk, CRN, même U de copule entre configurations).
+- **Photo** (marges par pilier identiques à la cascade, R calée Spearman → Pearson) : la
+  gaussienne retombe sur le SCR de base (+0,1 %). En queue lourde (xi ~ 0,6) la queue
+  annuelle est portée par la perte unique dominante : le niveau n'identifie pas la
+  dépendance. La Student nu=4 le surestime de 17 % en forçant des co-extrêmes que le
+  mécanisme ne produit pas (2,28 vs 1,12 piliers extrêmes par année de queue). Choix de
+  copule non identifiable ET conséquent ; la cascade produit sa dépendance par mécanisme.
+- **Intervention** (jumeau LDA-copule par pilier : canaux fréquence + détection dans les
+  marges, copule figée) : trois manques structurels. Surcoût total 6760 M€ contre 10 927
+  (−38 %, le canal propagation est inexprimable dans des marges) ; interaction moyenne
+  exactement nulle par construction (+0 vs +560 M€ : l'interaction de la cascade est une
+  signature falsifiable) ; priorité de remédiation inversée sur P2/P3, et la dépendance ne
+  durcit pas avec la non-conformité, précisément le canal que DORA fait bouger.
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions

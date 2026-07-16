@@ -427,6 +427,18 @@ retenues, le SCR par état et le surcoût NC contre C restant inchangés (condit
 l'état). Trois axes, même ligne de partage~: les hypothèses bougent des niveaux, jamais la
 direction ni le classement.
 
+Enfin, le script~\texttt{23} referme la boucle avec le monde copule que la cascade a
+remplacé, via deux jumeaux calés sur elle (OpRisk, graines communes). Photo~: à marges par
+pilier identiques, la gaussienne retombe sur le SCR de base ($+0{,}1\,\%$, perte unique
+dominante en queue lourde~: le niveau n'identifie pas la dépendance), la Student $\nu = 4$
+le surestime de $17\,\%$ en forçant des co-extrêmes ($2{,}28$ contre $1{,}12$ piliers
+extrêmes par année de queue)~: le choix de copule est non identifiable et conséquent.
+Intervention~: le jumeau LDA-copule sous-estime le surcoût total de $38\,\%$ ($6\,760$
+contre $10\,927$~M\euro, la propagation n'a nulle part où vivre), son interaction moyenne
+est nulle par construction ($+0$ contre $+560$~M\euro~: l'interaction de la cascade est une
+signature falsifiable) et sa priorité s'inverse sur P2/P3. La dépendance n'est pas le
+mécanisme~: c'en est l'ombre portée.
+
 \section*{Table des scripts couverts}
 \addcontentsline{toc}{section}{Table des scripts}
 
@@ -445,6 +457,7 @@ Script & Rôle & Figure \\
 \texttt{20b} & Interaction : signe non pinçable en VaR OpRisk, super-additive en moyenne et sur PRC & \textendash{} \\
 \texttt{21}  & Résidu Jacobs : IC PRC robuste au résidu, niveau $+7\,\%$, queue dérivée épaissie & S16 \\
 \texttt{22}  & Hypothèses restantes : coefficients Jacobs (pivot centroïde), $\gamma$, ancrage & S17 \\
+\texttt{23}  & Benchmark copule : photo imitable, intervention non (surcoût $-38\,\%$, interaction nulle) & S18 \\
 \bottomrule
 \end{tabularx}
 \caption{État du chantier multi-états au moment de cette version du document.}

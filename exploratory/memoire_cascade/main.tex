@@ -871,6 +871,52 @@ d'état. Source : script~\texttt{22}.}
 \label{fig:hypotheses}
 \end{figure}
 
+\section{Benchmark : la dépendance n'est pas le mécanisme}
+\label{sec:benchmark}
+
+Le mémoire a remplacé le LDA à copule par la cascade dirigée. Ce que ce remplacement
+apporte se mesure en confrontant la cascade à des jumeaux copule construits pour lui
+ressembler (script~\texttt{23}, figure~\ref{fig:benchmark}, périmètre OpRisk, graines
+Monte-Carlo communes).
+
+\textbf{La photo.} À marges par pilier \emph{identiques} (celles de la cascade, état
+conforme) et corrélation calée, la copule gaussienne retombe sur le SCR de la cascade
+($+0{,}1\,\%$) : en queue lourde ($\xi \approx 0{,}6$), la queue annuelle obéit au principe
+de la perte unique dominante et le \emph{niveau} de base n'identifie pas la dépendance. La
+Student ($\nu = 4$) le surestime de $17\,\%$ en forçant des co-extrêmes que le mécanisme ne
+produit pas ($2{,}28$ piliers extrêmes par année de queue contre $1{,}12$). Le choix de
+copule est donc à la fois non identifiable et conséquent~; la cascade n'a pas ce degré de
+liberté : sa dépendance est produite par le mécanisme, pas choisie.
+
+\textbf{L'intervention.} Basculer un pilier en non-conformité est une intervention, pas un
+conditionnement. Le jumeau LDA-copule exprime les canaux fréquence et détection (les marges
+dépendent de l'état de leur pilier), mais trois manques sont structurels.
+\emph{(i)}~La propagation n'a nulle part où vivre : le surcoût total ressort à
+$6\,760$~M\euro{} contre $10\,927$ pour la cascade, une sous-estimation de $38\,\%$.
+\emph{(ii)}~Les marges ne dépendant que de l'état de leur propre pilier et la copule étant
+figée, la perte moyenne totale est \emph{exactement} additive : interaction moyenne nulle
+par construction ($+0$~M\euro{} mesuré), là où la cascade en produit $+560$~M\euro{} :
+l'interaction moyenne mesurée plus haut est une signature falsifiable qu'aucun modèle
+copule-marges ne peut reproduire. \emph{(iii)}~La priorité de remédiation impliquée
+s'inverse sur P2/P3, et la dépendance ne durcit pas quand la conformité se dégrade, alors
+que c'est précisément le canal que DORA fait bouger ($g$ de $0{,}45$ à $0{,}90$).
+
+\begin{cle}
+\textbf{Ce que le benchmark établit.} La copule peut imiter la photo d'un état~; elle ne
+peut imiter ni le surcoût (propagation), ni l'interaction (additivité en moyenne), ni le
+durcissement de la dépendance avec la non-conformité. La dépendance n'est pas le
+mécanisme : c'en est l'ombre portée.
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{S18_benchmark_copule.png}
+\caption{Benchmark copule (OpRisk). (A)~Intervention : le jumeau copule suit les marges et
+sous-estime le surcoût, la cascade suit les sources. (B)~Photo : perte unique dominante en
+queue~; la Student force des co-extrêmes que le mécanisme n'a pas. Source :
+script~\texttt{23}.}
+\label{fig:benchmark}
+\end{figure}
+
 \section{Mise en regard réglementaire}
 
 \areprendre{Reprendre de l'ancien mémoire les résultats agnostiques qui restent valables :
