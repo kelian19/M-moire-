@@ -34,7 +34,7 @@ Hackmageddon : seuls le NIVEAU de frequence et la loi de severite sont communs, 
 structure de propagation. Rien n'est lu dans data/raw : tout vient de la config figee.
 
 Sortie : diagnostics (SCR euro par source x gain, prime de propagation) + figure
-G7_scr_euro_cascade.png.
+S6_scr_euro_cascade.png.
 """
 
 import os
@@ -150,6 +150,6 @@ fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G7_scr_euro_cascade.png")
+path = os.path.join(outdir, "S6_scr_euro_cascade.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

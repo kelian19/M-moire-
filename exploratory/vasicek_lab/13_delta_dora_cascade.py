@@ -28,7 +28,7 @@ est un choix de modelisation propre a la cascade, non calibre : presente en sens
 Ne touche ni src/ ni memoire/. Comparaison au Delta_DORA du memoire (OpRisk 3879 M€
 [1497 ; 22249] ; PRC 2015 M€ [1607 ; 2366]).
 
-Sortie : diagnostics + figure G8_delta_dora_cascade.png.
+Sortie : diagnostics + figure S7_delta_dora_cascade.png.
 """
 
 import os
@@ -163,6 +163,6 @@ fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G8_delta_dora_cascade.png")
+path = os.path.join(outdir, "S7_delta_dora_cascade.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

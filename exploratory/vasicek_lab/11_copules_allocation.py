@@ -27,7 +27,7 @@ PORTEE. Unites normalisees. La copule (et nu) est une hypothese de structure, no
 sur l'entite : le script quantifie la SENSIBILITE du SCR a cette hypothese, il ne pretend
 pas la mesurer.
 
-Sortie : diagnostics (SCR par copule, allocations) + figure G5_copules_allocation.png.
+Sortie : diagnostics (SCR par copule, allocations) + figure S5_copules_allocation.png.
 """
 
 import os
@@ -205,6 +205,6 @@ fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G5_copules_allocation.png")
+path = os.path.join(outdir, "S5_copules_allocation.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

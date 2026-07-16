@@ -3,12 +3,12 @@
 Deux chantiers complémentaires sur la modélisation du risque des cinq piliers DORA
 (Règlement UE 2022/2554). L'intuition commune : **l'ordre d'apparition des piliers
 pilote le risque** (cascade dirigée, asymétrique). Le premier chantier l'établit
-qualitativement, le second le formalise quantitativement.
+qualitativement, le second le formalise quantitativement puis le chiffre en euros.
 
 ```
 exploratory/
 ├── cascade_qualitative/     Modèle qualitatif : l'ordre pilote proba/gravité/criticité
-└── vasicek_lab/             Modèle quantitatif : Vasicek dirigé + seuil K non gaussien
+└── vasicek_lab/             Modèle quantitatif : Vasicek dirigé -> SCR euro par la cascade
 ```
 
 ## 1. `cascade_qualitative/` : le modèle qualitatif
@@ -32,24 +32,27 @@ tirages), l'asymétrie causale TRANS porte le résultat.
 ## 2. `vasicek_lab/` : le modèle quantitatif (Vasicek dirigé)
 
 Refonte du Merton-Vasicek pour DORA : facteur systémique **par pilier**, contagion
-**dirigée** `W`, seuil `K` **réglementaire + EVT** au lieu de `Phi^-1(PD)`.
+**dirigée** `W`, seuil `K` **réglementaire + EVT** au lieu de `Phi^-1(PD)`. Le chantier
+avance en quatre étapes : fondations du Vasicek dirigé (2.1), passage en unités
+monétaires normalisées (2.4), dépendance de queue et allocation (2.5), puis chiffrage
+en euros calibré sur l'entité et sur DORA (2.6).
+
+### 2.1 Fondations : le Vasicek dirigé (01-06)
 
 | Fichier | Rôle |
 |---|---|
 | `note_vasicek_dirige.tex/.pdf` | note pédagogique complète : concept → modèle → preuve → limites |
-| `01_non_transitivite.py` | figure G1 : TRANS asymétrique à 81 % → pas une corrélation |
+| `01_non_transitivite.py` | figure G1_non_transitivite : TRANS asymétrique à 81 % → pas une corrélation |
 | `build_network_figure.py` | figure H1 : réseau dirigé `W` + sous-réseau d'exemple |
 | `02_seuil_Ki_horserace.py` | figure J : banc d'essai `Phi^-1(PD)` vs EVT sur le capital |
 | `03_calibration_W.py` | figures K1, K2, K3 : estimation probit de `W`, `R0`, progéniture |
 | `04_seuil_Kj.py` | figure L : d'où vient le biais de `K_j`, et ce que l'EVT ne fait pas |
-| `05_faisabilite_donnees.py` | figure M : **verdict de faisabilité** sur les deux sources réelles |
-| `06_facteur_systemique.py` | figure N : calibration de `Y_j`, `s_j`, `Sigma_Y` (routes A et B) |
+| `05_faisabilite_donnees.py` | figure M : **verdict de faisabilité** sur les deux sources réelles (détail en 2.3) |
+| `06_facteur_systemique.py` | figure N : calibration de `Y_j`, `s_j`, `Sigma_Y` (routes A et B, détail en 2.2) |
 | `synthese_methode_systemique.tex/.pdf` | synthèse : ancienne vs nouvelle méthode (5 p.) |
-| `figures/` | G1, H1, J, K1, K2, K3, L, M, N (PNG) |
+| `figures/` | G1_non_transitivite, H1, J, K1, K2, K3, L, M, N (PNG) |
 
-**Le modèle retenu.** La contagion est **retardée sur incidents**, pas simultanée sur
-latentes. Et `W` est une **matrice de parts**, normalisée comme la matrice technique de
-Leontief :
+`W` est une **matrice de parts**, normalisée comme la matrice technique de Leontief :
 
 ```
 W = g · TRANS / max_j(somme de la ligne j),     g ∈ (0, 1]
@@ -59,7 +62,7 @@ W = g · TRANS / max_j(somme de la ligne j),     g ∈ (0, 1]
 variance de Vasicek (contagion + systémique + idiosyncratique = 1). Alors `rho(W) ≤ g < 1` :
 **la stabilité est garantie, pas supposée**, exactement comme la valeur ajoutée positive
 garantit `rho(A) < 1` chez Leontief. Sans cette normalisation, `rho(TRANS) = 1,461 > 1` et
-`(I-W)^-1` a 21 entrées négatives sur 25 — une erreur de catégorie, pas de calibration.
+`(I-W)^-1` a 21 entrées négatives sur 25 (une erreur de catégorie, pas de calibration).
 
 La forme retardée est un **processus de branchement multitype**, dont l'extinction est
 gouvernée par `R0 = rho(M)`, où `M` est la matrice de génération suivante (des incidents,
@@ -85,13 +88,13 @@ pas des écarts-types latents).
   normalisée.
 - Tests de falsification : la permutation temporelle intra-entité effondre l'asymétrie
   (1,57 → 0,38) ; en temps inversé la corrélation devient −0,70 (le sens s'inverse bien).
-- Sur le seuil : `K_j = F^-1(1 - p_j)` — on inverse **toujours** une répartition. C'est
+- Sur le seuil : `K_j = F^-1(1 - p_j)` (on inverse **toujours** une répartition). C'est
   exactement ce que fait CreditMetrics (Morgan et coll., 1997), dont le seuil de migration
   vaut `L = Phi^-1(fréquence cumulée observée)`. Le biais de `K_j` vaut exactement le taux de
   sous-déclaration à la barre, `E[q(S) | S >= u_j]`, et s'effondre quand la barre monte
   (+0,369 à `u=0,5` ; +0,001 à `u=40`). **La barre DORA est défendable parce qu'elle est
   haute, pas parce qu'elle est réglementaire.** Tension à gérer : trop haut, `p_j → 0` et le
-  seuil diverge — d'où l'écrêtage de la littérature (Engelmann, 2021).
+  seuil diverge (d'où l'écrêtage de la littérature, Engelmann 2021).
 - Résultat négatif assumé : extrapoler le *taux* par EVT depuis un seuil haut vers la barre
   **n'est pas pilotable**. Le biais se décompose en un plancher de déclaration `E[q|S>v]`
   (qui tend vers 1) et une erreur de ratio (qui diverge). Un `v` optimal existe mais n'est
@@ -101,7 +104,7 @@ pas des écarts-types latents).
   imprécise** (IQR 0,62, biais −0,8 %). Avec `ξ = 0,9 > 0,5` la variance de la sévérité est
   infinie, donc le RMSE n'a plus de contenu : lire le biais médian et l'IQR.
 
-## Calibrer le systémique : `Y_j`, `s_j`, `Sigma_Y`
+### 2.2 Calibrer le systémique : `Y_j`, `s_j`, `Sigma_Y`
 
 `06_facteur_systemique.py`. La généralisation A était **posée sans protocole d'estimation**.
 Elle en a désormais deux, validés sur données simulées (`N = 1200`, `T = 70`).
@@ -119,17 +122,17 @@ Elle en a désormais deux, validés sur données simulées (`N = 1200`, `T = 70`
 - Les 5 moments **marginaux** sont indispensables. Sans eux (25 moments seuls), `corr(Y)`
   tombe à 0,835 et `s_j` double : les co-incidences ne portent que sur les ~6 % d'entités
   déjà touchées, et l'estimateur y absorbe le systémique **retardé** (résidu corrélé à +0,36
-  avec `Y[t-1]`). Le fractionnement d'échantillon ne corrigeait rien — le biais était
+  avec `Y[t-1]`). Le fractionnement d'échantillon ne corrigeait rien, le biais était
   structurel, pas aléatoire.
 - **Le verrou est plus étroit qu'annoncé.** `W` exige un panel individuel horodaté au mois
   (introuvable). `Y_j`, `s_j`, `Sigma_Y` s'obtiennent sur des **statistiques agrégées
-  publiques** — exactement ce que publient les registres DORA, l'ENISA et les CERT. La
+  publiques** (exactement ce que publient les registres DORA, l'ENISA et les CERT). La
   généralisation A est calibrable dès aujourd'hui ; seule la généralisation B attend sa donnée.
 - Réserves : tout est établi sur données simulées ; la route B suppose `W` connue ; et
   `Sigma_Y` est le maillon faible (corrélation vrai/estimé de seulement 0,67 sur les dix
-  coefficients hors-diagonale — on retrouve le *niveau* des dépendances, pas leur *structure*).
+  coefficients hors-diagonale, on retrouve le *niveau* des dépendances, pas leur *structure*).
 
-## Faisabilité empirique : `W` n'est calibrable sur aucune source disponible
+### 2.3 Faisabilité empirique : `W` n'est calibrable sur aucune source disponible
 
 `05_faisabilite_donnees.py` reproduit chaque chiffre. Les deux sources échouent pour des
 raisons **opposées**, et c'est cette opposition qui fait la valeur du chapitre.
@@ -153,6 +156,82 @@ raisons **opposées**, et c'est cette opposition qui fait la valeur du chapitre.
   ou à la semaine, et catégoriser par **domaine de contrôle**. Sinon la structure dirigée
   reste inidentifiable, quel que soit le volume collecté.
 
+### 2.4 De l'ordinal à l'euro : SCR en unités normalisées (07-10)
+
+`ossature_scr.tex` (« Ossature du SCR DORA ») pose les conventions de cette partie : de la
+cascade qualitative à une charge de capital (severité, fréquence, agrégation, mesure de
+risque).
+
+| Fichier | Rôle |
+|---|---|
+| `severite_model.py` / `07_severite.py` | brique sévérité : corps lognormal + queue GPD par pilier ; le score GBASE fixe l'échelle, pas le montant ; figure S1_severite |
+| `frequence_model.py` / `08_frequence.py` | brique fréquence : Poisson mélangé par un facteur systémique Y commun (surdispersion + co-occurrence) ; figure S2_frequence |
+| `scr_engine.py` / `09_agregation_scr.py` | assemble fréquence x cascade x sévérité → perte annuelle → SCR (VaR 99,5 %, Solvabilité II art. 101) ; figure S3_agregation |
+| `10_sensibilite_scr.py` | **le livrable** : le SCR n'est pas un nombre mais une surface SCR(g, xi) + tornado ; figure S4_sensibilite |
+
+**Portée.** Unités normalisées (1 unité = perte médiane d'un incident sur le pilier le
+moins grave), pas d'euros absolus à ce stade. Lecture d'honnêteté (10) : `g` (gain de
+propagation) est calibrable **en principe** avec un registre horodaté, `xi` (indice de
+queue) est importé de données externes et non calibrable sur l'entité, la VaR y étant
+hypersensible au-delà de 0,9.
+
+### 2.5 Copules et allocation d'Euler (11)
+
+`11_copules_allocation.py`, figure S5_copules_allocation. Marges fixées par le modèle
+mécaniste, seule la copule qui les relie varie (pas de double comptage avec le facteur
+commun).
+
+- SCR (VaR 99,5 %) par copule, marges identiques : indépendance 5070 (-12,9 % vs
+  gaussienne), gaussienne 5822 (contrôle, ~ mécaniste), mécaniste réel 5606 (-3,7 % vs
+  gaussienne), Student nu=4 6169 (+6,0 %, prime de dépendance de queue). Hiérarchie
+  honnête : la structure de dépendance déplace le SCR dans une bande ~15-20 %, second
+  ordre face à xi (x3).
+- Allocation d'Euler du SCR mécaniste entre piliers (VaR-Euler et TVaR-Euler, sommes
+  exactes) : au quantile réglementaire, le pilier le plus grave (P4) capte 47 % du
+  capital (VaR-Euler) contre 43 % de la perte moyenne, la queue concentre le capital sur
+  le pilier le plus lourd.
+
+### 2.6 SCR en euros par la cascade : le chantier DORA (12-15)
+
+`euro_cascade_model.py` est la source unique du moteur euro-cascade (importé par 12-15) :
+il réutilise tels quels les modules du mémoire (sévérité GPD euro de
+`src.aggregation.lda`, NegBin + multiplicateurs de scénario de `src.frequency.negbin`,
+paramètres OpRisk/PRC de `src.utils.config`) et remplace uniquement l'agrégation par le
+Vasicek dirigé de la cascade (noyau `e_j = g·s_j/max_s`).
+
+| Fichier | Rôle |
+|---|---|
+| `12_scr_euro_cascade.py` | SCR en euros par la cascade, calibré comme le mémoire (OpRisk/PRC) ; figure S6_scr_euro_cascade |
+| `13_delta_dora_cascade.py` | Delta_DORA (conforme vs non conforme) par bootstrap 2 niveaux, graine MC commune ; figure S7_delta_dora_cascade |
+| `14_robustesse_delta_cascade.py` | robustesse du Delta_DORA + IC honnête à partir des exces réels (corrige l'IC trop large de 13) ; figure S8_robustesse_delta |
+| `15_tornado_robustesse_cascade.py` | tornado de robustesse : sensibilité du Delta_DORA aux leviers non calibrés ; figure S9_tornado_robustesse |
+
+Figures S1-S9 : préfixe dédié à ce chapitre (SCR chiffré, 07-15), numéroté sans trou et
+distinct du préfixe G du chapitre 2.1 (G1_non_transitivite, seule figure en G de ce
+chapitre-là).
+
+**Résultats clés.**
+- `g=0` (aucune propagation) retombe dans la bande du mémoire (contrôle : OpRisk 9275 M€
+  vs 9260, PRC 2973 M€ vs 2773). La **prime de propagation** de la cascade (g=0,90) :
+  +63 % (OpRisk), +86 % (PRC) sur une entité 15 000 M€.
+- Delta_DORA bootstrap (entité 15 000 M€, canal fréquence g=0,90) : OpRisk médiane
+  5552 M€ IC90 [1750 ; 42639] (mémoire : 3879 [1497 ; 22249]), PRC médiane 2865 M€ IC90
+  [2436 ; 3558] (mémoire : 2015 [1607 ; 2366]). Même ordre et même structure d'IC que le
+  mémoire, la propagation amplifie l'écart conforme/non conforme (~1,4x).
+  Canal propre à la cascade (propagation contenue par la conformité) : +55 % de
+  Delta_DORA en plus du canal fréquence.
+- IC honnête (14) : bootstrapper `xi` sur les 91 excès réels (au lieu d'une normale non
+  bornée) fait tomber le facteur IC90 de ~24 à 12,5 (comparable au mémoire, 14,9). L'IQR
+  (écart typique) est resserré à un facteur 3,3 ; l'IC90 large est réel, pas un artefact.
+  100 % des tirages donnent Delta_DORA > 0, robuste à `g_nc` dans [0,3 ; 1,0].
+- Tornado (15) : le **seuil POT `u`** domine la sensibilité (fragilité EVT classique, du
+  même ordre que la dominance de `xi` dans le mémoire) ; `lambda_ref` a un effet modéré ;
+  le gain `g` et `phi` ont un effet faible. Toutes les variantes testées restent
+  pluri-milliardaires et positives (min 4056, max 12944 M€).
+- **Verdict robuste** : le niveau du capital n'est pas pinçable (queue lourde, 91 excès),
+  mais le verdict (la non-conformité coûte, pluri-milliard, > 0) l'est sur tous les
+  leviers testés, structurels et statistiques.
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions
@@ -164,14 +243,23 @@ raisons **opposées**, et c'est cette opposition qui fait la valeur du chapitre.
 > `np.repeat`. Avec `repeat`, les effets fixes n'absorbaient **rien** : le systémique `s_j·Y`
 > restait dans l'erreur, dont la variance passe de `1` à `1 + s²`, atténuant tous les
 > coefficients probit du facteur `1/√(1+0,5²) = 0,894`. La pente rapportée valait 0,92 au lieu
-> de 1 — un écart de 8 % vers le bas, **indiscernable d'un estimateur qui fonctionne**. Le bug
+> de 1 (un écart de 8 % vers le bas, **indiscernable d'un estimateur qui fonctionne**). Le bug
 > n'a été démasqué que par la tâche suivante (extraire `Y_j` de ces mêmes effets fixes, qui
 > rendait `corr(Y) = 0,05`). *Un estimateur qui rend le chiffre attendu n'est pas pour autant
 > correct.*
+
+## Portée commune du chantier 2.6
+
+Même calibration euro et mêmes biais que le mémoire (OpRisk grandes entités ; PRC
+sévérité Jacobs plafonnée 40 M€). Le canal propagation (`g_c`) est un choix de
+modélisation non calibré, présenté en sensibilité. Rien n'est lu depuis `data/raw` sauf
+mention contraire (14 relit les 91 excès locaux pour l'IC) ; aucun script de ce chantier
+ne modifie `src/` ni `memoire/`.
 
 ## Compilation des PDF
 
 Documents pdfLaTeX-standard, compilés avec Tectonic :
 `tectonic -X compile <fichier>.tex --outdir <dossier>`. Le binaire vit dans `memoire/tectonic`
 (non versionné). Les scripts Python demandent numpy, scipy, pandas, matplotlib, openpyxl,
-scikit-learn et **statsmodels** (le probit).
+scikit-learn et **statsmodels** (le probit). `ossature_scr.tex` n'a pas encore de PDF compilé
+dans le dépôt.

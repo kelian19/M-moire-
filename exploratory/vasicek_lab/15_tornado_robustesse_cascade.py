@@ -21,7 +21,7 @@ Estimation deterministe (multiplicateurs au centre, graine commune conforme/non-
 PORTEE. Lecture LOCALE de data/raw pour le refit au seuil (jamais poussee). Ne touche ni
 src/ ni memoire/.
 
-Sortie : diagnostics + figure G10_tornado_robustesse.png.
+Sortie : diagnostics + figure S9_tornado_robustesse.png.
 """
 
 import os
@@ -154,6 +154,6 @@ fig.tight_layout()
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G10_tornado_robustesse.png")
+path = os.path.join(outdir, "S9_tornado_robustesse.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

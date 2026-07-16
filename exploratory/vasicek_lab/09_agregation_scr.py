@@ -16,7 +16,7 @@ STRUCTURE (contributions par pilier, part de la queue) et la SENSIBILITE (g, xi,
 detaillee en 10. Le SCR chiffre ici est le point de base de cette surface.
 
 Sortie : diagnostics (SCR, VaR/TVaR, IC bootstrap, decomposition) + figure
-G3_agregation.png.
+S3_agregation.png.
 """
 
 import os
@@ -141,6 +141,6 @@ fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G3_agregation.png")
+path = os.path.join(outdir, "S3_agregation.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

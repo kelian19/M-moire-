@@ -23,7 +23,7 @@ Deux objectifs :
 PORTEE. Lecture LOCALE de data/raw (jamais poussee) pour les exces reels ; ne sort que
 des parametres agreges. Ne touche ni src/ ni memoire/.
 
-Sortie : diagnostics + figure G9_robustesse_delta.png.
+Sortie : diagnostics + figure S8_robustesse_delta.png.
 """
 
 import os
@@ -168,6 +168,6 @@ fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G9_robustesse_delta.png")
+path = os.path.join(outdir, "S8_robustesse_delta.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

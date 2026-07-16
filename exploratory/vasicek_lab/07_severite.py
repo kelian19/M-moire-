@@ -21,7 +21,7 @@ laisse libre : base 0,7 ici, la valeur 0,9 ancree sur SAS OpRisk (cf. 05) est un
 stress, jamais un point de calage. Les euros absolus ne sont pas revendiques.
 
 Sortie : diagnostics (mu_j, u_j, beta_j, medianes, moyennes) + figure
-G1_severite.png (densites par pilier et exemples de cascade).
+S1_severite.png (densites par pilier et exemples de cascade).
 """
 
 import os
@@ -144,6 +144,6 @@ fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G1_severite.png")
+path = os.path.join(outdir, "S1_severite.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

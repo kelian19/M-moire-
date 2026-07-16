@@ -25,7 +25,7 @@ PORTEE. Unites normalisees. Resolution Monte-Carlo reduite par point de grille
 de grandeur, pas le troisieme chiffre significatif de chaque cellule. Aucun point n'est
 tronque en silence : la grille balayee est affichee.
 
-Sortie : diagnostics (surface, tornado) + figure G4_sensibilite.png.
+Sortie : diagnostics (surface, tornado) + figure S4_sensibilite.png.
 """
 
 import os
@@ -169,6 +169,6 @@ fig.text(0.01, 0.01, "(A) ligne pointillee : au-dela de xi = 0,9 la VaR 99,5 % "
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G4_sensibilite.png")
+path = os.path.join(outdir, "S4_sensibilite.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

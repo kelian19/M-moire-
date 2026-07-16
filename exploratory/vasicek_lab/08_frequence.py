@@ -27,7 +27,7 @@ son role dans W) est l'enrichissement de l'agregation (09). Aucune severite ici 
 frequence se traite seule, la jonction avec 07 se fait en 09.
 
 Sortie : diagnostics (E, surdispersion, correlation induite, exact vs Monte-Carlo)
-+ figure G2_frequence.png.
++ figure S2_frequence.png.
 """
 
 import os
@@ -149,6 +149,6 @@ fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "G2_frequence.png")
+path = os.path.join(outdir, "S2_frequence.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)
