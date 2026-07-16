@@ -61,9 +61,8 @@ capital le long de la mise en conformité. C'est le remplacement dynamique de la
 latente statique de l'ancien mémoire.
 \end{cle}
 
-\noindent Ce document accompagne les scripts \texttt{16} (état global), \texttt{16b} (état
-par pilier) et \texttt{17} (Markov et trajectoire) du dossier \texttt{vasicek\_lab}. Il sera
-complété au fil du chantier (script~\texttt{18}, priorisation de la remédiation).
+\noindent Ce document accompagne les scripts \texttt{16} à \texttt{20b} du dossier
+\texttt{vasicek\_lab} (table en fin de document). Il est complété au fil du chantier.
 
 \paragraph{Deux décisions de cadrage (validées).}
 \begin{enumerate}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
@@ -200,10 +199,45 @@ croisée euro~$\leftrightarrow$~ordinal).}
 \noindent Deux enseignements. D'abord, la \textbf{validation croisée} : la hiérarchie des
 piliers obtenue par le chiffrage en euros coïncide avec le classement ROOT posé par jugement
 d'expert dans le modèle qualitatif, deux voies indépendantes qui convergent. Ensuite,
-\textbf{l'interaction} : le Delta total (tous NC contre tous~C, $10\,927$~M\euro) dépasse la
-somme des $\Delta_k$ ($9\,531$~M\euro) de $+1\,395$~M\euro. Le surcoût de la non-conformité
-totale est \emph{super-additif}, précisément parce que la cascade fait interagir les piliers,
-ce qu'un modèle sans propagation ne peut pas capturer.
+\textbf{l'interaction} : le Delta total (tous NC contre tous~C) ne coïncide pas avec la somme
+des $\Delta_k$, précisément parce que la cascade fait interagir les piliers (un pilier non
+conforme amplifie aussi les contagions amorcées ailleurs qui le traversent), ce qu'un modèle
+sans propagation ne peut pas capturer. Sa mesure demande de la prudence (script~\texttt{20b},
+multi-graines) : en VaR $99{,}5\,\%$ OpRisk le signe de l'interaction est dans le bruit de
+Monte-Carlo (de $-1{,}9$ à $+2{,}1$~Md\euro{} selon la graine, $+117$~M\euro{} à haute
+résolution) ; elle est en revanche \emph{super-additive} de façon robuste partout où le bruit
+de queue ne domine pas : en perte moyenne sur les deux périmètres ($+528$~M\euro{} OpRisk,
+$+824$~M\euro{} PRC, environ un cinquième du surcoût moyen) et jusque dans la VaR du périmètre
+PRC plafonné ($+800$~M\euro, stable). Cette non-additivité motive l'allocation principielle du
+surcoût (Shapley) et du niveau (Euler) du~\S\ref{sec:allocation}.
+
+\section{Allocation du capital : Shapley et Euler}
+\label{sec:allocation}
+
+Deux questions d'allocation complètent la décomposition (script~\texttt{20}, figure S15).
+\textbf{Shapley} attribue le \emph{surcoût} : fonction caractéristique
+$v(S) = \mathrm{SCR}(S \text{ en NC, reste C}) - \mathrm{SCR}(\text{tous C})$ sur les $2^5$
+configurations à graine commune, $\varphi_j$ la moyenne des contributions marginales de $j$
+sur tous les ordres d'arrivée. Par efficience $\sum_j \varphi_j = \Delta_{\text{DORA}}$
+exactement : l'interaction que les marginaux laissent de côté est intégralement redistribuée,
+quel que soit son signe. Résultat (OpRisk) : P1 $34\,\%$, P4 $26\,\%$, P2 $17\,\%$,
+P3 $14\,\%$, P5 $10\,\%$ du surcoût total ($10\,927$~M\euro)~; PRC $32/25/19/15/9$.
+Classement $=$ ROOT sur les deux périmètres. Une part de cette convergence est mécanique
+(les amorces sont semées proportionnellement à ROOT, parts $30/27/18/15/9\,\%$)~; le test non
+trivial est la déformation, la part de P1 excédant sa part d'amorce ($34$ contre $30\,\%$),
+effet propre de la propagation.
+
+\textbf{Euler} alloue le \emph{niveau} $\mathrm{SCR}(\text{NC})$ par pilier touché, version
+TVaR exacte : $C_j = \mathbb{E}[L_j \mid L \ge \mathrm{VaR}_{99{,}5\,\%}]$. PRC : parts
+stables et presque plates (P2 $23$, P4 $23$, P1 $20$, P3 $18$, P5 $17\,\%$), capital
+$\approx$ moyenne car le cap tronque la queue (TVaR $6\,795 \approx$ VaR $6\,573$~M\euro).
+OpRisk : parts moyennes stables (P2 $23$, P4 $22$, P1 $20$, P3 $18$, P5 $16\,\%$), mais
+l'allocation de la queue extrême n'y est pas résoluble : avec $\xi \approx 0{,}6 > 0{,}5$ la
+sévérité est de variance infinie, l'estimateur de la TVaR converge en régime de loi stable et
+le classement conditionnel bascule entre résolutions ($150$ et $240$~mille années). Vue
+source contre vue réceptacle : Shapley concentre le surcoût là où naît la non-conformité
+(P1), Euler répartit le capital là où les cascades atterrissent (profil quasi uniforme,
+P2/P4 en tête légère).
 
 \section{Markov et trajectoire du SCR(t)}
 \label{sec:markov}
@@ -384,6 +418,8 @@ Script & Rôle & Figure \\
 \texttt{17}  & Markov (Erlang-2) et trajectoire SCR($t$), couplage systémique $\Theta$ & S12 \\
 \texttt{18}  & Priorisation de la remédiation : ordre optimal $=$ ordre ROOT & S13 \\
 \texttt{19}  & Robustesse : tornado, priorité P1 robuste, invariance aux taux Markov & S14 \\
+\texttt{20}  & Allocation : Shapley du surcoût ($=$ ROOT), Euler du niveau (TVaR) & S15 \\
+\texttt{20b} & Interaction : signe non pinçable en VaR OpRisk, super-additive en moyenne et sur PRC & \textendash{} \\
 \bottomrule
 \end{tabularx}
 \caption{État du chantier multi-états au moment de cette version du document.}

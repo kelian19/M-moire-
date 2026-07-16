@@ -80,7 +80,8 @@ def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI):
     return annual
 
 
-def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, phi=PHI):
+def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, phi=PHI,
+                     by_pillar=False):
     """Perte annuelle par la cascade avec parametres PAR PILIER (script 16b).
 
     Meme moteur que simulate_euro (agregation non reecrite), mais les canaux sont
@@ -89,17 +90,24 @@ def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, p
       - g_vec    : gain de propagation du pilier SOURCE (e_j = g_vec[j]*s_j/max_s) ;
       - p_u_vec  : taux de materialite du pilier TOUCHE (severite per-pilier).
     Quand tous les piliers partagent le meme etat, se reduit exactement a simulate_euro.
+
+    by_pillar=False (defaut) : renvoie la perte annuelle AGREGEE (vecteur n_years),
+    identique au comportement anterieur. by_pillar=True : renvoie la matrice des pertes
+    annuelles VENTILEES par pilier TOUCHE, forme (n_years, len(PIL)), colonne c = pilier
+    PIL[c] ; sa somme sur les colonnes redonne exactement la perte agregee. Cette matrice
+    sert a l'allocation d'Euler (contribution de chaque pilier a la queue, script 20).
     """
+    nP = len(PIL)
     lam = float(sum(lam_vec[j] for j in PIL))
-    annual = np.zeros(n_years)
+    annual_pp = np.zeros((n_years, nP))
     if lam <= 0:
-        return annual
+        return annual_pp if by_pillar else annual_pp.sum(axis=1)
     r = lam / (phi - 1.0)
     p = r / (r + lam)
     counts = rng.negative_binomial(r, p, size=n_years)
     T = int(counts.sum())
     if T == 0:
-        return annual
+        return annual_pp if by_pillar else annual_pp.sum(axis=1)
     year_of_event = np.repeat(np.arange(n_years), counts)
     tables = eng.build_cascade_tables(g_vec)             # g_vec dict -> gains par pilier source
     w = np.array([lam_vec[j] for j in PIL], float)
@@ -121,8 +129,8 @@ def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, p
                 if ind[s][c_p] == 1.0:
                     sev = simulate_remediation_severity(yrs.size, xi, sigma, u,
                                                         p_u_vec[pil], cap, rng)
-                    annual += np.bincount(yrs, weights=sev, minlength=n_years)
-    return annual
+                    annual_pp[:, c_p] += np.bincount(yrs, weights=sev, minlength=n_years)
+    return annual_pp if by_pillar else annual_pp.sum(axis=1)
 
 
 def var(x, alpha=0.995):

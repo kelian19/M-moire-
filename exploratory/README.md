@@ -245,10 +245,13 @@ Deux lectures, comme 13 : lecture A (fréquence seule, g constant, comparable au
 et lecture B (fréquence + propagation, g croît de C à NC). Résultats (entité type,
 graine MC commune entre états) :
 - échelle de SCR monotone C < PC < NC ; l'état intermédiaire PC est le nouvel apport.
-- Delta_DORA NC vs C bootstrap : OpRisk médiane 6230 M€ IC90 [1997 ; 34195], PRC médiane
-  2995 M€ IC90 [2461 ; 3396], 100 % > 0. Même ordre que le mémoire (OpRisk 3879, PRC 2015),
-  amplifié par la propagation de la cascade.
-- Delta_DORA PC vs C : surcoût intermédiaire chiffré (OpRisk médiane 2404 M€, PRC 1082 M€).
+- Delta_DORA bootstrap 2 niveaux **à méthode honnête** : la sévérité de queue OpRisk est
+  ré-échantillonnée sur les 91 excès réels (méthode du 14), non tirée dans une approximation
+  normale ; couvre les lectures A et B. Chiffres de tête (lecture B) : NC vs C OpRisk médiane
+  7401 M€ IC90 [2830 ; 38793], PRC 3668 M€ IC90 [3201 ; 4094] ; PC vs C (chiffré pour la
+  première fois) OpRisk 2556 M€ [963 ; 12768], PRC 1257 M€ [1077 ; 1466]. 100 % des tirages
+  > 0 sur les 4 combinaisons. Même ordre que le mémoire (OpRisk 3879, PRC 2015), amplifié
+  par la propagation de la cascade ; l'IC OpRisk reste large parce que la queue l'est.
 
 `16b_scr_multi_etats_par_pilier.py`, figure S11_decomp_par_pilier. État de conformité
 **par pilier** (chaque pilier dans son propre état), via `simulate_euro_pp` qui indexe les
@@ -258,9 +261,11 @@ pilier source. Deux résultats :
   17012 M€ OpRisk), contrôle du moteur par pilier.
 - décomposition du Delta_DORA : basculer un seul pilier en Non conforme chiffre sa
   contribution. Classement OpRisk P1 (37 %) > P4 (28 %) > P2 (17 %) > P3 (11 %) > P5 (7 %),
-  qui **reproduit le classement ROOT du modèle qualitatif** (validation croisée). Effet
-  d'interaction super-additif (+1395 M€) : les cascades interagissent, le total dépasse la
-  somme des contributions isolées. Prépare la priorisation de remédiation (script 18).
+  qui **reproduit le classement ROOT du modèle qualitatif** (validation croisée). Les
+  contributions isolées ne somment pas au total (terme d'interaction) ; la mesure fiable de
+  cette interaction et l'attribution principielle du surcoût sont l'objet des scripts 20/20b
+  (le signe en VaR OpRisk est dans le bruit MC, la super-additivité est robuste en moyenne
+  et sur PRC). Prépare la priorisation de remédiation (script 18) et l'allocation (20).
 
 ### 2.8 Markov et trajectoire SCR(t) : la dimension temps (17)
 
@@ -308,6 +313,33 @@ cascade : le classement est robuste, le niveau ne l'est pas (queue lourde). Poin
 l'ordre de remédiation optimal ne dépend que des SCR par configuration, donc il est
 invariant aux taux de transition Markov (les moins calibrables) qui ne fixent que le
 calendrier, pas la séquence recommandée.
+
+### 2.11 Allocation du capital : Shapley et Euler en euros (20, 20b)
+
+`20_allocation_shapley_euler.py`, figure S15_allocation_shapley_euler. Deux allocations
+complémentaires sur le SCR_DORA multi-états (lecture C, protocole 16b, ~30 min).
+- **Shapley du surcoût** : v(S) = SCR(S en NC, reste C) − SCR(tous C) sur les 2^5
+  configurations (CRN), phi_j = moyenne des marginaux sur tous les ordres. Par efficience
+  la somme des phi_j égale exactement le Delta total (10 927 M€ OpRisk, 4 957 PRC), là où
+  les marginaux 16b ne somment pas (9 531). Parts OpRisk : P1 34 % > P4 26 % > P2 17 % >
+  P3 14 % > P5 10 % ; classement == ROOT sur les deux périmètres. Anti-circularité : les
+  amorces étant semées ∝ ROOT (30/27/18/15/9 %), le test non trivial est la déformation
+  (P1 34 % > 30 % d'amorce, effet propre de la propagation), pas le classement brut.
+- **Euler du niveau** (TVaR exacte, perte par pilier touché via `simulate_euro_pp(by_pillar)`) :
+  PRC stable et presque plat (P2 23, P4 23, P1 20, P3 18, P5 17 %), capital ≈ moyenne car le
+  cap tronque la queue (TVaR 6 795 ≈ VaR 6 573). OpRisk : parts moyennes stables, mais
+  l'allocation de la queue extrême est non résoluble (xi ≈ 0,6 > 0,5 → variance de sévérité
+  infinie, convergence en loi stable ; le classement conditionnel bascule entre 150k et
+  240k années). Vue source (Shapley, P1) contre vue réceptacle (Euler, quasi uniforme).
+
+`20b_robustesse_interaction.py` (un processus par graine, pas de figure). Tranche le signe
+de l'interaction totale−somme des marginaux, en séparant VaR 99,5 % et perte moyenne sur les
+mêmes simulations. Verdict : en VaR OpRisk le signe est dans le bruit MC (de −1,9 à
++2,1 Md€ selon la graine à 60k ; +117 M€ à 150k) ; la super-additivité est robuste en
+perte moyenne (≈ +550 M€ OpRisk, +824 PRC, un cinquième du surcoût moyen, toutes graines)
+et jusque dans la VaR du PRC plafonné (+800 M€ stable). Mécanisme : un pilier NC amplifie
+aussi les cascades amorcées ailleurs qui le traversent. Conséquence : l'encadré du chapitre
+résultats est formulé sur la moyenne et le PRC, pas sur la VaR OpRisk.
 
 ## Deux pièges rencontrés, et gardés en mémoire
 

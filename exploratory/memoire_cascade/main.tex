@@ -52,7 +52,7 @@
 
 \title{\vspace{-1cm}\color{navy}\bfseries Quantification du SCR lié à la non-conformité au règlement DORA\\[6pt]
   \large Une cascade dirigée entre les cinq piliers, dont l'état de conformité pilote le capital}
-\author{Kélian Kaddouri \\ \small ENSAE --- Nexialog Consulting \\ \small Tuteurs : Hugo Rapior, Caroline Hillairet}
+\author{Kélian Kaddouri \\ \small ENSAE / Nexialog Consulting \\ \small Tuteurs : Hugo Rapior, Caroline Hillairet}
 \date{\today}
 
 \begin{document}
@@ -80,8 +80,9 @@ d'où une \textbf{trajectoire de SCR} et non un chiffre unique. Les deux couches
 par un même facteur systémique, sur le modèle d'une migration de rating de crédit assortie
 d'un modèle de défaut conditionnel.
 
-On en tire le surcoût de non-conformité $\Delta_{\text{DORA}}$ en euros, sa décomposition par
-pilier, et l'ordre de remédiation qui minimise le capital porté. Résultat saillant :
+On en tire le surcoût de non-conformité $\Delta_{\text{DORA}}$ en euros, sa décomposition et
+son attribution par pilier (valeur de Shapley pour le surcoût, règle d'Euler pour le niveau),
+et l'ordre de remédiation qui minimise le capital porté. Résultat saillant :
 \textbf{l'ordre de remédiation optimal coïncide avec le classement d'importance des piliers
 obtenu indépendamment par jugement d'expert}, et il est invariant aux paramètres non
 calibrables. Comme pour la queue de sévérité, le classement est robuste là où le niveau ne
@@ -99,8 +100,9 @@ stability is guaranteed rather than assumed. The capital charge is made to depen
 \textbf{compliance state}, modelled at two time scales: a multi-state Vasicek layer sets each
 pillar's compliance state and drives the cascade, while a Markov layer advances remediation
 over time, yielding a \textbf{capital trajectory}. The resulting non-compliance surcharge is
-decomposed by pillar, and the capital-optimal remediation order is shown to coincide with the
-expert importance ranking and to be invariant to the non-calibratable parameters.}
+decomposed and attributed by pillar (Shapley value for the surcharge, Euler rule for the
+level), and the capital-optimal remediation order is shown to coincide with the expert
+importance ranking and to be invariant to the non-calibratable parameters.}
 
 % =====================================================================
 \tableofcontents
@@ -125,7 +127,8 @@ Trois apports articulés : (i)~une \textbf{cascade dirigée} qui porte la dépen
 inter-piliers par un mécanisme structurel (partie~\ref{chap:cascade})~; (ii)~une
 \textbf{conformité multi-états} qui fait dépendre le capital de l'état de conformité, par
 pilier et dans le temps (partie~\ref{chap:multietats})~; (iii)~une lecture décisionnelle : le
-surcoût $\Delta_{\text{DORA}}$, sa décomposition et l'\textbf{ordre de remédiation optimal}
+surcoût $\Delta_{\text{DORA}}$, sa décomposition, son allocation aux piliers (Shapley pour le
+surcoût, Euler pour le niveau) et l'\textbf{ordre de remédiation optimal}
 (partie~\ref{chap:resultats}).
 
 % =====================================================================
@@ -603,7 +606,7 @@ Le surcoût intermédiaire (PC vs C) est chiffré pour la première fois. Source
 \end{table}
 
 \noindent \textbf{Lecture actuarielle.} L'intervalle très large côté OpRisk n'est pas un défaut
-du modèle : c'est la signature d'une queue d'indice $0{,}9$, où le niveau du capital est
+du modèle : c'est la signature d'une queue d'indice $0{,}60$, où le niveau du capital est
 intrinsèquement imprécis. L'écart typique (interquartile) est bien plus resserré que
 l'intervalle à $90\,\%$, et le \emph{signe} du surcoût, lui, est certain. On retrouve la thèse du
 mémoire : le SCR est une distribution, pas un point.
@@ -623,12 +626,118 @@ Source : script~\texttt{16b}.}
 \end{figure}
 
 \begin{cle}
-\textbf{Une interaction super-additive.} Le surcoût de la non-conformité \emph{totale}
-($10\,927$~M\euro, OpRisk) dépasse la somme des surcoûts isolés ($9\,531$~M\euro) de
-$+1\,395$~M\euro. Cette super-additivité est la signature propre de la cascade : les
-non-conformités de plusieurs piliers ne s'ajoutent pas, elles \emph{interagissent} par la
-propagation, ce qu'un modèle sans contagion (le LDA à copule du mémoire) ne peut pas capturer.
+\textbf{Une interaction super-additive, établie là où l'estimateur est fiable.} Les surcoûts
+isolés ne somment pas au surcoût total : il reste un terme d'\emph{interaction}, signature de la
+cascade (un pilier non conforme amplifie aussi les contagions amorcées ailleurs qui le
+traversent), qu'un modèle sans propagation (le LDA à copule du mémoire) ne peut pas produire.
+Sa mesure exige toutefois de la prudence : une interaction est une différence de différences,
+l'estimateur Monte-Carlo le plus fragile qui soit en queue lourde. Sur la VaR à $99{,}5\,\%$
+OpRisk, son signe n'est pas résolu (de $-1{,}9$ à $+2{,}1$~Md\euro{} selon la graine à
+résolution égale~; $+117$~M\euro{} à haute résolution). La super-additivité est en revanche
+robuste partout où le bruit de queue ne domine pas : en \emph{perte moyenne} sur les deux
+périmètres ($+528$~M\euro{} OpRisk, $+824$~M\euro{} PRC, soit environ un cinquième du surcoût
+moyen, stable sur toutes les graines), et jusque dans la VaR du périmètre PRC, dont le plafond
+de sévérité tronque la queue ($+800$~M\euro, stable). Conséquence pratique : puisque les
+marginaux ne somment pas au total, l'attribution du surcoût aux piliers exige une règle
+principielle qui somme exactement : c'est l'objet de la valeur de Shapley
+(section~\ref{sec:allocation}). Sources : scripts~\texttt{16b}, \texttt{20b}.
 \end{cle}
+
+\section{Allocation du capital : Shapley et Euler}
+\label{sec:allocation}
+
+La décomposition qui précède pose deux questions d'allocation distinctes. \emph{Qui porte le
+surcoût~?} appelle une attribution par pilier \emph{source} de la non-conformité, qui doit
+composer avec l'interaction (les marginaux ne somment pas au total). \emph{Où loge le
+capital~?} appelle une allocation du niveau $\mathrm{SCR}(\text{NC})$ par pilier
+\emph{touché}, cohérente au sens où les parts somment au total. La valeur de Shapley répond
+à la première, la règle d'Euler à la seconde (script~\texttt{20},
+figure~\ref{fig:allocation}).
+
+\subsection{Shapley : attribuer le surcoût, interaction comprise}
+
+On munit les piliers d'une fonction caractéristique
+\[
+v(S) \;=\; \mathrm{SCR}\bigl(S \text{ en NC},\ \text{reste C}\bigr)-\mathrm{SCR}(\text{tous C}),
+\qquad S \subseteq \{P1,\dots,P5\},
+\]
+calculée par la cascade sur les $2^5$ configurations à graine Monte-Carlo commune. Le
+marginal de la section précédente est $v(\{k\})$~; la valeur de Shapley
+\[
+\varphi_j \;=\; \sum_{S \subseteq \{P1,\dots,P5\}\setminus\{j\}}
+\frac{|S|!\,\bigl(5-|S|-1\bigr)!}{5!}\,\bigl[v(S\cup\{j\})-v(S)\bigr]
+\]
+moyenne la contribution de $j$ sur tous les ordres d'arrivée. Par efficience,
+$\sum_j \varphi_j = v(\text{tous}) = \Delta_{\text{DORA}}$ \emph{exactement} : la règle
+redistribue l'interaction que les marginaux isolés laissent de côté, quel que soit son signe.
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l rrr c rrr@{}}
+\toprule
+& \multicolumn{3}{c}{OpRisk} & & \multicolumn{3}{c}{PRC} \\
+\cmidrule{2-4}\cmidrule{6-8}
+pilier & marginal & $\varphi_j$ & part & & marginal & $\varphi_j$ & part \\
+\midrule
+P1 gouvernance & 3481 & 3717 & 34\,\% & & 1375 & 1608 & 32\,\% \\
+P4 tiers       & 2658 & 2810 & 26\,\% & & 1075 & 1252 & 25\,\% \\
+P2 incidents   & 1634 & 1867 & 17\,\% & &  721 &  920 & 19\,\% \\
+P3 tests       & 1094 & 1484 & 14\,\% & &  571 &  738 & 15\,\% \\
+P5 partage     &  665 & 1048 & 10\,\% & &  311 &  438 &  9\,\% \\
+\midrule
+somme          & 9531 & 10\,927 & 100\,\% & & 4052 & 4957 & 100\,\% \\
+\bottomrule
+\end{tabular}
+\caption{Valeur de Shapley du surcoût $\Delta_{\text{DORA}}$ (M\euro, NC vs C, trois canaux,
+protocole du script~\texttt{16b}). Les marginaux somment à $9\,531$ (OpRisk), la valeur de
+Shapley à $10\,927$, le surcoût total exactement. Cellules arrondies au million et parts au
+point de pourcentage~; les sommes sont calculées avant arrondi. Source : script~\texttt{20}.}
+\label{tab:shapley}
+\end{table}
+
+Le classement de Shapley reproduit le classement ROOT sur les deux périmètres. Une part de
+cette convergence est mécanique, et il faut le dire : les amorces de la cascade sont semées
+proportionnellement à ROOT (parts $30/27/18/15/9\,\%$), et le canal fréquence d'un pilier
+module sa propre part d'amorce. Le test non trivial est la \emph{déformation} : la part de
+Shapley de P1 ($34\,\%$) excède sa part d'amorce ($30\,\%$), effet propre de la propagation
+(P1 est l'émetteur le plus fort de $W$), et l'interaction redistribuée ($+1\,395$~M\euro{}
+OpRisk, $+905$ PRC à cette graine) est intégralement un produit de la cascade, absent d'un
+modèle additif.
+
+\subsection{Euler : allouer le niveau, et une limite d'estimation assumée}
+
+La règle d'Euler alloue $\mathrm{SCR}(\text{NC})$ par
+$C_j = \mathbb{E}\bigl[L_j \mid L \ge \mathrm{VaR}_{99{,}5\,\%}\bigr]$ (version TVaR, exacte
+par construction), où $L_j$ est la perte du pilier \emph{touché} $j$ dans la cascade. Côté
+PRC, l'allocation est stable et presque plate : P2 $23\,\%$, P4 $23\,\%$, P1 $20\,\%$,
+P3 $18\,\%$, P5 $17\,\%$, et les parts de capital coïncident avec les parts de perte moyenne
+parce que le plafond de sévérité tronque la queue
+($\mathrm{TVaR} = 6\,795 \approx \mathrm{VaR} = 6\,573$~M\euro). Côté OpRisk, les parts
+\emph{moyennes} sont stables (P2 $23\,\%$, P4 $22\,\%$, P1 $20\,\%$, P3 $18\,\%$,
+P5 $16\,\%$), mais l'allocation de la queue extrême ne l'est pas, et ce n'est pas un défaut
+de calcul : avec $\xi \approx 0{,}6 > 0{,}5$, la sévérité est de variance infinie,
+l'estimateur Monte-Carlo de la TVaR converge en régime de loi stable, et le classement
+conditionnel bascule d'une résolution à l'autre (vérifié à $150$ et $240$~mille années
+simulées). On rapporte donc l'allocation de queue du périmètre PRC, régularisée par le cap,
+et l'on tient celle d'OpRisk pour indicative. Contrôle de cohérence EVT au passage :
+$\mathrm{TVaR}/\mathrm{VaR} \approx 2{,}1$, à comparer à l'asymptote $1/(1-\xi) = 2{,}5$.
+
+\begin{cle}
+\textbf{Sources et réceptacles.} Les deux allocations ne racontent pas la même chose, et
+c'est le résultat : Shapley, vue \emph{source}, concentre le surcoût sur P1 ($34\,\%$), là
+où naît la non-conformité~; Euler, vue \emph{réceptacle}, répartit le capital presque
+uniformément sur les piliers touchés (P2 et P4 en tête légère). La remédiation se décide
+côté source~; le capital, lui, se loge là où les cascades atterrissent.
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{S15_allocation_shapley_euler.png}
+\caption{Allocation du capital DORA (OpRisk). (A)~Shapley contre marginaux : l'interaction
+redistribuée. (B)~Euler : parts de capital (queue) contre parts de perte moyenne~; sur ce
+périmètre non plafonné, l'allocation fine de la queue extrême reste indicative
+($\xi \approx 0{,}6$, variance de sévérité infinie). Source : script~\texttt{20}.}
+\label{fig:allocation}
+\end{figure}
 
 \section{Trajectoire du capital}
 \label{sec:res-traj}
