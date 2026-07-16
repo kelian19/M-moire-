@@ -161,7 +161,7 @@ produit de probabilités conditionnelles. Exemple, incident entré en P1 :
 \mathbb P(\text{propagation P1}\to\text{P2}) &= e_1\,\tfrac{\text{TRANS}[\text{P1}][\text{P2}]}{s_1} = 0{,}90\times\tfrac{0{,}80}{2{,}60} = 0{,}277 .
 \end{align}
 La \textbf{sévérité} de l'incident se déduit des piliers atteints, via GBASE
-(P1$=6$, P2$=4$, P3$=3$, P4$=7$, P5$=1$) : \og{}P1 seule\fg{} coûte $6$ ; si la cascade atteint
+($\text{P1}=6$, $\text{P2}=4$, $\text{P3}=3$, $\text{P4}=7$, $\text{P5}=1$) : \og{}P1 seule\fg{} coûte $6$ ; si la cascade atteint
 aussi P2, le coût devient $6+4=10$. La loi conditionnelle des sévérités est donc
 \emph{entièrement déterminée} par les probabilités conditionnelles de propagation.
 
@@ -218,7 +218,8 @@ se lit dans le dénominateur, qui ne parcourt que les permutations de $S$) :
 \end{equation}
 
 \noindent\textbf{Exemple chiffré, $S=\{\text{P1},\text{P2},\text{P3}\}$.} Avec
-$\text{ROOT}=\{1{,}0\,;0{,}6\,;0{,}5\}$ pour (P1, P2, P3) et la matrice TRANS du modèle :
+$\text{ROOT}=\{1{,}0\,;0{,}6\,;0{,}5\}$ pour (P1, P2, P3), le reste du système (P4, P5)
+portant le total des amorces à $\sum_k\text{ROOT}[k]=3{,}3$, et la matrice TRANS du modèle :
 
 \begin{table}[h]\centering\small
 \renewcommand{\arraystretch}{1.3}
@@ -263,7 +264,7 @@ $j_1,\dots,j_m$, puis s'éteint sans atteindre de pilier extérieur à $S$\fg{}.
 avec $\pi(j_1)=\text{ROOT}[j_1]/\sum_k\text{ROOT}[k]$ la loi d'amorce ($\sum_k\text{ROOT}[k]=3{,}3$), la
 propagation $\mathbb P(j'\mid j)$ de la section~3, et
 \[
-t(j_m\mid S)\;=\;1 - e_{j_m}\,\frac{\sum_{j'\notin S}\text{TRANS}[j_m][j']}{s_{j_m}}
+t(j_m\mid S)\;=\;1 - e_{j_m}\,\frac{\sum_{j'\notin S}\text{TRANS}[j_m][j']}{s_{j_m}}\;.
 \]
 la probabilité de s'éteindre au dernier pilier \emph{sans sortir de $S$}. Elle dépend de
 l'ensemble : sortir vers un pilier hors de $S$ l'agrandirait, revenir sur un pilier déjà touché
@@ -316,7 +317,7 @@ transitions observées, la probabilité conditionnelle s'estime \emph{de la mêm
 comptage normalisé, l'estimateur classique des transitions d'une chaîne de
 Markov~\cite{AndersonGoodman1957} :
 \[
-\widehat{\mathbb P}(j' \mid j) \;=\; \frac{N_{j,j'}}{\sum_{k} N_{j,k}} .
+\widehat{\mathbb P}(j' \mid j) \;=\; \frac{N_{j,j'}}{N_{j,\cdot}}\;,\qquad N_{j,\cdot} = \sum_{k} N_{j,k}\;.
 \]
 La structure du modèle ne change pas ; seules les entrées deviennent empiriques.
 
