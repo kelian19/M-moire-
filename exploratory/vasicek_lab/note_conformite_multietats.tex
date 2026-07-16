@@ -320,6 +320,34 @@ la même hiérarchie côté amorce ($P1>P4>P2>P3>P5$) ; l'allocation d'Euler du 
 complémentaire et non contradictoire. Trois chemins indépendants qui se recoupent sur les
 piliers de tête.
 
+\section{Robustesse et triangulation}
+\label{sec:robustesse}
+
+On teste si les verdicts survivent à la perturbation des leviers non calibrés
+(script~\texttt{19}), en écho à l'analyse de sensibilité globale du modèle qualitatif.
+
+\paragraph{Tornado du Delta\_DORA.} Base $8\,322$~M\euro. En faisant varier un levier à la
+fois : l'indice de queue $\xi$ domine (de $3\,810$ à $24\,474$~M\euro, facteur $6{,}4$), comme
+dans le mémoire ; la fréquence, les gains $g_{\text{NC}},g_{\text{C}}$ et le canal détection
+n'ont qu'un effet modéré. \textbf{Le Delta\_DORA reste positif sur tous les réglages} : la
+non-conformité coûte, quel que soit le calage.
+
+\paragraph{Robustesse de la priorité.} Sur tous les réglages testés, \textbf{P1 reste le
+pilier à remédier en premier}, et P4 le deuxième. L'ordre fin des piliers de faible impact
+(P2, P3, P5, valeurs d'accélération proches) se réordonne dans le bruit Monte-Carlo, ce qui
+justifie de fonder la recommandation sur l'énumération à graine commune (\S\ref{sec:priorisation})
+plutôt que sur la valeur d'accélération myope.
+
+\begin{cle}
+\textbf{Verdict, et invariance.} Comme tout le chantier cascade : \textbf{le classement est
+robuste, le niveau ne l'est pas} (queue lourde). Point analytique fort : l'ordre de
+remédiation optimal ne dépend que des SCR par configuration, donc il est \textbf{invariant aux
+taux de transition de la chaîne de Markov}, qui sont pourtant les paramètres les moins
+calibrables. Ces taux fixent le \emph{calendrier} de la trajectoire, jamais la \emph{séquence}
+de remédiation recommandée. La recommandation actionnable ne repose donc sur aucun paramètre
+non mesurable.
+\end{cle}
+
 \begin{portee}
 \textbf{Portée et limites (à énoncer devant le jury).}
 \begin{itemize}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
@@ -351,6 +379,7 @@ Script & Rôle & Figure \\
 \texttt{16b} & État par pilier : décomposition du Delta\_DORA, validation croisée ROOT & S11 \\
 \texttt{17}  & Markov (Erlang-2) et trajectoire SCR($t$), couplage systémique $\Theta$ & S12 \\
 \texttt{18}  & Priorisation de la remédiation : ordre optimal $=$ ordre ROOT & S13 \\
+\texttt{19}  & Robustesse : tornado, priorité P1 robuste, invariance aux taux Markov & S14 \\
 \bottomrule
 \end{tabularx}
 \caption{État du chantier multi-états au moment de cette version du document.}

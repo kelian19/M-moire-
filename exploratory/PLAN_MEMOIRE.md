@@ -71,8 +71,12 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
   systémique Theta, bande d'incertitude, S12). Delta_DORA(t) résiduel -> 0.
 - Fait : ÉTAPE 3, script 18 (priorisation de remédiation, S13). Ordre optimal par énumération
   des 120 ordres = ordre ROOT (P1>P4>P2>P3>P5), différent du glouton. Écart pire/optimal 21 %.
-- Note LaTeX note_conformite_multietats.tex/.pdf : synthèse du chantier 16-18, compilée
+- Fait : ÉTAPE 5, script 19 (robustesse multi-états, S14). Tornado : xi domine (facteur 6,4),
+  Delta > 0 partout, priorité P1 robuste sur tous les leviers ; ordre optimal invariant aux
+  taux Markov. Classement robuste, niveau non (thèse du chantier cascade).
+- Note LaTeX note_conformite_multietats.tex/.pdf : synthèse du chantier 16-19, compilée
   (Tectonic installé en local, memoire/tectonic.exe non versionné).
+- Reste : ÉTAPE 4 (rédaction du main.tex cascade) ; décision canal détection avec Hugo.
 
 ---
 

@@ -297,6 +297,18 @@ Deux résultats forts :
 La cohérence est confirmée avec la décomposition Delta_k (16b) et l'allocation d'Euler (11,
 qui remonte P4 en tête côté sévérité, vue complémentaire).
 
+### 2.10 Robustesse du chantier multi-états (19)
+
+`19_robustesse_multietats.py`, figure S14_robustesse_multietats. Teste si les verdicts
+survivent à la perturbation des leviers non calibrés, en écho à la sensibilité globale du
+modèle qualitatif. Tornado du Delta_DORA (base 8322 M€) : xi domine (3810 à 24474 M€,
+facteur 6,4, comme le mémoire), les autres leviers sont modérés, et le Delta reste > 0
+partout. La priorité P1 tient sur tous les réglages. Verdict, identique à celui du chantier
+cascade : le classement est robuste, le niveau ne l'est pas (queue lourde). Point analytique :
+l'ordre de remédiation optimal ne dépend que des SCR par configuration, donc il est
+invariant aux taux de transition Markov (les moins calibrables) qui ne fixent que le
+calendrier, pas la séquence recommandée.
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions
