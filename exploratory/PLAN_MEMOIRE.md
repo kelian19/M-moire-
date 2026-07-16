@@ -83,8 +83,11 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
     Leontief -> branchement/R0 -> seuil K_j -> faisabilité), figures H1, K3.
   - Chapitre conformité multi-états : ÉTOFFÉ (deux échelles fast-slow, latente à seuils ordonnés,
     3 canaux, état par pilier, Markov Erlang, couplage Theta, analogie migration de rating).
-  - Reste à étoffer : chapitre résultats (déjà avec les 5 figures + chiffres clés, à développer).
-  - Reste à migrer : intro, état de l'art, réglementaire, données, socle mécaniste, annexes EVT.
+  - Chapitre résultats : ÉTOFFÉ (SCR par état en 3 lectures avec tableaux, delta bootstrap,
+    décomposition, trajectoire, priorisation, robustesse, lectures actuarielles ; les deux
+    lectures avec/sans détection présentées pour ne pas bloquer sur la décision Hugo).
+  - Les 3 chapitres NEUFS sont étoffés. Reste à migrer : intro, état de l'art, réglementaire,
+    données, socle mécaniste, mise en regard réglementaire (Formule Standard/ORSA), annexes EVT.
 - Reste : finir ÉTAPE 4 (migration + étoffage) ; décision canal détection avec Hugo.
 
 ---

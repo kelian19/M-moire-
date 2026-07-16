@@ -528,67 +528,193 @@ sont au chapitre~\ref{chap:resultats}.}
 \chapter{Résultats}
 \label{chap:resultats}
 
-\section{SCR par état et surcoût de non-conformité}
-Le SCR croît de l'état conforme au non conforme (figure~\ref{fig:multietats}). Le surcoût
-$\Delta_{\text{DORA}}=\mathrm{SCR}(\text{NC})-\mathrm{SCR}(\text{C})$, à graine Monte-Carlo
-commune, ressort du même ordre que celui du mémoire, amplifié par la propagation : OpRisk
-médiane $\sim 6\,230$~M\euro, PRC $\sim 2\,995$~M\euro, $100\,\%$ des tirages positifs.
+Tous les résultats sont ancrés, comme dans l'ancien mémoire, sur une entité type de
+$15\,000$~M\euro{} de provisions, avec deux périmètres de sévérité : \textbf{OpRisk} (grandes
+pertes opérationnelles, queue lourde) et \textbf{PRC} (sévérité plafonnée à $40$~M\euro). Sauf
+mention contraire, on lit la médiane et l'intervalle interquartile, la variance de la sévérité
+étant infinie ($\xi\approx0{,}9$).
 
-\begin{figure}[h]\centering
-\includegraphics[width=0.92\linewidth]{S10_scr_multi_etats.png}
+\section{SCR par état de conformité}
+
+Le SCR croît de façon monotone de l'état conforme à l'état non conforme
+(figure~\ref{fig:multietats}). Le tableau~\ref{tab:scretat} donne les trois lectures emboîtées :
+la lecture~A (fréquence seule) est directement comparable au mémoire ; la lecture~B ajoute la
+propagation de la cascade ; la lecture~C ajoute le canal détection.
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l ccc c ccc@{}}
+\toprule
+& \multicolumn{3}{c}{\textbf{OpRisk} (M\euro)} & & \multicolumn{3}{c}{\textbf{PRC} (M\euro)} \\
+\cmidrule(lr){2-4}\cmidrule(lr){6-8}
+État & A & B & C & & A & B & C \\
+\midrule
+Conforme               & 8301  & 6664  & 5932  & & 2589 & 1903 & 1642 \\
+Partiellement conforme & 11059 & 9625  & 9625  & & 3653 & 3118 & 3118 \\
+Non conforme           & 15074 & 15074 & 16595 & & 5520 & 5520 & 6577 \\
+\bottomrule
+\end{tabular}
+\caption{SCR par état, trois lectures (A~: fréquence ; B~: $+$~propagation ; C~:
+$+$~détection). Source : script~\texttt{16}. Le canal détection ne joue qu'aux extrêmes (il
+abaisse l'état conforme et relève le non conforme), l'état partiel n'étant pas modulé.}
+\label{tab:scretat}
+\end{table}
+
+\begin{cle}
+\textbf{Deux lectures à trancher pour le chiffre de tête.} Le canal détection porte le SCR non
+conforme (OpRisk) de $15\,074$ (lecture~B) à $16\,595$~M\euro{} (lecture~C), soit $+10\,\%$. Ce
+canal se compose avec la fréquence et pourrait sur-estimer l'effet ; il est présenté ici
+\emph{séparément} et exclu des trajectoires du \S\ref{sec:res-traj} et de la priorisation du
+\S\ref{sec:res-prio}, tant que son ampleur n'est pas validée. Le reste des résultats est
+présenté en lecture~B (fréquence $+$ propagation), la plus prudente sur le chiffre de tête.
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.9\linewidth]{S10_scr_multi_etats.png}
 \caption{SCR par état de conformité (trois canaux emboîtés) et bascule des états en crise
 systémique. Source : script~\texttt{16}.}
 \label{fig:multietats}
 \end{figure}
 
-\section{Décomposition par pilier}
-En basculant un pilier à la fois, le surcoût se décompose (figure~\ref{fig:decomp}). Le
-classement $P1>P4>P2>P3>P5$ \textbf{reproduit le classement ROOT} du modèle qualitatif, et
-l'interaction est super-additive : le tout dépasse la somme des parts, signature de la cascade.
+Le \textbf{surcoût de non-conformité} $\Delta_{\text{DORA}}=\mathrm{SCR}(\text{NC})-\mathrm{SCR}(\text{C})$,
+à graine Monte-Carlo commune (l'écart ne vient que du changement d'état, non du bruit),
+s'obtient par bootstrap deux niveaux (multiplicateurs $+$ sévérité). Il ressort du même ordre
+que celui du mémoire, amplifié par la propagation, et \textbf{$100\,\%$ des tirages sont
+positifs}.
 
-\begin{figure}[h]\centering
-\includegraphics[width=0.92\linewidth]{S11_decomp_par_pilier.png}
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l cc c c@{}}
+\toprule
+& médiane & IC90\,\% & & mémoire (réf.) \\
+\midrule
+$\Delta_{\text{DORA}}$ NC vs C (OpRisk) & 6230 & $[1997\,;34195]$ & & 3879 \\
+$\Delta_{\text{DORA}}$ PC vs C (OpRisk) & 2404 & $[696\,;15288]$  & & --- \\
+$\Delta_{\text{DORA}}$ NC vs C (PRC)    & 2995 & $[2461\,;3396]$  & & 2015 \\
+$\Delta_{\text{DORA}}$ PC vs C (PRC)    & 1082 & $[819\,;1368]$   & & --- \\
+\bottomrule
+\end{tabular}
+\caption{Surcoût de non-conformité en euros (M\euro), bootstrap. Le surcoût intermédiaire
+(PC vs C) est chiffré pour la première fois. Source : script~\texttt{16}.}
+\label{tab:delta}
+\end{table}
+
+\noindent \textbf{Lecture actuarielle.} L'intervalle très large côté OpRisk n'est pas un défaut
+du modèle : c'est la signature d'une queue d'indice $0{,}9$, où le niveau du capital est
+intrinsèquement imprécis. L'écart typique (interquartile) est bien plus resserré que
+l'intervalle à $90\,\%$, et le \emph{signe} du surcoût, lui, est certain. On retrouve la thèse du
+mémoire : le SCR est une distribution, pas un point.
+
+\section{Décomposition par pilier}
+
+En basculant un pilier à la fois de conforme à non conforme, le surcoût se décompose
+(figure~\ref{fig:decomp}). Le classement obtenu, $P1>P4>P2>P3>P5$, \textbf{reproduit exactement
+le classement ROOT} du modèle qualitatif, établi indépendamment par jugement d'expert : deux
+voies de construction distinctes convergent sur la même hiérarchie de piliers.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.9\linewidth]{S11_decomp_par_pilier.png}
 \caption{Décomposition du $\Delta_{\text{DORA}}$ par pilier et validation croisée avec ROOT.
 Source : script~\texttt{16b}.}
 \label{fig:decomp}
 \end{figure}
 
-\section{Trajectoire du capital}
-Le long de la mise en conformité, le capital décroît vers le SCR conforme et le surcoût
-résiduel $\Delta_{\text{DORA}}(t)$ tend vers zéro (figure~\ref{fig:traj}). La bande
-d'incertitude, issue du facteur systémique, reste haute en environnement dégradé.
+\begin{cle}
+\textbf{Une interaction super-additive.} Le surcoût de la non-conformité \emph{totale}
+($10\,927$~M\euro, OpRisk) dépasse la somme des surcoûts isolés ($9\,531$~M\euro) de
+$+1\,395$~M\euro. Cette super-additivité est la signature propre de la cascade : les
+non-conformités de plusieurs piliers ne s'ajoutent pas, elles \emph{interagissent} par la
+propagation, ce qu'un modèle sans contagion (le LDA à copule du mémoire) ne peut pas capturer.
+\end{cle}
 
-\begin{figure}[h]\centering
-\includegraphics[width=0.92\linewidth]{S12_trajectoire_scr.png}
-\caption{Trajectoire SCR($t$) et évolution des états. Source : script~\texttt{17}.}
+\section{Trajectoire du capital}
+\label{sec:res-traj}
+
+Le long de la mise en conformité, le capital décroît de l'état initial vers le SCR conforme, et
+le surcoût résiduel $\Delta_{\text{DORA}}(t)$ tend vers zéro (tableau~\ref{tab:traj},
+figure~\ref{fig:traj}). Partant de l'état marginal actuel (NC~$35\,\%$, PC~$35\,\%$, C~$30\,\%$),
+le capital OpRisk passe de $\sim 10\,750$ à $\sim 7\,040$~M\euro{} sur cinq ans, vers le SCR
+conforme ($\sim 6\,925$).
+
+\begin{table}[htbp]\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}c ccc@{}}
+\toprule
+$t$ (ans) & SCR($t$) médiane & bande 90\,\% & $\Delta_{\text{DORA}}(t)$ \\
+\midrule
+0 & 10752 & $[9092\,;12654]$ & 3827 \\
+1 & 9576  & $[7205\,;12040]$ & 2652 \\
+2 & 8310  & $[6194\,;11042]$ & 1385 \\
+3 & 7575  & $[5924\,;10164]$ & 650 \\
+5 & 7041  & $[5857\,;9028]$  & 116 \\
+\bottomrule
+\end{tabular}
+\caption{Trajectoire du capital DORA (M\euro, OpRisk). Source : script~\texttt{17}.}
+\label{tab:traj}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.9\linewidth]{S12_trajectoire_scr.png}
+\caption{Trajectoire SCR($t$) et évolution des états de conformité. Source : script~\texttt{17}.}
 \label{fig:traj}
 \end{figure}
 
-\section{Priorisation de la remédiation}
-Sous budget contraint, l'énumération des ordres de remédiation donne l'ordre optimal
-$P1\to P4\to P2\to P3\to P5$, \textbf{égal à l'ordre ROOT} et distinct de l'ordre glouton :
-les interactions imposent un raisonnement sur l'horizon (figure~\ref{fig:prio}).
+\noindent \textbf{Lecture actuarielle.} L'intégrale de la trajectoire, à un coût de capital
+près, est le \emph{coût de portage} de la non-conformité pendant la remédiation. La bande reste
+large et surtout haute en environnement dégradé : la vraie exposition n'est pas le capital
+médian, c'est le risque que la remédiation traîne quand la menace monte, précisément le scénario
+où le capital importe le plus.
 
-\begin{figure}[h]\centering
-\includegraphics[width=0.92\linewidth]{S13_priorisation.png}
-\caption{Valeur d'accélération et ordre de remédiation optimal. Source : script~\texttt{18}.}
+\section{Priorisation de la remédiation}
+\label{sec:res-prio}
+
+Sous budget contraint (un pilier remédié à la fois), l'énumération des $120$ ordres donne
+l'ordre optimal $P1\to P4\to P2\to P3\to P5$, \textbf{égal à l'ordre ROOT} et distinct de l'ordre
+glouton par valeur d'accélération (figure~\ref{fig:prio}). L'écart de capital intégré entre le
+pire ordre et l'optimal atteint $21\,\%$.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.9\linewidth]{S13_priorisation.png}
+\caption{Valeur d'accélération par pilier et ordre de remédiation optimal. Source :
+script~\texttt{18}.}
 \label{fig:prio}
 \end{figure}
 
-\section{Robustesse}
-Le niveau du capital bouge (l'indice de queue $\xi$ domine, facteur $\sim 6$), mais la
-direction ($\Delta_{\text{DORA}}>0$) et la priorité (P1 en tête) tiennent sur tous les leviers
-(figure~\ref{fig:robust}). L'ordre optimal est \textbf{invariant aux taux de transition Markov},
-les moins calibrables : la recommandation ne dépend d'aucun paramètre non mesurable.
+\begin{cle}
+\textbf{Le myope n'est pas l'optimal.} Remédier au coup par coup le pilier au plus fort gain
+immédiat (l'ordre glouton) coûte plus cher que l'ordre optimal, parce que les interactions de
+cascade imposent de raisonner sur l'horizon entier. Que l'optimum coïncide avec le classement
+ROOT, obtenu par une voie qualitative indépendante, est la troisième convergence
+euro~$\leftrightarrow$~ordinal du mémoire, après la stabilité de la progéniture
+(\S\ref{sec:branch}) et la décomposition par pilier.
+\end{cle}
 
-\begin{figure}[h]\centering
-\includegraphics[width=0.92\linewidth]{S14_robustesse_multietats.png}
+\section{Robustesse}
+
+Le niveau du capital bouge fortement selon les leviers non calibrés (l'indice de queue $\xi$
+domine, facteur $\sim 6$), mais la \textbf{direction} ($\Delta_{\text{DORA}}>0$) et la
+\textbf{priorité} (P1 en tête) tiennent sur tous les réglages testés (figure~\ref{fig:robust}).
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.9\linewidth]{S14_robustesse_multietats.png}
 \caption{Robustesse : le classement tient, le niveau non. Source : script~\texttt{19}.}
 \label{fig:robust}
 \end{figure}
 
-\areprendre{Ajouter les résultats agnostiques réutilisables de l'ancien mémoire : comparaison à
-la Formule Standard, implications ORSA, réassurance de dernier recours (ancien notebook~17).}
+\begin{cle}
+\textbf{La recommandation ne dépend d'aucun paramètre non mesurable.} L'ordre de remédiation
+optimal ne dépend que des SCR par configuration, donc il est \textbf{invariant aux taux de
+transition de la chaîne de Markov}, pourtant les paramètres les moins calibrables. Ces taux
+fixent le calendrier de la trajectoire, jamais la séquence recommandée. Le verdict d'ensemble
+rejoint celui de toute la démarche : le classement est robuste là où le niveau ne l'est pas.
+\end{cle}
+
+\section{Mise en regard réglementaire}
+
+\areprendre{Reprendre de l'ancien mémoire les résultats agnostiques qui restent valables :
+comparaison à la Formule Standard de Solvabilité~II (aveugle à la résilience), implications pour
+l'ORSA et le pilotage, et l'assurabilité de dernier recours / réassurance (ancien notebook~17).
+Ces sections se raccordent directement au $\Delta_{\text{DORA}}$ de la cascade.}
 
 % =====================================================================
 \chapter{Conclusion}
