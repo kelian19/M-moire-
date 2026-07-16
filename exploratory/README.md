@@ -262,6 +262,25 @@ pilier source. Deux résultats :
   d'interaction super-additif (+1395 M€) : les cascades interagissent, le total dépasse la
   somme des contributions isolées. Prépare la priorisation de remédiation (script 18).
 
+### 2.8 Markov et trajectoire SCR(t) : la dimension temps (17)
+
+`17_markov_trajectoire_scr.py`, figure S12_trajectoire_scr. Empile une dynamique
+markovienne sur le moteur du 16 (fast-slow) : une chaîne de Markov NC -> PC -> C (C
+absorbant, séjours de type phase Erlang-2 pour une durée de projet réaliste, non
+exponentielle) fait progresser l'état de conformité ; à chaque horizon t, la distribution
+des états agrège les 3 SCR du 16 en SCR(t). Les taux de transition ne se calibrent pas
+(DORA appliqué depuis 2025), ils sont ancrés sur des durées de projet types (~1,5 an par
+transition) et présentés en sensibilité.
+
+Le couplage se fait par le **même** facteur systémique Theta : un environnement dégradé
+ralentit la remédiation (taux mu(Theta)) et durcit la cascade (SCR par état), ce qui
+restaure la corrélation entre conformité et sinistralité et engendre la bande
+d'incertitude. Résultat (OpRisk, départ marginale NC 35 / PC 35 / C 30) : SCR(t) décroît
+de 10752 M€ (t=0) vers le SCR conforme 6925 M€, et le Delta_DORA(t) (surcoût résiduel de
+non-conformité) tombe de 3827 à 116 M€ sur 5 ans. Bande 90 % large et persistante en haut :
+dans un environnement dégradé, la remédiation traîne et le capital reste élevé plus
+longtemps.
+
 ## Deux pièges rencontrés, et gardés en mémoire
 
 > **Le test du « temps inversé » est dégénéré** sur un comptage brut de transitions

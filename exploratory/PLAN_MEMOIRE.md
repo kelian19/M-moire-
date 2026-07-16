@@ -67,6 +67,9 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
 - Fait : script 16 (Vasicek multi-états global, latente à seuils ordonnés + 3 canaux, S10).
 - Fait : script 16b (état par pilier, décomposition du Delta_DORA, S11). La décomposition
   euro reproduit le classement ROOT du modèle qualitatif (P1>P4>P2>P3>P5).
+- Fait : ÉTAPE 2, script 17 (Markov NC->PC->C Erlang-2 + trajectoire SCR(t), couplage
+  systémique Theta, bande d'incertitude, S12). Delta_DORA(t) résiduel -> 0. Reste script 18
+  (priorisation de remédiation).
 
 ---
 
