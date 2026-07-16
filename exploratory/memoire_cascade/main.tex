@@ -39,6 +39,8 @@
   arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
 \newtcolorbox{migration}[1][]{colback=accent!7,colframe=accent!70,boxrule=0.5pt,
   arc=2pt,left=8pt,right=8pt,top=5pt,bottom=5pt,before skip=8pt,after skip=8pt,#1}
+\newtcolorbox{attention}[1][]{colback=accent!8,colframe=accent,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,before skip=9pt,after skip=9pt,#1}
 
 % Encadre de MIGRATION : marque le contenu agnostique a reprendre de l'ancien memoire.
 \newcommand{\areprendre}[1]{\begin{migration}\footnotesize\textbf{[À migrer]}~#1\end{migration}}
@@ -174,38 +176,218 @@ un facteur commun) alimentent l'agrégation, qui est le seul élément remplacé
 \label{chap:cascade}
 
 \begin{cle}
-\textbf{Idée.} La dépendance entre piliers n'est pas ajoutée après coup par une copule : elle
-est \emph{produite} par la propagation d'un incident le long d'une matrice d'influence dirigée.
-La cascade est la vue structurelle (bottom-up) de la dépendance, en regard de la vue copule
-(top-down) de l'ancien mémoire.
+\textbf{Idée directrice.} La dépendance entre les cinq piliers n'est pas ajoutée après coup par
+une copule : elle est \emph{produite} par la propagation d'un incident le long d'une matrice
+d'influence dirigée. La cascade est ainsi la vue \textbf{structurelle} (bottom-up) de la
+dépendance, en regard de la vue \textbf{copule} (top-down) de l'ancien mémoire. Le fil du
+chapitre part du Vasicek à un facteur, l'ouvre en deux temps (systémique par pilier, puis
+propagation dirigée), et remplace le seuil de défaut du crédit par un seuil ancré sur la barre
+de matérialité du règlement.
 \end{cle}
 
-\section{Du modèle qualitatif au noyau de propagation}
-Trois barèmes d'expert ordonnés (ROOT, TRANS asymétrique, GBASE) établissent qualitativement
-que l'ordre d'une cascade pilote sa probabilité et sa gravité. La matrice TRANS, normalisée
-ligne à ligne, devient le noyau de transition d'une chaîne de Markov sur les piliers :
+\section{Le point de départ : le Vasicek à un facteur, et pourquoi il ne suffit pas}
+
+Le modèle structurel de Merton-Vasicek associe à chaque entité une variable latente. On retient
+la convention où $X$ mesure le \textbf{stress} et non la santé (un $X$ élevé est une mauvaise
+nouvelle), de sorte qu'une contagion positive encode bien une contamination :
 \begin{equation}
-\mathbb P(j'\mid j) = \frac{\text{TRANS}[j][j']}{s_j}, \qquad s_j=\sum_{j'}\text{TRANS}[j][j'].
+X_i \;=\; \sqrt{\rho}\;Y \;+\; \sqrt{1-\rho}\;\varepsilon_i, \qquad \mathrm{Var}(X_i)=1,
 \end{equation}
-Un état d'arrêt (propension $e_j=g\,s_j/\max_k s_k$) garantit une cascade finie, exactement la
-condition d'extinction d'un processus de branchement.
+où $Y\sim\mathcal N(0,1)$ est le facteur systémique commun, $\varepsilon_i\sim\mathcal N(0,1)$ le
+choc idiosyncratique, et $\rho\in[0,1]$ la part du systémique, commune à toutes les entités.
+L'incident survient lorsque le stress franchit un seuil, $D_i=\mathbf 1\{X_i\ge K_i\}$, avec dans
+le modèle classique $K_i=\Phi^{-1}(1-\mathrm{PD}_i)$.
 
-\areprendre{Développer à partir de \texttt{cascade\_qualitative/fiche\_pedagogique} (construction
-des scores, sensibilité : seule l'asymétrie TRANS porte le résultat) et de
-\texttt{cascade\_qualitative/draft\_probas\_conditionnelles} (probabilités conditionnelles,
-état d'arrêt, probabilité de l'ordre).}
+\begin{attention}
+\textbf{Deux hypothèses de ce modèle sont fausses pour le cyber sous DORA.} D'abord, la
+dépendance y est \textbf{symétrique} (un seul $Y$, un seul $\rho$) : le modèle ne peut pas dire
+« P1 entraîne P2 plus que l'inverse », alors que nos données d'expert sont dirigées à
+\textbf{81\,\%}. Ensuite, le seuil $\Phi^{-1}(\mathrm{PD})$ suppose une PD stable, mesurable et
+une valeur de firme sous-jacente, dont rien n'existe en cyber. Les deux généralisations qui
+suivent lèvent ces deux limites.
+\end{attention}
 
-\section{Le Vasicek dirigé}
-La contagion est portée par une matrice de parts $W = g\cdot\text{TRANS}/\max_j(\sum_{j'}\text{TRANS}[j][j'])$,
-normalisée comme la matrice technique de Leontief, d'où $\rho(W)\le g<1$ : \textbf{la stabilité
-est garantie, pas supposée}. La forme retardée est un processus de branchement multitype
-d'extinction gouvernée par $R_0=\rho(M)$. La progéniture reproduit exactement le classement
-ROOT (Spearman $=1{,}00$), rendant ROOT redondant.
+\section{Généralisation A : la structure systémique dépend du pilier}
 
-\areprendre{Développer à partir de \texttt{vasicek\_lab/note\_vasicek\_dirige} : preuve de
-stabilité, estimateur probit, tests de falsification (permutation temporelle, temps inversé),
-calibration du facteur systémique (routes A et B). Reprendre aussi \texttt{ossature\_scr} pour
-les conventions de passage à l'euro.}
+On indexe désormais par entité~$i$ et pilier~$j\in\{1,\dots,5\}$, et l'on remplace le facteur
+unique par \textbf{un facteur systémique par pilier} $Y_j$ et une sensibilité propre
+$\rho_{ij}$ :
+\begin{equation}
+X_{ij} \;=\; \sqrt{\rho_{ij}}\;Y_j \;+\; \sqrt{1-\rho_{ij}}\;\varepsilon_{ij}.
+\end{equation}
+Chaque pilier a sa « météo systémique » propre (l'état de la menace sur la chaîne
+d'approvisionnement pour P4, l'état réglementaire pour P1), et les $Y_j$ sont corrélés entre eux
+par une matrice $\Sigma_Y$ : c'est là que vivent proprement les dépendances croisées, au niveau
+systémique. Sur des données cyber rares, on ne calibre pas un $\rho_{ij}$ par entité (environ
+$5N$ paramètres, non identifiable) : on retient le compromis hiérarchique
+$\rho_{ij}=\rho_j+u_{ij}$, où la sensibilité de chaque entité gravite autour de la moyenne de
+son pilier $\rho_j$ (pooling partiel).
+
+\begin{cle}
+\textbf{Cette partie A n'est pas neuve, et il faut le dire.} Le Merton-Vasicek multifacteur à
+matrice de corrélation générale est celui de Li~(2000), employé tel quel dans les modèles de
+stress-test (Pineau et Zuñiga, 2023). La contribution propre ne commence qu'en partie~B, avec
+la contagion \textbf{dirigée}. Le revendiquer clairement évite de se voir opposer une
+littérature qu'on aurait ignorée.
+\end{cle}
+
+\section{Généralisation B : la propagation dirigée}
+
+Pour encoder l'asymétrie, on ajoute un terme de réseau dirigé : le stress de $j$ subit celui des
+autres piliers de la même entité, pondéré par une matrice \textbf{asymétrique} $W$ :
+\begin{equation}
+X_{ij} \;=\; \underbrace{\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion dirigée}}
+   \;+\; \sqrt{\rho_{ij}}\,Y_j \;+\; \sqrt{1-\rho_{ij}}\,\varepsilon_{ij},
+\end{equation}
+d'où, en forme matricielle sur les cinq piliers, la forme réduite
+$\mathbf X_i=(I-W)^{-1}(\text{systémique}+\text{idio})$, \emph{sous réserve} que $\rho(W)<1$. Si
+$W=0$ on retombe sur la partie~A, et avec un seul facteur sur le Vasicek standard :
+l'emboîtement est propre.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.96\linewidth]{H1_reseau_W.png}
+\caption{Structure dirigée de $W$ sur les cinq piliers (P1 émet fort et reçoit peu) et
+propagation d'un choc sur un sous-réseau. Source : \texttt{build\_network\_figure}.}
+\end{figure}
+
+\section{La normalisation de Leontief : une stabilité garantie}
+
+\begin{attention}
+\textbf{Brancher la matrice d'expert TRANS telle quelle est une erreur de catégorie.}
+$(I-W)^{-1}$ ne représente une cascade que si la série $I+W+W^2+\cdots$ converge, soit
+$\rho(W)<1$. Or $\rho(\mathrm{TRANS})=1{,}461>1$, et $(I-\mathrm{TRANS})^{-1}$ contient
+\textbf{21 entrées négatives sur 25} : un choc positif produirait un stress négatif ailleurs.
+TRANS n'a jamais été une matrice de parts.
+\end{attention}
+
+La discipline vient du modèle entrées-sorties de Leontief, dont l'inverse
+$B=(I-A)^{-1}=\sum_{k\ge0}A^k$ n'explose jamais parce que $A$ est une matrice de \textbf{parts} :
+les colonnes somment à moins de un, la différence étant la valeur ajoutée, strictement positive.
+On applique la même règle en lisant la ligne $j$ de $W$ comme les parts du stress de $j$
+provenant des autres piliers :
+\begin{equation}
+\label{eq:norm}
+\boxed{\;W \;=\; g \cdot \frac{\mathrm{TRANS}}{\max_j \sum_k \mathrm{TRANS}_{jk}}\;,
+\qquad g \in (0,\,1]\;}
+\end{equation}
+où $g$ est la part de contagion du pilier le plus exposé. La contrainte $g\le1$ n'est pas ad
+hoc : $W$ est positive et chaque ligne somme à au plus $g$, donc par Perron-Frobenius (le strict
+analogue de la valeur ajoutée positive de Leontief)
+\begin{equation}
+\rho(W)\;\le\;\max_j\sum_k W_{jk}\;\le\;g\;<\;1,
+\end{equation}
+et $(I-W)^{-1}$ existe. \textbf{La stabilité est donc garantie par la normalisation}, sur tout
+le domaine admissible, et non supposée. Numériquement, $\rho(W)=0{,}635\,g$. On divise par un
+scalaire et non ligne à ligne, ce qui préserve l'hétérogénéité de ce que \emph{reçoit} chaque
+pilier (P1 reçoit trois fois moins que P2) : la revendication « P1 émet fort et reçoit peu »
+survit à la normalisation.
+
+\section{La cascade est un processus de branchement}
+\label{sec:branch}
+
+Le modèle simultané sur latentes n'est pas celui que les données pourraient identifier. On lui
+substitue une contagion \textbf{retardée sur incidents}, qui est un \textbf{processus de
+branchement multitype} : un incident sur le pilier~$k$ engendre, à la période suivante, un
+nombre aléatoire d'incidents sur les autres piliers. Toute la théorie de l'extinction des
+épidémies s'applique, et l'objet central n'est plus $W$ mais la \textbf{matrice de génération
+suivante} $M$, qui compte des incidents et non des écarts-types latents :
+\begin{equation}
+M_{jk}\;=\;\Phi(\text{base}_j+W_{jk})-\Phi(\text{base}_j).
+\end{equation}
+
+\begin{cle}
+\textbf{Deux rayons spectraux, à ne pas confondre.} $\rho(W)$ gouverne le système latent
+simultané (il doit être $<1$ pour que $(I-W)^{-1}$ existe) ; $R_0=\rho(M)$ gouverne la cascade
+d'incidents, qui s'éteint si et seulement si $R_0<1$ (le $R_0$ des épidémiologistes). Avec une
+incidence de fond de $4{,}5\,\%$ et $g=0{,}9$, on obtient $\rho(W)=0{,}572$ et
+$R_0=\mathbf{0{,}062}$ : les deux lectures sont stables, mais pas du même ordre.
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.96\linewidth]{K3_branchement_R0.png}
+\caption{(a) Sur le domaine admissible $g\le1$, les deux rayons spectraux restent $<1$ ; les
+seuils critiques ($\rho(W)=1$ à $g=1{,}57$ ; $R_0=1$ à $g=7{,}2$) sont hors domaine. (b) La
+progéniture $(I-M)^{-1}$ reproduit exactement le classement ROOT du jugement d'expert.
+Source : \texttt{03\_calibration\_W}.}
+\end{figure}
+
+Deux résultats en découlent. D'une part, la forme simultanée est \textbf{structurellement
+alarmiste} : même normalisée, elle approche son seuil critique cinq fois plus vite que la
+cascade réelle ($g^\star=1{,}57$ contre $7{,}2$). Une lecture naïve de TRANS crierait à
+l'emballement systémique dans un régime où la contagion s'éteint tranquillement. D'autre part,
+la progéniture $(I-M)^{-1}$ se lit comme le nombre de descendants d'un incident initial : le
+calcul donne $0{,}127$ (P1), $0{,}080$ (P4), $0{,}068$ (P2), $0{,}063$ (P3), $0{,}030$ (P5), un
+classement \textbf{identique} à celui du barème ROOT (Spearman $=1{,}00$), et ce pour toute
+valeur de $g$.
+
+\begin{attention}
+\textbf{Ce que cela prouve, et ce que cela ne prouve pas.} ROOT et TRANS ont été élicités par le
+même expert ; retrouver ROOT à partir de TRANS n'est pas une validation externe mais un test de
+\textbf{cohérence interne} du jugement, réussi. Sa portée réelle est une \textbf{réduction de
+paramètres} : ROOT se déduit de TRANS au lieu d'être posé, soit cinq paramètres d'expert en
+moins.
+\end{attention}
+
+\section{Le seuil $K_j$ : ce qui remplace $\Phi^{-1}(\mathrm{PD})$}
+
+Il faut distinguer deux seuils vivant dans deux espaces : $u_j$, le seuil de \textbf{matérialité}
+(DORA art.~18), dans l'espace des sévérités observables (euros, clients, heures) ; et $K_j$, le
+seuil sur la variable \textbf{latente}, sans unité. On ne peut pas prendre l'un pour l'autre : on
+\textbf{apparie leurs probabilités}, en choisissant $K_j$ pour que l'événement latent
+$\{X_{ij}\ge K_j\}$ ait la même probabilité que l'incident majeur observable
+$\{S_{ij}\ge u_j\}$ :
+\begin{equation}
+\label{eq:Kj}
+\boxed{\;K_j\;=\;F^{-1}(1-p_j), \qquad p_j=\mathbb P(S_{ij}\ge u_j).\;}
+\end{equation}
+
+\begin{cle}
+\textbf{La littérature fait déjà exactement cela.} Dans la représentation CreditMetrics des
+matrices de transition (Morgan et coll., 1997), le seuil de migration vaut
+$L=\Phi^{-1}(\text{fréquence cumulée observée})$ : on inverse \emph{toujours} une répartition. Ce
+qu'on reproche à $\Phi^{-1}(\mathrm{PD})$ n'est pas l'inversion, ce sont ses deux entrées : une
+fréquence non mesurable (remplacée par $p_j$, définie par le règlement, donc stable et
+comparable entre entités) et une queue gaussienne trop fine (remplacée par une loi $F$ à queue
+lourde). La probabilité de dépassement devient alors une \textbf{sortie} du modèle,
+conditionnelle à l'état systémique.
+\end{cle}
+
+\noindent Le biais sur $K_j$ ne vient pas de la méthode d'estimation de la queue mais de la
+\textbf{sous-déclaration} : en notant $q(s)$ la probabilité qu'un incident de sévérité $s$ soit
+déclaré, on a l'identité exacte $\hat p_j^{\text{naïf}}/p_j=\mathbb E[q(S)\mid S\ge u_j]<1$. On
+sous-estime $p_j$, donc on sur-estime $K_j$, donc on sous-provisionne, et ce biais s'effondre
+quand la barre monte dans la queue ($+0{,}369$ à $u=0{,}5$ ; $+0{,}001$ à $u=40$). \textbf{La
+barre DORA est défendable parce qu'elle est haute}, pas parce qu'elle est réglementaire, et
+c'est une propriété vérifiable : il suffit d'estimer $q(u_j)$. Le rôle de l'EVT n'est pas de
+débiaiser cette fréquence (extrapoler le taux depuis un seuil haut n'est pas pilotable), mais de
+modéliser la \textbf{sévérité} au-dessus de la barre, donc le capital ($-0{,}8\,\%$ de biais
+contre $-63{,}9\,\%$ pour la lognormale).
+
+\section{Calibration et faisabilité}
+\label{sec:calib-cascade}
+
+L'asymétrie de $W$ ne s'identifie que par l'information \textbf{temporelle} (qui déclenche avant
+qui) : le modèle de calibration est dynamique, et l'estimateur est \textbf{littéralement un
+probit} (le modèle générateur a un bruit gaussien et un seuil), non un logit qui gonflerait les
+magnitudes d'un facteur $2{,}1$. Sur données simulées, le probit retrouve $W$ dans ses unités
+(corrélation $0{,}92$, pente $1{,}08$), et deux tests de falsification (placebo par permutation
+temporelle, temps inversé) confirment que l'on capte de la direction et non de la co-occurrence.
+
+\begin{attention}
+\textbf{Le verdict de faisabilité, et pourquoi c'est un résultat.} La matrice $W$ n'est
+calibrable sur \textbf{aucune} source ouverte : la chronologie des brèches manque de volume et
+de taxonomie, et le pas annuel de SAS OpRisk lessive la direction (l'asymétrie réelle tombe sous
+le placebo par permutation). Ce qui \emph{est} mesurable est la queue de sévérité
+$\xi\approx0{,}9$. Loin d'être une impasse, c'est un \textbf{résultat de conception} : il
+spécifie exactement ce qu'un registre DORA devra horodater (survenance au mois) et catégoriser
+(par domaine de contrôle) pour rendre la contagion mesurable. La structure dirigée reste donc un
+axe de sensibilité, la sévérité est calibrée.
+\end{attention}
+
+\areprendre{Détails complets dans \texttt{vasicek\_lab/note\_vasicek\_dirige} (banc d'essai
+$\Phi^{-1}$ contre EVT, calibration du facteur systémique par routes A et B, diagnostics de
+puissance) et \texttt{ossature\_scr} (conventions de passage à l'euro). Le présent chapitre en
+donne la substance ; on pourra y puiser figures et tableaux additionnels.}
 
 % =====================================================================
 \chapter{La conformité multi-états}

@@ -76,10 +76,13 @@ EVT/GPD, fréquence NegBin, cadre réglementaire, revue de littérature).
   taux Markov. Classement robuste, niveau non (thèse du chantier cascade).
 - Note LaTeX note_conformite_multietats.tex/.pdf : synthèse du chantier 16-19, compilée
   (Tectonic installé en local, memoire/tectonic.exe non versionné).
-- En cours : ÉTAPE 4, ossature du nouveau mémoire cascade dans exploratory/memoire_cascade/main.tex
-  (compile, figures intégrées). Parties neuves (abstract, contribution, cascade, multi-états,
-  résultats) rédigées ; parties agnostiques en sections-relais avec marqueurs [À migrer] depuis
-  l'ancien memoire/main.tex (non touché). À étoffer chapitre par chapitre.
+- En cours : ÉTAPE 4, nouveau mémoire cascade dans exploratory/memoire_cascade/main.tex
+  (compile, figures intégrées). Parties agnostiques en sections-relais [À migrer] depuis
+  l'ancien memoire/main.tex (non touché).
+  - Chapitre cascade dirigée : ÉTOFFÉ au niveau rédactionnel (Vasicek 1 facteur -> gén. A -> gén. B
+    -> normalisation Leontief -> branchement/R0 -> seuil K_j -> faisabilité), figures H1, K3.
+  - Reste à étoffer : chapitre conformité multi-états, chapitre résultats (déjà avec figures).
+  - Reste à migrer : intro, état de l'art, réglementaire, données, socle mécaniste, annexes EVT.
 - Reste : finir ÉTAPE 4 (migration + étoffage) ; décision canal détection avec Hugo.
 
 ---
