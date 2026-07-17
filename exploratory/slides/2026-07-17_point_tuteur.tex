@@ -56,6 +56,43 @@ risque probabilité $\times$ gravité, appliquée à chaque cascade ordonnée.
 \end{frame}
 
 % =====================================================================
+\begin{frame}{Du jugement aux catégories : les formules du barème}
+\small
+\textbf{Probabilité} $p$ /10 (produit des liens le long du chemin, borné à $[1,10]$) :
+\[
+p(a_1\!\to\!\cdots\!\to\!a_n) = \Big[\,10\cdot\texttt{ROOT}(a_1)\,
+\textstyle\prod_{k} \texttt{TRANS}(a_k)(a_{k+1})\,\Big]
+\]
+\textbf{Gravité} $g$ /10 (étendue des dégâts, amplifiée par la cohérence du chemin) :
+\[
+\text{étendue} = \max_k \texttt{GBASE} + \kappa \!\sum_{\text{autres}}\! \texttt{GBASE},
+\qquad
+g = \Big[\,\text{étendue}\cdot\big(\alpha + \beta\,\overline{\texttt{TRANS}}_{\text{chemin}}\big)\Big]
+\]
+avec $\kappa = 0{,}40$, $\alpha = 0{,}50$, $\beta = 0{,}80$ (constantes de forme, non ancrées).
+\medskip
+
+\textbf{Criticité} : $c = \big[\sqrt{p \cdot g}\,\big]$ (le RPN de l'AMDEC ramené sur /10,
+la racine ne change pas le classement), puis \textbf{paliers} $2/4/6/8$ :
+$\le\!2$ Faible, $\le\!4$ Modérée, $\le\!6$ Élevée, $\le\!8$ Majeure, au-delà Extrême.
+\medskip
+
+\textbf{Les deux cadres orange de F1, recalculés :}
+\begin{center}
+\begin{tabular}{@{}l c c c c@{}}
+\toprule
+ & $p$ & $g$ & $\sqrt{p\cdot g}$ & criticité \\
+\midrule
+$1\!\to\!2$ & $[10 \times 1{,}00 \times 0{,}80] = 8$ & $[7{,}6 \times 1{,}14] = 9$ & $8{,}5$ & \textbf{Majeure} \\
+$2\!\to\!1$ & $[10 \times 0{,}60 \times 0{,}20] = 1$ & $[7{,}6 \times 0{,}66] = 5$ & $2{,}2$ & \textbf{Faible} \\
+\bottomrule
+\end{tabular}
+\end{center}
+Le sens inverse est doublement puni : lien faible $\Rightarrow$ probabilité écrasée
+\emph{et} amplification amortie (même étendue $7{,}6$).
+\end{frame}
+
+% =====================================================================
 \begin{frame}{La probabilité conceptuelle se construit lien par lien}
 \begin{center}
 \includegraphics[width=\linewidth]{F12_arbre_recursif.png}
