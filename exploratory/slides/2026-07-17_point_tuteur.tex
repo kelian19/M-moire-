@@ -7,6 +7,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{booktabs}
+\graphicspath{{../cascade_qualitative/figures/}}
 \setbeamertemplate{navigation symbols}{}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
@@ -55,19 +56,30 @@ risque probabilité $\times$ gravité, appliquée à chaque cascade ordonnée.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Fait 1 : ce que le classeur montre}
-\begin{itemize}
-\item Toutes les combinaisons \textbf{ordonnées} de 2 à 5 piliers, chacune avec sa
-      probabilité, sa gravité et sa criticité conceptuelles.
-\item \textbf{L'ordre pilote le verdict} : le même ensemble de piliers pris dans le sens
-      causal est un emballement (criticité élevée), pris à l'envers ce sont des
-      défaillances quasi indépendantes (criticité faible).
-      Exemple : $1\!\to\!2$ ressort \textbf{Majeure}, $2\!\to\!1$ ressort \textbf{Faible}.
-\item Le pilier gouvernance domine comme racine des cascades les plus critiques ;
-      une hiérarchie stable des piliers s'en dégage.
-\end{itemize}
-\vfill
-Sortie en catégories uniquement ; les scores numériques ne servent qu'à trier.
+\begin{frame}{La probabilité conceptuelle se construit lien par lien}
+\begin{center}
+\includegraphics[width=\linewidth]{F12_arbre_recursif.png}
+\end{center}
+Chaque feuille est un ordre ; sa probabilité est le produit \texttt{ROOT} de la racine
+$\times$ les transitions \texttt{TRANS} le long du chemin.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{L'ordre renverse le verdict}
+\begin{center}
+\includegraphics[height=0.72\textheight]{F1_asymetrie_ordre.png}
+\end{center}
+Mêmes piliers, sens opposés : $1\!\to\!2$ ressort \textbf{Majeure},
+$2\!\to\!1$ ressort \textbf{Faible}. Une corrélation serait symétrique.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Ce que le classeur montre : les scénarios les plus critiques}
+\begin{center}
+\includegraphics[height=0.72\textheight]{F4_top_cascades.png}
+\end{center}
+En tête : des cascades qui partent de l'amont (gouvernance, tiers) vers l'aval ;
+jamais l'inverse. Sortie en catégories, les scores ne servent qu'à trier.
 \end{frame}
 
 % =====================================================================
