@@ -1,16 +1,16 @@
 % Point d'avancement tuteur, 17 juillet 2026. Compile avec Tectonic (pdfLaTeX standard).
+% Perimetre : le classeur des cascades et la refonte du Vasicek uniquement.
 \documentclass[11pt]{beamer}
 \usetheme{Madrid}
 \usecolortheme{seahorse}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
-\usepackage{eurosym}
 \usepackage{booktabs}
-\graphicspath{{../cascade_qualitative/figures/}{../vasicek_lab/figures/}}
 \setbeamertemplate{navigation symbols}{}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
+\subtitle{Cascades entre piliers et refonte du Vasicek}
 \author{Kélian Kaddouri}
 \institute{ENSAE / Nexialog Consulting}
 \date{17 juillet 2026}
@@ -25,48 +25,49 @@
 \begin{frame}{Ce qu'on s'était dit la dernière fois}
 \begin{enumerate}
 \item \textbf{Le fichier Excel des cascades} entre piliers DORA :
-      toutes les combinaisons ordonnées, avec une lecture qualitative
-      (probabilité, gravité, criticité).
+      toutes les combinaisons ordonnées, avec une lecture qualitative.
 \item \textbf{La refonte du Vasicek} : porter la dépendance entre piliers par un
       mécanisme dirigé (une propagation), au lieu d'une corrélation posée a posteriori.
 \end{enumerate}
 \vfill
-Les deux sont faits ; le second a ouvert une suite (aperçu en fin de présentation).
+Les deux sont faits.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Fait 1 : le classeur des cascades, la logique}
-\textbf{Le principe : l'ordre pilote le verdict.}
+\begin{frame}{Fait 1 : le classeur des cascades, les briques conceptuelles}
+\textbf{Une probabilité conceptuelle} (échelle : Très rare $\to$ Très probable).
 \begin{itemize}
-\item Une cascade qui suit une direction causale plausible (gouvernance $\to$
-      conséquences) est un vrai emballement : plus \emph{probable} et plus \emph{grave}.
-\item Le même ensemble de piliers pris à l'envers : défaillances quasi indépendantes,
-      non composées. Exemple : $1\!\to\!2$ criticité \textbf{Majeure},
-      $2\!\to\!1$ criticité \textbf{Faible}.
+\item Propension du pilier d'amorce à démarrer une cascade (\texttt{ROOT}),
+      puis force de chaque maillon \og $i$ entraîne $j$ \fg{} le long du chemin
+      (\texttt{TRANS}, asymétrique).
+\item Plus la chaîne est causalement plausible (amont $\to$ aval), plus elle est probable.
 \end{itemize}
 \medskip
-\textbf{Trois jugements de base, tout le reste en découle :}
+\textbf{Une gravité conceptuelle} (échelle : Négligeable $\to$ Critique).
 \begin{itemize}
-\item \texttt{ROOT}$(i)$ : propension du pilier $i$ à amorcer une cascade ;
-\item \texttt{TRANS}$(i)(j)$ : force de \og $i$ entraîne $j$ \fg{} (asymétrique) ;
-\item \texttt{GBASE}$(i)$ : gravité propre du pilier touché.
+\item Gravité propre de chaque pilier touché (\texttt{GBASE}), \emph{composée} le long
+      de l'ordre : des défaillances qui s'enchaînent s'aggravent, des défaillances
+      isolées ne se composent pas.
 \end{itemize}
 \medskip
-Sortie en \textbf{catégories} (Très rare $\to$ Très probable ; Négligeable $\to$ Critique),
-tous les ordres de 2 à 5 piliers, scores numériques en appoint pour trier.
+\textbf{La criticité les croise} (échelle : Faible $\to$ Extrême) : c'est la matrice de
+risque probabilité $\times$ gravité, appliquée à chaque cascade ordonnée.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Fait 1 : résultats en image}
-\begin{center}
-\includegraphics[width=0.78\linewidth]{F1_asymetrie_ordre.png}
-\end{center}
+\begin{frame}{Fait 1 : ce que le classeur montre}
 \begin{itemize}
-\item L'asymétrie de l'ordre est visible sur toutes les paires : ce n'est pas une
-      corrélation (une corrélation serait symétrique).
-\item Pilier racine dominant : \textbf{P1 gouvernance}, puis P4 tiers
-      (classement $P1 > P4 > P2 > P3 > P5$).
+\item Toutes les combinaisons \textbf{ordonnées} de 2 à 5 piliers, chacune avec sa
+      probabilité, sa gravité et sa criticité conceptuelles.
+\item \textbf{L'ordre pilote le verdict} : le même ensemble de piliers pris dans le sens
+      causal est un emballement (criticité élevée), pris à l'envers ce sont des
+      défaillances quasi indépendantes (criticité faible).
+      Exemple : $1\!\to\!2$ ressort \textbf{Majeure}, $2\!\to\!1$ ressort \textbf{Faible}.
+\item Le pilier gouvernance domine comme racine des cascades les plus critiques ;
+      une hiérarchie stable des piliers s'en dégage.
 \end{itemize}
+\vfill
+Sortie en catégories uniquement ; les scores numériques ne servent qu'à trier.
 \end{frame}
 
 % =====================================================================
@@ -80,79 +81,126 @@ La cascade ne touche pas la fréquence, elle vit \textbf{dans la loi conditionne
 \mathbb{P}(j' \mid j) \;=\; \frac{\texttt{TRANS}(j)(j')}{s_j},
 \qquad s_j = \textstyle\sum_{k} \texttt{TRANS}(j)(k) ;
 \]
-\item l'incident touche donc un \textbf{ensemble} de piliers (pas un seul), et la sévérité
+\item l'incident touche donc un \textbf{ensemble} de piliers (pas un seul), et la perte
       de la cellule est une somme composée
-      $S_{i,j} = \sum_{k=1}^{N_{i,j}} X_k$, chaque $X_k$ gonflé par la cascade.
+      $S_{i,j} = \sum_{k=1}^{N_{i,j}} X_k$, chaque terme gonflé par la cascade.
 \end{itemize}
 \medskip
-Conséquence pratique : les lois de fréquence restent standard (Poisson, binomiale
-négative) ; toute la dépendance entre piliers est portée par le mécanisme.
-Estimable sur un registre horodaté : $\widehat{\mathbb{P}}(j'|j) = N_{j,j'} / N_{j,\cdot}$.
+Conséquence : les lois de fréquence restent standard ; toute la dépendance entre piliers
+est portée par le mécanisme. Estimable sur un registre horodaté :
+$\widehat{\mathbb{P}}(j'|j) = N_{j,j'} / N_{j,\cdot}$.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Fait 2 : la refonte du Vasicek, ce qu'on propose}
-\textbf{Point de départ.} Vasicek à un facteur : même corrélation pour tous les piliers,
-symétrique. Insuffisant pour DORA (la dépendance y est dirigée).
+\begin{frame}{Fait 2 : refonte du Vasicek, le point de départ}
+Le modèle structurel classique, \textbf{sans indice de pilier} : une latente de stress
+par entité,
+\[
+X_i \;=\; \sqrt{\rho}\;Y \;+\; \sqrt{1-\rho}\;\varepsilon_i,
+\qquad \mathrm{Var}(X_i) = 1,
+\]
+avec $Y$ le facteur systémique commun, $\varepsilon_i$ le choc propre, et l'incident
+quand le stress franchit un seuil :
+\[
+D_i = \mathbf{1}\{X_i \ge K_i\}, \qquad K_i = \Phi^{-1}(1-\mathrm{PD}_i).
+\]
 \medskip
-\begin{enumerate}
-\item \textbf{Généralisation A} : charge systémique $s_j$ propre à chaque pilier.
-\item \textbf{Généralisation B} : propagation dirigée, matrice d'influence $W$
-      (construite depuis \texttt{TRANS}) : un incident sur $j$ se propage vers $j'$.
-\item \textbf{Normalisation de Leontief} : $W$ renormalisée pour que
-      $\rho(W) \le g < 1$. La stabilité est \emph{garantie par construction},
-      pas supposée.
-\item \textbf{Lecture processus de branchement} : $R_0 = \rho(M) < 1$ ; la progéniture
-      par pilier retrouve exactement le classement \texttt{ROOT} (contrôle de cohérence).
-\end{enumerate}
-\medskip
-Le seuil de bascule $K_j$ remplace le $\Phi^{-1}(\mathrm{PD})$ du monde crédit.
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Où ça mène (aperçu, détail au prochain point)}
-L'état de conformité DORA (Non conforme / Partiellement / Conforme) pilote la cascade,
-d'où un \textbf{SCR par état} en euros (sévérités SAS OpRisk et PRC) :
-\medskip
+\textbf{Deux limites pour le cyber sous DORA :}
 \begin{itemize}
-\item surcoût de non-conformité (NC vs C) : médiane $\sim 7{,}4$~Md\euro{} (OpRisk),
-      \textbf{100~\% des tirages bootstrap positifs} ;
-\item le classement des piliers obtenu en euros \textbf{reproduit le classement
-      d'expert} du classeur qualitatif (validation croisée) ;
-\item une trajectoire de capital le long de la mise en conformité (chaîne de Markov),
-      et un ordre de remédiation optimal $=$ l'ordre \texttt{ROOT}.
+\item la dépendance est \textbf{symétrique} (un seul $Y$, un seul $\rho$) : le modèle ne
+      peut pas dire \og P1 entraîne P2 plus que l'inverse \fg, alors que le jugement
+      d'expert est dirigé ;
+\item le seuil $\Phi^{-1}(\mathrm{PD})$ suppose une PD stable et mesurable, qui n'existe
+      pas en cyber.
+\end{itemize}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Généralisation A : la structure systémique dépend du pilier}
+On indexe par entité $i$ \textbf{et pilier} $j$, avec un facteur systémique par pilier :
+\[
+X_{ij} \;=\; \sqrt{\rho_{ij}}\;Y_j \;+\; \sqrt{1-\rho_{ij}}\;\varepsilon_{ij}.
+\]
+\begin{itemize}
+\item Chaque pilier a sa \og météo systémique \fg{} propre ($Y_j$), les $Y_j$ étant
+      corrélés entre eux par une matrice $\Sigma_Y$ : les dépendances croisées vivent
+      au niveau systémique.
+\item Sur données rares, on ne calibre pas un $\rho_{ij}$ par entité : compromis
+      hiérarchique $\rho_{ij} = \rho_j + u_{ij}$ (chaque entité gravite autour de la
+      moyenne de son pilier).
 \end{itemize}
 \medskip
-Verdict transversal : le \textbf{classement} est robuste, le \textbf{niveau} ne l'est pas
-(queue lourde) ; on pilote au classement.
+\textbf{Honnêteté} : cette partie A n'est pas neuve (multifacteur classique, employé dans
+les stress-tests). La contribution propre commence en B.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Généralisation B : la propagation dirigée}
+On ajoute un terme de réseau \textbf{asymétrique} : le stress de $j$ subit celui des
+autres piliers de la même entité,
+\[
+X_{ij} \;=\; \underbrace{\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion dirigée}}
+   \;+\; \sqrt{\rho_{ij}}\;Y_j \;+\; \sqrt{1-\rho_{ij}}\;\varepsilon_{ij},
+\]
+d'où la forme réduite, sur les cinq piliers d'une entité :
+\[
+\mathbf{X}_i \;=\; (I-W)^{-1}\,(\text{systémique} + \text{idiosyncratique}),
+\qquad \text{sous réserve que } \rho(W) < 1.
+\]
+\begin{itemize}
+\item $W$ est construite depuis \texttt{TRANS} : c'est la même information d'expert que
+      le classeur des cascades, injectée dans le modèle quantitatif.
+\item Emboîtement propre : $W = 0$ redonne la partie A ; un seul facteur redonne le
+      Vasicek standard.
+\end{itemize}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{La normalisation de Leontief : une stabilité garantie}
+\textbf{Brancher \texttt{TRANS} telle quelle serait une erreur de catégorie} : son rayon
+spectral dépasse un, la série $I + W + W^2 + \cdots$ diverge et l'inverse produit des
+signes aberrants. \texttt{TRANS} n'a jamais été une matrice de parts.
+\medskip
+On applique la discipline du modèle entrées-sorties de Leontief : lire chaque ligne comme
+des \textbf{parts} de stress reçu,
+\[
+\boxed{\;W \;=\; g \cdot \frac{\texttt{TRANS}}{\max_j \sum_k \texttt{TRANS}_{jk}}\;,
+\qquad g \in (0,\,1]\;}
+\]
+où $g$ est la part de contagion du pilier le plus exposé. Alors, par Perron-Frobenius :
+\[
+\rho(W) \;\le\; \max_j \sum_k W_{jk} \;\le\; g \;<\; 1,
+\]
+et $(I-W)^{-1}$ existe. \textbf{La stabilité est garantie par construction}, sur tout le
+domaine admissible, et non supposée. La normalisation par un scalaire préserve
+l'hétérogénéité de ce que reçoit chaque pilier.
 \end{frame}
 
 % =====================================================================
 \begin{frame}{Points bloquants}
 \begin{enumerate}
-\item \textbf{Calibrer $W$ (la matrice de propagation).} Aucune source publique ne
-      permet de l'estimer : OpRisk ne code pas les piliers co-touchés, la PRC n'a pas
-      l'horodatage fin. Il faudrait un \textbf{registre d'incidents horodaté} (format
-      reporting DORA). En attendant : jugement d'expert $+$ analyses de sensibilité.
-\item \textbf{Le canal détection.} Une entité conforme détecte plus tôt (moins
-      d'incidents matériels). L'inclure dans le chiffre de tête ou le laisser en
-      sensibilité ? \textbf{À trancher ensemble.}
-\item \textbf{Le niveau du capital n'est pas pinçable} (indice de queue $\xi$, intervalle
-      large). Assumé dans la rédaction : la direction et le classement sont certains,
-      le niveau est une distribution.
+\item \textbf{Calibrer $W$ (la matrice de propagation).} Aucune source publique ne le
+      permet : les bases de pertes ne codent pas les piliers co-touchés, les bases de
+      brèches n'ont pas l'horodatage fin. Il faudrait un \textbf{registre d'incidents
+      horodaté} (format reporting DORA). En attendant : jugement d'expert $+$ analyses
+      de sensibilité.
+\item \textbf{Les trois jugements de base} (\texttt{ROOT}, \texttt{TRANS},
+      \texttt{GBASE}) restent de l'expert. Les sensibilités montrent que le
+      \emph{classement} des piliers y survit ; le \emph{niveau}, non. À assumer dans la
+      rédaction.
+\item \textbf{Le gain de contagion $g$} est un choix de modélisation non calibré :
+      traité en axe de sensibilité, pas en paramètre estimé.
 \end{enumerate}
 \end{frame}
 
 % =====================================================================
 \begin{frame}{Pour la prochaine fois}
 \begin{enumerate}
-\item \textbf{Assembler le document complet} : les trois chapitres neufs (cascade,
-      multi-états, résultats) sont rédigés ; migrer les parties agnostiques de l'ancien
-      mémoire (introduction, état de l'art, données, annexes EVT).
-\item \textbf{Trancher le canal détection} (point 2 des bloquants) : les deux lectures
-      sont déjà chiffrées, la décision ne bloque pas le reste.
-\item \textbf{Figer l'ancrage} des probabilités d'état (NC 35 / PC 35 / C 30, enquêtes) :
-      la sensibilité est faite, il reste à valider le choix central.
+\item \textbf{Valider ensemble les jugements de base} (\texttt{ROOT}, \texttt{TRANS},
+      \texttt{GBASE}) et le traitement de $g$ : ce sont les seules entrées non
+      mécaniques du modèle.
+\item \textbf{Brancher le modèle sur des sévérités} : passer de la lecture ordinale
+      (criticités) à une lecture quantitative de la cascade.
 \item Si accessible : explorer la piste \textbf{registre d'incidents} pour une première
       calibration de $W$.
 \end{enumerate}
