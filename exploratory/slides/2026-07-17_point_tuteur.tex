@@ -119,24 +119,81 @@ jamais l'inverse. Sortie en catégories, les scores ne servent qu'à trier.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{À quoi ça sert : probas conditionnelles au sein d'un même $N_{i,j}$}
-$N_{i,j}$ : nombre d'incidents entrant par le pilier $j$ (segment $i$).
-La cascade ne touche pas la fréquence, elle vit \textbf{dans la loi conditionnelle} :
-\medskip
+\begin{frame}{Probas conditionnelles au sein d'un même $N_{i,j}$ : le cadre}
+Modèle collectif à deux étages, comme en fréquence/sévérité classique :
 \begin{itemize}
-\item sachant $N_{i,j} = n$, chacun des $n$ incidents part de $j$ et entraîne $j'$ avec
-\[
-\mathbb{P}(j' \mid j) \;=\; \frac{\texttt{TRANS}(j)(j')}{s_j},
-\qquad s_j = \textstyle\sum_{k} \texttt{TRANS}(j)(k) ;
-\]
-\item l'incident touche donc un \textbf{ensemble} de piliers (pas un seul), et la perte
-      de la cellule est une somme composée
-      $S_{i,j} = \sum_{k=1}^{N_{i,j}} X_k$, chaque terme gonflé par la cascade.
+\item \textbf{Fréquence} : $N_{i,j}$, nombre d'incidents entrant par le pilier $j$
+      (segment $i$). Comptage standard, surdispersé pour le cyber (Poisson mixte :
+      un choc commun fait varier l'intensité).
+\item \textbf{Sévérité conditionnelle} : sachant $N_{i,j} = n$, chacun des $n$ incidents
+      \emph{se propage}. C'est ici que vit \og au sein d'un même $N_{i,j}$ \fg{} : la loi
+      des dommages conditionnelle au comptage.
 \end{itemize}
 \medskip
-Conséquence : les lois de fréquence restent standard ; toute la dépendance entre piliers
-est portée par le mécanisme. Estimable sur un registre horodaté :
-$\widehat{\mathbb{P}}(j'|j) = N_{j,j'} / N_{j,\cdot}$.
+La perte de la cellule est une \textbf{somme composée} :
+\[
+S_{i,j} \;=\; \sum_{k=1}^{N_{i,j}} X_k,
+\qquad X_k = \text{sévérité de la \emph{cascade} de l'incident } k .
+\]
+\medskip
+\textbf{Le lien avec le classeur} : la sévérité d'un incident est gouvernée par sa
+cascade, et la cascade se décrit par des probabilités conditionnelles
+$\mathbb{P}(j' \mid j)$. La cascade qualitative \textbf{devient la loi conditionnelle de
+propagation} ; la fréquence reste standard.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Le noyau de propagation $\mathbb{P}(j' \mid j)$ et l'état d'arrêt}
+\texttt{TRANS} n'est pas une probabilité (les lignes ne somment pas à 1) : on
+\textbf{normalise chaque ligne} par sa somme $s_j$,
+\[
+\boxed{\;\mathbb{P}(j' \mid j) \;=\; \frac{\texttt{TRANS}[j][j']}{s_j}\;}
+\qquad s_j = \textstyle\sum_{j'} \texttt{TRANS}[j][j'].
+\]
+La cascade devient une \textbf{chaîne de Markov} sur les piliers ; l'asymétrie causale
+est préservée : $\mathbb{P}(\text{P2} \mid \text{P1}) = 0{,}31$ mais
+$\mathbb{P}(\text{P1} \mid \text{P2}) = 0{,}13$.
+\medskip
+
+\textbf{L'état d'arrêt, indispensable} : sans lui la cascade ne s'éteint jamais et la
+sévérité diverge. Propension à propager $e_j = g \cdot s_j / \max_k s_k$, puis
+\[
+\mathbb{P}(j' \mid j) = e_j\,\frac{\texttt{TRANS}[j][j']}{s_j},
+\qquad
+\mathbb{P}(\varnothing \mid j) = 1 - e_j .
+\]
+P5 éteint la cascade trois fois sur quatre, P1 presque jamais. Cascade
+\textbf{auto-évitante} : un pilier ne défaille qu'une fois. Estimable sur un registre
+horodaté, par comptage normalisé : $\widehat{\mathbb{P}}(j' \mid j) = N_{j,j'} / N_{j,\cdot}$.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Sachant quels piliers ont fait défaut : la loi de l'ordre}
+On \emph{sait} que $S = \{\text{P1}, \text{P2}, \text{P3}\}$ a fait défaut, pas dans quel
+\textbf{ordre} ($m!$ ordres). Chaque ordre reçoit un poids, amorce $\times$ maillons, et
+l'on conditionne en divisant par la somme sur les permutations de $S$ :
+\[
+W(\text{ordre}) = \texttt{ROOT}[j_1] \textstyle\prod_{\ell} \texttt{TRANS}[j_\ell][j_{\ell+1}],
+\qquad
+\mathbb{P}(\text{ordre} \mid S) = \frac{W(\text{ordre})}{\sum_{\sigma} W(\sigma)}
+\]
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Ordre & score qualitatif & auto-évitant (rigoureux) \\
+\midrule
+P1 $\to$ P3 $\to$ P2 & $\mathbf{35{,}1\,\%}$ & $33{,}5\,\%$ \\
+P1 $\to$ P2 $\to$ P3 & $32{,}1\,\%$ & $\mathbf{35{,}3\,\%}$ \\
+autres (4 ordres)    & $32{,}8\,\%$ & $31{,}2\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+Le modèle fournit une \textbf{loi sur les ordres}, pas un ordre unique ; les deux ordres
+partant de P1 totalisent deux tiers de la masse. Et l'extinction compte : pour rester
+\emph{exactement} dans $S$, il faut s'éteindre sans s'échapper vers P4/P5 ; les ordres
+qui finissent sur P3 (qui fuit peu) sont favorisés, et \textbf{l'ordre de tête change}.
 \end{frame}
 
 % =====================================================================
