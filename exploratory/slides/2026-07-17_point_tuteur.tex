@@ -12,9 +12,9 @@
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
 \subtitle{Cascades entre piliers et refonte du Vasicek}
-\author{Kélian Kaddouri}
-\institute{ENSAE / Nexialog Consulting}
-\date{17 juillet 2026}
+\author[K. Kaddouri]{Kélian Kaddouri}
+\institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
+\date[17/07/2026]{17 juillet 2026}
 
 \begin{document}
 
@@ -57,25 +57,26 @@ risque probabilité $\times$ gravité, appliquée à chaque cascade ordonnée.
 
 % =====================================================================
 \begin{frame}{Du jugement aux catégories : le barème}
-Trois formules, une par brique :
+\small
+\vspace{-0.3em}
 \[
-p = 10 \times \texttt{ROOT}(\text{racine}) \times \prod \texttt{TRANS}(\text{maillons}),
-\qquad
+p = 10 \times \texttt{ROOT} \times \prod \texttt{TRANS},
+\quad
 g = \text{étendue} \times \text{amplification},
-\]
-\[
+\quad
 \text{criticité} = \sqrt{p \times g}
-\quad \text{(le RPN de l'AMDEC, ramené sur /10)} \;\longrightarrow\;
-\text{Faible} \to \text{Extrême}.
 \]
-\medskip
-\textbf{Exemple travaillé : le même ensemble $\{P1, P2\}$, deux sens.}
-\begin{center}\small
-\renewcommand{\arraystretch}{1.15}
+\vspace{-1.1em}
+\begin{center}
+La criticité est le RPN de l'AMDEC ramené sur /10, lu en catégories (Faible $\to$ Extrême).
+\end{center}
+\vspace{-0.4em}
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.05}
 \begin{tabular}{@{}l c c@{}}
 \toprule
  & $1\!\to\!2$ & $2\!\to\!1$ \\
- & \footnotesize\emph{gouvernance $\Rightarrow$ incident} & \footnotesize\emph{incident $\Rightarrow$ gouvernance} \\
+ & \emph{gouvernance $\Rightarrow$ incident} & \emph{incident $\Rightarrow$ gouvernance} \\
 \midrule
 Étendue        & $\mathbf{7{,}6}$ & \emph{identique} $= \mathbf{7{,}6}$ \\
 Cohérence du lien & $\texttt{TRANS}[1][2] = \mathbf{0{,}80}$ & $\texttt{TRANS}[2][1] = \mathbf{0{,}20}$ \\
@@ -85,9 +86,9 @@ Probabilité    & $10 \times 1{,}0 \times 0{,}80 \to \mathbf{8}$ & $10 \times 0{
 \bottomrule
 \end{tabular}
 \end{center}
-\medskip
-L'étendue est identique dans les deux sens (mêmes piliers) : \textbf{tout l'écart de
-verdict vient de la cohérence causale de l'ordre}.
+\vspace{-0.2em}
+Même ensemble $\{P1, P2\}$, étendue identique : \textbf{tout l'écart de verdict vient de
+la cohérence causale de l'ordre}.
 \end{frame}
 
 % =====================================================================
@@ -192,8 +193,8 @@ X_{ij} \;=\; \underbrace{\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion dirigé
 d'où la forme réduite, sur les cinq piliers d'une entité :
 \[
 \mathbf{X}_i \;=\; (I-W)^{-1}\,(\text{systémique} + \text{idiosyncratique}),
-\qquad \text{sous réserve que } \rho(W) < 1.
 \]
+sous réserve que $\rho(W) < 1$.
 \begin{itemize}
 \item $W$ est construite depuis \texttt{TRANS} : c'est la même information d'expert que
       le classeur des cascades, injectée dans le modèle quantitatif.
