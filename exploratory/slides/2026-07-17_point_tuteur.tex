@@ -56,41 +56,38 @@ risque probabilité $\times$ gravité, appliquée à chaque cascade ordonnée.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Du jugement aux catégories : les formules du barème}
-\small
-\textbf{Probabilité} $p$ /10 (produit des liens le long du chemin, borné à $[1,10]$) :
+\begin{frame}{Du jugement aux catégories : le barème}
+Trois formules, une par brique :
 \[
-p(a_1\!\to\!\cdots\!\to\!a_n) = \Big[\,10\cdot\texttt{ROOT}(a_1)\,
-\textstyle\prod_{k} \texttt{TRANS}(a_k)(a_{k+1})\,\Big]
-\]
-\textbf{Gravité} $g$ /10 (étendue des dégâts, amplifiée par la cohérence du chemin) :
-\[
-\text{étendue} = \max_k \texttt{GBASE} + \kappa \!\sum_{\text{autres}}\! \texttt{GBASE},
+p = 10 \times \texttt{ROOT}(\text{racine}) \times \prod \texttt{TRANS}(\text{maillons}),
 \qquad
-g = \Big[\,\text{étendue}\cdot\big(\alpha + \beta\,\overline{\texttt{TRANS}}_{\text{chemin}}\big)\Big]
+g = \text{étendue} \times \text{amplification},
 \]
-avec $\kappa = 0{,}40$, $\alpha = 0{,}50$, $\beta = 0{,}80$ (constantes de forme, non
-ancrées) ; les crochets $[\,\cdot\,]$ notent l'arrondi à l'entier.
+\[
+\text{criticité} = \sqrt{p \times g}
+\quad \text{(le RPN de l'AMDEC, ramené sur /10)} \;\longrightarrow\;
+\text{Faible} \to \text{Extrême}.
+\]
 \medskip
-
-\textbf{Criticité} : $c = \big[\sqrt{p \cdot g}\,\big]$ (le RPN de l'AMDEC ramené sur /10,
-la racine ne change pas le classement), puis \textbf{paliers} $2/4/6/8$ :
-$\le\!2$ Faible, $\le\!4$ Modérée, $\le\!6$ Élevée, $\le\!8$ Majeure, au-delà Extrême.
-\medskip
-
-\textbf{Les deux cadres orange de F1, recalculés :}
-\begin{center}
-\begin{tabular}{@{}l c c c c@{}}
+\textbf{Exemple travaillé : le même ensemble $\{P1, P2\}$, deux sens.}
+\begin{center}\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l c c@{}}
 \toprule
- & $p$ & $g$ & $\sqrt{p\cdot g}$ & criticité \\
+ & $1\!\to\!2$ & $2\!\to\!1$ \\
+ & \footnotesize\emph{gouvernance $\Rightarrow$ incident} & \footnotesize\emph{incident $\Rightarrow$ gouvernance} \\
 \midrule
-$1\!\to\!2$ & $[10 \times 1{,}00 \times 0{,}80] = 8$ & $[7{,}6 \times 1{,}14] = 9$ & $8{,}5$ & \textbf{Majeure} \\
-$2\!\to\!1$ & $[10 \times 0{,}60 \times 0{,}20] = 1$ & $[7{,}6 \times 0{,}66] = 5$ & $2{,}2$ & \textbf{Faible} \\
+Étendue        & $\mathbf{7{,}6}$ & \emph{identique} $= \mathbf{7{,}6}$ \\
+Cohérence du lien & $\texttt{TRANS}[1][2] = \mathbf{0{,}80}$ & $\texttt{TRANS}[2][1] = \mathbf{0{,}20}$ \\
+Gravité        & $7{,}6 \times 1{,}14 \to \mathbf{9}$ & $7{,}6 \times 0{,}66 \to \mathbf{5}$ \\
+Probabilité    & $10 \times 1{,}0 \times 0{,}80 \to \mathbf{8}$ & $10 \times 0{,}6 \times 0{,}20 \to \mathbf{1}$ \\
+\textbf{Criticité} & $\sqrt{8 \times 9} \to \mathbf{8}$ \textbf{(Majeure)} & $\sqrt{1 \times 5} \to \mathbf{2}$ \textbf{(Faible)} \\
 \bottomrule
 \end{tabular}
 \end{center}
-Le sens inverse est doublement puni : lien faible $\Rightarrow$ probabilité écrasée
-\emph{et} amplification amortie (même étendue $7{,}6$).
+\medskip
+L'étendue est identique dans les deux sens (mêmes piliers) : \textbf{tout l'écart de
+verdict vient de la cohérence causale de l'ordre}.
 \end{frame}
 
 % =====================================================================
