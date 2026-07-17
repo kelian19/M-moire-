@@ -283,18 +283,24 @@ l'hétérogénéité de ce que reçoit chaque pilier.
 
 % =====================================================================
 \begin{frame}{Points bloquants}
+\small
 \begin{enumerate}
-\item \textbf{Calibrer $W$ (la matrice de propagation).} Aucune source publique ne le
-      permet : les bases de pertes ne codent pas les piliers co-touchés, les bases de
-      brèches n'ont pas l'horodatage fin. Il faudrait un \textbf{registre d'incidents
-      horodaté} (format reporting DORA). En attendant : jugement d'expert $+$ analyses
-      de sensibilité.
+\item \textbf{Calibrer $W$.} Aucune source publique : les bases de pertes ne codent pas
+      les piliers co-touchés, les bases de brèches n'ont pas l'horodatage fin. Il
+      faudrait un \textbf{registre d'incidents horodaté} (format reporting DORA).
+      En attendant : jugement d'expert $+$ sensibilité.
 \item \textbf{Les trois jugements de base} (\texttt{ROOT}, \texttt{TRANS},
-      \texttt{GBASE}) restent de l'expert. Les sensibilités montrent que le
-      \emph{classement} des piliers y survit ; le \emph{niveau}, non. À assumer dans la
-      rédaction.
-\item \textbf{Le gain de contagion $g$} est un choix de modélisation non calibré :
-      traité en axe de sensibilité, pas en paramètre estimé.
+      \texttt{GBASE}) restent de l'expert : le \emph{classement} des piliers survit aux
+      perturbations, le \emph{niveau} non. À assumer dans la rédaction.
+\item \textbf{Le gain de contagion $g$ et la forme de l'état d'arrêt} : choix de
+      modélisation non calibrés, traités en axes de sensibilité.
+\item \textbf{L'hypothèse de sévérité, à trancher.} \texttt{GBASE} est un score
+      \emph{ordinal}, pas un montant, et l'additivité (coût $=$ somme des \texttt{GBASE}
+      touchés) est une hypothèse de travail : recaler en unité de perte, ou règle non
+      additive (max, agrégation concave)~? La brique de propagation n'en dépend pas.
+\item \textbf{Fréquence et choc commun} : Poisson ou Poisson mixte (surdispersion
+      cyber) pour $N_{i,j}$, et dépendance entre cellules d'un même segment, à
+      modéliser pour l'agrégation.
 \end{enumerate}
 \end{frame}
 
