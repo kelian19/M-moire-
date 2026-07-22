@@ -1,0 +1,147 @@
+\chapter{Adaptations par pilier}
+\label{chap:adaptations}
+
+\begin{cle}
+\textbf{Idée directrice.} Le tuteur a fait passer le Vasicek d'un facteur unique à un
+facteur \emph{par pilier}. Les autres composants doivent-ils suivre ? Les cinq piliers ne
+sont pas cinq exemplaires du même risque : la queue de sévérité, l'accumulation par tiers et
+la détection sont des objets de nature différente. Ce chapitre les adapte pilier par pilier,
+mais sous la \emph{même} discipline que le chapitre~\ref{chap:partielle} : on n'adopte un
+raffinement que si la donnée le soutient, et ce qu'elle ne fixe pas, on le \textbf{borne}. Le
+fil qui en ressort est constant : chaque adaptation \textbf{relève le niveau}, aucune ne
+\textbf{renverse le classement}.
+\end{cle}
+
+\section{La queue de sévérité par pilier}
+\label{sec:xi-pilier}
+
+Aujourd'hui une seule queue $\xi$ est appliquée aux cinq piliers. Le
+chapitre~\ref{ch:donnees} note pourtant que la queue est hétérogène selon la catégorie
+Bâle : $\xi$ varie de $0{,}92$ (\emph{Employment}) à $1{,}37$ (\emph{Internal Fraud}). Faut-il
+un $\xi_j$ par pilier ? La réponse honnête distingue deux choses.
+
+\begin{attention}
+\textbf{L'hétérogénéité est un fait, l'assignation n'en est pas un.} On ne peut pas
+\emph{poser} $\xi_j = f(\text{pilier})$ : les catégories Bâle décrivent la nature de la
+perte, pas les domaines de contrôle DORA, et la catégorie la plus proche du TIC
+(\emph{Business Disruption \& System Failures}) n'a que $105$ observations, sous le seuil
+d'estimation. On applique donc la logique du chapitre~\ref{chap:partielle} : chaque pilier
+reçoit une des cinq queues observées, on énumère les $120$ assignations, et l'on borne le
+SCR. Pour isoler l'hétérogénéité du niveau, les cinq queues sont centrées sur la valeur de
+référence.
+\end{attention}
+
+Le résultat est net, et en partie inattendu. \textbf{L'hétérogénéité de queue n'est pas
+neutre en capital} : même en gardant la moyenne des queues fixe, donner à chaque pilier sa
+propre queue \textbf{relève} le SCR de $+38\,\%$ à $+82\,\%$. C'est un effet de convexité, la
+VaR croissant plus vite que linéairement en $\xi$, de sorte qu'une queue lourde sur un pilier
+n'est pas compensée par une queue légère ailleurs. \textbf{Supposer une queue commune
+sous-estime donc le capital}, une raison de plus de lire le niveau en bande. Le classement,
+lui, résiste : le pilier de tête reste dominant dans $83\,\%$ des assignations
+(figure~\ref{fig:xi-pilier}), dominant sans être invariant.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z8_xi_par_pilier.png}
+\caption{Queue de sévérité par pilier. (a)~Le niveau du SCR borné sur les $120$ assignations
+des queues observées aux piliers ; une queue commune (trait) est en bas de la bande.
+(b)~Le pilier de tête par contribution à la queue ne dépend pas de l'assignation. Source :
+script~\texttt{37}.}
+\label{fig:xi-pilier}
+\end{figure}
+
+\section{Le pilier des tiers comme n\oe{}ud d'accumulation}
+\label{sec:p4-accumulation}
+
+P4 (prestataires tiers) n'est pas un n\oe{}ud de cascade comme les autres. Une défaillance
+d'un prestataire \emph{partagé} dégrade plusieurs piliers \textbf{simultanément}, par
+dépendance commune, au lieu de se propager de proche en proche : c'est le mécanisme de MOVEit
+($191$ victimes d'un seul choc, chapitre~\ref{ch:donnees}). On lui substitue donc un
+\textbf{choc commun}, où P4 et chaque autre pilier tombent ensemble avec une probabilité
+$\varphi_{cs}$, plutôt qu'une propagation dirigée.
+
+\begin{cle}
+\textbf{Pourquoi P4 échappe à la limite d'identification de $W$.} Le choc commun est une
+\textbf{co-occurrence symétrique} : P4 et $P_j$ tombent ensemble, sans direction. Or la
+co-occurrence est la partie \emph{identifiée} du modèle, le $S$ de la décomposition
+$W=S+A$ (chapitre~\ref{chap:partielle}), celle que la donnée voit (MOVEit, concentration
+cloud). \textbf{L'accumulation de P4 est donc la seule structure inter-piliers que la donnée
+soutient}, par contraste avec la direction, non identifiée. C'est un point de force, pas une
+limite.
+\end{cle}
+
+L'intensité $\varphi_{cs}$ au sein d'une entité isolée n'est pas identifiée (le \emph{batch}
+observé est un phénomène de portefeuille) : on la borne sur $[0,\gamma]$, où $\gamma=0{,}68$
+est la concentration cloud déjà retenue. Le SCR se lit alors en bande, et à
+$\varphi_{cs}=\gamma$ une dépendance partagée emporte en moyenne $3{,}7$ piliers d'un coup,
+soit $+19\,\%$ de SCR par rapport au traitement en n\oe{}ud de cascade. Surtout, la
+simultanéité crée une co-occurrence multiple que la propagation séquentielle ne produit
+presque jamais : la probabilité qu'un incident P4 touche au moins trois piliers passe de
+$0{,}22$ (cascade) à $0{,}90$ (choc commun), figure~\ref{fig:p4}.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z9_p4_accumulation.png}
+\caption{Le pilier des tiers en accumulation. (a)~SCR borné sur l'intensité du choc partagé
+$\varphi_{cs}\in[0,\gamma]$, comparé au traitement de P4 en n\oe{}ud de cascade (trait).
+(b)~La simultanéité crée une co-occurrence multiple, structure symétrique donc identifiée.
+Source : script~\texttt{38}.}
+\label{fig:p4}
+\end{figure}
+
+\section{La détection de P2 et P3 comme courbe de survie}
+\label{sec:detection}
+
+P2 (gestion des incidents) et P3 (tests) ne sont pas des n\oe{}uds de sévérité : ils
+gouvernent le \textbf{temps de détection}. Un incident non détecté à temps escalade et
+devient matériel. Le modèle résume cela par un multiplicateur du taux de matérialité
+($0{,}85$ conforme, $1{,}20$ non conforme). On le remplace par une lecture de \textbf{survie},
+ancrée sur donnée.
+
+Le VCDB donne la distribution du délai de découverte en finance ($n=278$), et elle est
+\textbf{bimodale} : $47\,\%$ le jour même, $8\,\%$ en semaines, $45\,\%$ en mois ou plus. La
+matérialité vient des incidents à découverte lente, d'où un taux de matérialité proportionnel
+à la part de découverte lente, ancrée à $\pi_{\text{slow}}=0{,}45$.
+
+\begin{attention}
+\textbf{Un point observé, une élasticité bornée.} Le point $\pi_{\text{slow}}=0{,}45$ est
+mesuré ; l'élasticité de la détection à la maturité de P2/P3 (de combien un pilier conforme
+détecte-t-il plus vite ?) ne l'est pas, et on la borne. Le surcoût du \emph{seul} canal
+détection est alors une bande, de $1\,775$ à $8\,052$~M\euro{} selon l'élasticité. Fait
+notable : le multiplicateur grossier actuel ($0{,}85/1{,}20$) est retrouvé à une élasticité
+$\eta\approx 0{,}36$ : il n'est donc pas arbitraire, c'est un point de la courbe de survie
+ancrée sur le VCDB (figure~\ref{fig:detection}).
+\end{attention}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z10_detection_survie.png}
+\caption{P2/P3, la détection comme courbe de survie. (a)~La distribution bimodale observée
+au VCDB. (b)~Le multiplicateur de matérialité comme point de la courbe de survie ; le
+multiplicateur grossier actuel correspond à $\eta\approx0{,}36$. (c)~Le surcoût du canal
+détection, borné sur l'élasticité. Source : script~\texttt{39}.}
+\label{fig:detection}
+\end{figure}
+
+\section{Ce qui reste en perspective : P1 et P5}
+\label{sec:perspectives-pilier}
+
+Deux piliers appelleraient un traitement propre mais \emph{aucune donnée ne le soutient}, et
+il serait contraire à toute la démarche de les modéliser par des paramètres non
+identifiables. On les laisse donc en perspective, honnêtement.
+
+\begin{itemize}\itemsep2pt
+\item \textbf{P1 (gouvernance)} ressemble moins à un n\oe{}ud qu'à un \emph{modificateur
+      systémique} : une gouvernance défaillante charge la sensibilité $\rho$ de tous les
+      piliers à la fois. Aucune donnée ne relie la qualité de gouvernance à une hausse de
+      hasard : à borner, pas à estimer.
+\item \textbf{P5 (partage d'informations)} agit plutôt comme un \emph{réducteur de
+      fréquence}, l'alerte précoce diminuant les entrées. Là encore, rien ne le mesure.
+\end{itemize}
+
+\begin{cle}
+\textbf{Le fil de ce chapitre.} Chaque pilier, correctement modélisé, révèle une structure
+\emph{localement identifiée} (hétérogénéité de queue, accumulation symétrique, courbe de
+détection) que la donnée soutient sur un point et que l'on borne pour le reste. Toutes ces
+adaptations \textbf{relèvent le niveau} du capital, et \textbf{aucune ne renverse le
+classement} des piliers. C'est, décliné composant par composant, la thèse du mémoire : le
+niveau est illustratif, l'ordre et les écarts sont ce qui résiste, et la limite
+d'identification se solde partout en une même spécification de reporting.
+\end{cle}

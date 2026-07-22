@@ -84,7 +84,7 @@ def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI, casc_mo
 
 
 def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, phi=PHI,
-                     by_pillar=False, casc_mode="walk"):
+                     by_pillar=False, casc_mode="walk", xi_vec=None):
     """Perte annuelle par la cascade avec parametres PAR PILIER (script 16b).
 
     Meme moteur que simulate_euro (agregation non reecrite), mais les canaux sont
@@ -130,7 +130,8 @@ def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, p
             yrs = yr[sel]
             for c_p, pil in enumerate(PIL):              # un tirage par pilier TOUCHE, p_u propre
                 if ind[s][c_p] == 1.0:
-                    sev = simulate_remediation_severity(yrs.size, xi, sigma, u,
+                    xi_p = xi if xi_vec is None else xi_vec[pil]   # queue propre au pilier
+                    sev = simulate_remediation_severity(yrs.size, xi_p, sigma, u,
                                                         p_u_vec[pil], cap, rng)
                     annual_pp[:, c_p] += np.bincount(yrs, weights=sev, minlength=n_years)
     return annual_pp if by_pillar else annual_pp.sum(axis=1)
