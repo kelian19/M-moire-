@@ -1,0 +1,105 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{softgreen}{HTML}{E2EFDA}
+\definecolor{softamber}{HTML}{FCE4D6}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\newcommand{\fait}{\cellcolor{softgreen}\textbf{fait}}
+\newcommand{\partiel}{\cellcolor{softamber}partiel}
+\newcommand{\afaire}{à faire}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries Feuille de route du mémoire\\[2pt]
+  \large Objectif Prix SCOR : de la cascade au capital, sans sur-vendre $W$}
+\author{Kélian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.7cm}
+
+\begin{cle}
+\textbf{Thèse du mémoire (après pivot).} Un modèle \textbf{normatif} de risque de cascade
+cyber entre les piliers DORA, et sa traduction en \textbf{capital} (SCR). La contribution
+n'est pas de \emph{mesurer} la contagion, la donnée ne le permet pas, mais : (i)~un
+mécanisme original de dépendance \textbf{à l'ordre} entre piliers ; (ii)~un ancrage
+empirique là où la donnée existe (fréquence, accumulation, sévérité) ; (iii)~une
+démonstration explicite de la \textbf{frontière d'identifiabilité}, muée en spécification
+de donnée. \textbf{L'honnêteté sur les limites est un résultat}, pas un aveu.
+\end{cle}
+
+\section*{Puisque $W$ n'est pas calibrable : cinq leviers}
+
+\begin{enumerate}[leftmargin=1.5em,itemsep=2pt,topsep=2pt]
+\item \textbf{$W$ reste normatif, borné par la sensibilité.} Non estimé, mais son rôle est
+      encadré (le knockout montre que l'asymétrie porte le résultat, robuste sur 3\,000
+      tirages) et sa stabilité garantie par construction (Leontief, $\rho(W)<1$).
+\item \textbf{Élicitation structurée} (protocole de Cooke) plutôt que dire d'expert brut :
+      plusieurs experts, questions-graines, agrégation traçable. Aucun besoin de donnée
+      d'incident.
+\item \textbf{Identification partielle} : distinguer ce que la donnée fixe (fréquence
+      marginale, accumulation, queue $\xi$) de ce qu'elle ne fixe pas (direction
+      hors-diagonale). La frontière devient explicite.
+\item \textbf{Le SCR comme fonction de $W$}, pas $W$ comme point : montrer comment le
+      capital bouge sur toute la région admissible. Un stress de l'hypothèse de contagion.
+\item \textbf{La donnée manquante comme livrable} : la spécification d'un registre
+      horodaté et taxonomisé (issue du script 05) devient une recommandation de reporting
+      DORA.
+\end{enumerate}
+
+\section*{La feuille de route}
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}p{0.5cm} p{4.2cm} p{8.3cm} p{1.6cm}@{}}
+\toprule
+\textbf{Ph.} & \textbf{Objectif} & \textbf{Livrables clés} & \textbf{Statut} \\
+\midrule
+0 & Cadrage et thèse & Fil directeur post-pivot ; architecture des chapitres ; ce document. & \fait \\
+1 & Ancrage empirique de la fréquence & Calibration d'entrée (08b), rejet argumenté du Hawkes (08c), Poisson composé / accumulation (08d), cas d'usage P2/P3/P4 (08e--g). & \fait \\
+2 & Sévérité en euros & Moteur \texttt{euro\_cascade\_model} : sévérité OpRisk en euros ($\xi\approx0{,}90$) agrégée par la cascade. & \fait \\
+3 & Élicitation structurée de $W$ & Moteur Cooke (26) $+$ \textbf{questionnaire aveugle prêt} et ingestion des vraies réponses (26b, CSV). Reste : \textbf{mener les sessions} (Mehdi avant le 27/07, puis Ouïdad/Franck/conformité). & \partiel \\
+4 & SCR comme fonction de $W$ & SCR\_DORA en distribution $+$ Delta\_DORA (24) ; SCR continu conformité/contagion, borné sur $W$ (25) ; benchmark copule (23) et Formule Standard (27) : effet DORA exprimé $0/62/100\,\%$. & \fait \\
+5 & Chapitre identifiabilité & \textbf{Rédigé} (chapitre\_identifiabilite) : deux échecs opposés (source 1 : 71 transitions, 52,7\,\% UNKN ; source 2 : 4329 transitions mais placebo $z=-0{,}33$), identification partielle ($\xi\approx0{,}90$ ancré, direction non), spécification du registre DORA. & \fait \\
+6 & Cas d'usage approfondi (sous-process) & Test VCDB (28) : sous-piliers P2/P3 calibrables sur open data, P4 s'effondre (56 en finance). Reste : sous-process P4 sur les données clients de Mehdi. & \partiel \\
+7 & Rédaction et positionnement & Revue de littérature (Hillairet--Lopez, cascades / contagion) ; résumé ; narratif de soutenance ; relecture anti-jargon. & \afaire \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\footnotesize\textbf{Chemin critique.} Les phases 2, 4 et 5 sont à \emph{consolider}
+(la machine existe), pas à réinventer : c'est du temps de rédaction et de mise en cohérence,
+pas de code. La phase 3 (élicitation) est le principal apport méthodologique restant et ne
+dépend que de la disponibilité des experts. La phase 6 dépend des données de Mehdi et ne doit
+pas bloquer le reste. \textbf{Dates à caler sur la soutenance} (non fixée ici).
+
+\vspace{0.2cm}
+\begin{cle}
+\textbf{Ce qui fait un mémoire primé.} Un jury d'actuaires récompense l'originalité
+\emph{maîtrisée} et l'honnêteté méthodologique. Trois atouts ici : (1)~un mécanisme neuf, la
+dépendance à l'ordre, absent de l'AMDEC comme des matrices de risque ; (2)~une démonstration
+que la contagion cyber n'est pas identifiable sur données publiques, chose rare et courageuse ;
+(3)~une pertinence réglementaire directe (DORA, spécification de reporting). \textbf{Le seul
+piège à éviter : sur-vendre $W$ comme calibré.} Le présenter comme \og ce qu'il faudrait
+mesurer, et ce que cela coûterait de l'ignorer \fg{} est à la fois plus solide et plus
+marquant.
+\end{cle}
+
+\end{document}

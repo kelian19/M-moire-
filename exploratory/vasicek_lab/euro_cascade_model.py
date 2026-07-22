@@ -48,8 +48,11 @@ MEMOIRE_DELTA = {                                       # Delta_DORA median + IC
 }
 
 
-def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI):
-    """Perte annuelle agregee (M€) par la cascade. lam = frequence annuelle d'AMORCES."""
+def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI, casc_mode="walk"):
+    """Perte annuelle agregee (M€) par la cascade. lam = frequence annuelle d'AMORCES.
+
+    casc_mode : 'walk' (marche auto-evitante, defaut) ou 'branching' (branchement multitype).
+    """
     r = lam / (phi - 1.0)
     p = r / (r + lam)
     counts = rng.negative_binomial(r, p, size=n_years)
@@ -58,7 +61,7 @@ def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI):
     if T == 0:
         return annual
     year_of_event = np.repeat(np.arange(n_years), counts)
-    tables = eng.build_cascade_tables(g)
+    tables = eng.build_cascade_tables(g, mode=casc_mode)
     w = np.array([eng.LAMBDA[j] for j in PIL], float)
     w /= w.sum()                                        # amorce ~ ROOT
     amorce = rng.choice(len(PIL), size=T, p=w)
@@ -81,7 +84,7 @@ def simulate_euro(lam, g, xi, sigma, u, p_u, cap, n_years, rng, phi=PHI):
 
 
 def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, phi=PHI,
-                     by_pillar=False):
+                     by_pillar=False, casc_mode="walk"):
     """Perte annuelle par la cascade avec parametres PAR PILIER (script 16b).
 
     Meme moteur que simulate_euro (agregation non reecrite), mais les canaux sont
@@ -109,7 +112,7 @@ def simulate_euro_pp(lam_vec, g_vec, xi, sigma, u, p_u_vec, cap, n_years, rng, p
     if T == 0:
         return annual_pp if by_pillar else annual_pp.sum(axis=1)
     year_of_event = np.repeat(np.arange(n_years), counts)
-    tables = eng.build_cascade_tables(g_vec)             # g_vec dict -> gains par pilier source
+    tables = eng.build_cascade_tables(g_vec, mode=casc_mode)   # g_vec dict -> gains par pilier source
     w = np.array([lam_vec[j] for j in PIL], float)
     w /= w.sum()                                          # amorce ~ frequence par pilier
     amorce = rng.choice(len(PIL), size=T, p=w)

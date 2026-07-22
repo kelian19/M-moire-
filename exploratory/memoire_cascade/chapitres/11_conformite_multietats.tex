@@ -1,0 +1,134 @@
+\chapter{La conformité multi-états}
+\label{chap:multietats}
+
+\begin{cle}
+\textbf{Idée directrice.} Le SCR dépend de l'\textbf{état de conformité} de l'entité, objet ni
+binaire ni statique. On le modélise à \textbf{deux échelles de temps} (\emph{fast-slow}). À
+l'échelle rapide, un \textbf{Vasicek multi-états} définit l'état (non conforme, partiellement
+conforme, conforme) de chaque pilier et le fait piloter la cascade. À l'échelle lente, une
+\textbf{chaîne de Markov} fait progresser la conformité le long de la mise en conformité. C'est
+le remplacement \emph{dynamique} de la variable latente statique de l'ancien mémoire.
+\end{cle}
+
+\section{Le principe des deux échelles de temps}
+
+Le chapitre~\ref{chap:cascade} chiffre le SCR pour un état de conformité \emph{figé}. Or la
+conformité n'est ni un point ni un instantané : elle est graduelle (trois niveaux au moins) et
+évolue dans le temps. On distingue donc deux dynamiques. La \textbf{couche rapide} est celle des
+incidents et de leur cascade à l'intérieur d'une année, chiffrée par le moteur du
+chapitre précédent, \emph{conditionnellement} à une configuration de conformité. La \textbf{couche
+lente} est celle de la gouvernance : l'état de conformité de chaque pilier progresse sur des
+mois et des années. L'état de la couche lente sert de \textbf{paramètre} à la couche rapide.
+C'est exactement la structure d'un modèle de risque de crédit à migration de rating, sur
+laquelle on revient en \S\ref{sec:couplage}.
+
+\section{Le Vasicek multi-états : latente et seuils ordonnés}
+
+Chaque pilier porte une \textbf{capacité de conformité latente} $C^\star\sim\mathcal N(0,1)$,
+décomposée à la Vasicek en un facteur systémique commun $\Theta$ et un choc idiosyncratique :
+\begin{equation}
+C^\star \;=\; \gamma\,\Theta \;+\; \sqrt{1-\gamma^2}\,\varepsilon, \qquad \gamma=0{,}68.
+\end{equation}
+Au lieu d'un unique seuil de défaut, on en pose \textbf{deux}, ordonnés, qui découpent trois
+états :
+\begin{equation}
+\text{NC si } C^\star\le K_{\text{bas}}, \quad
+\text{PC si } K_{\text{bas}}<C^\star\le K_{\text{haut}}, \quad
+\text{C si } C^\star>K_{\text{haut}}.
+\end{equation}
+Les seuils sont fixés par les probabilités d'état \textbf{ancrées} sur les enquêtes de
+conformité (fin 2025), $K_{\text{bas}}=\Phi^{-1}(p_{\text{NC}})$ et
+$K_{\text{haut}}=\Phi^{-1}(p_{\text{NC}}+p_{\text{PC}})$. Ce dispositif est un
+\textbf{ordered-probit} posé sur la structure de Merton-Vasicek : il réutilise la machinerie de
+seuil du chapitre~\ref{chap:cascade} (le seuil $K_j$) et généralise la variable latente de
+défaut, binaire, en une variable latente de conformité à trois niveaux.
+
+\begin{cle}
+\textbf{Le facteur systémique rend les probabilités conditionnelles.} La probabilité d'être dans
+chaque état sachant l'environnement $\Theta$ s'écrit
+\begin{equation}
+\mathbb P(\text{NC}\mid\Theta)=\Phi\!\Big(\tfrac{K_{\text{bas}}-\gamma\Theta}{\sqrt{1-\gamma^2}}\Big),
+\qquad
+\mathbb P(\text{C}\mid\Theta)=1-\Phi\!\Big(\tfrac{K_{\text{haut}}-\gamma\Theta}{\sqrt{1-\gamma^2}}\Big).
+\end{equation}
+Intégrée sur $\Theta$, la marginale redonne exactement l'ancrage (contrôle de cohérence) ; en
+crise systémique, la masse bascule vers la non-conformité. C'est la version à trois états
+ordonnés de l'amplification systémique que portait l'ancienne variable latente, qu'on remplace
+ainsi proprement.
+\end{cle}
+
+\section{Les trois canaux : comment l'état pilote la cascade}
+
+L'état de conformité agit sur la cascade par \textbf{trois canaux}, câblés sans réécrire
+l'agrégation du chapitre~\ref{chap:cascade} :
+\begin{enumerate}[leftmargin=1.5em,itemsep=2pt,topsep=2pt]
+\item \textbf{Fréquence} $\lambda$ : l'état module le nombre d'incidents amorcés, via les
+  multiplicateurs de scénario sourcés ($S_0$ conforme, $S_1$ partiel, $S_2$ non conforme).
+\item \textbf{Propagation} $g$ : une entité plus conforme contient mieux la contagion, donc un
+  gain plus faible. La propension à propager depuis un pilier reste $e_j=g(c_j)\,s_j/\max_k s_k$,
+  avec un gain indexé sur l'\textbf{état du pilier source}.
+\item \textbf{Détection} $p_u$ : le taux de matérialité (le seuil de détection du
+  chapitre~\ref{chap:cascade}). Une entité conforme intercepte et remédie tôt, de sorte qu'une
+  moindre fraction d'incidents atteint la sévérité matérielle.
+\end{enumerate}
+On présente ces canaux en \textbf{lectures emboîtées} (fréquence seule ; $+$ propagation ; $+$
+détection), ce qui rend visible la contribution marginale de chacun et empêche qu'un canal
+domine en silence. Le canal détection, qui se compose avec la fréquence, est traité à part et
+présenté en sensibilité tant que son ampleur n'est pas tranchée.
+
+\section{L'état par pilier}
+
+L'apport central est de porter l'état \textbf{par pilier} : chaque pilier a sa propre latente
+$C^\star_j$, les cinq étant corrélées par le facteur systémique commun $\Theta$. C'est ce qui
+fait \emph{interagir} la conformité et la cascade : un pilier non conforme propage plus et
+détecte moins que ses voisins conformes. Les trois canaux deviennent indexés par pilier
+($\lambda_j$, $g_j$, $p_{u,j}$) et alimentent un moteur d'agrégation qui se réduit exactement à
+la version globale lorsque tous les piliers partagent un état (contrôle de cohérence). On en
+déduit la \textbf{décomposition} du surcoût de non-conformité par pilier, en basculant un pilier
+à la fois, dont les résultats sont au chapitre~\ref{chap:resultats}.
+
+\section{La chaîne de Markov et les séjours de type phase}
+
+À l'échelle lente, l'état de conformité suit une chaîne de Markov à temps continu
+$\text{NC}\to\text{PC}\to\text{C}$, l'état Conforme étant \textbf{absorbant} en cas de base
+(une fois conforme, on le reste ; la régression est un axe de sensibilité). Les séjours ne sont
+pas exponentiels mais de \textbf{type phase} (Erlang-$k$) : une exponentielle autoriserait une
+remédiation quasi instantanée (densité maximale en zéro), irréaliste, alors qu'un projet DORA a
+une durée minimale. L'Erlang-$k$, somme de $k$ exponentielles, a un mode strictement positif qui
+capte cette durée. On développe chaque macro-état transitoire en $k$ phases et l'on résout le
+générateur $Q$ sur l'espace de phases par exponentielle de matrice :
+\begin{equation}
+\big(\mathbb P(\text{NC},t),\mathbb P(\text{PC},t),\mathbb P(\text{C},t)\big)
+\;=\; \text{(sommes de phases de)}\;\; v_0\,\exp(Qt),
+\end{equation}
+où $v_0$ est la distribution initiale. À chaque horizon $t$, cette distribution agrège les SCR
+par état du Vasicek multi-états :
+\begin{equation}
+\mathrm{SCR}(t)\;=\;\sum_{e\in\{\text{NC,PC,C}\}}\mathbb P(e,t)\,\mathrm{SCR}_e .
+\end{equation}
+
+\section{Le couplage systémique et l'analogie de crédit}
+\label{sec:couplage}
+
+\begin{cle}
+\textbf{Un seul facteur couple les deux couches.} Le même facteur systémique $\Theta$ agit à la
+fois sur la couche lente et sur la couche rapide. Un environnement dégradé ($\Theta<0$) fait deux
+choses avec le \emph{même} tirage : il \textbf{ralentit la remédiation}, via des taux de
+transition $\mu(\Theta)=\mu_0\,e^{\beta_{\text{rem}}\Theta}$, et il \textbf{durcit la cascade},
+via $\mathrm{SCR}_e(\Theta)=\mathrm{SCR}_e\,e^{-\beta_{\text{casc}}\Theta}$. Les deux poussent le
+capital dans le même sens : la corrélation entre conformité et sinistralité, qu'auraient perdue
+des couches indépendantes, est restaurée. La dispersion de $\Theta$ engendre la bande
+d'incertitude de la trajectoire.
+\end{cle}
+
+\noindent Cette architecture est celle, éprouvée, du risque de crédit à \textbf{migration de
+rating} : la chaîne de Markov joue le rôle de la migration d'un « rating de conformité DORA »
+(la qualité change lentement, d'année en année), et le Vasicek multi-états celui du modèle de
+\textbf{défaut conditionnel au rating} (rapide, dans l'année, pour un rating donné). Transposer
+cette structure à deux étages au risque cyber n'est pas une invention fragile mais l'application
+d'un cadre reconnu, ce qui en fait un argument de robustesse et non un pari.
+
+Ce chapitre en donne la méthodologie complète ; les résultats chiffrés et les figures qui en
+découlent sont rassemblés au chapitre~\ref{chap:resultats}.
+
+% =====================================================================

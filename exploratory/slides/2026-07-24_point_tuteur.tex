@@ -1,0 +1,194 @@
+% Point d'avancement tuteur, 24 juillet 2026. Compile avec Tectonic (pdfLaTeX standard).
+% Perimetre : l'arc frequence d'entree (08b-08g) et le pivot vers les cas d'usage par pilier.
+\documentclass[11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{booktabs}
+\graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamerfont{block title}{size=\small}
+
+\title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
+\subtitle{Fréquence d'entrée du modèle et cas d'usage par pilier}
+\author[K. Kaddouri]{Kélian Kaddouri}
+\institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
+\date[24/07/2026]{24 juillet 2026}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Ce qu'on s'était dit la dernière fois}
+\begin{enumerate}
+\item \textbf{La fréquence d'entrée} du modèle : explorer avec Coraline un processus
+      simple (Poisson, Erlang) pour la fréquence des sinistres qui amorcent une cascade.
+\item \textbf{Échanger avec Mehdi} avant son départ, sur la lecture opérationnelle.
+\item \textbf{$W$ (contagion entre piliers)} : en attente d'un registre d'incidents
+      horodaté ; jugement d'expert et sensibilité en attendant.
+\end{enumerate}
+\vfill
+Les deux premiers sont faits, et le troisième a trouvé une réponse (négative, mais utile).
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Le fil directeur : où vit chaque brique}
+Modèle collectif à deux étages.
+\begin{itemize}
+\item \textbf{Étage 1, la fréquence} : combien de sinistres amorcent une cascade dans
+      l'année. C'est le \emph{point bloquant côté fréquence}, et l'objet de ce point.
+\item \textbf{Étage 2, la sévérité} : chaque sinistre se propage via la cascade
+      (contribution propre, déjà présentée).
+\end{itemize}
+\vfill
+\begin{block}{}
+Tout le travail présenté ici porte sur l'\textbf{étage 1}, calibré \textbf{sur données}
+(SAS OpRisk, Data Breach Chronology), là où la contagion dirigée $W$, elle, ne l'est pas.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Rappel : le modèle qu'on garde, le Vasicek dirigé}
+Le stress latent du pilier $j$ d'une entité combine trois briques :
+\[
+X_{ij} \;=\; \underbrace{\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion dirigée}}
+   \;+\; \underbrace{\sqrt{\rho_{ij}}\;Y_j}_{\text{systémique}}
+   \;+\; \underbrace{\sqrt{1-\rho_{ij}}\;\varepsilon_{ij}}_{\text{propre}}
+\]
+\begin{itemize}
+\item $Y_j$ : facteur systémique du pilier (la \og{}météo\fg{} commune), les $Y_j$ corrélés entre eux.
+\item $W$ bâtie depuis \texttt{TRANS} via la somme de ligne $s_j = \sum_k \texttt{TRANS}_{jk}$ :
+      $W = g\,\dfrac{\texttt{TRANS}}{\max_j s_j}$, d'où $\rho(W)\le g<1$ (Leontief) : stabilité garantie.
+\item Forme réduite : $\mathbf{X}_i = (I-W)^{-1}\,(\text{systémique} + \text{idiosyncratique})$.
+\end{itemize}
+\vfill
+Même information d'expert que le classeur, injectée dans le quantitatif. \textbf{Inchangé
+depuis le 17/07 : c'est l'ossature de l'étage 2, on la garde.}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{La cascade est un branchement, réconcilié avec le Vasicek}
+La cascade, décrite comme une chaîne, est en fait un \textbf{processus de branchement
+multitype} : un pilier qui tombe peut en déclencher \emph{plusieurs}.
+\begin{itemize}
+\item Sa matrice de descendance moyenne \textbf{est} $W$ (un pilier amorce
+      $e_j = g\,s_j/\max_k s_k$ successeurs en moyenne).
+\item $\rho(W)<1$ joue \textbf{deux rôles} : stabilité de Leontief \emph{et} sous-criticité
+      du branchement ; $(I-W)^{-1}$ est l'espérance de la progéniture.
+\end{itemize}
+\begin{block}{Ce que ça règle}
+Le classeur qualitatif (chaîne) et le Vasicek ($W$) ne cohabitent plus : c'est \textbf{le
+même} processus, vu en réalisation et en espérance.
+\end{block}
+\vfill
+\textbf{Vérifié, pas supposé} : passer de la marche au branchement laisse le SCR
+\textbf{quasi inchangé} ($-4\,\%$). La simplification est justifiée, dans l'esprit
+\og cadre complet d'abord, puis simplifier \fg.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Fréquence d'entrée : calibrée, non plus posée}
+\begin{center}
+\includegraphics[width=\linewidth]{N_frequence_entree.png}
+\end{center}
+Sur le SAS OpRisk (TIC, secteur financier) : le Poisson est rejeté, la loi est un
+\textbf{mélange Gamma} (la \og{}loi d'Erlang\fg{}, à forme non entière). La charge systémique
+observée ($a \approx 0{,}12$) est très en dessous de la valeur posée ($0{,}60$) :
+le calage actuel est \textbf{conservateur}, et on peut désormais le chiffrer.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Faut-il une contagion dans le temps (Hawkes) ? Non}
+\begin{center}
+\includegraphics[width=0.88\linewidth]{O_hawkes_verdict.png}
+\end{center}
+Le regroupement est \textbf{simultané}, pas séquentiel : les cinq plus gros jours sont la
+vague MOVEit (mai 2023), l'autocorrélation pique puis tombe à zéro, l'excitation ajustée a
+une demi-vie de 6~h. Un Hawkes coderait du bruit. \textbf{On ne l'ajoute pas.}
+\medskip
+
+{\footnotesize \textbf{Dans la lignée de la littérature du domaine} : Bessy-Roland,
+Boumezoued \& Hillairet (2021) retiennent un Hawkes \emph{multivarié} sur la base PRC (dont
+notre source dérive), à excitation \emph{retardée} ; notre clustering est \emph{simultané}.
+Boumezoued, Cherkaoui \& Hillairet (2023) montrent qu'un Hawkes standard sur-attribue à
+l'auto-excitation en présence d'un facteur exogène commun (ici MOVEit). On les prolonge, on
+ne les contredit pas.\par}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Le bon objet : un Poisson composé (arrivées groupées)}
+\begin{center}
+\includegraphics[width=\linewidth]{P_poisson_compose.png}
+\end{center}
+Une cause commune chez un tiers frappe $K$ entités le même jour. Deux mécanismes
+distincts : varier l'\textbf{intensité} (mélange) ne crée pas la \textbf{simultanéité}
+(paquets). À moyenne égale, les paquets chargent la queue au-delà du mélange calibré ;
+le calage posé $a=0{,}60$, lui, les enveloppe. \textbf{Prudence assumée, pas mesure.}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Échange avec Mehdi : un pivot, pas un recul}
+\begin{itemize}
+\item \textbf{\og{}Tu ne pourras pas tester la contagion entre piliers\fg{}} : c'est exactement
+      le verdict chiffré de mon étude de faisabilité ($W$ inidentifiable, l'asymétrie
+      tombe sous le placebo). Un praticien confirme par l'intuition ce que la donnée
+      démontre. C'est une \textbf{validation externe d'une limite déjà documentée}.
+\item Conséquence : la cascade reste le \textbf{modèle normatif} (jugement d'expert
+      assumé, sensibilité) ; le poids \textbf{empirique} se met par \textbf{pilier}, là
+      où la donnée existe.
+\item \textbf{P4 (tiers)} désigné comme le point d'entrée le plus critique : registre
+      d'externalisation, un sous-traitant qui fait tomber toute la banque.
+\end{itemize}
+\vfill
+Choix retenu : décliner un \textbf{cas d'usage par pilier}, orienté KPI.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Premiers cas d'usage par pilier (la piste de Mehdi)}
+Le score de criticité, abstrait, se \textbf{traduit en KPI observables}, calibrés sur
+donnée ouverte. Une première lecture par pilier :
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Pilier} & \textbf{KPI} & \textbf{Ordre de grandeur} \\
+\midrule
+P2 incidents  & délai de notification & médiane 94 j ; \textbf{85\,\% $>$ 1 mois} (art.~19) \\
+P3 résilience & temps de containment  & médiane 7 j ; 13\,\% $>$ 90 j \\
+P4 tiers      & concentration         & Gini 0,69 ; 1,7\,\% des jours $=$ 20\,\% des pertes \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vfill
+\textbf{Convergence indépendante} : la donnée place l'accumulation sur les \textbf{tiers}
+(vague MOVEit, Lakeview), là où le classeur, par jugement d'expert, mettait déjà P4 en
+tête ($\texttt{ROOT}[4]=0{,}90$). Deux chemins distincts, un même pilier. C'est le chapitre
+empirique, et il ne dépend pas de $W$.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Points bloquants et pour la prochaine fois}
+\small
+\textbf{Ce qui reste ouvert}
+\begin{itemize}
+\item La \textbf{donnée manquante} est la même pour $W$, le Hawkes et l'accumulation :
+      un registre horodaté à la survenance, où une cause commune est \emph{un} événement
+      à $N$ victimes. Sans lui, batch de déclaration et contagion restent confondus.
+\item Décision de prudence à trancher : garder $a=0{,}60$ (conservateur, non estimé) ou
+      passer à une \textbf{loi de taille de paquet} (observable, sens métier).
+\end{itemize}
+\textbf{Pour la prochaine fois}
+\begin{itemize}
+\item Approfondir un cas d'usage (P4 semble le plus porteur) au niveau
+      \textbf{sous-process}, sur les données que Mehdi doit fournir.
+\item Figer le tableau de bord de KPI par pilier et son lien au score de criticité.
+\end{itemize}
+\end{frame}
+
+\end{document}

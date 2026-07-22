@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[most]{tcolorbox}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+\graphicspath{{../../vasicek_lab/figures/}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries Protocole d'élicitation de $W$\\[2pt]
+  \large Méthode de Cooke, calibrée sur les faits mesurés du mémoire}
+\author{Kélian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.7cm}
+
+\begin{cle}
+\textbf{Pourquoi.} La contagion dirigée $W$ entre piliers n'est pas calibrable sur donnée
+(script 05). Plutôt qu'un dire d'expert brut, on l'obtient par une élicitation
+\textbf{pondérée par la performance} (Cooke, 1991) : les experts sont notés sur des
+questions à réponse connue, et leur influence sur $W$ est proportionnelle à leur
+\emph{justesse} et à leur \emph{finesse}. Résultat : un $W$ auditable, avec une
+\textbf{incertitude}, qui alimente directement la sensibilité du SCR.
+\end{cle}
+
+\subsection*{La méthode, en quatre temps}
+\begin{itemize}\itemsep2pt
+\item \textbf{Format.} Chaque quantité est élicitée en trois quantiles : $5\,\%$, $50\,\%$,
+      $95\,\%$ (un intervalle de crédibilité, pas un point).
+\item \textbf{Calibration.} Sur les questions-graines (réponse connue de l'analyste), on
+      teste si les réalisations tombent dans les bandes annoncées aux fréquences attendues
+      ($5/45/45/5\,\%$). Score $=$ p-value d'un $\chi^2$ ; faible si l'expert est
+      sur-confiant ou biaisé.
+\item \textbf{Information.} Finesse des intervalles, mesurée par la divergence de
+      Kullback-Leibler à un fond uniforme, sur une plage \emph{commune} à tous les experts.
+      Un expert vague est peu informatif.
+\item \textbf{Poids et agrégation.} Poids $=$ calibration $\times$ information (nul sous un
+      seuil $\alpha$). Le décideur est le mélange linéaire pondéré des experts sur les
+      liens cibles de $W$.
+\end{itemize}
+
+\subsection*{Les questions-graines (réponses connues, masquées aux experts)}
+Elles portent sur les quantités que les chapitres empiriques ont \textbf{mesurées} :
+l'élicitation est donc calibrée sur les faits du mémoire.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{11.8cm} r@{}}
+\toprule
+\textbf{Question-graine} & \textbf{Réponse (source)} \\
+\midrule
+Part des sinistres financiers portés par une cause commune (tiers) & $20\,\%$ (08d/g) \\
+Délai médian survenance $\to$ déclaration & $94$ j (08e) \\
+Part des incidents déclarés après un mois & $85\,\%$ (08e) \\
+Durée médiane de brèche (containment) & $7$ j (08f) \\
+Indice de queue de sévérité $\xi$ & $0{,}90$ (05) \\
+Fréquence d'incidents TIC matériels, grande entité, par an & $0{,}21$ (08b) \\
+Délai médian de déclaration d'un piratage & $117$ j (08e) \\
+Indice de Gini de la concentration journalière & $0{,}69$ (08g) \\
+Nombre max de victimes d'une cause commune en un jour (MOVEit) & $191$ (08g) \\
+Part des jours qui sont une cause commune & $1{,}7\,\%$ (08g) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Les questions cibles (liens dirigés de $W$)}
+\og À quel point une défaillance du pilier $k$ entraîne-t-elle celle du pilier $j$ ?\fg{},
+élicité en $5/50/95\,\%$, pour les liens structurants : P1$\to$P2, P2$\to$P1, P4$\to$P2,
+P1$\to$P4, P3$\to$P1, P5$\to$P2 (extensible aux 20 liens dirigés).
+
+\begin{center}
+\includegraphics[width=\linewidth]{V_elicitation_cooke.png}
+\captionof{figure}{Démonstration sur experts \textbf{fictifs} de profils contrastés.
+(a)~L'expert bien calibré et informatif domine ; le sur-confiant et le biaisé passent sous
+le seuil $\alpha$. (b)~Chaque lien de $W$ ressort avec un intervalle à $90\,\%$ autour de la
+valeur posée. (c)~L'asymétrie causale P1$\to$P2 vs P2$\to$P1 survit à l'élicitation.}
+\end{center}
+
+\begin{cle}
+\textbf{Comment l'exécuter.} Le moteur (\texttt{26\_elicitation\_cooke.py}) est prêt et
+validé. Il reste à : (1)~faire répondre les experts (Mehdi, Ouïdad, Franck, conformité) aux
+graines et aux cibles en $5/50/95\,\%$ ; (2)~remplacer les réponses fictives par les vraies ;
+(3)~lire les poids et le $W$ élicité avec ses intervalles. Aucune donnée d'incident n'est
+requise, seulement le temps des experts. Les intervalles obtenus deviennent la plage sur
+laquelle on borne le SCR (script 25).
+\end{cle}
+
+\end{document}

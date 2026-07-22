@@ -1,0 +1,80 @@
+% ---------------------------------------------------------------------
+% STATUT : SQUELETTE - c'est le chapitre NEUF et probablement la colonne
+%          vertébrale du mémoire. Contenu arrêté avec Hugo le 21/07/2026.
+% EN ATTENTE : confirmation du paradigme d'ensemble (verdict du panel).
+% À FAIRE AVANT RÉDACTION : coder le cran 1 (u_ij = a_i b_j) et produire
+%          la figure de l'échelle de repli (SCR et classement par cran).
+% ---------------------------------------------------------------------
+\chapter{Décomposition de la propagation et échelle de repli}
+\label{ch:decomposition}
+
+\begin{cle}
+\textbf{Thèse du chapitre.} La probabilité de propagation se décompose en une part que la
+donnée fixe et une part qu'elle ne fixe pas. On pose
+\[
+  p_{ij} \;=\; p_j \;+\; u_{ij},
+\]
+où $p_j$ est l'\textbf{attractivité de la cible} $j$ (à quel point $j$ est touché, quelle que
+soit la provenance) et $u_{ij}$ l'\textbf{excès propre à la source} $i$. La première est une
+marginale, donc calibrable ; la seconde \emph{est} la direction, donc la contribution du
+mémoire, et c'est elle qui n'est pas identifiable. Le chapitre attaque l'estimation la plus
+ambitieuse de $u_{ij}$, montre où elle casse, et \textbf{recule par crans} jusqu'au modèle
+nul $u \equiv 0$.
+\end{cle}
+
+\section{La décomposition et sa normalisation}
+
+% À RÉDIGER. Points obligatoires :
+%  - définir p_ij dans le modèle de cascade (lien avec W_jk du chapitre 4)
+%  - p_j = attractivité de la cible ; u_ij = excès propre à la source
+%  - PIÈGE 1 : la décomposition n'est PAS identifiée sans normalisation.
+%    Pour toute constante c_j, (p_j + c_j, u_ij - c_j) donne le même p_ij.
+%    Remède : imposer  moyenne_i u_ij = 0  pour chaque j.
+%    (problème classique des effets à deux voies)
+%  - PIÈGE 2 : la forme additive peut sortir de [0,1].
+%    Remède : contraindre u_ij dans [-p_j, 1-p_j], ou passer en logit :
+%    logit p_ij = logit p_j + u_ij  (recommandé)
+%  - traiter le cas de la diagonale u_jj
+%  - relier au rayon spectral : la contrainte rho(W) < 1 borne u
+
+\section{L'asymétrie du mécanisme n'est pas l'asymétrie des taux}
+
+% À RÉDIGER. Point clé, souvent mal compris :
+%  sous u = 0 on a p_ij = p_j et p_ji = p_i, qui diffèrent en général.
+%  Cette asymétrie-là ne vient QUE de l'attractivité des cibles, ce n'est
+%  pas un mécanisme directionnel. Le vrai mécanisme est u_ij - u_ji.
+%  Conséquence : le test de knockout d'asymétrie teste en réalité u.
+
+\section{Le test : la source compte-t-elle au-delà de la cible ?}
+
+% À RÉDIGER. Reformuler le résultat existant comme un test d'hypothèse :
+%     H0 : u_ij = 0 pour tout i,j
+%  Le placebo par permutation donne z = -0,33 : H0 n'est PAS rejetée sur
+%  les données publiques. Ce n'est plus « je n'ai pas su calibrer W »,
+%  c'est « la donnée ne permet pas de distinguer la source de la cible ».
+%  Renvoyer au chapitre \ref{ch:identifiabilite} pour les deux sources.
+
+\section{L'échelle de repli}
+
+% À RÉDIGER + À CODER. Les cinq crans, du plus dur au repli :
+%   Cran 0 : u_ij libre (20 paramètres hors diagonale). Non identifiable.
+%   Cran 1 : u_ij = a_i b_j (rang 1 : émetteurs a_i, récepteurs b_j),
+%            environ 10 paramètres.  <-- JAMAIS TESTÉ, à coder en premier
+%   Cran 2 : u_ij non estimé mais BORNÉ (identification partielle),
+%            SCR reporté en bornes sur l'ensemble admissible
+%   Cran 3 : u_ij élicité (protocole de Cooke, chapitre \ref{ch:elicitation})
+%   Cran 4 : u_ij = 0, soit p_ij = p_j. MODÈLE NUL, entièrement identifié,
+%            mais la dépendance à l'ordre y disparaît.
+%
+% LIVRABLE CENTRAL : une figure unique donnant, pour chaque cran, le SCR
+% et le classement des piliers. Toute la contribution du mémoire se lit
+% comme l'écart au cran 4.
+
+\begin{cle}
+\textbf{Pourquoi cette construction tient devant un jury.} Elle applique la méthode demandée
+par le tuteur (attaquer le modèle le plus ambitieux, reculer par crans documentés) et elle
+coïncide avec un paradigme statistique reconnu, l'\textbf{identification partielle} : on
+n'estime pas un paramètre que la donnée ne détermine pas, on caractérise l'ensemble de ses
+valeurs admissibles et l'on montre ce que le capital devient sur cet ensemble. La limite
+cesse d'être une excuse pour devenir la méthode.
+\end{cle}

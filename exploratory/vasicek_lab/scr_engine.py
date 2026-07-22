@@ -18,6 +18,7 @@ troisieme canal : severites independantes sachant S.
 
 import os
 import sys
+from itertools import combinations
 
 import numpy as np
 
@@ -67,11 +68,78 @@ def cascade_set_dist(amorce, g):
     return dist
 
 
-def build_cascade_tables(g):
-    """Pour chaque amorce : (indicateur [nsets x 5] 0/1, probas [nsets]). Somme=1."""
+# ============================================================ cascade par BRANCHEMENT multitype
+def _p_edge(j, k, g):
+    """Proba que le pilier tombe j infecte DIRECTEMENT k (cascade independante)."""
+    gj = g[j] if isinstance(g, dict) else g
+    return gj * TRANS[j].get(k, 0.0) / _MAXS
+
+
+def cascade_set_dist_branching(amorce, g):
+    """Distribution EXACTE de l'ensemble S sous un BRANCHEMENT MULTITYPE (modele a
+    cascade independante) : depuis chaque pilier tombe j, chaque autre pilier k est
+    infecte INDEPENDAMMENT avec proba p_jk = g*TRANS[j][k]/max_s.
+
+    Contrairement a la marche (un seul successeur par pas), un pilier peut en declencher
+    PLUSIEURS a la meme generation : la cascade est un ARBRE, pas une chaine. Le nombre
+    moyen de descendants directs de j vaut e_j = g*s_j/max_s (identique a la marche), et
+    la matrice moyenne est W = g*TRANS/max_s, donc rho(W) <= g < 1 : sous-critique, et
+    (I-W)^{-1} en est l'esperance (envelope lineaire, non auto-evitante).
+
+    Ensemble atteint = accessibilite dans le graphe d'aretes vivantes (equivalence
+    classique de la cascade independante). Calcul exact : P(S=A) = R(A) * B(A) avec
+    B(A) = prod_{j in A, k hors A} (1-p_jk) (pas de fuite) et R(A) = proba que l'amorce
+    atteigne TOUT A par les aretes internes, obtenue par recursion sur les sous-ensembles.
+    Renvoie {frozenset(S): proba}.
+    """
+    others = [x for x in PIL if x != amorce]
+    Rcache = {}
+
+    def R(A):
+        if A in Rcache:
+            return Rcache[A]
+        if len(A) == 1:
+            Rcache[A] = 1.0
+            return 1.0
+        rest = [x for x in A if x != amorce]
+        tot = 0.0
+        for r in range(len(rest)):                       # sous-ensembles PROPRES A' contenant l'amorce
+            for combo in combinations(rest, r):
+                Ap = frozenset((amorce,) + combo)
+                comp = A - Ap
+                pr = 1.0
+                for jj in Ap:
+                    for kk in comp:
+                        pr *= (1.0 - _p_edge(jj, kk, g))
+                tot += R(Ap) * pr
+        val = 1.0 - tot
+        Rcache[A] = val
+        return val
+
+    dist = {}
+    for r in range(len(others) + 1):
+        for combo in combinations(others, r):
+            A = frozenset((amorce,) + combo)
+            comp = [k for k in PIL if k not in A]
+            B = 1.0
+            for jj in A:
+                for kk in comp:
+                    B *= (1.0 - _p_edge(jj, kk, g))
+            dist[A] = R(A) * B
+    return dist
+
+
+def build_cascade_tables(g, mode="walk"):
+    """Pour chaque amorce : (indicateur [nsets x 5] 0/1, probas [nsets]). Somme=1.
+
+    mode='walk' (defaut, marche auto-evitante a un successeur) ou 'branching'
+    (branchement multitype : un pilier peut en declencher plusieurs, arbre reconcilie
+    avec W du Vasicek).
+    """
+    dist_fn = cascade_set_dist_branching if mode == "branching" else cascade_set_dist
     tables = {}
     for j in PIL:
-        dist = cascade_set_dist(j, g)
+        dist = dist_fn(j, g)
         sets = list(dist.keys())
         probs = np.array([dist[s] for s in sets])
         ind = np.zeros((len(sets), len(PIL)))

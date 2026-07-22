@@ -1,0 +1,58 @@
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+
+Ce mémoire quantifie le coût en capital de solvabilité d'un défaut de conformité au règlement
+DORA (UE 2022/2554) pour un assureur exposé au risque cyber. Il propose un modèle interne
+partiel où la dépendance entre les cinq piliers de DORA n'est pas portée par une copule
+\emph{a posteriori}, mais par une \textbf{cascade dirigée} : un incident amorcé sur un pilier
+se propage aux autres selon une matrice d'influence asymétrique $W$, normalisée à la Leontief
+de sorte que la stabilité du système est \emph{garantie} et non supposée. Le capital est la
+VaR à $99{,}5\,\%$ de la perte annuelle ainsi agrégée, et il est fait dépendre de
+l'\textbf{état de conformité} de l'entité par une couche multi-états pilotée dans le temps par
+une chaîne de Markov, d'où une \textbf{trajectoire} de SCR plutôt qu'un chiffre unique.
+
+La contribution centrale n'est pas de \emph{mesurer} cette contagion, mais d'en établir la
+\textbf{frontière d'identifiabilité}. On démontre, sur deux sources qui échouent pour des
+raisons opposées et jusque sur la meilleure expérience naturelle disponible (le choc de
+chaîne d'approvisionnement MOVEit), que la \emph{direction} de la contagion n'est pas
+identifiable sur les données publiques, quand sa \emph{co-occurrence} l'est. Plutôt que de
+poser un $W$ arbitraire, le mémoire caractérise l'\textbf{ensemble} des matrices compatibles
+avec ce que la donnée fixe et publie le capital en \textbf{bornes} sur cet ensemble
+(identification partielle). Il en résulte un socle calibré et défendable, une bande
+d'ignorance directionnelle explicitement chiffrée, et une mesure, en euros de capital, de ce
+qu'un registre d'incidents mieux spécifié ferait gagner.
+
+On en tire le surcoût de non-conformité $\Delta_{\text{DORA}}$, sa décomposition et son
+attribution par pilier (valeur de Shapley, règle d'Euler), et l'ordre de remédiation qui
+minimise le capital porté. Résultat saillant, énoncé avec sa limite : le \textbf{niveau}
+absolu du SCR est illustratif, car il varie d'un facteur $40$ selon la source de sévérité,
+tandis que les \textbf{rapports} et le \textbf{classement} des piliers résistent au changement
+de source. Deux piliers, la gouvernance et la gestion des tiers, dominent robustement les
+trois autres ; leur ordre relatif, lui, dépend précisément de la direction non identifiée,
+ce qui délimite exactement ce qu'une élicitation d'expert peut encore apporter.
+
+\paragraph{Mots-clés.} Risque cyber ; DORA ; SCR ; Solvabilité II ; théorie des valeurs
+extrêmes ; cascade dirigée ; identification partielle ; bornes de capital ; chaîne de
+Markov ; Vasicek.
+
+\bigskip
+\noindent\textbf{Abstract.} \emph{This thesis quantifies the solvency-capital cost of DORA
+non-compliance for a cyber-exposed insurer. Dependence across the five DORA pillars is carried
+by a \textbf{directed cascade} rather than an \emph{a posteriori} copula: a pillar-initiated
+incident propagates through an asymmetric, Leontief-normalised influence matrix, and the
+capital charge is made to depend on the firm's \textbf{compliance state} through a Markov-driven
+multi-state layer. The central contribution is not to measure this contagion but to establish
+its \textbf{identifiability boundary}: the \emph{direction} of propagation is shown to be
+non-identifiable from public data, even under the best available natural experiment, whereas
+its co-occurrence is not. Rather than positing an arbitrary matrix, the thesis characterises
+the \textbf{set} of matrices consistent with the data and reports capital as \textbf{bounds}
+over that set (partial identification), together with the euro value of the incident-registry
+data that would tighten them. The absolute capital level is shown to be illustrative (it moves
+by a factor of forty with the severity source), whereas the pillar ranking is robust; the two
+leading pillars dominate the rest, but their internal order depends on precisely the direction
+that the data leaves unidentified.}
+
+% =====================================================================
+\tableofcontents
+
+% =====================================================================

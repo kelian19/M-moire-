@@ -1,0 +1,59 @@
+\chapter{Introduction}
+
+\begin{cle}
+\textbf{Question centrale.} Comment traduire un niveau de non-conformité à DORA, même
+hypothétique ou graduel, en une distribution de pertes puis en une charge de capital ? Le
+mémoire ne pose pas la question \emph{l'entité est-elle conforme aujourd'hui}, mais
+\emph{combien coûte en capital de ne pas se conformer}.
+\end{cle}
+
+Le règlement DORA, entré en application en janvier 2025, impose aux entités financières la
+maîtrise de cinq domaines de résilience opérationnelle numérique : la gouvernance du risque
+lié aux technologies (P1), la gestion et la notification des incidents (P2), les tests de
+résilience (P3), la gestion du risque lié aux prestataires tiers (P4) et le partage
+d'informations sur les cybermenaces (P5). Ces cinq piliers ne sont pas des cases
+indépendantes à cocher : ce sont des domaines de \emph{contrôle}, et la défaillance de l'un
+dégrade la capacité de l'entité à tenir les autres. Une gouvernance défaillante retarde la
+détection des incidents ; une dépendance non maîtrisée à un prestataire ouvre une porte que
+les tests n'ont pas explorée. La non-conformité ne reste pas dans son pilier, elle se
+propage.
+
+\section{Le vide que ce mémoire comble}
+Aucun dispositif prudentiel ne traduit aujourd'hui ce niveau de maîtrise en capital. La
+Formule Standard de Solvabilité~II charge le risque opérationnel par un pourcentage de primes
+ou de provisions, entièrement \textbf{aveugle} au fait qu'une entité soit exemplaire ou
+défaillante sur DORA. Une copule capturerait bien la co-occurrence des pertes, mais
+symétriquement : elle ne distingue pas une défaillance qui \emph{entraîne} les autres d'une
+défaillance qui les \emph{subit}. Or c'est précisément cette asymétrie, la direction de la
+propagation, qui devrait commander la priorité de remédiation d'un assureur. C'est le vide
+que le mémoire vient combler, sans prétendre à ce que la donnée ne permet pas.
+
+\section{Contribution et plan}
+Le mémoire s'articule autour de trois apports, et il est aussi explicite sur ce qu'il
+\emph{n'affirme pas} que sur ce qu'il établit.
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
+\item Un \textbf{mécanisme} de dépendance dirigée et à l'ordre entre les piliers, la cascade,
+      dont on démontre trois propriétés (chapitres~\ref{chap:cascade} et~\ref{ch:proprietes}) :
+      la criticité dépend de l'\emph{ordre} de la chaîne et non du seul ensemble des piliers
+      touchés, ce qu'aucune dépendance symétrique ne reproduit ; la normalisation de Leontief
+      borne la propagation ; et une matrice et sa transposée, indistinguables pour la donnée,
+      donnent un capital et une décision différents.
+\item Une \textbf{frontière d'identifiabilité}, démontrée (chapitre~\ref{ch:identifiabilite})
+      puis muée en méthode (chapitre~\ref{chap:partielle}) : la direction n'étant pas
+      identifiable, on ne la pose pas, on borne le capital sur l'ensemble des matrices
+      admissibles, et l'on chiffre en euros la valeur de la donnée manquante.
+\item Une \textbf{lecture décisionnelle} : le surcoût $\Delta_{\text{DORA}}$, son attribution
+      par pilier (Shapley, Euler) et l'ordre de remédiation, présentés en rapports et en
+      bornes plutôt qu'en niveaux (chapitre~\ref{chap:resultats}).
+\end{enumerate}
+
+\begin{attention}
+\textbf{Ce que le mémoire ne prétend pas.} La matrice de contagion n'est jamais présentée
+comme calibrée : elle est normative, élicitée, et bornée par une analyse de sensibilité. Le
+niveau absolu du SCR est illustratif, non une mesure : c'est l'effet \emph{relatif} de la
+conformité et la hiérarchie des piliers qui sont défendus. Cette discipline n'est pas une
+précaution rhétorique, elle est un résultat, et le fil directeur du document.
+\end{attention}
+
+% =====================================================================

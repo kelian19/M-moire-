@@ -1,0 +1,128 @@
+﻿% =====================================================================
+%  PrÃ©ambule commun du mÃ©moire (modÃ¨le de cascade dirigÃ©e / DORA).
+%  Document pdfLaTeX-standard : compile sous Tectonic comme sous Overleaf.
+%  RÃ¨gle de rendu : ne JAMAIS utiliser les littÃ©raux Â« Â» et Â§ (glyphes
+%  faux sous Tectonic avec inputenc+T1+lmodern). Utiliser \og ... \fg{}
+%  et \S. Les accents (Ã© Ã¨ Ã ) passent normalement.
+% =====================================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english,french]{babel}   % french = langue principale, english pour l'abstract
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{textcomp}
+\usepackage[official]{eurosym}
+\usepackage[round,authoryear]{natbib}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}                % chargÃ© en dernier
+
+% --- OÃ¹ chercher les figures : locales, puis pipeline, puis labo cascade ---
+% (graphicspath : deja defini dans main.tex, ne pas redefinir ici)
+
+% --- Palette ---
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{softgreen}{HTML}{E2EFDA}
+\definecolor{softamber}{HTML}{FCE4D6}
+
+\hypersetup{
+  colorlinks=true, linkcolor=bluemid, urlcolor=bluemid, citecolor=bluemid,
+  bookmarksnumbered=true, bookmarksopen=true,
+  pdftitle={Cascade dirigÃ©e entre les piliers DORA et traduction en capital rÃ©glementaire},
+  pdfauthor={KÃ©lian Kaddouri}
+}
+
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
+
+% --- Environnements mathÃ©matiques ---
+\newtheoremstyle{navystyle}{0.8em}{0.8em}{\itshape}{}%
+  {\bfseries\color{navy}}{.}{.5em}{}
+\theoremstyle{navystyle}
+\newtheorem{theorem}{ThÃ©orÃ¨me}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemme}
+\newtheoremstyle{navydef}{0.8em}{0.8em}{\normalfont}{}%
+  {\bfseries\color{bluemid}}{.}{.5em}{}
+\theoremstyle{navydef}
+\newtheorem{definition}[theorem]{DÃ©finition}
+\newtheorem{hypothese}[theorem]{HypothÃ¨se}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% --- Notations ---
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\VaR}{\mathrm{VaR}}
+\newcommand{\TVaR}{\mathrm{TVaR}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\indic}{\mathbf{1}}
+\providecommand{\up}[1]{\textsuperscript{#1}}
+
+% --- EncadrÃ©s ---
+\newtcolorbox{formulekey}[1][Formule clÃ©]{
+  enhanced, breakable,
+  colback=lightblue!35, colframe=navy, boxrule=0.8pt, arc=2pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{white}, coltitle=white, colbacktitle=navy,
+  title={#1}, attach boxed title to top left={xshift=8pt,yshift=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt, arc=1pt}
+}
+\newtcolorbox{formulaire}[1][Formulaire]{
+  enhanced, breakable,
+  colback=white, colframe=bluemid, boxrule=0.6pt, arc=2pt,
+  left=8pt, right=8pt, top=8pt, bottom=8pt,
+  title={#1}, fonttitle=\bfseries\color{white}, colbacktitle=bluemid
+}
+% EncadrÃ© Â« thÃ¨se / point clÃ© Â» utilisÃ© dans les chapitres rÃ©digÃ©s
+\newtcolorbox{cle}[1][]{enhanced, breakable,
+  colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+% --- Macros de tableaux (chapitres robustesse et positionnement) ---
+\newcommand{\rob}{\cellcolor{softgreen}\textbf{robuste}}
+\newcommand{\feat}{\cellcolor{lightblue!60}\textbf{voulu}}
+\newcommand{\ass}{\cellcolor{softamber}\textbf{assumÃ©}}
+\newcommand{\oui}{\textcolor{navy}{$\checkmark$}}
+\newcommand{\non}{\textcolor{accent}{$\times$}}
+\newcommand{\cascell}{\cellcolor{softgreen}}
+
+% --- Titres ---
+\titleformat{\chapter}[display]
+  {\color{navy}\bfseries}{\large\chaptertitlename\ \thechapter}{0.4em}{\huge}
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+\titleformat{\section}{\color{navy}\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\color{bluemid}\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{2.4ex plus 1ex minus .2ex}{1.4ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{2.0ex plus .8ex minus .2ex}{1.0ex plus .2ex}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\color{navy}Cascade DORA}
+\chead{\small\color{navy}\leftmark}
+\rhead{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{1.2em}
+\setlength{\emergencystretch}{3em}
+\setlength{\intextsep}{14pt plus 2pt minus 2pt}

@@ -1,0 +1,113 @@
+% ---------------------------------------------------------------------
+% STATUT : RÉDIGÉ. Bloc de rigueur formelle destiné au jury quantitatif.
+% Les trois propositions sont démontrées ET vérifiées numériquement par
+% exploratory/vasicek_lab/6_contagion/32_proprietes_formelles.py (figure Z3).
+% Requiert l'environnement `cle` (voir macros_requises.tex).
+% ---------------------------------------------------------------------
+\chapter{Trois propriétés du modèle}
+\label{ch:proprietes}
+
+\begin{cle}
+\textbf{Objet du chapitre.} Le mémoire ne prétend pas apporter un théorème nouveau
+d'analyse stochastique. Il établit en revanche trois propriétés de son propre objet, et
+chacune est accompagnée de sa \textbf{vérification numérique} : l'énoncé dit ce qui doit
+se produire, le calcul montre que cela se produit. La troisième est la plus importante,
+car elle transforme la limite d'identification en résultat opposable.
+\end{cle}
+
+\section{La criticité dépend de l'ordre, non de l'ensemble}
+
+\paragraph{Proposition 1.} Soit $c(\sigma)$ la criticité d'une chaîne \emph{ordonnée}
+$\sigma$ de piliers. Si $c$ était une fonction du seul \emph{ensemble} des piliers
+touchés, on aurait $c(\sigma) = c(\sigma')$ pour toute permutation $\sigma'$ de $\sigma$.
+Ce n'est pas le cas.
+
+\paragraph{Démonstration.} Il suffit d'un contre-exemple, et la construction en fournit
+une famille. La vraisemblance d'une chaîne $(i_1,\dots,i_n)$ vaut
+$\mathrm{ROOT}[i_1]\prod_{k} \mathrm{TRANS}[i_k][i_{k+1}]$, produit qui dépend de l'ordre
+dès lors que $\mathrm{TRANS}$ est asymétrique. Pour la paire $\{P_1, P_2\}$ :
+$\mathrm{TRANS}[1][2] = 0{,}80$ alors que $\mathrm{TRANS}[2][1] = 0{,}20$, et les
+criticités valent respectivement $8$ et $2$. \hfill$\blacksquare$
+
+\paragraph{Vérification.} Sur les $26$ sous-ensembles de taille au moins deux,
+\textbf{$22$ changent de criticité selon l'ordre}, avec un écart atteignant \textbf{$6$
+points sur une échelle de $10$}, soit $60\,\%$ de l'échelle, pour un \emph{même} ensemble
+de piliers.
+
+\paragraph{Portée.} Toute dépendance symétrique (copule) et tout score additif sont, par
+construction, \textbf{invariants par permutation}. Aucun ne peut donc reproduire la
+criticité. C'est l'argument d'exclusion des approches concurrentes, et il ne requiert
+\emph{aucun} jugement d'expert sur la \emph{valeur} de la direction : il suffit que
+$\mathrm{TRANS}$ ne soit pas symétrique.
+
+\begin{cle}
+\textbf{Ce qui n'est pas revendiqué, et pourquoi le dire.} Une propriété plus forte, la
+\textbf{non-transitivité} de la dominance entre piliers, a été testée dans trois
+formulations : la transitivité des corrélations qu'impose un modèle à facteur unique, la
+positivité de la dépendance symétrisée, et l'existence de cycles de dominance par paire.
+\textbf{Aucune ne se vérifie} : zéro violation de l'inégalité de transitivité sur $420$
+triplets, valeur propre minimale $+0{,}405$ donc matrice de corrélation parfaitement
+valide, et zéro cycle. Cette revendication est donc \textbf{retirée}. La dépendance à
+l'ordre exclut exactement les mêmes concurrents et, elle, se démontre.
+\end{cle}
+
+\section{La normalisation de Leontief borne la propagation}
+
+\paragraph{Proposition 2.} Pour une cascade indépendante de matrice moyenne $W$, où
+$W_{jk}$ est la probabilité que le pilier $j$ contamine directement $k$, et en notant
+$S_j$ l'ensemble des piliers atteints depuis l'amorce $j$ :
+\[
+  \mathbb{E}\bigl[\,|S_j|\,\bigr] \;\leq\; \bigl[(I-W)^{-1}\mathbf{1}\bigr]_j ,
+\]
+quantité finie si et seulement si $\rho(W) < 1$.
+
+\paragraph{Démonstration.} Le nombre moyen de descendants de génération $k$ issus de $j$
+est la $j$-ème ligne de $W^{k}$. La descendance totale espérée, comptée \emph{avec}
+multiplicité, vaut donc $\sum_{k\geq 0} W^{k} = (I-W)^{-1}$, série géométrique matricielle
+convergente si et seulement si $\rho(W) < 1$. L'ensemble atteint compte chaque pilier une
+seule fois, là où la descendance le compte autant de fois qu'il est contaminé : $|S_j|$
+est donc dominé par la descendance totale. \hfill$\blacksquare$
+
+\paragraph{Portée.} La normalisation $W = g\,\mathrm{TRANS}/\max_k s_k$ impose
+$\rho(W)\leq g<1$ : la cascade est \textbf{sous-critique par construction}, et non par
+calibration heureuse. C'est ce qui autorise la forme réduite $(I-W)^{-1}$ malgré les
+cycles de propagation, là où un graphe bayésien exigerait l'acyclicité.
+
+\paragraph{Vérification, et ce que l'écart mesure.} Avec le classeur actuel,
+$\rho(W) = 0{,}506$. L'inégalité est vérifiée sur les cinq amorces et sur $300$ matrices
+de l'ensemble admissible, sans aucun contre-exemple. L'écart entre la borne et la valeur
+exacte va de $10{,}6\,\%$ (amorce P5) à $19{,}9\,\%$ (amorce P1). \textbf{Cet écart n'est
+pas une imprécision} : il mesure exactement les \emph{collisions}, c'est-à-dire les
+piliers atteints par plusieurs chemins, que la forme linéaire compte plusieurs fois.
+Sur cinq piliers fortement connectés il n'est pas négligeable, ce qui justifie de
+conserver le calcul exact par sous-ensembles plutôt que la seule forme close.
+
+\section{La direction n'est pas identifiée, et cela coûte}
+
+\paragraph{Proposition 3.} Toute matrice se décompose de façon \emph{unique} en
+$W = S + A$, avec $S = (W+W^{\top})/2$ symétrique et $A = (W-W^{\top})/2$ antisymétrique.
+Les matrices $W$ et $W^{\top}$ partagent donc exactement la même partie symétrique et ne
+diffèrent que par le signe de $A$.
+
+\paragraph{Conséquence.} Le test directionnel ne rejette pas l'hypothèse $A = 0$
+(chapitre~\ref{ch:identifiabilite} : asymétrie observée $119$ contre un nul de
+permutation à $128 \pm 27$, soit $z = -0{,}33$, et aucune arête significative sur $18$).
+Les deux matrices sont donc \textbf{également compatibles avec ce que l'on observe}. Elles
+ne produisent pourtant ni le même capital, ni la même décision.
+
+\paragraph{Vérification.} Le SCR passe de $8\,110$~M\euro{} sous $W$ à $7\,816$~M\euro{}
+sous $W^{\top}$, soit $295$~M\euro{} d'écart ($3{,}6\,\%$), et $7{,}9\,\%$ d'écart sur la
+perte moyenne. Surtout, \textbf{la priorité de remédiation bascule de P1 à P4}. Sur
+l'ensemble admissible, l'écart entre une matrice et sa transposée atteint
+$1\,173$~M\euro{}.
+
+\begin{cle}
+\textbf{L'énoncé à retenir : observationnellement indistinguables, matériellement
+différentes.} C'est la formulation la plus nette de la frontière d'identification, et
+elle ne repose sur \emph{aucun} dire d'expert. Elle chiffre en euros de capital, et en
+inversion de priorité, le prix de ne pas savoir dans quel sens la contagion circule.
+C'est ce qui fonde à la fois le modèle en couches (chapitre~\ref{ch:decomposition}) et la
+spécification de reporting adressée au régulateur.
+\end{cle}
+
+% =====================================================================

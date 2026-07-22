@@ -1,0 +1,107 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{grayline}{HTML}{BFBFBF}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\renewcommand{\arraystretch}{2.0}
+\newcolumntype{A}{>{\centering\arraybackslash}m{1.7cm}}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries Questionnaire d'élicitation de $W$\\[2pt]
+  \large Méthode de Cooke -- à remplir en une séance (~30 min)}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.4cm}
+
+\noindent\textbf{Expert :} \underline{\hspace{4.5cm}} \quad
+\textbf{Rôle :} \underline{\hspace{4.5cm}} \quad
+\textbf{Date :} \underline{\hspace{2.8cm}}
+
+\vspace{0.3cm}
+\begin{cle}
+\textbf{Comment répondre.} Pour chaque quantité, donnez \textbf{trois nombres} : une valeur
+\textbf{basse (5\,\%)}, une valeur \textbf{médiane (50\,\%)}, une valeur \textbf{haute
+(95\,\%)}, telles que vous estimez à \textbf{90\,\% de chances} que la vraie valeur soit
+comprise entre votre 5\,\% et votre 95\,\%. Il n'y a pas de réponse attendue : donnez votre
+meilleure estimation \emph{et} votre incertitude. \textbf{Répondez même incertain} : un
+intervalle large est une réponse honnête et parfaitement valable. Ne cherchez pas les vraies
+valeurs, l'intérêt est justement de mesurer votre jugement.
+\end{cle}
+
+\section*{Partie A -- Questions d'étalonnage}
+\footnotesize\emph{Des quantités mesurées dans le mémoire (leur vraie valeur est connue de
+l'analyste, pas affichée ici). Elles servent à pondérer les experts, pas à les piéger.}
+\normalsize
+
+\vspace{0.2cm}
+\begin{center}
+\begin{tabular}{|p{9.6cm}|A|A|A|}
+\hline
+\rowcolor{lightblue!50}
+\textbf{Quantité} & \textbf{5\,\%} & \textbf{50\,\%} & \textbf{95\,\%} \\ \hline
+A1. Part des sinistres financiers portés par une cause commune (un tiers), en \% & & & \\ \hline
+A2. Délai médian entre la survenance d'un incident et sa déclaration, en jours & & & \\ \hline
+A3. Part des incidents déclarés plus d'un mois après leur survenance, en \% & & & \\ \hline
+A4. Durée médiane de \emph{containment} (fin de la brèche), en jours & & & \\ \hline
+A5. Indice de queue $\xi$ de la sévérité (0 = queue légère ; ${\sim}1$ = moyenne quasi infinie) & & & \\ \hline
+A6. Nombre d'incidents TIC matériels par an pour une grande entité financière & & & \\ \hline
+A7. Délai médian de déclaration d'un incident de type \emph{piratage}, en jours & & & \\ \hline
+A8. Indice de Gini de la concentration des sinistres sur les jours (0 = régulier ; 1 = très concentré) & & & \\ \hline
+A9. Nombre maximal de victimes d'une même cause commune en un jour (vague type MOVEit) & & & \\ \hline
+A10. Part des jours de l'année qui portent une cause commune, en \% & & & \\ \hline
+\end{tabular}
+\end{center}
+
+\section*{Partie B -- Liens dirigés entre piliers (les inconnues de $W$)}
+\footnotesize\emph{\textbf{Force du lien dirigé} de $k$ vers $j$, entre \textbf{0 et 1} :
+$0$ = une défaillance du pilier $k$ n'entraîne \emph{jamais} celle de $j$ ; $1$ = une
+défaillance de $k$ entraîne \emph{quasi-certainement} celle de $j$ dans la foulée. Donnez
+là aussi 5\,\% / 50\,\% / 95\,\%.}\\[2pt]
+\textbf{Piliers :} P1 gouvernance et gestion du risque TIC \textbullet{} P2 gestion des
+incidents \textbullet{} P3 tests de résilience \textbullet{} P4 risque tiers \textbullet{}
+P5 partage d'information.
+\normalsize
+
+\vspace{0.2cm}
+\begin{center}
+\begin{tabular}{|p{9.6cm}|A|A|A|}
+\hline
+\rowcolor{lightblue!50}
+\textbf{Lien dirigé $k \to j$ (force entre 0 et 1)} & \textbf{5\,\%} & \textbf{50\,\%} & \textbf{95\,\%} \\ \hline
+B1. \textbf{P1 $\to$ P2} : une défaillance de gouvernance entraîne des incidents & & & \\ \hline
+B2. \textbf{P2 $\to$ P1} : des incidents entraînent une défaillance de gouvernance (l'inverse) & & & \\ \hline
+B3. \textbf{P4 $\to$ P2} : une défaillance d'un tiers entraîne des incidents & & & \\ \hline
+B4. \textbf{P1 $\to$ P4} : une défaillance de gouvernance entraîne une défaillance côté tiers & & & \\ \hline
+B5. \textbf{P3 $\to$ P1} : une défaillance des tests de résilience entraîne une défaillance de gouvernance & & & \\ \hline
+B6. \textbf{P5 $\to$ P2} : une défaillance du partage d'information entraîne des incidents & & & \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.2cm}
+\begin{cle}
+\textbf{Ce qu'on en fait.} Vos réponses de la partie A mesurent votre calibration (justesse)
+et votre information (finesse) ; elles fixent votre poids dans l'agrégation. Vos réponses de
+la partie B, pondérées par ce poids et croisées avec celles des autres experts, produisent
+chaque lien de $W$ avec un \textbf{intervalle}, pas un point. Le traitement est automatique
+(moteur de Cooke, script \texttt{26b}). Aucune donnée d'incident n'est requise, seulement
+votre jugement.
+\end{cle}
+
+\end{document}

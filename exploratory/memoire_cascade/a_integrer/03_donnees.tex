@@ -1,0 +1,27 @@
+% STATUT : À RÉDIGER, mais TOUT est déjà calculé (scripts vasicek_lab).
+% C'est le chapitre qui établit ce que la donnée FIXE, par opposition au
+% chapitre identifiabilité qui établit ce qu'elle ne fixe pas.
+\chapter{Données et ancrage empirique}
+\label{ch:donnees}
+
+\textit{[Chapitre à rédiger. Les résultats existent, il s'agit de les mettre en forme.]}
+
+% PLAN :
+%  1. Les sources : Data Breach Chronology (notifications), SAS OpRisk
+%     Global Data (pertes opérationnelles Bâle), VCDB (sous-piliers).
+%     Périmètre, limites, biais de collecte à annoncer d'emblée.
+%  2. FRÉQUENCE d'entrée : lambda ~ 21,6/an, mélange de Poisson,
+%     sur-dispersion phi ~ 9,2 (binomiale négative).
+%  3. ACCUMULATION : concentration journalière, Gini 0,69 ; MOVEit comme
+%     cause commune à 191 victimes. Poisson composé / structure de paquet.
+%  4. POURQUOI PAS DE HAWKES : noyau exponentiel puis noyau à retard
+%     (variante Bessy-Roland), excitation intra-journalière, endogénéité
+%     qui tombe à zéro quand on isole l'exogène (logique two-phase).
+%     Rejet ARGUMENTÉ, pas par ignorance : c'est un point fort.
+%  5. SÉVÉRITÉ : POT/GPD, xi ~ 0,90, sensibilité au seuil (0,93 / 0,83 /
+%     0,68 aux seuils q90, q95, q99), hétérogénéité par catégorie
+%     (0,92 à 1,37) qui justifie un xi_j par pilier.
+%  6. Sous-piliers (VCDB) : P2 et P3 atteignables sur open data,
+%     P4 s'effondre (56 observations en finance). Conditionne le cas
+%     d'usage approfondi aux données client.
+%  7. Synthèse : le tableau de ce qui est calibré, avec son incertitude.

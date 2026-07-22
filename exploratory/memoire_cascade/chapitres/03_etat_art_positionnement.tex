@@ -1,0 +1,175 @@
+% ---------------------------------------------------------------------
+% STATUT : RÉDIGÉ (transplanté de exploratory/cascade_qualitative/
+%          chapitre_positionnement.tex, préambule retiré).
+% RESTE À FAIRE : (1) basculer la liste de références de fin de chapitre
+%          dans references.bib et passer aux \citep ; (2) ajouter le
+%          positionnement de l'échelle de repli (identification
+%          partielle) une fois le chapitre 5 arrêté.
+% ---------------------------------------------------------------------
+\chapter{État de l'art et positionnement}
+\label{ch:positionnement}
+
+La modélisation actuarielle du risque cyber s'est construite en trois vagues, dont ce
+mémoire hérite les acquis tout en s'en démarquant sur un point. La première interroge
+l'\textbf{assurabilité} même du risque et la rareté des données \citep{BienerElingWirfs2015},
+et pose les marges par la théorie des valeurs extrêmes. La deuxième modélise la
+\textbf{contagion}, mais entre entités d'un portefeuille, par des modèles de réseau ou
+épidémiologiques. La troisième saisit la \textbf{dynamique temporelle} des arrivées par des
+processus de Hawkes. Le présent travail emprunte à chacune ses marges empiriques et son
+cadre de risque extrême, et emprunte au risque de crédit deux outils structurels que la
+littérature cyber n'avait pas mobilisés ensemble : le processus de \textbf{branchement
+multitype}, qui décrit la propagation d'un incident entre piliers (chapitre~\ref{chap:cascade}),
+et les \textbf{modèles multi-états} de type migration de rating, qui font dépendre le
+capital de l'état de conformité (chapitre~\ref{chap:multietats}). Sa démarcation tient en un
+mécanisme que ces trois vagues laissent de côté, exposé ci-dessous.
+
+\begin{cle}
+\textbf{La contribution en une phrase.} Là où la littérature cyber actuarielle modélise soit
+la \emph{co-occurrence} (copules, chocs communs), soit la \emph{contagion entre entités}
+(réseaux, épidémiologie), soit la \emph{dynamique temporelle} (Hawkes), ce mémoire introduit
+une \textbf{dépendance dirigée et à l'ordre entre les domaines de contrôle réglementaires}
+(les piliers DORA) au sein d'une même entité, et la traduit en SCR. Sa signature est que
+la criticité dépend de l'\textbf{ordre} de la chaîne et non du seul ensemble des piliers
+touchés, ce qu'aucune des approches recensées ne peut reproduire.
+\end{cle}
+
+\section{Le mécanisme, et sa signature}
+
+La cascade dirigée pose une matrice $W$ de contagion entre piliers, où $W_{jk}$ mesure la
+propension d'une défaillance de $k$ à entraîner celle de $j$. Trois propriétés la
+distinguent : elle est \textbf{dirigée} ($W_{jk}\neq W_{kj}$), elle autorise les
+\textbf{cycles} (P1$\to$P2$\to\cdots\to$P1), stabilisés par la normalisation de Leontief
+($\rho(W)\le g<1$, forme réduite $(I-W)^{-1}$), et surtout elle est \textbf{à l'ordre} : la
+criticité d'une chaîne n'est pas une fonction de l'\emph{ensemble} des piliers touchés, elle
+dépend de l'\emph{ordre} dans lequel ils le sont. Ce n'est pas une intuition : sur les 26
+sous-ensembles de taille au moins deux, \textbf{22 changent de criticité selon l'ordre},
+avec un écart atteignant \textbf{6 points sur une échelle de 10} (la chaîne P1$\to$P2 vaut
+8, la chaîne P2$\to$P1 vaut 2). Or toute dépendance symétrique et tout score additif sont,
+par construction, invariants par permutation : \textbf{aucun ne peut reproduire cela}.
+
+\begin{cle}
+\textbf{Remarque de méthode, et ce qui n'est \emph{pas} revendiqué.} Une propriété plus
+forte, la \emph{non-transitivité} de la dominance entre piliers, a été testée dans trois
+formulations : la transitivité des corrélations qu'impose un modèle à facteur unique, la
+positivité de la dépendance symétrisée, et l'existence de cycles de dominance par paire.
+\textbf{Aucune ne se vérifie} sur ce modèle. Elle n'est donc pas revendiquée. La
+dépendance à l'ordre, elle, se vérifie, et elle exclut exactement les mêmes concurrents.
+Signaler l'énoncé que l'on a testé et abandonné vaut mieux que de le laisser à la
+sagacité du lecteur.
+\end{cle}
+
+\section{Positionnement : pourquoi le mécanisme est irréductible}
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}p{3.2cm} c c c c p{3.1cm} p{3.0cm}@{}}
+\toprule
+\textbf{Approche} & \textbf{Dir.} & \textbf{Ordre} & \textbf{Cycles} & \textbf{Propag.} &
+\textbf{Donnée requise} & \textbf{Objet modélisé} \\
+\midrule
+Matrices de risque / AMDEC & \non & \non & \non & \non & dires d'expert & risques listés (proba $\times$ gravité) \\
+Copule (Gumbel, gaussienne) & \non & \non & \non & \non & co-mouvement observé & briques de perte \\
+Réseau / épidémiologie (SIR) & \oui & \non & \oui & \oui & structure réseau $+$ taux d'infection & entités d'un portefeuille \\
+Hawkes (multivarié) & \oui & \non & \oui & \oui & horodatage fin des arrivées & types d'attaque, dans le temps \\
+Réseau bayésien & \oui & \non & \non & \oui & tables de proba conditionnelle & variables d'un graphe acyclique \\
+\cascell\textbf{Cascade dirigée (ici)} & \cascell\oui & \cascell\oui & \cascell\oui & \cascell\oui & \cascell jugement d'expert (élicité) & \cascell\textbf{domaines de contrôle (piliers) d'une entité} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+Point par point :
+\begin{itemize}\itemsep2pt
+\item \textbf{Matrices de risque / AMDEC} (le standard praticien, RPN $=$ gravité $\times$
+      occurrence $\times$ détection) : listent et notent des risques mais n'ont \emph{aucune}
+      propagation ni direction. La cascade ajoute exactement la couche qui leur manque.
+\item \textbf{Copules} \citep{BohmeKataria2006, HerathHerath2011} : capturent la
+      dépendance de queue entre pertes, mais \textbf{symétrique} : elles ne distinguent pas
+      $k\to j$ de $j\to k$. Notre benchmark le chiffre : une copule ne peut pas
+      exprimer la propagation (interaction moyenne $+0$ par construction contre $+560$ M\euro{}
+      pour la cascade), et sa priorité de remédiation suit les \emph{réceptacles}, la cascade
+      les \emph{sources}.
+\item \textbf{Modèles réseau et épidémiologiques} \citep{HillairetLopez2021,
+      HillairetLopezDOultremontSpoorenberg2022, XuHua2017, Baldwin2017} : ils modélisent la
+      vraie contagion, mais \textbf{entre
+      entités} d'un portefeuille, et \textbf{exigent la structure du réseau} et des taux
+      d'infection, données indisponibles ici. Nous \emph{empruntons} à Hillairet et Lopez la
+      logique d'états de conformité, mais l'appliquons \textbf{entre piliers} d'une entité,
+      pas entre assurés.
+\item \textbf{Hawkes} \citep{BessyRolandBoumezouedHillairet2021, BoumezouedCherkaouiHillairet2023} :
+      modélisent l'auto-excitation de la \textbf{fréquence dans le temps},
+      entre \emph{types d'attaque}, pas la structure inter-piliers. Nous montrons
+      (chapitre~\ref{ch:donnees}) que sur la fréquence d'entrée, l'excitation est
+      intra-journalière et exogène, et nous ne l'ajoutons pas ; ce constat rejoint leur
+      raffinement two-phase de 2023.
+\item \textbf{Réseaux bayésiens} : peuvent porter la direction, mais supposent un graphe
+      \textbf{acyclique} (pas de cycle de contagion) et des tables de probabilités
+      conditionnelles qui se heurtent au \textbf{même mur d'identification} que $W$
+      (chapitre~\ref{ch:identifiabilite}). La forme de Leontief, elle, gère les cycles.
+\end{itemize}
+
+\section{Revue de littérature, par thème}
+
+\textbf{Dépendance et accumulation.} La modélisation actuarielle du cyber a d'abord traité la
+\emph{corrélation} entre risques par copules \citep{BohmeKataria2006, HerathHerath2011}
+et par chocs communs. Ces approches capturent l'accumulation (que nos données confirment,
+concentration journalière de Gini $0{,}69$) mais restent symétriques.
+
+\textbf{Contagion structurée.} Une seconde vague introduit la propagation : \citet{HillairetLopez2021}
+couplent des processus de comptage à un modèle épidémiologique compartimental (type
+SIR) pour la contagion dans un portefeuille ; \citet{HillairetLopezDOultremontSpoorenberg2022}
+ajoutent une structure de réseau ; \citet{XuHua2017} et \citet{Baldwin2017}
+modélisent la contagion entre cibles. Toutes exigent la donnée de réseau ou d'infection.
+
+\textbf{Dynamique temporelle.} La fréquence auto-excitée est traitée par les processus de
+Hawkes : \citet{BessyRolandBoumezouedHillairet2021} sur données PRC (dont notre source
+dérive), puis \citet{BoumezouedCherkaouiHillairet2023} avec un terme exogène ;
+\citet{HillairetReveillacRosenbaum2021} en développent la théorie pour le pricing de
+dérivés ; \citet{Peng2016} sur des taux d'attaque horodatés. Notre travail se situe dans
+cette lignée mais en \emph{sort} sur la fréquence d'entrée, pour les raisons données au
+chapitre~\ref{ch:donnees}.
+
+\textbf{Fréquence, sévérité, queue.} Sur les marges, \citet{Edwards2016} ajustent des lois
+discrètes (binomiale négative) au nombre journalier de brèches ; \citet{LuZhangZhu2024}
+séparent fréquence et nombre de brèches par événement (structure de paquet qui soutient notre
+Poisson composé) ; \citet{FarkasLopezThomas2021} tarifent par arbres de régression GPD. Nous
+en retenons la théorie des valeurs extrêmes (indice de queue $\xi$) et la structure de paquet.
+
+\textbf{Cadre structurel.} Le squelette quantitatif emprunte au modèle à facteur de
+\citet{Vasicek2002} (risque de crédit) l'idée d'un stress latent à composante systémique, et
+à l'analyse entrées-sorties de \citet{Leontief1936} la normalisation qui garantit la
+stabilité d'une contagion
+\emph{avec cycles}. La nouveauté est de faire porter cette mécanique par une matrice
+\textbf{dirigée} entre domaines de contrôle réglementaires.
+
+\section{Où se situe ce mémoire}
+
+Le mémoire \textbf{emprunte} ce qui est établi et ancré sur données (la queue de sévérité par
+EVT, la structure de paquet de la fréquence, la logique d'états de conformité de Hillairet et
+Lopez) et \textbf{ajoute} deux choses absentes de la littérature : (i)~une dépendance
+\textbf{dirigée et à l'ordre} entre les piliers DORA, traduite en
+capital ; (ii)~une \textbf{frontière d'identifiabilité} explicite, muée en spécification de
+reporting. Aucune des références recensées ne modélise une dépendance dirigée entre domaines
+de contrôle au sein d'une entité, ni ne la relie au SCR.
+
+\begin{cle}
+\textbf{La revendication de nouveauté, défendable.} \og Je n'invente pas une nouvelle loi de
+sévérité ni un nouveau processus de fréquence : sur ces marges, je m'appuie sur la
+littérature établie et je la calibre. Ma contribution est le \textbf{mécanisme de dépendance}
+lui-même, dirigé et à l'ordre entre piliers réglementaires, que ni les copules (symétriques),
+ni les modèles de réseau (qui exigent une donnée absente), ni les processus de Hawkes (qui
+vivent dans le temps) ne capturent, et que je traduis en capital tout en démontrant sa limite
+d'identification. \fg{} C'est une nouveauté \emph{maîtrisée} : neuve sur le mécanisme, sobre
+sur le reste, honnête sur les limites.
+\end{cle}
+
+% Les références de ce chapitre sont dans references.bib et rendues par la bibliographie
+% de fin. Le \nocite garantit l'apparition de celles qui ne seraient pas déjà \citep dans
+% le corps (filet de sécurité).
+\nocite{BohmeKataria2006, HerathHerath2011, HillairetLopez2021,
+  HillairetLopezDOultremontSpoorenberg2022, XuHua2017, Baldwin2017,
+  BessyRolandBoumezouedHillairet2021, BoumezouedCherkaouiHillairet2023,
+  HillairetReveillacRosenbaum2021, Peng2016, Edwards2016, LuZhangZhu2024,
+  FarkasLopezThomas2021, Vasicek2002, Leontief1936}
+
+% =====================================================================

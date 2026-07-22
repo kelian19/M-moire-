@@ -1,0 +1,162 @@
+% ---------------------------------------------------------------------
+% STATUT : RÉDIGÉ (transplanté de exploratory/cascade_qualitative/
+%          chapitre_identifiabilite.tex, préambule retiré).
+% RESTE À FAIRE : réécrire la section 3 en cohérence avec la
+%          décomposition p_ij = p_j + u_ij du chapitre 5 (le placebo
+%          z = -0,33 devient le non-rejet de H0 : u_ij = 0).
+% ---------------------------------------------------------------------
+\chapter{L'identifiabilité de la contagion dirigée}
+\label{ch:identifiabilite}
+
+\begin{cle}
+\textbf{Thèse du chapitre.} La matrice de contagion dirigée $W$ entre les cinq piliers DORA
+\emph{n'est pas identifiable} sur les données publiques disponibles. Ce n'est pas un aveu,
+c'est un résultat : je le démontre sur deux sources qui échouent pour des raisons
+\textbf{opposées}, je distingue proprement ce que la donnée fixe de ce qu'elle ne fixe pas
+(identification \emph{partielle}), et j'en tire une \textbf{spécification de reporting}
+qui, seule, rendrait $W$ estimable. La contagion reste donc un objet \textbf{normatif},
+élicité et borné par la sensibilité, jamais présenté comme calibré.
+\end{cle}
+
+\section{Ce qu'identifier $W$ exigerait}
+
+Le coefficient $W_{jk}$ mesure la propension d'une défaillance du pilier $k$ à
+\emph{entraîner}, dans la foulée, une défaillance du pilier $j$. L'identifier sur données
+demande trois choses simultanément : (i) observer des \textbf{co-occurrences} de
+défaillances de piliers au sein d'une même entité ; (ii) disposer d'une \textbf{antériorité
+temporelle} fiable (qui précède qui) pour distinguer $W_{jk}$ de $W_{kj}$ ; (iii) une
+\textbf{taxonomie par pilier} (domaine de contrôle), et non par vecteur d'attaque. Aucune
+des deux sources examinées ne réunit les trois.
+
+\section{Deux échecs opposés}
+
+\paragraph{Source 1 : Data Breach Chronology (notifications d'États américains).}
+La base est volumineuse ($74\,783$ incidents, $25\,009$ organisations) mais inexploitable
+pour $W$, par \textbf{manque de taxonomie et de volume informatif}. La catégorie
+non déterminée (\texttt{UNKN}) pèse \textbf{52,7\,\%} des incidents et n'est attribuable à
+aucun pilier. La date de \emph{survenance} n'est exploitable que dans \textbf{49,6\,\%} des
+cas, et son caractère manquant n'est pas aléatoire : il varie par type d'incident, si bien
+qu'ordonner par survenance élimine des catégories entières du panel. Ordonner par
+\emph{déclaration}, l'autre date disponible, ne mesure pas la contagion mais le
+\textbf{délai de détection} (qui varie d'un facteur important selon le type). Résultat : une
+fois restreint aux types informatifs et aux trimestres consécutifs, il ne reste que
+\textbf{71 transitions} $k(t\!-\!1)\to j(t)$ (soit $3{,}6$ observations par cellule
+hors-diagonale), et \textbf{34} dans le seul secteur financier. La direction n'y est pas
+estimable, faute de matière.
+
+\paragraph{Source 2 : SAS OpRisk Global Data (pertes opérationnelles, Bâle).}
+Ici le \textbf{volume est au rendez-vous} : \textbf{4\,329 transitions} annuelles entre les
+7 catégories de risque, soit environ \textbf{103 observations par cellule}. Et pourtant la
+direction reste inidentifiable, pour la raison \emph{opposée} : le pas de temps est
+l'\textbf{année}, trop grossier pour porter une antériorité. Un test placebo le montre sans
+appel. On permute les années \emph{à l'intérieur de chaque firme} (ce qui détruit toute
+antériorité mais conserve la co-occurrence), et l'on recalcule l'asymétrie
+$\lVert M - M^\top\rVert_1/2$ de la matrice de transition :
+\[
+\text{asymétrie réelle} = 119 \qquad\text{contre placebo} = 128 \pm 27
+\qquad\Rightarrow\qquad z = -0{,}33 .
+\]
+L'asymétrie observée est \emph{sous} le bruit du placebo : aucun signal directionnel. Le
+test binomial par paire confirme : sur 18 paires suffisamment peuplées, \textbf{aucune}
+n'est significative à 5\,\%, ni avant ni après correction de Bonferroni. La matrice de
+transition est \textbf{symétrique} : le pas annuel a lessivé la direction.
+
+\begin{cle}
+\textbf{Précaution de méthode (à afficher).} Le test intuitif du \og temps inversé \fg{}
+(comparer $M$ à la matrice obtenue en renversant la chronologie) est \textbf{dégénéré} sur
+un comptage : par construction $M_{\text{inv}} = M^\top$, donc la corrélation des asymétries
+vaut $-1$ quel que soit le contenu. Il ne prouve rien. Seul le \textbf{placebo par
+permutation} est valide sur des comptages. Le signaler est un gage de rigueur, pas une
+faiblesse.
+\end{cle}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{M_faisabilite.png}
+\caption{Les deux échecs et ce qui subsiste. (a)~Une seule source atteint le
+volume requis. (b)~Sur cette source, le signal directionnel est sous le bruit du placebo
+($z=-0{,}33$). (c)~Ce que la donnée identifie, elle : l'indice de queue $\xi$.}
+\label{fig:faisabilite}
+\end{figure}
+
+\section{La meilleure expérience naturelle disponible : le choc MOVEit}
+
+Avant de conclure à l'inidentifiabilité, on tente la stratégie la plus ambitieuse que la
+donnée autorise : une expérience quasi naturelle. En mai 2023, l'exploitation de masse de
+la faille du logiciel de transfert MOVEit, édité par un \textbf{tiers}, frappe
+simultanément des centaines d'organisations. C'est un choc \textbf{exogène}, \textbf{daté},
+et \textbf{typé pilier 4}. Si la contagion dirigée existe, ce choc doit élever, dans les
+mois suivants et chez les mêmes organisations, le risque de défaillances relevant d'autres
+piliers. C'est une prédiction directionnelle testable, par différence de différences (188
+organisations financières touchées, groupe de contrôle apparié, fenêtres de $180$~jours).
+
+\begin{attention}
+\textbf{Le piège, et ce qu'il apprend.} La différence de différences brute est grande et
+statistiquement significative ($+1{,}17$ jour-brèche par organisation, IC bootstrap
+$[+1{,}07\,;+1{,}27]$). Mais un \textbf{placebo} (le même dispositif calé sur une fausse
+date un an plus tôt) produit presque le même chiffre ($+1{,}11$), alors qu'aucun choc n'a
+eu lieu. L'effet apparent n'est donc pas causal : il vient de la sélection du groupe de
+contrôle, qui revient mécaniquement vers sa moyenne. \textbf{L'effet net, une fois le
+placebo retranché, tombe à $+0{,}06$, indistinguable de zéro.} Et quand bien même un signal
+subsisterait, la cible resterait non attribuable : la taxonomie de la source est un vecteur
+d'attaque (HACK, DISC\dots, $32\,\%$ non déterminés), pas un domaine de contrôle DORA. Même
+la meilleure expérience naturelle ne fait donc pas apparaître de propagation dirigée, et
+sa cible ne serait de toute façon pas identifiable. La tentative la plus dure a été faite ;
+elle bute sur la donnée, pas sur la méthode.
+\end{attention}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{Z6_event_study_moveit.png}
+\caption{Event-study du choc MOVEit. (a)~Fréquence des brèches, groupe touché contre
+contrôle, autour du choc. (b)~La différence de différences brute est dévorée par le
+placebo : l'effet net est nul. (c)~La cible reste non attribuable, la taxonomie étant un
+vecteur d'attaque et non un pilier.}
+\label{fig:moveit}
+\end{figure}
+
+\section{Identification partielle : la frontière explicite}
+
+L'échec n'est pas total, et c'est ce qui fait la valeur du modèle. La donnée
+\textbf{fixe} plusieurs objets, qui sont ceux des chapitres empiriques :
+\begin{itemize}\itemsep2pt
+\item la \textbf{fréquence marginale} d'entrée (mélange de Poisson calibré) ;
+\item l'\textbf{accumulation} par cause commune (concentration journalière, Gini $0{,}69$) ;
+\item l'\textbf{indice de queue} de sévérité $\xi \approx 0{,}90$, avec sa sensibilité au
+      seuil ($0{,}93$, $0{,}83$, $0{,}68$ aux seuils $q_{90}$, $q_{95}$, $q_{99}$) et son
+      \textbf{hétérogénéité par catégorie} ($0{,}92$ à $1{,}37$ selon la catégorie Bâle),
+      qui justifie un $\xi_j$ \emph{par pilier}.
+\end{itemize}
+Elle \textbf{ne fixe pas} la \textbf{direction hors-diagonale} de $W$. La frontière
+d'identification est donc nette : les marges sont ancrées, la structure dirigée ne l'est
+pas. $W$ relève alors d'un autre régime de connaissance, le \textbf{jugement d'expert
+structuré} (élicitation de Cooke, chapitre~\ref{ch:elicitation}), et son influence est
+\textbf{bornée par une analyse de sensibilité}, jamais posée comme mesurée.
+
+\section{La donnée manquante comme livrable}
+
+Puisque les deux sources échouent pour des raisons opposées (l'une manque de volume et de
+taxonomie, l'autre de résolution temporelle), la donnée qui identifierait $W$ se déduit par
+complémentarité. Un registre d'incidents TIC \textbf{identifiant} $W$ devrait :
+\begin{enumerate}\itemsep2pt
+\item horodater la \textbf{survenance} (et non la seule déclaration) au \textbf{mois ou à la
+      semaine}, afin de porter une antériorité que le pas annuel efface ;
+\item catégoriser par \textbf{domaine de contrôle} (les piliers DORA), et non par vecteur
+      d'attaque, afin qu'une transition soit interprétable comme un lien $k \to j$ ;
+\item consolider une \textbf{cause commune} comme \emph{un} événement à $N$ victimes, pour
+      ne pas confondre un batch de déclaration avec une contagion séquentielle.
+\end{enumerate}
+Cette spécification n'est pas un v\oe u : elle est directement opposable au cadre de
+reporting DORA, dont elle constitue une \textbf{recommandation actionnable}. La limite
+d'identifiabilité devient ainsi une contribution réglementaire.
+
+\begin{cle}
+\textbf{Ce que ce chapitre apporte au mémoire.} Démontrer, chiffres à l'appui, qu'une
+dépendance que tout le monde \emph{postule} n'est pas \emph{mesurable} sur les données
+publiques est rare et courageux. Cela transforme une faiblesse apparente (\og je n'ai pas
+calibré $W$ \fg) en trois résultats : une \textbf{frontière d'identification} explicite, une
+\textbf{discipline} sur l'usage de $W$ (normatif, borné, jamais sur-vendu), et une
+\textbf{spécification de reporting} qui donne au travail une portée au-delà du modèle.
+\end{cle}
+
+% =====================================================================

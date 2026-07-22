@@ -1,0 +1,149 @@
+﻿\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.1cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[most]{tcolorbox}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+\graphicspath{{../../../vasicek_lab/figures/}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries L'identifiabilitÃ© de la contagion dirigÃ©e $W$\\[2pt]
+  \large Une limite dÃ©montrÃ©e, muÃ©e en spÃ©cification de donnÃ©e}
+\author{KÃ©lian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.7cm}
+
+\begin{cle}
+\textbf{ThÃ¨se du chapitre.} La matrice de contagion dirigÃ©e $W$ entre les cinq piliers DORA
+\emph{n'est pas identifiable} sur les donnÃ©es publiques disponibles. Ce n'est pas un aveu,
+c'est un rÃ©sultat : je le dÃ©montre sur deux sources qui Ã©chouent pour des raisons
+\textbf{opposÃ©es}, je distingue proprement ce que la donnÃ©e fixe de ce qu'elle ne fixe pas
+(identification \emph{partielle}), et j'en tire une \textbf{spÃ©cification de reporting}
+qui, seule, rendrait $W$ estimable. La contagion reste donc un objet \textbf{normatif},
+Ã©licitÃ© et bornÃ© par la sensibilitÃ©, jamais prÃ©sentÃ© comme calibrÃ©.
+\end{cle}
+
+\section*{1. Ce qu'identifier $W$ exigerait}
+
+Le coefficient $W_{jk}$ mesure la propension d'une dÃ©faillance du pilier $k$ Ã 
+\emph{entraÃ®ner}, dans la foulÃ©e, une dÃ©faillance du pilier $j$. L'identifier sur donnÃ©es
+demande trois choses simultanÃ©ment : (i) observer des \textbf{co-occurrences} de
+dÃ©faillances de piliers au sein d'une mÃªme entitÃ© ; (ii) disposer d'une \textbf{antÃ©rioritÃ©
+temporelle} fiable (qui prÃ©cÃ¨de qui) pour distinguer $W_{jk}$ de $W_{kj}$ ; (iii) une
+\textbf{taxonomie par pilier} (domaine de contrÃ´le), et non par vecteur d'attaque. Aucune
+des deux sources examinÃ©es ne rÃ©unit les trois.
+
+\section*{2. Deux Ã©checs opposÃ©s}
+
+\paragraph{Source 1 : Data Breach Chronology (notifications d'Ã‰tats amÃ©ricains).}
+La base est volumineuse ($74\,783$ incidents, $25\,009$ organisations) mais inexploitable
+pour $W$, par \textbf{manque de taxonomie et de volume informatif}. La catÃ©gorie
+non dÃ©terminÃ©e (\texttt{UNKN}) pÃ¨se \textbf{52,7\,\%} des incidents et n'est attribuable Ã 
+aucun pilier. La date de \emph{survenance} n'est exploitable que dans \textbf{49,6\,\%} des
+cas, et son caractÃ¨re manquant n'est pas alÃ©atoire : il varie par type d'incident, si bien
+qu'ordonner par survenance Ã©limine des catÃ©gories entiÃ¨res du panel. Ordonner par
+\emph{dÃ©claration}, l'autre date disponible, ne mesure pas la contagion mais le
+\textbf{dÃ©lai de dÃ©tection} (qui varie d'un facteur important selon le type). RÃ©sultat : une
+fois restreint aux types informatifs et aux trimestres consÃ©cutifs, il ne reste que
+\textbf{71 transitions} $k(t\!-\!1)\to j(t)$ (soit $3{,}6$ observations par cellule
+hors-diagonale), et \textbf{34} dans le seul secteur financier. La direction n'y est pas
+estimable, faute de matiÃ¨re.
+
+\paragraph{Source 2 : SAS OpRisk Global Data (pertes opÃ©rationnelles, BÃ¢le).}
+Ici le \textbf{volume est au rendez-vous} : \textbf{4\,329 transitions} annuelles entre les
+7 catÃ©gories de risque, soit environ \textbf{103 observations par cellule}. Et pourtant la
+direction reste inidentifiable, pour la raison \emph{opposÃ©e} : le pas de temps est
+l'\textbf{annÃ©e}, trop grossier pour porter une antÃ©rioritÃ©. Un test placebo le montre sans
+appel. On permute les annÃ©es \emph{Ã  l'intÃ©rieur de chaque firme} (ce qui dÃ©truit toute
+antÃ©rioritÃ© mais conserve la co-occurrence), et l'on recalcule l'asymÃ©trie
+$\lVert M - M^\top\rVert_1/2$ de la matrice de transition :
+\[
+\text{asymÃ©trie rÃ©elle} = 119 \qquad\text{contre placebo} = 128 \pm 27
+\qquad\Rightarrow\qquad z = -0{,}33 .
+\]
+L'asymÃ©trie observÃ©e est \emph{sous} le bruit du placebo : aucun signal directionnel. Le
+test binomial par paire confirme : sur 18 paires suffisamment peuplÃ©es, \textbf{aucune}
+n'est significative Ã  5\,\%, ni avant ni aprÃ¨s correction de Bonferroni. La matrice de
+transition est \textbf{symÃ©trique} : le pas annuel a lessivÃ© la direction.
+
+\begin{cle}
+\textbf{PrÃ©caution de mÃ©thode (Ã  afficher).} Le test intuitif du \og temps inversÃ© \fg{}
+(comparer $M$ Ã  la matrice obtenue en renversant la chronologie) est \textbf{dÃ©gÃ©nÃ©rÃ©} sur
+un comptage : par construction $M_{\text{inv}} = M^\top$, donc la corrÃ©lation des asymÃ©tries
+vaut $-1$ quel que soit le contenu. Il ne prouve rien. Seul le \textbf{placebo par
+permutation} est valide sur des comptages. Le signaler est un gage de rigueur, pas une
+faiblesse.
+\end{cle}
+
+\begin{center}
+\includegraphics[width=\linewidth]{M_faisabilite.png}
+\captionof{figure}{Les deux Ã©checs et ce qui subsiste. (a)~Une seule source atteint le
+volume requis. (b)~Sur cette source, le signal directionnel est sous le bruit du placebo
+($z=-0{,}33$). (c)~Ce que la donnÃ©e identifie, elle : l'indice de queue $\xi$.}
+\end{center}
+
+\section*{3. Identification partielle : la frontiÃ¨re explicite}
+
+L'Ã©chec n'est pas total, et c'est ce qui fait la valeur du modÃ¨le. La donnÃ©e
+\textbf{fixe} plusieurs objets, qui sont ceux des chapitres empiriques :
+\begin{itemize}\itemsep2pt
+\item la \textbf{frÃ©quence marginale} d'entrÃ©e (mÃ©lange de Poisson calibrÃ©) ;
+\item l'\textbf{accumulation} par cause commune (concentration journaliÃ¨re, Gini $0{,}69$) ;
+\item l'\textbf{indice de queue} de sÃ©vÃ©ritÃ© $\xi \approx 0{,}90$, avec sa sensibilitÃ© au
+      seuil ($0{,}93$, $0{,}83$, $0{,}68$ aux seuils $q_{90}$, $q_{95}$, $q_{99}$) et son
+      \textbf{hÃ©tÃ©rogÃ©nÃ©itÃ© par catÃ©gorie} ($0{,}92$ Ã  $1{,}37$ selon la catÃ©gorie BÃ¢le),
+      qui justifie un $\xi_j$ \emph{par pilier}.
+\end{itemize}
+Elle \textbf{ne fixe pas} la \textbf{direction hors-diagonale} de $W$. La frontiÃ¨re
+d'identification est donc nette : les marges sont ancrÃ©es, la structure dirigÃ©e ne l'est
+pas. $W$ relÃ¨ve alors d'un autre rÃ©gime de connaissance, le \textbf{jugement d'expert
+structurÃ©} (Ã©licitation de Cooke, chapitre suivant), et son influence est \textbf{bornÃ©e
+par une analyse de sensibilitÃ©}, jamais posÃ©e comme mesurÃ©e.
+
+\section*{4. La donnÃ©e manquante comme livrable}
+
+Puisque les deux sources Ã©chouent pour des raisons opposÃ©es (l'une manque de volume et de
+taxonomie, l'autre de rÃ©solution temporelle), la donnÃ©e qui identifierait $W$ se dÃ©duit par
+complÃ©mentaritÃ©. Un registre d'incidents TIC \textbf{identifiant} $W$ devrait :
+\begin{enumerate}\itemsep2pt
+\item horodater la \textbf{survenance} (et non la seule dÃ©claration) au \textbf{mois ou Ã  la
+      semaine}, afin de porter une antÃ©rioritÃ© que le pas annuel efface ;
+\item catÃ©goriser par \textbf{domaine de contrÃ´le} (les piliers DORA), et non par vecteur
+      d'attaque, afin qu'une transition soit interprÃ©table comme un lien $k \to j$ ;
+\item consolider une \textbf{cause commune} comme \emph{un} Ã©vÃ©nement Ã  $N$ victimes, pour
+      ne pas confondre un batch de dÃ©claration avec une contagion sÃ©quentielle.
+\end{enumerate}
+Cette spÃ©cification n'est pas un v\oe u : elle est directement opposable au cadre de
+reporting DORA, dont elle constitue une \textbf{recommandation actionnable}. La limite
+d'identifiabilitÃ© devient ainsi une contribution rÃ©glementaire.
+
+\begin{cle}
+\textbf{Ce que ce chapitre apporte au mÃ©moire.} DÃ©montrer, chiffres Ã  l'appui, qu'une
+dÃ©pendance que tout le monde \emph{postule} n'est pas \emph{mesurable} sur les donnÃ©es
+publiques est rare et courageux. Cela transforme une faiblesse apparente (\og je n'ai pas
+calibrÃ© $W$ \fg) en trois rÃ©sultats : une \textbf{frontiÃ¨re d'identification} explicite, une
+\textbf{discipline} sur l'usage de $W$ (normatif, bornÃ©, jamais sur-vendu), et une
+\textbf{spÃ©cification de reporting} qui donne au travail une portÃ©e au-delÃ  du modÃ¨le.
+\end{cle}
+
+\end{document}

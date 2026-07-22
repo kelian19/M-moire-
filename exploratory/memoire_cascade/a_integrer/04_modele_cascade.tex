@@ -1,0 +1,32 @@
+% STATUT : À RÉDIGER. Le modèle est codé (scr_engine.py,
+% euro_cascade_model.py), il s'agit de l'exposer proprement.
+\chapter{Le modèle de cascade dirigée}
+\label{ch:modele}
+
+\textit{[Chapitre à rédiger.]}
+
+% PLAN (l'ordre d'exposition demandé par Hugo : partir de la littérature,
+% puis assumer la contribution qui fait perdre les propriétés) :
+%  1. Le point de départ CONNU : le modèle à facteur de Vasicek (risque de
+%     crédit), stress latent à composante systémique et idiosyncratique.
+%  2. La contribution : ajouter un terme de contagion DIRIGÉE entre
+%     piliers,
+%        X_ij = somme_k W_jk X_ik + sqrt(rho) Y_j + sqrt(1-rho) eps_ij
+%  3. HONNÊTETÉ EXIGÉE PAR HUGO : ce n'est plus un Vasicek rigoureux, les
+%     propriétés formelles sont perdues. Le dire explicitement, raconter
+%     l'histoire par étapes plutôt que de laisser croire à une extension
+%     gratuite. Robustesse théorique du terme non vérifiée en littérature.
+%  4. Stabilité : normalisation de Leontief, W = g TRANS / max_k s_k,
+%     rayon spectral rho(W) <= g < 1, forme réduite (I - W)^{-1} qui gère
+%     les CYCLES (contrairement à un graphe acyclique).
+%  5. LA NOUVEAUTÉ : la dépendance à l'ordre, et sa signature de
+%     NON-TRANSITIVITÉ. Démonstration + figure G1_non_transitivite.png.
+%     C'est le c\oe ur du mémoire, il doit être posé ici formellement.
+%  6. Marche auto-évitante vs processus de branchement multitype :
+%     réconciliation, (I-W)^{-1} comme descendance espérée, SCR insensible
+%     (+/- 4 %) car la queue de sévérité domine. Résultat de ROBUSTESSE.
+%  7. Vocabulaire : ce que le modèle calcule est une SENSIBILITÉ DE
+%     PROPAGATION, pas une criticité au sens audit (risque résiduel
+%     post-mitigation). Ne pas abuser du mot.
+%  8. Renvoi au chapitre \ref{ch:decomposition} pour la décomposition de
+%     p_ij, qui est le prolongement direct de ce chapitre.

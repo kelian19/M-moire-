@@ -1,0 +1,335 @@
+\chapter{Le socle mécaniste : fréquence et sévérité}
+\label{chap:socle}
+
+\noindent Ces deux briques (loi de sévérité GPD par pilier, fréquence surdispersée pilotée par
+un facteur commun) sont reprises telles quelles : elles alimentent l'agrégation, qui est le
+seul élément que la cascade remplace.
+
+% MIGRÉ AUTOMATIQUEMENT depuis memoire/main.tex (plages 787-932, 1492-1667).
+% Hiérarchie descendue d'un cran, labels préfixés "soc:".
+% À RELIRE : texte issu de l'ancien modèle à briques. Vérifier qu'aucune phrase
+% n'annonce la copule de Gumbel ou la variable latente comme LE modèle du mémoire.
+%--------------------------------------------------------------
+
+Là où le Théorème Central Limite s'intéresse au comportement asymptotique des sommes de variables aléatoires, la Théorie des Valeurs Extrêmes (EVT) étudie le comportement asymptotique de leurs maxima. 
+
+Soit une séquence $(X_1, X_2, \dots, X_n)$ de variables aléatoires indépendantes et identiquement distribuées (i.i.d.) de fonction de répartition $F$, représentant la sévérité des cyberattaques. L'approche initiale de l'EVT, dite des \textit{Block Maxima}, s'intéresse au maximum sur des blocs de taille $n$ (par exemple, le sinistre cyber maximal annuel) :
+\begin{equation}
+M_n = \max(X_1, X_2, \dots, X_n)
+\end{equation}
+
+\paragraph{Théorème de Fisher-Tippett-Gnedenko (1928, 1943).} S'il existe des suites de constantes de normalisation $a_n > 0$ et $b_n \in \mathbb{R}$, et une distribution non dégénérée $H$ telles que :
+\begin{equation}
+\lim_{n \to \infty} \mathbb{P}\left( \frac{M_n - b_n}{a_n} \le x \right) = \lim_{n \to \infty} F^n(a_n x + b_n) = H(x)
+\end{equation}
+Alors, $H$ appartient nécessairement à la famille des distributions des extrêmes généralisées (GEV - \textit{Generalized Extreme Value}), dont la fonction de répartition s'écrit :
+\begin{equation}
+H_{\xi}(x) = 
+\begin{cases} 
+\exp\left(-\left(1 + \xi x \right)^{-1/\xi}\right) & \text{si } \xi \neq 0 \\
+\exp\left(-\exp(-x)\right) & \text{si } \xi = 0 
+\end{cases}
+\end{equation}
+définie sur l'ensemble $\{x : 1 + \xi x > 0\}$. Le paramètre $\xi$ (indice de queue) définit trois grands domaines d'attraction :
+\begin{itemize}
+    \item \textbf{$\xi > 0$ (Loi de Fréchet) :} La distribution présente une queue lourde à décroissance polynomiale. C'est le régime critique qui nous intéresse pour les sinistres cyber majeurs.
+    \item \textbf{$\xi = 0$ (Loi de Gumbel) :} La distribution présente une queue légère à décroissance exponentielle (domaine d'attraction des lois Normale, Lognormale, Gamma).
+    \item \textbf{$\xi < 0$ (Loi de Weibull) :} La distribution a un support fini supérieur (queue courte).
+\end{itemize}
+
+\noindent On peut énoncer formellement ce résultat fondateur, qui joue pour les maxima le rôle du théorème central limite pour les sommes.
+
+\begin{theorem}[Fisher--Tippett--Gnedenko]\label{soc:th:ftg}
+Soit $(X_i)_{i\ge1}$ i.i.d.\ de fonction de répartition $F$ et $M_n=\max(X_1,\dots,X_n)$. S'il existe des suites $a_n>0$, $b_n\in\R$ et une loi non dégénérée $H$ telles que $(M_n-b_n)/a_n \xrightarrow{d} H$, alors $H$ est, à un changement d'échelle et de position près, une loi GEV $H_\xi$. Le signe de $\xi$ détermine le domaine d'attraction : Fréchet ($\xi>0$, queue lourde), Gumbel ($\xi=0$) ou Weibull ($\xi<0$, support borné).
+\end{theorem}
+
+\begin{proof}[Éléments]
+La loi limite $H$ est nécessairement \emph{max-stable} : pour tout $n$, $H^n(a_nx+b_n)=H(x)$, car $M_{nk}$ est le maximum de $k$ blocs de taille $n$. L'équation fonctionnelle de max-stabilité, résolue via la théorie des fonctions à variation régulière, n'admet (à normalisation près) que la famille à un paramètre $H_\xi$. La correspondance queue de $F$ $\leftrightarrow$ signe de $\xi$ s'obtient en caractérisant les $F$ dont la fonction de survie est à variation régulière d'indice $-1/\xi$ (cas Fréchet). Le détail figure en Annexe~\ref{soc:ann:ftg}.
+\end{proof}
+
+%--------------------------------------------------------------
+
+%--------------------------------------------------------------
+
+Bien que rigoureuse, l'approche \textit{Block Maxima} (GEV) présente une limite majeure en actuariat pratique : elle induit un immense gaspillage d'information. En ne retenant que le maximum de chaque bloc, elle occulte potentiellement le deuxième plus grand sinistre d'une année extrême, qui pourrait pourtant être supérieur au maximum d'une année calme. Dans le contexte du risque cyber, où les données historiques fiables et quantifiées sont particulièrement rares, un tel gaspillage statistique fragiliserait la modélisation.
+
+Pour contourner ce problème, ce mémoire privilégie l'approche \textit{Peaks-Over-Threshold} (POT). Au lieu de ne garder que les maxima, cette méthode exploite \textbf{toutes} les observations excédant un seuil élevé $u$. On s'intéresse alors à la distribution des excès $Y = X - u$.
+
+La fonction de répartition conditionnelle des excès est donnée par :
+\begin{equation}
+F_u(y) = \mathbb{P}(X - u \le y \mid X > u) = \frac{F(u+y) - F(u)}{1 - F(u)}
+\end{equation}
+
+\paragraph{Théorème de Balkema-de Haan-Pickands (1974).} Ce théorème établit le pont mathématique entre la GEV et l'approche POT. Pour une large classe de distributions sous-jacentes $F$ (celles appartenant au domaine d'attraction d'une loi GEV $H_\xi$), il existe une fonction mesurable positive $\sigma(u)$ telle que, lorsque le seuil $u$ tend vers la limite supérieure du support de $F$ ($x_F$), la distribution des excès converge asymptotiquement vers une distribution de Pareto Généralisée (GPD) :
+\begin{equation}
+\lim_{u \to x_F} \sup_{0 \le y < x_F - u} \left| F_u(y) - G_{\xi, \sigma(u)}(y) \right| = 0
+\end{equation}
+
+Où la fonction de répartition de la GPD s'écrit :
+\begin{equation}
+G_{\xi, \sigma}(y) = 
+\begin{cases} 
+1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1/\xi} & \text{si } \xi \neq 0 \\
+1 - \exp\left(-\frac{y}{\sigma}\right) & \text{si } \xi = 0 
+\end{cases}
+\end{equation}
+avec $y \ge 0$ si $\xi \ge 0$, et $0 \le y \le -\sigma/\xi$ si $\xi < 0$. Le paramètre de forme $\xi$ de la GPD est strictement le même que celui de la loi GEV correspondante. Dans le contexte du risque cyber, un indice de queue $\xi > 0$ traduit une distribution à queue lourde de type Fréchet, impliquant des moments potentiellement infinis (l'espérance est infinie si $\xi \ge 1$, la variance si $\xi \ge 0.5$). Le résultat s'énonce formellement ainsi.
+
+\begin{theorem}[Pickands--Balkema--de Haan]\label{soc:th:balkema}
+Soit $F$ dans le domaine d'attraction d'une GEV $H_\xi$ (Théorème~\ref{soc:th:ftg}). Alors il existe une fonction $\sigma(u)>0$ telle que la loi des excès converge uniformément vers une GPD lorsque le seuil approche la borne supérieure $x_F$ du support :
+\begin{equation}
+\lim_{u\to x_F}\ \sup_{0\le y< x_F-u}\bigl|F_u(y)-G_{\xi,\sigma(u)}(y)\bigr|=0,
+\end{equation}
+où $F_u(y)=\Prob(X-u\le y\mid X>u)$ et $G_{\xi,\sigma}$ est la fonction de répartition de la GPD. L'indice de queue $\xi$ est identique à celui de la GEV limite.
+\end{theorem}
+
+\begin{proof}[Esquisse]
+L'appartenance de $F$ au domaine d'attraction de $H_\xi$ équivaut à une condition de variation régulière sur la fonction de survie $\bar F$. On montre que $\bar F(u+y\,a(u))/\bar F(u)\to(1+\xi y)^{-1/\xi}$ quand $u\to x_F$, pour une fonction d'échelle $a(u)$ adéquate ; ce membre de droite est exactement la fonction de survie GPD. La convergence uniforme découle de la monotonie des fonctions de répartition (théorème de Pólya). Détail et lien avec le Théorème~\ref{soc:th:ftg} en Annexe~\ref{soc:ann:balkema}.
+\end{proof}
+
+%--------------------------------------------------------------
+
+%--------------------------------------------------------------
+
+L'estimation de l'indice de queue $\xi$ est un enjeu critique, car une infime variation de ce paramètre modifie massivement le Capital de Solvabilité Requis (SCR). Deux approches principales s'affrontent dans la littérature.
+
+\paragraph{L'estimateur de Hill.}
+Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) repose sur les statistiques d'ordre. Soit $X_{(1)} \ge X_{(2)} \ge \dots \ge X_{(n)}$ l'échantillon ordonné de manière décroissante. L'estimateur de Hill fondé sur les $k$ plus grandes observations est défini par :
+\begin{equation}
+\hat{\xi}_{Hill}(k) = \frac{1}{k} \sum_{i=1}^{k} \ln X_{(i)} - \ln X_{(k+1)}
+\end{equation}
+Bien que cet estimateur soit asymptotiquement convergent et sans biais sous la stricte condition que la distribution sous-jacente appartienne exactement au domaine d'attraction de Fréchet, il présente en pratique un biais d'échantillon fini majeur. En effet, si la composante à variation lente de la queue de distribution ne converge pas assez vite, $\hat{\xi}_{Hill}$ devient instable.
+
+\paragraph{Le Maximum de Vraisemblance (MLE).}
+Pour pallier le biais de l'estimateur de Hill hors du régime asymptotique strict, ce mémoire privilégie l'estimation par Maximum de Vraisemblance (MLE) sur les excès de la GPD. La log-vraisemblance pour un échantillon de $N_u$ excès $y_i$ au-delà du seuil $u$ s'écrit (pour $\xi \neq 0$) :
+\begin{equation}
+\ell(\xi, \sigma) = -N_u \ln(\sigma) - \left(1 + \frac{1}{\xi}\right) \sum_{i=1}^{N_u} \ln\left(1 + \frac{\xi y_i}{\sigma}\right)
+\label{soc:eq:loglik-gpd}
+\end{equation}
+La maximisation numérique de cette fonction fournit des estimateurs $(\hat{\xi}_{MLE}, \hat{\sigma}_{MLE})$ qui, bien que nécessitant des méthodes d'optimisation (telles que l'algorithme de Nelder-Mead utilisé dans nos scripts Python), offrent une robustesse supérieure face à la variance d'échantillonnage des bases de sinistres cyber comme OpRisk ou PRC.
+
+\paragraph{Loi asymptotique et information de Fisher.} La qualité d'un intervalle de confiance sur $\xi$ conditionne toute l'interprétation du SCR. Nous en donnons ici le fondement théorique, qui servira de contrôle indépendant du bootstrap employé au chapitre~\ref{chap:resultats}.
+
+\begin{proposition}[Normalité asymptotique de l'EMV de la GPD]\label{soc:prop:fisher}
+Pour $\xi > -\tfrac{1}{2}$, l'estimateur du maximum de vraisemblance $(\hat\xi,\hat\sigma)$ de la GPD est consistant et asymptotiquement normal :
+\begin{equation}
+\sqrt{N_u}\,\begin{pmatrix}\hat\xi-\xi\\[2pt]\hat\sigma-\sigma\end{pmatrix}
+\;\xrightarrow{\;d\;}\;
+\mathcal{N}\!\left(\mathbf{0},\; (1+\xi)\begin{pmatrix}1+\xi & -\sigma\\[2pt] -\sigma & 2\sigma^2\end{pmatrix}\right).
+\end{equation}
+En particulier, la variance asymptotique de l'indice de queue est
+$\Var(\hat\xi)\simeq (1+\xi)^2/N_u$.
+\end{proposition}
+
+\begin{proof}[Esquisse]
+La matrice de covariance limite est l'inverse de l'information de Fisher $\mathcal{I}(\xi,\sigma)$, obtenue en prenant l'espérance de l'opposé de la hessienne de $\ell$. Le détail du calcul de $\mathcal{I}$ (dérivées secondes de \eqref{soc:eq:loglik-gpd} et intégration contre la densité GPD, valide pour $\xi>-\tfrac12$ où l'information est finie) est reporté en Annexe~\ref{soc:ann:fisher}. Le résultat classique remonte à \citet{smith1987}.
+\end{proof}
+
+\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{soc:prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment (§5.5) : la concordance des deux approches --- l'une paramétrique et asymptotique, l'autre par rééchantillonnage --- renforce la fiabilité de l'incertitude reportée sur~$\xi$.
+
+\begin{proposition}[Loi asymptotique de l'estimateur de Hill]\label{soc:prop:hill}
+Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alors pour une suite $k=k(n)\to\infty$ avec $k/n\to0$,
+\begin{equation}
+\sqrt{k}\,\bigl(\hat\xi_{Hill}(k)-\xi\bigr)\;\xrightarrow{\;d\;}\;\mathcal{N}(0,\;\xi^2).
+\end{equation}
+\end{proposition}
+
+\noindent L'écart-type $\xi/\sqrt{k}$ décroît en $\sqrt{k}$ : d'où l'arbitrage biais--variance qui gouverne le choix de $k$ dans le \emph{Hill plot}, et qui explique l'instabilité signalée plus haut lorsque $k$ est pris trop grand (contamination par le corps de la loi) ou trop petit (variance explosive). La preuve, fondée sur la représentation de Rényi des espacements exponentiels, est esquissée en Annexe~\ref{soc:ann:hill}.
+
+\paragraph{Quantile extrême et capital : formules fermées.} Le passage des paramètres $(\xi,\sigma)$ au capital réglementaire est explicite. Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil.
+
+\begin{proposition}[VaR et Expected Shortfall d'une queue GPD]\label{soc:prop:varestvar}
+Sous le modèle POT, pour $\alpha$ tel que $\mathrm{VaR}_\alpha>u$ et $\xi\in(0,1)$ :
+\begin{align}
+\VaR_\alpha(X) &= \boxed{\,u + \frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\zeta_u}\right)^{-\xi}-1\right]\,},\label{soc:eq:var-gpd}\\[4pt]
+\TVaR_\alpha(X) = \E[X\mid X>\VaR_\alpha] &= \boxed{\,\frac{\VaR_\alpha(X)}{1-\xi}+\frac{\sigma-\xi u}{1-\xi}\,}.\label{soc:eq:tvar-gpd}
+\end{align}
+Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\TVaR_\alpha$ n'est pas définie.
+\end{proposition}
+
+\begin{proof}
+Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\bigr)^{-1/\xi}$. En posant ce membre égal à $1-\alpha$ et en inversant, on obtient \eqref{soc:eq:var-gpd}. Pour \eqref{soc:eq:tvar-gpd}, la stabilité de la GPD par franchissement de seuil implique que l'excès au-delà de $\VaR_\alpha$ suit encore une GPD de paramètre $\xi$ et d'échelle $\sigma+\xi(\VaR_\alpha-u)$, d'espérance $\bigl(\sigma+\xi(\VaR_\alpha-u)\bigr)/(1-\xi)$ pour $\xi<1$ ; en ajoutant $\VaR_\alpha$ et en réarrangeant, on retrouve \eqref{soc:eq:tvar-gpd}. La divergence pour $\xi\ge1$ découle de $\E[X]=\int_u^\infty \Prob(X>x)\,\dd x=+\infty$ dès que $1/\xi\le1$. Détail en Annexe~\ref{soc:ann:varestvar}.
+\end{proof}
+
+\noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{soc:eq:var-gpd} une VaR mono-perte $\VaR_{99{,}5\%}=663{,}0$~M\euro\ et par \eqref{soc:eq:tvar-gpd} $\TVaR_{99{,}5\%}=1\,752{,}4$~M\euro. La Proposition~\ref{soc:prop:varestvar} éclaire surtout le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en \textbf{régime d'espérance infinie} --- l'Expected Shortfall y est mathématiquement indéfini, ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable.
+
+%--------------------------------------------------------------
+
+
+%--------------------------------------------------------------
+
+\paragraph{Décomposition par vecteur d'attaque.} La fréquence de référence
+$\lambda_{ref}$, calibrée sur la base PRC ($\lambda_{ref} = 341$
+incidents/an), est décomposée en sous-fréquences par vecteur d'attaque,
+pondérées par la structure observée dans la base Hackmageddon :
+\begin{equation}
+\lambda_{ref} = \sum_{v} \lambda_v,
+\qquad
+\lambda_v = \lambda_{ref} \times \pi_v,
+\end{equation}
+où $\pi_v$ est la part du vecteur $v$ dans la structure Hackmageddon
+(38{,}8~\% phishing, 33{,}8~\% exploitation de vulnérabilités, 15{,}8~\%
+supply chain, 6{,}3~\% identifiants compromis, 5{,}3~\% autres). Cette
+décomposition transforme un constat structurel en levier de modélisation :
+un défaut de conformité sur une exigence donnée n'agit que sur la
+sous-fréquence du vecteur qu'elle est censée mitiger, pas sur l'ensemble de
+$\lambda_{ref}$.
+
+\paragraph{Choix de la loi binomiale négative.} La fréquence agrégée
+$\lambda_{S_x} = \sum_v \lambda_{ref}\,\pi_v\, m_{v,S_x}$ obtenue sous un
+scénario $S_x$ n'est pas simulée par une loi de Poisson, mais par une loi
+binomiale négative, pour tenir compte de la sur-dispersion observée dans les
+données ($\sigma^2/\mu > 1$). Le facteur de sur-dispersion
+$\phi = \sigma^2/\mu = 9{,}2$ est traité comme une propriété structurelle de
+la sinistralité, supposée indépendante du niveau de fréquence : c'est donc
+$\phi$ qui est maintenu constant d'un scénario à l'autre, et non le
+paramètre $r$ de la binomiale négative, qui est au contraire recalculé sous
+chaque scénario :
+\begin{equation}
+r_{S_x} = \frac{\lambda_{S_x}}{\phi - 1},
+\qquad
+p_{S_x} = \frac{r_{S_x}}{r_{S_x} + \lambda_{S_x}}.
+\end{equation}
+Augmenter $\lambda$ via les multiplicateurs DORA déplace ainsi la fréquence
+moyenne tout en préservant la \emph{forme} de sur-dispersion de la
+sinistralité --- une hypothèse de modélisation explicite, dont la limite est
+que le comportement de la sur-dispersion en régime de forte dégradation
+n'est pas lui-même observé, faute d'historique de crise DORA.
+
+\paragraph{De la fréquence par scénario à la fréquence par entité.} Le choix
+d'un scénario $S_x \in \{S_0, S_1, S_2\}$ reste, par construction, discret et
+appliqué uniformément à l'ensemble du marché. L'état de conformité continu
+$PCD_i(Y)$, repris au chapitre~\ref{chap:multietats}, permet de dépasser cette
+limite, en substituant à ce choix discret l'interpolation continue
+$m_v\bigl(PCD_i(Y)\bigr)$ décrite au chapitre~\ref{chap:multietats},
+où $\bar{m}_v^{S_2}$ est le centre de l'intervalle de multiplicateur sourcé
+en scénario $S_2$. Une entité au profil de conformité mature conserve ainsi
+une fréquence proche de $S_0$ même en cas de choc systémique $Y$
+défavorable, tandis qu'une entité en retard de conformité peut, sous un
+$\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
+
+%--------------------------------------------------------------
+
+%--------------------------------------------------------------
+
+\paragraph{Choix de la loi de Pareto généralisée.} La sévérité des sinistres
+cyber présente une signature de queue lourde documentée au chapitre~\ref{chap:donnees} : sur
+OpRisk Global, les 10~\% d'incidents les plus graves concentrent 82{,}7~\%
+de la perte totale. Cette concentration extrême justifie le recours à la
+théorie des valeurs extrêmes, et plus précisément à une modélisation de la
+queue de distribution par une loi de Pareto généralisée (GPD) au-delà d'un
+seuil $u$, selon l'approche \emph{peaks-over-threshold}.
+
+\paragraph{Calibration OpRisk.} Au seuil du percentile~85
+($u = 20{,}0$~M\euro, 91 excès), la calibration donne :
+\begin{equation}
+\hat{\xi}_{\text{OpRisk}} = 0{,}595 \quad (\text{IC}_{90\%}=[0{,}31\,;\,0{,}83]),
+\qquad
+\hat{\sigma}_{\text{OpRisk}} = 58{,}0~\text{M\euro},
+\qquad
+\text{VaR}_{99{,}5\%} = 663~\text{M\euro}.
+\end{equation}
+L'intervalle de confiance bootstrap sur cette VaR, $[411\,;\,1037]$~M\euro,
+matérialise à lui seul un facteur~2{,}5 entre les bornes, uniquement
+imputable à l'incertitude de paramètre.
+
+\paragraph{Stabilité du paramètre de forme.} Le choix du seuil est corroboré
+par deux diagnostics complémentaires. Le \emph{diagnostic GPD}
+(figure~\ref{soc:fig:diagnostic-gpd}) montre que $\hat{\xi}$ se stabilise autour
+de $0{,}6$ dès que le seuil atteint $u = 20$~M\euro, tout en conservant un
+nombre d'excès suffisant ($n = 91 > 30$) pour une estimation fiable : le
+seuil retenu se situe précisément à la frontière où le paramètre de forme
+quitte la zone instable ($\xi \geq 1$) pour se fixer dans un régime de
+moments finis. Le \emph{Hill plot} (figure~\ref{soc:fig:hill-ic}) confirme
+qualitativement ce niveau, l'estimateur de Hill restant compatible avec la
+référence MLE $\hat{\xi} \approx 0{,}60$ dans la plage des extrêmes retenus.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/diagnostic_gpd_oprisk.png}
+\caption{Diagnostic GPD sur le périmètre cyber$\times$finance d'OpRisk.
+\textit{Gauche} : stabilité de $\hat{\xi}$ en fonction du seuil $u$ ; le
+paramètre passe sous $\xi = 1$ (espérance finie) et se stabilise autour de
+$0{,}6$ au seuil retenu $u = 20$~M\euro. \textit{Droite} : le nombre d'excès
+correspondant ($n = 91$) demeure au-dessus du minimum de $30$ requis pour une
+estimation robuste.}
+\label{soc:fig:diagnostic-gpd}
+\end{figure}
+
+\paragraph{L'estimateur de Hill : définition et rôle diagnostique.}
+Introduit par \citet{Hill1975}, l'estimateur de Hill fournit une estimation
+de l'indice de queue $\xi$ à partir des $k$ statistiques d'ordre les plus
+élevées d'un échantillon $X_{(1)} \leq \dots \leq X_{(n)}$, sans passer par
+l'ajustement paramétrique d'une loi de Pareto généralisée :
+\begin{equation}
+\hat{\xi}_{\text{Hill}}(k) = \frac{1}{k}\sum_{i=1}^{k}
+\ln X_{(n-i+1)} - \ln X_{(n-k)}.
+\label{soc:eq:hill}
+\end{equation}
+Contrairement au maximum de vraisemblance sur la GPD, qui exploite le cadre
+théorique de Pickands--Balkema--de~Haan et estime conjointement $\xi$ et
+$\sigma$, l'estimateur de Hill repose sur une hypothèse de Pareto \emph{pure}
+dans la queue et ne fournit qu'un indice de forme, sans paramètre d'échelle
+explicite \citep{Beirlant2004}. Sa propriété la plus documentée dans la
+littérature EVT est un compromis biais--variance piloté par le choix de
+$k$~: pour $k$ trop petit, l'estimateur est instable (variance élevée,
+intervalle de confiance large) ; pour $k$ trop grand, il intègre des
+observations situées hors du régime purement asymptotique de la queue, ce
+qui induit un biais positif croissant avec $k$ \citep{Embrechts1997,
+Beirlant2004}.
+
+\paragraph{Application et confrontation au MLE-GPD.} Le Hill plot obtenu sur
+le périmètre cyber$\times$finance d'OpRisk (figure~\ref{soc:fig:hill-ic})
+illustre ce compromis de façon nette~: l'estimateur croît de façon quasi
+monotone avec $k$, passant de $\hat{\xi} \approx 0{,}5$ pour $k$ faible à
+$\hat{\xi} \approx 1{,}8$ pour $k = 200$, tandis que la bande de confiance
+asymptotique à 90~\% s'élargit continûment. La référence par maximum de
+vraisemblance ($\hat{\xi}_{\text{MLE}} = 0{,}595$, pointillés rouges) n'est
+statistiquement compatible avec l'estimateur de Hill que sur une plage
+restreinte, $k \in [3, 25]$ environ, où la bande de confiance recouvre
+encore la valeur MLE. Au-delà de $k \approx 30$, l'estimateur de Hill
+diverge continûment de cette référence, ce qui traduit le biais positif
+attendu lorsque des observations hors du régime purement asymptotique de la
+queue sont intégrées au calcul. Sur le seuil effectivement retenu pour la
+calibration ($k = 86$), cet écart atteint 138{,}7~\%
+($\hat{\xi}_{\text{Hill}} = 1{,}42$ contre $\hat{\xi}_{\text{MLE}} = 0{,}595$),
+ce qui confirme que l'estimateur de Hill n'est pas adapté à ce niveau de
+$k$ et que le MLE-GPD, qui exploite un cadre théorique plus général
+(loi GPD complète plutôt que Pareto pure), demeure l'estimateur de
+référence pour la calibration finale.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/hill_plot_ic90_oprisk.png}
+\caption{Hill plot avec intervalle de confiance asymptotique à 90~\% sur
+OpRisk Global. La référence MLE ($\hat{\xi} \approx 0{,}595$, pointillés
+rouges) n'est statistiquement compatible avec l'estimateur de Hill que pour
+$k \lesssim 25$~; au-delà, la dérive de $\hat{\xi}_{\text{Hill}}$ traduit le
+biais croissant lié à l'intégration d'observations hors du régime
+asymptotique pur de la queue.}
+\label{soc:fig:hill-ic}
+\end{figure}
+
+
+
+\paragraph{Validation croisée PRC.} La calibration sur la PRC, via la
+conversion Jacobs, donne $\hat{\xi}_{\text{PRC}} = 1{,}03$ (seuil
+$u = 4{,}18$~M\euro, 2\,258 excès), supérieur à
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595$, les IC90\% des deux estimateurs ne se
+chevauchant pas. Ce paramètre correspond formellement à une espérance de
+sévérité infinie ($\xi \geq 1$), ce qui impose un plafond de sévérité
+opérationnel --- fixé à 40~M\euro, ancré sur la capacité de réassurance cyber
+observable sur le marché --- pour que la simulation reste numériquement
+stable ; ce plafond ne s'applique qu'à la source PRC, la calibration OpRisk
+($\xi < 1$, espérance finie) demeurant non plafonnée. L'écart entre
+les deux calibrations s'explique par le biais de taille d'OpRisk : les
+grandes entités financières y sont sur-représentées et absorbent mieux les
+chocs, d'où une queue apparemment plus légère. Les deux sources confirment
+néanmoins le même régime qualitatif de queue lourde ($\xi > 0$), et aucune
+hiérarchie de type \og source primaire\fg{} n'est retenue entre elles --- leur
+écart est traité comme une composante de l'incertitude totale du modèle,
+non comme un désaccord à trancher.
+
+%--------------------------------------------------------------
+
+% =====================================================================

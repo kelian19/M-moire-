@@ -1,0 +1,143 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\providecommand{\euro}{\texteuro}
+\usepackage[french]{babel}
+\usepackage[margin=1.9cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\definecolor{softgreen}{HTML}{E2EFDA}
+\definecolor{softamber}{HTML}{FCE4D6}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\newcommand{\rob}{\cellcolor{softgreen}\textbf{robuste}}
+\newcommand{\feat}{\cellcolor{lightblue!60}\textbf{voulu}}
+\newcommand{\ass}{\cellcolor{softamber}\textbf{assumé}}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries Robustesse et transparence des hypothèses\\[2pt]
+  \large Ce qui ne dépend pas des choix, ce qui en dépend, et pourquoi}
+\author{Kélian Kaddouri}
+\date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-0.7cm}
+
+\begin{cle}
+\textbf{Thèse.} Les conclusions du modèle ne reposent pas sur les paramètres non calibrés.
+Je le montre en deux temps : (i)~elles sont \textbf{insensibles} aux choix de modélisation
+innocents (structure de la cascade, famille de dépendance, couche temporelle, source de
+sévérité) ; (ii)~elles ne \textbf{réagissent} qu'aux leviers qui doivent compter (conformité,
+contagion), ce qui est une \emph{qualité}, pas un défaut, c'est la sensibilité au risque que
+la Formule Standard n'a pas. Reste une incertitude irréductible, la queue de sévérité, que
+j'assume en présentant le SCR comme une \textbf{distribution}, jamais un point.
+\end{cle}
+
+\section*{1. L'argument de robustesse, en une table}
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{4.5cm} p{4.6cm} p{4.4cm} c@{}}
+\toprule
+\textbf{Conclusion} & \textbf{Ce qu'on fait varier} & \textbf{Effet mesuré} & \textbf{Verdict} \\
+\midrule
+La non-conformité coûte cher ($\Delta_{\text{DORA}}>0$, grand) &
+source de sévérité (OpRisk / PRC), famille de copule ($\theta\in[1,4]$) &
+facteur ${\sim}1{,}9$ entre sources ; $\Delta_{\text{DORA}}$ varie $<1{,}4\,\%$ sur $\theta$ &
+\rob \\
+Priorité de remédiation P1 puis P4 (les \emph{sources}) &
+cadre de dépendance (cascade vs copule), branchement vs marche &
+P1 et P4 en tête dans tous les cadres ; SCR $\pm 4\,\%$ (branchement) &
+\rob \\
+C'est l'\textbf{asymétrie} de $W$ qui porte le résultat &
+knockout de l'asymétrie (3\,000 tirages), placebo directionnel (05) &
+sans la direction, le signal tombe sous le bruit du placebo &
+\rob \\
+Pas de couche de Hawkes &
+noyau exponentiel puis à retard, logique two-phase (08c, 08h) &
+excitation intra-journalière ; endogénéité $\to 0$ si exogène isolé &
+\rob \\
+Le SCR \emph{réagit} à la conformité et à la contagion &
+score de conformité $q\in[0,1]$, gain $g\in[0{,}05\,;0{,}90]$ (25) &
+$-53\,\%$ de NC à C ; $\times 1{,}6$ sur la plage de $g$ &
+\feat \\
+Le SCR est une distribution large, pas un point &
+incertitude de paramètre (bootstrap deux niveaux) &
+facteur ${\sim}2{,}5$ sur la VaR par la seule incertitude de calibration &
+\ass \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\textbf{Lecture.} Les quatre premières lignes sont l'\textbf{ossature} : le signe et l'ordre
+de grandeur de l'effet DORA, la hiérarchie des piliers, le rôle de la direction et le rejet
+du Hawkes tiennent quand on change ce qui pourrait sembler arbitraire. La cinquième ligne
+n'est pas une fragilité mais le \textbf{cœur du modèle} : un SCR qui ne bougerait pas avec la
+conformité serait inutile (c'est le reproche fait à la Formule Standard, benchmark 27). La
+dernière est la limite honnête : la queue de sévérité domine l'incertitude, donc toute
+lecture ponctuelle du SCR serait une surinterprétation.
+
+\section*{2. Tableau des paramètres non calibrés (et de leur sensibilité)}
+
+Trois natures sont distinguées : \textbf{calibré} sur données (avec son incertitude),
+\textbf{posé} par jugement d'expert ou choix normatif (non identifiable, cf.\ chapitre
+identifiabilité), et \textbf{semi-ancré} sur un proxy externe non spécifique au périmètre.
+
+\vspace{0.25cm}
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.28}
+\begin{tabular}{@{}p{2.7cm} p{2.6cm} p{1.7cm} p{4.0cm} p{3.6cm}@{}}
+\toprule
+\textbf{Paramètre} & \textbf{Valeur} & \textbf{Nature} & \textbf{Justification} & \textbf{Sensibilité du SCR} \\
+\midrule
+Queue de sévérité $\xi$ & $0{,}90$ (OpRisk $0{,}60$, PRC $1{,}03$) & calibré, incertain & GPD sur pertes réelles ; hétérogène par catégorie ($0{,}92$--$1{,}37$) & \textbf{forte} : $0{,}68$--$0{,}93$ selon le seuil ; pilote la queue \\
+Échelle GPD $\sigma$, seuil $u$, $p_u$ & $57{,}97$ M\euro{} ; $20{,}03$ M\euro{} ; $0{,}15$ & calibré & POT au percentile 85, conversion en euros & modérée (via la queue) \\
+Fréquence $\lambda$ & ${\sim}21{,}6$/an (OpRisk) & calibré & incidents TIC matériels / 27 ans & linéaire sur le niveau \\
+Sur-dispersion $\phi$ & $9{,}20$ & semi-calibré & Var/Moyenne observé, maintenu entre scénarios & faible \\
+Choc commun fréquence $a$ & $0{,}60$ & \textbf{posé} (prudent) & dépasse l'IC empirique haut ($0{,}22$, 08b) : conservateur & enveloppe le modèle à paquets ($\times 2{,}5$, 08d) \\
+Structure $W = g\,\texttt{TRANS}/\max_k s_k$ & classeur qualitatif & \textbf{posé} / normatif & jugement d'expert, à \textbf{éliciter} (Cooke, 26b) ; direction non identifiable (05) & l'asymétrie porte le résultat (knockout, benchmark 23) \\
+Gain de propagation $g$ & $0{,}90$ base ; par état $0{,}45/0{,}68/0{,}90$ & \textbf{posé} & amplitude de $W$, bornée par Leontief $\rho(W)\le g<1$ & \textbf{levier} : $\times 1{,}6$ sur $[0{,}05\,;0{,}90]$ (25) \\
+Score de conformité $q$ / états & continu $[0,1]$ (ou NC/PC/C) & \textbf{posé} & décrit le profil, subsume 3 ou 5 niveaux & \textbf{levier} : $-53\,\%$ de NC à C (25) \\
+Multiplicateur de matérialité par état & $0{,}85/1{,}00/1{,}20$ & \textbf{posé} & module $p_u$ selon la conformité & modérée (canal détection) \\
+Charge systémique $\gamma$ & $0{,}68$ & semi-ancré & proxy concentration cloud (AWS+Azure+GCP, Synergy 2025) & modérée \\
+Seuil de crise $\theta_{\text{crise}}$ & $-2{,}5$ & \textbf{posé} & déclenche le régime de co-mouvement extrême & agit sur la seule queue crise \\
+Probas d'état $P(\text{NC/PC/C})$ & $0{,}35/0{,}35/0{,}30$ & semi-ancré & enquêtes conformité DORA ${\sim}50\,\%$ non conformes (Deloitte, ESA) & déplace le mélange, pas les états \\
+Copule de dépendance $\theta$ & Gumbel $1{,}8$ & \textbf{posé} & queue supérieure entre briques & \textbf{négligeable} : $\Delta_{\text{DORA}}$ $<1{,}4\,\%$ sur $[1,4]$ \\
+Plafond de sévérité & $40$ M\euro{} & \textbf{posé} & capacité de réassurance ($\xi\ge 1$) & borne la queue extrême \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\textbf{Ce que la table rend visible.} Les seuls paramètres à \textbf{forte} sensibilité sont
+soit calibrés sur données (la queue $\xi$, dont on assume et chiffre l'incertitude), soit des
+\textbf{leviers voulus} ($g$, $q$) qui traduisent précisément l'objet du mémoire (l'effet de
+la conformité et de la contagion sur le capital). Les paramètres purement \textbf{posés} qui
+ne sont pas des leviers ($\theta$ de copule, $\gamma$, $\theta_{\text{crise}}$, probas d'état,
+matérialité) ont une influence \textbf{faible à modérée} et documentée. Aucune conclusion ne
+repose sur un paramètre à la fois non calibré \emph{et} déterminant hors de son rôle attendu.
+
+\begin{cle}
+\textbf{Pourquoi c'est un atout pour le prix.} Un jury d'actuaires cherche autant la
+transparence que l'originalité. Cette double lecture, \og insensible aux choix innocents,
+sensible aux leviers réels \fg, montre que le modèle n'est ni sur-ajusté ni fragile : il est
+\textbf{piloté par ce qui doit le piloter}. Et la seule grande incertitude, la queue, est
+nommée et bornée, pas cachée. C'est exactement la posture qui transforme \og je n'ai pas tout
+calibré \fg{} en \og je sais précisément de quoi mon SCR dépend, et de quoi il ne dépend pas \fg.
+\end{cle}
+
+\end{document}

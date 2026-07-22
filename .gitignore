@@ -49,6 +49,14 @@ outputs/tables/*.xlsx
 
 # ===== LATEX (mémoire) =====
 memoire/tectonic*
+memoire_cascade/tectonic*
+memoire_cascade/build/
+memoire_cascade/*.aux
+memoire_cascade/*.bbl
+memoire_cascade/*.blg
+memoire_cascade/*.log
+memoire_cascade/*.out
+memoire_cascade/*.toc
 memoire/*.pdf
 memoire/*.aux
 memoire/*.bbl
