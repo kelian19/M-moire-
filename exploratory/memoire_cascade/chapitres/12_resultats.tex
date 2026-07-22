@@ -1,11 +1,13 @@
 \chapter{Résultats}
 \label{chap:resultats}
 
-Tous les résultats sont ancrés, comme dans l'ancien mémoire, sur une entité type de
-$15\,000$~M\euro{} de provisions, avec deux périmètres de sévérité : \textbf{OpRisk} (grandes
-pertes opérationnelles, queue lourde) et \textbf{PRC} (sévérité plafonnée à $40$~M\euro). Sauf
-mention contraire, on lit la médiane et l'intervalle interquartile, la variance de la sévérité
-étant infinie ($\xi\approx0{,}9$).
+Ce chapitre livre le \og combien \fg{} de la question du mémoire, sous la discipline posée
+aux chapitres~\ref{ch:identifiabilite} et~\ref{chap:partielle} : les niveaux sont
+illustratifs, les écarts et les ordres sont ce qui résiste. Tous les résultats sont ancrés,
+comme dans l'ancien mémoire, sur une entité type de $15\,000$~M\euro{} de provisions, avec
+deux périmètres de sévérité : \textbf{OpRisk} (grandes pertes opérationnelles, queue lourde)
+et \textbf{PRC} (sévérité plafonnée à $40$~M\euro). Sauf mention contraire, on lit la médiane
+et l'intervalle interquartile, la variance de la sévérité étant infinie ($\xi\approx0{,}9$).
 
 \begin{attention}
 \textbf{Comment lire les niveaux de ce chapitre.} Les montants qui suivent sont
@@ -19,6 +21,35 @@ vaut $8\,301$~M\euro{} sous OpRisk et $2\,589$~M\euro{} sous PRC, soit un facteu
 un seul changement de périmètre de sévérité. \textbf{Ce chapitre établit donc des écarts, des
 rapports et des ordres}, et c'est sur eux, jamais sur un niveau, que reposent ses conclusions.
 \end{attention}
+
+\begin{cle}
+\textbf{Réconciliation avec le socle du chapitre~\ref{chap:partielle}.} Ce chapitre parle
+d'un SCR \emph{conforme} d'environ $5\,900$~M\euro{}, quand le chapitre~\ref{chap:partielle}
+parle d'un \emph{socle} de $5\,275$~M\euro{}. Ce ne sont pas deux mesures de la même chose,
+mais deux points d'un seul modèle. Le socle est pris à contagion \textbf{nulle} ($W=0$),
+fréquence de référence, sans canal de détection. L'état conforme, lui, conserve une
+contagion (le gain $g=0{,}45$ n'est pas nul) et module la détection. Le pont, calculé sur le
+moteur commun à graine fixée, l'établit terme à terme :
+\[
+  \underbrace{5\,275}_{\text{socle }W=0}\;\xrightarrow{+\text{ contagion }g=0{,}45}\;6\,504
+  \;\xrightarrow{+\text{ détection }\times 0{,}85}\;5\,936\;\approx\;\text{conforme}.
+\]
+Le canal fréquence est neutre ici (le scénario conforme S0 a la fréquence de référence).
+L'écart résiduel entre le moteur exact du chapitre~\ref{chap:partielle} et le Monte-Carlo de
+ce chapitre est de $210$~M\euro{} ($4\,\%$) sur une configuration identique, soit le bruit
+d'échantillonnage déjà déclaré, non une divergence de fond (figure~\ref{fig:reconciliation}).
+L'ordre socle $<$ conforme $<$ non conforme est donc cohérent : le socle est plus bas
+\emph{parce qu'}il n'a aucune contagion.
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z7_reconciliation.png}
+\caption{Réconciliation des chiffres. (a)~Du socle ($W=0$, chapitre~\ref{chap:partielle}) à
+l'état conforme (ce chapitre), un canal ajouté à la fois sur le moteur commun. (b)~Sur une
+configuration identique, l'écart entre le moteur exact et le Monte-Carlo est le seul bruit
+d'échantillonnage. Source : script~\texttt{36}.}
+\label{fig:reconciliation}
+\end{figure}
 
 \section{SCR par état de conformité}
 
@@ -462,5 +493,39 @@ que celui du chapitre~\ref{ch:identifiabilite}, décliné au niveau des sous-pil
 $62\,\%$ pour la copule, $100\,\%$ pour la cascade. Source : script~\texttt{27}.}
 \label{fig:benchmark-sf}
 \end{figure}
+
+\section{Un ordre de grandeur à l'épreuve du réel}
+\label{sec:ancrage}
+
+Le niveau absolu n'ayant jamais été présenté comme une mesure, il reste à le confronter au
+réel, non pour le valider mais pour vérifier qu'il ne \emph{peut} pas l'être. Deux
+confrontations suffisent.
+
+\paragraph{Contre la Formule Standard, sur la même entité.} Pour l'entité notionnelle
+($15\,000$~M\euro{} de provisions), la charge opérationnelle de la Formule Standard plafonne
+à $0{,}03\times 15\,000 \approx \mathbf{450}$~M\euro. Le socle de la cascade
+($5\,275$~M\euro, chapitre~\ref{chap:partielle}) lui est \textbf{une dizaine de fois
+supérieur}. Deux lectures cohabitent, et aucune ne se tranche sans donnée d'entité : soit la
+charge générique \emph{sous-capte massivement} le cyber, ce que le benchmark
+ci-dessus établit par ailleurs ; soit la sévérité OpRisk, tirée de grandes institutions
+américaines, \emph{sur-représente} pour une entité de taille moyenne. Les deux jouent, à des
+degrés qu'on ne sait pas départager.
+
+\paragraph{Contre le marché.} Un capital cyber de l'ordre de $5$~milliards d'euros pour une
+\emph{seule} entité représenterait une fraction substantielle des primes cyber annuelles
+mondiales, elles-mêmes de l'ordre de la dizaine de milliards d'euros
+\citep{munichre_cyber_2024}. Le rapport est invraisemblable à l'échelle d'un assureur moyen :
+il signale que le niveau, transporté d'une sévérité de grandes institutions vers une entité
+notionnelle, ne saurait être lu comme le capital d'une entité réelle.
+
+\begin{cle}
+\textbf{Ce que la confrontation établit.} Elle ne calibre pas le niveau, elle le
+\textbf{disqualifie comme mesure} et confirme, par un chemin externe, la lecture que tout le
+mémoire adopte : ce sont le \textbf{rapport au socle}, la \textbf{largeur de la bande}
+d'ignorance et la \textbf{hiérarchie des piliers} qui portent les conclusions, jamais le
+montant en euros. Loin d'affaiblir le travail, cette mise à l'épreuve montre que sa
+discipline de lecture n'est pas une précaution de style mais une nécessité que le réel
+impose.
+\end{cle}
 
 % =====================================================================

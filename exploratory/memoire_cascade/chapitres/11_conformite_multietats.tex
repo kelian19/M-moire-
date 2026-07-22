@@ -2,12 +2,17 @@
 \label{chap:multietats}
 
 \begin{cle}
-\textbf{Idée directrice.} Le SCR dépend de l'\textbf{état de conformité} de l'entité, objet ni
-binaire ni statique. On le modélise à \textbf{deux échelles de temps} (\emph{fast-slow}). À
-l'échelle rapide, un \textbf{Vasicek multi-états} définit l'état (non conforme, partiellement
-conforme, conforme) de chaque pilier et le fait piloter la cascade. À l'échelle lente, une
-\textbf{chaîne de Markov} fait progresser la conformité le long de la mise en conformité. C'est
-le remplacement \emph{dynamique} de la variable latente statique de l'ancien mémoire.
+\textbf{Idée directrice.} Ce chapitre et le suivant sont l'\emph{application} du modèle
+construit et discipliné aux chapitres~\ref{chap:cascade}--\ref{chap:partielle} : ils
+répondent au \og combien \fg{} de la question du mémoire, sous la prudence qu'imposent les
+bornes du chapitre~\ref{chap:partielle}. Le SCR dépend de l'\textbf{état de conformité} de
+l'entité, objet ni binaire ni statique. On le modélise à \textbf{deux échelles de temps}
+(\emph{fast-slow}). À l'échelle rapide, un \textbf{Vasicek multi-états} définit l'état (non
+conforme, partiellement conforme, conforme) de chaque pilier et le fait piloter la cascade. À
+l'échelle lente, une \textbf{chaîne de Markov} fait progresser la conformité le long de la
+mise en conformité. C'est le remplacement \emph{dynamique} de la variable latente statique de
+l'ancien mémoire, et tout ce qui en sort se lit avec la même règle : le niveau est
+illustratif, l'écart et l'ordre sont ce qui est défendable.
 \end{cle}
 
 \section{Le principe des deux échelles de temps}
