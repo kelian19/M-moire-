@@ -47,7 +47,8 @@ $t=1$ est l'ignorance totale, c'est-à-dire l'état actuel des sources publiques
 \section{Ce que le capital devient}
 
 Les bornes sont obtenues par énumération \textbf{exhaustive} des $2^{10} = 1\,024$ sommets
-du pavé, ce qui les rend déterministes et reproductibles. À $t=1$ :
+du pavé, ce qui les rend déterministes et reproductibles --- au prix d'une hypothèse qu'il faut
+énoncer, et que l'on vérifie plus bas. À $t=1$ :
 \[
   \mathrm{SCR} \;\in\; [\,6\,858 \;;\; 8\,697\,]~\text{M\euro{}} ,
 \]
@@ -55,6 +56,20 @@ soit un facteur $1{,}27$ entre les deux bouts. Rapporté au socle, cela s'énonc
 \textbf{la contagion ajoute entre $+30\,\%$ et $+65\,\%$ au capital, et la donnée ne
 permet pas de trancher plus finement}. Le point d'expert ($8\,110$~M\euro{}) est un point
 de cet ensemble, jamais sa mesure.
+
+\begin{attention}
+\textbf{L'hypothèse derrière l'énumération, et sa vérification.} Énumérer les sommets ne suffit
+à borner que si les extrêmes y sont \emph{atteints}. L'argument usuel --- les extrêmes d'une
+réponse monotone coordonnée par coordonnée vivent aux sommets --- ne s'applique \textbf{pas}
+directement ici : augmenter $A_{jk}$ élève $W_{jk}$ mais \emph{abaisse} $W_{kj}$, de sorte que
+la réponse n'est pas monotone en $A_{jk}$ mais résulte d'un arbitrage. Rien ne garantit donc
+\emph{a priori} l'atteinte aux sommets, et si elle était fausse les bornes publiées seraient trop
+étroites. On procède alors par réfutation : $3\,000$ points \textbf{intérieurs} du pavé
+admissible, tirés uniformément, sont évalués, et \textbf{aucun} ne sort des bornes ci-dessus, ni
+en VaR ni en perte moyenne. L'hypothèse n'est pas réfutée, et les bornes sont défendables --- mais
+elles sont énoncées ici comme une \textbf{hypothèse vérifiée numériquement}, non comme un
+théorème. La distinction est mince~; la passer sous silence ne le serait pas.
+\end{attention}
 
 \begin{attention}
 \textbf{Une lecture à ne pas faire.} À indice de queue élevé, la queue annuelle obéit au

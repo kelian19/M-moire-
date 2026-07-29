@@ -1,30 +1,68 @@
-﻿\documentclass[11pt,a4paper]{report}
+\documentclass[11pt,a4paper]{report}
 
-% Le mÃ©moire est Ã©clatÃ© : un fichier par chapitre dans chapitres/, le prÃ©ambule
-% dans preambule.tex. Ce fichier ne contient que l'ordre de lecture.
+% Le mémoire est éclaté : un fichier par chapitre dans chapitres/, le préambule
+% dans preambule.tex. Ce fichier ne contient que l'ORDRE DE LECTURE.
+%
+% STRUCTURE EN CINQ PARTIES (conforme aux recommandations de l'Institut des Actuaires :
+% contexte et problématique, puis données, puis modélisation, puis résultats, puis limites
+% et sensibilité). La règle qui gouverne ce découpage : AUCUN niveau de capital agrégé
+% n'apparaît avant la partie IV. Les parties II et III établissent les données, le modèle
+% et ce qui est identifiable ; elles n'énoncent que des écarts relatifs, avec renvoi.
 \input{preambule}
 
 \begin{document}
 \maketitle
 
-\input{chapitres/01_resume}   % RÃ©sumÃ©
-\input{chapitres/02_introduction}   % Introduction
-\input{chapitres/03_etat_art_positionnement}   % Ã‰tat de l'art et positionnement
-\input{chapitres/04_cadre_reglementaire}   % Cadre rÃ©glementaire
-\input{chapitres/05_donnees_limites}   % DonnÃ©es et limites
-\input{chapitres/06_socle_mecaniste}   % Le socle mÃ©caniste : frÃ©quence et sÃ©vÃ©ritÃ©
-\input{chapitres/07_cascade_dirigee}   % La cascade dirigÃ©e
-\input{chapitres/08_proprietes_formelles}   % Trois propriÃ©tÃ©s du modÃ¨le
-\input{chapitres/09_identifiabilite}   % L'identifiabilitÃ© de la contagion dirigÃ©e
-\input{chapitres/10_identification_partielle}   % Identification partielle et bornes de capital
-\input{chapitres/11_conformite_multietats}   % La conformitÃ© multi-Ã©tats
-\input{chapitres/12_resultats}   % Resultats
-\input{chapitres/12b_adaptations_pilier}   % Adaptations par pilierÃ©sultats
-\input{chapitres/13_inventaire_hypotheses}   % Inventaire des hypothÃ¨ses et de leur sensibilitÃ©
-\input{chapitres/14_conclusion}   % Conclusion
-\input{chapitres/15b_demonstrations_cascade}
-\input{chapitres/15_demonstrations}   % DÃ©monstrations
-\input{chapitres/16_notations}   % Table des notations
+\input{chapitres/01_resume}   % Résumé, abstract, table des matières
+
+% =====================================================================
+\part{Contexte et problématique}
+\label{part:contexte}
+% =====================================================================
+\input{chapitres/02_introduction}            % Problématique, contribution, plan
+\input{chapitres/04_cadre_reglementaire}     % DORA et Solvabilité II
+\input{chapitres/03_etat_art_positionnement} % État de l'art et positionnement
+
+% =====================================================================
+\part{Les données et leurs limites}
+\label{part:donnees}
+% =====================================================================
+\input{chapitres/05_donnees_limites}         % Sources, périmètres, retraitements, limites
+
+% =====================================================================
+\part{Modélisation}
+\label{part:modele}
+% =====================================================================
+\input{chapitres/06_socle_mecaniste}         % Fréquence et sévérité : théorie et calibration
+\input{chapitres/07_cascade_dirigee}         % La cascade dirigée, normalisée à la Leontief
+\input{chapitres/08_proprietes_formelles}    % Trois propriétés formelles du modèle
+\input{chapitres/11_conformite_multietats}   % La conformité multi-états (Markov)
+\input{chapitres/09_identifiabilite}         % Ce qui est identifiable, et ce qui ne l'est pas
+
+% =====================================================================
+\part{Résultats}
+\label{part:resultats}
+% =====================================================================
+\input{chapitres/10_identification_partielle} % Le capital en bornes sur l'ensemble admissible
+\input{chapitres/12_resultats}                % Surcoût DORA, attribution, benchmarks
+\input{chapitres/12b_adaptations_pilier}      % Adaptations par pilier et cas d'usage
+
+% =====================================================================
+\part{Robustesse, limites et perspectives}
+\label{part:limites}
+% =====================================================================
+\input{chapitres/13_inventaire_hypotheses}        % Hypothèses, sensibilité, étages d'incertitude
+\input{chapitres/13b_donnee_manquante_livrable}   % La donnée manquante, chiffrée et hiérarchisée
+\input{chapitres/14_conclusion}                   % Conclusion
+
+% =====================================================================
+\appendix
+\part*{Annexes}
+\addcontentsline{toc}{part}{Annexes}
+% =====================================================================
+\input{chapitres/15b_demonstrations_cascade}  % Démonstrations : cascade
+\input{chapitres/15_demonstrations}           % Démonstrations : socle
+\input{chapitres/16_notations}                % Table des notations
 
 \bibliographystyle{plainnat}
 \bibliography{references}

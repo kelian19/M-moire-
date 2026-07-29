@@ -17,17 +17,38 @@ car elle transforme la limite d'identification en résultat opposable.
 
 \section{La criticité dépend de l'ordre, non de l'ensemble}
 
-\paragraph{Proposition 1.} Soit $c(\sigma)$ la criticité d'une chaîne \emph{ordonnée}
-$\sigma$ de piliers. Si $c$ était une fonction du seul \emph{ensemble} des piliers
-touchés, on aurait $c(\sigma) = c(\sigma')$ pour toute permutation $\sigma'$ de $\sigma$.
-Ce n'est pas le cas.
+Notons $\mathfrak{S}_n$ l'ensemble des permutations de $n$ éléments et, pour une chaîne
+ordonnée $\sigma=(i_1,\dots,i_n)$ de piliers deux à deux distincts, $\mathcal{E}(\sigma)$
+l'\emph{ensemble} $\{i_1,\dots,i_n\}$ de ses éléments. La vraisemblance de la chaîne s'écrit
+\begin{equation}
+  \mathcal{L}(\sigma) \;=\; \mathrm{ROOT}[i_1]\;\prod_{k=1}^{n-1}\mathrm{TRANS}[i_k][i_{k+1}] ,
+  \label{eq:vraisemblance-chaine}
+\end{equation}
+et la criticité $c(\sigma)$ en est une fonction croissante, composée le long de l'ordre.
 
-\paragraph{Démonstration.} Il suffit d'un contre-exemple, et la construction en fournit
-une famille. La vraisemblance d'une chaîne $(i_1,\dots,i_n)$ vaut
-$\mathrm{ROOT}[i_1]\prod_{k} \mathrm{TRANS}[i_k][i_{k+1}]$, produit qui dépend de l'ordre
-dès lors que $\mathrm{TRANS}$ est asymétrique. Pour la paire $\{P_1, P_2\}$ :
-$\mathrm{TRANS}[1][2] = 0{,}80$ alors que $\mathrm{TRANS}[2][1] = 0{,}20$, et les
-criticités valent respectivement $8$ et $2$. \hfill$\blacksquare$
+\begin{proposition}[Dépendance à l'ordre]\label{prop:ordre}
+La criticité n'est pas une fonction de l'ensemble des piliers touchés : il existe
+$\sigma$ et $\sigma'$ avec $\mathcal{E}(\sigma)=\mathcal{E}(\sigma')$ tels que
+$c(\sigma)\neq c(\sigma')$. En particulier, $c$ n'est pas invariante par permutation.
+\end{proposition}
+
+\begin{proof}
+Il suffit d'un contre-exemple, et la construction en fournit une famille. Dans
+\eqref{eq:vraisemblance-chaine}, le produit $\prod_k \mathrm{TRANS}[i_k][i_{k+1}]$ dépend de
+l'ordre dès que $\mathrm{TRANS}$ n'est pas symétrique, puisque permuter deux indices consécutifs
+$i_k, i_{k+1}$ remplace le facteur $\mathrm{TRANS}[i_k][i_{k+1}]$ par
+$\mathrm{TRANS}[i_{k+1}][i_k]$. Pour la paire $\{P_1,P_2\}$, le classeur donne
+$\mathrm{TRANS}[1][2]=0{,}80$ et $\mathrm{TRANS}[2][1]=0{,}20$, d'où des criticités de $8$ et
+$2$ pour le même ensemble $\{P_1,P_2\}$.
+\end{proof}
+
+\begin{cle}
+\textbf{La contraposée est l'argument utile.} Toute mesure de risque $m$ qui ne dépend que de
+l'ensemble touché vérifie $m(\sigma)=m(\sigma\circ\pi)$ pour tout $\pi\in\mathfrak{S}_n$. La
+proposition~\ref{prop:ordre} exhibe donc un objet que \emph{aucune} telle mesure ne reproduit,
+et l'hypothèse requise est minimale : il suffit que $\mathrm{TRANS}$ soit asymétrique, sans
+qu'aucune \emph{valeur} de la direction ne soit revendiquée.
+\end{cle}
 
 \paragraph{Vérification.} Sur les $26$ sous-ensembles de taille au moins deux,
 \textbf{$22$ changent de criticité selon l'ordre}, avec un écart atteignant \textbf{$6$
@@ -53,25 +74,50 @@ l'ordre exclut exactement les mêmes concurrents et, elle, se démontre.
 
 \section{La normalisation de Leontief borne la propagation}
 
-\paragraph{Proposition 2.} Pour une cascade indépendante de matrice moyenne $W$, où
-$W_{jk}$ est la probabilité que le pilier $j$ contamine directement $k$, et en notant
-$S_j$ l'ensemble des piliers atteints depuis l'amorce $j$ :
-\[
-  \mathbb{E}\bigl[\,|S_j|\,\bigr] \;\leq\; \bigl[(I-W)^{-1}\mathbf{1}\bigr]_j ,
-\]
-quantité finie si et seulement si $\rho(W) < 1$.
+\begin{proposition}[Borne de propagation]\label{prop:leontief}
+Pour une cascade indépendante de matrice moyenne $W\geq 0$, où $W_{jk}$ est la probabilité que
+le pilier $j$ contamine directement $k$, et en notant $S_j$ l'ensemble des piliers atteints
+depuis l'amorce $j$ :
+\begin{equation}
+  \E\bigl[\,|S_j|\,\bigr] \;\leq\; \bigl[(I-W)^{-1}\mathbf{1}\bigr]_j ,
+  \label{eq:borne-leontief}
+\end{equation}
+le membre de droite étant fini si et seulement si $\rho(W) < 1$.
+\end{proposition}
 
-\paragraph{Démonstration.} Le nombre moyen de descendants de génération $k$ issus de $j$
-est la $j$-ème ligne de $W^{k}$. La descendance totale espérée, comptée \emph{avec}
-multiplicité, vaut donc $\sum_{k\geq 0} W^{k} = (I-W)^{-1}$, série géométrique matricielle
-convergente si et seulement si $\rho(W) < 1$. L'ensemble atteint compte chaque pilier une
-seule fois, là où la descendance le compte autant de fois qu'il est contaminé : $|S_j|$
-est donc dominé par la descendance totale. \hfill$\blacksquare$
+\begin{proof}
+Le nombre moyen de descendants de génération $k$ issus de $j$ est la $j$-ème ligne de $W^{k}$.
+La descendance totale espérée, comptée \emph{avec} multiplicité, vaut donc
+$\sum_{k\geq 0} W^{k} = (I-W)^{-1}$, la série géométrique matricielle convergeant si et
+seulement si $\rho(W)<1$. L'ensemble atteint compte chaque pilier une seule fois, là où la
+descendance le compte autant de fois qu'il est contaminé, d'où la domination de $|S_j|$ par la
+descendance totale.
+\end{proof}
 
-\paragraph{Portée.} La normalisation $W = g\,\mathrm{TRANS}/\max_k s_k$ impose
-$\rho(W)\leq g<1$ : la cascade est \textbf{sous-critique par construction}, et non par
-calibration heureuse. C'est ce qui autorise la forme réduite $(I-W)^{-1}$ malgré les
-cycles de propagation, là où un graphe bayésien exigerait l'acyclicité.
+\begin{proposition}[Sous-criticité par construction]\label{prop:souscritique}
+Soit $\mathrm{TRANS}\geq 0$, $s_j=\sum_k \mathrm{TRANS}[j][k]$ la somme de sa $j$-ème ligne, et
+\begin{equation}
+  W \;=\; g\,\frac{\mathrm{TRANS}}{\max_k s_k},
+  \qquad g\in(0,1).
+  \label{eq:normalisation-leontief}
+\end{equation}
+Alors $\rho(W)\leq g<1$, et la conclusion de la proposition~\ref{prop:leontief} vaut sans
+condition supplémentaire.
+\end{proposition}
+
+\begin{proof}
+Pour une matrice à coefficients positifs, le rayon spectral est majoré par toute norme
+matricielle subordonnée, en particulier par la norme infinie, c'est-à-dire le maximum des sommes
+de lignes : $\rho(W)\leq \max_j \sum_k W_{jk}$. Or, par \eqref{eq:normalisation-leontief},
+$\sum_k W_{jk} = g\,s_j/\max_k s_k \leq g$ pour tout $j$, avec égalité pour la ligne réalisant
+le maximum. D'où $\rho(W)\leq g<1$.
+\end{proof}
+
+\paragraph{Portée.} La sous-criticité n'est donc pas le fruit d'une calibration heureuse mais une
+\textbf{conséquence de la normalisation} : c'est ce qui autorise la forme réduite $(I-W)^{-1}$
+malgré les cycles de propagation, là où un graphe bayésien exigerait l'acyclicité. C'est aussi ce
+qui sépare cette construction d'une matrice posée au hasard, pour laquelle rien ne garantirait
+l'extinction de la cascade.
 
 \paragraph{Vérification, et ce que l'écart mesure.} Avec le classeur actuel,
 $\rho(W) = 0{,}506$. L'inégalité est vérifiée sur les cinq amorces et sur $300$ matrices
@@ -84,20 +130,40 @@ conserver le calcul exact par sous-ensembles plutôt que la seule forme close.
 
 \section{La direction n'est pas identifiée, et cela coûte}
 
-\paragraph{Proposition 3.} Toute matrice se décompose de façon \emph{unique} en
-$W = S + A$, avec $S = (W+W^{\top})/2$ symétrique et $A = (W-W^{\top})/2$ antisymétrique.
-Les matrices $W$ et $W^{\top}$ partagent donc exactement la même partie symétrique et ne
-diffèrent que par le signe de $A$.
+\begin{proposition}[Décomposition, et indistinguabilité observationnelle]\label{prop:decomposition}
+Toute matrice réelle $W$ s'écrit de façon \emph{unique} $W = S + A$ avec
+$S=\tfrac12(W+W^{\top})$ symétrique et $A=\tfrac12(W-W^{\top})$ antisymétrique, et ces deux
+parts sont orthogonales pour le produit scalaire de Frobenius :
+\begin{equation}
+  \langle S, A\rangle_F \;=\; \mathrm{tr}(S^{\top}A) \;=\; 0 .
+  \label{eq:orthogonalite}
+\end{equation}
+En outre $W$ et $W^{\top}$ ont la même partie symétrique et des parties antisymétriques
+opposées. Par conséquent, toute statistique $T$ ne dépendant de $W$ que par $S$ vérifie
+$T(W)=T(W^{\top})$ : elle ne peut pas distinguer $W$ de sa transposée.
+\end{proposition}
 
-\paragraph{Conséquence.} Le test directionnel ne rejette pas l'hypothèse $A = 0$
+\begin{proof}
+L'existence est donnée par les formules ci-dessus. Pour l'unicité, si $S+A = S'+A'$ avec $S,S'$
+symétriques et $A,A'$ antisymétriques, alors $S-S' = A'-A$ est à la fois symétrique et
+antisymétrique, donc nulle. Pour \eqref{eq:orthogonalite}, la symétrie de $S$ et
+l'antisymétrie de $A$ donnent
+$\mathrm{tr}(S^{\top}A)=\mathrm{tr}(SA)=\mathrm{tr}\bigl((SA)^{\top}\bigr)
+=\mathrm{tr}(A^{\top}S^{\top})=-\mathrm{tr}(AS)=-\mathrm{tr}(SA)$, d'où
+$\mathrm{tr}(SA)=0$. Enfin $W^{\top}=S-A$, ce qui établit la dernière assertion.
+\end{proof}
+
+\paragraph{Conséquence.} La co-occurrence observée entre piliers est précisément une telle
+statistique, fonction de $S$ seul. Le test directionnel ne rejette d'ailleurs pas l'hypothèse
+$A = 0$
 (chapitre~\ref{ch:identifiabilite} : asymétrie observée $119$ contre un nul de
 permutation à $128 \pm 27$, soit $z = -0{,}33$, et aucune arête significative sur $18$).
 Les deux matrices sont donc \textbf{également compatibles avec ce que l'on observe}. Elles
 ne produisent pourtant ni le même capital, ni la même décision.
 
-\paragraph{Vérification.} Le SCR passe de $8\,110$~M\euro{} sous $W$ à $7\,816$~M\euro{}
-sous $W^{\top}$, soit $295$~M\euro{} d'écart ($3{,}6\,\%$), et $7{,}9\,\%$ d'écart sur la
-perte moyenne. Surtout, \textbf{la priorité de remédiation bascule de P1 à P4}. Sur
+\paragraph{Vérification.} Retourner la matrice déplace le capital de $3{,}6\,\%$ et la perte
+moyenne de $7{,}9\,\%$ (les niveaux sont établis en partie~\ref{part:resultats} ; seuls les
+écarts importent ici). Surtout, \textbf{la priorité de remédiation bascule de P1 à P4}. Sur
 l'ensemble admissible, l'écart entre une matrice et sa transposée atteint
 $1\,173$~M\euro{}.
 
@@ -106,7 +172,7 @@ $1\,173$~M\euro{}.
 différentes.} C'est la formulation la plus nette de la frontière d'identification, et
 elle ne repose sur \emph{aucun} dire d'expert. Elle chiffre en euros de capital, et en
 inversion de priorité, le prix de ne pas savoir dans quel sens la contagion circule.
-C'est ce qui fonde à la fois le modèle en couches (chapitre~\ref{ch:decomposition}) et la
+C'est ce qui fonde à la fois le modèle en couches (chapitre~\ref{chap:partielle}) et la
 spécification de reporting adressée au régulateur.
 \end{cle}
 

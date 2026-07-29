@@ -1,0 +1,107 @@
+\chapter{La donnée manquante comme livrable, hiérarchisé}
+\label{ch:livrable}
+
+\begin{cle}
+\textbf{Idée directrice.} Le chapitre~\ref{ch:identifiabilite} a montré que la direction de la
+contagion n'est pas identifiable sur les sources agrégées. Cette limite n'est pas un point final :
+elle se retourne en \textbf{spécification de reporting}, et cette spécification se \textbf{chiffre}
+puis se \textbf{hiérarchise}. C'est la contribution réglementaire du travail, et elle ne dépend
+d'aucun prior.
+\end{cle}
+
+\section{Ce qu'un registre devrait contenir}
+
+Puisque les deux sources agrégées échouent pour des raisons \emph{opposées} (l'une manque de
+taxonomie et de volume informatif, l'autre de résolution temporelle), la donnée qui identifierait
+$W$ se déduit par complémentarité. Un registre d'incidents \textsc{tic} l'identifiant devrait :
+\begin{enumerate}[itemsep=2pt]
+\item horodater la \textbf{survenance} (et non la seule déclaration) au \textbf{mois ou à la
+      semaine}, afin de porter une antériorité que le pas annuel efface ;
+\item catégoriser par \textbf{domaine de contrôle} (les piliers DORA), et non par vecteur
+      d'attaque, afin qu'une transition soit interprétable comme un lien $k \to j$ ;
+\item consolider une \textbf{cause commune} comme \emph{un} événement à $N$ victimes, pour ne pas
+      confondre un lot de déclaration avec une contagion séquentielle.
+\end{enumerate}
+
+Ces trois exigences ne sont pas hors d'atteinte : le registre d'information imposé par
+l'\emph{implementing technical standard} du règlement d'exécution \citep{eu2024_2956} porte déjà
+l'identification des prestataires, la chaîne de sous-traitance et la criticité des fonctions. Ce
+qui manque relève du \emph{format} de l'horodatage et du \emph{choix de la taxonomie}, non d'une
+collecte nouvelle.
+
+\section{Ce que cette information vaut, en capital}
+
+Une recommandation de reporting reste un v\oe u tant qu'elle n'est pas chiffrée. On la chiffre en
+restreignant l'ensemble admissible du chapitre~\ref{chap:partielle} aux configurations compatibles
+avec l'information acquise, puis en mesurant le rétrécissement de la bande de capital.
+
+\begin{definition}[Valeur d'information d'une contrainte]\label{def:voi}
+Soit $\mathcal{W}$ l'ensemble admissible et $\mathrm{SCR}:\mathcal{W}\to\R_+$ la fonctionnelle de
+capital. La largeur de bande associée à un sous-ensemble $\mathcal{V}\subseteq\mathcal{W}$ est
+\begin{equation}
+  L(\mathcal{V}) \;=\; \sup_{W\in\mathcal{V}}\mathrm{SCR}(W)\;-\;\inf_{W\in\mathcal{V}}\mathrm{SCR}(W).
+  \label{eq:largeur-bande}
+\end{equation}
+Une information $\mathcal{I}$ qui restreint l'ensemble à $\mathcal{W}_{\mathcal{I}}\subseteq
+\mathcal{W}$ a pour \textbf{valeur} le rétrécissement relatif qu'elle produit :
+\begin{equation}
+  V(\mathcal{I}) \;=\; 1-\frac{L(\mathcal{W}_{\mathcal{I}})}{L(\mathcal{W})} \;\in\;[0,1].
+  \label{eq:voi}
+\end{equation}
+\end{definition}
+
+Cette définition a deux propriétés utiles. Elle est \textbf{monotone} : si
+$\mathcal{I}'$ implique $\mathcal{I}$, alors $\mathcal{W}_{\mathcal{I}'}\subseteq
+\mathcal{W}_{\mathcal{I}}$ et donc $V(\mathcal{I}')\ge V(\mathcal{I})$, une information plus
+riche ne pouvant pas valoir moins. Et elle est \textbf{sans dimension}, donc indépendante du
+niveau de capital, ce qui la rend comparable d'une source de sévérité à l'autre alors même que
+ce niveau, lui, varie d'un facteur quarante.
+
+Le corpus de sept rapports post-incident du chapitre~\ref{ch:identifiabilite} établit le
+\emph{sens} de six des dix dépendances entre piliers. À lui seul, il fait tomber la largeur de la
+bande de $\mathbf{66\,\%}$. C'est la valeur, en capital, de la lecture de sept documents publics,
+et elle donne l'ordre de grandeur de ce qu'un registre correctement spécifié apporterait.
+
+\begin{attention}
+\textbf{Ce qu'aucune information de sens ne donnera.} Même les dix directions établies, une bande
+subsisterait, imputable à la seule \textbf{amplitude} des coefficients : connaître le sens d'un
+lien ne donne pas sa force. L'identification partielle n'est donc pas un état provisoire que la
+donnée finirait par lever, elle est \textbf{structurelle}. C'est une raison de plus de lire le
+capital en bande, et de ne pas promettre à un superviseur davantage que ce qu'un registre peut
+tenir.
+\end{attention}
+
+\section{Quelle dépendance documenter en priorité}
+
+L'apport le plus actionnable est ailleurs que dans le total. En fixant le sens d'\emph{une seule}
+dépendance à la fois, on obtient un \textbf{classement} des données manquantes par valeur
+d'information (figure~\ref{fig:voi}). L'écart est considérable : documenter la seule dépendance
+entre gouvernance et gestion des incidents lèverait à elle seule $\mathbf{28{,}9\,\%}$ de
+l'ambiguïté de capital, tandis que documenter le lien entre tests et tiers n'en lèverait
+\emph{rien}.
+
+Deux conséquences pratiques. D'abord, un superviseur qui ne pourrait exiger qu'une seule
+dépendance sait désormais laquelle demander, et une entité qui ne pourrait instrumenter qu'un seul
+lien sait lequel instrumenter. Ensuite, un fait qui oriente la recommandation : \textbf{la
+dépendance la plus précieuse est précisément celle que le corpus documentaire ne couvre pas}. La
+lecture de rapports publics a livré ce qu'elle pouvait livrer ; le reste exige la donnée d'entité.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{Z18_valeur_information.png}
+\caption{La valeur de l'information, chiffrée et hiérarchisée. (a)~l'information rétrécit la
+bande de capital : $66\,\%$ acquis par la lecture de sept rapports, et une bande d'amplitude qui
+subsisterait même les dix sens connus. (b)~quelle dépendance documenter en priorité ; en bleu,
+celles que le corpus couvre déjà. Source : script~\texttt{55}.}
+\label{fig:voi}
+\end{figure}
+
+\begin{cle}
+\textbf{La limite devenue contribution.} Un mémoire qui se contenterait de constater qu'il ne
+peut pas calibrer $W$ laisserait le lecteur sans suite. En spécifiant la donnée qui manque, en
+chiffrant ce qu'elle vaut et en la hiérarchisant, on transforme une frontière d'identification en
+\textbf{recommandation opposable}, adressée au cadre de reporting que DORA met précisément en
+place. C'est le seul endroit du mémoire où une limite produit un livrable.
+\end{cle}
+
+% =====================================================================

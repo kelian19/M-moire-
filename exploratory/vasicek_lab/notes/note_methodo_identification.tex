@@ -1,0 +1,174 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage{eurosym}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[most]{tcolorbox}
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+\graphicspath{{../figures/}}
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=7pt,right=7pt,top=5pt,bottom=5pt,before skip=6pt,after skip=6pt,#1}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Méthodologie : que faire d'un paramètre
+non identifié\\[2pt]
+  \large La chaîne de traitement de $W$, de la démonstration à la valeur de l'information}
+\author{Kélian Kaddouri}
+\date{Juillet 2026}
+
+\begin{document}
+\maketitle
+\vspace{-0.8cm}
+
+\begin{cle}
+\textbf{Le problème.} Le c\oe ur du modèle est une matrice de contagion dirigée $W$ entre les
+cinq piliers DORA. Or sa \emph{direction} n'est pas mesurable sur les données publiques. Le
+réflexe courant serait de la poser en silence ; la méthode retenue est de la \textbf{traiter}, en
+six étapes qui se répondent. Cette fiche décrit la chaîne, indépendamment du cas DORA : elle est
+transposable à tout modèle dont un paramètre structurel n'est pas identifié.
+\end{cle}
+
+\section*{Première question à évacuer : la formule change-t-elle ?}
+
+\textbf{Non. Rien de ce qui suit ne modifie une équation du modèle.} Le stress latent du pilier
+$j$ de l'entité $i$ reste
+\[
+X_{ij} \;=\; \underbrace{\textstyle\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion dirigée}}
+   \;+\; \underbrace{\sqrt{\rho_{ij}}\;Y_j}_{\text{systémique}}
+   \;+\; \underbrace{\sqrt{1-\rho_{ij}}\;\varepsilon_{ij}}_{\text{propre}} ,
+\qquad
+\mathbf{X}_i = (I-W)^{-1}(\text{syst.} + \text{propre}),
+\]
+la normalisation de Leontief est inchangée, l'agrégation et la mesure de risque le sont aussi.
+Ce que la chaîne ci-dessous déplace n'est pas la \emph{mécanique} mais le \textbf{statut
+épistémique} de $W$ : de \og{}posée par jugement\fg{} à \og{}posée, bornée, corroborée, et dont
+on sait chiffrer ce qu'il manque pour la connaître\fg{}. C'est une différence de \emph{régime de
+connaissance}, non de modèle, et c'est ce qui la rend sûre : aucun résultat antérieur n'est
+invalidé.
+
+\section*{Les six étapes}
+
+\textbf{1. Séparer l'identifié du non-identifié, exactement.} Toute matrice s'écrit de façon
+unique $W = S + A$, avec $S=(W+W^\top)/2$ symétrique et $A=(W-W^\top)/2$ antisymétrique, et ces
+deux parts sont \emph{orthogonales} au sens de Frobenius. La donnée voit la co-occurrence de deux
+piliers, donc $S$ ; elle ne voit pas qui a précédé, donc pas $A$. La séparation est nette et sans
+recouvrement : l'ignorance est \textbf{localisée}, elle ne contamine pas tout le paramètre. C'est
+l'étape qui rend tout le reste possible.
+
+\textbf{2. Démontrer la non-identifiabilité, et en donner la raison.} Un constat empirique ne
+suffit pas ; il faut un test valide et une explication. Le test valide sur des comptages est le
+\textbf{placebo par permutation} (on détruit l'antériorité en conservant la co-occurrence, puis
+on recompare l'asymétrie) : le test intuitif du \og{}temps inversé\fg{} est \emph{dégénéré} et ne
+prouve rien, ce qu'il faut dire. La raison, elle, vient de la théorie des processus réversibles :
+$A$ est un \textbf{courant} qui change de signe sous renversement du temps, et l'énergie de
+fluctuation (la forme de Dirichlet, soit la variation de la martingale associée) ne dépend que de
+$S$. Aucune statistique invariante par renversement du temps ne peut donc identifier $A$. La
+limite passe ainsi du statut de constat à celui de conséquence.
+
+\textbf{3. Borner plutôt que poser.} La seule positivité de $W$ impose
+$|A_{jk}| \le S_{jk}$ : l'ensemble d'ignorance est un \textbf{pavé}, donc convexe et énumérable,
+et le capital se lit en \textbf{bornes} sur cet ensemble au lieu d'être un point.
+
+\begin{cle}[colback=accent!7,colframe=accent!70!black]
+\textbf{Le piège de cette étape, à ne pas dissimuler.} Énumérer les $2^{10}$ sommets du pavé ne
+borne que si les extrêmes y sont \emph{atteints}. L'argument usuel de monotonie coordonnée par
+coordonnée ne s'applique \textbf{pas} : augmenter $A_{jk}$ élève $W_{jk}$ mais \emph{abaisse}
+$W_{kj}$, c'est un arbitrage. On procède donc par réfutation, en tirant des points
+\textbf{intérieurs} du pavé et en vérifiant qu'aucun ne sort des bornes. L'hypothèse survit à
+$3\,000$ tirages, et elle est présentée comme \textbf{vérifiée numériquement}, non comme un
+théorème.
+\end{cle}
+
+\textbf{4. Chercher la corroboration dans une source d'un \emph{autre genre}.} Si la
+spécification requise (horodatage fin, taxonomie par domaine de contrôle, causes communes
+consolidées) est introuvable dans une base \emph{agrégée}, elle peut exister \emph{à l'intérieur}
+d'un autre type de document : le rapport post-incident officiel, où une enquête reconstitue la
+séquence des défaillances. On code alors un corpus de tels rapports en transitions dirigées, avec
+un protocole explicite, et on lui applique \textbf{le même placebo} qu'à la base agrégée. Le
+compromis est inversé : peu de volume, mais une direction établie par l'enquête. C'est la qualité
+du codage qui donne la puissance là où le volume ne suffisait pas.
+
+\begin{cle}[colback=accent!7,colframe=accent!70!black]
+\textbf{Le confondant de cette étape, qui ne se lève pas par le calcul.} Une enquête officielle
+est \emph{mandatée} pour trouver une cause racine et des responsabilités, et conclut très souvent
+à une défaillance de gouvernance. Le placebo teste la \emph{cohérence} du codage, pas son
+\emph{exogénéité} : la structure trouvée peut refléter la convention d'écriture des rapports. On
+le déclare, et on prévoit deux dispositifs qui, eux, peuvent le réduire : une \textbf{fiabilité
+inter-juges} par second codeur en aveugle, et une \textbf{relecture par praticiens} interrogés sur
+leur expérience de terrain et non sur des rapports publics.
+\end{cle}
+
+\textbf{5. Formaliser en bayésien, pour que le posterieur \emph{reproduise} l'identification.}
+Par paire, on pose $\theta$ la probabilité qu'une chaîne documentée aille dans un sens, et on la
+relie au coefficient par $A = S\,(2\theta-1)$, transformation qui envoie $[0,1]$ exactement sur
+l'intervalle admissible $[-S,+S]$. Avec un prior Beta et les comptes du corpus pour vraisemblance,
+la conjugaison est exacte : ni simulation par chaînes de Markov, ni prior d'expert. La propriété
+qui fait l'intérêt du procédé est que le posterieur \textbf{reproduit de lui-même} la structure
+d'identification : les paires non documentées gardent un $\theta$ uniforme, donc un coefficient
+couvrant tout l'admissible, sans qu'on ait à poser cette ignorance. Deux vérifications sont
+obligatoires : la \textbf{sensibilité au prior} (dont un prior \emph{sceptique}, le plus
+défavorable à la thèse) et la lecture \textbf{par paire}, qui se révèle plus prudente que le test
+d'ensemble et doit primer.
+
+\textbf{6. Chiffrer ce qu'il manque, et le hiérarchiser.} Restreindre l'ensemble admissible aux
+configurations compatibles avec l'information acquise mesure, en capital, ce que cette information
+valait. Surtout, en fixant \emph{une seule} dépendance à la fois, on obtient un \textbf{classement}
+des données manquantes par valeur d'information. La recommandation cesse d'être un v\oe u
+générique : elle devient une priorité argumentée, qui ne dépend d'aucun prior.
+
+\section*{L'atterrissage : un énoncé à trois niveaux, pas un verdict}
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{3.0cm} p{6.9cm} p{4.6cm}@{}}
+\toprule
+\textbf{Objet} & \textbf{Ce que la donnée établit} & \textbf{Posture} \\
+\midrule
+Structure & cohérence totale du corpus, placebo franchi & \textbf{revendiquée}, confondant déclaré \\
+Direction par paire & minorité de paires concluantes & \textbf{non revendiquée}, bornes conservées \\
+Amplitude & rien, et une bande subsisterait même à sens tous connus & \textbf{non identifiable} ainsi \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+On revendique donc un \textbf{ordre partiel} entre piliers, non une matrice. Objet plus faible,
+donc bien plus difficile à contester, et \emph{suffisant} pour porter les conclusions qui
+comptent : le classement des piliers et l'ordre de remédiation. Deux objets coexistent enfin dans
+le rapport final, et répondent à deux questions distinctes : les \textbf{bornes}, sans prior, donc
+\emph{opposables} ; le \textbf{crédible} bayésien, plus resserré, donc \emph{informatif}.
+
+\begin{cle}
+\textbf{Ce qui est transposable hors du cas DORA.} La chaîne ne doit rien à DORA : elle
+s'applique dès qu'un modèle repose sur un paramètre structurel que la donnée ne fixe pas.
+\emph{Localiser} l'ignorance par une décomposition orthogonale ; \emph{démontrer} la limite avec
+un test valide et lui donner une raison théorique ; \emph{borner} au lieu de poser, en auditant
+l'hypothèse de calcul des bornes ; \emph{corroborer} par une source d'un autre genre en déclarant
+son confondant ; \emph{formaliser} de sorte que le posterieur reproduise l'identification plutôt
+que de la postuler ; et \emph{chiffrer} la valeur de ce qui manque pour en faire une
+recommandation hiérarchisée. La ligne rouge, tenue d'un bout à l'autre : ne jamais présenter comme
+mesuré ce qui est posé, et jamais comme calibré ce qui est seulement corroboré.
+\end{cle}
+
+\smallskip
+{\footnotesize\textcolor{navy}{\textbf{Sources.}} Scripts \texttt{40} (réversibilité),
+\texttt{30} (bornes), \texttt{53} (corpus de post-mortems), \texttt{54} (fiabilité inter-juges),
+\texttt{55} (valeur de l'information), \texttt{56} (bayésien), \texttt{57} (propriétés portables
+et audit des bornes). Chapitres 9 et 10 du mémoire.}
+
+\end{document}

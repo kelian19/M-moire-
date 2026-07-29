@@ -1,0 +1,138 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.9cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=7pt,right=7pt,top=5pt,bottom=5pt,before skip=6pt,after skip=6pt,#1}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Sept phrases à contredire\\[2pt]
+  \large Votre expérience du terrain contre mes conclusions sur papier}
+\author{Kélian Kaddouri}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.1cm}
+
+\begin{cle}
+\textbf{Ce qu'on vous demande, et surtout ce qu'on ne vous demande pas.} \emph{Pas} de lire mon
+mémoire. Je vous soumets sept phrases sur lesquelles ce que vous avez vu chez des clients vaut
+mieux que n'importe quel calcul, et je vous demande d'essayer de les \textbf{contredire}. Un
+désaccord argumenté m'est plus utile qu'un accord, et il sera cité comme tel. Comptez une
+demi-heure.
+\end{cle}
+
+\textbf{De quoi il s'agit, en trois phrases.} Je cherche à chiffrer ce que coûte, en capital
+réglementaire, le fait de mal appliquer le règlement européen sur la résilience informatique des
+acteurs financiers. Mon modèle suppose qu'un problème sur un domaine \emph{en entraîne} un autre,
+dans un certain ordre, plutôt que les problèmes ne surviennent chacun de leur côté. Cet ordre,
+je n'ai pas pu le mesurer sur des bases de données : je l'ai déduit de rapports d'enquête publics,
+et c'est exactement là que votre avis compte.
+
+\textbf{Les cinq domaines dont je parle.} \textbf{Gouvernance} : qui décide, qui est responsable,
+quels moyens la direction met sur la sécurité. \textbf{Incidents} : repérer un incident,
+l'escalader, y répondre, le déclarer. \textbf{Tests} : tester avant de mettre en service, vérifier,
+appliquer les correctifs. \textbf{Prestataires} : les fournisseurs et la dépendance à un service
+extérieur. \textbf{Partage d'infos} : recevoir et faire circuler les alertes sur les menaces.
+
+\begin{cle}[colback=accent!7,colframe=accent!70!black]
+\textbf{À lire avant de répondre aux phrases 3 et 4.} Ces deux-là portent sur l'ordre dans lequel
+les choses lâchent, et je les ai déduites de rapports d'enquête officiels. Or une enquête
+officielle cherche toujours un responsable, et finit très souvent par conclure que la direction
+n'encadrait pas assez. Il se peut donc que l'ordre que j'ai trouvé reflète la façon dont ces
+rapports sont écrits, plutôt que ce qui se passe vraiment dans une entreprise.
+\textbf{Votre réponse à ces deux phrases, fondée sur ce que vous avez vu et non sur des rapports,
+est le seul moyen de faire la différence.} Si vous manquez de temps, répondez à celles-là.
+\end{cle}
+
+\section*{Les sept phrases}
+
+\textbf{1.} Ces cinq domaines suffisent à décrire la solidité informatique d'un acteur financier.
+Il n'en manque pas un, et ils ne se chevauchent pas au point de gêner.
+
+\textbf{2.} Quand plusieurs domaines flanchent chez un même acteur, c'est souvent parce que l'un
+a entraîné l'autre, et pas seulement parce qu'une cause extérieure commune les a touchés tous les
+deux.
+
+\textbf{3.} Une gouvernance défaillante dégrade les autres domaines, mais l'inverse ne se produit
+pas : un incident, un test raté ou un prestataire qui tombe ne dégradent pas la gouvernance
+elle-même. \emph{(La phrase que j'aimerais le plus vous voir contredire. Avez-vous déjà vu un
+incident faire empirer la gouvernance ?)}
+
+\textbf{4.} Les problèmes des autres domaines finissent par se voir dans la gestion des
+incidents, mais une mauvaise gestion des incidents ne dégrade pas en retour les tests, les
+prestataires ou la circulation de l'information.
+
+\textbf{5.} Un prestataire partagé qui tombe abîme plusieurs domaines \emph{en même temps}, au
+lieu de faire tomber les choses les unes après les autres. C'est différent des autres domaines, et
+je le traite différemment.
+
+\textbf{6.} Ces trois indicateurs sont ceux qu'une direction des risques suit vraiment, ou
+pourrait produire sans grand chantier : le délai pour déclarer un incident, le temps qu'il faut
+pour le circonscrire, et le degré de concentration des prestataires.
+
+\textbf{7.} Il serait réaliste de demander aux acteurs financiers un registre d'incidents qui
+note la date où l'incident \emph{a eu lieu} (et non celle où il a été déclaré), qui range chaque
+incident par domaine plutôt que par type d'attaque, et qui compte un problème touchant vingt
+acteurs comme \emph{un} événement à vingt victimes.
+
+\section*{Votre réponse}
+
+Pour chaque phrase : \textbf{D} d'accord \textbullet{} \textbf{N} d'accord mais avec une nuance
+\textbullet{} \textbf{C} pas d'accord \textbullet{} \textbf{S} sans avis. Le commentaire est la
+partie qui m'intéresse vraiment : un exemple précis vaut mieux qu'une appréciation générale.
+
+\vspace{3mm}
+\begin{center}\small
+\renewcommand{\arraystretch}{2.7}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}c|c|c|c|c|p{9.4cm}@{}}
+\toprule
+ & \textbf{D} & \textbf{N} & \textbf{C} & \textbf{S} & \textbf{Commentaire, exemple vécu} \\
+\midrule
+1 & & & & & \\ \hline
+2 & & & & & \\ \hline
+\rowcolor{accent!8} 3 & & & & & \\ \hline
+\rowcolor{accent!8} 4 & & & & & \\ \hline
+5 & & & & & \\ \hline
+6 & & & & & \\ \hline
+7 & & & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{3mm}
+\textbf{La question la plus précieuse, pour finir.} Qu'est-ce qui manque ? Quelle phrase aurait dû
+figurer dans cette liste, ou quel enchaînement voyez-vous régulièrement sur le terrain et dont je
+ne parle nulle part ?
+
+\vspace{16mm}\hrule\vspace{1mm}\hrule\vspace{1mm}\hrule
+
+\vspace{4mm}
+\begin{cle}
+\textbf{Ce que je ferai de vos réponses.} Elles seront citées dans mon mémoire, et les
+désaccords en premier. Si vous contredisez la phrase 3 ou la 4, je corrige le modèle : c'est
+précisément pour cela que je vous écris. Merci de me dire votre rôle, votre secteur, depuis
+combien de temps vous exercez, et si vous acceptez d'être cité par votre nom ou préférez rester
+anonyme.
+\end{cle}
+
+\vspace{-1pt}
+{\footnotesize\textcolor{navy}{\textbf{Merci du temps que vous y passerez.}} Kélian Kaddouri
+\textbullet{} kkaddouri@nexialog.com}
+
+\end{document}

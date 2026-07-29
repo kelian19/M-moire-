@@ -66,7 +66,7 @@ de grandeur de l'effet DORA, la hiérarchie des piliers, le rôle de la directio
 du Hawkes tiennent quand on change ce qui pourrait sembler arbitraire. La cinquième ligne
 n'est pas une fragilité mais le \textbf{c\oe ur du modèle} : un SCR qui ne bougerait pas avec la
 conformité serait inutile (c'est le reproche fait à la Formule Standard,
-chapitre~\ref{ch:benchmarks}). La dernière est la limite honnête : la queue de sévérité
+chapitre~\ref{chap:resultats}). La dernière est la limite honnête : la queue de sévérité
 domine l'incertitude, donc toute lecture ponctuelle du SCR serait une surinterprétation.
 
 \section{Tableau des paramètres non calibrés (et de leur sensibilité)}
@@ -109,6 +109,95 @@ la conformité et de la contagion sur le capital). Les paramètres purement \tex
 ne sont pas des leviers ($\theta$ de copule, $\gamma$, $\theta_{\text{crise}}$, probas d'état,
 matérialité) ont une influence \textbf{faible à modérée} et documentée. Aucune conclusion ne
 repose sur un paramètre à la fois non calibré \emph{et} déterminant hors de son rôle attendu.
+
+\section{Les trois étages de l'incertitude du SCR}
+\label{sec:trois-etages}
+
+L'incertitude sur le SCR ne se réduit pas au paramètre. Elle se cumule sur trois étages, qu'il
+faut nommer plutôt que confondre (figure~\ref{fig:bande-modele}). Le premier est l'incertitude
+de \textbf{paramètre} : l'intervalle de confiance de $\xi$ à lui seul dilate la VaR d'un facteur
+$2{,}6$ (chapitre~\ref{chap:socle}). Le deuxième est l'incertitude d'\textbf{identification} :
+la direction de $W$ n'étant pas identifiable, la contagion se lit en bande
+(chapitre~\ref{chap:partielle}). Le troisième, le plus souvent passé sous silence, est
+l'incertitude de \textbf{modèle} : le choix de la \emph{famille} elle-même.
+
+On la chiffre en recalculant le SCR sous des familles concurrentes. Sur l'axe de la
+\textbf{dépendance}, à marges par pilier fixées, le SCR va de $5\,322$ M\euro{} (indépendance) à
+$9\,806$ M\euro{} (comonotone, borne de Fréchet), soit un facteur $1{,}8$, la formule standard
+Solvabilité~II et les copules gaussienne et de Gumbel se plaçant entre les deux ; notre cascade
+dirigée ($8\,318$ M\euro) tombe dans cette bande, entre une dépendance gaussienne et une
+dépendance de Gumbel. Sur l'axe de la \textbf{famille de queue}, l'écart est bien plus large :
+d'une lognormale ($4\,330$ M\euro) à une GPD à queue lourde ($\xi=0{,}90$ ; $24\,016$ M\euro),
+un facteur $5{,}5$. C'est le choix de la loi de queue qui domine, de loin, l'incertitude de
+modèle --- et c'est précisément pourquoi le plafond de réassurance ($40$ M\euro) est un levier
+distinct, qui ramène la famille lourde à $495$ M\euro : une réponse au risque de queue, non le
+risque lui-même.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{J4_bande_modele.png}
+\caption{La bande de modèle, troisième étage d'incertitude. \textbf{(a)}~axe dépendance, à
+marges fixées : la cascade se place entre les copules gaussienne et de Gumbel, dans une bande
+$[5{,}3\,;9{,}8]$ Md\euro. \textbf{(b)}~axe famille de queue : la queue lourde domine
+l'incertitude ($\times 5{,}5$). \textbf{(c)}~les trois étages (paramètre, identification,
+modèle) se cumulent. Source : script~\texttt{48}.}
+\label{fig:bande-modele}
+\end{figure}
+
+\begin{cle}
+\textbf{Oui, chaque brique a des alternatives.} Fréquence (Poisson, Hawkes, Cox), sévérité
+(lognormale, splicing, EVT bayésienne), dépendance (copules, réseaux, Hawkes multivarié),
+mesure (TVaR, spectrale, robuste), agrégation (formule standard, Panjer) : on ne prétend pas
+détenir \emph{la} méthode. La discipline est ailleurs : on a testé les concurrents les plus
+sérieux, on \textbf{borne} l'effet du choix, et surtout le niveau bouge dans la bande mais
+l'\textbf{ordre d'amorce des piliers ne bouge pas} ($P1>P4>P2>P3>P5$, invariant à la famille).
+Le niveau est illustratif, l'ordre résiste : c'est, chiffrée sur un troisième axe, la thèse du
+mémoire, et la réponse à qui demanderait \og et si vous aviez pris une autre méthode~?\fg.
+\end{cle}
+
+\section{De l'incertitude au chiffre reporté : VaR prédictive et VaR robuste}
+\label{sec:predictive-robuste}
+
+Quantifier l'incertitude (les trois étages) ne dit pas encore \emph{quel} nombre reporter.
+Prendre le quantile $99{,}5\,\%$ d'une loi estimée en un point (\emph{plug-in}) est fragile,
+car les données sont incertaines : \og{}le quantile d'un objet incertain est mauvais\fg{}
+(C.~Hillairet). Deux réponses complémentaires, selon la posture (figures~\ref{fig:predictive}
+et~\ref{fig:robuste}).
+
+\textbf{La VaR prédictive} intègre l'incertitude de paramètre \emph{avant} de prendre le
+quantile : on prend le quantile de la loi \emph{prédictive}, mélange des GPD sur la distribution
+bootstrap de $(\xi,\sigma)$. Le résultat est instructif : à $99{,}5\,\%$ elle est \emph{quasi
+égale} au \emph{plug-in} ($657$ contre $659$~M\euro) --- le risque d'estimation n'est pas un
+biais de point à ce niveau, il ne le devient qu'en profondeur ($+6\,\%$ à $99{,}9\,\%$). La
+fragilité est dans la \textbf{largeur} de la bande, pas dans le point.
+
+\textbf{La VaR robuste} prend au contraire la \textbf{borne haute} de la VaR sur l'ensemble
+d'ambiguïté (paramètre, puis modèle) : la VaR robuste à $95\,\%$ vaut $1\,026$~M\euro{}
+($1{,}6\times$ le \emph{plug-in}), le pire-cas de famille lourde $1\,311$~M\euro. C'est la
+posture prudente, où le niveau de robustesse est un \textbf{choix prudentiel explicite}.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{J2_var_predictive.png}
+\caption{VaR prédictive. \textbf{(a)}~le paramètre $\xi$ est incertain. \textbf{(b)}~les queues
+\emph{plug-in} et prédictive ne divergent que loin dans la queue. \textbf{(c)}~le capital se lit
+en profil et en bande. Source : script~\texttt{46}.}
+\label{fig:predictive}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{J7_scr_robuste.png}
+\caption{VaR robuste. \textbf{(a)}~la VaR est elle-même incertaine ; le robuste en prend la
+borne haute. \textbf{(b)}~l'échelle des postures, du point ($659$) au pire-cas de modèle
+($1\,311$~M\euro). Source : script~\texttt{51}.}
+\label{fig:robuste}
+\end{figure}
+
+\begin{cle}
+\textbf{Deux points honnêtes plutôt qu'un point trompeur.} La VaR prédictive est le point
+\emph{honnête} (il embarque l'incertitude d'estimation) ; la VaR robuste est le point
+\emph{prudent} (la borne haute sur l'ambiguïté). Le choix entre les deux relève de la politique
+prudentielle, non du calcul. L'essentiel est de ne jamais reporter le seul \emph{plug-in} : le
+SCR se cite avec sa bande, ou par un point qui assume l'incertitude, jamais nu.
+\end{cle}
 
 \begin{cle}
 \textbf{La double lecture.} \og Insensible aux choix innocents, sensible aux leviers réels \fg :

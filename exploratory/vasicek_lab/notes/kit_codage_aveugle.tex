@@ -1,0 +1,233 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.9cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=7pt,right=7pt,top=5pt,bottom=5pt,before skip=6pt,after skip=6pt,#1}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Sept incidents, une question simple\\[2pt]
+  \large Dans chaque incident, qu'est-ce qui a lâché en premier ?}
+\author{Kélian Kaddouri}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.1cm}
+
+\begin{cle}
+\textbf{Ce qu'on vous demande.} Vous allez lire sept récits d'incidents réels, tirés de rapports
+d'enquête publics. Pour chacun, on vous demande simplement, entre deux domaines qui ont tous les
+deux flanché, \textbf{lequel a flanché en premier et a entraîné l'autre}. C'est tout. Comptez
+trois quarts d'heure. Aucune connaissance technique n'est nécessaire : les faits vous sont
+donnés, vous n'avez qu'à les ordonner.
+\end{cle}
+
+\section*{Les cinq domaines}
+
+Toute la grille porte sur ces cinq domaines. Retenez les noms, ils suffisent.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}>{\bfseries}p{3.1cm} p{13.2cm}@{}}
+\toprule
+Gouvernance & Qui décide, qui est responsable de quoi, quelle importance la direction accorde à
+la sécurité, quels moyens elle y met. \\
+Incidents & Repérer qu'un incident a lieu, l'escalader, y répondre, en informer les clients et
+les autorités. \\
+Tests & Tester avant de mettre en service, vérifier régulièrement, appliquer les correctifs,
+renouveler les certificats et les clés. \\
+Prestataires & Les fournisseurs et sous-traitants, et la dépendance à un outil ou un service
+extérieur. \\
+Partage d'infos & Recevoir et faire circuler les alertes sur les menaces, en interne comme avec
+l'extérieur. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Comment répondre}
+
+Pour chaque case, vous avez le nom de deux domaines. Écrivez l'une de ces quatre réponses :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}>{\bfseries}p{4.6cm} p{11.6cm}@{}}
+\toprule
+le nom d'un domaine & si le récit montre que celui-là a lâché en premier \emph{et} a entraîné
+l'autre. Écrivez simplement son nom, par exemple \emph{Gouvernance}. \\
+en même temps & les deux ont lâché, mais rien ne dit lequel a entraîné l'autre. \\
+non concerné & au moins un des deux domaines n'apparaît pas dans ce récit. \\
+je ne sais pas & vous hésitez, ou le récit ne permet pas de trancher. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{cle}[colback=accent!7,colframe=accent!70!black]
+\textbf{La règle à tenir, et la seule.} N'écrivez le nom d'un domaine que si le récit
+\textbf{montre} qu'il a entraîné l'autre. Si les deux problèmes sont juste racontés l'un à côté
+de l'autre, répondez \emph{en même temps}. Dans le doute, \emph{je ne sais pas} est une bonne
+réponse. Il n'y a pas de réponse attendue, et si vous répondez souvent \emph{en même temps} ce
+n'est pas un problème : c'est même une information.
+\end{cle}
+
+\newpage
+\section*{Les sept récits}
+
+\subsection*{1. Fournisseur de messagerie d'entreprise, 2023}
+\textit{Rapport d'une commission d'enquête publique américaine.}
+\begin{itemize}[itemsep=2pt]
+\item Le rapport juge que l'entreprise ne mettait pas assez la sécurité au premier plan, et
+      recommande que la direction générale et le conseil s'en saisissent eux-mêmes.
+\item Le renouvellement des clés de sécurité, fait à la main et rarement, a été arrêté en 2021
+      après une panne, sans être remplacé par un système automatique.
+\item Aucune alerte ne signalait qu'une clé devenait trop ancienne.
+\item Une clé créée en 2016, censée ne plus servir, a été utilisée par les attaquants.
+\item L'entreprise n'a pas découvert l'attaque elle-même : c'est un client qui l'a prévenue.
+\item Ses communications publiques donnaient une explication de l'origine de la fuite ; elles ont
+      été corrigées six mois plus tard pour dire que l'origine restait inconnue.
+\item Le rapport relève des failles dans la façon dont l'entreprise sécurise les sociétés qu'elle
+      rachète : les accès d'un ingénieur venu d'une société rachetée ont servi à entrer.
+\end{itemize}
+
+\subsection*{2. Banque britannique, migration informatique de 2018}
+\textit{Enquête indépendante commandée par la banque ; sanctions des deux autorités de contrôle
+britanniques ; sanction personnelle de l'ancien directeur informatique.}
+\begin{itemize}[itemsep=2pt]
+\item Cinq millions de clients ont été basculés sur une nouvelle plateforme. Beaucoup se sont
+      retrouvés sans accès à leur compte, certains ont vu des montants disparaître, d'autres ont
+      eu accès aux comptes d'autres clients.
+\item Les autorités ont sanctionné des manquements dans le pilotage du projet et dans la
+      surveillance des sous-traitants.
+\item Le chantier a mobilisé plus de 70 fournisseurs et plus de 1\,400 personnes ; l'enquête juge
+      la surveillance de ces fournisseurs insuffisante.
+\item Deux centres de données n'ont pas été testés avant la mise en service, l'un étant réservé à
+      l'exploitation : l'ensemble n'a donc jamais été testé en charge réelle.
+\item Sur 5\,359 défauts recensés, 4\,424 étaient encore ouverts le jour du démarrage.
+\item L'ancien directeur informatique a été sanctionné à titre personnel pour n'avoir pas veillé
+      à ce que la banque encadre convenablement son contrat de sous-traitance.
+\item La gestion de la crise et l'information des clients ont été critiquées ; le coût dépasse
+      300 millions de livres.
+\end{itemize}
+
+\subsection*{3. Société américaine de renseignement financier, 2017}
+\textit{Rapports d'un organisme d'audit public et d'une commission parlementaire.}
+\begin{itemize}[itemsep=2pt]
+\item En mars 2017, une alerte publique demande de corriger sans délai un logiciel très répandu.
+      L'entreprise diffuse l'alerte en interne, mais la liste de diffusion n'était plus à jour et
+      les personnes concernées ne l'ont jamais reçue.
+\item Un contrôle automatique passé la semaine suivante n'a pas repéré la faille.
+\item Un certificat de surveillance avait expiré en janvier 2017 : sans lui, les outils de
+      surveillance ne voyaient plus rien. Personne ne s'en est aperçu pendant plus de six mois.
+      Plus de 300 certificats étaient expirés, dont 79 sur des systèmes critiques.
+\item Le certificat a été renouvelé fin juillet 2017 : les outils ont immédiatement signalé une
+      activité suspecte. Les intrus étaient là depuis environ 76 jours.
+\item L'audit relève qu'il n'y avait pas de responsabilités claires ni de ligne hiérarchique nette
+      dans l'organisation informatique, et un écart entre les règles écrites et leur application
+      réelle, qui a aussi freiné d'autres chantiers de sécurité.
+\item L'annonce publique a eu lieu en septembre 2017.
+\end{itemize}
+
+\subsection*{4. Société de courtage américaine, 1\up{er} août 2012}
+\textit{Décision du régulateur boursier américain.}
+\begin{itemize}[itemsep=2pt]
+\item Une mise à jour logicielle n'a pas été installée correctement sur tous les serveurs ; l'un
+      d'eux a continué à faire tourner un ancien programme resté actif.
+\item Le régulateur constate l'absence de contrôles et de procédures convenables pour installer
+      et vérifier ces mises à jour.
+\item Il constate aussi l'absence de procédures écrites suffisantes pour guider les employés
+      quand un incident technique grave survient.
+\item L'épisode a duré environ 45 minutes et coûté de l'ordre de 440 millions de dollars.
+\end{itemize}
+
+\subsection*{5. Banque américaine, 2019}
+\textit{Décisions de deux autorités de contrôle bancaires américaines.}
+\begin{itemize}[itemsep=2pt]
+\item L'autorité sanctionne l'absence d'une véritable évaluation des risques \emph{avant} de
+      basculer des activités importantes chez un hébergeur extérieur.
+\item Elle relève aussi que les insuffisances constatées n'ont pas été corrigées dans un délai
+      raisonnable.
+\item Un équipement de protection mal configuré a permis d'accéder aux données hébergées.
+\item La banque a appris l'intrusion par un signalement venu de l'extérieur.
+\item La seconde décision porte sur le pilotage et la surveillance par le conseil
+      d'administration.
+\end{itemize}
+
+\subsection*{6. Éditeur de logiciels pour les marchés financiers, janvier 2023}
+\textit{Communications de l'entreprise et réactions des autorités européennes et britanniques.}
+\begin{itemize}[itemsep=2pt]
+\item Un rançongiciel a frappé une division de cet éditeur, dont les logiciels sont utilisés par
+      de nombreux acteurs des marchés.
+\item Beaucoup de ses clients ont dû revenir à des traitements manuels.
+\item Des déclarations réglementaires ont été retardées dans tout le secteur.
+\end{itemize}
+
+\subsection*{7. Logiciel de transfert de fichiers, mai-juin 2023}
+\textit{Listes de victimes publiques.}
+\begin{itemize}[itemsep=2pt]
+\item Une faille d'un logiciel de transfert de fichiers vendu par un éditeur extérieur a été
+      exploitée massivement.
+\item Des centaines d'organisations, dont des banques et des assureurs, ont été touchées en même
+      temps et ont dû gérer puis déclarer un incident.
+\end{itemize}
+
+\newpage
+\section*{La grille}
+
+Une ligne par incident. Dans chaque case, écrivez le nom du domaine qui a lâché en premier, ou
+\emph{en même temps}, ou \emph{non concerné}, ou \emph{je ne sais pas}.
+
+\vspace{3mm}
+\begin{center}\scriptsize
+\renewcommand{\arraystretch}{2.7}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}p{2.05cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}@{}}
+\toprule
+\textbf{Incident} & Gouv. \newline / Incid. & Gouv. \newline / Tests & Gouv. \newline / Prest. &
+Gouv. \newline / Partage & Incid. \newline / Tests & Incid. \newline / Prest. &
+Incid. \newline / Partage & Tests \newline / Prest. & Tests \newline / Partage &
+Prest. \newline / Partage \\
+\midrule
+1. Messagerie & & & & & & & & & & \\ \hline
+2. Banque UK & & & & & & & & & & \\ \hline
+3. Renseign. & & & & & & & & & & \\ \hline
+4. Courtage & & & & & & & & & & \\ \hline
+5. Banque US & & & & & & & & & & \\ \hline
+6. Éditeur & & & & & & & & & & \\ \hline
+7. Transfert & & & & & & & & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4mm}
+\textbf{Une dernière question, la plus utile.} Y a-t-il une case où vous avez vraiment hésité, ou
+un enchaînement que vous avez vu sur le terrain et qui ne ressemble à aucun de ces sept récits ?
+
+\vspace{12mm}\hrule\vspace{1mm}\hrule\vspace{1mm}\hrule
+
+\vspace{4mm}
+\begin{cle}
+\textbf{Pourquoi on vous le demande.} J'ai déjà rempli cette grille de mon côté. Je ne vous
+montre pas mes réponses avant que vous ayez rendu les vôtres, pour ne pas vous influencer :
+l'intérêt est justement de savoir si deux personnes lisant les mêmes faits y voient le même
+enchaînement. Un désaccord entre nous n'est pas un échec, c'est le résultat le plus instructif
+que cet exercice puisse produire.
+\end{cle}
+
+\vspace{-1pt}
+{\footnotesize\textcolor{navy}{\textbf{Merci.}} Kélian Kaddouri \textbullet{}
+kkaddouri@nexialog.com}
+
+\end{document}

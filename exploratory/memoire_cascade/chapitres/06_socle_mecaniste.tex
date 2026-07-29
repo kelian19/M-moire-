@@ -196,6 +196,40 @@ sinistralité --- une hypothèse de modélisation explicite, dont la limite est
 que le comportement de la sur-dispersion en régime de forte dégradation
 n'est pas lui-même observé, faute d'historique de crise DORA.
 
+\paragraph{Réconciliation des trois mesures de surdispersion, et effet sur le capital.}
+Le modèle porte, à trois échelles distinctes, trois mesures de surdispersion qu'il faut
+réconcilier pour ne pas les confondre : la forme du mélange Gamma au niveau firme-année
+($r=0{,}63$), la charge systémique commune ($a=0{,}60$, mélange lognormal du
+chapitre~\ref{chap:multietats}) et le facteur $\varphi=9{,}20$ ci-dessus (mélange Gamma
+agrégé, c'est-à-dire la binomiale négative). Un mélange de Poisson a pour indice de dispersion
+$\Var/\E$ égal à $1+\lambda/r=\varphi$ (mélange Gamma) ou $1+\lambda(e^{a^2}-1)$ (mélange
+lognormal) ; les deux décrivent \emph{la même} surdispersion agrégée dès lors que
+$a=\sqrt{\ln\!\bigl(1+(\varphi-1)/\lambda\bigr)}$. À l'échelle du moteur ($\lambda\simeq 21{,}6$
+entrées par an), $\varphi=9{,}20$ correspond à $a=0{,}57$, soit à cinq pour cent de la valeur
+$0{,}60$ posée par ailleurs : les deux calages agrégés coïncident, le $r=0{,}63$ firme vivant à
+une échelle firme-année non comparable directement.
+
+Trois enseignements suivent (figure~\ref{soc:fig:nb}). D'abord, à variance égale la queue
+dépend encore de la loi de mélange : le quantile $99{,}5\,\%$ du nombre annuel vaut $74$
+(mélange Gamma) contre $82$ (lognormal), soit $+11\,\%$ --- appairer la variance n'appaire pas
+la queue. Ensuite, le choix de la loi de comptage déplace la VaR mais \emph{non} la moyenne
+(l'espérance $\E[N]=\lambda$ est fixe pour les trois lois) : passer du Poisson à la binomiale
+négative posée relève le SCR de $+9\,\%$ seulement, la queue restant portée au $99{,}5\,\%$ par
+la perte unique dominante ($\xi\simeq 0{,}60$). Enfin, calée sur la série cyber$\times$finance
+détrendée --- le rapport $\Var/\E$ brut confondrait la croissance tendancielle avec le choc
+commun ---, la charge empirique vaut $a\simeq 0{,}30$ ($\varphi\simeq 3$), nettement sous le
+$9{,}20$ retenu : ce dernier est donc un \textbf{choix de prudence sur la queue de fréquence,
+non une calibration}, à assumer comme tel.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{N2_simulation_nb.png}
+\caption{La loi de comptage négative binomiale, simulée et réconciliée. (a)~à moyenne égale,
+la queue du nombre annuel diffère selon la loi de mélange. (b)~la charge lognormale $a$ et le
+facteur $\varphi$ tracent la même surdispersion agrégée ; les deux valeurs posées quasi
+coïncident. (c)~le comptage déplace la VaR, pas la moyenne. Source : script~\texttt{41}.}
+\label{soc:fig:nb}
+\end{figure}
+
 \paragraph{De la fréquence par scénario à la fréquence par entité.} Le choix
 d'un scénario $S_x \in \{S_0, S_1, S_2\}$ reste, par construction, discret et
 appliqué uniformément à l'ensemble du marché. L'état de conformité continu
@@ -329,6 +363,46 @@ néanmoins le même régime qualitatif de queue lourde ($\xi > 0$), et aucune
 hiérarchie de type \og source primaire\fg{} n'est retenue entre elles --- leur
 écart est traité comme une composante de l'incertitude totale du modèle,
 non comme un désaccord à trancher.
+
+\section{Validation et adéquation du socle}
+\label{soc:sec:validation}
+
+Avant d'agréger, on vérifie que les deux lois posées s'ajustent réellement aux données, faute
+de quoi tout le reste serait bâti sur du sable (figure~\ref{soc:fig:validation}).
+
+\textbf{Sévérité.} La GPD passe les diagnostics sans réserve. Les tracés quantile-quantile et
+probabilité-probabilité s'alignent sur la diagonale ; la vie résiduelle moyenne est linéaire
+au-delà du seuil, ce qui est la signature même d'une queue GPD et justifie le choix de $u$ ;
+et $\hat\xi$ reste stable autour de $0{,}60$ quand on fait varier le seuil. Les tests formels
+ne rejettent pas l'ajustement, avec une $p$-value obtenue par \textbf{bootstrap paramétrique}
+--- les valeurs critiques tabulées ne valant pas lorsque les paramètres sont estimés :
+Anderson-Darling $p=0{,}87$, Kolmogorov-Smirnov $p=0{,}87$. Enfin, la \textbf{couverture réelle}
+de l'intervalle de confiance à $90\,\%$ de $\xi$, mesurée par simulation à $n$ fini, vaut
+$86\,\%$ : proche du nominal, ce qui conforte l'incertitude reportée et, à la marge, invite à
+préférer le bootstrap à l'asymptotique.
+
+\textbf{Fréquence.} Sur les $14\,944$ cellules firme-année du panel financier, la binomiale
+négative domine le Poisson sans ambiguïté : le test du rapport de vraisemblance donne
+$p\approx 10^{-30}$. La surdispersion ($\Var/\E=1{,}19$) est donc un \emph{fait}, non un
+artefact, et la NB épouse la queue des comptes là où le Poisson s'effondre.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{J3_validation_adequation.png}
+\caption{Validation du socle. \textbf{(a-b)} QQ-plot et PP-plot de la sévérité contre la GPD
+ajustée. \textbf{(c)} vie résiduelle moyenne, linéaire au-delà de $u$. \textbf{(d)} stabilité
+de $\hat\xi$ au seuil. \textbf{(e)} test d'Anderson-Darling, loi nulle par bootstrap
+paramétrique et statistique observée ($p=0{,}87$). \textbf{(f)} adéquation de la fréquence :
+la NB colle aux comptes firme-année, le Poisson rate la queue. Source : script~\texttt{47}.}
+\label{soc:fig:validation}
+\end{figure}
+
+\begin{cle}
+\textbf{Ce que la validation établit, et ce qu'elle n'établit pas.} Les tests portent sur la
+\textbf{forme} des lois, pas sur le \emph{niveau} du capital : ils confirment que la GPD et la
+NB sont les bons objets, mais laissent entière l'incertitude sur $\xi$ et donc sur la VaR (la
+bande du chapitre~\ref{chap:resultats}). Adéquation n'est pas certitude : c'est précisément
+pourquoi le SCR se lit en intervalle, jamais en point.
+\end{cle}
 
 %--------------------------------------------------------------
 

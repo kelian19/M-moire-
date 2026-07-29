@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+r"""
+50 : le ROI de la conformite DORA — le capital libere face au cout de remediation.
+
+Prolonge le tableau de bord KPI (script 43) : chaque levier de conformite libere du capital
+(le Delta SCR entre non conforme et conforme) ; le remedier a un cout. On confronte les deux.
+
+CE QUI EST SOLIDE (issu de notre modele) : le capital en jeu par levier (Delta SCR, script 43),
+et sa valeur ANNUELLE au cout du capital de Solvabilite II (marge de risque, CoC = 6 %).
+CE QUI EST EXTERNE ET INCERTAIN : le cout de remediation DORA (~25 a 150 M€ par grande entite,
+estimations conseil/McKinsey 2025) et le nombre d'entites concernees. On l'assume comme tel et
+on affiche les hypotheses.
+
+MESSAGE : (1) le capital libere est CONCENTRE sur quelques leviers (la frequence domine), donc
+le budget de remediation doit se prioriser, pas s'etaler ; (2) meme au seul cout de portage du
+capital, la conformite offre un rendement recurrent qui compense une part materielle de son
+cout ; l'ajout des pertes evitees (la reduction de la charge moyenne) rend le compte clairement
+positif. La conformite cesse d'etre un pur cout : c'est un levier de capital.
+
+Sortie : diagnostics + figure J6_roi_conformite.png.
+"""
+
+import os
+import sys
+
+import numpy as np
+import matplotlib as mpl
+mpl.use("Agg")
+import matplotlib.pyplot as plt
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
+import resultats_partages as rp                                 # noqa: E402
+
+WID = 82
+
+# valeurs produites par le script 43 et ancres externes : source unique dans `resultats_partages`
+LEVIERS = rp.LEVIERS           # (libelle, Delta SCR en M€, statut) par canal isole
+DDORA = rp.DELTA_DORA          # ecart de capital DORA total (avec interaction)
+COC = rp.COUT_DU_CAPITAL       # marge de risque Solvabilite II (reglement delegue 2015/35)
+COST_ENTITY = rp.COUT_DORA_ENTITE   # cout de remediation par grande entite (M€)
+N_ENTITIES = 200               # HYPOTHESE affichee : nb de grandes entites concernees
+AMORT = 10                     # HYPOTHESE : amortissement du cout initial (annees)
+
+
+def titre(s):
+    print("\n" + "=" * WID + f"\n{s}\n" + "=" * WID)
+
+
+# =====================================================================================
+titre("1. Capital libere par levier, et sa valeur annuelle (cout du capital 6 %)")
+# =====================================================================================
+print(f"  {'levier':<22}{'ΔSCR (M€)':>11}{'valeur/an (M€)':>16}{'statut':>12}")
+rows = sorted(LEVIERS, key=lambda t: -t[1])
+for name, d, statut in rows:
+    print(f"  {name:<22}{d:>11.0f}{COC*d:>16.0f}{statut:>12}")
+print(f"\n  Conformite TOTALE : ΔSCR = {DDORA:.0f} M€ libere, soit une valeur recurrente de")
+print(f"  {COC*DDORA:.0f} M€/an au seul cout de portage du capital (6 %). Le capital libere est")
+print(f"  CONCENTRE : la frequence seule ({rows[0][1]:.0f} M€) porte {100*rows[0][1]/sum(r[1] for r in rows):.0f} %"
+      f" de la somme des leviers isoles.")
+
+# =====================================================================================
+titre("2. Face au cout de remediation DORA (hypotheses affichees)")
+# =====================================================================================
+one_off = (N_ENTITIES * COST_ENTITY[0], N_ENTITIES * COST_ENTITY[1])
+annual_saving = COC * DDORA
+pay_lo = one_off[0] / annual_saving
+pay_hi = one_off[1] / annual_saving
+print(f"  Cout de remediation (secteur) : {N_ENTITIES} entites x {COST_ENTITY[0]:.0f}-{COST_ENTITY[1]:.0f} M€")
+print(f"  = {one_off[0]/1000:.1f} a {one_off[1]/1000:.1f} Md€ en one-off.")
+print(f"  Economie recurrente (capital) : {annual_saving:.0f} M€/an.")
+print(f"  Retour sur le SEUL portage du capital : {pay_lo:.0f} a {pay_hi:.0f} ans.")
+print(f"  MAIS le ΔSCR est majoritairement de la PERTE EVITEE (pas seulement du portage) : en")
+print(f"  ajoutant la baisse de la charge moyenne, le retour est bien plus court. Le portage")
+print(f"  seul ({annual_saving:.0f} M€/an) est le PLANCHER conservateur du benefice.")
+
+# =====================================================================================
+titre("VERDICT")
+# =====================================================================================
+print("  1. La conformite n'est pas un pur cout : elle libere du capital (ΔSCR), dont la valeur")
+print(f"     recurrente est {annual_saving:.0f} M€/an (plancher, cout de portage seul).")
+print("  2. Ce capital est CONCENTRE : prioriser la remediation par capital libere (frequence")
+print("     et detection, les leviers CALIBRABLES) plutot que l'etaler uniformement.")
+print("  3. Les leviers BORNES (propagation, accumulation) liberent aussi du capital mais se")
+print("     remedient par la donnee (registre DORA) autant que par l'action directe.")
+print("  4. C'est l'aboutissement du fil : du score de criticite abstrait a un arbitrage")
+print("     economique chiffre, opposable a une direction financiere.")
+
+# =====================================================================================
+# figure J6
+# =====================================================================================
+mpl.rcParams.update({
+    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10.5,
+    "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
+    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
+    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+})
+INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
+ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15.0, 5.2), gridspec_kw={"width_ratios": [1.1, 1]})
+
+# (a) capital libere et valeur annuelle par levier, priorise
+names = [r[0] for r in rows]
+dscr = [r[1] for r in rows]
+cols = [BLUE if r[2] == "calibrable" else MUTED for r in rows]
+yp = np.arange(len(rows))[::-1]
+ax1.barh(yp, dscr, color=cols, alpha=0.9)
+for y_, r in zip(yp, rows):
+    ax1.text(r[1] + 60, y_, f"{r[1]:.0f} M€  →  {COC*r[1]:.0f} M€/an  ({r[2]})",
+             va="center", fontsize=8.5, color=INK2)
+ax1.set_yticks(yp); ax1.set_yticklabels(names, fontsize=9)
+ax1.set_xlim(0, max(dscr) * 1.7)
+ax1.set_xlabel("capital libéré ΔSCR (M€) — bleu : calibrable, gris : borné", color=INK2, fontsize=9)
+ax1.set_title("(a)  Le capital libéré par levier\n(et sa valeur annuelle à 6 %)", fontsize=11,
+              color=INK, pad=8)
+
+# (b) economie recurrente vs cout de remediation one-off
+ax2.bar([0], [one_off[1]], width=0.5, color=ACCENT, alpha=0.35,
+        label=f"remédiation one-off\n({N_ENTITIES} entités × {COST_ENTITY[0]:.0f}-{COST_ENTITY[1]:.0f} M€)")
+ax2.bar([0], [one_off[0]], width=0.5, color=ACCENT, alpha=0.8)
+ax2.bar([1], [annual_saving], width=0.5, color=GREEN, alpha=0.9,
+        label="économie récurrente\n(capital, 6 %/an)")
+ax2.text(0, one_off[1] + 400, f"{one_off[0]/1000:.0f}–{one_off[1]/1000:.0f} Md€", ha="center",
+         fontsize=9, color=INK2)
+ax2.text(1, annual_saving + 400, f"{annual_saving:.0f} M€/an", ha="center", fontsize=9, color=GREEN)
+ax2.set_xticks([0, 1]); ax2.set_xticklabels(["coût\n(one-off)", "bénéfice\n(récurrent)"], fontsize=9)
+ax2.set_ylabel("M€", color=INK2)
+ax2.legend(frameon=False, fontsize=8, loc="upper right")
+ax2.set_title(f"(b)  Retour sur le portage du capital seul :\n{pay_lo:.0f}–{pay_hi:.0f} ans "
+              f"(plancher ; pertes évitées en sus)", fontsize=11, color=INK, pad=8)
+
+for ax in (ax1, ax2):
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+
+fig.suptitle("J6 : le ROI de la conformité : le capital libéré, concentré sur quelques leviers, "
+             "fait de la conformité un levier de capital, non un pur coût",
+             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
+fig.tight_layout(rect=[0, 0, 1, 0.93])
+outdir = os.path.join(HERE, "figures")
+os.makedirs(outdir, exist_ok=True)
+path = os.path.join(outdir, "J6_roi_conformite.png")
+fig.savefig(path, dpi=200, bbox_inches="tight")
+print("\nfigure ecrite :", path)

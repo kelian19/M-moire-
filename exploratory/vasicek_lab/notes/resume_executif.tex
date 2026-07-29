@@ -1,0 +1,109 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.6cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,before skip=5pt,after skip=5pt,#1}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\color{navy}\Large\bfseries Quantifier le capital d'un défaut de conformité DORA}\\[2pt]
+{\color{bluemid}\large Une cascade dirigée entre les cinq piliers, et la frontière de ce qui est mesurable}\\[3pt]
+{\small Kélian Kaddouri \textbullet{} ENSAE / Nexialog Consulting \textbullet{} résumé exécutif}
+\end{center}
+\vspace{-2pt}
+
+\begin{cle}
+\textbf{La thèse en une phrase.} La dépendance entre les cinq piliers de DORA n'est pas une
+corrélation mais une \textbf{propagation orientée}~; or cette orientation \emph{n'est pas
+mesurable} sur les données publiques. Plutôt que de la poser en silence, ce mémoire en établit
+la \textbf{frontière d'identifiabilité}, publie le capital en \textbf{bornes} sur tout ce que la
+donnée laisse ouvert, et transforme la donnée manquante en \textbf{spécification de reporting
+chiffrée et hiérarchisée}.
+\end{cle}
+
+\textbf{Le modèle.} Un incident amorcé sur un pilier se propage aux autres selon une matrice
+d'influence \emph{asymétrique} $W$, normalisée à la Leontief : la stabilité du système est
+\textbf{garantie par construction}, non supposée. La sévérité est une Pareto généralisée (théorie
+des valeurs extrêmes), la fréquence une négative binomiale, et l'état de conformité de l'entité
+pilote le capital par une couche multi-états markovienne, d'où une \textbf{trajectoire} de
+capital plutôt qu'un chiffre. Là où la Formule Standard, qui ne dépend que du volume, est
+structurellement \textbf{aveugle} à la conformité.
+
+\textbf{La contribution centrale : une frontière, pas une mesure.} Sur deux sources qui échouent
+pour des raisons \emph{opposées} (l'une manque de taxonomie, l'autre de résolution temporelle),
+et jusque sur la meilleure expérience naturelle disponible (le choc de chaîne
+d'approvisionnement MOVEit, où l'effet apparent est intégralement absorbé par un placebo), on
+démontre que la \textbf{direction} de la contagion n'est pas identifiable, quand sa
+\textbf{co-occurrence} l'est. La théorie des processus réversibles en donne la raison de
+principe : la direction est un \emph{courant} qui change de signe sous renversement du temps,
+et aucune statistique invariante par ce renversement ne peut l'identifier.
+
+\begin{cle}
+\textbf{Ce que la donnée fixe, ce qu'elle ne fixe pas, et ce qu'on en fait.}
+\begin{itemize}[leftmargin=12pt,itemsep=1pt,topsep=2pt]
+\item \textbf{Fixé} et validé : la queue de sévérité (ajustement non rejeté, $p=0{,}87$ par
+      bootstrap paramétrique), la surdispersion de la fréquence ($p\approx10^{-30}$), la
+      co-occurrence entre piliers, l'accumulation par prestataire tiers.
+\item \textbf{Non fixé} : la direction. Elle est donc \textbf{bornée}, jamais posée, et le
+      capital est lu sur l'ensemble entier des matrices admissibles.
+\item \textbf{Corroboré} sans élicitation : le codage de sept post-mortems officiels (CSRB,
+      FCA/PRA, GAO, SEC, OCC) donne une orientation \emph{cohérente} d'un rapport à l'autre, et
+      un traitement bayésien conjugué en tire une loi a posteriori qui \emph{reproduit d'elle-même}
+      la structure d'identification, robuste à un prior sceptique ($0{,}8\,\%$ d'écart).
+\end{itemize}
+\end{cle}
+
+\textbf{Les résultats qui résistent.} Le \textbf{niveau} du capital est illustratif : il bouge
+d'un facteur $40$ selon la source de sévérité, d'un facteur $5{,}5$ selon la famille de loi de
+queue, et d'un facteur $2{,}6$ par la seule incertitude d'estimation. Ce qui \textbf{résiste} est
+ailleurs, et c'est ce que le mémoire défend : le \textbf{classement des piliers} (gouvernance et
+gestion des tiers dominent robustement les trois autres, dans tous les cadres de dépendance
+testés), les \textbf{rapports} entre états de conformité, et l'\textbf{ordre de remédiation}.
+Trois étages d'incertitude sont nommés et chiffrés séparément : paramètre, identification,
+et \textbf{modèle} (le choix de la famille elle-même) --- ce dernier étage étant celui que la
+plupart des travaux passent sous silence.
+
+\textbf{La portée réglementaire.} La limite devient un livrable. Le registre d'incidents qui
+identifierait la contagion est spécifié (horodatage de survenance au mois, taxonomie par domaine
+de contrôle, causes communes consolidées), et surtout \textbf{hiérarchisé} : documenter une seule
+dépendance inter-piliers lève jusqu'à $29\,\%$ de l'ambiguïté de capital, une autre n'en lève
+rien. La recommandation cesse d'être générique. En regard, chaque indicateur observable
+(délai de notification, durée de confinement, concentration tierce) est rattaché à un canal du
+modèle et devient un \textbf{levier de capital priorisable}, ce qui fait de la conformité un
+arbitrage économique et non un pur coût.
+
+\begin{cle}[colback=accent!7,colframe=accent!70!black]
+\textbf{Ce que ce mémoire ne prétend pas.} Le niveau absolu du capital n'est pas une mesure et
+n'est jamais présenté comme telle : l'agrégat obtenu est d'échelle sectorielle, non celui d'une
+entité isolée. La direction de la contagion n'est pas calibrée, seulement bornée et corroborée,
+avec son confondant déclaré (une enquête officielle cherche par convention une cause racine de
+gouvernance, ce qui peut orienter la lecture). Connaître le sens d'un lien ne donnerait d'ailleurs
+pas sa force : même les dix directions établies, une bande subsisterait. \textbf{L'identification
+partielle n'est donc pas un pis-aller provisoire, elle est structurelle} --- et c'est précisément
+ce que le mémoire assume, chiffre et documente, plutôt que de le masquer derrière un nombre unique.
+\end{cle}
+
+\vspace{-1pt}
+{\footnotesize\textcolor{navy}{\textbf{Mots-clés.}} Risque cyber \textbullet{} DORA \textbullet{}
+SCR \textbullet{} Solvabilité~II \textbullet{} valeurs extrêmes \textbullet{} cascade dirigée
+\textbullet{} identification partielle \textbullet{} bornes de capital \textbullet{} inférence
+bayésienne \textbullet{} valeur de l'information.}
+
+\end{document}

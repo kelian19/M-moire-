@@ -398,13 +398,16 @@ d'état. Source : script~\texttt{22}.}
 \label{fig:hypotheses}
 \end{figure}
 
-\section{Benchmark : la dépendance n'est pas le mécanisme}
+\section{Comparaison de modèles : la dépendance n'est pas le mécanisme}
 \label{sec:benchmark}
 
 Le mémoire a remplacé le LDA à copule par la cascade dirigée. Ce que ce remplacement
 apporte se mesure en confrontant la cascade à des jumeaux copule construits pour lui
 ressembler (script~\texttt{23}, figure~\ref{fig:benchmark}, périmètre OpRisk, graines
-Monte-Carlo communes).
+Monte-Carlo communes). Cette section compare les modèles sur l'axe de la \emph{structure de
+dépendance}, à marges fixées ; la comparaison sur l'axe de la \emph{famille de loi} (la bande
+de modèle) est conduite en partie~\ref{part:limites}, section~\ref{sec:trois-etages}, et les
+deux se complètent.
 
 \textbf{La photo.} À marges par pilier \emph{identiques} (celles de la cascade, état
 conforme) et corrélation calée, la copule gaussienne retombe sur le SCR de la cascade
@@ -517,6 +520,28 @@ mondiales, elles-mêmes de l'ordre de la dizaine de milliards d'euros
 \citep{munichre_cyber_2024}. Le rapport est invraisemblable à l'échelle d'un assureur moyen :
 il signale que le niveau, transporté d'une sévérité de grandes institutions vers une entité
 notionnelle, ne saurait être lu comme le capital d'une entité réelle.
+
+\paragraph{Au niveau du sinistre unique, l'ordre de grandeur est en revanche crédible.} Le
+constat précédent porte sur l'\emph{agrégat} annuel. À l'échelle du \emph{sinistre unique},
+nos quantiles tombent exactement dans la fourchette des grandes pertes cyber \textbf{réelles}
+(figure~\ref{fig:benchmark-externe}) : la VaR $99{,}5\,\%$ ($663$~M\euro) et la TVaR
+($1\,752$~M\euro) encadrent Merck-NotPetya ($\sim$1,3~Md\euro), Equifax ($\sim$1,3) et Change
+Healthcare 2024 ($\sim$2,2), tout en restant sous le choc systémique NotPetya ($\sim$9~Md\euro
+au total). La brique de sévérité est donc crédible \emph{à l'échelle de l'événement} ; c'est
+son agrégation à une fréquence \textbf{systémique} ($\sim$21,6 incidents matériels par an, à
+l'échelle du secteur financier mondial) qui porte l'agrégat annuel --- de l'ordre du marché
+cyber mondial ($\sim$15~Md\euro de primes en 2025) --- à une échelle de \emph{secteur}, non
+d'entité isolée. Le modèle n'est donc ni gonflé (il colle aux pertes réelles au niveau
+unitaire) ni aveugle (il capte, au niveau agrégé, le risque que la Formule Standard manque).
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{J5_benchmark_externe.png}
+\caption{Benchmark externe. \textbf{(a)}~au niveau du sinistre unique, nos quantiles (VaR et
+TVaR $99{,}5\,\%$) s'insèrent parmi les grandes pertes cyber réelles. \textbf{(b)}~à l'échelle
+annuelle, notre capital est d'ordre systémique (comparable au marché mondial) et domine de
+loin la charge de la Formule Standard. Source : script~\texttt{49}.}
+\label{fig:benchmark-externe}
+\end{figure}
 
 \begin{cle}
 \textbf{Ce que la confrontation établit.} Elle ne calibre pas le niveau, elle le

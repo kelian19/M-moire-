@@ -16,7 +16,7 @@ fil qui en ressort est constant : chaque adaptation \textbf{relève le niveau}, 
 \label{sec:xi-pilier}
 
 Aujourd'hui une seule queue $\xi$ est appliquée aux cinq piliers. Le
-chapitre~\ref{ch:donnees} note pourtant que la queue est hétérogène selon la catégorie
+chapitre~\ref{chap:donnees} note pourtant que la queue est hétérogène selon la catégorie
 Bâle : $\xi$ varie de $0{,}92$ (\emph{Employment}) à $1{,}37$ (\emph{Internal Fraud}). Faut-il
 un $\xi_j$ par pilier ? La réponse honnête distingue deux choses.
 
@@ -55,7 +55,7 @@ script~\texttt{37}.}
 P4 (prestataires tiers) n'est pas un n\oe{}ud de cascade comme les autres. Une défaillance
 d'un prestataire \emph{partagé} dégrade plusieurs piliers \textbf{simultanément}, par
 dépendance commune, au lieu de se propager de proche en proche : c'est le mécanisme de MOVEit
-($191$ victimes d'un seul choc, chapitre~\ref{ch:donnees}). On lui substitue donc un
+($191$ victimes d'un seul choc, chapitre~\ref{chap:donnees}). On lui substitue donc un
 \textbf{choc commun}, où P4 et chaque autre pilier tombent ensemble avec une probabilité
 $\varphi_{cs}$, plutôt qu'une propagation dirigée.
 
@@ -85,6 +85,152 @@ $\varphi_{cs}\in[0,\gamma]$, comparé au traitement de P4 en n\oe{}ud de cascade
 (b)~La simultanéité crée une co-occurrence multiple, structure symétrique donc identifiée.
 Source : script~\texttt{38}.}
 \label{fig:p4}
+\end{figure}
+
+\subsection{Le seuil de déclenchement, et l'accumulation bornée par la dépendance de queue}
+\label{sec:p4-seuil}
+
+Il faut séparer deux questions, celle de la \emph{marge} et celle de la \emph{dépendance}.
+
+\paragraph{La marge : quand un pilier bascule.} Le déclenchement est un franchissement,
+\begin{equation}
+  \{\text{pilier } j \text{ déclenché}\} \;=\; \{X_j \ge K_j\},
+  \qquad K_j = F^{-1}(1-p_j),
+  \label{eq:seuil-Kj}
+\end{equation}
+et pour $P_4$, $p_4=0{,}151$ donne $K_4=1{,}03$. La loi $F$ de la latente n'y est qu'une
+\textbf{normalisation} : par construction $\Prob(X_j\ge K_j)=p_j$ \emph{quelle que soit} $F$
+continue et strictement croissante, de sorte que le choix de $F$ ne transporte aucune information
+sur la fréquence de déclenchement. La queue lourde du capital vit dans la sévérité (GPD,
+chapitre~\ref{chap:socle}), non dans ce seuil : une loi normale y est donc inoffensive.
+
+\paragraph{La dépendance : combien de piliers ensemble.} L'accumulation, elle, est gouvernée par
+la \textbf{dépendance de queue supérieure} de la copule $C$ liant les latentes,
+\begin{equation}
+  \lambda_U \;=\; \lim_{u\to 1^-}\Prob\bigl(U_2>u \,\big|\, U_1>u\bigr)
+             \;=\; \lim_{u\to 1^-}\frac{1-2u+C(u,u)}{1-u} .
+  \label{eq:lambda-U}
+\end{equation}
+Une copule gaussienne vérifie $\lambda_U=0$ quelle que soit sa corrélation, tandis que la copule
+de Gumbel de paramètre $\theta>1$ donne
+\begin{equation}
+  \lambda_U^{\text{Gumbel}} \;=\; 2-2^{1/\theta},
+  \label{eq:lambda-gumbel}
+\end{equation}
+soit $0{,}53$ pour le $\theta=1{,}8$ retenu ailleurs dans le mémoire. Retenir une copule
+gaussienne ici sous-estimerait donc structurellement le co-extrême, en contradiction avec ce
+choix.
+
+\begin{attention}
+\textbf{Borner l'accumulation, à dépendance moyenne égale.} On ne tranche pas la copule : on
+lit le co-déclenchement en \textbf{bande}, à $\tau$ de Kendall égal, entre le plancher gaussien
+et le haut de Gumbel. La fréquence \emph{marginale} d'un pilier reste $p_4=0{,}15$ pour les deux
+(la copule ne change pas combien un pilier bascule seul, mais s'ils basculent \emph{ensemble}) ;
+seul le \textbf{co-extrême} diverge : la probabilité que les cinq piliers tombent avec P4 passe
+de $0{,}17$ (gaussien) à $0{,}39$ (Gumbel), un facteur $2{,}3$ --- exactement le scénario MOVEit
+que la queue gaussienne manque (figure~\ref{fig:p4-seuil}). Le co-déclenchement d'un autre
+pilier tient alors dans $[0{,}48\,;\,0{,}58]$, sous la borne $\gamma=0{,}68$ du choc commun, qui
+reçoit ainsi son origine structurelle. Tout est \emph{par pilier} : un nombre de piliers de
+l'entité, non une fraction de portefeuille --- la vue inter-clients (MOVEit et ses centaines
+d'entités victimes) serait une loi de Vasicek en dimension entité, hors du SCR par entité.
+\end{attention}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z12_seuil_declenchement_p4.png}
+\caption{Le seuil de P4 et l'accumulation bornée. (a)~la marge : franchissement de $K_4$, où la
+normale n'est qu'une normalisation. (b)~à dépendance moyenne égale, le co-dépassement s'effondre
+vers $0$ pour la gaussienne mais plafonne à $0{,}53$ pour la Gumbel. (c)~l'accumulation par
+pilier, la Gumbel concentrant la masse sur les cinq piliers groupés. Source : script~\texttt{42}.}
+\label{fig:p4-seuil}
+\end{figure}
+
+\subsection{Le déclenchement comme temps d'arrêt}
+\label{sec:p4-dynamique}
+
+Le seuil $z^*$ est jusqu'ici un niveau statique. Si le facteur tiers est un \textbf{processus}
+$(Z_t)_{t\ge0}$ adapté à une filtration $(\mathcal{F}_t)$, le déclenchement devient un
+\textbf{temps de premier passage}
+\begin{equation}
+  \tau \;=\; \inf\{\,t\ge 0 \;:\; Z_t \ge z^*\,\},
+  \label{eq:temps-arret}
+\end{equation}
+qui est un \textbf{temps d'arrêt}, puisque $\{\tau\le t\}=\{\sup_{s\le t}Z_s\ge z^*\}\in
+\mathcal{F}_t$. Le \og{}moment\fg{} de déclenchement prend ainsi un sens temporel littéral.
+
+\begin{proposition}[Loi du délai de déclenchement]\label{prop:premier-passage}
+Si $(Z_t)$ est un mouvement brownien standard issu de $0$, donc une martingale, alors pour tout
+horizon $T>0$
+\begin{equation}
+  \Prob(\tau\le T) \;=\; 2\,\Phi\!\left(-\frac{z^*}{\sqrt{T}}\right)
+  \;=\; 2\,\Prob(Z_T\ge z^*).
+  \label{eq:reflexion}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+C'est le principe de réflexion. Par symétrie du mouvement brownien après $\tau$, on a
+$\Prob(\tau\le T,\;Z_T< z^*)=\Prob(\tau\le T,\;Z_T> z^*)=\Prob(Z_T>z^*)$, la dernière égalité
+tenant car $\{Z_T>z^*\}\subset\{\tau\le T\}$. En sommant les deux événements disjoints,
+$\Prob(\tau\le T)=2\,\Prob(Z_T>z^*)=2\,\Phi(-z^*/\sqrt{T})$.
+\end{proof}
+
+La lecture dynamique vaut donc \emph{le double} de la lecture statique $\Prob(Z_T\ge z^*)$ : elle
+compte tous les franchissements survenus avant l'horizon, et non la seule position finale. À
+$\rho=0{,}50$, la probabilité de déclenchement de P4 en moins d'un an est $0{,}14$ (délai médian
+de l'ordre de cinq ans) ; à $\rho=0{,}75$, elle monte à $0{,}23$ (médian d'environ trois ans),
+figure~\ref{fig:p4-dynamique}.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z16_p4_temps_arret.png}
+\caption{Le déclenchement de P4 comme temps d'arrêt. \textbf{(a)}~le facteur tiers (martingale)
+et le premier passage de $z^*$. \textbf{(b)}~la loi du délai de déclenchement (premier passage).
+\textbf{(c)}~la lecture dynamique $\Prob(\tau\le 1\text{ an})$ vaut environ le double de la
+statique. Source : script~\texttt{52}.}
+\label{fig:p4-dynamique}
+\end{figure}
+
+\begin{cle}
+\textbf{Le fil se referme.} $Z_t$ sans dérive est une martingale et $\tau$ un temps d'arrêt :
+le seuil de P4 (ce chapitre) rejoint ainsi le cadre \textbf{martingale} de l'identification
+(chapitre~\ref{ch:identifiabilite}, $W=S+A$ comme réversibilité). Réserve assumée : le brownien
+pur atteint le niveau presque sûrement mais d'espérance de délai infinie ; un facteur
+\emph{moyen-réversif} (Ornstein-Uhlenbeck) donnerait un taux de déclenchement récurrent fini,
+plus réaliste pour un facteur systémique. Le brownien est le cas propre qui porte le lien
+théorique.
+\end{cle}
+
+\subsection{Le sous-process tiers sur donnée ouverte : ce qu'on peut ancrer avant le registre}
+\label{sec:p4-sousprocess}
+
+Descendre P4 au niveau \emph{sous-process} (quel sous-traitant, quelle fonction critique, quelle
+substituabilité) suppose le registre d'externalisation DORA, dont la structure est fixée par
+l'ITS \citep{eu2024_2956} mais que seules les données de l'entité fournissent. En attendant, la
+donnée ouverte tranche déjà deux points opposés (figure~\ref{fig:p4-open}). D'un côté, la
+\textbf{taxonomie fine} du tiers y est trop rare : la sous-catégorie \og Vendors \& Suppliers \fg{}
+d'OpRisk ne compte que $20$ incidents en finance ($1\,\%$ du TIC), et \texttt{actor.Partner} du
+VCDB $56$, qui s'effondrent à zéro deux niveaux plus bas --- le même mur de sparsité que partout,
+qui renvoie au registre. De l'autre, l'\textbf{origination} et la \textbf{concentration} tierces
+sont, elles, ancrées sur donnée européenne officielle, ce qui \emph{valide de l'extérieur} deux
+paramètres jusqu'ici posés :
+\begin{itemize}\itemsep2pt
+\item le premier rapport d'incidents DORA des ESAs \citep{esas2026_incidents} établit que
+      \textbf{$29\,\%$} des $3\,383$ incidents \textsc{tic} majeurs de $2025$ proviennent d'une
+      défaillance de \textbf{tiers} : P4 est bien une amorce majeure, ce que le classeur posait
+      par jugement ($\text{\texttt{ROOT}}[4]=0{,}90$) ;
+\item l'analyse des registres d'externalisation par la BCE \citep{ecb2024_outsourcing} montre que
+      plus de $30\,\%$ du budget des grandes banques va à $10$ fournisseurs (et $50\,\%$ du budget
+      critique à $30$), et les ESAs ont désigné $19$ fournisseurs \textsc{tic} critiques : cela
+      \textbf{ancre le paramètre d'accumulation} $\gamma=0{,}68$, jusque-là un proxy cloud, sur un
+      chiffre de concentration officiel.
+\end{itemize}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z14_p4_sousprocess_open.png}
+\caption{Le sous-process tiers sur donnée ouverte. (a)~la taxonomie fine du tiers est sous le
+seuil d'estimation (registre DORA requis). (b)~la concentration, elle, est nette, côté exposition
+(BCE) comme côté sinistralité (Gini $0{,}69$, script~\texttt{08g}). (c)~origination et
+concentration tierces ancrées sur donnée UE officielle. Source : script~\texttt{44}.}
+\label{fig:p4-open}
 \end{figure}
 
 \section{La détection de P2 et P3 comme courbe de survie}
@@ -119,6 +265,69 @@ multiplicateur grossier actuel correspond à $\eta\approx0{,}36$. (c)~Le surcoû
 détection, borné sur l'élasticité. Source : script~\texttt{39}.}
 \label{fig:detection}
 \end{figure}
+
+\section{Cas d'usage : des adaptations aux KPI pilotables}
+\label{sec:kpi}
+
+Les adaptations qui précèdent se lisent enfin comme un \textbf{tableau de bord opérationnel},
+opposable à un souscripteur ou à un superviseur. Chaque KPI observable --- fréquence d'entrée,
+délai de notification (P2) et de confinement (P3), concentration tiers (P4) --- est rattaché à
+un canal du moteur, et l'on mesure le \textbf{capital en jeu} derrière lui : l'écart de SCR
+entre l'état conforme (cible DORA) et l'état non conforme, canal isolé. Sur OpRisk cet écart
+total vaut $14\,139$~M\euro{} ($6\,049\to20\,188$), et il s'attribue par KPI : fréquence
+$4\,328$, accumulation P4 $1\,728$, propagation $W$ $1\,633$, détection $1\,448$~M\euro, les
+canaux n'étant pas additifs (interaction $+5\,001$~M\euro, la non-conformité simultanée
+amplifiant la somme des effets isolés).
+
+\begin{cle}
+\textbf{Classer par capital \emph{et} par statut.} Les KPI à fort capital et \textbf{calibrables}
+(fréquence, détection) sont les leviers de remédiation à activer en priorité ; ceux à fort
+capital mais \textbf{bornés} (propagation, accumulation) mesurent surtout une incertitude, à
+résorber par la donnée --- le registre DORA --- plutôt que par une action directe. C'est l'aval
+du fil du mémoire : la même discipline conforme\,/\,non conforme, bande, identification, cette
+fois déclinée en indicateurs observables (figure~\ref{fig:kpi}).
+\end{cle}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{Z13_kpi_pilotables.png}
+\caption{Des KPI descriptifs aux KPI pilotables. (a)~l'écart de capital DORA attribué par KPI,
+chaque canal isolé (bleu : calibrable ; gris : borné), avec l'interaction qui referme la
+cascade. (b)~le tableau de bord de remédiation, les KPI classés par capital libéré. Source :
+script~\texttt{43}.}
+\label{fig:kpi}
+\end{figure}
+
+\subsection{Le retour sur investissement de la conformité}
+\label{sec:roi}
+
+Le tableau de bord se lit enfin en euros. Chaque levier libère un capital $\Delta\mathrm{SCR}$
+dont la valeur \emph{récurrente}, au coût du capital de Solvabilité~II (marge de risque,
+$6\,\%$), vaut $6\,\%\times\Delta\mathrm{SCR}$ par an. La conformité totale libère $14\,139$
+M\euro{} de SCR, soit $848$ M\euro/an, et ce capital est \textbf{concentré} : la fréquence à
+elle seule en porte près de la moitié (figure~\ref{fig:roi}). Face au coût de remédiation DORA
+--- de l'ordre de $25$ à $150$ M\euro{} par grande entité selon les estimations de place ---,
+le retour sur le \emph{seul} portage du capital est de l'ordre de $6$ à $35$ ans. C'est un
+\textbf{plancher} conservateur : le $\Delta\mathrm{SCR}$ est majoritairement de la \emph{perte
+évitée}, non du simple portage, de sorte qu'en ajoutant la baisse de la charge moyenne le
+compte devient nettement plus favorable.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{J6_roi_conformite.png}
+\caption{Le ROI de la conformité. (a)~le capital libéré par levier, classé, avec sa valeur
+annuelle à $6\,\%$ (bleu : calibrable, gris : borné). (b)~coût de remédiation \emph{one-off}
+contre économie \emph{récurrente} de portage du capital ; le retour sur le portage seul (plancher)
+est de $6$ à $35$ ans, les pertes évitées venant en sus. Source : script~\texttt{50}.}
+\label{fig:roi}
+\end{figure}
+
+\begin{cle}
+\textbf{La conformité comme levier de capital.} Le bénéfice (le capital libéré) est issu du
+modèle ; le coût est externe et incertain, affiché comme tel. Mais la conclusion tient : la
+conformité n'est pas un pur coût, c'est un levier de capital, à \textbf{prioriser par capital
+libéré} --- les leviers \emph{calibrables} (fréquence, détection) d'abord. On passe ainsi du
+score de criticité abstrait à un arbitrage économique chiffré, opposable à une direction
+financière.
+\end{cle}
 
 \section{Ce qui reste en perspective : P1 et P5}
 \label{sec:perspectives-pilier}
