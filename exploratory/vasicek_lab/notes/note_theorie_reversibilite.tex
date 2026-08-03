@@ -1,0 +1,352 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.1cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[most]{tcolorbox}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{bluemid}{HTML}{2E5496}
+\definecolor{lightblue}{HTML}{D6E0F0}
+
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+\graphicspath{{../figures/}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\theoremstyle{definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}[proposition]{Définition}
+
+\newcommand{\T}{^{\top}}
+\newcommand{\E}{\mathbb{E}}
+
+\title{\vspace{-1.2cm}\color{navy}\bfseries Le socle mathématique de $W=S+A$\\[2pt]
+  \large Flux stationnaire, renversement du temps, fluctuation martingale
+  et non-identifiabilité de la direction}
+\author{Kélian Kaddouri}
+\date{30 juillet 2026}
+
+\begin{document}
+\maketitle
+\vspace{-0.9cm}
+
+\begin{cle}
+\textbf{Ce que cette fiche démontre.} La fiche \emph{réversibilité et martingalisation}
+énonce trois identités et les vérifie numériquement. Celle-ci les \textbf{démontre}, et en
+tire le résultat qui porte le chapitre~9~: une statistique construite sur des
+co-occurrences non ordonnées prend la même valeur sur un processus et sur son renversé,
+donc elle ne peut pas identifier la direction de la contagion. Le placebo $z=-0{,}33$
+cesse d'être un échec de calibration pour devenir une \textbf{conséquence de la structure
+de l'observable}. Et pourtant la direction déplace le capital~: c'est exactement la
+configuration qui appelle une identification partielle.
+\end{cle}
+
+% =====================================================================
+\section*{1. Le bon objet n'est pas $P$, c'est le flux stationnaire}
+
+Une remarque préalable sans laquelle l'argument est faux. On ne décompose pas la matrice de
+transition $P$ elle-même~: une matrice stochastique symétrique force une loi stationnaire
+uniforme, si bien que la symétrie de $P$ n'a pas de contenu probabiliste. L'objet correct est
+le \textbf{flux stationnaire}
+\begin{equation}
+  F_{jk} \;=\; \pi_j P_{jk},
+  \label{eq:flux}
+\end{equation}
+c'est-à-dire la probabilité, en régime stationnaire, d'observer la transition $j \to k$
+sur un pas de temps. C'est lui qui se coupe en deux, et c'est lui que les données agrégées
+approchent.
+
+On note $\|M\|^2=\sum_{jk}M_{jk}^2$ la norme de Frobenius et
+$\langle M,N\rangle=\sum_{jk}M_{jk}N_{jk}$ le produit scalaire associé.
+
+% =====================================================================
+\section*{2. La décomposition, et son unicité}
+
+\begin{proposition}[Décomposition orthogonale]\label{prop:ortho}
+Toute matrice réelle $F$ s'écrit de manière unique $F=S+A$ avec $S\T=S$ et $A\T=-A$,
+à savoir $S=\tfrac12(F+F\T)$ et $A=\tfrac12(F-F\T)$. Ces deux parties sont orthogonales,
+$\langle S,A\rangle=0$, et par conséquent
+\begin{equation}
+  \|F\|^2 \;=\; \|S\|^2 + \|A\|^2 .
+  \label{eq:pythagore}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+L'existence est le calcul direct $S+A=F$. Pour l'unicité, si $F=S'+A'$ avec $S'$ symétrique
+et $A'$ antisymétrique, alors $F\T=S'-A'$, d'où $S'=\tfrac12(F+F\T)$ et
+$A'=\tfrac12(F-F\T)$. Pour l'orthogonalité, on renomme les indices puis on utilise les deux
+symétries~:
+\[
+  \langle S,A\rangle=\sum_{jk}S_{jk}A_{jk}=\sum_{jk}S_{kj}A_{kj}
+  =\sum_{jk}S_{jk}(-A_{jk})=-\langle S,A\rangle,
+\]
+donc $\langle S,A\rangle=0$. L'identité~\eqref{eq:pythagore} suit en développant
+$\|S+A\|^2$.
+\end{proof}
+
+En composantes, avec le \textbf{courant de probabilité}
+$J_{jk}=\pi_jP_{jk}-\pi_kP_{kj}$~:
+\begin{equation}
+  S_{jk}=\tfrac12\bigl(\pi_jP_{jk}+\pi_kP_{kj}\bigr),
+  \qquad
+  A_{jk}=\tfrac12 J_{jk}.
+  \label{eq:composantes}
+\end{equation}
+$S_{jk}$ est le \textbf{trafic} entre les piliers $j$ et $k$, $A_{jk}$ est le \textbf{sens}
+dans lequel il penche. L'orthogonalité dit que ces deux informations ne se recouvrent pas~:
+connaître l'intensité n'apprend rien sur la direction, et réciproquement. C'est déjà
+l'annonce de ce qui suit.
+
+% =====================================================================
+\section*{3. Le renversement du temps retourne $A$ et laisse $S$}
+
+\begin{proposition}[Chaîne adjointe]\label{prop:renversement}
+Soit $(X_t)$ stationnaire de loi $\pi>0$. Le processus renversé $(X_{T-t})$ est une chaîne
+de Markov de matrice de transition
+\begin{equation}
+  P^{*}_{jk}\;=\;\frac{\pi_k P_{kj}}{\pi_j},
+  \label{eq:adjointe}
+\end{equation}
+de même loi stationnaire $\pi$, et son flux vérifie
+\begin{equation}
+  F^{*} \;=\; F\T \;=\; S - A .
+  \label{eq:reversal}
+\end{equation}
+En particulier la chaîne est réversible si et seulement si $A=0$, condition qui s'écrit
+$\pi_jP_{jk}=\pi_kP_{kj}$ pour tout couple $(j,k)$ \emph{(bilan détaillé)}.
+\end{proposition}
+
+\begin{proof}
+$P^{*}$ est bien stochastique~: $\sum_k P^{*}_{jk}=\pi_j^{-1}\sum_k\pi_kP_{kj}=\pi_j^{-1}
+\pi_j=1$ par stationnarité de $\pi$. Son flux vaut $\pi_jP^{*}_{jk}=\pi_kP_{kj}=F_{kj}$,
+d'où $F^{*}=F\T$, et $F\T=(S+A)\T=S-A$. Enfin $P^{*}=P$ équivaut à $F=F\T$, donc à $A=0$.
+\end{proof}
+
+\begin{cle}
+\textbf{L'identité centrale, en une phrase.} Renverser le temps laisse $S$ \emph{intacte}
+et retourne le \emph{signe} de $A$. $S$ est la part du processus qui ignore dans quel sens
+le temps s'écoule~; $A$ est la seule part qui le sait.
+\end{cle}
+
+% =====================================================================
+\section*{4. La fluctuation martingale ne voit que $S$}
+
+C'est le point que le parallèle avec la martingalisation devait établir. Soit $L=P-I$ le
+générateur et $f$ une fonction sur les cinq piliers. La \textbf{martingale de Dynkin}
+\begin{equation}
+  M^f_t \;=\; f(X_t)-f(X_0)-\sum_{s<t}(Lf)(X_s)
+  \label{eq:dynkin}
+\end{equation}
+est la fluctuation pure~: on a retranché exactement la dérive prévisible. C'est cela, la
+martingalisation. Sa variation quadratique prévisible s'écrit
+$\langle M^f\rangle_t=\sum_{s<t}\Gamma(f,f)(X_s)$ avec le carré du champ
+$\Gamma(f,f)(j)=\sum_k P_{jk}\bigl(f(k)-f(j)\bigr)^2$.
+
+\begin{proposition}[La fluctuation est aveugle à la direction]\label{prop:dirichlet}
+En régime stationnaire, l'intensité moyenne de la fluctuation ne dépend que de $S$~:
+\begin{equation}
+  \E_\pi\bigl[\Gamma(f,f)\bigr]
+  \;=\;\sum_{j,k}S_{jk}\bigl(f(k)-f(j)\bigr)^2
+  \;=\;2\,\mathcal{E}(f,f),
+  \label{eq:dirichlet}
+\end{equation}
+où $\mathcal{E}$ est la forme de Dirichlet. La part antisymétrique $A$ y contribue
+exactement zéro, pour toute fonction test $f$.
+\end{proposition}
+
+\begin{proof}
+On développe et on décompose~:
+\[
+  \E_\pi[\Gamma(f,f)]=\sum_j\pi_j\sum_kP_{jk}(f(k)-f(j))^2
+  =\sum_{j,k}F_{jk}(f(k)-f(j))^2
+  =\sum_{j,k}(S_{jk}+A_{jk})(f(k)-f(j))^2 .
+\]
+Le poids $(f(k)-f(j))^2$ est \emph{symétrique} en $(j,k)$ tandis que $A$ est
+\emph{antisymétrique}~: en appariant le terme $(j,k)$ avec le terme $(k,j)$, la somme
+$\sum_{j,k}A_{jk}(f(k)-f(j))^2$ se compense terme à terme et vaut $0$. Il reste
+l'expression annoncée.
+\end{proof}
+
+\medskip
+\noindent\textbf{La version en temps continu est encore plus nette.} Pour une diffusion
+$dX_t=b(X_t)\,dt+\sigma\,dB_t$, la partie martingale de $f(X_t)$ vaut
+$\int_0^t\nabla f\cdot\sigma\,dB_s$, de crochet
+\begin{equation}
+  \bigl\langle M^f\bigr\rangle_t=\int_0^t\bigl|\sigma\T\nabla f(X_s)\bigr|^2\,ds .
+  \label{eq:crochet-diffusion}
+\end{equation}
+Le crochet ne contient \textbf{que} le coefficient de diffusion $\sigma$~: la dérive $b$
+n'y apparaît pas du tout. La fluctuation voit la diffusion, jamais la partie rotationnelle
+de la dérive. C'est le même énoncé que la proposition~\ref{prop:dirichlet}, dans l'autre
+cadre.
+
+% =====================================================================
+\section*{5. Le résultat de non-identifiabilité}
+
+\begin{definition}[Statistique invariante par renversement]\label{def:invariante}
+Une statistique $T$ est \emph{invariante par renversement} si $T(F)=T(F\T)$ pour toute
+matrice de flux $F$.
+\end{definition}
+
+\begin{proposition}[Non-identifiabilité de la direction]\label{prop:nonid}
+Soit $T$ invariante par renversement. Alors $T(S+A)=T(S-A)$ pour tout $A$ antisymétrique.
+Par conséquent la loi de $T$ sous le paramètre $(S,A)$ est identique à sa loi sous
+$(S,-A)$~: la vraisemblance est \textbf{plate} dans la direction de $A$, et $A$ n'est pas
+identifié par la famille des lois de $T$.
+\end{proposition}
+
+\begin{proof}
+Par la proposition~\ref{prop:renversement}, $(S+A)\T=S-A$. L'invariance donne alors
+$T(S+A)=T\bigl((S+A)\T\bigr)=T(S-A)$. Deux valeurs distinctes du paramètre engendrant la
+même loi des observations, l'identifiabilité au sens usuel est en défaut.
+\end{proof}
+
+\begin{cle}[colback=orange!8,colframe=orange!70!black]
+\textbf{L'application au placebo, et le changement de statut du chapitre~9.} Une base
+annuelle agrégée ne retient que des co-occurrences \textbf{non ordonnées}~: on y observe
+que deux piliers ont flambé la même année, jamais lequel a précédé l'autre. Toute
+statistique construite sur cette base est par construction invariante par renversement.
+La proposition~\ref{prop:nonid} interdit donc qu'elle détecte $A$.
+
+Le placebo $z=-0{,}33$ n'est ni un manque de puissance ni un problème de taille
+d'échantillon, et \textbf{aucun volume de données annuelles ne le réparera}. On passe de
+\og je n'ai pas réussi à calibrer la direction\fg{} à \og je démontre que la direction
+n'est pas calibrable sur cette classe de données\fg{}, ce qui n'est pas la même phrase
+devant un jury.
+\end{cle}
+
+% =====================================================================
+\section*{6. Un scalaire pour mesurer l'irréversibilité}
+
+\begin{proposition}[Production d'entropie]\label{prop:entropie}
+La quantité
+\begin{equation}
+  \sigma\;=\;\frac12\sum_{j,k}\bigl(F_{jk}-F_{kj}\bigr)\,
+  \ln\!\frac{F_{jk}}{F_{kj}}
+  \label{eq:entropie}
+\end{equation}
+vérifie $\sigma\ge 0$, avec égalité si et seulement si $A=0$.
+\end{proposition}
+
+\begin{proof}
+Chaque terme est de la forme $(a-b)\ln(a/b)$ avec $a,b>0$. Si $a>b$ les deux facteurs sont
+positifs, si $a<b$ ils sont tous deux négatifs, et le produit est nul exactement lorsque
+$a=b$. La somme de termes positifs est nulle si et seulement si chacun l'est, c'est-à-dire
+$F_{jk}=F_{kj}$ pour tout couple, soit $A=0$.
+\end{proof}
+
+L'interprétation est la plus parlante des trois. $\sigma$ est le taux d'entropie relative
+entre la loi de la trajectoire lue à l'endroit et celle de la trajectoire lue à l'envers~:
+\begin{equation}
+  \sigma\;=\;\lim_{T\to\infty}\frac1T\,
+  \mathrm{KL}\Bigl(\mathcal{L}(X_0,\dots,X_T)\ \Big\|\ \mathcal{L}(X_T,\dots,X_0)\Bigr).
+  \label{eq:kl}
+\end{equation}
+Autrement dit $\sigma$ mesure \textbf{à quel point le film à l'endroit est distinguable du
+film à l'envers}. Si $\sigma=0$, aucun observateur, si bien équipé soit-il, ne peut dire
+dans quel sens le temps s'écoule, donc aucun ne peut reconstituer la direction. La limite
+d'identification n'est pas une faiblesse de méthode, c'est une contrainte de principe.
+
+\medskip
+\noindent\textbf{Le critère de Kolmogorov}, version vérifiable de la même chose~: la chaîne
+est réversible si et seulement si, pour tout cycle $j_1\to j_2\to\cdots\to j_n\to j_1$,
+\begin{equation}
+  P_{j_1j_2}P_{j_2j_3}\cdots P_{j_nj_1}
+  \;=\;
+  P_{j_1j_n}\cdots P_{j_3j_2}P_{j_2j_1},
+  \label{eq:kolmogorov}
+\end{equation}
+c'est-à-dire si le produit le long de la boucle est le même dans les deux sens. Lorsque les
+deux produits diffèrent, il existe une \textbf{circulation} véritable. La direction de la
+contagion est donc une circulation dans le graphe des cinq piliers, et une donnée agrégée,
+qui ne conserve que des marges et des co-occurrences, ne voit jamais les cycles.
+
+% =====================================================================
+\section*{7. Pourquoi $A$ compte malgré tout pour le capital}
+
+Il faut énoncer ce point, faute de quoi on objectera que si $A$ est invisible, il est sans
+enjeu. C'est l'inverse.
+
+\begin{proposition}[$A$ n'est pas décoratif]\label{prop:trace}
+Pour $W=S+A$ on a $\langle S,A\rangle=0$ et
+\begin{equation}
+  \operatorname{tr}\!\bigl(W^2\bigr)\;=\;\|S\|^2-\|A\|^2 .
+  \label{eq:trace}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+$\operatorname{tr}(W^2)=\operatorname{tr}(S^2)+2\operatorname{tr}(SA)+
+\operatorname{tr}(A^2)$. Le terme croisé est nul, car
+$\operatorname{tr}(SA)=\langle S\T,A\rangle=\langle S,A\rangle=0$ par la
+proposition~\ref{prop:ortho}. Ensuite $\operatorname{tr}(S^2)=\|S\|^2$ puisque $S$ est
+symétrique, et $\operatorname{tr}(A^2)=-\operatorname{tr}(AA\T)=-\|A\|^2$ puisque
+$A\T=-A$.
+\end{proof}
+
+Le capital passe par l'inverse de Leontief,
+$(I-W)^{-1}=I+W+W^2+W^3+\cdots$, et dès le terme quadratique
+$W^2=S^2+SA+AS+A^2$ fait apparaître $A$. L'identité~\eqref{eq:trace} le résume~: la partie
+antisymétrique contribue au second ordre, avec un signe opposé à celui de la partie
+symétrique. Elle déplace donc le niveau de capital.
+
+\begin{cle}
+\textbf{La tension exacte du mémoire.} $A$ ne déplace pas la fluctuation observable
+(proposition~\ref{prop:dirichlet}) mais déplace le capital (proposition~\ref{prop:trace}).
+Une grandeur qui compte pour la réponse et reste invisible dans la donnée~: c'est la
+définition même d'un problème d'\textbf{identification partielle}. On ne peut pas produire
+un nombre, on peut produire une bande. L'énumération des $2^{10}=1024$ sommets de la boîte
+admissible $|A_{jk}|\le t\,S_{jk}$ n'est donc pas un artifice de calcul, c'est la seule
+réponse honnête à la question posée.
+\end{cle}
+
+% =====================================================================
+\section*{8. La version d'une minute}
+
+\begin{quote}
+\small
+On peut toujours couper la matrice de contagion en deux~: une partie symétrique, qui dit
+quels piliers sont liés, et une partie antisymétrique, qui dit dans quel sens. Si on
+renverse le temps, la première ne bouge pas et la seconde change de signe. Or la
+fluctuation d'un processus, sa partie martingale, ne dépend que de la première. Donc
+n'importe quelle statistique construite sur des co-occurrences annuelles prend la même
+valeur sur le processus et sur son renversé, et ne peut pas identifier la direction. Le
+placebo à $-0{,}33$ n'est pas un échec de mesure, c'est le théorème. Sauf que la direction,
+elle, change le capital, parce qu'elle apparaît dans l'inverse de Leontief. D'où
+l'identification partielle~: je ne prétends pas à un nombre, je borne.
+\end{quote}
+
+\begin{cle}[colback=orange!8,colframe=orange!70!black]
+\textbf{Ce qu'il ne faut pas surinterpréter.} Deux réserves à assumer, dans l'esprit
+Vasicheck. \textbf{(i)} $W$ est un noyau de contagion, \emph{pas} littéralement un
+générateur de chaîne de Markov. On emprunte l'algèbre de la réversibilité comme cadre de
+lecture, on ne pose pas que la cascade \emph{est} une chaîne réversible~: c'est une
+lecture, pas une hypothèse supplémentaire. \textbf{(ii)} La forme correcte du courant est
+pondérée par $\pi$, et le $S=\tfrac12(W+W\T)$ du mémoire en est le cas particulier
+$\pi$ uniforme. L'écart mesuré est faible ($\max_j|\pi_j-1/5|=0{,}069$), donc les deux
+lectures coïncident en pratique, mais c'est la version pondérée qui est exacte.
+\end{cle}
+
+\smallskip
+\sloppy
+\noindent\footnotesize\textcolor{navy}{\textbf{Source.}} Vérifications numériques~:
+script \texttt{6\_contagion/40\_reversibilite\_martingale.py}, figure
+\texttt{Z11\_reversibilite\_martingale.png}. Prolonge la fiche
+\emph{réversibilité et martingalisation}, qui donne les valeurs mesurées
+($\max|J|=0{,}044$, $\mathcal{E}_P=\mathcal{E}_S$ à $10^{-15}$ près, $\sigma=0{,}070$
+contre $5\times10^{-33}$ après symétrisation, $\|A\|/\|W\|=40{,}7\,\%$). Chapitre~9 du
+mémoire pour la frontière d'identification, chapitre~10 pour l'énumération des sommets.
+
+\end{document}

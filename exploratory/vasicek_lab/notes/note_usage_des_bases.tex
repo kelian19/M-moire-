@@ -1,0 +1,327 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2.1cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{accent}{HTML}{C0491F}
+
+\captionsetup{font=small,labelfont={bf,color=navy},labelsep=period}
+\graphicspath{{../figures/}}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\emergencystretch=1.2em
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries L'usage des bases~: quelle source répond à quelle question\\[3pt]
+  \large Fréquence et sévérité, ce que chacune peut porter et ce qu'elle ne peut pas}
+\author{Kélian Kaddouri}
+\date{3 août 2026}
+
+\begin{document}
+\maketitle
+\vspace{-0.8cm}
+
+\begin{cle}
+\textbf{Le principe.} On ne cherche pas \emph{la} bonne base. Chaque source est utilisée
+pour la seule question qu'elle est capable de trancher, et l'on déclare ce qui reste hors
+d'atteinte. Cette note dit, brique par brique, quelle donnée alimente quel paramètre, à
+quel niveau d'observation, et avec quelle marge d'erreur. Elle contient aussi la réponse à
+la question posée sur la loi d'Erlang.
+\end{cle}
+
+% =====================================================================
+\section*{1. Trois sources, trois rôles disjoints}
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{3.3cm} p{4.6cm} p{7.4cm}@{}}
+\toprule
+\textbf{Source} & \textbf{Contenu} & \textbf{Ce qu'elle alimente} \\
+\midrule
+SAS OpRisk Global Data & pertes opérationnelles en dollars, catégories de Bâle,
+$4\,329$ transitions annuelles &
+\textbf{le niveau de sévérité} ($\xi=0{,}595$) \emph{et} \textbf{la fréquence d'entrée}.
+C'est la source porteuse. \\
+Privacy Rights Clearinghouse & $15\,053$ incidents, exprimés en \emph{nombre
+d'enregistrements} &
+\textbf{un axe de sensibilité} sur la sévérité, après conversion Jacobs
+($\xi=1{,}033$, plafond $40$~M\euro). \\
+7 rapports post-incident & $17$ enchaînements codés &
+\textbf{le sens} des liens de contagion. Rien d'autre~: ni volume, ni amplitude. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+Deux bases publiques ont par ailleurs été testées et \textbf{écartées}~: la Data Breach
+Chronology (manque de volume, taxonomie par vecteur d'attaque et non par domaine de
+contrôle, date piégée des deux côtés) et VCDB (le champ \emph{actor.Partner} passe de $56$
+à $0$ sur la période, artefact de collecte).
+
+% =====================================================================
+\section*{2. La sévérité}
+
+\subsection*{2.1. OpRisk, la source porteuse}
+
+Périmètre~: secteur financier, sous-catégories \textsc{tic}, pertes converties en euros.
+Le modèle n'ajuste que la queue, au dessus d'un seuil, par une loi de Pareto généralisée,
+et conserve le corps empirique en dessous. L'ajustement retient environ $91$~excès au dessus
+du seuil, pour $\xi=0{,}595$.
+
+Ce chiffre est celui qui porte le capital principal, y compris le socle de $5\,275$~M\euro{}
+et les bornes $[6\,858\,;\,8\,697]$~M\euro. \textbf{Il ne dépend d'aucune conversion}~: les
+montants sont en dollars dès l'origine.
+
+\subsection*{2.2. PRC, l'axe de sensibilité}
+
+PRC ne contient pas de montants mais des \emph{nombres d'enregistrements compromis}. Le
+passage aux euros se fait par la régression de Jacobs,
+$\ln L = 7{,}68+0{,}76\ln X+\varepsilon$, dont le résidu a un écart-type de $0{,}523$.
+
+Trois choses à savoir sur cette branche.
+
+Elle donne $\xi=1{,}033$, donc au dessus de $1$~: la moyenne théorique de la sévérité
+n'existe pas. Ce n'est pas une anomalie de calcul, c'est une propriété du périmètre.
+
+La conversion était traitée comme \textbf{exacte}, en ignorant le résidu, ce qui écrasait la
+dispersion. En le réinjectant, le niveau du $\Delta_{\text{DORA}}$ monte de $7\,\%$
+($3\,600 \to 3\,861$~M\euro) et la queue s'épaissit ($\xi : 1{,}033 \to 1{,}072$), mais la
+largeur relative de l'intervalle ne bouge pas ($1{,}43 \to 1{,}41$).
+
+Et la conversion est \textbf{de sévérité seule}. Ce n'est pas un lien fréquence-sévérité~:
+elle transforme un décompte en montant, la fréquence venant d'ailleurs.
+
+% =====================================================================
+\section*{3. La fréquence~: deux niveaux d'observation, deux paramètres}
+
+C'est le point méthodologique de cette note, et celui où une erreur serait la plus coûteuse.
+
+Le modèle de fréquence porte \textbf{deux} paramètres qui ne se lisent pas au même endroit~:
+\begin{equation}
+  N_j \mid Y \ \sim\ \mathcal{P}\bigl(\lambda_j\, m\bigr),
+  \qquad m=\exp\!\Bigl(aY-\tfrac{a^2}{2}\Bigr),
+  \qquad Y\sim\mathcal{N}(0,1).
+  \label{eq:freq}
+\end{equation}
+Le taux $\lambda$ est une propriété d'\textbf{entité}. La charge systémique $a$ est un choc
+\textbf{commun} à toutes les entités, tiré une fois par an.
+
+\begin{cle}[colback=orange!8,colframe=orange!70!black]
+\textbf{Pourquoi les mélanger serait une faute.} La surdispersion mesurée sur un panel
+firme-année est dominée par l'\textbf{hétérogénéité de taille} des firmes, pas par le choc
+commun~: le panel mélange des TPE et des banques systémiques. Le choc commun ne se lit
+qu'au niveau \textbf{agrégé}, et seulement \textbf{après retrait de la tendance}, faute de
+quoi on confond une dérive séculaire avec de la volatilité annuelle.
+\end{cle}
+
+\subsection*{3.1. Le taux par entité, lu sur le panel firme-année}
+
+Fenêtre $2005$-$2022$. Au delà, les comptes s'effondrent ($34$ en $2023$, $39$ en $2024$
+contre $70$ à $100$ auparavant)~: c'est la troncature à droite de la base, les événements
+récents n'étant pas encore remontés, et non une baisse du risque.
+
+\begin{center}\small
+\begin{tabular}{@{}l r@{}}
+\toprule
+observations firme-année & $14\,944$ \;($5\,230$ firmes) \\
+moyenne empirique & $0{,}0988$ événement \textsc{tic} / firme / an \\
+variance empirique & $0{,}1179$ \\
+indice de dispersion $\mathrm{Var}/\mathbb{E}$ & $1{,}19$ \\
+part de zéros & $91{,}2\,\%$ \\
+\midrule
+Poisson & $\log L = -5\,023{,}8$ \\
+Négative binomiale & $\log L = -4\,958{,}5$, \; forme $r=0{,}632$ \\
+test du rapport de vraisemblance & $\mathrm{LR}=130{,}5$, \; $p=1{,}6\times10^{-30}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+Le Poisson est rejeté sans ambiguïté. Et la sensibilité à la taille est forte~: sur les
+seules firmes à dix événements ou plus, le taux passe de $0{,}099$ à $\mathbf{0{,}210}$, un
+profil plus proche d'une entité effectivement soumise à DORA.
+
+\subsection*{3.2. Le choc systémique, lu sur la série agrégée détrendée}
+
+Sur la série sectorielle \textsc{tic} agrégée ($82$ événements par an en moyenne sur
+$18$~ans), la tendance ajustée vaut $-2{,}4\,\%$ par an, et la dispersion \emph{résiduelle}
+après retrait de tendance vaut $\varphi=2{,}24$, d'intervalle de confiance à $95\,\%$
+$[1{,}24\,;\,5{,}18]$, large parce qu'il n'y a que $18$~points.
+
+La charge implicite correspondante est $a=0{,}122$, d'intervalle $[0{,}054\,;\,0{,}223]$.
+Sur le périmètre plus étroit cyber~$\times$~finance ($443$ événements, $24{,}6$ par an),
+la même lecture donne $a=0{,}297$.
+
+\begin{cle}
+\textbf{Le verdict, et il est à assumer tel quel.} La valeur posée dans le modèle est
+$A_{\text{LOAD}}=0{,}60$. Elle dépasse la charge empirique quel que soit le périmètre
+($0{,}12$ ou $0{,}30$), et elle dépasse même la \textbf{borne haute} de l'intervalle de
+confiance ($0{,}223$). Le calage n'est donc pas calibré, il est \textbf{délibérément
+conservateur}, et cette conclusion résiste à l'incertitude d'estimation.
+\end{cle}
+
+% =====================================================================
+\section*{4. La question de la loi d'Erlang}
+
+La loi mélangeante ajustée sur le panel est une Gamma de forme $r=0{,}632$. Or~:
+
+\begin{center}\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Une \textbf{Erlang} & est une Gamma de forme \textbf{entière} $\ge 1$. \\
+La forme ajustée & vaut $0{,}632$~: ni entière, ni supérieure à $1$. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+L'Erlang la plus proche serait l'Erlang-1, c'est-à-dire un mélange exponentiel, mais ce
+n'est qu'une \textbf{approximation}~: la Gamma réellement ajustée, de forme $0{,}63$, est
+plus dissymétrique qu'une exponentielle.
+
+\medskip
+\noindent\textbf{À dire tel quel}~: le mélange Gamma est le bon objet, et l'Erlang n'en est
+qu'un cas particulier à forme entière. Ici la forme n'est pas entière, donc parler d'Erlang
+serait imprécis. La famille évoquée est la bonne, le nom ne l'est pas.
+
+% =====================================================================
+\section*{5. Les trois surdispersions, réconciliées}
+
+Le modèle porte trois représentations de la surdispersion, longtemps coexistantes sans
+avoir jamais été confrontées. Elles ne se contredisent pas, mais elles vivent à des
+\textbf{échelles différentes}, et c'est cela qu'il faut savoir dire.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l r@{}}
+\toprule
+\textbf{Représentation} & \textbf{Échelle} & \textbf{Indice $\mathrm{Var}/\mathbb{E}$} \\
+\midrule
+mélange Gamma, $r=0{,}63$ & firme-année (micro, $\mu=0{,}099$) & $1{,}16$ \\
+charge lognormale, $a=0{,}60$ & agrégée (portefeuille) & $10{,}34$ \\
+facteur négatif binomial, $\varphi=9{,}20$ & agrégée (portefeuille) & $9{,}20$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+À l'échelle du moteur ($\lambda=21{,}6$ amorces par an, soit $582$ événements sur $27$ ans),
+la correspondance entre les deux mesures agrégées se vérifie~: $\varphi=9{,}20$ implique
+$a=0{,}568$ contre $0{,}60$ posé, et $a=0{,}60$ implique $\varphi=10{,}34$ contre $9{,}20$
+posé. Elles \textbf{coïncident à $5\,\%$ près sur $a$} et à $12\,\%$ près sur $\varphi$~: ce
+sont bien deux écritures de la même chose.
+
+Le $r=0{,}63$ du panel, lui, vit à l'échelle d'une \emph{seule} firme et ne se compare pas
+directement aux deux autres. C'est le piège de lecture principal de cette brique.
+
+\medskip
+\noindent\textbf{Et le $\varphi$ empirique est bien plus bas que le posé.} Sur la série
+cyber~$\times$~finance détrendée, la dispersion résiduelle vaut $\varphi=3{,}27$, soit
+$\varphi\approx3{,}0$ une fois remise à l'échelle du moteur, contre $9{,}20$ retenu. Le
+calage est donc conservateur d'un facteur trois environ.
+
+\subsection*{5.1. Ce que ce choix coûte, en capital}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Loi de comptage} & \textbf{SCR (VaR $99{,}5\,\%$)} & \textbf{Moyenne} \\
+\midrule
+Poisson ($\varphi\to1$) & $7\,838$~M\euro & $1\,019$~M\euro \\
+NB, $\varphi=3{,}0$ (empirique détrendé) & $7\,981$~M\euro & $1\,018$~M\euro \\
+NB, $\varphi=9{,}20$ (posé) & $8\,553$~M\euro & $1\,054$~M\euro \\
+NB, $\varphi=10{,}3$ (équivalent $a=0{,}60$) & $8\,534$~M\euro & $1\,028$~M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+Deux lectures. La \textbf{moyenne est invariante}, par construction, puisque
+$\mathbb{E}[N]=\lambda$ dans les quatre lois~: ce que la surdispersion déplace, c'est la
+VaR, pas l'espérance. Et l'effet reste \textbf{modéré}, $+9\,\%$ de Poisson au calage posé,
+parce qu'à $99{,}5\,\%$ la queue reste largement portée par une perte dominante de sévérité.
+
+Enfin, à variance \emph{égale}, la forme du mélange compte encore~: le quantile
+$99{,}5\,\%$ du comptage vaut $74$ sous un mélange Gamma et $82$ sous un mélange lognormal,
+soit $11\,\%$ d'écart. \textbf{Apparier la variance n'apparie pas la queue.}
+
+% =====================================================================
+\section*{6. Pourquoi la fréquence est calibrable et la direction ne l'est pas}
+
+C'est la question qui revient, et la réponse est nette.
+
+Calibrer la matrice de contagion $W$ exige trois choses simultanément~: un horodatage fin,
+une taxonomie par domaine de contrôle, et la \textbf{direction}. Or la direction tombe sous
+le test placebo ($z=-0{,}33$).
+
+Calibrer une fréquence d'entrée n'exige \textbf{rien} de tout cela. Il suffit de savoir
+qu'un événement \textsc{tic} est survenu chez telle entité telle année. Le pas annuel, fatal
+pour $W$, suffit parfaitement pour un comptage.
+
+\medskip
+\noindent C'est un problème d'identification \textbf{strictement plus facile}, et c'est
+pourquoi les deux briques n'ont pas le même statut~: la fréquence est confrontée à la
+donnée, la direction est bornée.
+
+% =====================================================================
+\section*{7. Les biais à déclarer}
+
+\textbf{Le seuil de collecte.} Le taux posé est de $12$ à $22$ incidents par an selon la
+brique, contre $0{,}099$ à $0{,}210$ observés par firme-année. L'écart n'est pas une erreur
+de calage~: la base ne retient que les pertes \textbf{au dessus d'un seuil de collecte}. On
+calibre donc la fréquence des événements \textsc{tic} \emph{matériels}, générateurs de
+perte, qui est la bonne maille pour un modèle de capital, et non la fréquence de tous les
+incidents au sens du reporting DORA. Les deux nombres ne mesurent pas la même chose.
+
+\textbf{Le biais de taille.} OpRisk sur-représente les grandes entités. Le taux de $0{,}210$
+sur les firmes à dix événements ou plus est le plus représentatif d'une entité soumise à
+DORA, et c'est celui qu'il faut citer.
+
+\textbf{La troncature à droite.} Les deux dernières années de la base sont incomplètes. La
+fenêtre s'arrête donc à $2022$, et il faut le dire avant qu'on ne s'étonne d'une baisse
+apparente du risque.
+
+\textbf{Le nombre de points.} La charge systémique repose sur $18$~observations annuelles.
+Son intervalle de confiance est large, d'un facteur quatre. C'est aussi pourquoi le calage
+conservateur est défendable~: il n'est pas contredit par la donnée, il la borne par le haut.
+
+% =====================================================================
+\begin{cle}
+\textbf{En une phrase par brique.} La \textbf{sévérité} vient d'OpRisk, en dollars, sans
+conversion, et PRC n'est qu'un axe de sensibilité. La \textbf{fréquence} se lit à deux
+niveaux, le taux sur le panel firme-année et le choc commun sur la série agrégée détrendée,
+et les mélanger serait une faute. Le calage retenu est \textbf{conservateur d'un facteur
+trois} sur la surdispersion, ce qui est un choix de prudence et non une calibration, et il
+déplace la VaR de $+9\,\%$ sans toucher la moyenne. La \textbf{direction}, elle, ne se
+calibre sur aucune de ces bases, et c'est le seul paramètre du modèle qui reste borné plutôt
+qu'estimé.
+\end{cle}
+
+\smallskip
+\sloppy
+\noindent\footnotesize\textcolor{navy}{\textbf{Sources.}} Fréquence d'entrée~:
+\texttt{2\_donnees/08b\_calibration\_frequence\_entree.py}, figure
+\texttt{N\_frequence\_entree.png}. Réconciliation des surdispersions et effet sur le SCR~:
+\texttt{2\_donnees/41\_simulation\_nb\_comptage.py}, figure \texttt{N2\_simulation\_nb.png}.
+Faisabilité et écartement des sources~:
+\texttt{2\_donnees/05\_faisabilite\_donnees.py}. Résidu de la conversion Jacobs~:
+\texttt{5\_etats/21\_prc\_jacobs\_residu.py}. Chapitre~5 du mémoire pour les données et
+leurs limites.
+
+\end{document}

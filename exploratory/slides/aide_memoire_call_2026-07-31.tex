@@ -1,0 +1,168 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.4cm]{geometry}
+\usepackage{microtype}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{amsmath}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{warm}{HTML}{C55A11}
+
+\newtcolorbox{alerte}[1][]{colback=orange!8,colframe=orange!70!black,boxrule=0.6pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1}
+\newtcolorbox{reflexe}[1][]{colback=lightblue!50,colframe=navy,boxrule=0.8pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1}
+
+\newcommand{\slide}[2]{%
+  \medskip\noindent{\color{navy}\bfseries #1.}\ \textcolor{navy}{\footnotesize #2}\par\nobreak\smallskip}
+\newcommand{\dire}[1]{\noindent\hangindent=1em\hangafter=1 #1\par}
+\newcommand{\n}[1]{\textbf{#1}}
+
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{16pt}
+\pagestyle{empty}
+
+\begin{document}
+
+{\color{navy}\Large\bfseries Aide-mémoire, point tuteur du 31 juillet 2026}\\[2pt]
+{\footnotesize Kélian Kaddouri. À garder sous les yeux. Les chiffres en gras sont ceux qu'il ne faut pas se tromper.}
+
+\vspace{4pt}
+\begin{reflexe}
+\textbf{La phrase à placer deux fois, minimum} (slide 8, puis en clôture)~:\\
+\textbf{\og Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas. C'est ça, mon résultat.\fg{}}\\[3pt]
+{\footnotesize Sans elle, la liste des incertitudes passe pour du flou. Avec elle, elle passe pour de la rigueur.}
+\end{reflexe}
+
+\vspace{2pt}
+\begin{multicols}{2}
+\footnotesize
+
+\slide{1. Titre}{}
+Point d'avancement. Les quatre pistes du 24/07, et ce qu'elles ont ouvert.
+
+\slide{2. Depuis le dernier point}{annoncer la demande}
+\dire{$\bullet$ Quatre pistes données, quatre traitées.}
+\dire{$\bullet$ Deux ont ouvert des sujets plus larges $=$ 2\textsuperscript{e} moitié.}
+\dire{$\bullet$ \n{\og À la fin, j'ai un service à te demander.\fg}}
+
+\slide{3. Comptage}{N2}
+\dire{$\bullet$ Trois mesures de surdispersion jamais confrontées.}
+\dire{$\bullet$ Deux sont la même, coïncident à \n{5\,\%}.}
+\dire{$\bullet$ À variance égale, la queue bouge de \n{11\,\%}.}
+\dire{$\bullet$ Le comptage déplace \n{la VaR}, pas la moyenne.}
+\dire{$\bullet$ Aveu volontaire~: série détrendée $=$ surdispersion \n{3 fois} plus faible. \og conservateur, pas calibré\fg.}
+
+\slide{4. Seuil P4}{}
+\dire{$\bullet$ Ta question en cachait deux.}
+\dire{$\bullet$ \n{Marge} (P4 bascule seul)~: normale inoffensive, elle sert d'unité. La vraie queue est dans la sévérité.}
+\dire{$\bullet$ \n{Dépendance} (combien ensemble)~: gaussien $=$ dépendance de queue \n{nulle}, contredit le Gumbel du mémoire.}
+\dire{$\bullet$ Donc j'encadre au lieu de trancher.}
+\dire{$\bullet$ Co-extrême~: \n{0,17 $\to$ 0,39}. C'est MOVEit, que le gaussien rate.}
+
+\slide{5. $W=S+A$}{Z11 -- le meilleur moment}
+\dire{$\bullet$ \n{\og Ton intuition était juste, et c'est une identité, pas une analogie.\fg}}
+\dire{$\bullet$ On coupe en deux~: \n{qui est lié à qui}, et \n{dans quel sens}.}
+\dire{$\bullet$ Renverse le temps~: la 1\textsuperscript{re} ne bouge pas, la 2\textsuperscript{e} s'inverse.}
+\dire{$\bullet$ La fluctuation martingale ne dépend que de la 1\textsuperscript{re}.}
+\dire{$\bullet$ Donc une donnée annuelle, sans ordre, ne peut pas voir la direction.}
+\dire{$\bullet$ \n{\og Mon placebo à $-0{,}33$ n'est pas un échec, c'est le théorème.\fg}}
+
+\slide{6. KPI}{Z13}
+\dire{$\bullet$ Un score de criticité ne déclenche aucune décision.}
+\dire{$\bullet$ Chaque indicateur branché sur un canal, capital chiffré derrière.}
+\dire{$\bullet$ Le point n'est pas le montant, c'est \n{la concentration}.}
+\dire{$\bullet$ Donc on priorise au lieu d'étaler. Défendable devant une DAF.}
+
+\slide{7. Caroline}{}
+\dire{$\bullet$ \og Un quantile d'un objet incertain est mauvais.\fg{} Elle a raison.}
+\dire{$\bullet$ Mesurable~: le seul IC vaut un facteur \n{2,6}.}
+\dire{$\bullet$ La VaR est imposée par le cadre, je ne peux pas l'abandonner.}
+\dire{$\bullet$ Donc je rends l'incertitude visible~: \n{paramètre, identification, modèle}.}
+\dire{$\bullet$ \n{\og Sa remarque ne casse pas l'approche, elle la justifie.\fg}}
+
+\slide{8. Trois étages}{J4 -- placer la phrase}
+\dire{$\bullet$ Dépendance~: facteur \n{1,8}. Famille de queue~: facteur \n{5,5}.}
+\dire{$\bullet$ Ma cascade tombe entre gaussien et Gumbel.}
+\dire{$\bullet$ \n{\og Le niveau bouge, l'ordre des piliers ne bouge pas.\fg}}
+
+\slide{9. Validation}{J3}
+\dire{$\bullet$ \n{\og Et tout n'est pas incertain.\fg}}
+\dire{$\bullet$ Tests non rejetés, \n{$p=0{,}87$}, bootstrap paramétrique.}
+\dire{$\bullet$ Négative binomiale bat le Poisson sans discussion.}
+\dire{$\bullet$ Les \n{formes} sont validées, le \n{niveau} reste une bande.}
+
+\slide{10. Direction}{}
+\dire{$\bullet$ Aucune base ne mesure le sens. Mais chaque grand incident a son enquête publique.}
+\dire{$\bullet$ \n{7 rapports}, \n{17 enchaînements}, protocole écrit \emph{avant} de coder.}
+\dire{$\bullet$ Placebo cette fois franchi~: \n{$z=+3{,}9$} contre $-0{,}33$.}
+\dire{$\bullet$ Aucun enchaînement à contre-sens.}
+\dire{$\bullet$ Gouvernance jamais cible, incidents toujours aboutissement.}
+\dire{$\bullet$ \n{\og La structure du classeur, retrouvée par un chemin indépendant.\fg}}
+
+\slide{11. Valeur d'information}{Z18}
+\dire{$\bullet$ Ces 7 rapports ont levé \n{66\,\%} de l'ambiguïté.}
+\dire{$\bullet$ Et ça se \n{hiérarchise}~: gouvernance $\to$ incidents en lèverait \n{29\,\%} seule, une autre \n{rien}.}
+\dire{$\bullet$ La recommandation au régulateur cesse d'être générique.}
+\dire{$\bullet$ Et la plus précieuse est celle que les rapports ne couvrent pas.}
+
+\slide{12. La demande}{le moment clé}
+\dire{$\bullet$ Le tableau~: structure \n{revendiquée}, sens de chaque lien \n{non revendiqué} (2 paires sur 6), force \n{hors d'atteinte}.}
+\dire{$\bullet$ \n{\og Ce dépouillement, je l'ai fait seul. Et une enquête cherche un responsable, donc elle conclut presque toujours à la gouvernance.\fg}}
+\dire{$\bullet$ \n{\og Il me faut un second codeur qui ne connaisse pas mes conclusions. Donc pas toi, et c'est précisément le point.\fg}}
+\dire{$\bullet$ 45 min, aucune maths.}
+\dire{$\bullet$ \n{\og Qui verrais-tu chez Nexialog ?\fg} $\leftarrow$ demander un \n{nom}, pas un accord.}
+\dire{$\bullet$ Puis~: relecture praticien, 30 min, 7 phrases à contredire. \n{Toi}, et \n{Mehdi} à son retour.}
+
+\slide{13. P4 sous-process}{Z14 + Z16}
+\dire{$\bullet$ Taxonomie fine du tiers inexistante publiquement $\Rightarrow$ le registre reste nécessaire.}
+\dire{$\bullet$ Ancrés sur donnée européenne officielle~: origination \n{29\,\%}, concentration.}
+\dire{$\bullet$ Si le facteur tiers est un processus, le seuil devient un \n{temps d'arrêt}.}
+\dire{$\bullet$ \og Déclenchement\fg{} prend un sens littéral, et rejoint la 3\textsuperscript{e} piste.}
+
+\slide{14. Points bloquants}{clôture}
+\dire{$\bullet$ Fait~: 4 pistes, chapitre identifiabilité réécrit, mémoire en \n{5 parties}, \n{13 fiches}.}
+\dire{$\bullet$ En attente d'autres~: les 2 relectures, le registre, la posture capital (avec Caroline).}
+\dire{$\bullet$ \n{\og Ne jamais présenter comme mesuré ce qui est posé, ni comme calibré ce qui n'est que corroboré.\fg}}
+
+\end{multicols}
+
+\vspace{-4pt}
+\begin{alerte}
+\footnotesize
+\textbf{Les trois questions à anticiper.}\\[3pt]
+\textbf{\og Ton $z=+3{,}9$, il vaut quoi ?\fg} $\rightarrow$ Ce que vaut un corpus de 7 documents codés par une seule
+personne. Le signe est net, le protocole écrit, mais je ne revendique que la structure d'ensemble. C'est pour ça
+que je demande le second codeur.\\[3pt]
+\textbf{\og Pourquoi tu ne calibres pas $W$ ?\fg} $\rightarrow$ C'est démontré impossible sur ces données, et c'est
+un résultat, pas un aveu. Ce que je peux faire, c'est spécifier la donnée qui le permettrait et chiffrer ce qu'elle
+vaut. \emph{(Si on insiste~: la vraisemblance est plate en $A$, deux valeurs opposées donnent la même loi. Il faut
+d'autres données, pas plus de données.)}\\[3pt]
+\textbf{\og Et le SCR, il vaut combien ?\fg} $\rightarrow$ Pas de niveau tant que la posture n'est pas tranchée avec
+Caroline, point prédictif ou borne prudente. Les deux sont chiffrés, l'écart est lui-même un résultat. Ce que
+j'affirme aujourd'hui, c'est l'ordre des piliers, et il ne bouge sous aucune hypothèse testée.
+\end{alerte}
+
+\vspace{2pt}
+\begin{alerte}
+\footnotesize
+\textbf{Trois pièges à éviter.}
+\textbf{(i)} Ne pas dire que $W$ \emph{est} une chaîne de Markov~: c'est un noyau de contagion, j'emprunte
+l'algèbre de la réversibilité comme lecture, pas comme hypothèse.
+\textbf{(ii)} Ne pas dire \og $P=S+A$\fg~: la décomposition porte sur le flux stationnaire pondéré par $\pi$~; mon
+$S=(W+W^{\top})/2$ en est le cas uniforme, écart mesuré $0{,}069$.
+\textbf{(iii)} Ne pas dire que la martingale \og ne voit rien\fg~: elle voit très bien $S$, elle est aveugle à $A$.\\[3pt]
+\textbf{Si Hugo ne trouve personne pour le codage} $\rightarrow$ proposer \textbf{Coraline} ou \textbf{Nathanael},
+sujets adjacents, ne connaissent pas l'hypothèse. Mieux vaut un nom qu'un \og je vais voir\fg.\\[3pt]
+\textbf{Après le call} $\rightarrow$ envoyer les 2 PDF le jour même, avec une \textbf{date de retour} explicite.
+\end{alerte}
+
+\end{document}
