@@ -534,6 +534,43 @@ cyber mondial ($\sim$15~Md\euro de primes en 2025) --- à une échelle de \emph{
 d'entité isolée. Le modèle n'est donc ni gonflé (il colle aux pertes réelles au niveau
 unitaire) ni aveugle (il capte, au niveau agrégé, le risque que la Formule Standard manque).
 
+\paragraph{La descente d'échelle rend l'argument vérifiable.} Le diagnostic qui précède se
+teste : si l'écart tient bien à la fréquence d'entrée et non à la mécanique de cascade, alors
+il suffit de \emph{redescendre} $\lambda$ au niveau d'une entité, à sévérité, matrice $W$ et
+moteur de propagation \textbf{inchangés}, pour retrouver un ordre de grandeur d'entité. C'est
+le cas. Le tableau~\ref{tab:echelle} donne le résultat de cette substitution, $\lambda$ étant
+lu sur le panel firme-année du SAS OpRisk (chapitre~\ref{chap:donnees}).
+
+\begin{table}[htbp]\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+Échelle de lecture & $\lambda$ (an$^{-1}$) & SCR $99{,}5\,\%$ & Perte moyenne \\
+\midrule
+Secteur financier mondial (calage du chapitre) & $21{,}56$ & $8\,123$~M\euro & $982$~M\euro \\
+Très grande entité ($\geq 10$ événements) & $0{,}21$ & $\mathbf{488}$~M\euro & $9{,}7$~M\euro \\
+Entité moyenne du panel & $0{,}10$ & $221$~M\euro & $4{,}5$~M\euro \\
+\bottomrule
+\end{tabular}
+\caption{Le même modèle lu à trois échelles. Seule la fréquence d'amorce change ; la sévérité,
+la matrice $W$ et le moteur de cascade sont identiques. Le passage du secteur à l'entité divise
+le capital par un facteur $17$, quand la fréquence est divisée par $103$.}
+\label{tab:echelle}
+\end{table}
+
+Deux enseignements. D'abord, une \textbf{très grande entité} ressort à $488$~M\euro, soit
+l'ordre de grandeur exact de la charge opérationnelle de Formule Standard calculée plus haut
+($450$~M\euro) : l'écart d'un facteur dix relevé au paragraphe précédent était un écart de
+\emph{périmètre}, non de modèle, et il se referme dès que les deux quantités sont lues à la
+même échelle. Ensuite, la non-linéarité est instructive. Diviser $\lambda$ par $103$ ne divise
+le capital que par $17$, alors qu'elle divise la perte moyenne par $101$, c'est-à-dire
+presque exactement à proportion. C'est la signature du \emph{principe du grand saut unique} :
+la moyenne est portée par le nombre d'événements, le quantile extrême par l'ampleur du plus
+grand. À $\lambda = 0{,}21$, quatre années sur cinq sont vides ($81\,\%$ sous une loi de
+Poisson) et le quantile $99{,}5\,\%$ ne décrit plus une accumulation mais un sinistre isolé
+suivi de sa cascade. Le capital d'entité n'est donc pas le capital de secteur divisé par le
+nombre d'entités, et le lire ainsi conduirait à le sous-estimer d'un facteur six.
+
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{J5_benchmark_externe.png}
 \caption{Benchmark externe. \textbf{(a)}~au niveau du sinistre unique, nos quantiles (VaR et

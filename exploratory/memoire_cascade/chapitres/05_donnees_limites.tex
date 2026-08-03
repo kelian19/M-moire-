@@ -143,6 +143,35 @@ d'alternative comparable pour la fréquence : aucune des deux autres sources
 mobilisées (Hackmageddon, OpRisk Global) ne permet, seule, d'ancrer un niveau
 annuel de sinistralité directement transposable à un portefeuille assurantiel.
 
+\paragraph{Le seuil de collecte, et pourquoi $\lambda$ se lit à deux niveaux.}
+La fréquence est la seule brique du modèle dont la valeur dépende
+explicitement du \emph{périmètre de comptage} de la source, et cette dépendance
+doit être déclarée avant tout usage du niveau. Un contrôle mené sur le panel
+firme-année du SAS OpRisk (sous-catégories TIC, 2005--2022, fenêtre
+d'observation propre à chaque firme, de sorte qu'une année sans événement soit
+un vrai zéro) donne $0{,}10$ événement par firme et par an toutes firmes
+confondues, et $0{,}21$ pour les firmes les mieux couvertes, celles dont le
+profil se rapproche d'une entité soumise à DORA. Ces valeurs sont sans commune
+mesure avec le taux posé dans le modèle. L'écart n'est pas une erreur de
+calage : la base OpRisk ne retient que les pertes \textbf{au-dessus d'un seuil
+de collecte}, si bien que le taux qu'on y lit est celui des événements TIC
+\emph{matériels}, générateurs d'une perte enregistrée, et non celui de tous les
+incidents au sens du reporting DORA. C'est la maille pertinente pour un modèle
+de capital, mais elle n'est pas la maille réglementaire, et les deux ne doivent
+jamais être comparées terme à terme.
+
+Il en découle une règle de lecture qui vaut pour tout le mémoire. Le taux
+$\lambda$ est une propriété d'\textbf{entité}, lisible sur un panel
+firme-année ; la charge systémique commune, elle, ne se lit qu'au niveau
+\textbf{agrégé} et après retrait de tendance, car la surdispersion d'un panel
+firme-année est dominée par l'hétérogénéité de taille des firmes, non par un
+choc commun. Confondre les deux niveaux d'observation reviendrait à imputer au
+risque systémique ce qui n'est qu'un effet de taille. Cette séparation
+commande l'interprétation des niveaux de capital du
+chapitre~\ref{chap:resultats} : selon l'échelle à laquelle $\lambda$ est lu,
+le même modèle décrit un secteur ou une entité, et la
+table~\ref{tab:echelle} en donne la traduction chiffrée.
+
 %--------------------------------------------------------------
 
 %--------------------------------------------------------------
