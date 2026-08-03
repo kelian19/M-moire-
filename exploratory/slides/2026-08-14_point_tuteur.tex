@@ -1,5 +1,10 @@
-% Point d'avancement tuteur, 14 aout 2026. HUIT slides.
-% Continuite du 07/08, qui se terminait sur "deux parametres ont change de statut".
+% Point d'avancement tuteur, 14 aout 2026. NEUF slides.
+% Continuite du 07/08, verifiee point par point :
+%   - le 07/08 annoncait l'allocation Euler/Shapley comme prochain sujet -> slide A ;
+%   - le 07/08 valorisait deja le capital libere au cout de portage a 6 % -> la slide B
+%     l'assume comme une SUITE (et corrige le taux : 4,75 %, directive UE 2025/2), et non
+%     comme un axe neuf ;
+%   - le 07/08 annoncait la relecture complete -> derniere slide.
 % FIL : ce qui etait DECLARE devient MESURE. Et la decision sur l'elicitation.
 % Figures : S19, S20, Z20 - aucune n'a servi dans un deck precedent.
 \documentclass[11pt]{beamer}
@@ -35,12 +40,13 @@ Le dernier point se terminait sur \emph{\og{}deux paramètres viennent de change
 Cette semaine, c'est la même logique appliquée à trois autres endroits.
 \vspace{2mm}
 \begin{block}{Le fil : ce qui était déclaré devient mesuré}
-\textbf{(A)} Ce que le capital \textbf{coûte}, et s'il vaut mieux le détenir ou le
-transférer. C'est un axe que nous n'avions jamais ouvert.\\[3pt]
-\textbf{(B)} Les \textbf{deux biais} d'OpRisk que nous déclarions depuis le début, enfin
-chiffrés au lieu d'être seulement signalés.\\[3pt]
-\textbf{(C)} La \textbf{direction}, sur un corpus élargi et sur la matrice \emph{complète}
-plutôt que sur le seul sens à l'intérieur des paires.
+\textbf{(A)} L'\textbf{allocation aux cinq piliers}, Shapley et Euler, que je t'avais annoncée
+la dernière fois comme la suite des $5\,001$~M\euro{} d'interaction.\\[3pt]
+\textbf{(B)} Le \textbf{coût de portage}, que nous utilisions déjà, poussé jusqu'à sa vraie
+question : vaut-il mieux \textbf{détenir ou transférer} ce capital.\\[3pt]
+\textbf{(C)} Les \textbf{deux biais} d'OpRisk que nous déclarions depuis le début, chiffrés au
+lieu d'être seulement signalés. Puis la \textbf{direction}, sur un corpus élargi et sur la
+matrice \emph{complète}.
 \end{block}
 \vspace{1mm}
 \begin{block}{Et une décision à acter}
@@ -50,14 +56,54 @@ ce qui les remplace et ce que cela coûte exactement.
 \end{frame}
 
 % =====================================================================
-\section*{A. Ce que le capital coûte}
+\section*{A. L'allocation aux cinq piliers}
+
+\begin{frame}{Shapley et Euler : la suite des \texorpdfstring{$5\,001$}{5001} M\euro{} d'interaction}
+\scriptsize
+Deux questions, deux règles. \emph{Qui porte le surcoût ?} appelle une attribution par pilier
+\textbf{source}, composant avec l'interaction puisque les marginaux ne somment pas au total :
+c'est Shapley. \emph{Où loge le capital ?} appelle une allocation par pilier \textbf{touché},
+dont les parts somment au total : c'est Euler.
+\vspace{-2mm}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l rrr@{}}
+\toprule
+\textbf{Pilier} & \textbf{marginal} & $\boldsymbol{\varphi_j}$ \textbf{(Shapley)} & \textbf{part} \\
+\midrule
+P1 gouvernance & $3\,481$ & $\mathbf{3\,717}$ & $34\,\%$ \\
+P4 tiers & $2\,658$ & $2\,810$ & $26\,\%$ \\
+P2 incidents & $1\,634$ & $1\,867$ & $17\,\%$ \\
+P3 tests & $1\,094$ & $1\,484$ & $14\,\%$ \\
+P5 partage & $665$ & $1\,048$ & $10\,\%$ \\
+\midrule
+\textbf{somme} & $9\,531$ & $\mathbf{10\,927}$ & $100\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-1mm}
+\begin{block}{Ce qu'il faut regarder, et la limite que j'assume}
+\textbf{Le test non trivial n'est pas le classement mais la déformation.} Le classement
+reproduit ROOT, ce qui est en partie \emph{mécanique} (les amorces sont semées
+proportionnellement à ROOT). Ce qui ne l'est pas : la part de P1 ($34\,\%$) \textbf{excède} sa
+part d'amorce ($30\,\%$), effet propre de la propagation, et les $\mathbf{+1\,395}$~M\euro{}
+redistribués sont \textbf{intégralement} un produit de la cascade.\\[3pt]
+\textbf{Côté Euler}, les parts \emph{moyennes} sont stables (P2 $23\,\%$, P4 $22\,\%$, P1
+$20\,\%$), mais à $\xi\approx0{,}6>0{,}5$ la sévérité est de \textbf{variance infinie} : le
+classement de queue bascule d'une résolution à l'autre. Je rapporte donc la queue du périmètre
+PRC et tiens celle d'OpRisk pour indicative.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\section*{B. Ce que le capital coûte}
 
 \begin{frame}{Détenir ou transférer}
 \scriptsize
-Nous comparions notre SCR à la Formule Standard, aux pertes réelles et au marché cyber.
-Trois comparaisons de \textbf{niveau}. Il en manquait une de \textbf{prix} : un SCR n'est pas
-une perte, c'est du capital \emph{immobilisé}, et Solvabilité~II en chiffre le coût
-($6\,\%$, ramené à $\mathbf{4{,}75\,\%}$ par la directive (UE)~2025/2).
+La dernière fois, nous valorisions le capital libéré \emph{au seul coût de portage}
+($848$~M\euro/an). \alert{\textbf{Deux mises à jour.}} Le taux n'est plus $6\,\%$ mais
+$\mathbf{4{,}75\,\%}$ : la directive (UE)~2025/2 l'a abaissé, transposition due pour janvier
+2027. Et surtout, le portage se retourne en une \emph{question} : si détenir coûte, vaut-il
+mieux \textbf{transférer} ?
 \begin{center}
 \includegraphics[width=0.86\linewidth]{S19_detenir_ou_transferer.png}
 \end{center}
@@ -72,7 +118,7 @@ d'inefficacité, capacité et contrepartie comprises, pour renverser la conclusi
 \end{frame}
 
 % =====================================================================
-\section*{B. Deux biais enfin chiffrés}
+\section*{C. Deux biais enfin chiffrés}
 
 \begin{frame}{Les deux biais que nous déclarions}
 \scriptsize
@@ -122,7 +168,7 @@ c'est le quantile qui fait le SCR.} Une compensation constatée en moyenne n'aut
 \end{frame}
 
 % =====================================================================
-\section*{C. La direction, sur la matrice complète}
+\section*{D. La direction, sur la matrice complète}
 
 \begin{frame}{Corpus élargi, et matrice ordonnée}
 \scriptsize
@@ -153,7 +199,7 @@ corrélation avec le classeur n'est pas significative ($\rho=+0{,}31$, $p=0{,}19
 \end{frame}
 
 % =====================================================================
-\section*{D. La décision sur l'élicitation}
+\section*{E. La décision sur l'élicitation}
 
 \begin{frame}{Je propose de renoncer à l'élicitation}
 \scriptsize
