@@ -6,12 +6,16 @@ lesquelles s'appuie la calibration de sévérité.
 
 % MIGRÉ AUTOMATIQUEMENT depuis memoire/main.tex (plages 3155-3164, 3181-3216).
 % Hiérarchie descendue d'un cran, labels préfixés "soc:".
-% À RELIRE : texte issu de l'ancien modèle à briques. Vérifier qu'aucune phrase
-% n'annonce la copule de Gumbel ou la variable latente comme LE modèle du mémoire.
+% RELECTURE FAITE (août 2026). Contenu purement EVT, aucun résidu de l'ancien
+% modèle. DEFAUT CORRIGE : les cinq labels se suivaient sans unite de
+% sectionnement, si bien que les cinq renvois du ch. 6 resolvaient tous vers le
+% MEME numero (celui du chapitre). Chaque demonstration a desormais sa section.
+\section{Théorème de Fisher-Tippett-Gnedenko}
 \label{soc:ann:ftg}
 La loi limite $H$ des maxima normalisés est \emph{max-stable} : $H^t(x)=H(a_tx+b_t)$ pour tout $t>0$. En posant $g(x)=-\ln H(x)$, la max-stabilité devient l'équation fonctionnelle $t\,g(a_tx+b_t)=g(x)$. Sa résolution (via la théorie des fonctions à variation régulière de Karamata) impose $g(x)=(1+\xi x)^{-1/\xi}$, soit $H=H_\xi$. Le domaine d'attraction se caractérise ensuite par le comportement de queue : $F\in\mathrm{DA}(H_\xi)$ avec $\xi>0$ si et seulement si $\bar F$ est à variation régulière d'indice $-1/\xi$, i.e.\ $\bar F(tx)/\bar F(x)\to t^{-1/\xi}$. Les lois lognormale et gamma relèvent du cas $\xi=0$ (Gumbel) ; les lois à support borné du cas $\xi<0$ (Weibull).
 
 
+\section{Théorème de Pickands-Balkema-de Haan}
 \label{soc:ann:balkema}
 Pour $F\in\mathrm{DA}(H_\xi)$, il existe une fonction positive $a(\cdot)$ telle que, pour $y\ge0$,
 $\lim_{u\to x_F}\bar F(u+y\,a(u))/\bar F(u)=(1+\xi y)^{-1/\xi}$.
@@ -19,6 +23,7 @@ Or $\bar F(u+ya(u))/\bar F(u)=\Prob(X>u+ya(u)\mid X>u)=1-F_u(y\,a(u))$, dont la 
 
 
 
+\section{Information de Fisher et normalité asymptotique de l'EMV de la GPD}
 \label{soc:ann:fisher}
 On part de la log-vraisemblance \eqref{soc:eq:loglik-gpd}, écrite par observation avec $W_i=1+\xi Y_i/\sigma$ :
 \begin{equation}
@@ -47,10 +52,12 @@ En prenant l'espérance de l'opposé des dérivées secondes et en substituant l
 La variance asymptotique de $\hat\xi$ est le terme $(1,1)$ de $\mathcal I^{-1}$ divisé par $N_u$, soit $(1+\xi)^2/N_u$ ; celle de $\hat\sigma$ vaut $2\sigma^2(1+\xi)/N_u$. Le terme hors-diagonal négatif $-\sigma(1+\xi)$ traduit la corrélation négative entre $\hat\xi$ et $\hat\sigma$, retrouvée empiriquement sur le nuage \emph{a posteriori} bayésien. C'est cette corrélation qui interdit de stresser $\xi$ et $\sigma$ indépendamment, et qui justifie le pivotement au centroïde retenu au chapitre~\ref{chap:resultats}. La condition $\xi>-\tfrac12$ garantit la finitude des moments impliqués, donc la validité de la normalité asymptotique classique de l'EMV \citep{smith1987}.
 
 
+\section{Loi asymptotique de l'estimateur de Hill}
 \label{soc:ann:hill}
 Sous variation régulière $\bar F(x)=x^{-1/\xi}\ell(x)$ avec $\ell$ à variation lente, les $\log$-espacements $\log X_{(i)}-\log X_{(i+1)}$ des $k$ plus grandes statistiques d'ordre sont, à la limite, des variables exponentielles indépendantes d'espérance $\xi/i$ (représentation de Rényi). L'estimateur $\hat\xi_{Hill}(k)=\frac1k\sum_{i=1}^k(\log X_{(i)}-\log X_{(k+1)})$ est alors une moyenne empirique d'espérance $\xi$ et de variance $\xi^2/k$ ; le théorème central limite donne $\sqrt k(\hat\xi_{Hill}-\xi)\xrightarrow{d}\mathcal N(0,\xi^2)$, sous la condition de second ordre $\sqrt k\,A(n/k)\to0$ contrôlant le biais dû à $\ell$.
 
 
+\section{Formes fermées de la VaR et de la TVaR sous GPD}
 \label{soc:ann:varestvar}
 La forme fermée de la VaR découle directement de l'inversion de la fonction de survie POT $\bar F(x)=\zeta_u(1+\xi(x-u)/\sigma)^{-1/\xi}$. Pour la TVaR, on utilise $\TVaR_\alpha=\frac{1}{1-\alpha}\int_\alpha^1\VaR_s\,\dd s$ ; la stabilité de la GPD (l'excès au-delà de tout seuil $v>u$ reste GPD de forme $\xi$ et d'échelle $\sigma+\xi(v-u)$) donne $\E[X-\VaR_\alpha\mid X>\VaR_\alpha]=\frac{\sigma+\xi(\VaR_\alpha-u)}{1-\xi}$ pour $\xi<1$, d'où \eqref{soc:eq:tvar-gpd}. Pour $\xi\ge1$, $\int_u^\infty\bar F=\infty$ : la moyenne de queue diverge.
 

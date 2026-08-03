@@ -168,20 +168,19 @@ précaution de langage ajoutée après coup : c'est un résultat vérifié, et c
 pour laquelle le mémoire présente partout des écarts et des bornes plutôt que des points.
 \end{cle}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{Z_identification_partielle.png}
-\caption{Identification partielle de la contagion dirigée. (a)~Le coût de la donnée
-manquante : les bornes se resserrent à mesure que l'ignorance directionnelle $t$ diminue.
-(b)~La lecture centrale du prior d'expert, à l'intérieur de bornes qui n'en dépendent pas.
-(c)~La priorité de remédiation robuste, au sens du regret maximal. (d)~La dominance
-majoritaire entre piliers sur l'ensemble admissible.}
-\label{fig:partielle}
-\end{figure}
+\figcle{Z_identification_partielle.png}{Identification partielle de la contagion dirigée : le
+résultat central du mémoire. \textbf{(a)}~Le coût de la donnée manquante, les bornes se
+resserrant à mesure que l'ignorance directionnelle $t$ diminue ; c'est cette pente qui chiffre
+en euros ce qu'un registre mieux spécifié apporterait. \textbf{(b)}~La lecture centrale du prior
+d'expert, à l'intérieur de bornes qui, elles, n'en dépendent pas : c'est ce qui rend le résultat
+opposable sans élicitation. \textbf{(c)}~La priorité de remédiation robuste, au sens du regret
+maximal. \textbf{(d)}~La dominance majoritaire entre piliers sur l'ensemble admissible : P5
+n'arrive jamais en tête, et P1 et P4 concentrent $81\,\%$ des configurations. Source :
+script~\texttt{30}.}{fig:partielle}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Z2_comparaison_regimes.png}
+\figover{Z2_comparaison_regimes.png}
 \caption{Poser $W$ ou le borner, comparés avant élicitation. (a)~Un point contre un socle
 et des bornes. (b)~Seule la part supérieure dépend de l'élicitation. (c)~Le régime~A suit
 le biais du panel, la bande du régime~B ne bouge pas. (d)~Ce que l'élicitation doit
@@ -220,7 +219,7 @@ quantile, elle se lit ici, sur une décision qui bascule (figure~\ref{fig:echell
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Z5_echelle_repli.png}
+\figover{Z5_echelle_repli.png}
 \caption{L'échelle de repli sur $u_{ij}$. (a)~Les bornes de capital se resserrent quand on
 recule d'un cran (hypothèse de structure). (b)~Un rang $1$ capte $74\,\%$ de la direction
 posée. (c)~Ce que la direction change à la décision : au cran nul, les gains de remédiation

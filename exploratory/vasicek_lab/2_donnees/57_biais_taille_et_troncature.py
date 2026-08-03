@@ -21,7 +21,7 @@ mesure de deux biais deja declares, pour dire de COMBIEN ils deplacent le result
 deux corrections vont, comme attendu, en sens opposes (la taille fait BAISSER le niveau
 transpose, la troncature le fait MONTER), ce qui est le seul vrai test de coherence.
 
-Sortie : diagnostics + figure S18_biais_taille_troncature.png.
+Sortie : diagnostics + figure S20_biais_taille_troncature.png.
 """
 
 import os
@@ -411,6 +411,6 @@ fig.suptitle("S18 : les deux biais d'OpRisk que le mémoire déclarait sans les 
 fig.tight_layout(rect=[0, 0, 1, 0.91])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "S18_biais_taille_troncature.png")
+path = os.path.join(outdir, "S20_biais_taille_troncature.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

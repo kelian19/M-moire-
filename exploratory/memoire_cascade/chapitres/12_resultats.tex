@@ -43,7 +43,7 @@ L'ordre socle $<$ conforme $<$ non conforme est donc cohérent : le socle est pl
 \end{cle}
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{Z7_reconciliation.png}
+\figover{Z7_reconciliation.png}
 \caption{Réconciliation des chiffres. (a)~Du socle ($W=0$, chapitre~\ref{chap:partielle}) à
 l'état conforme (ce chapitre), un canal ajouté à la fois sur le moteur commun. (b)~Sur une
 configuration identique, l'écart entre le moteur exact et le Monte-Carlo est le seul bruit
@@ -87,7 +87,7 @@ présenté en lecture~B (fréquence $+$ propagation), la plus prudente sur le ch
 \end{cle}
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.9\linewidth]{S10_scr_multi_etats.png}
+\figover{S10_scr_multi_etats.png}
 \caption{SCR par état de conformité (trois canaux emboîtés) et bascule des états en crise
 systémique. Source : script~\texttt{16}.}
 \label{fig:multietats}
@@ -142,7 +142,7 @@ régression, estimés sur $115$ observations : elle relève d'un axe de sensibil
 bruit par enregistrement.
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{S16_prc_jacobs_residu.png}
+\figover{S16_prc_jacobs_residu.png}
 \caption{Le résidu de la conversion Jacobs ($\mathrm{RSE} = 0{,}523$) : la distribution du
 surcoût PRC se déplace plus qu'elle ne s'élargit. Source : script~\texttt{21}.}
 \label{fig:jacobsresidu}
@@ -156,7 +156,7 @@ le classement ROOT} du modèle qualitatif, établi indépendamment par jugement 
 voies de construction distinctes convergent sur la même hiérarchie de piliers.
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.9\linewidth]{S11_decomp_par_pilier.png}
+\figover{S11_decomp_par_pilier.png}
 \caption{Décomposition du $\Delta_{\text{DORA}}$ par pilier et validation croisée avec ROOT.
 Source : script~\texttt{16b}.}
 \label{fig:decomp}
@@ -269,7 +269,7 @@ côté source~; le capital, lui, se loge là où les cascades atterrissent.
 \end{cle}
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{S15_allocation_shapley_euler.png}
+\figover{S15_allocation_shapley_euler.png}
 \caption{Allocation du capital DORA (OpRisk). (A)~Shapley contre marginaux : l'interaction
 redistribuée. (B)~Euler : parts de capital (queue) contre parts de perte moyenne~; sur ce
 périmètre non plafonné, l'allocation fine de la queue extrême reste indicative
@@ -304,7 +304,7 @@ $t$ (ans) & SCR($t$) médiane & bande 90\,\% & $\Delta_{\text{DORA}}(t)$ \\
 \end{table}
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.9\linewidth]{S12_trajectoire_scr.png}
+\figover{S12_trajectoire_scr.png}
 \caption{Trajectoire SCR($t$) et évolution des états de conformité. Source : script~\texttt{17}.}
 \label{fig:traj}
 \end{figure}
@@ -324,7 +324,7 @@ glouton par valeur d'accélération (figure~\ref{fig:prio}). L'écart de capital
 pire ordre et l'optimal atteint $21\,\%$.
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.9\linewidth]{S13_priorisation.png}
+\figover{S13_priorisation.png}
 \caption{Valeur d'accélération par pilier et ordre de remédiation optimal. Source :
 script~\texttt{18}.}
 \label{fig:prio}
@@ -346,7 +346,7 @@ domine, facteur $\sim 6$), mais la \textbf{direction} ($\Delta_{\text{DORA}}>0$)
 \textbf{priorité} (P1 en tête) tiennent sur tous les réglages testés (figure~\ref{fig:robust}).
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.9\linewidth]{S14_robustesse_multietats.png}
+\figover{S14_robustesse_multietats.png}
 \caption{Robustesse : le classement tient, le niveau non. Source : script~\texttt{19}.}
 \label{fig:robust}
 \end{figure}
@@ -391,7 +391,7 @@ ligne de partage du chantier : les hypothèses bougent des niveaux, jamais la di
 classement. Source : script~\texttt{22}.
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{S17_sensibilites_hypotheses.png}
+\figover{S17_sensibilites_hypotheses.png}
 \caption{Sensibilités des hypothèses restantes : coefficients Jacobs (pivotés au centroïde
 déduit des erreurs-types publiées), charge systémique $\gamma$, ancrage des probabilités
 d'état. Source : script~\texttt{22}.}
@@ -439,7 +439,7 @@ mécanisme : c'en est l'ombre portée.
 \end{cle}
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{S18_benchmark_copule.png}
+\figover{S18_benchmark_copule.png}
 \caption{Benchmark copule (OpRisk). (A)~Intervention : le jumeau copule suit les marges et
 sous-estime le surcoût, la cascade suit les sources. (B)~Photo : perte unique dominante en
 queue~; la Student force des co-extrêmes que le mécanisme n'a pas. Source :
@@ -491,7 +491,7 @@ que celui du chapitre~\ref{ch:identifiabilite}, décliné au niveau des sous-pil
 \end{cle}
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{W_benchmark_sf.png}
+\figover{W_benchmark_sf.png}
 \caption{Ce que chaque cadre exprime de l'effet DORA : $0\,\%$ pour la Formule Standard,
 $62\,\%$ pour la copule, $100\,\%$ pour la cascade. Source : script~\texttt{27}.}
 \label{fig:benchmark-sf}
@@ -571,14 +571,15 @@ Poisson) et le quantile $99{,}5\,\%$ ne décrit plus une accumulation mais un si
 suivi de sa cascade. Le capital d'entité n'est donc pas le capital de secteur divisé par le
 nombre d'entités, et le lire ainsi conduirait à le sous-estimer d'un facteur six.
 
-\begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{J5_benchmark_externe.png}
-\caption{Benchmark externe. \textbf{(a)}~au niveau du sinistre unique, nos quantiles (VaR et
-TVaR $99{,}5\,\%$) s'insèrent parmi les grandes pertes cyber réelles. \textbf{(b)}~à l'échelle
-annuelle, notre capital est d'ordre systémique (comparable au marché mondial) et domine de
-loin la charge de la Formule Standard. Source : script~\texttt{49}.}
-\label{fig:benchmark-externe}
-\end{figure}
+\figcle{J5_benchmark_externe.png}{Benchmark externe : la confrontation au réel, à deux échelles
+qu'il ne faut pas confondre. \textbf{(a)}~au niveau du \emph{sinistre unique}, nos quantiles
+(VaR $663$~M\euro{} et TVaR $1\,752$~M\euro{} à $99{,}5\,\%$) s'insèrent parmi les grandes pertes
+cyber réelles, encadrant Merck-NotPetya, Equifax et Change Healthcare tout en restant sous le
+choc systémique NotPetya : la brique de sévérité est crédible. \textbf{(b)}~à l'échelle
+\emph{annuelle}, le capital est d'ordre systémique, comparable au marché cyber mondial, et
+domine de loin la charge de Formule Standard. C'est l'agrégation à une fréquence sectorielle,
+non la sévérité, qui porte l'agrégat à une échelle de secteur. Source :
+script~\texttt{49}.}{fig:benchmark-externe}
 
 \section{Détenir ou transférer : le SCR confronté au prix de marché du risque}
 \label{sec:detenir-transferer}
@@ -642,14 +643,16 @@ simultanément les deux termes du coût. C'est un résultat de \emph{pilotage} e
 et il met les trois leviers de l'entité (remédier, détenir, transférer) sur un seul axe en
 euros par an, ce qu'aucune des comparaisons de niveau ne permettait.
 
-\begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{S19_detenir_ou_transferer.png}
-\caption{Détenir ou transférer. \textbf{(a)}~le coût annuel du capital vaut plusieurs fois la
-sinistralité attendue. \textbf{(b)}~le coût total, prime plus capital résiduel, en fonction de
-la portée du traité ; l'optimum tombe en $L^\star=\mathrm{SCR}$. \textbf{(c)}~ce que le
-dimensionnement fait gagner. Source : script~\texttt{58}.}
-\label{fig:detenir}
-\end{figure}
+\figcle{S19_detenir_ou_transferer.png}{Détenir ou transférer : le SCR confronté au prix de
+marché du même risque. \textbf{(a)}~le coût annuel du capital ($23{,}2$~M\euro{} au taux révisé
+de $4{,}75\,\%$) vaut $2{,}4$ fois la sinistralité attendue ($9{,}7$~M\euro{}) : c'est ce
+rapport, absent de toute comparaison de niveau, qui rend le transfert pertinent.
+\textbf{(b)}~le coût total, prime plus coût du capital résiduel, en fonction de la portée $L$ du
+traité en excès de perte ; l'optimum tombe en $L^\star=\mathrm{SCR}=488$~M\euro, là où le
+capital résiduel s'annule. \textbf{(c)}~ce que le dimensionnement fait gagner, $-47\,\%$, chiffre
+à lire comme une \emph{borne supérieure} : capacité de marché, exclusions et risque de
+contrepartie l'entament, mais il faudrait $77\,\%$ d'inefficacité pour renverser la conclusion.
+Source : script~\texttt{58}.}{fig:detenir}
 
 \begin{cle}
 \textbf{Ce que cette section ajoute au mémoire.} Elle referme une boucle que la réglementation

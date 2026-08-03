@@ -122,7 +122,7 @@ ne demande pas d'inventer des champs, elle demande d'en rendre deux obligatoires
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{M_faisabilite.png}
+\figover{M_faisabilite.png}
 \caption{Les deux échecs et ce qui subsiste. (a)~Une seule source atteint le
 volume requis. (b)~Sur cette source, le signal directionnel est sous le bruit du placebo
 ($z=-0{,}33$). (c)~Ce que la donnée identifie, elle : l'indice de queue $\xi$.}
@@ -187,16 +187,15 @@ $\pi$ uniforme ; $W$ n'est pas littéralement un générateur de Markov) : c'est
 \emph{fonde} la limite sur un théorème, non une hypothèse de plus.
 \end{cle}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{Z11_reversibilite_martingale.png}
-\caption{La direction $A$ comme courant irréversible. (a)~le courant $J$ est non nul.
-(b)~l'énergie de fluctuation (la martingale) est identique pour la chaîne posée et sa
-symétrisée, elle ne voit que $S$, tandis que la production d'entropie s'efface à la
-symétrisation. (c)~le renversement du temps laisse $S$ intacte et retourne $A$. Source :
-script~\texttt{40}.}
-\label{fig:reversibilite}
-\end{figure}
+\figcle{Z11_reversibilite_martingale.png}{La direction $A$ comme courant irréversible, et
+pourquoi la donnée ne peut pas la voir. \textbf{(a)}~le courant $J_{jk}=\pi_jP_{jk}-\pi_kP_{kj}$
+est non nul : le modèle porte bien une direction. \textbf{(b)}~l'énergie de fluctuation, c'est-à-dire
+la variation quadratique de la martingale, est \emph{identique} pour la chaîne posée et pour sa
+symétrisée : elle ne voit que $S$. La production d'entropie, elle, s'efface à la symétrisation.
+\textbf{(c)}~le renversement du temps laisse $S$ intacte et retourne le signe de $A$. C'est la
+raison de principe pour laquelle une statistique de co-occurrence, invariante par renversement,
+ne peut pas identifier un courant qui change de signe sous ce renversement. Source :
+script~\texttt{40}.}{fig:reversibilite}
 
 \section{La meilleure expérience naturelle disponible : le choc MOVEit}
 
@@ -226,7 +225,7 @@ méthode.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Z6_event_study_moveit.png}
+\figover{Z6_event_study_moveit.png}
 \caption{Event-study du choc MOVEit. (a)~Fréquence des brèches, groupe touché contre
 contrôle, autour du choc. (b)~La différence de différences brute est dévorée par le
 placebo : l'effet net est nul. (c)~La cible reste non attribuable, la taxonomie étant un
@@ -271,15 +270,16 @@ praticiens} dont les questions portent précisément sur l'ordre P1 vers P2, à 
 expérience de terrain et non de rapports publics.
 \end{attention}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{Z17_postmortem_direction.png}
-\caption{La direction corroborée par codage de post-mortems officiels. (a)~les transitions
-codées $k\to j$ sur sept rapports. (b)~le placebo directionnel est franchi ($z=+3{,}9$), là où
-il ne l'était pas sur données agrégées. (c)~P1 est source pure, P2 est puits : la structure du
-classeur, retrouvée. Source : script~\texttt{53}.}
-\label{fig:postmortem}
-\end{figure}
+\figcle{Z17_postmortem_direction.png}{La direction corroborée par codage de post-mortems
+officiels, seule source où elle franchit le placebo. \textbf{(a)}~les $17$ transitions codées
+$k\to j$ sur sept rapports d'enquête publique, aucune n'allant à contre-sens de la tendance
+dominante de sa paire. \textbf{(b)}~le placebo directionnel est franchi ($z=+3{,}93$,
+$p=0{,}0004$), là où le pas annuel d'OpRisk donnait $z=-0{,}33$ : c'est la qualité du codage,
+non le volume, qui donne la puissance. \textbf{(c)}~P1 (gouvernance) est source pure ($9$
+sorties, $0$ entrée) et P2 (gestion des incidents) est un puits ($0$ sortie, $7$ entrées) : la
+structure que le classeur posait par jugement, retrouvée par un chemin indépendant. Le
+confondant de narration reste déclaré et non levé. Source :
+script~\texttt{53}.}{fig:postmortem}
 
 \section{La formalisation bayésienne, et sa prudence}
 \label{sec:bayes}
@@ -336,7 +336,7 @@ retenue.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Z19_bayes_direction.png}
+\figover{Z19_bayes_direction.png}
 \caption{Reformulation bayésienne de la direction. (a)~posterieurs par paire : les paires
 documentées s'écartent de $\theta=1/2$, celles sans donnée restent uniformes. (b)~le capital
 devient une loi, plus informative que des bornes de pire cas. (c)~robustesse au prior : la

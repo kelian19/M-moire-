@@ -259,7 +259,7 @@ la queue de fréquence, non une calibration}, à assumer comme tel. La conclusio
 est la seule chose que dix-huit points autorisent à affirmer.
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{N2_simulation_nb.png}
+\figover{N2_simulation_nb.png}
 \caption{La loi de comptage négative binomiale, simulée et réconciliée. (a)~à moyenne égale,
 la queue du nombre annuel diffère selon la loi de mélange. (b)~la charge lognormale $a$ et le
 facteur $\varphi$ tracent la même surdispersion agrégée ; les deux valeurs posées quasi
@@ -270,9 +270,9 @@ coïncident. (c)~le comptage déplace la VaR, pas la moyenne. Source : script~\t
 \paragraph{De la fréquence par scénario à la fréquence par entité.} Le choix
 d'un scénario $S_x \in \{S_0, S_1, S_2\}$ reste, par construction, discret et
 appliqué uniformément à l'ensemble du marché. L'état de conformité continu
-$PCD_i(Y)$, repris au chapitre~\ref{chap:multietats}, permet de dépasser cette
-limite, en substituant à ce choix discret l'interpolation continue
-$m_v\bigl(PCD_i(Y)\bigr)$ décrite au chapitre~\ref{chap:multietats},
+$C^\star_j$ du chapitre~\ref{chap:multietats} permet de dépasser cette
+limite, en substituant à ce choix discret une interpolation continue des multiplicateurs
+$m_v$ le long de la latente de conformité,
 où $\bar{m}_v^{S_2}$ est le centre de l'intervalle de multiplicateur sourcé
 en scénario $S_2$. Une entité au profil de conformité mature conserve ainsi
 une fréquence proche de $S_0$ même en cas de choc systémique $Y$
@@ -317,7 +317,7 @@ référence MLE $\hat{\xi} \approx 0{,}60$ dans la plage des extrêmes retenus.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/diagnostic_gpd_oprisk.png}
+\figover{figures/diagnostic_gpd_oprisk.png}
 \caption{Diagnostic GPD sur le périmètre cyber$\times$finance d'OpRisk.
 \textit{Gauche} : stabilité de $\hat{\xi}$ en fonction du seuil $u$ ; le
 paramètre passe sous $\xi = 1$ (espérance finie) et se stabilise autour de
@@ -424,7 +424,7 @@ $p\approx 10^{-30}$. La surdispersion ($\Var/\E=1{,}19$) est donc un \emph{fait}
 artefact, et la NB épouse la queue des comptes là où le Poisson s'effondre.
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=\linewidth]{J3_validation_adequation.png}
+\figover{J3_validation_adequation.png}
 \caption{Validation du socle. \textbf{(a-b)} QQ-plot et PP-plot de la sévérité contre la GPD
 ajustée. \textbf{(c)} vie résiduelle moyenne, linéaire au-delà de $u$. \textbf{(d)} stabilité
 de $\hat\xi$ au seuil. \textbf{(e)} test d'Anderson-Darling, loi nulle par bootstrap
