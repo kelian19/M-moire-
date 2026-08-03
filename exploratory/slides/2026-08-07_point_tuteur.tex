@@ -1,8 +1,7 @@
-% Point d'avancement tuteur, 7 aout 2026. Compile avec Tectonic (pdfLaTeX standard).
-% Perimetre : continuite directe du 31/07 (les 4 pistes du call Hugo). Ce point porte sur la
-% ROBUSTESSE et la DEFENSE du modele : reponse a la remarque de Caroline Hillairet (le SCR est
-% un quantile d'un objet incertain), les trois etages d'incertitude, validation, benchmark, ROI,
-% et l'approfondissement de P4 (sous-process, temps d'arret).
+﻿% Point d'avancement tuteur, 7 aout 2026. DIX slides.
+% Continuite du 31/07. Le placebo et la clarification z/sigma ont deja ete envoyes par ecrit.
+% ORDRE : on ouvre sur le RESULTAT (le capital, son echelle, sa confrontation au reel), et on
+% garde pour la fin les VERIFICATIONS demandees au dernier call (Jacobs, les marges).
 \documentclass[11pt]{beamer}
 \usetheme{Madrid}
 \usecolortheme{seahorse}
@@ -12,13 +11,13 @@
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
 \usepackage{eurosym}
-\graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}}
+\graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}{../vasicek_lab/notes/}}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
-\subtitle{Suites de la dernière réunion, et la remarque de Caroline Hillairet}
+\subtitle{Le capital chiffré, et à quelle échelle il se lit}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[07/08/2026]{7 août 2026}
@@ -30,231 +29,238 @@
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Depuis le dernier point}
-La dernière réunion a traité les \textbf{quatre pistes} du call (loi de comptage NB, seuil de
-déclenchement de P4, décomposition $W=S+A$ / martingale, KPI pilotables). Ce point les
-\textbf{poursuit}, sans rajouter de brique : il fait passer le modèle de \textbf{construit} à
-\textbf{défendable}, autour de deux fils.
+\begin{frame}{Depuis le point du 31 juillet}
+La documentation du placebo et la clarification sur $z$ et $\sigma$ te sont parvenues par
+écrit, je n'y reviens pas.
 \vfill
-\begin{block}{Le fil de ce point}
-\textbf{(1) La remarque de Caroline Hillairet} : le SCR est un quantile d'un objet incertain.
-Elle conduit à \textbf{expliciter l'incertitude} et à \textbf{valider} le socle.\\[3pt]
-\textbf{(2) La direction de la contagion}, que je n'arrivais pas à calibrer : elle se cherche
-\textbf{ailleurs que dans les bases de données}, et j'ai besoin d'un service sur ce point.\\[3pt]
-\textbf{(3) L'approfondissement de P4} : le sous-process tiers, puis le déclenchement comme
-\textbf{temps d'arrêt}, qui referme le fil vers la martingale.
+\begin{block}{Je commence par le résultat, je finis par les vérifications}
+\textbf{(A)} Pour la première fois, \textbf{le capital chiffré}. Et surtout la question que
+nous n'avions jamais posée : \textbf{à quelle échelle se lit ce chiffre}, et à quoi
+ressemblerait le SCR d'une \emph{seule} entreprise.\\[3pt]
+\textbf{(B)} Ce chiffre \textbf{tient-il face aux pertes réelles}, et de combien peut-il
+bouger sous l'incertitude. Puis ce que la \textbf{conformité rapporte}.\\[3pt]
+\textbf{(C)} Enfin ce que tu m'avais demandé de vérifier : \textbf{Jacobs}, et les
+\textbf{deux marges} confrontées à la donnée au lieu d'être posées.
 \end{block}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{La remarque de Caroline : un quantile d'un objet incertain}
-\og{}Prendre le quantile de quelque chose d'incertain est mauvais.\fg{}
-\medskip
+\section*{A. Le capital, et son échelle}
 
-Le SCR est une VaR $99{,}5\,\%$ : un point de la queue, lu là où les données sont les plus
-rares. Sur nos données, son seul intervalle de confiance vaut déjà un \textbf{facteur 2,6}.
-\vfill
-\begin{block}{La réponse}
-On ne peut pas abandonner la VaR (elle est \emph{imposée} par le cadre prudentiel). On
-\textbf{explicite} donc l'incertitude, sur trois étages qui se cumulent : \textbf{paramètre}
-(bootstrap sur $\xi$), \textbf{identification} (bornes sur la direction $W$), et \textbf{modèle}
-(le choix de la famille elle-même). Loin d'attaquer l'approche, la remarque en est la
-justification.
-\end{block}
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Les trois étages de l'incertitude}
-\begin{center}
-\includegraphics[width=\linewidth]{J4_bande_modele.png}
-\end{center}
-\vfill
-\footnotesize À marges fixées, la structure de \textbf{dépendance} déplace le SCR d'un facteur
-$1{,}8$ (indépendance à comonotone), notre cascade tombant entre les copules gaussienne et de
-Gumbel ; la \textbf{famille de queue}, d'un facteur $5{,}5$. \textbf{Le niveau bouge dans la
-bande, l'ordre des piliers ne bouge pas} --- c'est la thèse du mémoire, chiffrée sur un
-troisième axe.
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Deux façons honnêtes de reporter le SCR}
-\begin{columns}
-\begin{column}{0.5\linewidth}
-\centering\includegraphics[width=\linewidth]{J7_scr_robuste.png}
-\end{column}
-\begin{column}{0.48\linewidth}
+\begin{frame}{Le capital, et ce que la contagion y ajoute}
 \small
-\textbf{VaR prédictive} : on intègre l'incertitude \emph{avant} de prendre le quantile
-(mélange sur le bootstrap). Résultat : à $99{,}5\,\%$ elle est \emph{quasi égale} au point.
-La fragilité est dans la \textbf{largeur} de la bande, pas dans le point.
-\medskip
-
-\textbf{VaR robuste} : la \textbf{borne haute} sur l'ensemble d'ambiguïté. La robuste à
-$95\,\%$ vaut $1{,}6\times$ le point ; le pire-cas de modèle, davantage encore.
-\end{column}
-\end{columns}
-\vfill
-\begin{block}{}
-Deux points \emph{honnêtes} (prédictif, prudent) plutôt qu'un point \emph{trompeur}
-(\emph{plug-in} nu). Le choix relève de la politique prudentielle. C'est la justification, et
-non la remise en cause, de la thèse \og{}on lit le SCR en bande\fg.
+\begin{block}{Le socle, qui ne dépend d'aucun paramètre non identifiable}
+Sans aucune contagion ($W=0$) : $\mathbf{5\,275}$~M\euro. C'est le \textbf{plancher
+défendable} ; tout ce qui est au dessus est de la contagion, donc à borner.
 \end{block}
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Le socle passe les tests d'adéquation}
-\begin{center}
-\includegraphics[width=\linewidth]{J3_validation_adequation.png}
-\end{center}
-\vspace{-1mm}
-\footnotesize\centering Ce qu'un jury actuariel cherche en premier : les deux briques qui
-portent le SCR s'ajustent-elles vraiment aux données ?
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Validation : ce que disent les tests}
-\textbf{Sévérité GPD} --- elle passe sans réserve.
-\begin{itemize}\itemsep2pt
-\item QQ et PP-plots sur la diagonale ; vie résiduelle moyenne linéaire au-delà du seuil
-      (signature GPD) ; $\hat\xi$ stable autour de $0{,}60$.
-\item Tests non rejetés, $p$-value par \textbf{bootstrap paramétrique} (les valeurs tabulées ne
-      valent pas quand les paramètres sont estimés) : Anderson-Darling $p=0{,}87$, KS $p=0{,}87$.
-\item Couverture réelle de l'IC$_{90}$ de $\xi$ : $86\,\%$, proche du nominal.
-\end{itemize}
-\medskip
-\textbf{Fréquence NB} --- sur $14\,944$ cellules firme-année, elle domine le Poisson sans
-ambiguïté ($p\approx 10^{-30}$) ; la surdispersion est un fait.
-\vfill
-\begin{block}{}
-Les tests portent sur la \textbf{forme} des lois, pas sur le \textbf{niveau} : la GPD et la NB
-sont les bons objets, mais l'incertitude sur $\xi$ (donc sur la VaR) reste entière. Adéquation
-n'est pas certitude --- d'où la lecture en bande.
-\end{block}
-\end{frame}
-
-% =====================================================================
-\begin{frame}{La direction, cherchée ailleurs que dans les bases}
-\small
-Aucune base publique ne mesure le \emph{sens} de la contagion, et le mémoire en fait un
-résultat. Mais l'information existe ailleurs : après chaque grand incident, une \textbf{enquête
-publique} reconstitue la séquence des défaillances. C'est la donnée qui manquait, à l'intérieur
-d'un document et non d'une base.
-\vfill
-\begin{block}{Sept rapports dépouillés}
-Microsoft Exchange, TSB, Equifax, Knight Capital, Capital One, ION, MOVEit.
-\textbf{17 enchaînements} codés, protocole explicite.
-\end{block}
-\begin{block}{}
-Le test placebo est cette fois \textbf{franchi} ($z=+3{,}9$ contre $-0{,}33$ sur les bases
-agrégées), \textbf{aucun} enchaînement ne va à contre-sens, et la \textbf{gouvernance n'est
-jamais une cible} quand la \textbf{gestion des incidents} est un aboutissement : la structure
-du classeur, retrouvée par un chemin indépendant.
-\end{block}
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Ce que cette information vaut, et laquelle chercher d'abord}
-\begin{center}
-\includegraphics[width=\linewidth]{Z18_valeur_information.png}
-\end{center}
-\vspace{-2mm}
-\small
-Lire ces sept rapports a levé \textbf{66 \%} de l'ambiguïté sur la direction. Surtout, cette
-valeur se \textbf{hiérarchise} : documenter une seule dépendance (gouvernance vers gestion des
-incidents) en lèverait \textbf{29 \%} à elle seule, une autre n'en lèverait \emph{rien}. La
-recommandation faite au régulateur cesse d'être générique. Et la dépendance la plus précieuse
-est justement celle que les rapports ne couvrent pas.
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Ce que je ne revendique pas, et le service que je demande}
-\begin{center}\small
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{}l l l@{}}
+\begin{center}\footnotesize
+\begin{tabular}{@{}l c c r@{}}
 \toprule
-\textbf{Objet} & \textbf{Ce que j'ai} & \textbf{Posture} \\
+\textbf{Ignorance sur la direction} & \textbf{SCR borné (M\euro)} & \textbf{largeur} &
+\textbf{\% du socle} \\
 \midrule
-La structure d'ensemble & 17 enchaînements cohérents & \textbf{revendiquée} \\
-Le sens de chaque lien & 2 paires sur 6 concluantes & \textbf{non revendiquée} \\
-La force des liens & rien, et rien ne la donnera & \textbf{hors d'atteinte} \\
+$t=0{,}25$ & $[\,7\,837\,;\,8\,174\,]$ & $336$ & $6{,}4\,\%$ \\
+$t=0{,}50$ & $[\,7\,605\,;\,8\,300\,]$ & $695$ & $13{,}2\,\%$ \\
+\textbf{$t=1$ (état actuel)} & $\mathbf{[\,6\,858\,;\,8\,697\,]}$ & $\mathbf{1\,839}$ &
+$\mathbf{34{,}9\,\%}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-\vfill
-\begin{block}{La faiblesse que je préfère traiter plutôt que subir}
-\small Ce dépouillement, \textbf{je l'ai fait seul}. Et une enquête officielle cherche un
-responsable : elle conclut presque toujours à un défaut de gouvernance. L'ordre trouvé pourrait
-donc refléter la \textbf{façon dont ces rapports sont écrits} plutôt que la réalité du terrain.
-\end{block}
-\begin{block}{D'où deux demandes, courtes et sans mathématiques}
-\small Un \textbf{codage en aveugle} par quelqu'un qui ignore mes conclusions (45 min), et une
-\textbf{relecture de praticien} (30 min). Dans les deux cas, un désaccord m'est plus utile
-qu'un accord.
-\end{block}
+\vspace{1mm}
+\footnotesize
+Facteur $1{,}27$ entre les bouts. \textbf{La contagion ajoute entre $+30\,\%$ et $+65\,\%$
+au socle.} Le point d'expert ($8\,110$~M\euro) est \emph{un} point de cet ensemble, pas sa
+mesure. $\rho(W)=0{,}506$ : la cascade reste sous-critique. \emph{Contrôle croisé} : un
+second moteur de cascade, en marche aléatoire au lieu du branchement exact, donne
+$8\,553$~M\euro{} au point nominal, soit $5\,\%$ d'écart.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{P4 au niveau sous-process : ce qu'on ancre avant Mehdi}
-\begin{center}
-\includegraphics[width=\linewidth]{Z14_p4_sousprocess_open.png}
+\begin{frame}{À quelle échelle se lit ce chiffre ?}
+\small
+\alert{\textbf{Point capital : ces montants sont un SCR de \emph{marché}, pas d'entreprise.}}
+Le calage est celui du \textbf{secteur financier mondial} ($21{,}6$ incidents \textsc{tic}
+matériels par an). En ne changeant \emph{que} la fréquence d'amorce, même sévérité et même
+cascade :
+\vspace{1mm}
+\begin{center}\footnotesize
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Échelle} & \textbf{$\lambda$/an} & \textbf{SCR $99{,}5\,\%$} & \textbf{perte
+moyenne} \\
+\midrule
+Secteur financier mondial (calage actuel) & $21{,}6$ & $8\,123$~M\euro & $982$~M\euro \\
+\textbf{Très grande entité} & $0{,}21$ & $\mathbf{488}$~M\euro & $9{,}7$~M\euro \\
+Entité moyenne du panel & $0{,}10$ & $221$~M\euro & $4{,}5$~M\euro \\
+\bottomrule
+\end{tabular}
 \end{center}
-\vspace{-2mm}
-\small
-Deux constats opposés. La \textbf{taxonomie fine} du tiers est rare sur donnée ouverte (OpRisk
-$20$, VCDB $56\!\to\!0$) : le registre DORA de Mehdi reste requis. Mais l'\textbf{origination}
-($29\,\%$ des incidents majeurs d'origine tierce, ESAs 2026) et la \textbf{concentration} ($>$30~\%
-du budget sur $10$ fournisseurs, BCE) sont ancrées sur donnée européenne officielle : elles
-valident P4 comme amorce majeure et ancrent le paramètre d'accumulation $\gamma$.
+\vspace{1mm}
+\begin{block}{Le fait actuariel derrière ces nombres}
+La \textbf{moyenne} est proportionnelle à $\lambda$ : facteur $100$ entre les deux échelles,
+exactement le rapport des fréquences. La \textbf{VaR ne l'est pas} : facteur $17$
+seulement.\\[3pt]
+C'est le \textbf{principe de la perte unique dominante} : à $\lambda=0{,}21$, $81\,\%$ des
+années n'ont aucun incident, et le SCR d'une entité est le prix d'une \emph{année rare à un
+seul gros sinistre}, pas d'une accumulation.
+\end{block}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Le fil se referme : le déclenchement comme temps d'arrêt}
-\begin{columns}
-\begin{column}{0.55\linewidth}
-\centering\includegraphics[width=\linewidth]{Z16_p4_temps_arret.png}
-\end{column}
-\begin{column}{0.43\linewidth}
-\small
-Si le facteur tiers est un \textbf{processus}, le seuil $z^*$ de P4 devient un \textbf{temps de
-premier passage} $\tau$, un temps d'arrêt. Le \og{}moment\fg{} de déclenchement a un sens
-littéral.
-\medskip
+\begin{frame}{Ce chiffre tient-il face au réel ?}
+\begin{center}
+\includegraphics[width=0.96\linewidth]{J5_benchmark_externe.png}
+\end{center}
+\vspace{-1mm}
+\footnotesize
+Au niveau \textbf{unitaire}, notre VaR ($663$~M\euro) et notre TVaR ($1\,752$) tombent en
+plein dans la fourchette des grandes pertes cyber réelles. Au niveau \textbf{annuel}, notre
+capital est de l'ordre du marché cyber mondial : c'est bien une échelle de \emph{secteur}.
+\vspace{-1mm}
+\begin{block}{Et ramené à une entité, la comparaison devient frappante}
+\small Notre SCR cyber d'une très grande entité vaut $\mathbf{488}$~M\euro, contre
+$\mathbf{450}$~M\euro{} de charge de risque opérationnel en Formule Standard. Même ordre de
+grandeur, \textbf{sauf que la nôtre ne couvre que le cyber} quand celle de la Formule
+Standard couvre \emph{tout} l'opérationnel. Le modèle n'est donc ni gonflé, ni aveugle.
+\end{block}
+\end{frame}
 
-Forme close (brownien, \textbf{martingale}) : $\mathbb{P}(\tau\le T)=2\Phi(-z^*/\sqrt T)$. À
-$\rho=0{,}75$, $\mathbb{P}(<1\text{ an})=0{,}23$.
+% =====================================================================
+\begin{frame}{Sur quel point ne faut-il pas parier ?}
+\begin{center}
+\includegraphics[width=0.96\linewidth]{J7_scr_robuste.png}
+\end{center}
+\vspace{-1mm}
+\footnotesize
+Sur $88$ excès, $\xi=0{,}601$ avec un intervalle bootstrap à $90\,\%$ de
+$[\,0{,}31\,;\,0{,}86\,]$. Cette incertitude se propage en une échelle de postures, au niveau
+du sinistre unique : point $659$, prédictive $646$, robuste à $95\,\%$
+$\mathbf{1\,026}$, pire cas de modèle $1\,311$~M\euro.
+\vspace{-1mm}
+\begin{block}{Les deux enseignements}
+\small
+\textbf{1.} La prédictive coïncide presque avec le point ($646$ contre $659$) : ce n'est
+\emph{pas} l'intégration de l'incertitude qui manquait, c'est la \textbf{largeur} qui est le
+vrai sujet.
+\textbf{2.} Le niveau $\beta$ est un \textbf{choix prudentiel explicite}, pas un calcul. On
+l'affiche au lieu de le cacher dans un point.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Le capital libéré, et où mettre le budget}
+\footnotesize
+\begin{columns}[t]
+\begin{column}{0.44\linewidth}
+\centering
+\textbf{Les trois états}\\[3pt]
+\begin{tabular}{@{}l r@{}}
+\toprule
+Conforme (cible) & $6\,049$ \\
+Nominal (bornes) & $[6\,858;8\,697]$ \\
+Non conforme & $\mathbf{20\,188}$ \\
+\midrule
+\textbf{Écart $\Delta_{\text{DORA}}$} & $\mathbf{14\,139}$ \\
+\bottomrule
+\end{tabular}\\[5pt]
+\emph{Dont $\mathbf{5\,001}$~M\euro{} d'\textbf{interaction}, soit $35\,\%$ : les canaux ne
+s'additionnent pas, la cascade est super-additive.}
+\end{column}
+\begin{column}{0.53\linewidth}
+\centering
+\textbf{Par levier}\\[3pt]
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Levier} & \textbf{$\Delta$SCR} & \textbf{/an} \\
+\midrule
+Fréquence & $\mathbf{4\,328}$ & $260$ \\
+Accumulation P4 & $1\,728$ & $104$ \\
+Propagation $W$ & $1\,633$ & $98$ \\
+Détection P2/P3 & $1\,448$ & $87$ \\
+\bottomrule
+\end{tabular}\\[5pt]
+\emph{Valeur annuelle au seul coût de portage ($6\,\%$, marge de risque
+Solvabilité~II) : $\mathbf{848}$~M\euro/an.}
 \end{column}
 \end{columns}
-\vfill
-\begin{block}{}
-$Z_t$ est une martingale, $\tau$ un temps d'arrêt : le seuil de P4 (piste 3) rejoint le cadre
-\textbf{martingale} de l'identification (piste 4). Les pistes ne sont pas des à-côtés, c'est un
-même fil.
+\vspace{2mm}
+\begin{block}{Deux conclusions actionnables}
+\textbf{1.} Le capital libéré est \textbf{concentré} : la fréquence seule porte $47\,\%$ de
+la somme des leviers. Le budget de remédiation doit se \textbf{prioriser}, pas s'étaler.\\[3pt]
+\textbf{2.} Face au coût de mise en conformité ($200$ entités $\times$ $25$ à $150$~M\euro,
+hypothèse externe affichée comme telle), le retour sur le \emph{seul} portage est de $6$ à
+$35$~ans. Et le portage seul est le \textbf{plancher} : l'essentiel du $\Delta$SCR est de la
+perte évitée.
 \end{block}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Points bloquants et pour la prochaine fois}
+\section*{B. Les vérifications demandées}
+
+\begin{frame}{Jacobs : vérifié, la réponse tient en trois points}
+\small
+\begin{block}{1. Ce n'est pas un lien fréquence-sévérité}
+C'est une \textbf{conversion de sévérité seule} : $\ln L = 7{,}68+0{,}76\ln X+\varepsilon$
+transforme un nombre d'enregistrements en montant. La fréquence vient d'ailleurs.
+\end{block}
+\begin{block}{2. Le capital principal n'en dépend pas}
+Il est calculé sur \textbf{OpRisk}, déjà en dollars, sans aucune conversion. PRC n'est
+qu'un axe de sensibilité.
+\end{block}
+\begin{block}{3. Sur la branche PRC, la dépendance est réelle mais bénigne}
+La conversion était traitée comme \emph{exacte}, ce qui écrasait la dispersion. En
+réinjectant le résidu ($\sigma_\varepsilon=0{,}523$) : le niveau monte de
+$\mathbf{+7\,\%}$, la queue s'épaissit ($\xi : 1{,}03 \to 1{,}07$), et la \textbf{largeur
+relative de l'intervalle ne bouge pas} ($1{,}43 \to 1{,}41$).
+\end{block}
+\vfill
+\footnotesize Traiter la conversion comme sûre déplaçait le niveau sans fausser
+l'incertitude.
+\end{frame}
+
+% =====================================================================
+\begin{frame}{La fréquence : ce qui était posé, maintenant mesuré}
+\begin{center}
+\includegraphics[width=0.96\linewidth]{N_frequence_entree.png}
+\end{center}
+\vspace{-1mm}
+\footnotesize
+Deux paramètres, \textbf{deux niveaux d'observation}, et les mélanger serait une faute : la
+surdispersion d'un panel firme-année est dominée par l'\textbf{hétérogénéité de taille} des
+firmes, pas par le choc commun. \textbf{Panel} : Poisson rejeté, $p=1{,}6\times10^{-30}$,
+taux de $0{,}099$ à $\mathbf{0{,}210}$ sur les grandes firmes. \textbf{Série agrégée
+détrendée} : $a=0{,}12$ à $0{,}30$ contre $0{,}60$ posé, au dessus même de la borne haute de
+l'intervalle.
+\vspace{-1mm}
+\begin{block}{Et la \og{}loi d'Erlang\fg{}}
+\small La loi mélangeante ajustée est une Gamma de \textbf{forme $0{,}63$}, or une Erlang
+exige une forme \textbf{entière $\ge 1$}. Le mélange Gamma est le bon objet, l'Erlang n'en
+est qu'un cas particulier. \emph{C'est aussi la réponse au point bloquant de Coraline.}
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Points bloquants et prochaine étape}
 \small
 \textbf{Ce qui dépend d'autres que moi}
-\begin{itemize}\itemsep1pt
-\item Les \textbf{deux relectures} demandées : elles lèveraient la dernière réserve sur la
-      direction, et le délai de retour est le seul facteur hors de mon contrôle.
-\item Le \textbf{registre d'externalisation} : le squelette d'ingestion est prêt, il n'attend
-      que la donnée.
-\item Le \textbf{choix de posture} sur le capital : point prédictif ou borne prudente ? À
-      trancher avec Caroline, les deux sont chiffrés.
+\begin{itemize}\itemsep0pt
+\item Le \textbf{registre d'externalisation}, dont l'ingestion est prête et n'attend que la
+      donnée.
+\item Le \textbf{choix de posture} sur le capital, point prédictif ou borne robuste, à
+      trancher avec Caroline. Les deux sont désormais chiffrés.
 \end{itemize}
-\textbf{Livré depuis le dernier point}
-\begin{itemize}\itemsep1pt
-\item Le chapitre sur l'\textbf{identifiabilité réécrit} : d'un verdict unique à une frontière
-      en trois niveaux, et la donnée manquante devenue un chapitre à part.
-\item Le mémoire \textbf{restructuré en cinq parties} selon les attendus de l'Institut (aucun
-      montant de capital avant la partie Résultats), et \textbf{treize fiches} autonomes.
+\textbf{Les prochains sujets}
+\begin{itemize}\itemsep0pt
+\item L'\textbf{allocation aux cinq piliers}, Euler pour le niveau et Shapley pour le
+      surcoût : la suite naturelle des $5\,001$~M\euro{} d'interaction.
+\item La \textbf{relecture complète du mémoire}, jamais faite depuis la restructuration.
 \end{itemize}
-\vfill
-\begin{block}{}
-Ligne de conduite inchangée : ne jamais présenter comme mesuré ce qui est posé, ni comme
-calibré ce qui n'est que corroboré.
+\vspace{2mm}
+\begin{block}{Ce qu'il faut retenir de ce point}
+\textbf{Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.} C'est la thèse du
+mémoire, et elle survit maintenant à un quatrième axe : le changement d'échelle.\\[3pt]
+Ligne de conduite inchangée : ne jamais présenter comme mesuré ce qui est posé.
+\emph{Deux paramètres viennent de changer de statut, et dans le bon sens.}
 \end{block}
 \end{frame}
 
