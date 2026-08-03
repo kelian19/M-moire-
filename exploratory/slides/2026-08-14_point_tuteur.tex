@@ -1,0 +1,235 @@
+% Point d'avancement tuteur, 14 aout 2026. HUIT slides.
+% Continuite du 07/08, qui se terminait sur "deux parametres ont change de statut".
+% FIL : ce qui etait DECLARE devient MESURE. Et la decision sur l'elicitation.
+% Figures : S19, S20, Z20 - aucune n'a servi dans un deck precedent.
+\documentclass[11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}
+\graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}{../vasicek_lab/notes/}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamerfont{block title}{size=\small}
+
+\title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
+\subtitle{Ce qui était déclaré devient mesuré}
+\author[K. Kaddouri]{Kélian Kaddouri}
+\institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
+\date[14/08/2026]{14 août 2026}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Depuis le point du 7 août}
+\small
+Le dernier point se terminait sur \emph{\og{}deux paramètres viennent de changer de statut\fg{}}.
+Cette semaine, c'est la même logique appliquée à trois autres endroits.
+\vspace{2mm}
+\begin{block}{Le fil : ce qui était déclaré devient mesuré}
+\textbf{(A)} Ce que le capital \textbf{coûte}, et s'il vaut mieux le détenir ou le
+transférer. C'est un axe que nous n'avions jamais ouvert.\\[3pt]
+\textbf{(B)} Les \textbf{deux biais} d'OpRisk que nous déclarions depuis le début, enfin
+chiffrés au lieu d'être seulement signalés.\\[3pt]
+\textbf{(C)} La \textbf{direction}, sur un corpus élargi et sur la matrice \emph{complète}
+plutôt que sur le seul sens à l'intérieur des paires.
+\end{block}
+\vspace{1mm}
+\begin{block}{Et une décision à acter}
+Je propose de \textbf{renoncer aux séances d'élicitation}. J'y viens en fin de point, avec
+ce qui les remplace et ce que cela coûte exactement.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\section*{A. Ce que le capital coûte}
+
+\begin{frame}{Détenir ou transférer}
+\scriptsize
+Nous comparions notre SCR à la Formule Standard, aux pertes réelles et au marché cyber.
+Trois comparaisons de \textbf{niveau}. Il en manquait une de \textbf{prix} : un SCR n'est pas
+une perte, c'est du capital \emph{immobilisé}, et Solvabilité~II en chiffre le coût
+($6\,\%$, ramené à $\mathbf{4{,}75\,\%}$ par la directive (UE)~2025/2).
+\begin{center}
+\includegraphics[width=0.86\linewidth]{S19_detenir_ou_transferer.png}
+\end{center}
+\vspace{-2mm}
+\begin{block}{Trois chiffres, et une borne}
+À l'échelle d'entité, détenir coûte $\mathbf{23{,}2}$~M\euro/an contre $9{,}7$ de sinistralité
+attendue, soit $\mathbf{2{,}4}$ fois. Multiple de capital $\mathbf{50}$ à l'entité contre
+$8{,}3$ au secteur. Le traité optimal ($L^\star=\mathrm{SCR}=488$) ramène le coût à $12{,}3$,
+soit $\mathbf{-47\,\%}$. \textbf{Borne supérieure} : il faudrait $\mathbf{77\,\%}$
+d'inefficacité, capacité et contrepartie comprises, pour renverser la conclusion.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\section*{B. Deux biais enfin chiffrés}
+
+\begin{frame}{Les deux biais que nous déclarions}
+\scriptsize
+Déclarer un biais ne coûte rien, le mesurer engage. Les deux qu'on nous oppose le plus se
+mesurent \textbf{avec la base elle-même} : elle porte les actifs de la firme sinistrée, et la
+date de saisie en plus de l'année de survenance.
+\begin{center}
+\includegraphics[width=0.83\linewidth]{S20_biais_taille_troncature.png}
+\end{center}
+\vspace{-2mm}
+\begin{block}{Taille : un septième, pas un facteur dix}
+Élasticité brute $0{,}042$ ($R^2=0{,}005$), \emph{aplatie} par le seuil de collecte, une petite
+firme n'entrant qu'avec une perte anormale. Corrigée par maximum de vraisemblance tronqué :
+$\mathbf{0{,}087}$ $[0{,}026;0{,}148]$, soit une sévérité transposée $\times 0{,}86$.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Troncature : la baisse après 2022 n'existe pas}
+Délai médian de remontée \textbf{trois ans}. Au chain-ladder, les $97$ événements de
+2023--2025 deviennent $\mathbf{255}$, soit $\mathbf{+163\,\%}$, \emph{au-dessus} de la moyenne
+historique.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Le résultat que je n'attendais pas}
+\small
+Les deux corrections vont en sens opposés. Sur la \textbf{perte moyenne}, elles se
+\textbf{compensent presque exactement} :
+\[
+  0{,}861 \times 1{,}147 \;=\; 0{,}987 ,
+\]
+soit un effet net de $1{,}3\,\%$, inférieur à l'incertitude d'estimation de chacune prise
+isolément.
+\vspace{2mm}
+\begin{block}{Sur le capital, elles ne se compensent pas}
+À queue lourde, la VaR $99{,}5\,\%$ obéit au \textbf{principe du grand saut unique} : elle
+répond à la \emph{sévérité} bien plus qu'à la \emph{fréquence}. La correction de taille agit
+sur la sévérité et se transmet donc au quantile ; celle de troncature agit sur la fréquence et
+s'y transmet mal.
+\end{block}
+\vspace{1mm}
+\begin{block}{Ce qu'il faut en retenir}
+\textbf{Deux biais qui s'annulent sur l'espérance peuvent ne pas s'annuler sur le quantile, et
+c'est le quantile qui fait le SCR.} Une compensation constatée en moyenne n'autorise donc pas
+à ignorer les deux biais.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\section*{C. La direction, sur la matrice complète}
+
+\begin{frame}{Corpus élargi, et matrice ordonnée}
+\scriptsize
+Deux objections restaient. Le signal tenait-il au \emph{choix} des sept incidents ? Et le
+codage ne comparait que le \emph{sens} dans une paire, sans rien dire de l'\textbf{amplitude}.
+En déclarant aussi les piliers défaillants \emph{sans} propagation, on obtient le dénominateur
+qui manquait : $p_{jk}\sim\mathrm{Beta}(1+m_{jk},\,1+N_j-m_{jk})$.
+\vspace{-1mm}
+\begin{center}
+\begin{tabular}{@{}l r@{\hskip 1.4em}l r@{}}
+\toprule
+Corpus initial ($7$) & $z=+3{,}93$ & Sources \emph{primaires} seules & $z=+4{,}08$ \\
+\textbf{Étendu} ($10$, $22$ trans.) & $\mathbf{z=+5{,}12}$ & Perspective \emph{entité} seule & $z=+3{,}62$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-1mm}
+\begin{center}
+\includegraphics[width=0.85\linewidth]{Z20_corpus_etendu_pij.png}
+\end{center}
+\vspace{-2mm}
+\begin{block}{Le résultat est asymétrique, et je le présente comme tel}
+$\mathbf{12}$ liens sur $20$ ont un crédible entièrement \emph{sous} $0{,}5$, \textbf{aucun}
+au-dessus. J'établis très bien \emph{où la contagion ne va pas}, pas où elle va fort. La
+corrélation avec le classeur n'est pas significative ($\rho=+0{,}31$, $p=0{,}19$).
+\textbf{Le corpus établit un ordre, pas une magnitude.}
+\end{block}
+\end{frame}
+
+% =====================================================================
+\section*{D. La décision sur l'élicitation}
+
+\begin{frame}{Je propose de renoncer à l'élicitation}
+\scriptsize
+\begin{block}{Pourquoi maintenant}
+Le protocole exige $16$ questions par expert, dont $10$ graines à vérité connue, et écarte tout
+expert incomplet. Avec le calendrier et le nombre de répondants réalistes, on obtiendrait une
+à deux réponses exploitables. \textbf{Une agrégation de Cooke à deux experts n'a aucun pouvoir
+de calibration}, et le chapitre~10 montre déjà qu'un panel biaisé déplace le SCR de
+$777$~M\euro{} sans que rien ne le signale au lecteur. Une élicitation faible serait un
+passif, pas un actif.
+\end{block}
+\vspace{-1mm}
+\begin{columns}[t]
+\begin{column}{0.48\linewidth}
+\textbf{Ce que cela coûte, exactement}
+\begin{itemize}\itemsep0pt
+\item Le \textbf{départage P1 / P4}, donc l'ordre de remédiation entre les deux piliers de
+      tête.
+\item Le \textbf{resserrement} de la bande.
+\end{itemize}
+\emph{Et rien d'autre.}
+\end{column}
+\begin{column}{0.48\linewidth}
+\textbf{Ce qui ne bouge pas}
+\begin{itemize}\itemsep0pt
+\item Le socle $5\,275$~M\euro, sans aucun paramètre non identifiable.
+\item Les bornes $[6\,858;8\,697]$.
+\item $\mathbf{79\,\%}$ du capital, déjà fixé.
+\end{itemize}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{block}{Ce qui la remplace, et qui existe déjà}
+Le \textbf{corpus documentaire} (slide précédente, $z=+5{,}12$), le \textbf{bayésien conjugué}
+qui formalise la direction \emph{sans aucun prior d'expert}, l'\textbf{échelle de repli} sur
+$u_{ij}$ dont le cran de rang~$1$ capte $74\,\%$ de la direction et resserre les bornes de
+$25\,\%$, et les \textbf{ancrages réglementaires} (ESA, BCE) déjà utilisés.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{L'état du document, et les points bloquants}
+\scriptsize
+\begin{block}{La relecture complète est faite : dix-neuf chapitres, quinze défauts corrigés}
+Les trois plus sérieux étaient invisibles à la lecture courante. Une \textbf{erreur numérique}
+($\rho(W)$ valait $0{,}572$ au ch.~7 et $0{,}506$ au ch.~8 ; le calcul donne $0{,}506$). Une
+\textbf{convention d'indices contradictoire} ($W_{jk}$ désignait la source dans la définition
+de la cascade, la cible dans l'équation structurelle). Des \textbf{labels en double} faisant
+pointer l'annexe de démonstrations vers le mauvais chapitre.
+\end{block}
+\begin{columns}[t]
+\begin{column}{0.485\linewidth}
+\textbf{Ce qui dépend d'autres que moi}
+\begin{itemize}\itemsep0pt
+\item Le \textbf{registre d'externalisation}, ingestion prête.
+\item Le \textbf{choix de posture}, prédictif ou robuste, à trancher avec Caroline.
+\item Un \textbf{second codeur en aveugle} : cela ne demande pas un expert, juste un lecteur
+      attentif.
+\end{itemize}
+\end{column}
+\begin{column}{0.485\linewidth}
+\textbf{Ce que je propose ensuite}
+\begin{itemize}\itemsep0pt
+\item Porter le corpus de $10$ à $30$ rapports : le registre d'\emph{enforcement} de la FCA
+      est public et dense en entités réglementées.
+\item Vérifier le \textbf{format} : $116$ pages contre les $\sim70$ de corps recommandés par
+      l'Institut.
+\end{itemize}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{block}{Ce qu'il faut retenir de ce point}
+\textbf{Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.} Trois choses de plus
+sont passées du statut \emph{déclaré} au statut \emph{mesuré} cette semaine, et le mémoire ne
+dépend plus d'une élicitation qui n'aura pas lieu.
+\end{block}
+\end{frame}
+
+\end{document}
