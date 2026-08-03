@@ -580,6 +580,87 @@ loin la charge de la Formule Standard. Source : script~\texttt{49}.}
 \label{fig:benchmark-externe}
 \end{figure}
 
+\section{Détenir ou transférer : le SCR confronté au prix de marché du risque}
+\label{sec:detenir-transferer}
+
+Les trois confrontations qui précèdent portent sur le \emph{niveau}. Il en manque une sur le
+\emph{prix}. Un SCR n'est pas une perte : c'est du capital immobilisé, et le capital coûte.
+Solvabilité~II chiffre ce coût explicitement par le taux de coût du capital de la marge de
+risque, historiquement $6\,\%$ et ramené à $\mathbf{4{,}75\,\%}$ par la directive
+(UE)~2025/2, dont la transposition est due pour janvier 2027. Détenir le risque coûte donc
+$\mathrm{CoC}\times\mathrm{SCR}$ par an. En face, le \emph{transférer} coûte une prime, que le
+marché cyber facture avec un chargement : à un ratio de sinistralité de l'ordre de
+$48{,}5\,\%$, l'assureur encaisse environ $2{,}1$ fois la prime pure. Les deux grandeurs sont
+homogènes, donc comparables, et c'est la comparaison que fait un directeur des risques.
+
+\paragraph{Le multiple de capital, et ce qu'il coûte.} À l'échelle d'entité
+(table~\ref{tab:echelle}, $\lambda=0{,}21$), le modèle donne un SCR de $488$~M\euro{} pour une
+perte attendue de $9{,}7$~M\euro, soit un \textbf{multiple de capital de $50$} contre $8{,}3$
+à l'échelle du secteur. L'écart est la mutualisation, lue à l'envers : le capital d'une entité
+isolée est dominé par un sinistre unique, celui d'un secteur par l'accumulation. Le coût annuel
+de détention vaut alors $23{,}2$~M\euro{} sous le régime révisé et $29{,}3$~M\euro{} sous
+l'actuel, c'est-à-dire \textbf{$2{,}4$ à $3{,}0$ fois la sinistralité attendue}. Immobiliser
+coûte plusieurs fois ce que le risque coûte en moyenne : c'est ce rapport qui rend le transfert
+économiquement pertinent, et il ne se lit sur aucune des comparaisons de niveau.
+
+\paragraph{Le dimensionnement, plutôt que le tout ou rien.} La question n'est pas binaire : la
+capacité du marché est bornée et l'on ne peut pas tout céder. On dimensionne donc un traité en
+excès de perte annuel de portée $L$, en minimisant le coût total
+\[
+  \mathrm{co\hat ut}(L) \;=\; \underbrace{\mathbb E\bigl[\min(X,L)\bigr]\big/\,0{,}485}_{\text{prime}}
+  \;+\; \mathrm{CoC}\times \underbrace{\mathrm{VaR}_{99{,}5\%}\bigl(X-\min(X,L)\bigr)}_{\text{capital résiduel}} .
+\]
+Le capital résiduel vaut $\max(\mathrm{SCR}-L,0)$, de sorte que l'optimum tombe exactement en
+$L^\star=\mathrm{SCR}=488$~M\euro{} : au-delà, la portée ne rachète plus aucun capital. Le
+coût total passe de $23{,}2$ à $\mathbf{12{,}3}$~M\euro{} par an, soit $\mathbf{-47\,\%}$, en
+cédant $61\,\%$ de la sinistralité. Le mécanisme est transparent : près de l'optimum, un euro
+de portée supplémentaire coûte $1{,}10\,\%$ de prime et libère $4{,}75\,\%$ de coût du capital.
+
+\begin{attention}
+\textbf{Ce gain est une borne supérieure, et il faut le citer comme telle.} Trois raisons
+empêchent de conclure au chiffre brut, et toutes vont dans le même sens. La \textbf{capacité} :
+une couverture agrégée proche de $500$~M\euro{} est au plafond de ce que le marché cyber place
+sur un seul risque. Le \textbf{risque de base} : les polices excluent la guerre et les
+infrastructures essentielles, donc une part de la queue modélisée n'est pas assurable. La
+\textbf{contrepartie} : sous Solvabilité~II, céder ne supprime pas l'exigence, cela substitue
+au risque cyber un risque de défaut de contrepartie sur les créances de réassurance. En
+résumant les trois par un coefficient d'inefficacité $\kappa$, le capital résiduel devient
+$\max(\mathrm{SCR}-L,0)+\kappa L$, et le transfert reste avantageux tant que le taux marginal
+de prime reste sous $\mathrm{CoC}\times(1-\kappa)$. Le seuil critique vaut
+$\kappa^\star=1-0{,}0110/0{,}0475=\mathbf{77\,\%}$ : il faudrait que plus des trois quarts de
+la couverture soient inefficaces pour que la détention redevienne préférable. La conclusion
+qualitative est donc robuste, le chiffre ne l'est pas.
+\end{attention}
+
+\paragraph{Ce que la conformité change à l'arbitrage.} La remédiation agit sur la fréquence
+d'amorce. En rejouant l'arbitrage à $\lambda$ réduit, ce qui simule une entité devenue
+conforme, la portée optimale suit le capital ($488 \to 345 \to 242$~M\euro{} quand $\lambda$
+passe de $0{,}21$ à $0{,}15$ puis $0{,}11$) et le coût total tombe de $12{,}3$ à
+$4{,}4$~M\euro{} par an, soit $-64\,\%$. \textbf{La conformité ne fait donc pas que réduire le
+capital : elle déplace le point d'équilibre entre rétention et transfert}, et réduit
+simultanément les deux termes du coût. C'est un résultat de \emph{pilotage} et non de mesure,
+et il met les trois leviers de l'entité (remédier, détenir, transférer) sur un seul axe en
+euros par an, ce qu'aucune des comparaisons de niveau ne permettait.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{S19_detenir_ou_transferer.png}
+\caption{Détenir ou transférer. \textbf{(a)}~le coût annuel du capital vaut plusieurs fois la
+sinistralité attendue. \textbf{(b)}~le coût total, prime plus capital résiduel, en fonction de
+la portée du traité ; l'optimum tombe en $L^\star=\mathrm{SCR}$. \textbf{(c)}~ce que le
+dimensionnement fait gagner. Source : script~\texttt{58}.}
+\label{fig:detenir}
+\end{figure}
+
+\begin{cle}
+\textbf{Ce que cette section ajoute au mémoire.} Elle referme une boucle que la réglementation
+laisse ouverte : DORA impose des exigences de \emph{gestion}, Solvabilité~II impose du
+\emph{capital}, et rien n'articule les deux. En passant par le prix, le SCR cesse d'être un
+chiffre à publier pour devenir un \textbf{critère de décision} entre trois leviers concurrents.
+C'est la lecture que la thèse du mémoire appelait : le niveau est illustratif, mais le
+\emph{rapport} entre le coût de détention et le prix de transfert, lui, est une grandeur
+d'entité, robuste au changement d'échelle puisque ses deux termes se rapportent au même SCR.
+\end{cle}
+
 \begin{cle}
 \textbf{Ce que la confrontation établit.} Elle ne calibre pas le niveau, elle le
 \textbf{disqualifie comme mesure} et confirme, par un chemin externe, la lecture que tout le

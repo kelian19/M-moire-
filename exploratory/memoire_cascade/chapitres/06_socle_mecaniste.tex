@@ -5,10 +5,17 @@
 un facteur commun) sont reprises telles quelles : elles alimentent l'agrégation, qui est le
 seul élément que la cascade remplace.
 
-% MIGRÉ AUTOMATIQUEMENT depuis memoire/main.tex (plages 787-932, 1492-1667).
+% MIGRÉ depuis memoire/main.tex (plages 787-932, 1492-1667).
 % Hiérarchie descendue d'un cran, labels préfixés "soc:".
-% À RELIRE : texte issu de l'ancien modèle à briques. Vérifier qu'aucune phrase
-% n'annonce la copule de Gumbel ou la variable latente comme LE modèle du mémoire.
+% RELECTURE FAITE (août 2026). Vérifié : aucune phrase de ce chapitre n'annonce la
+% copule de Gumbel ni la variable latente comme LE modèle du mémoire ; la copule
+% n'apparaît qu'au chapitre 13 comme axe de comparaison de la bande de modèle.
+% Deux ambiguïtés de l'ancien modèle ont été levées ici :
+%   (a) l'encadré "deux grilles coexistent" articule vecteur d'attaque et pilier ;
+%   (b) l'encadré sur lambda_ref dit explicitement que les 341 de la PRC sont une clé
+%       de répartition et n'alimentent PAS le moteur (l'entrée est lambda = 21,6).
+% La charge systémique empirique a été corrigée sur la sortie réelle du script 08b
+% (a = 0,122 [0,054 ; 0,223] ; phi = 2,24), l'ancien "a ~ 0,30 / phi ~ 3" était faux.
 %--------------------------------------------------------------
 
 Là où le Théorème Central Limite s'intéresse au comportement asymptotique des sommes de variables aléatoires, la Théorie des Valeurs Extrêmes (EVT) étudie le comportement asymptotique de leurs maxima. 
@@ -158,9 +165,22 @@ Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\
 
 %--------------------------------------------------------------
 
-\paragraph{Décomposition par vecteur d'attaque.} La fréquence de référence
+\begin{attention}
+\textbf{Deux grilles coexistent dans ce chapitre, et elles ne sont pas concurrentes.} La
+première décrit \emph{comment} un incident entre : par \textbf{vecteur d'attaque} (hameçonnage,
+exploitation de vulnérabilité, chaîne d'approvisionnement). La seconde décrit \emph{quel
+contrôle} a cédé : par \textbf{pilier} DORA. Un vecteur n'est pas un pilier, et il serait faux
+de les apparier terme à terme. Leur articulation est de type \emph{entrée puis propagation} :
+le vecteur gouverne l'\textbf{amorce}, c'est-à-dire la fréquence d'arrivée d'un sinistre et le
+pilier sur lequel il tombe ; la cascade du chapitre~\ref{chap:cascade} gouverne ensuite la
+\textbf{propagation} entre piliers. Le présent chapitre calibre donc l'amorce et rien d'autre.
+La grille par vecteur ne réapparaît plus après lui, et aucun résultat de capital ne dépend de
+son appariement à un pilier.
+\end{attention}
+
+\paragraph{Décomposition par vecteur d'attaque.} Une fréquence de référence
 $\lambda_{ref}$, calibrée sur la base PRC ($\lambda_{ref} = 341$
-incidents/an), est décomposée en sous-fréquences par vecteur d'attaque,
+notifications/an), est décomposée en sous-fréquences par vecteur d'attaque,
 pondérées par la structure observée dans la base Hackmageddon :
 \begin{equation}
 \lambda_{ref} = \sum_{v} \lambda_v,
@@ -174,6 +194,18 @@ décomposition transforme un constat structurel en levier de modélisation :
 un défaut de conformité sur une exigence donnée n'agit que sur la
 sous-fréquence du vecteur qu'elle est censée mitiger, pas sur l'ensemble de
 $\lambda_{ref}$.
+
+\begin{attention}
+\textbf{$\lambda_{ref}$ est une clé de répartition, pas le niveau du modèle.} Les $341$ de la
+PRC comptent des \emph{notifications de violation de données}, sur un périmètre américain et
+sans seuil de matérialité. Ce nombre sert exclusivement à répartir la sinistralité entre
+vecteurs, c'est-à-dire à fixer les $\pi_v$ et à faire jouer les multiplicateurs de conformité.
+\textbf{Il n'alimente pas le moteur de cascade.} L'entrée du moteur est la fréquence
+d'incidents \textsc{tic} \emph{matériels} lue sur OpRisk, $\lambda \simeq 21{,}6$ par an au
+niveau du secteur financier mondial, dont la table du chapitre~\ref{chap:donnees} donne les
+trois échelles de lecture. Tout niveau de capital du chapitre~\ref{chap:resultats} repose sur
+$\lambda$, jamais sur $\lambda_{ref}$.
+\end{attention}
 
 \paragraph{Choix de la loi binomiale négative.} La fréquence agrégée
 $\lambda_{S_x} = \sum_v \lambda_{ref}\,\pi_v\, m_{v,S_x}$ obtenue sous un
@@ -216,10 +248,15 @@ la queue. Ensuite, le choix de la loi de comptage déplace la VaR mais \emph{non
 (l'espérance $\E[N]=\lambda$ est fixe pour les trois lois) : passer du Poisson à la binomiale
 négative posée relève le SCR de $+9\,\%$ seulement, la queue restant portée au $99{,}5\,\%$ par
 la perte unique dominante ($\xi\simeq 0{,}60$). Enfin, calée sur la série cyber$\times$finance
-détrendée --- le rapport $\Var/\E$ brut confondrait la croissance tendancielle avec le choc
-commun ---, la charge empirique vaut $a\simeq 0{,}30$ ($\varphi\simeq 3$), nettement sous le
-$9{,}20$ retenu : ce dernier est donc un \textbf{choix de prudence sur la queue de fréquence,
-non une calibration}, à assumer comme tel.
+détrendée, le rapport $\Var/\E$ brut confondant la croissance tendancielle avec le choc
+commun, la dispersion de Pearson résiduelle vaut $\varphi=2{,}24$
+(IC~$95\,\%$ $[1{,}24\,;5{,}18]$, dix-huit points seulement), soit une charge empirique
+$a=0{,}122$ (IC~$95\,\%$ $[0{,}054\,;0{,}223]$). La valeur posée $a=0{,}60$ dépasse donc la
+\textbf{borne haute} de cet intervalle, et le $\varphi=9{,}20$ retenu au niveau du moteur
+dépasse de loin le $2{,}24$ mesuré : l'un comme l'autre sont un \textbf{choix de prudence sur
+la queue de fréquence, non une calibration}, à assumer comme tel. La conclusion
+\og{}le calage posé est conservateur\fg{} résiste ainsi à l'incertitude d'estimation, ce qui
+est la seule chose que dix-huit points autorisent à affirmer.
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{N2_simulation_nb.png}

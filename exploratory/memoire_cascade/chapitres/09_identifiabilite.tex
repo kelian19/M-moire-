@@ -29,10 +29,12 @@ Le coefficient $W_{jk}$ mesure la propension d'une défaillance du pilier $k$ à
 demande trois choses simultanément : (i) observer des \textbf{co-occurrences} de défaillances de
 piliers au sein d'une même entité ; (ii) disposer d'une \textbf{antériorité temporelle} fiable
 (qui précède qui) pour distinguer $W_{jk}$ de $W_{kj}$ ; (iii) une \textbf{taxonomie par pilier}
-(domaine de contrôle), et non par vecteur d'attaque. Aucune des deux sources agrégées examinées
-ne réunit les trois.
+(domaine de contrôle), et non par vecteur d'attaque. Aucune des trois sources agrégées examinées
+ne réunit les trois, et elles échouent pour des raisons \emph{différentes} : la première n'a pas
+la taxonomie, la deuxième n'a pas le pas de temps, la troisième a les deux dans son schéma mais
+ne les renseigne pas.
 
-\section{Deux échecs opposés}
+\section{Trois échecs, pour trois raisons distinctes}
 
 \paragraph{Source 1 : Data Breach Chronology (notifications d'États américains).}
 La base est volumineuse ($74\,783$ incidents, $25\,009$ organisations) mais inexploitable
@@ -86,6 +88,36 @@ un comptage : par construction $M_{\text{inv}} = M^\top$, donc la corrélation d
 vaut $-1$ quel que soit le contenu. Il ne prouve rien. Seul le \textbf{placebo par
 permutation} est valide sur des comptages. Le signaler est un gage de rigueur, pas une
 faiblesse.
+\end{cle}
+
+\paragraph{Source 3 : la VERIS Community Database, ou le schéma sans le remplissage.}
+Les deux premiers échecs tiennent à ce que la source ne \emph{prévoit} pas ce que $W$ exige.
+Restait l'hypothèse la plus favorable : un standard de description d'incidents qui, lui,
+prévoit exactement les bons champs. C'est le cas du schéma \textsc{veris}, référence de la
+profession et support du \emph{Data Breach Investigations Report}, dont la base publique
+compte $10\,591$ incidents ($980$ en secteur financier, \textsc{naics}~52). Son schéma porte
+littéralement les deux objets manquants : un champ \texttt{control\_failure}, qui nomme le
+\textbf{domaine de contrôle} défaillant, et une chronologie en \textbf{quatre étapes}
+(compromission, exfiltration, découverte, confinement), qui porte l'\textbf{antériorité}.
+
+Le verdict est sans appel, et il porte sur le \emph{remplissage} et non sur la conception.
+Le champ \texttt{control\_failure} est renseigné dans \textbf{$13$ incidents sur $10\,591$}
+($0{,}12\,\%$), dont \textbf{un seul} en secteur financier. La chronologie n'est datée sur au
+moins deux étapes que dans $126$ incidents ($1{,}19\,\%$), et sur au moins trois dans $10$.
+Surtout, l'\textbf{intersection} des deux conditions, qui est ce qu'identifier $W$ exigerait
+simultanément, ne compte que \textbf{$1$ incident} sur toute la base, et \textbf{aucun} en
+secteur financier.
+
+\begin{cle}
+\textbf{Pourquoi ce troisième échec est le plus utile des trois.} Les deux premiers pouvaient
+se lire comme un défaut de conception des sources : personne n'avait prévu de collecter la
+direction. Celui-ci interdit cette lecture. La spécification \emph{existe}, elle est publiée,
+elle est adoptée par la profession, et elle n'est \textbf{pas remplie}. Le problème n'est donc
+pas de savoir \emph{quoi} collecter, question à laquelle le schéma \textsc{veris} répond déjà,
+mais d'en \textbf{rendre le remplissage obligatoire}. C'est exactement ce qu'un registre
+d'incidents sous DORA peut imposer et qu'une base déclarative volontaire ne peut pas, et c'est
+ce qui donne sa portée à la spécification de reporting du chapitre~\ref{ch:livrable} : elle
+ne demande pas d'inventer des champs, elle demande d'en rendre deux obligatoires.
 \end{cle}
 
 \begin{figure}[htbp]

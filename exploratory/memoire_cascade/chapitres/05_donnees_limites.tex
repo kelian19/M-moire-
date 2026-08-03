@@ -172,6 +172,98 @@ chapitre~\ref{chap:resultats} : selon l'échelle à laquelle $\lambda$ est lu,
 le même modèle décrit un secteur ou une entité, et la
 table~\ref{tab:echelle} en donne la traduction chiffrée.
 
+\begin{attention}
+\textbf{Trois nombres portent le nom de \og{}fréquence\fg{}, et il faut les distinguer une
+fois pour toutes.} Le mémoire mobilise trois taux, à trois niveaux d'observation. Les
+confondre serait une faute de lecture, et l'on prend donc soin de les nommer séparément.
+\begin{center}\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l l r p{5.1cm}@{}}
+\toprule
+\textbf{Symbole} & \textbf{Source} & \textbf{Valeur} & \textbf{Ce qu'il compte} \\
+\midrule
+$\lambda_{ref}$ & PRC & $341$/an & notifications de violation de données sur le périmètre
+PRC, tous acteurs confondus. Sert à \emph{répartir} par vecteur d'attaque, pas à fixer un
+niveau de capital. \\
+$\lambda$ & OpRisk & $21{,}6$/an & incidents \textsc{tic} \emph{matériels} du secteur
+financier mondial. C'est \textbf{l'entrée du moteur de cascade} et le seul des trois qui
+porte le capital. \\
+$\lambda_{\text{entité}}$ & OpRisk & $0{,}10$ à $0{,}21$/an & les mêmes incidents matériels,
+rapportés à \emph{une} firme. C'est l'échelle de lecture d'une entité soumise à DORA. \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2pt}
+Le facteur $1\,600$ entre les extrêmes n'est donc pas une incohérence : c'est l'écart entre
+un comptage de notifications, un comptage de pertes matérielles sectorielles et un comptage
+de pertes matérielles par entité. \textbf{Seul $\lambda$ alimente le moteur}, et c'est lui
+seul qui doit être invoqué quand le mémoire parle de \og{}la fréquence du modèle\fg{}.
+\end{attention}
+
+\section{Deux biais déclarés, et de combien ils déplacent le résultat}
+\label{sec:biais-chiffres}
+
+Déclarer un biais ne coûte rien ; le mesurer engage. Les deux limites les plus souvent
+opposées à une calibration sur OpRisk, le biais de taille et la troncature à droite, sont
+ici chiffrées (script~\texttt{57}, figure~\ref{fig:biais}).
+
+\paragraph{Le biais de taille est réel, mais bien plus faible qu'annoncé.} OpRisk
+sur-représente les grandes institutions, et l'on en déduit d'ordinaire que sa sévérité
+sur-estime celle d'une entité moyenne. La base portant les actifs, le chiffre d'affaires et
+l'effectif de la firme sinistrée, l'affirmation se teste. Une régression log-log de la perte
+sur la taille donne une élasticité \textbf{quasi nulle} : $0{,}042$ sur les actifs
+($R^2=0{,}005$), $0{,}020$ sur le chiffre d'affaires et $0{,}010$ sur l'effectif, ces deux
+dernières non significatives. Prise telle quelle, cette mesure \emph{réfuterait} l'explication
+usuelle.
+
+Elle est cependant elle-même biaisée, et par le mécanisme de la section précédente. Une
+petite firme n'entre dans la base que si elle subit une perte anormalement grande, quand une
+grande firme y entre avec des pertes de toutes tailles : la sélection relève artificiellement
+la sévérité observée des petites firmes et \textbf{aplatit la pente}. On corrige par un
+maximum de vraisemblance sur une lognormale tronquée à gauche au seuil de collecte
+($0{,}10$~M\$, $46\,\%$ des pertes de la base étant sous $1$~M\$). L'élasticité corrigée
+double, $b=0{,}087$ (IC~$95\,\%$ $[0{,}026\,;0{,}148]$), et devient significative. Le seuil de
+collecte était donc bien le confondant, mais l'effet reste \textbf{modeste} : transposée de la
+firme médiane de la base ($112$~Md\$ d'actifs) à l'entité notionnelle, la sévérité est
+multipliée par $0{,}86$, soit $-14\,\%$. Le biais de taille n'explique pas un facteur dix ; il
+explique un septième. \textbf{Ce n'est pas la sévérité qui rend le niveau non transposable,
+c'est la fréquence}, ce que la table~\ref{tab:echelle} établit par ailleurs.
+
+\paragraph{La troncature à droite se corrige, au lieu de coûter trois années.} Les comptes
+s'effondrent après 2022 ($34$ en 2023, $39$ en 2024 contre $70$ à $100$ auparavant), ce qui
+conduisait à écarter ces années. La base portant la \emph{date de saisie} en plus de l'année
+de survenance, on construit le triangle survenance $\times$ délai de remontée et l'on applique
+un \textbf{chain-ladder} aux comptes. Le délai médian de remontée est de \textbf{trois ans}
+(neuvième décile : huit ans), et les facteurs de développement successifs valent $2{,}13$,
+$1{,}49$, $1{,}30$, $1{,}22$. À l'ultime, les $97$ événements observés sur 2023--2025
+deviennent \textbf{$255$}, soit $+163\,\%$. La moyenne annuelle ultime de ces trois années
+($85{,}0$) dépasse alors celle de la période pleine 2015--2022 ($74{,}1$) d'un facteur
+$1{,}15$. \textbf{Le risque \textsc{tic} n'a pas baissé après 2022 : il n'est pas encore
+remonté.} Les années récentes cessent d'être une perte sèche.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{S18_biais_taille_troncature.png}
+\caption{Les deux biais, enfin chiffrés. \textbf{(a)}~la sévérité croît beaucoup moins vite
+que la taille de la firme, et la pente brute est encore aplatie par le seuil de collecte.
+\textbf{(b)}~les années récentes ne baissent pas, elles ne sont pas remontées : l'ultime
+chain-ladder les ramène au-dessus de la moyenne historique. \textbf{(c)}~les deux corrections
+jouent en sens opposés. Source : script~\texttt{57}.}
+\label{fig:biais}
+\end{figure}
+
+\begin{cle}
+\textbf{Le résultat qui compte, et qui n'était pas prévisible.} Les deux corrections vont en
+sens opposés et se \textbf{compensent presque exactement sur la perte moyenne} :
+$0{,}861\times1{,}147=0{,}987$, soit un effet net de $1{,}3\,\%$, inférieur à l'incertitude
+d'estimation de chacune prise isolément. Elles ne se compensent \textbf{pas sur le capital}.
+À queue lourde, la VaR $99{,}5\,\%$ obéit au principe du grand saut unique : elle répond à la
+\emph{sévérité} bien plus qu'à la \emph{fréquence}. La correction de taille agit sur la
+sévérité et se transmet donc au quantile ; celle de troncature agit sur la fréquence et s'y
+transmet mal. Deux biais qui s'annulent sur l'espérance peuvent ainsi ne pas s'annuler sur le
+quantile, et \emph{c'est le quantile qui fait le SCR}. Une compensation constatée en moyenne
+n'autorise donc pas à ignorer les deux biais.
+\end{cle}
+
 %--------------------------------------------------------------
 
 %--------------------------------------------------------------
