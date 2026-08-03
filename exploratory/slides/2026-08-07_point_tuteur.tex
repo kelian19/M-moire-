@@ -198,44 +198,44 @@ perte évitée.
 \section*{B. Les vérifications demandées}
 
 \begin{frame}{Jacobs : vérifié, la réponse tient en trois points}
-\small
-\begin{block}{1. Ce n'est pas un lien fréquence-sévérité}
-C'est une \textbf{conversion de sévérité seule} : $\ln L = 7{,}68+0{,}76\ln X+\varepsilon$
-transforme un nombre d'enregistrements en montant. La fréquence vient d'ailleurs.
-\end{block}
-\begin{block}{2. Le capital principal n'en dépend pas}
-Il est calculé sur \textbf{OpRisk}, déjà en dollars, sans aucune conversion. PRC n'est
-qu'un axe de sensibilité.
-\end{block}
+\footnotesize
+\textbf{1.} Ce n'est \emph{pas} un lien fréquence-sévérité, mais une \textbf{conversion de
+sévérité seule} : $\ln L = 7{,}68+0{,}76\ln X+\varepsilon$ transforme un nombre
+d'enregistrements en montant.
+\textbf{2.} Le \textbf{capital principal n'en dépend pas} : il est calculé sur OpRisk, déjà
+en dollars. PRC n'est qu'un axe de sensibilité.
+\begin{center}
+\includegraphics[width=0.82\linewidth]{S16_prc_jacobs_residu.png}
+\end{center}
+\vspace{-1mm}
 \begin{block}{3. Sur la branche PRC, la dépendance est réelle mais bénigne}
-La conversion était traitée comme \emph{exacte}, ce qui écrasait la dispersion. En
-réinjectant le résidu ($\sigma_\varepsilon=0{,}523$) : le niveau monte de
-$\mathbf{+7\,\%}$, la queue s'épaissit ($\xi : 1{,}03 \to 1{,}07$), et la \textbf{largeur
-relative de l'intervalle ne bouge pas} ($1{,}43 \to 1{,}41$).
+\footnotesize La conversion était traitée comme \emph{exacte}, ce qui écrasait la
+dispersion. En réinjectant le résidu ($\sigma_\varepsilon=0{,}523$) : le niveau monte de $\mathbf{+7\,\%}$ et la queue s'épaissit ($\xi : 1{,}03 \to 1{,}07$), mais la \textbf{largeur \emph{relative} de l'intervalle ne bouge pas} ($1{,}43 \to 1{,}41$).
 \end{block}
-\vfill
-\footnotesize Traiter la conversion comme sûre déplaçait le niveau sans fausser
-l'incertitude.
 \end{frame}
 
 % =====================================================================
 \begin{frame}{La fréquence : ce qui était posé, maintenant mesuré}
-\begin{center}
-\includegraphics[width=0.96\linewidth]{N_frequence_entree.png}
-\end{center}
-\vspace{-1mm}
 \footnotesize
-Deux paramètres, \textbf{deux niveaux d'observation}, et les mélanger serait une faute : la
-surdispersion d'un panel firme-année est dominée par l'\textbf{hétérogénéité de taille} des
-firmes, pas par le choc commun. \textbf{Panel} : Poisson rejeté, $p=1{,}6\times10^{-30}$,
-taux de $0{,}099$ à $\mathbf{0{,}210}$ sur les grandes firmes. \textbf{Série agrégée
-détrendée} : $a=0{,}12$ à $0{,}30$ contre $0{,}60$ posé, au dessus même de la borne haute de
-l'intervalle.
-\vspace{-1mm}
+$N_j \mid Y \sim \mathcal{P}(\lambda_j m)$ avec $m=\exp(aY-a^2/2)$ : le taux $\lambda$ est
+une propriété d'\textbf{entité}, la charge $a$ est un choc \textbf{commun}. Ils \textbf{ne
+se lisent pas au même endroit}.
+\vspace{1mm}
+\begin{block}{Les mélanger serait une faute}
+La surdispersion d'un panel firme-année est dominée par l'\textbf{hétérogénéité de taille}
+des firmes, pas par le choc commun, qui ne se lit qu'au niveau \textbf{agrégé} et
+\textbf{après retrait de tendance}.
+\end{block}
+\begin{block}{Ce que la confrontation donne}
+\textbf{Panel} ($14\,944$ obs.) : Poisson rejeté, $p=1{,}6\times10^{-30}$. Taux de
+$0{,}099$ toutes firmes à $\mathbf{0{,}210}$ sur les grandes.\\[2pt]
+\textbf{Série agrégée détrendée} : $a=0{,}12$ à $0{,}30$ contre $\mathbf{0{,}60}$ posé, au
+dessus même de la \textbf{borne haute} de l'intervalle ($0{,}223$).
+\end{block}
 \begin{block}{Et la \og{}loi d'Erlang\fg{}}
-\small La loi mélangeante ajustée est une Gamma de \textbf{forme $0{,}63$}, or une Erlang
-exige une forme \textbf{entière $\ge 1$}. Le mélange Gamma est le bon objet, l'Erlang n'en
-est qu'un cas particulier. \emph{C'est aussi la réponse au point bloquant de Coraline.}
+Gamma de \textbf{forme $0{,}63$} ajustée, or une Erlang exige une forme \textbf{entière
+$\ge 1$}. Le mélange Gamma est le bon objet, l'Erlang n'en est qu'un cas particulier.
+\emph{Réponse au point bloquant de Coraline.}
 \end{block}
 \end{frame}
 
