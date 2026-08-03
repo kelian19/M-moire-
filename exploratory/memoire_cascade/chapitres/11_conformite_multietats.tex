@@ -17,7 +17,9 @@ illustratif, l'écart et l'ordre sont ce qui est défendable.
 
 \section{Le principe des deux échelles de temps}
 
-Le chapitre~\ref{chap:cascade} chiffre le SCR pour un état de conformité \emph{figé}. Or la
+Le moteur des chapitres~\ref{chap:cascade}--\ref{chap:partielle} traite l'état de conformité
+comme \emph{figé}, et les niveaux qui en découlent ne sont établis qu'en
+partie~\ref{part:resultats}. Or la
 conformité n'est ni un point ni un instantané : elle est graduelle (trois niveaux au moins) et
 évolue dans le temps. On distingue donc deux dynamiques. La \textbf{couche rapide} est celle des
 incidents et de leur cascade à l'intérieur d'une année, chiffrée par le moteur du
@@ -100,7 +102,16 @@ $\text{NC}\to\text{PC}\to\text{C}$, l'état Conforme étant \textbf{absorbant} e
 pas exponentiels mais de \textbf{type phase} (Erlang-$k$) : une exponentielle autoriserait une
 remédiation quasi instantanée (densité maximale en zéro), irréaliste, alors qu'un projet DORA a
 une durée minimale. L'Erlang-$k$, somme de $k$ exponentielles, a un mode strictement positif qui
-capte cette durée. On développe chaque macro-état transitoire en $k$ phases et l'on résout le
+capte cette durée.
+
+\begin{attention}
+\textbf{Deux Erlang, deux objets sans rapport.} Le mot désigne ici la loi des \emph{durées de
+séjour} dans la chaîne de conformité, où $k$ est un choix de modélisation assumé. Il désigne
+ailleurs, au chapitre~\ref{chap:donnees}, la loi \emph{mélangeante} de la fréquence, dont la
+forme ajustée vaut $0{,}63$ et n'est donc \textbf{pas} une Erlang, celle-ci exigeant une forme
+entière supérieure ou égale à un. Les deux usages n'ont ni le même support, ni le même statut :
+le premier est posé, le second est estimé et rejeté comme tel.
+\end{attention} On développe chaque macro-état transitoire en $k$ phases et l'on résout le
 générateur $Q$ sur l'espace de phases par exponentielle de matrice :
 \begin{equation}
 \big(\mathbb P(\text{NC},t),\mathbb P(\text{PC},t),\mathbb P(\text{C},t)\big)

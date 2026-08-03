@@ -1,9 +1,9 @@
 % ---------------------------------------------------------------------
 % STATUT : RÉDIGÉ (transplanté de exploratory/cascade_qualitative/
 %          chapitre_robustesse.tex, préambule retiré).
-% RESTE À FAIRE : ajouter une ligne au tableau des paramètres pour u_ij
-%          (statut : posé / élicité, sensibilité mesurée par l'échelle
-%          de repli du chapitre 5).
+% FAIT (août 2026) : la ligne u_ij est au tableau des paramètres, avec sa
+%          sensibilité mesurée par l'échelle de repli du ch. 10, ainsi qu'une
+%          ligne pour l'élasticité sévérité/taille calibrée au ch. 5.
 % ---------------------------------------------------------------------
 \chapter{Inventaire des hypothèses et de leur sensibilité}
 \label{ch:robustesse}
@@ -96,6 +96,8 @@ Charge systémique $\gamma$ & $0{,}68$ & semi-ancré & proxy concentration cloud
 Seuil de crise $\theta_{\text{crise}}$ & $-2{,}5$ & \textbf{posé} & déclenche le régime de co-mouvement extrême & agit sur la seule queue crise \\
 Probas d'état $P(\text{NC/PC/C})$ & $0{,}35/0{,}35/0{,}30$ & semi-ancré & enquêtes conformité DORA ${\sim}50\,\%$ non conformes (Deloitte, ESA) & déplace le mélange, pas les états \\
 Copule de dépendance $\theta$ & Gumbel $1{,}8$ & \textbf{posé} & queue supérieure entre briques & \textbf{négligeable} : $\Delta_{\text{DORA}}$ $<1{,}4\,\%$ sur $[1,4]$ \\
+Excès de source $u_{ij}$ & $\operatorname{logit}p_{ij}=\operatorname{logit}p_j+u_{ij}$ & \textbf{non identifié} & la direction elle-même ; normalisation $\sum_i u_{ij}=0$ (repérage, non information) & mesurée par l'échelle de repli (ch.~\ref{chap:partielle}) : rang~$1$ capte $74\,\%$ et resserre les bornes de $25\,\%$ ; à $u=0$ P1 et P4 deviennent indiscernables \\
+Élasticité sévérité/taille $b$ & $0{,}087$ $[0{,}026\,;0{,}148]$ & calibré, tronqué & EMV lognormale tronquée au seuil de collecte (ch.~\ref{chap:donnees}) & faible : $\times 0{,}86$ sur la sévérité transposée \\
 Plafond de sévérité & $40$ M\euro{} & \textbf{posé} & capacité de réassurance ($\xi\ge 1$) & borne la queue extrême \\
 \bottomrule
 \end{tabular}

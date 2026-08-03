@@ -1,10 +1,9 @@
 % ---------------------------------------------------------------------
 % STATUT : RÉDIGÉ (transplanté de exploratory/cascade_qualitative/
 %          chapitre_positionnement.tex, préambule retiré).
-% RESTE À FAIRE : (1) basculer la liste de références de fin de chapitre
-%          dans references.bib et passer aux \citep ; (2) ajouter le
-%          positionnement de l'échelle de repli (identification
-%          partielle) une fois le chapitre 5 arrêté.
+% FAIT (août 2026) : (1) les références sont dans references.bib et rendues
+%          par \citep, avec \nocite en filet ; (2) le positionnement de
+%          l'identification partielle est ajouté ci-dessous.
 % ---------------------------------------------------------------------
 \chapter{État de l'art et positionnement}
 \label{ch:positionnement}
@@ -141,6 +140,19 @@ en retenons la théorie des valeurs extrêmes (indice de queue $\xi$) et la stru
 stabilité d'une contagion
 \emph{avec cycles}. La nouveauté est de faire porter cette mécanique par une matrice
 \textbf{dirigée} entre domaines de contrôle réglementaires.
+
+\textbf{Identification partielle.} Le traitement réservé au paramètre non identifiable relève
+d'une littérature économétrique distincte de la littérature cyber, celle des \emph{bornes} : on
+renonce à identifier un paramètre ponctuellement et l'on caractérise l'ensemble des valeurs
+compatibles avec les données, dont on déduit un intervalle pour la quantité d'intérêt. Cette
+tradition, initiée par les bornes de sélection de \citet{Manski1990} et systématisée par
+\citet{Tamer2010}, est courante en évaluation de politiques publiques et pratiquement absente
+de l'actuariat du cyber, où l'usage veut qu'un paramètre non observable soit \emph{posé} au
+jugement d'expert. Le mémoire l'y transpose : la direction de la contagion n'étant pas
+identifiée (chapitre~\ref{ch:identifiabilite}), le capital est publié en bornes sur l'ensemble
+admissible (chapitre~\ref{chap:partielle}), et l'échelle de repli sur $u_{ij}$ y ajoute la
+gradation d'hypothèses de structure qui manque aux bornes de pire cas. C'est le second emprunt
+méthodologique du travail, après celui du risque de crédit.
 
 \section{Où se situe ce mémoire}
 

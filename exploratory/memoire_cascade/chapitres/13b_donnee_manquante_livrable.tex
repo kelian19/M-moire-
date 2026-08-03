@@ -11,9 +11,10 @@ d'aucun prior.
 
 \section{Ce qu'un registre devrait contenir}
 
-Puisque les deux sources agrégées échouent pour des raisons \emph{opposées} (l'une manque de
-taxonomie et de volume informatif, l'autre de résolution temporelle), la donnée qui identifierait
-$W$ se déduit par complémentarité. Un registre d'incidents \textsc{tic} l'identifiant devrait :
+Puisque les trois sources agrégées échouent pour des raisons \emph{distinctes} (la première
+manque de taxonomie et de volume informatif, la deuxième de résolution temporelle, la troisième
+possède les bons champs mais ne les renseigne pas), la donnée qui identifierait $W$ se déduit
+par complémentarité. Un registre d'incidents \textsc{tic} l'identifiant devrait :
 \begin{enumerate}[itemsep=2pt]
 \item horodater la \textbf{survenance} (et non la seule déclaration) au \textbf{mois ou à la
       semaine}, afin de porter une antériorité que le pas annuel efface ;
@@ -28,6 +29,23 @@ l'\emph{implementing technical standard} du règlement d'exécution \citep{eu202
 l'identification des prestataires, la chaîne de sous-traitance et la criticité des fonctions. Ce
 qui manque relève du \emph{format} de l'horodatage et du \emph{choix de la taxonomie}, non d'une
 collecte nouvelle.
+
+\begin{cle}
+\textbf{La spécification n'est même pas à écrire : elle existe et n'est pas remplie.} Les deux
+premières exigences ci-dessus sont déjà des champs du schéma \textsc{veris}, standard ouvert de
+description d'incidents et support du \emph{Data Breach Investigations Report} : le champ
+\texttt{control\_failure} porte le domaine de contrôle défaillant, et une chronologie en quatre
+étapes (compromission, exfiltration, découverte, confinement) porte l'antériorité. Sur les
+$10\,591$ incidents de la base publique associée, le premier est renseigné dans $0{,}12\,\%$ des
+cas et la seconde, sur au moins deux étapes, dans $1{,}19\,\%$ ; leur \textbf{intersection ne
+compte qu'un seul incident}, et aucun en secteur financier
+(chapitre~\ref{ch:identifiabilite}). La recommandation change alors de nature. Elle ne demande
+pas d'inventer une taxonomie, ce qui serait long et contestable, mais de rendre
+\textbf{obligatoires deux champs déjà normalisés} dans un dispositif, la notification
+d'incident majeur sous DORA, qui a précisément le pouvoir de l'imposer là où une base
+déclarative volontaire ne l'a pas. C'est un coût de conception nul et un gain d'identification
+chiffré à la section suivante.
+\end{cle}
 
 \section{Ce que cette information vaut, en capital}
 

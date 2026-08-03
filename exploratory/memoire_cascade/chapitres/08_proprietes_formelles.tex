@@ -15,6 +15,19 @@ se produire, le calcul montre que cela se produit. La troisième est la plus imp
 car elle transforme la limite d'identification en résultat opposable.
 \end{cle}
 
+\begin{attention}
+\textbf{Articulation avec la section~\ref{sec:formalisation}, pour éviter une lecture en
+double.} Le chapitre~\ref{chap:cascade} clôt sa construction par un bloc de définitions et
+d'énoncés (\S\ref{sec:formalisation}) dont les démonstrations sont reportées à
+l'annexe~\ref{ann:cascade} : c'est la \emph{spécification} du modèle, écrite d'un bloc pour
+être opposable. Le présent chapitre en isole les \textbf{trois propriétés qui portent
+l'argument} du mémoire, et les démontre \emph{sur place} en les accompagnant chacune de sa
+vérification numérique. Le recouvrement est donc voulu et il est limité à ces trois énoncés :
+on lira \S\ref{sec:formalisation} pour la spécification complète, et ce chapitre pour ce que
+les propriétés \emph{prouvent}. Les propositions y sont numérotées séparément, l'annexe
+renvoyant à celles de \S\ref{sec:formalisation}.
+\end{attention}
+
 \section{La criticité dépend de l'ordre, non de l'ensemble}
 
 Notons $\mathfrak{S}_n$ l'ensemble des permutations de $n$ éléments et, pour une chaîne
@@ -26,7 +39,7 @@ l'\emph{ensemble} $\{i_1,\dots,i_n\}$ de ses éléments. La vraisemblance de la 
 \end{equation}
 et la criticité $c(\sigma)$ en est une fonction croissante, composée le long de l'ordre.
 
-\begin{proposition}[Dépendance à l'ordre]\label{prop:ordre}
+\begin{proposition}[Dépendance à l'ordre]\label{prop:ordre-dem}
 La criticité n'est pas une fonction de l'ensemble des piliers touchés : il existe
 $\sigma$ et $\sigma'$ avec $\mathcal{E}(\sigma)=\mathcal{E}(\sigma')$ tels que
 $c(\sigma)\neq c(\sigma')$. En particulier, $c$ n'est pas invariante par permutation.
@@ -45,7 +58,7 @@ $2$ pour le même ensemble $\{P_1,P_2\}$.
 \begin{cle}
 \textbf{La contraposée est l'argument utile.} Toute mesure de risque $m$ qui ne dépend que de
 l'ensemble touché vérifie $m(\sigma)=m(\sigma\circ\pi)$ pour tout $\pi\in\mathfrak{S}_n$. La
-proposition~\ref{prop:ordre} exhibe donc un objet que \emph{aucune} telle mesure ne reproduit,
+proposition~\ref{prop:ordre-dem} exhibe donc un objet que \emph{aucune} telle mesure ne reproduit,
 et l'hypothèse requise est minimale : il suffit que $\mathrm{TRANS}$ soit asymétrique, sans
 qu'aucune \emph{valeur} de la direction ne soit revendiquée.
 \end{cle}
@@ -74,7 +87,7 @@ l'ordre exclut exactement les mêmes concurrents et, elle, se démontre.
 
 \section{La normalisation de Leontief borne la propagation}
 
-\begin{proposition}[Borne de propagation]\label{prop:leontief}
+\begin{proposition}[Borne de propagation]\label{prop:leontief-dem}
 Pour une cascade indépendante de matrice moyenne $W\geq 0$, où $W_{jk}$ est la probabilité que
 le pilier $j$ contamine directement $k$, et en notant $S_j$ l'ensemble des piliers atteints
 depuis l'amorce $j$ :
@@ -101,7 +114,7 @@ Soit $\mathrm{TRANS}\geq 0$, $s_j=\sum_k \mathrm{TRANS}[j][k]$ la somme de sa $j
   \qquad g\in(0,1).
   \label{eq:normalisation-leontief}
 \end{equation}
-Alors $\rho(W)\leq g<1$, et la conclusion de la proposition~\ref{prop:leontief} vaut sans
+Alors $\rho(W)\leq g<1$, et la conclusion de la proposition~\ref{prop:leontief-dem} vaut sans
 condition supplémentaire.
 \end{proposition}
 
