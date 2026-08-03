@@ -31,6 +31,10 @@
 \newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
   arc=2pt,left=7pt,right=7pt,top=5pt,bottom=5pt,#1}
 
+\providecommand{\Prob}{\mathbb{P}}
+\providecommand{\E}{\mathbb{E}}
+\providecommand{\R}{\mathbb{R}}
+
 \newcommand{\lequoi}[1]{\smallskip\noindent\textcolor{navy}{\textbf{Le problème.}}\ #1\par}
 \newcommand{\lidee}[1]{\smallskip\noindent\textcolor{navy}{\textbf{L'idée.}}\ #1\par}
 \newcommand{\laformule}[1]{\smallskip\noindent\textcolor{navy}{\textbf{La formule.}}\ #1\par}
@@ -64,7 +68,17 @@ qu'elle, vous tenez l'oral.
 
 \bigskip
 \noindent Le schéma d'ensemble se trouve dans le fichier \texttt{schema\_modele.pdf}~: il
-montre comment ces vingt-sept briques s'enchaînent, de la donnée brute au capital.
+montre comment ces briques s'enchaînent, de la donnée brute au capital.
+
+\smallskip
+\noindent\textcolor{accent}{\textbf{Mise à jour du 3 août 2026.}} Sept sections sont nouvelles
+et couvrent tout ce qui a été ajouté au mémoire depuis la première version de cette fiche~:
+le \emph{seuil de collecte et les trois fréquences}, la \emph{mesure} des deux biais d'OpRisk
+au lieu de leur simple déclaration, la \emph{convention d'indices} de la matrice de contagion,
+le \emph{troisième échec d'identification} sur le schéma \textsc{veris}, la \emph{matrice
+ordonnée} $p_{jk}$, et une partie~IX entière sur le passage du capital à la décision
+(\emph{échelle de lecture} du SCR, puis \emph{détenir ou transférer}). L'annexe de nombres a
+été complétée en conséquence.
 
 \tableofcontents
 \newpage
@@ -128,6 +142,73 @@ qui écrasait la dispersion de sévérité. En réinjectant le résidu, le nivea
 $7\,\%$ et la queue s'épaissit ($\xi$ passe de $1{,}03$ à $1{,}07$), mais la largeur
 relative de l'intervalle ne bouge pas. À dire spontanément~: la conversion était traitée
 comme sûre alors qu'elle ne l'est pas.}
+
+% =====================================================================
+\section{Le seuil de collecte, et les trois fréquences}
+
+\lequoi{Trois nombres du mémoire portent le nom de \og{}fréquence\fg{} et vont de $0{,}10$ à
+$341$ par an. Confondre deux d'entre eux fait dire n'importe quoi.}
+
+\lidee{Ils ne comptent pas la même chose, parce qu'ils ne sont pas lus au même endroit. Une
+base ne retient que les pertes au-dessus d'un \textbf{seuil de collecte} : le taux qu'on y lit
+est celui des incidents \emph{matériels}, générateurs d'une perte enregistrée, et non celui de
+tous les incidents au sens du reporting réglementaire.}
+
+\cheznous{\;\\[-6pt]
+\begin{center}\small
+\begin{tabular}{@{}l l l@{}}
+\toprule
+$\lambda_{ref}=341$/an & notifications PRC & \emph{clé de répartition} par vecteur \\
+$\lambda=21{,}6$/an & incidents \textsc{tic} matériels, secteur & \textbf{l'entrée du moteur} \\
+$\lambda_{\text{entité}}=0{,}10$ à $0{,}21$/an & les mêmes, par firme & l'échelle d'une entité \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\laphrase{Le facteur mille six cents entre mes trois fréquences n'est pas une incohérence,
+c'est trois niveaux d'observation. Un seul alimente le moteur, les deux autres servent à
+répartir et à interpréter. Le seuil de collecte est ce qui les sépare.}
+
+\lepiege{Le taux $\lambda$ est une propriété d'\textbf{entité}, lisible sur un panel
+firme-année ; la charge systémique commune, elle, ne se lit qu'au niveau \textbf{agrégé} et
+après retrait de tendance. Les confondre revient à imputer au risque systémique ce qui n'est
+qu'un effet de taille des firmes.}
+
+\section{Mesurer un biais au lieu de le déclarer}
+
+\lequoi{Tout le monde déclare que sa base est biaisée. Presque personne ne dit de combien. Or
+déclarer ne coûte rien, mesurer engage.}
+
+\lidee{Deux biais classiques d'une base de pertes se mesurent avec la base elle-même. Le
+\textbf{biais de taille}, parce que la base porte les actifs de la firme sinistrée. La
+\textbf{troncature à droite}, parce qu'elle porte la date de saisie en plus de l'année de
+survenance.}
+
+\laformule{Pour la taille, une régression log-log $\ln L = a + b\ln(\text{actifs})$ donne
+l'élasticité $b$. Mais elle est biaisée par le seuil de collecte : une petite firme n'entre
+dans la base que si sa perte est anormalement grande, ce qui \emph{aplatit} la pente. On
+corrige par un maximum de vraisemblance sur une lognormale \textbf{tronquée à gauche} en $u_0$,
+où la contribution de chaque observation est divisée par $1-\Phi\bigl((\ln u_0-\mu)/s\bigr)$.
+Pour la troncature à droite, on construit le triangle survenance $\times$ délai de remontée et
+l'on applique un \textbf{chain-ladder} aux comptes.}
+
+\cheznous{Élasticité brute $0{,}042$ avec un $R^2$ de $0{,}005$, ce qui \emph{réfuterait}
+l'explication usuelle. Corrigée de la troncature, elle double à $\mathbf{0{,}087}$
+$[0{,}026\,;0{,}148]$ et devient significative, mais reste faible : la sévérité transposée à
+l'entité notionnelle vaut $0{,}86$ fois la brute, soit $-14\,\%$. Côté remontée, le délai médian
+est de \textbf{trois ans} et les $97$ événements observés sur 2023--2025 deviennent
+\textbf{$255$} à l'ultime, soit $+163\,\%$.}
+
+\laphrase{Mes deux biais les plus souvent opposés, je ne me contente pas de les signaler : je
+les chiffre. Le biais de taille coûte quatorze pour cent, pas un facteur dix. Et la baisse
+apparente des incidents après 2022 n'est pas une baisse du risque, c'est une remontée
+incomplète que le chain-ladder rattrape.}
+
+\lepiege{Les deux corrections vont en sens opposés et se compensent presque exactement sur la
+\emph{perte moyenne} ($0{,}861\times1{,}147=0{,}987$). Elles ne se compensent \textbf{pas} sur
+le capital : à queue lourde, le quantile suit la sévérité et non la fréquence. Deux biais qui
+s'annulent sur l'espérance peuvent ne pas s'annuler sur le quantile, et c'est le quantile qui
+fait le SCR.}
 
 % =====================================================================
 \part*{II. Combien d'incidents par an}
@@ -367,6 +448,36 @@ en VaR ».}
 % =====================================================================
 \part*{V. Comment un problème en entraîne un autre}
 \addcontentsline{toc}{part}{V. Comment un problème en entraîne un autre}
+
+\section{La convention d'indices, à ne jamais improviser}
+
+\lequoi{Une matrice dirigée a deux lectures possibles, et les deux sont défendables. Si le
+document en utilise l'une ici et l'autre là, tous ses énoncés directionnels deviennent
+ambigus.}
+
+\lidee{On fixe la convention une fois, on l'écrit, et on la vérifie sur un fait connu.}
+
+\laformule{\[
+  W_{jk}\;=\;\text{propension de } j \text{ (\textbf{source}) à entraîner la défaillance de }
+  k \text{ (\textbf{cible}).}
+\]
+La \textbf{ligne} $j$ décrit ce que $j$ \emph{émet}, la \textbf{colonne} $k$ ce que $k$
+\emph{reçoit}. La somme de ligne $s_j$ mesure donc une \textbf{émission}.}
+
+\cheznous{Vérification sur la matrice d'expert : P1 a la plus grande somme de ligne ($2{,}6$)
+et une somme de colonne trois fois inférieure à celle de P2. C'est exactement la revendication
+centrale \og{}P1 émet fort et reçoit peu\fg{}, et elle serait \emph{fausse} sous la convention
+inverse. La forme réduite du modèle latent s'écrit alors $(I-W^{\top})^{-1}$, le rayon spectral
+étant de toute façon invariant par transposition.}
+
+\laphrase{La ligne émet, la colonne reçoit. Je le vérifie sur ma matrice : le pilier que je dis
+émetteur a bien la plus grosse somme de ligne. Une convention n'est pas un détail de notation,
+c'est ce qui rend un énoncé directionnel falsifiable.}
+
+\lepiege{Ce défaut a réellement existé dans le mémoire : l'équation structurelle sommait sur
+les lignes alors que la définition de la cascade et tout le code sommaient sur les colonnes. Le
+code et le classeur ont tranché. Vérifier une convention sur un fait connu coûte trente
+secondes et évite une matrice transposée.}
 
 \section{La matrice de contagion et sa normalisation}
 
@@ -647,6 +758,69 @@ l'ignorance totale.}
 faut, c'est un curseur par paire, parce que c'est le \emph{sens} de chaque lien que je ne
 connais pas, pas son intensité globale.}
 
+\section{Le troisième échec : le schéma existe, il n'est pas rempli}
+
+\lequoi{Deux bases ont échoué à identifier la direction, l'une faute de taxonomie, l'autre
+faute de résolution temporelle. On pouvait encore croire que personne n'avait \emph{prévu} de
+collecter la bonne donnée.}
+
+\lidee{On teste l'hypothèse la plus favorable : un standard de description d'incidents qui,
+lui, prévoit exactement les bons champs. Le schéma \textsc{veris}, référence de la profession
+et support du \emph{Data Breach Investigations Report}, porte littéralement les deux objets
+manquants : un champ \texttt{control\_failure} qui nomme le domaine de contrôle défaillant, et
+une chronologie en quatre étapes qui porte l'antériorité.}
+
+\cheznous{Sur les $10\,591$ incidents de la base publique associée : \texttt{control\_failure}
+renseigné dans \textbf{$0{,}12\,\%$} des cas ($13$ incidents, dont un seul en secteur
+financier), chronologie datée sur au moins deux étapes dans \textbf{$1{,}19\,\%$}. Et
+l'\textbf{intersection} des deux, qui est ce qu'identifier $W$ exigerait simultanément, ne
+compte qu'\textbf{un seul incident}, et \textbf{aucun} en secteur financier.}
+
+\laphrase{Le champ qui donnerait la réponse existe dans le standard de la profession. Il est
+rempli une fois sur mille. Le problème n'est donc pas de savoir quoi collecter, il est d'en
+rendre le remplissage obligatoire, et c'est précisément ce qu'un régime de notification
+réglementaire peut imposer là où une base déclarative volontaire ne le peut pas.}
+
+\lepiege{C'est le plus utile des trois échecs, parce qu'il transforme la recommandation. On ne
+demande plus d'inventer une taxonomie, ce qui serait long et contestable, on demande de rendre
+obligatoires deux champs \textbf{déjà normalisés}. Coût de conception nul.}
+
+\section{La matrice ordonnée $p_{jk}$}
+
+\lequoi{Le codage documentaire, tel qu'on l'exploite d'abord, compare $n(j\to k)$ à
+$n(k\to j)$ \emph{à l'intérieur} d'une paire. Ce rapport élimine le dénominateur, donc il
+donne un \emph{sens} et ne dit rien de l'\emph{amplitude}.}
+
+\lidee{On ajoute le dénominateur. Chaque incident déclare non seulement ses transitions, mais
+l'ensemble des \textbf{piliers défaillants}, y compris ceux qui ont cédé sans rien entraîner.
+On peut alors estimer directement chaque case de la matrice ordonnée.}
+
+\laformule{Avec $N_j$ le nombre d'incidents où $j$ a cédé et $m_{jk}$ ceux où le rapport
+établit $j\to k$ :
+\[
+  p_{jk}=\Prob(k \text{ cède}\mid j \text{ a cédé}),
+  \qquad
+  p_{jk}\mid\text{données}\ \sim\ \mathrm{Beta}\bigl(1+m_{jk},\ 1+N_j-m_{jk}\bigr).
+\]
+C'est la matrice ordonnée \emph{complète}, donc $S$ \textbf{et} $A$.}
+
+\cheznous{Sur dix rapports et $22$ transitions : \textbf{douze} liens sur vingt ont un crédible
+à $90\,\%$ entièrement \emph{sous} $0{,}5$, et \textbf{aucun} au-dessus. Les plus élevés,
+$P_3\to P_2$ ($0{,}77$, $[0{,}48\,;0{,}95]$) et $P_1\to P_4$ ($0{,}68$, $[0{,}40\,;0{,}89]$),
+recouvrent encore $0{,}5$. Les douze liens faibles comprennent les cinq sorties de $P_2$ et les
+quatre entrées de $P_1$.}
+
+\laphrase{Mon corpus établit très bien où la contagion \emph{ne va pas}, et pas du tout où elle
+va fort. Le puits et la source pure sont donc établis en tant que tels, mais aucun coefficient
+n'est établi comme grand. C'est un ordre, ce n'est pas une magnitude.}
+
+\lepiege{Une enquête raconte la \emph{chaîne} qui a produit le sinistre : elle documente bien
+les contrôles qui ont cédé \emph{et} propagé, mal ceux qui ont cédé sans propager, pas du tout
+ceux qui ont tenu. Le dénominateur $N_j$ est donc sous-estimé et $p_{jk}$ est une \textbf{borne
+supérieure}. En ajoutant des défaillances non propagées, le \emph{niveau} s'effondre de
+$0{,}27$ à $0{,}07$ tandis que la part de direction $\lVert A\rVert/\lVert W\rVert$ ne bouge
+pas ($60\,\%$). Le corpus établit un ordre, pas une magnitude, et cette phrase-là est robuste.}
+
 \section{L'identification partielle}
 
 \lidee{Quand un paramètre n'est pas identifiable, il reste deux attitudes~: le poser
@@ -872,9 +1046,85 @@ rassurant, et seulement deux paires sur six sont réellement tranchées, ce qui 
 façon plus lisible et plus fine, mais il ne remplace pas la donnée manquante.}
 
 % =====================================================================
+\part*{IX. Du capital à la décision}
+\addcontentsline{toc}{part}{IX. Du capital à la décision}
+
+\section{À quelle échelle se lit un SCR}
+
+\lequoi{Un capital de plusieurs milliards paraît absurde pour une compagnie d'assurance. C'est
+la première objection qu'on vous fera, et une clause de style n'y répond pas.}
+
+\lidee{Le niveau ne dépend pas de la cascade, il dépend de la \textbf{fréquence d'amorce}. On le
+teste : on redescend $\lambda$ au niveau d'une entité, à sévérité, matrice $W$ et moteur
+\textbf{inchangés}, et l'on regarde ce qui sort.}
+
+\cheznous{\;\\[-6pt]
+\begin{center}\small
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Échelle} & $\lambda$/an & \textbf{SCR} & \textbf{Moyenne} \\
+\midrule
+Secteur financier mondial & $21{,}56$ & $8\,123$~M\euro & $982$~M\euro \\
+Très grande entité & $0{,}21$ & $\mathbf{488}$~M\euro & $9{,}7$~M\euro \\
+Entité moyenne & $0{,}10$ & $221$~M\euro & $4{,}5$~M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\laphrase{Mes montants sont un SCR de \emph{marché}, pas d'entreprise. Redescendu à l'échelle
+d'une très grande entité, le même modèle donne $488$ millions, soit l'ordre exact de la charge
+opérationnelle de Formule Standard que je calcule par ailleurs à $450$. L'écart d'un facteur
+dix était un écart de périmètre, pas de modèle.}
+
+\lepiege{La non-linéarité est le vrai résultat. Diviser $\lambda$ par $103$ divise la moyenne
+par $101$, donc à proportion, mais ne divise le capital que par $17$. C'est le
+\textbf{principe du grand saut unique} : à $\lambda=0{,}21$, quatre années sur cinq sont vides
+et le quantile ne décrit plus une accumulation mais un sinistre isolé. Diviser le capital de
+secteur par le nombre d'entités le sous-estimerait d'un facteur six.}
+
+\section{Détenir ou transférer}
+
+\lequoi{Le mémoire compare son SCR à la Formule Standard, aux pertes réelles et au marché
+cyber. Trois comparaisons de \emph{niveau}. Il en manque une de \emph{prix}.}
+
+\lidee{Un SCR n'est pas une perte, c'est du capital \textbf{immobilisé}, et le capital coûte.
+Solvabilité~II chiffre ce coût explicitement. En face, transférer coûte une prime. Les deux
+grandeurs sont homogènes, donc comparables, et c'est l'arbitrage que fait un directeur des
+risques.}
+
+\laformule{Le coût annuel de détention vaut $\mathrm{CoC}\times\mathrm{SCR}$, où
+$\mathrm{CoC}$ est le taux de coût du capital de la marge de risque : $6\,\%$ historiquement,
+ramené à $\mathbf{4{,}75\,\%}$ par la directive (UE)~2025/2. Pour un traité en excès de perte
+annuel de portée $L$, on minimise
+\[
+  \mathrm{co\hat ut}(L)=\underbrace{\E[\min(X,L)]/0{,}485}_{\text{prime}}
+  \;+\;\mathrm{CoC}\times\underbrace{\mathrm{VaR}_{99{,}5\%}\bigl(X-\min(X,L)\bigr)}_{\text{capital résiduel}} .
+\]}
+
+\cheznous{Multiple de capital $\mathrm{SCR}/\E[X]=\mathbf{50}$ à l'échelle entité contre $8{,}3$
+au secteur. Coût de détention $23{,}2$~M\euro/an contre $9{,}7$~M\euro{} de sinistralité
+attendue, soit $2{,}4$ fois. Le capital résiduel vaut $\max(\mathrm{SCR}-L,0)$, donc l'optimum
+tombe exactement en $L^\star=\mathrm{SCR}=488$~M\euro, et le coût total passe à
+$\mathbf{12{,}3}$~M\euro, soit $\mathbf{-47\,\%}$.}
+
+\laphrase{Immobiliser le capital coûte deux fois et demie ce que le risque coûte en moyenne.
+Près de l'optimum, un euro de portée coûte un peu plus d'un pour cent de prime et libère
+quatre virgule sept cinq pour cent de coût du capital. C'est pour ça que le transfert domine, et
+c'est un calcul, pas une opinion.}
+
+\lepiege{Ce gain est une \textbf{borne supérieure}, pour trois raisons : la capacité du marché
+plafonne près de $500$~M\euro{} sur un seul risque ; les polices excluent la guerre et les
+infrastructures essentielles ; et sous Solvabilité~II céder ne supprime pas l'exigence, cela
+\emph{substitue} au risque cyber un risque de \textbf{défaut de contrepartie}. En résumant les
+trois par un coefficient d'inefficacité $\kappa$, le seuil critique vaut
+$\kappa^\star=1-0{,}0110/0{,}0475=\mathbf{77\,\%}$ : il faudrait que plus des trois quarts de la
+couverture soient inefficaces pour renverser la conclusion. La conclusion est robuste, le
+chiffre ne l'est pas.}
+
+% =====================================================================
 \newpage
-\section*{Annexe~: les vingt nombres à connaître par c\oe ur}
-\addcontentsline{toc}{section}{Annexe : les vingt nombres à connaître}
+\section*{Annexe~: les nombres à connaître par c\oe ur}
+\addcontentsline{toc}{section}{Annexe : les nombres à connaître}
 
 \begin{center}\small
 \renewcommand{\arraystretch}{1.25}
@@ -894,11 +1144,20 @@ $\lambda_U=0{,}53$ & dépendance de queue de Gumbel & dépendance \\
 $0{,}17 \to 0{,}39$ & co-extrême, gaussien vers Gumbel & dépendance \\
 $119$ vs $128\pm27$ & placebo OpRisk & identification \\
 $z=-0{,}33$ & placebo, bases agrégées & identification \\
-$z=+3{,}93$ & placebo, post-mortems & identification \\
+$z=+3{,}93 \to +5{,}12$ & placebo post-mortems, 7 puis 10 rapports & identification \\
+$+4{,}08$ / $+3{,}62$ & le même, primaires seules / entités seules & identification \\
+$0{,}12\,\%$ / $1{,}19\,\%$ / $1$ & \textsc{veris} : champ, chronologie, intersection & identification \\
+$12$ / $0$ sur $20$ & liens $p_{jk}$ crédiblement faibles / forts & identification \\
 $\sigma=0{,}0700$ & production d'entropie & identification \\
 $1024$ & sommets énumérés & identification \\
 $5\,275$~M\euro & socle sans contagion & capital \\
 $[6\,858\,;\,8\,697]$~M\euro & capital borné & capital \\
+$8\,123$ / $488$ / $221$~M\euro & SCR secteur / très grande entité / entité moyenne & échelle \\
+$50$ contre $8{,}3$ & multiple de capital, entité contre secteur & échelle \\
+$0{,}087$ $[0{,}026\,;0{,}148]$ & élasticité sévérité-taille, corrigée du seuil & données \\
+$+163\,\%$ & rehaussement chain-ladder de 2023--2025 & données \\
+$4{,}75\,\%$ & coût du capital, directive (UE) 2025/2 & décision \\
+$-47\,\%$ et $\kappa^\star=77\,\%$ & gain du traité optimal, et son seuil de robustesse & décision \\
 $p=0{,}87$ & tests d'adéquation & validation \\
 $2{,}6$ / $1{,}8$ / $5{,}5$ & les trois étages d'incertitude & validation \\
 $66\,\%$ / $28{,}9\,\%$ & valeur d'information, totale / meilleure paire & livrable \\
