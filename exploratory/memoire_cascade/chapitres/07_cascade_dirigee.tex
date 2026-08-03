@@ -59,14 +59,32 @@ littérature qu'on aurait ignorée.
 
 \section{Généralisation B : la propagation dirigée}
 
+\begin{cle}
+\textbf{Convention d'indices, à fixer une fois pour toutes.} Dans tout le mémoire,
+\[
+  \boxed{\;W_{jk}\;=\;\text{propension du pilier } j \text{ (\textbf{source}) à entraîner la
+  défaillance du pilier } k \text{ (\textbf{cible}).}\;}
+\]
+La \textbf{ligne} $j$ décrit donc ce que $j$ \emph{émet}, et la \textbf{colonne} $k$ ce que $k$
+\emph{reçoit}. C'est la convention du graphe d'arêtes vivantes (définition~\ref{def:cascade} :
+l'arc $j\to k$ existe si $B_{jk}=1$) et celle de toutes les implémentations. Elle donne son sens
+à la somme de ligne $s_j$, qui mesure l'\textbf{émission} du pilier $j$, et à la revendication
+centrale \og{}P1 émet fort et reçoit peu\fg{} : P1 a la plus grande somme de ligne ($2{,}6$) et
+une somme de colonne trois fois inférieure à celle de P2. Toute lecture inverse rendrait cette
+revendication fausse.
+\end{cle}
+
 Pour encoder l'asymétrie, on ajoute un terme de réseau dirigé : le stress de $j$ subit celui des
-autres piliers de la même entité, pondéré par une matrice \textbf{asymétrique} $W$ :
+autres piliers de la même entité, pondéré par une matrice \textbf{asymétrique} $W$. En respectant
+la convention ci-dessus, la source est le premier indice, donc le stress \emph{reçu} par $j$
+somme les colonnes :
 \begin{equation}
-X_{ij} \;=\; \underbrace{\sum_{k\neq j} W_{jk}\,X_{ik}}_{\text{contagion dirigée}}
+X_{ij} \;=\; \underbrace{\sum_{k\neq j} W_{kj}\,X_{ik}}_{\text{contagion dirigée, } k \to j}
    \;+\; \sqrt{\rho_{ij}}\,Y_j \;+\; \sqrt{1-\rho_{ij}}\,\varepsilon_{ij},
 \end{equation}
 d'où, en forme matricielle sur les cinq piliers, la forme réduite
-$\mathbf X_i=(I-W)^{-1}(\text{systémique}+\text{idio})$, \emph{sous réserve} que $\rho(W)<1$. Si
+$\mathbf X_i=(I-W^{\top})^{-1}(\text{systémique}+\text{idio})$, \emph{sous réserve} que
+$\rho(W)<1$, le rayon spectral étant invariant par transposition. Si
 $W=0$ on retombe sur la partie~A, et avec un seul facteur sur le Vasicek standard :
 l'emboîtement est propre.
 
@@ -89,8 +107,8 @@ TRANS n'a jamais été une matrice de parts.
 La discipline vient du modèle entrées-sorties de Leontief, dont l'inverse
 $B=(I-A)^{-1}=\sum_{k\ge0}A^k$ n'explose jamais parce que $A$ est une matrice de \textbf{parts} :
 les colonnes somment à moins de un, la différence étant la valeur ajoutée, strictement positive.
-On applique la même règle en lisant la ligne $j$ de $W$ comme les parts du stress de $j$
-provenant des autres piliers :
+On applique la même règle en lisant la ligne $j$ de $W$ comme les parts du stress que $j$
+\textbf{émet} vers les autres piliers :
 \begin{equation}
 \label{eq:norm}
 \boxed{\;W \;=\; g \cdot \frac{\mathrm{TRANS}}{\max_j \sum_k \mathrm{TRANS}_{jk}}\;,

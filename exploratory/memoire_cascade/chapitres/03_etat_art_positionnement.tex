@@ -35,7 +35,8 @@ touchés, ce qu'aucune des approches recensées ne peut reproduire.
 \section{Le mécanisme, et sa signature}
 
 La cascade dirigée pose une matrice $W$ de contagion entre piliers, où $W_{jk}$ mesure la
-propension d'une défaillance de $k$ à entraîner celle de $j$. Trois propriétés la
+propension d'une défaillance de $j$ à entraîner celle de $k$ (la ligne émet, la colonne
+reçoit). Trois propriétés la
 distinguent : elle est \textbf{dirigée} ($W_{jk}\neq W_{kj}$), elle autorise les
 \textbf{cycles} (P1$\to$P2$\to\cdots\to$P1), stabilisés par la normalisation de Leontief
 ($\rho(W)\le g<1$, forme réduite $(I-W)^{-1}$), et surtout elle est \textbf{à l'ordre} : la

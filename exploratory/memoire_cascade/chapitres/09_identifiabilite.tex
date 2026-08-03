@@ -24,8 +24,9 @@ conséquence lu en \textbf{bornes}, et la donnée manquante devient une spécifi
 
 \section{Ce qu'identifier $W$ exigerait}
 
-Le coefficient $W_{jk}$ mesure la propension d'une défaillance du pilier $k$ à
-\emph{entraîner}, dans la foulée, une défaillance du pilier $j$. L'identifier sur données
+Le coefficient $W_{jk}$ mesure la propension d'une défaillance du pilier $j$ à
+\emph{entraîner}, dans la foulée, une défaillance du pilier $k$ (convention
+du chapitre~\ref{chap:cascade} : la ligne émet, la colonne reçoit). L'identifier sur données
 demande trois choses simultanément : (i) observer des \textbf{co-occurrences} de défaillances de
 piliers au sein d'une même entité ; (ii) disposer d'une \textbf{antériorité temporelle} fiable
 (qui précède qui) pour distinguer $W_{jk}$ de $W_{kj}$ ; (iii) une \textbf{taxonomie par pilier}
@@ -280,6 +281,92 @@ sorties, $0$ entrée) et P2 (gestion des incidents) est un puits ($0$ sortie, $7
 structure que le classeur posait par jugement, retrouvée par un chemin indépendant. Le
 confondant de narration reste déclaré et non levé. Source :
 script~\texttt{53}.}{fig:postmortem}
+
+\section{Le corpus étendu, et la matrice ordonnée complète}
+\label{sec:corpus-etendu}
+
+Deux objections restaient ouvertes. Le signal directionnel pouvait tenir au \emph{choix} des
+sept incidents, tous notoires ; et le codage, tel qu'il est exploité ci-dessus, ne compare que
+$n(j\to k)$ à $n(k\to j)$ \emph{à l'intérieur} d'une paire, ce qui élimine le dénominateur et
+ne dit donc rien de l'\textbf{amplitude}. On lève les deux ensemble.
+
+\paragraph{Le corpus passe à dix rapports, et le signal se renforce.} Trois incidents
+s'ajoutent, tous documentés par une enquête publique : \textbf{CrowdStrike Falcon 2024}
+(analyse technique de cause racine du 6 août 2024, où le validateur de contenu laisse passer un
+fichier dont le nombre de champs ne correspond pas au modèle), \textbf{Log4Shell 2021--2022}
+(premier rapport du \textsc{csrb}, où l'absence d'inventaire des dépendances logicielles
+interdit de savoir où la bibliothèque était déployée) et \textbf{Raphaels Bank 2015} (amende
+conjointe \textsc{fca}/\textsc{pra} pour manquement répété à la gouvernance de
+l'externalisation). Le corpus compte alors $22$ transitions. Le test de direction ne se contente
+pas de tenir, il se renforce, et il survit aux deux restrictions les plus dures.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l r r r r@{}}
+\toprule
+\textbf{Périmètre} & \textbf{Rapports} & \textbf{Transitions} & \textbf{Asym.\ / nul} & $z$ \\
+\midrule
+Corpus initial (chapitre, ci-dessus) & $7$ & $17$ & $17$ / $8{,}4\pm2{,}2$ & $+3{,}93$ \\
+\textbf{Corpus étendu} & $10$ & $22$ & $22$ / $9{,}5\pm2{,}4$ & $\mathbf{+5{,}12}$ \\
+Sources \emph{primaires} seules & $7$ & $18$ & $18$ / $8{,}2\pm2{,}4$ & $+4{,}08$ \\
+Perspective \emph{entité} seule & $6$ & $16$ & $16$ / $8{,}0\pm2{,}2$ & $+3{,}62$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+Les deux dernières lignes comptent autant que la deuxième. Restreindre aux \textbf{sources
+primaires} écarte l'hypothèse que le signal viendrait de la couverture de presse ; restreindre à
+la \textbf{perspective entité} écarte celle qu'il viendrait du mélange des points de vue, une
+défaillance interne d'un fournisseur n'étant pas un risque tiers pour lui-même alors qu'elle
+l'est pour ses clients. Le signal survit aux deux.
+
+\paragraph{La matrice ordonnée, enfin estimable.} Chaque incident déclare désormais, en plus de
+ses transitions, l'ensemble des \textbf{piliers défaillants}, y compris ceux qui ont cédé sans
+rien entraîner. On dispose alors du dénominateur qui manquait, et l'on estime directement
+\begin{equation}
+  p_{jk} \;=\; \Prob(\text{le pilier } k \text{ cède} \mid \text{le pilier } j \text{ a cédé}),
+  \qquad
+  p_{jk}\mid\text{données} \;\sim\; \mathrm{Beta}\bigl(1+m_{jk},\;1+N_j-m_{jk}\bigr),
+  \label{eq:pjk}
+\end{equation}
+où $N_j$ compte les incidents où $j$ a cédé et $m_{jk}$ ceux où le rapport établit $j\to k$.
+C'est la matrice \emph{ordonnée complète}, donc $S$ \textbf{et} $A$, là où la lecture par paire
+ne donnait que le signe de $A$.
+
+\begin{attention}
+\textbf{Le résultat est asymétrique, et c'est lui qu'il faut retenir.} Sur les vingt liens
+ordonnés, \textbf{douze} ont un crédible à $90\,\%$ entièrement \emph{sous} $0{,}5$, et
+\textbf{aucun} entièrement au-dessus. Le corpus établit donc très bien \emph{où la contagion ne
+va pas}, et pas du tout où elle va fort : même les liens les plus élevés, $P_3\to P_2$
+($0{,}77$, crédible $[0{,}48\,;0{,}95]$) et $P_1\to P_4$ ($0{,}68$, $[0{,}40\,;0{,}89]$),
+recouvrent encore $0{,}5$. Les douze liens faibles comprennent en revanche les \textbf{cinq
+sorties de $P_2$} et les \textbf{quatre entrées de $P_1$} : le puits et la source pure sont,
+eux, établis en tant que tels.
+\end{attention}
+
+\begin{cle}
+\textbf{Ce que l'extension confirme, et ce qu'elle ne déplace pas.} La corrélation entre la
+matrice documentaire et le classeur d'expert n'est \textbf{pas} significative, ni sur la matrice
+complète ($\rho=+0{,}08$) ni sur la seule partie antisymétrique ($\rho=+0{,}31$, $p=0{,}19$).
+Le corpus ne reproduit donc pas le classement des coefficients, et il serait malhonnête de le
+présenter autrement. Ce qu'il reproduit est la \textbf{structure}, et elle seule. Enfin, en
+ajoutant des défaillances non propagées au dénominateur, pour tenir compte de ce qu'une enquête
+documente mal les contrôles qui cèdent sans conséquence, le \emph{niveau} de $p_{jk}$ s'effondre
+(de $0{,}27$ à $0{,}07$ en moyenne) tandis que la \textbf{part de direction}
+$\lVert A\rVert/\lVert W\rVert$ ne bouge pas (elle reste à $60\,\%$). Le corpus établit un
+\textbf{ordre, pas une magnitude}, et l'extension confirme la frontière à trois niveaux sur un
+objet plus riche au lieu de la déplacer.
+\end{cle}
+
+\figcle{Z20_corpus_etendu_pij.png}{Le corpus étendu et la matrice ordonnée $p_{jk}$.
+\textbf{(a)}~la matrice complète des médianes a posteriori, ligne émettrice et colonne
+réceptrice : la ligne de $P_2$ et la colonne de $P_1$ sont vides, ce qui est la traduction
+chiffrée du puits et de la source pure. \textbf{(b)}~les dix premiers liens ordonnés avec leur
+crédible à $90\,\%$ : la direction ressort, l'amplitude reste large et aucun crédible ne passe
+entièrement au-dessus de $0{,}5$. \textbf{(c)}~sensibilité à la sous-documentation des
+défaillances non propagées : le niveau s'effondre, la part de direction tient. Source :
+script~\texttt{59}.}{fig:corpus-etendu}
 
 \section{La formalisation bayésienne, et sa prudence}
 \label{sec:bayes}

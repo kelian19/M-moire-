@@ -22,7 +22,7 @@ $\mathrm{TRANS}$ & Matrice d'influence brute du classeur qualitatif, asymétriqu
 $\mathrm{ROOT}$ & Propension de chaque pilier à \emph{amorcer} une chaîne & \ref{chap:cascade} \\
 $s_j$ & Somme de la ligne $j$ de $\mathrm{TRANS}$ ; $s_{\max}=\max_j s_j$ & \ref{chap:cascade} \\
 $g$ & Gain de propagation, part de contagion du pilier le plus exposé & \ref{chap:cascade} \\
-$W$ & Matrice de contagion normalisée à la Leontief, $W=g\,\mathrm{TRANS}/s_{\max}$ & \ref{chap:cascade} \\
+$W$ & Matrice de contagion normalisée à la Leontief, $W=g\,\mathrm{TRANS}/s_{\max}$. \textbf{Convention : $W_{jk}$ va de la source $j$ vers la cible $k$ ; la ligne émet, la colonne reçoit} & \ref{chap:cascade} \\
 $e_j$ & Propension à propager depuis $j$, $e_j=g\,s_j/s_{\max}$ & \ref{chap:cascade} \\
 $\rho(W)$ & Rayon spectral de $W$ ; $\rho(W)\le g<1$ garantit la stabilité & \ref{chap:cascade} \\
 $(I-W)^{-1}$ & Inverse de Leontief, descendance espérée avec multiplicité & \ref{chap:cascade} \\
