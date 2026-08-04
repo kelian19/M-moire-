@@ -131,7 +131,7 @@ def ladder(ax, ours, anchors, title, xlab):
         ax.spines[s].set_visible(False)
 
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15.5, 5.4))
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.4, 8.4))
 ladder(ax1, {"notre VaR 99,5 % (sinistre)": var_single, "notre TVaR 99,5 %": tvar_single},
        sev_anchors, "(a)  Sinistre unique : nos quantiles\nface aux grandes pertes cyber réelles",
        "perte (M€, échelle log)")

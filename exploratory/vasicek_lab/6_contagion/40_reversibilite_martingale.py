@@ -235,7 +235,7 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
 ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.5, 4.9))
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 9.9))
 
 # (a) le courant J : heatmap divergente + fleches du sens net
 vmax = np.abs(J).max()

@@ -255,8 +255,8 @@ INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
 ACCENT = "#eb6834"
 BL = ["#b7d3f6", "#3987e5", "#184f95"]
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15.4, 4.8),
-                                    gridspec_kw={"width_ratios": [1, 1.15, 1]})
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 9.9),
+                                    gridspec_kw={"height_ratios": [1, 1.15, 1]})
 
 # (a) detenir vs transferer, en tout ou rien
 labs = ["détenir\n(CoC 6,00 %)", "détenir\n(CoC 4,75 %)", "sinistralité\nattendue"]

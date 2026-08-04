@@ -403,8 +403,8 @@ INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
 ACCENT = "#eb6834"
 BL = ["#b7d3f6", "#3987e5", "#184f95"]
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15.4, 5.0),
-                                    gridspec_kw={"width_ratios": [1.05, 1.15, 1]})
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 10.1),
+                                    gridspec_kw={"height_ratios": [1.05, 1.15, 1]})
 
 # (a) la matrice p_jk
 im = ax1.imshow(p_med, cmap="Blues", vmin=0, vmax=max(0.6, p_med.max()))

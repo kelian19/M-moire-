@@ -305,7 +305,7 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
 ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.5, 5.0))
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 10.1))
 
 # (a) matrice des transitions codees
 im = ax1.imshow(M, cmap="Blues", vmin=0, vmax=max(1, M.max()))

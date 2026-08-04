@@ -9,13 +9,29 @@
 \noindent Les symboles sont regroupés par brique du modèle, dans l'ordre où le mémoire les
 introduit. La colonne de droite renvoie au chapitre qui les définit.
 
+% LONGTABLE ET NON TABULAR. Un tabular ne peut pas se couper : la table dépassait le
+% bas de page, et hyperref plaçait alors les liens \ref des sept dernières lignes à des
+% coordonnées NÉGATIVES (sept avertissements « Annotation out of page boundary » à la
+% compilation). Les renvois fonctionnaient mais pointaient sur la mauvaise page du PDF.
+% longtable répartit la table sur plusieurs pages et rejoue l'en-tête à chaque page.
 \renewcommand{\arraystretch}{1.22}
-\begin{center}\small
-\begin{tabular}{>{\raggedright}p{3.3cm} >{\raggedright\arraybackslash}p{10.2cm} c}
+{\small
+\begin{longtable}{>{\raggedright}p{3.3cm} >{\raggedright\arraybackslash}p{10.2cm} c}
 \toprule
 \rowcolor{lightblue}
 \textbf{Symbole} & \textbf{Signification} & \textbf{Ch.} \\
 \midrule
+\endfirsthead
+\toprule
+\rowcolor{lightblue}
+\textbf{Symbole} & \textbf{Signification} & \textbf{Ch.} \\
+\midrule
+\endhead
+\bottomrule
+\multicolumn{3}{r@{}}{\footnotesize\itshape suite page suivante} \\
+\endfoot
+\bottomrule
+\endlastfoot
 \multicolumn{3}{@{}l}{\textit{\textcolor{navy}{Piliers et cascade dirigée}}} \\
 $P_1,\dots,P_5$ & Les cinq piliers DORA : gouvernance, gestion des incidents, tests de résilience, prestataires tiers, partage d'informations & \ref{chap:cascade} \\
 $\mathrm{TRANS}$ & Matrice d'influence brute du classeur qualitatif, asymétrique, non normalisée & \ref{chap:cascade} \\
@@ -67,9 +83,8 @@ $\mathrm{CoC}$ & Taux de coût du capital de la marge de risque ($6\,\%$, révis
 $L,\ L^\star$ & Portée d'un traité en excès de perte annuel ; portée optimale & \ref{chap:resultats} \\
 $\kappa$ & Coefficient d'inefficacité du transfert (capacité, base, contrepartie) & \ref{chap:resultats} \\
 $\theta$ & Paramètre de la copule de Gumbel, \emph{utilisée comme axe de comparaison} et non comme modèle & \ref{ch:robustesse} \\
-\bottomrule
-\end{tabular}
-\end{center}
+\end{longtable}
+}
 
 \clearpage
 

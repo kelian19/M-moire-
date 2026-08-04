@@ -217,7 +217,8 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
 ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15.0, 5.2), gridspec_kw={"width_ratios": [1, 1.15]})
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.4, 8.6),
+                               gridspec_kw={"height_ratios": [1, 1.15]})
 
 # (a) retrecissement de la bande : avant / apres post-mortems / signes complets
 stages = [("ignorance\ntotale", lo0, hi0, MUTED),

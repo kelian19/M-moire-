@@ -231,8 +231,10 @@ mpl.rcParams.update({
 INK, INK2, MUTED, GRID = "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
 ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
 
-fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(20.5, 4.9),
-                                         gridspec_kw={"width_ratios": [1.15, 1, 1, 1]})
+# quatre panneaux : une grille 2x2 tient en portrait la ou une rangee de quatre
+# imposerait une page tournee (rapport h/l de 0,89 contre 0,24).
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(7.6, 6.8),
+                                             gridspec_kw={"width_ratios": [1.1, 1]})
 ts = np.array(T_GRID)
 los = np.array([bounds[t][0] for t in T_GRID])
 his = np.array([bounds[t][1] for t in T_GRID])

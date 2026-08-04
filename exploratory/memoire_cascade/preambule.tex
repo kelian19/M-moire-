@@ -16,44 +16,47 @@
 \usepackage{enumitem}
 \usepackage[most]{tcolorbox}
 \usepackage{tabularx}
+\usepackage{longtable}
 \usepackage{graphicx}
 \usepackage{eurosym}
 \usepackage{caption}
 \usepackage{titlesec}
 \usepackage{amsthm}
 \usepackage[round,authoryear]{natbib}
-\usepackage{pdflscape}
 \usepackage{hyperref}
 
 % ---------------------------------------------------------------------------
 % LISIBILITÉ DES FIGURES
-% Les figures du pipeline sont produites en 15,4 pouces de large (trois ou
-% quatre panneaux côte à côte). Réduites à la justification (16,2 cm), leurs
+% La plupart des figures du pipeline sont produites en 15,4 pouces de large (trois
+% ou quatre panneaux côte à côte). Réduites à la justification (16,2 cm), leurs
 % étiquettes tombent sous 4 pt : illisibles. Deux traitements, selon l'enjeu.
 %
 %   \figover{fichier}  : débord contrôlé dans les marges (18,5 cm au lieu de
 %                        16,2), soit +14 % de linéaire. Traitement par défaut.
-%   \figcle{...}       : PAGE ENTIÈRE EN PAYSAGE pour les figures qui portent
-%                        la thèse. La largeur disponible passe à \textheight,
-%                        soit 24,9 cm, donc +54 % sur la justification et des
-%                        panneaux d'environ 8 cm au lieu de 5,2 cm.
+%   \figcle{...}       : PAGE ENTIÈRE EN PORTRAIT pour les figures qui portent
+%                        la thèse.
+%
+% POURQUOI PLUS DE PAGE EN PAYSAGE. Une première version mettait ces figures sur
+% une page tournée pour disposer de 24,9 cm de large. Cela réglait la lisibilité
+% des étiquettes mais imposait au lecteur de tourner le document sept fois, ce qui
+% est pire que le mal. La lisibilité vient désormais de la GÉNÉRATION : les figures
+% concernées sont produites en panneaux EMPILÉS et non côte à côte, ce qui les rend
+% hautes plutôt que larges. Une figure de rapport hauteur/largeur d'environ 1,3
+% remplit une page portrait à pleine justification, et chaque panneau y occupe
+% 16,2 cm de large au lieu de 5,2 cm. Voir les scripts 30, 40, 49, 53, 55, 58, 59.
 % ---------------------------------------------------------------------------
 \newcommand{\figover}[1]{%
   \makebox[\textwidth][c]{\includegraphics[width=1.14\textwidth]{#1}}}
 
 % #1 fichier, #2 légende, #3 label
 \newcommand{\figcle}[3]{%
-  \begin{landscape}
   \begin{figure}[p]
     \centering
-    \begin{minipage}{0.97\textheight}
-      \centering
-      \includegraphics[width=\linewidth]{#1}
-      \caption{#2}
-      \label{#3}
-    \end{minipage}
-  \end{figure}
-  \end{landscape}}
+    \makebox[\textwidth][c]{%
+      \includegraphics[width=1.10\textwidth,height=0.88\textheight,keepaspectratio]{#1}}
+    \caption{#2}
+    \label{#3}
+  \end{figure}}
 
 % figures : chantier exploratoire, puis pipeline principal (chapitres migrés, qui
 % appellent leurs images sous la forme figures/xxx.png)
