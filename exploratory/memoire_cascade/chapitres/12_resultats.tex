@@ -111,7 +111,7 @@ mémoire : le SCR est une distribution, pas un point.
 \paragraph{L'intervalle PRC est étroit, et il le reste quand on cesse de croire la conversion
 exacte.} La sévérité PRC est dérivée du nombre d'enregistrements compromis par la relation
 log-log de Jacobs (2014), dont le résidu vaut $0{,}523$ en logarithme naturel : à volume donné,
-le coût réel varie d'un facteur $2{,}4$ autour de la droite à $90\,\%$. Réinjecter ce résidu
+le coût réel varie d'un facteur $2{,}4$ autour de la droite à $90\,\%$ (script~\texttt{21}). Réinjecter ce résidu
 enregistrement par enregistrement ne rouvre pourtant presque pas l'intervalle, le bruit se
 moyennant dans l'ajustement GPD ; il déplace le \emph{niveau} du surcoût de $7\,\%$, sans
 l'élargir (\S\ref{sec:ann-jacobs}). L'étroitesse de l'intervalle PRC n'est donc pas un artefact
@@ -138,13 +138,14 @@ cascade (un pilier non conforme amplifie aussi les contagions amorcées ailleurs
 traversent), qu'un modèle sans propagation (le LDA à copule du mémoire) ne peut pas produire.
 Sa mesure exige toutefois de la prudence : une interaction est une différence de différences,
 l'estimateur Monte-Carlo le plus fragile qui soit en queue lourde. Sur la VaR à $99{,}5\,\%$
-OpRisk, son \emph{signe} n'est pas résolu : il varie de $-1{,}9$ à $+2{,}1$~Md\euro{} selon la
-graine à résolution égale, et la mesure de référence ($60\,000$ années, graine $909$) donne
-$+1\,395$~M\euro{}. Un tel intervalle interdit d'en tirer quoi que ce soit. La
-super-additivité est en revanche robuste partout où le bruit de queue ne domine pas : en
-\emph{perte moyenne} sur les deux périmètres ($+560$~M\euro{} OpRisk, $+827$~M\euro{} PRC,
-soit environ un cinquième du surcoût moyen dans les deux cas), et jusque dans la VaR du
-périmètre PRC, dont le plafond de sévérité tronque la queue ($+905$~M\euro{}). Conséquence pratique : puisque les
+OpRisk, son \emph{signe n'est pas résolu} : sur six graines à résolution égale
+($60\,000$ années chacune), il va de $-137$ à $+1\,395$~M\euro{} et n'est positif que dans
+\textbf{quatre cas sur six}, la graine de référence donnant $+1\,395$~M\euro{}. Un estimateur
+qui change de signe avec la graine interdit d'en tirer quoi que ce soit. La super-additivité
+est en revanche robuste partout où le bruit de queue ne domine pas : en \emph{perte moyenne}
+elle est positive sur les \textbf{six} graines ($+532$ à $+659$~M\euro{} OpRisk, $+827$
+côté PRC, soit environ un cinquième du surcoût moyen), et jusque dans la VaR du périmètre PRC,
+dont le plafond de sévérité tronque la queue ($+905$~M\euro{}). Conséquence pratique : puisque les
 marginaux ne somment pas au total, l'attribution du surcoût aux piliers exige une règle
 principielle qui somme exactement : c'est l'objet de la valeur de Shapley
 (section~\ref{sec:allocation}). Sources : scripts~\texttt{16b}, \texttt{20b}.
@@ -334,7 +335,7 @@ varier les paramètres du modèle \emph{à matrice $W$ fixée}, celle du classeu
 établissent donc que P1 arrive en tête \emph{si l'on admet cette direction}. Dès lors que l'on
 admet ne pas connaître la direction et que l'on balaie l'ensemble admissible
 (chapitre~\ref{chap:partielle}), P1 et P4 deviennent \textbf{pratiquement à égalité} : P1 arrive
-premier dans $45\,\%$ des configurations, P4 dans $36\,\%$, et l'écart de regret maximal entre
+premier dans $43{,}6\,\%$ des configurations, P4 dans $37{,}7\,\%$ (script~\texttt{30}), et l'écart de regret maximal entre
 les deux n'est que de $1{,}5\,\%$. Les deux énoncés ne se contredisent pas, ils portent sur des
 sources d'incertitude différentes. Ce qui est robuste dans les deux cadres, c'est que P1 et P4
 devancent nettement P2, P3 et P5, et que P5 n'arrive \emph{jamais} en tête.
@@ -347,7 +348,7 @@ jamais toucher la direction ni le classement : le surcoût PRC reste contenu ent
 $3\,977$~M\euro{} autour du central, $\gamma$ ne commande que la sévérité de la bascule en
 crise, et l'ancrage des probabilités d'état déplace le capital espéré actuel mais laisse
 inchangés le SCR par état et le surcoût NC contre C, qui lui sont conditionnels. Le détail du
-protocole de stress figure au \S\ref{sec:ann-hypotheses}.
+protocole de stress figure au \S\ref{sec:ann-hypotheses}. Source : script~\texttt{22}.
 
 \section{Comparaison de modèles : la dépendance n'est pas le mécanisme}
 \label{sec:benchmark}
@@ -596,7 +597,7 @@ euro. C'est la thèse du mémoire, lue à l'échelle où une entité la vit.
 \begin{attention}
 \textbf{Ce que la correction d'échelle déplace, et ce qu'elle laisse intact.} La descente à la
 bonne taille divise les niveaux d'entité par près de trois. Il faut donc dire lesquelles des
-conclusions en dépendent. Le \textbf{multiple de capital} ($52{,}0 \to 48{,}6$) et le coût de
+conclusions en dépendent. Le \textbf{multiple de capital} ($52{,}0 \to 46{,}5$) et le coût de
 détention rapporté à la sinistralité attendue ($2{,}47 \to 2{,}21$) bougent de moins de
 $11\,\%$ : leurs deux termes se rapportent au même SCR et se déplacent ensemble, ce qui
 vérifie sur un cas non préparé pour cela la thèse du \S\ref{sec:detenir-transferer}. En

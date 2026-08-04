@@ -1065,19 +1065,22 @@ teste : on redescend $\lambda$ au niveau d'une entité, à sévérité, matrice 
 \textbf{Échelle} & $\lambda$/an & \textbf{SCR} & \textbf{Moyenne} \\
 \midrule
 Secteur financier mondial & $21{,}56$ & $8\,123$~M\euro & $982$~M\euro \\
-Très grande entité & $0{,}21$ & $\mathbf{488}$~M\euro & $9{,}7$~M\euro \\
+Seuil \og{}$\geq 10$ ev.\fg{} & $0{,}210$ & $488$~M\euro & $9{,}7$~M\euro \\
 Entité moyenne & $0{,}10$ & $221$~M\euro & $4{,}5$~M\euro \\
 \bottomrule
 \end{tabular}
 \end{center}}
 
 \laphrase{Mes montants sont un SCR de \emph{marché}, pas d'entreprise. Redescendu à l'échelle
-d'une très grande entité, le même modèle donne $488$ millions, soit l'ordre exact de la charge
-opérationnelle de Formule Standard que je calcule par ailleurs à $450$. L'écart d'un facteur
-dix était un écart de périmètre, pas de modèle.}
+d'une entité, le même modèle donne $169$ millions, à comparer à la charge opérationnelle de
+Formule Standard que je calcule par ailleurs à $450$. Attention au piège que j'ai moi-même
+tendu : en lisant $\lambda$ sur les firmes à au moins dix événements, je trouvais $488$ et je
+croyais l'écart refermé. Or ces firmes sont dix-neuf fois plus grosses que mon entité. La
+lecture correcte donne $0{,}38$ fois le forfait, et ce n'est pas le niveau qui parle, c'est
+que le forfait ne bouge pas d'un euro entre un profil exemplaire et un profil défaillant.}
 
-\lepiege{La non-linéarité est le vrai résultat. Diviser $\lambda$ par $103$ divise la moyenne
-par $101$, donc à proportion, mais ne divise le capital que par $17$. C'est le
+\lepiege{La non-linéarité est le vrai résultat. Diviser $\lambda$ par $235$ divise la moyenne
+par $270$, donc à proportion, mais ne divise le capital que par $48$. C'est le
 \textbf{principe du grand saut unique} : à $\lambda=0{,}21$, quatre années sur cinq sont vides
 et le quantile ne décrit plus une accumulation mais un sinistre isolé. Diviser le capital de
 secteur par le nombre d'entités le sous-estimerait d'un facteur six.}
@@ -1101,11 +1104,11 @@ annuel de portée $L$, on minimise
   \;+\;\mathrm{CoC}\times\underbrace{\mathrm{VaR}_{99{,}5\%}\bigl(X-\min(X,L)\bigr)}_{\text{capital résiduel}} .
 \]}
 
-\cheznous{Multiple de capital $\mathrm{SCR}/\E[X]=\mathbf{50}$ à l'échelle entité contre $8{,}3$
-au secteur. Coût de détention $23{,}2$~M\euro/an contre $9{,}7$~M\euro{} de sinistralité
-attendue, soit $2{,}4$ fois. Le capital résiduel vaut $\max(\mathrm{SCR}-L,0)$, donc l'optimum
-tombe exactement en $L^\star=\mathrm{SCR}=488$~M\euro, et le coût total passe à
-$\mathbf{12{,}3}$~M\euro, soit $\mathbf{-47\,\%}$.}
+\cheznous{Multiple de capital $\mathrm{SCR}/\E[X]=\mathbf{47}$ à l'échelle entité contre $8{,}3$
+au secteur. Coût de détention $8{,}0$~M\euro/an contre $3{,}6$~M\euro{} de sinistralité
+attendue, soit $2{,}2$ fois. Le capital résiduel vaut $\max(\mathrm{SCR}-L,0)$, donc l'optimum
+tombe exactement en $L^\star=\mathrm{SCR}=169$~M\euro, et le coût total passe à
+$\mathbf{2{,}9}$~M\euro, soit $\mathbf{-64\,\%}$.}
 
 \laphrase{Immobiliser le capital coûte deux fois et demie ce que le risque coûte en moyenne.
 Près de l'optimum, un euro de portée coûte un peu plus d'un pour cent de prime et libère
@@ -1117,7 +1120,7 @@ plafonne près de $500$~M\euro{} sur un seul risque ; les polices excluent la gu
 infrastructures essentielles ; et sous Solvabilité~II céder ne supprime pas l'exigence, cela
 \emph{substitue} au risque cyber un risque de \textbf{défaut de contrepartie}. En résumant les
 trois par un coefficient d'inefficacité $\kappa$, le seuil critique vaut
-$\kappa^\star=1-0{,}0110/0{,}0475=\mathbf{77\,\%}$ : il faudrait que plus des trois quarts de la
+$\kappa^\star=1-0{,}0116/0{,}0475=\mathbf{76\,\%}$ : il faudrait que plus des trois quarts de la
 couverture soient inefficaces pour renverser la conclusion. La conclusion est robuste, le
 chiffre ne l'est pas.}
 
@@ -1152,12 +1155,12 @@ $\sigma=0{,}0700$ & production d'entropie & identification \\
 $1024$ & sommets énumérés & identification \\
 $5\,275$~M\euro & socle sans contagion & capital \\
 $[6\,858\,;\,8\,697]$~M\euro & capital borné & capital \\
-$8\,123$ / $488$ / $221$~M\euro & SCR secteur / très grande entité / entité moyenne & échelle \\
+$8\,123$ / $169$~M\euro & SCR secteur / entité ($\lambda$ lu à la taille) & échelle \\
 $50$ contre $8{,}3$ & multiple de capital, entité contre secteur & échelle \\
 $0{,}087$ $[0{,}026\,;0{,}148]$ & élasticité sévérité-taille, corrigée du seuil & données \\
 $+163\,\%$ & rehaussement chain-ladder de 2023--2025 & données \\
 $4{,}75\,\%$ & coût du capital, directive (UE) 2025/2 & décision \\
-$-47\,\%$ et $\kappa^\star=77\,\%$ & gain du traité optimal, et son seuil de robustesse & décision \\
+$-64\,\%$ et $\kappa^\star=76\,\%$ & gain du traité optimal, et son seuil de robustesse & décision \\
 $p=0{,}87$ & tests d'adéquation & validation \\
 $2{,}6$ / $1{,}8$ / $5{,}5$ & les trois étages d'incertitude & validation \\
 $66\,\%$ / $28{,}9\,\%$ & valeur d'information, totale / meilleure paire & livrable \\

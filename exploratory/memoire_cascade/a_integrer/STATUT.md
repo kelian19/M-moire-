@@ -20,8 +20,11 @@ Le mémoire vivant est `../main.tex` + `../chapitres/`. Rien d'autre.
    cycle. Le mémoire vivant l'a retirée et l'a remplacée par la dépendance à l'ordre. La
    figure `G1_non_transitivite.png` n'est plus utilisée nulle part.
 
-3. **`07_elicitation.tex` et `B_elicitation.tex`** décrivent un chantier d'élicitation qui
-   n'aura pas lieu.
+3. **`07_elicitation.tex` et `B_elicitation.tex`** décrivent le chantier d'élicitation dans
+   un plan de rédaction abandonné. L'élicitation elle-même reste **attendue** (retours de
+   questionnaire en cours) ; le dispositif vivant est au chapitre 10, qui démontre que son
+   rôle se limite à départager P1 et P4. Ne pas reprendre le texte d'ici : c'est
+   l'ancienne version, où l'élicitation portait tout le modèle.
 
 4. **`macros_requises.tex`** n'est chargé par personne : les macros vivantes sont dans
    `../preambule.tex`.

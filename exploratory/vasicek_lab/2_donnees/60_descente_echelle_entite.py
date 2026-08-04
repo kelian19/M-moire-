@@ -408,22 +408,36 @@ print(f"{'cout annuel de detention  (M EUR)':<44}{COC_REVISE*491.1:>19,.1f}"
 print(f"{'   soit x la sinistralite attendue':<44}{COC_REVISE*491.1/9.44:>19,.2f}"
       f"{COC_REVISE*scr_x/esp_x:>19,.2f}")
 print(f"{'portee optimale L*  (M EUR)':<44}{488.0:>19,.0f}{grid[i]:>19,.0f}")
+# 0,61 est la valeur HISTORIQUE imprimee par le script 58 dans sa configuration a
+# lambda = 0,21, conservee ici comme point de comparaison. Ne pas la recalculer par un
+# rapport approche : une premiere version le faisait et donnait 63 %, faux de deux points.
+CEDE_REF_HISTORIQUE = 0.61
+cede_ref, cede_new = CEDE_REF_HISTORIQUE, float(np.minimum(X, grid[i]).mean()) / esp_x
+print(f"{'part de la sinistralite cedee':<44}{cede_ref:>18.0%}{cede_new:>19.0%}")
 print(f"{'gain du dimensionnement':<44}{-0.47:>18.0%}{cc[i]/c0-1:>19.0%}")
+
+# NE RIEN CODER EN DUR ICI. La narration qui suit a deja porte une fois des valeurs
+# perimees (48,6 et 2,31) que verif_chiffres.py a rattrapees dans le memoire. Toute
+# grandeur citee est desormais interpolee depuis les variables calculees.
+mult_ref, mult_new = 491.1 / 9.44, scr_x / esp_x
+det_ref, det_new = COC_REVISE * 491.1 / 9.44, COC_REVISE * scr_x / esp_x
+ecart = max(abs(mult_new / mult_ref - 1), abs(det_new / det_ref - 1))
 print("\nCE QUI EST INVARIANT, ET CE QUI NE L'EST PAS. Il faut separer les deux, car tout")
 print("ne survit pas de la meme facon.")
-print("\n  INVARIANT. Le multiple de capital (52,0 -> 48,6) et le cout de detention rapporte")
-print("  a la sinistralite attendue (2,47 -> 2,31) bougent de moins de 7 %, alors que les")
-print("  NIVEAUX sont divises par pres de trois. Leurs deux termes se rapportent au meme")
-print("  SCR et se deplacent ensemble : c'est la these du memoire, et elle se verifie ici")
-print("  sur une correction qui n'avait pas ete faite pour la tester.")
-print("\n  NON INVARIANT. Le gain du dimensionnement passe de -47 % a -64 %, et il faut le")
-print("  dire au lieu de le ranger avec les rapports. La cause est mecanique : a lambda")
+print(f"\n  INVARIANT. Le multiple de capital ({mult_ref:,.1f} -> {mult_new:,.1f}) et le cout de")
+print(f"  detention rapporte a la sinistralite attendue ({det_ref:,.2f} -> {det_new:,.2f})")
+print(f"  bougent de moins de {100*ecart:.0f} %, alors que les NIVEAUX sont divises par pres de")
+print("  trois. Leurs deux termes se rapportent au meme SCR et se deplacent ensemble :")
+print("  c'est la these du memoire, verifiee sur une correction qui n'avait pas ete faite")
+print("  pour la tester.")
+print(f"\n  NON INVARIANT. Le gain du dimensionnement passe de -47 % a {cc[i]/c0-1:.0%}, et il faut")
+print("  le dire au lieu de le ranger avec les rapports. La cause est mecanique : a lambda")
 print("  plus faible, la perte annuelle est plus dominee par un sinistre unique, donc une")
 print("  part PLUS GRANDE de E[X] se situe au-dela du SCR et echappe a une portee bornee")
-print("  par le SCR. La part cedee tombe de 63 % a 40 %, et le cout residuel avec elle.")
-print("  Le sens de la conclusion (transferer est nettement moins cher que detenir) est")
-print("  donc renforce par la correction, mais son AMPLEUR chiffree en depend et ne doit")
-print("  pas etre citee comme une grandeur d'entite.")
+print(f"  par le SCR. La part cedee tombe de {cede_ref:.0%} a {cede_new:.0%}, et le cout residuel")
+print("  avec elle. Le sens de la conclusion (transferer est nettement moins cher que")
+print("  detenir) est donc renforce par la correction, mais son AMPLEUR chiffree en depend")
+print("  et ne doit pas etre citee comme une grandeur d'entite.")
 
 
 # =====================================================================================

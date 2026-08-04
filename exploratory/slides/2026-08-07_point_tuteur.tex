@@ -1,4 +1,4 @@
-﻿% Point d'avancement tuteur, 7 aout 2026. DIX slides.
+% Point d'avancement tuteur, 7 aout 2026. DIX slides.
 % Continuite du 31/07. Le placebo et la clarification z/sigma ont deja ete envoyes par ecrit.
 % ORDRE : on ouvre sur le RESULTAT (le capital, son echelle, sa confrontation au reel), et on
 % garde pour la fin les VERIFICATIONS demandees au dernier call (Jacobs, les marges).
@@ -82,46 +82,49 @@ $8\,553$~M\euro{} au point nominal, soit $5\,\%$ d'écart.
 Le calage est celui du \textbf{secteur financier mondial} ($21{,}6$ incidents \textsc{tic}
 matériels par an). En ne changeant \emph{que} la fréquence d'amorce, même sévérité et même
 cascade :
-\vspace{1mm}
-\begin{center}\footnotesize
+\vspace{0.5mm}
+\begin{center}\scriptsize
 \begin{tabular}{@{}l r r r@{}}
 \toprule
-\textbf{Échelle} & \textbf{$\lambda$/an} & \textbf{SCR $99{,}5\,\%$} & \textbf{perte
-moyenne} \\
+\textbf{Échelle} & \textbf{$\lambda$/an} & \textbf{SCR $99{,}5\,\%$} & \textbf{perte moy.} \\
 \midrule
 Secteur financier mondial (calage actuel) & $21{,}6$ & $8\,123$~M\euro & $982$~M\euro \\
-\textbf{Très grande entité} & $0{,}21$ & $\mathbf{488}$~M\euro & $9{,}7$~M\euro \\
-Entité moyenne du panel & $0{,}10$ & $221$~M\euro & $4{,}5$~M\euro \\
+Seuil \og{}$\geq 10$ événements\fg{} & $0{,}21$ & $488$~M\euro & $9{,}7$~M\euro \\
+Seuil \og{}toutes firmes\fg{} & $0{,}10$ & $229$~M\euro & $4{,}6$~M\euro \\
+\textbf{$\lambda$ lu à la taille de l'entité} & $\mathbf{0{,}092}$ & $\mathbf{169}$~M\euro &
+$\mathbf{3{,}6}$~M\euro \\
 \bottomrule
 \end{tabular}
 \end{center}
 \vspace{1mm}
-\begin{block}{Le fait actuariel derrière ces nombres}
-La \textbf{moyenne} est proportionnelle à $\lambda$ : facteur $100$ entre les deux échelles,
-exactement le rapport des fréquences. La \textbf{VaR ne l'est pas} : facteur $17$
-seulement.\\[3pt]
-C'est le \textbf{principe de la perte unique dominante} : à $\lambda=0{,}21$, $81\,\%$ des
-années n'ont aucun incident, et le SCR d'une entité est le prix d'une \emph{année rare à un
-seul gros sinistre}, pas d'une accumulation.
+\begin{block}{Deux seuils, et pourquoi aucun des deux n'est la bonne lecture}
+Les deux lignes du milieu sont des \textbf{seaux} : celui à $0{,}21$ retient les firmes à au
+moins dix événements, dont les actifs médians valent \textbf{dix-neuf fois} notre entité, et
+il est défini par un filtre sur la grandeur qu'on estime. D'où $\lambda$ estimé comme une
+\emph{fonction} de la taille, et lu à la bonne taille.\\[2pt]
+\textbf{Le fait actuariel.} La moyenne suit $\lambda$ (facteur $270$), la \textbf{VaR ne
+suit pas} (facteur $48$) : \textbf{perte unique dominante}, $98{,}8\,\%$ des années sans
+aucun incident.
 \end{block}
 \end{frame}
 
 % =====================================================================
 \begin{frame}{Ce chiffre tient-il face au réel ?}
 \begin{center}
-\includegraphics[width=0.96\linewidth]{J5_benchmark_externe.png}
+\includegraphics[width=0.82\linewidth]{J5_benchmark_externe.png}
 \end{center}
 \vspace{-1mm}
 \footnotesize
-Au niveau \textbf{unitaire}, notre VaR ($663$~M\euro) et notre TVaR ($1\,752$) tombent en
-plein dans la fourchette des grandes pertes cyber réelles. Au niveau \textbf{annuel}, notre
-capital est de l'ordre du marché cyber mondial : c'est bien une échelle de \emph{secteur}.
+Au niveau \textbf{unitaire}, notre VaR ($663$~M\euro) et notre TVaR ($1\,752$) tombent dans
+la fourchette des grandes pertes cyber réelles. Au niveau \textbf{annuel}, le capital est de
+l'ordre du marché cyber mondial : c'est une échelle de \emph{secteur}.
 \vspace{-1mm}
-\begin{block}{Et ramené à une entité, la comparaison devient frappante}
-\small Notre SCR cyber d'une très grande entité vaut $\mathbf{488}$~M\euro, contre
-$\mathbf{450}$~M\euro{} de charge de risque opérationnel en Formule Standard. Même ordre de
-grandeur, \textbf{sauf que la nôtre ne couvre que le cyber} quand celle de la Formule
-Standard couvre \emph{tout} l'opérationnel. Le modèle n'est donc ni gonflé, ni aveugle.
+\begin{block}{Et ramené à une entité : ce n'est pas le niveau qui parle}
+\small Notre SCR cyber d'entité vaut $\mathbf{169}$~M\euro, contre $\mathbf{450}$~M\euro{} de
+charge opérationnelle en Formule Standard, soit $0{,}38$ fois. La comparaison de \emph{niveau}
+ne conclut rien : le forfait couvre \emph{tout} l'opérationnel, nous seulement le cyber. Ce qui
+parle, c'est qu'il vaut $450$ pour un profil exemplaire \textbf{comme} défaillant, quand notre
+modèle les écarte de $116$ à $169$~M\euro : le sujet est son \textbf{insensibilité}.
 \end{block}
 \end{frame}
 
