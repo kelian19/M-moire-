@@ -1,0 +1,53 @@
+﻿
+==================================================================================
+Calibration OpRisk (cyber x finance), POT au percentile 85
+==================================================================================
+Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s))
+  n = 582 pertes ; seuil u = 22.03 M€ (q85) ; zeta_u = 0.151 ; 88 exces.
+  GPD MLE : xi = 0.601, sigma = 56.59 M€.
+
+==================================================================================
+Bootstrap : la distribution de la VaR (le quantile est lui-meme incertain)
+==================================================================================
+  2000 ajustements valides. xi : IC90 = [0.32 ; 0.86] (point 0.60).
+
+==================================================================================
+VaR par branchement vs VaR predictive vs intervalle
+==================================================================================
+    niveau    plug-in        IC90 bootstrap    E[VaR]  prédictive   écart
+     0.990      410 M[   283 ;   578] M     417 M       407 M     -1%
+     0.995      659 M[   407 ;  1056] M     680 M       657 M     -0%
+     0.999     1851 M[   833 ;  4166] M    2059 M      1968 M      6%
+
+  Au niveau reglementaire 99,5 % :
+    - VaR plug-in           = 659 M€  (le point aujourd'hui)
+    - IC90 bootstrap        = [407 ; 1056] M€  (facteur 2.6, dû a la seule incertitude de xi)
+    - VaR PREDICTIVE        = 657 M€  (-0 % vs plug-in)
+  Enseignement, plus subtil que prevu : a 99,5 % la VaR predictive est QUASI EGALE a la
+  plug-in. Le risque d'estimation ne cree pas un biais de POINT ici ; il gonfle la
+  LARGEUR de la bande (facteur 2.6). Le chargement predictif n'apparait
+  que PLUS LOIN dans la queue : +6 % a 99,9 %. Autrement dit,
+  plus la mesure s'enfonce dans la queue, plus la donnee incertaine la rend fragile.
+
+==================================================================================
+Profil TVaR (moyenne de queue, moins ponctuelle que la VaR ; définie si xi<1)
+==================================================================================
+  0.990 : TVaR plug-in = 1136 M€, IC90 = [529 ; 3650] (99 % des bootstrap ont xi<1)
+  0.995 : TVaR plug-in = 1760 M€, IC90 = [714 ; 6484] (99 % des bootstrap ont xi<1)
+  0.999 : TVaR plug-in = 4750 M€, IC90 = [1311 ; 25666] (99 % des bootstrap ont xi<1)
+
+==================================================================================
+VERDICT
+==================================================================================
+  1. Caroline a raison : le SCR = VaR 99,5 % lit un point de queue sur donnee rare ;
+     son IC90 est un facteur 2.6 (et la TVaR, plus profonde, un facteur
+     bien plus grand). La fragilite est dans la LARGEUR de la bande.
+  2. La VaR predictive (quantile du melange sur l'incertitude) est le point PROPRE, mais
+     son ecart a la plug-in est faible a 99,5 % (-0 %) et ne
+     grandit qu'en profondeur (+6 % a 99,9 %) : le risque
+     d'estimation n'est pas un biais de point, c'est un elargissement.
+  3. Consequence : rapporter le capital en INTERVALLE, jamais en point ; lire un PROFIL
+     par niveau. C'est la justification meme de la these 'bande, pas point' du memoire.
+     On ne cite pas la VaR ; on cite [borne basse ; borne haute] et on l'assume.
+
+figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\J2_var_predictive.png

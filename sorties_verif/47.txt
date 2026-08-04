@@ -1,0 +1,36 @@
+﻿
+==================================================================================
+Severite GPD : chargement et ajustement (OpRisk cyber x finance)
+==================================================================================
+Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s))
+  582 pertes ; seuil u = 22.03 M€ ; 88 exces ; GPD xi = 0.601, sigma = 56.59.
+
+==================================================================================
+Tests d'adequation (p-value par bootstrap parametrique)
+==================================================================================
+  Anderson-Darling : A2 = 0.214, p = 0.871  (ajustement NON rejete a 5 %).
+  Kolmogorov-Smirnov : D = 0.044, p = 0.870  (non rejete a 5 %).
+
+==================================================================================
+Couverture reelle de l'IC90 asymptotique de xi (a n fini)
+==================================================================================
+  Couverture empirique de l'IC90 = 86 % (nominal 90 %). Bonne calibration.
+
+==================================================================================
+Frequence : adequation binomiale negative vs Poisson (comptes firme-annee)
+==================================================================================
+  14944 cellules firme-annee ; moyenne = 0.099, dispersion Var/E = 1.19.
+  Poisson logL = -5,024 ; NB (r=0.63) logL = -4,959.
+  LR Poisson vs NB : LR = 131, p = 1.6e-30 -> la NB l'emporte nettement.
+
+==================================================================================
+VERDICT
+==================================================================================
+  1. Severite : la GPD n'est PAS rejetee (Anderson-Darling p = 0.87, KS p = 0.87) ;
+     xi stable autour de 0.60 sur les seuils, mean residual life lineaire au-dela de u.
+  2. La couverture de l'IC90 asymptotique est de 86 % : correcte.
+  3. Frequence : la binomiale negative domine le Poisson sans ambiguite (LR p = 2e-30), la surdispersion est un fait, pas un artefact.
+  Les deux briques du socle passent les tests d'adequation : le niveau reste incertain
+  (bande), mais les FORMES de loi posees sont soutenues par la donnee.
+
+figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\J3_validation_adequation.png

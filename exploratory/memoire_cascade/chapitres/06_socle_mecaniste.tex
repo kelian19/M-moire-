@@ -179,8 +179,9 @@ son appariement à un pilier.
 \end{attention}
 
 \paragraph{Décomposition par vecteur d'attaque.} Une fréquence de référence
-$\lambda_{ref}$, calibrée sur la base PRC ($\lambda_{ref} = 341$
-notifications/an), est décomposée en sous-fréquences par vecteur d'attaque,
+$\lambda_{ref}$, lue sur le périmètre \textbf{financier} de la base PRC
+($\lambda_{ref} = 341$ notifications/an ; script~\texttt{62}), est décomposée en
+sous-fréquences par vecteur d'attaque,
 pondérées par la structure observée dans la base Hackmageddon :
 \begin{equation}
 \lambda_{ref} = \sum_{v} \lambda_v,
@@ -197,8 +198,11 @@ $\lambda_{ref}$.
 
 \begin{attention}
 \textbf{$\lambda_{ref}$ est une clé de répartition, pas le niveau du modèle.} Les $341$ de la
-PRC comptent des \emph{notifications de violation de données}, sur un périmètre américain et
-sans seuil de matérialité. Ce nombre sert exclusivement à répartir la sinistralité entre
+PRC comptent des \emph{notifications de violation de données} déclarées par les organisations
+financières de la base, sur un périmètre américain et sans seuil de matérialité. Le périmètre
+importe : la base entière en compte $2\,150$ par an, six fois plus, et confondre les deux
+rendrait le nombre incompréhensible à qui le recalcule. Ce nombre sert exclusivement à
+répartir la sinistralité entre
 vecteurs, c'est-à-dire à fixer les $\pi_v$ et à faire jouer les multiplicateurs de conformité.
 \textbf{Il n'alimente pas le moteur de cascade.} L'entrée du moteur est la fréquence
 d'incidents \textsc{tic} \emph{matériels} lue sur OpRisk, $\lambda \simeq 21{,}6$ par an au

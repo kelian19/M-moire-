@@ -34,10 +34,15 @@ CHAPITRE_DEFAUT = os.path.join(ICI, "chapitres", "12_resultats.tex")
 # Nombres qui ne sont pas des résultats : niveaux de confiance, millésimes, tailles de
 # grille, numéros d'article. Les comparer n'aurait aucun sens.
 IGNORE = {99.5, 0.995, 97.5, 2.5, 90.0, 95.0, 5.0, 19.0, 1.0, 2.0, 3.0, 4.0, 5.0}
-ANNEES = set(range(1990, 2036))
+# Millesimes. La borne basse descend a 1900 pour couvrir les dates de theoremes citees dans
+# le chapitre socle (Fisher-Tippett-Gnedenko 1928, 1943 ; Balkema-de Haan-Pickands 1974).
+# Un montant de cet ordre s'ecrit toujours avec un separateur de milliers dans le memoire,
+# donc la confusion avec un resultat reste improbable ; le cas echeant il faut le verifier
+# a la main, ce que la liste de travail signale.
+ANNEES = set(range(1900, 2036))
 
 
-def nombres(txt):
+def nombres(txt, latex=True):
     """Nombres d'un fragment LaTeX, normalisés (8\\,301 -> 8301 ; 0{,}92 -> 0.92).
 
     On retire d'abord la MISE EN PAGE : un \\arraystretch de 1,25 ou une largeur de
@@ -45,10 +50,29 @@ def nombres(txt):
     fabriquerait de fausses alertes.
     """
     t = txt
+    # LES COMMENTAIRES LATEX NE SONT PAS DU TEXTE PUBLIE. Sans ce filtre, un commentaire
+    # de migration comme "% MIGRE depuis main.tex (plages 787-932)" fabrique quatre
+    # nombres a confirmer qui n'apparaissent nulle part dans le PDF. C'etait la premiere
+    # cause de faux positifs du chapitre socle.
+    #
+    # A NE SURTOUT PAS APPLIQUER AUX SORTIES DE SCRIPTS : elles ecrivent les pourcentages
+    # avec un %, et couper la ligne au premier % y detruisait la moitie du pool de
+    # reference. D'ou le drapeau `latex`, qui vaut False pour les fichiers NN.txt.
+    if latex:
+        t = re.sub(r"(?<!\\)%.*", " ", t)
     t = re.sub(r"\\renewcommand\{[^}]*\}\{[^}]*\}", " ", t)
     t = re.sub(r"\\includegraphics\[[^\]]*\]", " ", t)
     t = re.sub(r"\\(?:label|ref|eqref|cite[tp]?)\{[^}]*\}", " ", t)
     t = re.sub(r"\[[^\]]*(?:width|height|scale)[^\]]*\]", " ", t)
+    # Un NUMERO DE SCRIPT n'est pas un resultat. Il vit toujours dans un \texttt{}, comme
+    # les noms de fichier et de base : aucun chiffre publie n'est en fonte a chasse fixe.
+    # Sans ce filtre, citer le script 27 fabrique un "27" a confirmer, et le rapport de
+    # verification se remplit de faux positifs qui masquent les vraies erreurs.
+    t = re.sub(r"\\texttt\{[^}]*\}", " ", t)
+    # Les specifications de filet de tableau (\cmidrule{6-8}, \cline{2-4}) sont de la mise
+    # en page : elles produisaient un 6 et un -8 dans chaque section a tableau.
+    t = re.sub(r"\\c(?:midrule|line)\s*(?:\([^)]*\))?\s*\{[^}]*\}", " ", t)
+    t = re.sub(r"\\multicolumn\{\d+\}", " ", t)
     t = t.replace("\\,", "").replace("~", " ").replace("{,}", ".")
     t = re.sub(r"\\[a-zA-Z]+", " ", t)          # commandes LaTeX restantes
     out = []
@@ -68,7 +92,7 @@ def charge_sorties(dossier):
     for f in os.listdir(dossier):
         if f.endswith(".txt"):
             with open(os.path.join(dossier, f), encoding="utf-8", errors="replace") as fh:
-                src[f[:-4]] = nombres(fh.read())
+                src[f[:-4]] = nombres(fh.read(), latex=False)
     return src
 
 
@@ -90,10 +114,15 @@ def main():
     with open(chapitre, encoding="utf-8") as f:
         lignes = f.read().split("\n")
 
-    # découpage en sections
+    # Découpage en sections. On coupe aussi sur \section* et \subsection(*) : deux
+    # chapitres (données, socle) n'ont qu'une seule \section numérotée sur une dizaine de
+    # pages et structurent le reste en sous-sections étoilées. Sans cela leur texte tombe
+    # entier dans un seul bloc, dont le pool de scripts est l'union de tout ce qui y est
+    # cité : le taux de confirmation s'effondre pour une raison de découpage, pas de fond.
     sections, cur, titre = [], [], "(préambule de chapitre)"
+    coupe = re.compile(r"\\(?:sub)?section\*?\{(.+?)\}")
     for l in lignes:
-        m = re.match(r"\\section\{(.+?)\}", l)
+        m = coupe.match(l.strip())
         if m:
             sections.append((titre, cur))
             titre, cur = m.group(1), []

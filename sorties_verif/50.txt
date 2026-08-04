@@ -1,0 +1,38 @@
+﻿
+==================================================================================
+1. Capital libere par levier, et sa valeur annuelle (cout du capital 6 %)
+==================================================================================
+  levier                  ΔSCR (M€)  valeur/an (M€)      statut
+  fréquence (entrée)           4328             260  calibrable
+  accumulation P4              1728             104       borné
+  propagation W                1633              98       borné
+  détection P2/P3              1448              87  calibrable
+
+  Conformite TOTALE : ΔSCR = 14139 M€ libere, soit une valeur recurrente de
+  848 M€/an au seul cout de portage du capital (6 %). Le capital libere est
+  CONCENTRE : la frequence seule (4328 M€) porte 47 % de la somme des leviers isoles.
+
+==================================================================================
+2. Face au cout de remediation DORA (hypotheses affichees)
+==================================================================================
+  Cout de remediation (secteur) : 200 entites x 25-150 M€
+  = 5.0 a 30.0 Md€ en one-off.
+  Economie recurrente (capital) : 848 M€/an.
+  Retour sur le SEUL portage du capital : 6 a 35 ans.
+  MAIS le ΔSCR est majoritairement de la PERTE EVITEE (pas seulement du portage) : en
+  ajoutant la baisse de la charge moyenne, le retour est bien plus court. Le portage
+  seul (848 M€/an) est le PLANCHER conservateur du benefice.
+
+==================================================================================
+VERDICT
+==================================================================================
+  1. La conformite n'est pas un pur cout : elle libere du capital (ΔSCR), dont la valeur
+     recurrente est 848 M€/an (plancher, cout de portage seul).
+  2. Ce capital est CONCENTRE : prioriser la remediation par capital libere (frequence
+     et detection, les leviers CALIBRABLES) plutot que l'etaler uniformement.
+  3. Les leviers BORNES (propagation, accumulation) liberent aussi du capital mais se
+     remedient par la donnee (registre DORA) autant que par l'action directe.
+  4. C'est l'aboutissement du fil : du score de criticite abstrait a un arbitrage
+     economique chiffre, opposable a une direction financiere.
+
+figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\J6_roi_conformite.png
