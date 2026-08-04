@@ -252,6 +252,16 @@ print(f"\nCharge operationnelle de Formule Standard (0,03 x {PROVISIONS_CIBLE:,.
 lam_r, m_r, scr_r, esp_r = res["Entite, taille + severite (retenu)"]
 print(f"Rapport SCR retenu / Formule Standard                       = {scr_r/sf:.2f}")
 
+# Les rapports de la non-linearite sont CITES dans le memoire. Les imprimer ici les rend
+# verifiables par verif_chiffres.py au lieu d'etre derives a la main dans la redaction.
+lam_s, _, scr_s, esp_s = res["Secteur (calage du chapitre)"]
+print("\nLa non-linearite, en rapports (cites tels quels au chapitre resultats) :")
+print(f"  lambda divise par        {lam_s/lam_r:,.0f}")
+print(f"  perte moyenne divisee par {esp_s/esp_r:,.0f}")
+print(f"  capital divise par        {scr_s/scr_r:,.0f}")
+print("  Le capital resiste parce que le quantile est porte par un sinistre unique, la")
+print("  moyenne par le nombre d'evenements : c'est le principe du grand saut unique.")
+
 
 # =====================================================================================
 titre("(D) Le resultat d'entite est une BANDE, pas un point")
@@ -289,8 +299,14 @@ ev0 = pid.Evaluator(lam=lam_cible, n_years=NY, alpha=ALPHA, seed=SEED)
 ev0.cum = ev0.cum * mult
 scr_socle, esp_socle = ev0.from_card(pid.card_dist_all(np.zeros((pid.NP_, pid.NP_)))[0])
 print(f"\nsocle sans contagion (W = 0)  : {scr_socle:,.1f} M EUR")
-print(f"part du capital deja fixee sans hypothese directionnelle : "
-      f"{100*scr_socle/vals.max():.1f} %")
+print(f"le socle vaut {100*scr_socle/vals.max():.1f} % de la borne haute")
+# DEUX DEFINITIONS A NE PAS CONFONDRE. Le chapitre 10 appelle "part fixee" la quantite
+# 1 - largeur/haute (79 % a l'echelle du secteur). Le rapport socle/haute est une AUTRE
+# quantite. Les imprimer toutes deux evite la collision de definition entre chapitres.
+print(f"part NON exposee a l'ignorance directionnelle, au sens du chapitre 10")
+print(f"  (1 - largeur / borne haute) : {100*(1-(vals.max()-vals.min())/vals.max()):.1f} %")
+print(f"  rappel de la meme quantite a l'echelle du secteur : "
+      f"{100*(1-1839/8697):.1f} % (bornes 6858-8697)")
 
 
 # =====================================================================================

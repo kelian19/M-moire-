@@ -122,10 +122,34 @@ nombre d'années.
 
 ## Contrôle qualité
 
-`verif_chiffres.py` recalcule les chiffres publiés contre les sorties des scripts et
-signale les écarts. À rejouer avant toute diffusion : sur trois scripts de cette session
-(01, 34, 35), la même faute a resurgi, une conclusion écrite en dur puis démentie par les
-chiffres. Le harnais est le garde-fou.
+`verif_chiffres.py` confronte chaque nombre publié dans un chapitre aux sorties des
+scripts que la section cite, et signale ceux qu'il ne retrouve pas.
+
+**Il n'avait jamais été exécuté** avant le 4 août 2026, faute d'un dossier de sorties.
+Mode d'emploi, à faire avant toute diffusion :
+
+```powershell
+# 1. produire les sorties des scripts cités par le chapitre, une par fichier NN.txt
+$out = "..\..\sorties" ; New-Item -ItemType Directory -Force $out | Out-Null
+cd ..\vasicek_lab
+..\..\.venv\Scripts\python.exe 9_cas_usage\58_detenir_ou_transferer.py  *> "$out\58.txt"
+..\..\.venv\Scripts\python.exe 2_donnees\60_descente_echelle_entite.py *> "$out\60.txt"
+# ... un par script cité
+# 2. confronter
+cd ..\memoire_cascade
+..\..\.venv\Scripts\python.exe verif_chiffres.py $out chapitres\12_resultats.tex
+```
+
+**Premier passage, 4 août 2026, chapitre Résultats : 129 nombres vérifiables,
+111 confirmés (86 %).** Les non confirmés sont des arrondis de rédaction, des nombres
+appartenant à une autre section, et des **ratios dérivés à la main**. Cette dernière
+catégorie est la seule dangereuse : elle a été supprimée en faisant imprimer les ratios
+par le script 60 lui-même. Règle à tenir : **tout rapport cité dans le texte doit être
+imprimé par un script**, jamais calculé pendant la rédaction.
+
+Neuf sections du chapitre ne citent aucun script et ne sont donc pas vérifiables
+automatiquement (Shapley et Euler, trajectoire, priorisation, robustesse, benchmark
+copule, mise en regard réglementaire). C'est le trou restant du dispositif.
 
 ## Règles de rédaction
 

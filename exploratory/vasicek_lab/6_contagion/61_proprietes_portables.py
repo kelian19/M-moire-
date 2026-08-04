@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 r"""
-57 : les proprietes portables de la classe « Vasicek-cascade », et l'audit d'une hypothese tacite.
+61 : les proprietes portables de la classe « Vasicek-cascade », et l'audit d'une hypothese tacite.
 
 Ce script rassemble ce que la classe de modeles du memoire permet d'ENONCER et de DEMONTRER
 independamment du cas DORA (des resultats citables hors de l'application), puis il AUDITE une
@@ -49,7 +49,7 @@ qu'aucun ne produit un SCR hors des bornes issues des sommets. Ce n'est pas une 
 une refutation possible ; l'absence de contre-exemple sur un grand echantillon rend l'hypothese
 defendable, et un contre-exemple obligerait a corriger la methode.
 
-Sortie : diagnostics + figure Z20_proprietes_portables.png.
+Sortie : diagnostics + figure Z21_proprietes_portables.png.
 """
 
 import os
@@ -242,6 +242,6 @@ fig.suptitle("Z20 : propriétés portables de la classe Vasicek-cascade, et audi
 fig.tight_layout(rect=[0, 0, 1, 0.93])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
-path = os.path.join(outdir, "Z20_proprietes_portables.png")
+path = os.path.join(outdir, "Z21_proprietes_portables.png")
 fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)
