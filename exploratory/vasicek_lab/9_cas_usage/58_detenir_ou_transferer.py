@@ -44,8 +44,16 @@ os.chdir(HERE)
 import partial_id as pid                                          # noqa: E402
 
 W_ = 84
-LAM_ENTITE = 0.210          # tres grande entite (>= 10 evenements, OpRisk), cf. chapitre 5
-NY = 600_000                # a lambda = 0,21 la plupart des annees sont vides
+# ECHELLE D'ENTITE, LECTURE COHERENTE (script 60). L'ancienne valeur 0,210 etait celle du
+# seau "firmes a >= 10 evenements", dont les actifs medians valent 19 fois ceux de l'entite
+# notionnelle, et qui est de surcroit defini par un filtre sur la grandeur meme qu'on estime.
+# On lit desormais lambda A LA TAILLE de la cible (binomiale negative, elasticite 0,074) et
+# l'on transpose la severite a la meme taille (elasticite 0,087, script 57).
+# valeurs reportees a pleine precision depuis le script 60 : arrondir lambda a quatre
+# decimales suffit a deplacer le SCR de 2 %, ce qui ferait diverger les deux scripts.
+LAM_ENTITE = 0.09168423156000373
+SEV_MULT = 0.8545
+NY = 600_000                # a cette frequence la quasi-totalite des annees sont vides
 ALPHA = 0.995
 
 # --- parametres de marche, sources publiques -----------------------------------------
@@ -64,6 +72,9 @@ titre("La distribution de perte annuelle, a l'echelle d'une entite")
 # =====================================================================================
 W = pid.expert_matrix()
 ev = pid.Evaluator(lam=LAM_ENTITE, n_years=NY, alpha=ALPHA)
+# transposition de severite a la taille de l'entite : homothetie exacte (GPD = famille
+# d'echelle au-dessus du seuil, source OpRisk non plafonnee). Cf. scripts 57 et 60.
+ev.cum = ev.cum * SEV_MULT
 card = pid.card_dist_all(W)[0]
 
 # on rejoue from_card pour recuperer le VECTEUR des pertes annuelles, pas seulement
@@ -207,6 +218,7 @@ print("reduit, ce qui simule une entite devenue conforme.\n")
 print(f"{'lambda':>9}{'SCR':>10}{'E[X]':>9}{'L* (4,75 %)':>14}{'cout total':>13}")
 for lam in (LAM_ENTITE, LAM_ENTITE * 0.7, LAM_ENTITE * 0.5):
     e2 = pid.Evaluator(lam=lam, n_years=NY, alpha=ALPHA)
+    e2.cum = e2.cum * SEV_MULT          # meme transposition de taille que plus haut
     K2 = np.empty(e2.T, dtype=np.int64)
     for a in range(pid.NP_):
         idx = e2.idx_by_am[a]

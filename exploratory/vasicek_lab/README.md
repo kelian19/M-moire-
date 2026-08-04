@@ -46,6 +46,17 @@ dans `figures/` et imprime ses diagnostics.
 | `08h_hawkes_variantes_bessy_roland` | O2 | le rejet tient face au noyau à retard et à la logique two-phase |
 | `28_test_vcdb_sous_piliers` | X | sous-piliers : P2 et P3 atteignables en open data, P4 s'effondre |
 | `35_event_study_moveit` | Z6 | event-study du choc P4 MOVEit : DiD dévoré par le placebo (net nul), cible non attribuable. La tentative d'identification la plus dure, négative et assumée. |
+| `57_biais_taille_et_troncature` | S20 | les deux biais déclarés d'OpRisk, mesurés : élasticité sévérité/taille par EMV tronquée (b = 0,087), et chain-ladder sur le triangle survenance x saisie |
+| `60_descente_echelle_entite` | S21 | **la descente secteur vers entité, cohérente.** lambda estimé comme fonction de la taille (b_lambda = 0,074) et lu à la taille cible au lieu d'un seau, sévérité transposée à la même taille, les deux composées. SCR d'entité **169 M**, bande **[131,5 ; 183,3]**, socle **78,1**. |
+
+> **Attention au protocole du panel firme-année.** Le filtre annuel s'applique AVANT le
+> calcul de la fenêtre d'observation. L'inverser allonge les spans et fait tomber lambda
+> de 0,10 à 0,04. Les scripts 08b et 60 doivent toujours reproduire les mêmes deux seaux
+> (0,0988 toutes firmes, 0,2102 pour les firmes à au moins 10 événements).
+>
+> **Attention à la précision de lambda.** Les scripts 58 et 60 publient tous deux le SCR
+> d'entité. Arrondir lambda à quatre décimales suffit à les faire diverger de 2 %. La
+> valeur se reporte à pleine précision (le script 60 l'imprime pour cela).
 
 ### 3_marges : sévérité et fréquence
 `07_severite` (S1), `08_frequence` (S2). Les deux marges, en unités normalisées.

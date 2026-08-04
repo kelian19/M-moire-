@@ -487,40 +487,122 @@ unitaire) ni aveugle (il capte, au niveau agrégé, le risque que la Formule Sta
 
 \paragraph{La descente d'échelle rend l'argument vérifiable.} Le diagnostic qui précède se
 teste : si l'écart tient bien à la fréquence d'entrée et non à la mécanique de cascade, alors
-il suffit de \emph{redescendre} $\lambda$ au niveau d'une entité, à sévérité, matrice $W$ et
-moteur de propagation \textbf{inchangés}, pour retrouver un ordre de grandeur d'entité. C'est
-le cas. Le tableau~\ref{tab:echelle} donne le résultat de cette substitution, $\lambda$ étant
-lu sur le panel firme-année du SAS OpRisk (chapitre~\ref{chap:donnees}).
+il suffit de \emph{redescendre} $\lambda$ au niveau d'une entité, à matrice $W$ et moteur de
+propagation inchangés, pour retrouver un ordre de grandeur d'entité. Deux canaux, et non un
+seul, séparent les deux échelles, et il faut les composer.
+
+\paragraph{Canal 1, la fréquence, lue à la taille de la cible.} Le panel firme-année du SAS
+OpRisk fournit deux lectures immédiates, $\lambda = 0{,}10$ sur toutes les firmes et
+$\lambda = 0{,}21$ sur celles à au moins dix événements. Aucune des deux n'est la bonne, pour
+deux raisons. La première tient à la \textbf{taille} : les firmes du second groupe ont
+$372$~Md\$ d'actifs médians, soit \textbf{dix-neuf fois} l'entité notionnelle, et leur taux ne
+saurait donc la décrire. La seconde tient à la \textbf{sélection} : définir un groupe par
+\og{}au moins dix événements\fg{} puis calculer son nombre moyen d'événements, c'est
+conditionner sur la grandeur même que l'on estime, ce qui la biaise nécessairement vers le
+haut. On estime donc $\lambda$ comme une \emph{fonction} de la taille, par une binomiale
+négative à lien logarithmique sur le panel, et on la lit à la taille de la cible :
+l'élasticité vaut $b_\lambda = 0{,}074$ (IC~$95\,\%$ $[0{,}055\,;0{,}094]$, $z = 7{,}6$), d'où
+$\lambda_{\text{cible}} = 0{,}092$.
+
+\paragraph{Canal 2, la sévérité, à la même taille.} L'élasticité sévérité/taille du
+\S\ref{sec:biais-chiffres} ($b = 0{,}087$, estimée par vraisemblance tronquée) transpose de la
+firme médiane de la base ($122$~Md\$ pondérés par événement) à la cible et donne un
+multiplicateur de $0{,}854$. La sévérité GPD étant une famille d'échelle au-dessus du seuil et
+la source OpRisk n'étant pas plafonnée, cette homothétie déplace le quantile exactement dans
+le même rapport.
 
 \begin{table}[htbp]\centering
 \small
-\begin{tabular}{lrrr}
+\begin{tabular}{lrrrr}
 \toprule
-Échelle de lecture & $\lambda$ (an$^{-1}$) & SCR $99{,}5\,\%$ & Perte moyenne \\
+Lecture & $\lambda$ (an$^{-1}$) & sévérité & SCR $99{,}5\,\%$ & Perte moyenne \\
 \midrule
-Secteur financier mondial (calage du chapitre) & $21{,}56$ & $8\,123$~M\euro & $982$~M\euro \\
-Très grande entité ($\geq 10$ événements) & $0{,}21$ & $\mathbf{488}$~M\euro & $9{,}7$~M\euro \\
-Entité moyenne du panel & $0{,}10$ & $221$~M\euro & $4{,}5$~M\euro \\
+Secteur financier mondial & $21{,}56$ & $\times 1$ & $8\,123$~M\euro & $983$~M\euro \\
+Seuil \og{}$\geq 10$ événements\fg{} & $0{,}210$ & $\times 1$ & $488$~M\euro & $9{,}7$~M\euro \\
+Seuil \og{}toutes firmes\fg{} & $0{,}100$ & $\times 1$ & $229$~M\euro & $4{,}6$~M\euro \\
+$\lambda$ lu à la taille de la cible & $0{,}092$ & $\times 1$ & $198$~M\euro & $4{,}3$~M\euro \\
+\textbf{Les deux canaux composés} & $\mathbf{0{,}092}$ & $\mathbf{\times 0{,}854}$ &
+$\mathbf{169}$~M\euro & $\mathbf{3{,}6}$~M\euro \\
 \bottomrule
 \end{tabular}
-\caption{Le même modèle lu à trois échelles. Seule la fréquence d'amorce change ; la sévérité,
-la matrice $W$ et le moteur de cascade sont identiques. Le passage du secteur à l'entité divise
-le capital par un facteur $17$, quand la fréquence est divisée par $103$.}
+\caption{Le même modèle lu à plusieurs échelles. La matrice $W$ et le moteur de cascade sont
+identiques partout ; seules la fréquence d'amorce et l'échelle de sévérité changent. Les deux
+dernières lignes sont la lecture cohérente, où la fréquence \emph{et} la sévérité sont prises
+à la taille de l'entité visée. Source : script~\texttt{60}.}
 \label{tab:echelle}
 \end{table}
 
-Deux enseignements. D'abord, une \textbf{très grande entité} ressort à $488$~M\euro, soit
-l'ordre de grandeur exact de la charge opérationnelle de Formule Standard calculée plus haut
-($450$~M\euro) : l'écart d'un facteur dix relevé au paragraphe précédent était un écart de
-\emph{périmètre}, non de modèle, et il se referme dès que les deux quantités sont lues à la
-même échelle. Ensuite, la non-linéarité est instructive. Diviser $\lambda$ par $103$ ne divise
-le capital que par $17$, alors qu'elle divise la perte moyenne par $101$, c'est-à-dire
-presque exactement à proportion. C'est la signature du \emph{principe du grand saut unique} :
-la moyenne est portée par le nombre d'événements, le quantile extrême par l'ampleur du plus
-grand. À $\lambda = 0{,}21$, quatre années sur cinq sont vides ($81\,\%$ sous une loi de
-Poisson) et le quantile $99{,}5\,\%$ ne décrit plus une accumulation mais un sinistre isolé
-suivi de sa cascade. Le capital d'entité n'est donc pas le capital de secteur divisé par le
-nombre d'entités, et le lire ainsi conduirait à le sous-estimer d'un facteur six.
+Trois enseignements, dont un qui corrige une lecture trop rapide.
+
+D'abord, la non-linéarité. Diviser $\lambda$ par $235$ divise la perte moyenne par $270$,
+c'est-à-dire presque à proportion, mais le capital par $48$ seulement. C'est la signature du
+\emph{principe du grand saut unique} : la moyenne est portée par le nombre d'événements, le
+quantile extrême par l'ampleur du plus grand. À cette fréquence, la quasi-totalité des années
+sont vides et le quantile $99{,}5\,\%$ ne décrit plus une accumulation mais un sinistre isolé
+suivi de sa cascade. \textbf{Le capital d'entité n'est donc pas le capital de secteur divisé
+par le nombre d'entités}, et le lire ainsi conduirait à le sous-estimer nettement.
+
+Ensuite, et c'est le point à ne pas maquiller, \textbf{la coïncidence avec la Formule Standard
+ne survit pas à la correction}. Lue au seuil \og{}$\geq 10$ événements\fg{}, l'entité ressortait
+à $488$~M\euro, soit l'ordre de grandeur exact de la charge forfaitaire ($450$~M\euro), et
+l'on pouvait croire l'écart refermé. Une fois la fréquence lue à la bonne taille et la
+sévérité transposée, le modèle donne $169$~M\euro, soit $0{,}38$ fois le forfait. La
+convergence apparente venait donc du \emph{choix du seuil}, pas du modèle. La conclusion à en
+tirer n'est pas que le modèle est faux : c'est que le \textbf{niveau} du forfait ne dit rien
+et que seule son \textbf{insensibilité} est en cause, ce que le paragraphe suivant chiffre.
+
+Enfin, la lecture d'entité doit être une \textbf{bande}. La direction de $W$ n'étant pas
+identifiée (chapitre~\ref{ch:identifiabilite}), le $169$~M\euro{} est un point de l'ensemble
+admissible, pas sa mesure. En énumérant les $1\,024$ sommets du pavé à $t=1$, le SCR d'entité
+tient dans $[131{,}5\,;183{,}3]$~M\euro{}, au-dessus d'un socle sans contagion de
+$78{,}1$~M\euro{} qui, lui, ne dépend d'aucune hypothèse directionnelle et fixe déjà
+$43\,\%$ du capital.
+
+\begin{figure}[htbp]\centering
+\figover{S21_descente_echelle.png}
+\caption{La descente d'échelle, rendue cohérente. \textbf{(a)}~$\lambda$ estimé comme une
+fonction de la taille de firme sur le panel firme-année, et lu à la taille de l'entité visée
+plutôt que choisi dans un seau ; le trait pointillé rappelle le seau $0{,}21$, qui correspond
+à des firmes dix-neuf fois plus grandes. \textbf{(b)}~les deux corrections composées, et le
+repère de Formule Standard, dont la coïncidence apparente avec l'ancien chiffre ne survit pas.
+\textbf{(c)}~le résultat d'entité est une bande sur les $1\,024$ sommets admissibles, non un
+point. Source : script~\texttt{60}.}
+\label{fig:descente}
+\end{figure}
+
+\begin{cle}
+\textbf{À l'échelle d'entité, ignorer la direction coûte autant qu'ignorer la queue.} La
+bande d'identification mesure $51{,}7$~M\euro{} de large. En faisant varier le seul indice de
+queue sur son intervalle de confiance à $90\,\%$ ($\xi \in [0{,}304\,;0{,}831]$), le SCR
+d'entité va de $140{,}9$ à $191{,}6$~M\euro, soit $51{,}5$~M\euro{} de large. Les deux
+incertitudes sont \textbf{du même ordre}, et aucune ne domine l'autre. C'est un argument
+supplémentaire pour la spécification de reporting : réduire l'ignorance directionnelle vaut,
+en euros de capital, autant qu'affiner l'estimation de la queue, alors que la seconde est
+considérée comme l'incertitude noble du sujet et la première comme une clause de style.
+\end{cle}
+
+\paragraph{Ce que le forfait ne voit pas, à l'échelle d'entité.} En balayant le gain de
+propagation sur ses trois valeurs d'état ($0{,}45$, $0{,}68$, $0{,}90$) à fréquence et taille
+cibles, le SCR d'entité passe de $116$ à $143$ puis $169$~M\euro{}, soit $+45\,\%$ entre le
+profil conforme et le profil défaillant, et ce par le seul canal de contagion, les canaux
+fréquence et détection n'étant pas mobilisés ici : l'écart lu est donc un plancher. Sur les
+mêmes trois profils, la charge de Formule Standard vaut $450$~M\euro{} et ne bouge pas d'un
+euro. C'est la thèse du mémoire, lue à l'échelle où une entité la vit.
+
+\begin{attention}
+\textbf{Ce que la correction d'échelle déplace, et ce qu'elle laisse intact.} La descente à la
+bonne taille divise les niveaux d'entité par près de trois. Il faut donc dire lesquelles des
+conclusions en dépendent. Le \textbf{multiple de capital} ($52{,}0 \to 48{,}6$) et le coût de
+détention rapporté à la sinistralité attendue ($2{,}47 \to 2{,}21$) bougent de moins de
+$11\,\%$ : leurs deux termes se rapportent au même SCR et se déplacent ensemble, ce qui
+vérifie sur un cas non préparé pour cela la thèse du \S\ref{sec:detenir-transferer}. En
+revanche le \textbf{gain du dimensionnement} du traité passe de $-47\,\%$ à $-64\,\%$, et cela
+doit être dit plutôt que rangé avec les rapports : à fréquence plus basse, la perte annuelle
+est davantage dominée par un sinistre unique, une part plus grande de l'espérance se situe
+au-delà du SCR et échappe à une portée bornée par lui, de sorte que la part cédée tombe de
+$61$ à $38\,\%$. Le \emph{sens} de la conclusion est renforcé, son \emph{amplitude} chiffrée
+dépend de l'échelle et ne doit pas être citée comme une grandeur d'entité.
+\end{attention}
 
 \figcle{J5_benchmark_externe.png}{Benchmark externe : la confrontation au réel, à deux échelles
 qu'il ne faut pas confondre. \textbf{(a)}~au niveau du \emph{sinistre unique}, nos quantiles
@@ -546,12 +628,12 @@ $48{,}5\,\%$, l'assureur encaisse environ $2{,}1$ fois la prime pure. Les deux g
 homogènes, donc comparables, et c'est la comparaison que fait un directeur des risques.
 
 \paragraph{Le multiple de capital, et ce qu'il coûte.} À l'échelle d'entité
-(table~\ref{tab:echelle}, $\lambda=0{,}21$), le modèle donne un SCR de $488$~M\euro{} pour une
-perte attendue de $9{,}7$~M\euro, soit un \textbf{multiple de capital de $50$} contre $8{,}3$
+(table~\ref{tab:echelle}, lecture composée), le modèle donne un SCR de $169$~M\euro{} pour une
+perte attendue de $3{,}6$~M\euro, soit un \textbf{multiple de capital de $47$} contre $8{,}3$
 à l'échelle du secteur. L'écart est la mutualisation, lue à l'envers : le capital d'une entité
 isolée est dominé par un sinistre unique, celui d'un secteur par l'accumulation. Le coût annuel
-de détention vaut alors $23{,}2$~M\euro{} sous le régime révisé et $29{,}3$~M\euro{} sous
-l'actuel, c'est-à-dire \textbf{$2{,}4$ à $3{,}0$ fois la sinistralité attendue}. Immobiliser
+de détention vaut alors $8{,}0$~M\euro{} sous le régime révisé et $10{,}1$~M\euro{} sous
+l'actuel, c'est-à-dire \textbf{$2{,}2$ à $2{,}8$ fois la sinistralité attendue}. Immobiliser
 coûte plusieurs fois ce que le risque coûte en moyenne : c'est ce rapport qui rend le transfert
 économiquement pertinent, et il ne se lit sur aucune des comparaisons de niveau.
 
@@ -563,53 +645,54 @@ excès de perte annuel de portée $L$, en minimisant le coût total
   \;+\; \mathrm{CoC}\times \underbrace{\mathrm{VaR}_{99{,}5\%}\bigl(X-\min(X,L)\bigr)}_{\text{capital résiduel}} .
 \]
 Le capital résiduel vaut $\max(\mathrm{SCR}-L,0)$, de sorte que l'optimum tombe exactement en
-$L^\star=\mathrm{SCR}=488$~M\euro{} : au-delà, la portée ne rachète plus aucun capital. Le
-coût total passe de $23{,}2$ à $\mathbf{12{,}3}$~M\euro{} par an, soit $\mathbf{-47\,\%}$, en
-cédant $61\,\%$ de la sinistralité. Le mécanisme est transparent : près de l'optimum, un euro
-de portée supplémentaire coûte $1{,}10\,\%$ de prime et libère $4{,}75\,\%$ de coût du capital.
+$L^\star=\mathrm{SCR}=169$~M\euro{} : au-delà, la portée ne rachète plus aucun capital. Le
+coût total passe de $8{,}0$ à $\mathbf{2{,}9}$~M\euro{} par an, soit $\mathbf{-64\,\%}$, en
+cédant $38\,\%$ de la sinistralité. Le mécanisme est transparent : près de l'optimum, un euro
+de portée supplémentaire coûte $1{,}16\,\%$ de prime et libère $4{,}75\,\%$ de coût du capital.
 
 \begin{attention}
 \textbf{Ce gain est une borne supérieure, et il faut le citer comme telle.} Trois raisons
 empêchent de conclure au chiffre brut, et toutes vont dans le même sens. La \textbf{capacité} :
-une couverture agrégée proche de $500$~M\euro{} est au plafond de ce que le marché cyber place
-sur un seul risque. Le \textbf{risque de base} : les polices excluent la guerre et les
+une couverture agrégée de l'ordre de $170$~M\euro{} reste plaçable, mais elle mobilise déjà
+plusieurs lignes sur un marché cyber dont la capacité par risque est bornée. Le \textbf{risque
+de base} : les polices excluent la guerre et les
 infrastructures essentielles, donc une part de la queue modélisée n'est pas assurable. La
 \textbf{contrepartie} : sous Solvabilité~II, céder ne supprime pas l'exigence, cela substitue
 au risque cyber un risque de défaut de contrepartie sur les créances de réassurance. En
 résumant les trois par un coefficient d'inefficacité $\kappa$, le capital résiduel devient
 $\max(\mathrm{SCR}-L,0)+\kappa L$, et le transfert reste avantageux tant que le taux marginal
 de prime reste sous $\mathrm{CoC}\times(1-\kappa)$. Le seuil critique vaut
-$\kappa^\star=1-0{,}0110/0{,}0475=\mathbf{77\,\%}$ : il faudrait que plus des trois quarts de
+$\kappa^\star=1-0{,}0116/0{,}0475=\mathbf{76\,\%}$ : il faudrait que plus des trois quarts de
 la couverture soient inefficaces pour que la détention redevienne préférable. La conclusion
 qualitative est donc robuste, le chiffre ne l'est pas.
 \end{attention}
 
 \paragraph{Ce que la conformité change à l'arbitrage.} La remédiation agit sur la fréquence
 d'amorce. En rejouant l'arbitrage à $\lambda$ réduit, ce qui simule une entité devenue
-conforme, la portée optimale suit le capital ($488 \to 345 \to 242$~M\euro{} quand $\lambda$
-passe de $0{,}21$ à $0{,}15$ puis $0{,}11$) et le coût total tombe de $12{,}3$ à
-$4{,}4$~M\euro{} par an, soit $-64\,\%$. \textbf{La conformité ne fait donc pas que réduire le
+conforme, la portée optimale suit le capital ($169 \to 97 \to 43$~M\euro{} quand $\lambda$
+passe de $0{,}092$ à $0{,}064$ puis $0{,}046$) et le coût total tombe de $2{,}9$ à
+$0{,}5$~M\euro{} par an, soit $-81\,\%$. \textbf{La conformité ne fait donc pas que réduire le
 capital : elle déplace le point d'équilibre entre rétention et transfert}, et réduit
 simultanément les deux termes du coût. C'est un résultat de \emph{pilotage} et non de mesure,
 et il met les trois leviers de l'entité (remédier, détenir, transférer) sur un seul axe en
 euros par an, ce qu'aucune des comparaisons de niveau ne permettait.
 
 \figcle{S19_detenir_ou_transferer.png}{Détenir ou transférer : le SCR confronté au prix de
-marché du même risque. \textbf{(a)}~le coût annuel du capital ($23{,}2$~M\euro{} au taux révisé
-de $4{,}75\,\%$) vaut $2{,}4$ fois la sinistralité attendue ($9{,}7$~M\euro{}) : c'est ce
-rapport, absent de toute comparaison de niveau, qui rend le transfert pertinent.
+marché du même risque, à l'échelle d'entité corrigée. \textbf{(a)}~le coût annuel du capital
+($8{,}0$~M\euro{} au taux révisé de $4{,}75\,\%$) vaut $2{,}2$ fois la sinistralité attendue
+($3{,}6$~M\euro{}) : c'est ce rapport, absent de toute comparaison de niveau, qui rend le
+transfert pertinent.
 \textbf{(b)}~le coût total, prime plus coût du capital résiduel, en fonction de la portée $L$ du
-traité en excès de perte ; l'optimum tombe en $L^\star=\mathrm{SCR}=488$~M\euro, là où le
-capital résiduel s'annule. \textbf{(c)}~ce que le dimensionnement fait gagner, $-47\,\%$, chiffre
+traité en excès de perte ; l'optimum tombe en $L^\star=\mathrm{SCR}=169$~M\euro, là où le
+capital résiduel s'annule. \textbf{(c)}~ce que le dimensionnement fait gagner, $-64\,\%$, chiffre
 à lire comme une \emph{borne supérieure} : capacité de marché, exclusions et risque de
-contrepartie l'entament, mais il faudrait $77\,\%$ d'inefficacité pour renverser la conclusion.
+contrepartie l'entament, mais il faudrait $76\,\%$ d'inefficacité pour renverser la conclusion.
 Source : script~\texttt{58}.}{fig:detenir}
 
 \begin{cle}
-\textbf{La boucle que cette section referme.} DORA et Solvabilité~II laissent ouverte une
-articulation que la réglementation
-laisse ouverte : DORA impose des exigences de \emph{gestion}, Solvabilité~II impose du
-\emph{capital}, et rien n'articule les deux. En passant par le prix, le SCR cesse d'être un
+\textbf{La boucle que cette section referme.} DORA impose des exigences de \emph{gestion},
+Solvabilité~II impose du \emph{capital}, et rien n'articule les deux. En passant par le prix,
+le SCR cesse d'être un
 chiffre à publier pour devenir un \textbf{critère de décision} entre trois leviers concurrents.
 C'est la lecture que la thèse du mémoire appelait : le niveau est illustratif, mais le
 \emph{rapport} entre le coût de détention et le prix de transfert, lui, est une grandeur

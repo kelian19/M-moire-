@@ -72,6 +72,38 @@ déplacer.
 - **Paragraphe fleuve du ch. 5** (NLP, 900 caractères d'une traite) scindé en deux.
 - Faute corrigée : « l'ensemble de le chapitre ».
 
+## Descente d'échelle : ce qui a été corrigé le 04/08
+
+La table à trois échelles du chapitre Résultats avait deux défauts, corrigés par le
+script `60_descente_echelle_entite`.
+
+1. **Incohérence de taille.** Le SCR d'entité était calculé à lambda = 0,21, le taux des
+   firmes à au moins dix événements, dont les actifs médians valent **19 fois** ceux de
+   l'entité notionnelle. Ce seau est de surcroît défini par un filtre sur la grandeur même
+   qu'on estime, donc biaisé vers le haut par construction. Lambda est désormais estimé
+   comme une **fonction de la taille** (binomiale négative, log-lien, b_lambda = 0,074,
+   z = 7,6) et lu à la taille cible : **0,092**.
+2. **Correction mesurée mais non appliquée.** L'élasticité sévérité/taille du script 57
+   n'était pas composée avec la descente de fréquence. Elle l'est : multiplicateur 0,854,
+   homothétie exacte puisque la GPD est une famille d'échelle et qu'OpRisk n'est pas
+   plafonnée.
+
+**Conséquence à assumer : la coïncidence avec la Formule Standard ne survit pas.**
+L'entité ressortait à 488 M€ contre une charge forfaitaire de 450 M€, et le mémoire y
+lisait un écart refermé. La lecture cohérente donne **169 M€**, soit 0,38 fois le
+forfait. La convergence venait du choix du seuil. Ce qui reste, et qui est le vrai
+argument, c'est que le forfait vaut 450 M€ pour les trois états de conformité quand le
+modèle les écarte de 116 à 169 M€.
+
+Résultat d'entité publiable : socle 78,1 M€, bande **[131,5 ; 183,3]** M€ sur les 1 024
+sommets, point d'expert 169 M€. La bande d'identification (51,7 M€) et la bande de
+paramètre sur xi (51,5 M€) sont **du même ordre**.
+
+Répercuté dans le corps : `05_donnees_limites` (table des trois fréquences),
+`12_resultats` (table d'échelle, section ancrage, section détenir/transférer entièrement
+rechiffrée), `14_conclusion`. Scripts 58 et 60 alignés sur la même graine et le même
+nombre d'années.
+
 ## Ce qui reste, par ordre de rentabilité
 
 1. **Relire les ~1100 lignes migrées.** Deux audits automatiques (mots-clés de l'ancien

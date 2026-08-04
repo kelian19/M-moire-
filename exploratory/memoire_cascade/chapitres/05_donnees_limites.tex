@@ -165,9 +165,11 @@ doit être déclarée avant tout usage du niveau. Un contrôle mené sur le pane
 firme-année du SAS OpRisk (sous-catégories TIC, 2005--2022, fenêtre
 d'observation propre à chaque firme, de sorte qu'une année sans événement soit
 un vrai zéro) donne $0{,}10$ événement par firme et par an toutes firmes
-confondues, et $0{,}21$ pour les firmes les mieux couvertes, celles dont le
-profil se rapproche d'une entité soumise à DORA. Ces valeurs sont sans commune
-mesure avec le taux posé dans le modèle. L'écart n'est pas une erreur de
+confondues, et $0{,}21$ pour les firmes à au moins dix événements. Ces deux
+valeurs sont des \emph{seaux} et ne décrivent aucune entité en particulier : le
+chapitre~\ref{chap:resultats} estime $\lambda$ comme une fonction de la taille de
+firme et la lit à celle de l'entité visée, ce qui donne $0{,}092$. Toutes trois
+sont sans commune mesure avec le taux posé dans le modèle. L'écart n'est pas une erreur de
 calage : la base OpRisk ne retient que les pertes \textbf{au-dessus d'un seuil
 de collecte}, si bien que le taux qu'on y lit est celui des événements TIC
 \emph{matériels}, générateurs d'une perte enregistrée, et non celui de tous les
@@ -203,8 +205,9 @@ niveau de capital. \\
 $\lambda$ & OpRisk & $21{,}6$/an & incidents \textsc{tic} \emph{matériels} du secteur
 financier mondial. C'est \textbf{l'entrée du moteur de cascade} et le seul des trois qui
 porte le capital. \\
-$\lambda_{\text{entité}}$ & OpRisk & $0{,}10$ à $0{,}21$/an & les mêmes incidents matériels,
-rapportés à \emph{une} firme. C'est l'échelle de lecture d'une entité soumise à DORA. \\
+$\lambda_{\text{entité}}$ & OpRisk & $0{,}092$/an & les mêmes incidents matériels, rapportés
+à \emph{une} firme et lus \emph{à la taille} de l'entité visée, non dans un seau. C'est
+l'échelle de lecture d'une entité soumise à DORA. \\
 \bottomrule
 \end{tabular}
 \end{center}
