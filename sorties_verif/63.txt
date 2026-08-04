@@ -1,0 +1,98 @@
+﻿
+====================================================================================
+Severite OpRisk Global (montants reels, source de reference en euros)
+====================================================================================
+  perimetre : Systems Security + Business Disruption — Finance (2000–2026)
+  incidents du perimetre cyber x finance                       582 
+  annees d'observation                                          27 ans
+  frequence propre = n / annees                            21.5556 / an
+  exces au-dessus du seuil                                      91 
+  seuil POT u (percentile 85)                                20.03 M EUR
+  taux de depassement p_u                                   0.1509 
+  indice de queue xi                                        0.5954 
+    IC 90 % sur xi                               [0.3044 ; 0.8313] 
+  echelle sigma                                              57.97 M EUR
+    IC 90 % sur sigma                               [41.88 ; 82.8] M EUR
+  VaR 99,5 % mono-perte                                     662.78 M EUR
+    IC 90 % sur la VaR                             [411.5 ; 1,037] M EUR
+  TVaR 99 %                                               1,133.05 M EUR
+
+  Rapport IC de la VaR : facteur 2.5 entre les bornes.
+  C'est ce facteur, et non le point, qui doit etre cite avec le capital.
+
+====================================================================================
+Severite PRC (derivee par conversion Jacobs)
+====================================================================================
+  periode : 2019–2025
+  incidents a total_affected > 0                             15053 
+  exces au-dessus du seuil                                    2258 
+  seuil POT u                                                4.176 M EUR
+  taux de depassement p_u                                     0.15 
+  indice de queue xi                                        1.0328 
+    IC 90 % sur xi                                [0.9709 ; 1.094] 
+  echelle sigma                                              6.507 M EUR
+    IC 90 % sur sigma                              [6.091 ; 6.985] M EUR
+  VaR 99,5 % mono-perte                                     209.18 M EUR
+  conversion Jacobs, constante a                              7.68 
+  conversion Jacobs, elasticite b                             0.76 
+  taux de change USD vers EUR                                 0.92 
+
+  xi = 1.033 > 1 : la severite PRC est en regime d'ESPERANCE INFINIE,
+  d'ou le plafond de 40 M EUR (capacite de reassurance) qui rend
+  le capital calculable. Ce plafond ne s'applique QU'A la source PRC.
+
+====================================================================================
+Frequence
+====================================================================================
+  lambda_ref (perimetre financier PRC)                         341 / an
+  facteur de surdispersion Var / moyenne                       9.2 
+  facteur de recalibration                                     1.3 
+
+  RAPPEL DES TROIS NIVEAUX, a ne jamais confondre :
+    lambda_ref      =     341 / an   cle de repartition par vecteur
+    lambda (secteur)=   21.56 / an   entree du moteur de cascade
+    lambda (entite) =  0.0917 / an   lu a la taille de l'entite (script 60)
+
+====================================================================================
+Dependance et plafond
+====================================================================================
+  famille de copule                                         Gumbel 
+  theta non conforme                                           1.8 
+  theta conforme                                               1.2 
+  bande empirique de theta                            [1.1 ; 1.23] 
+  p_sys (concentration cloud)                                 0.68 
+  plafond de severite (reassurance)                             40 M EUR
+
+  Sensibilite declaree : <1.4% sur θ_nc ∈ [1, 4] (invariant)
+
+====================================================================================
+Hackmageddon : CITATION EXTERNE, non recalculable
+====================================================================================
+  source  : Hackmageddon (Paolo Passeri)
+  periode : Janvier–Juin 2026
+  incidents du semestre                                       1041 
+  dont a vecteur d'acces identifie                             840 
+  taux d'identification                                      0.807 
+
+  parts par vecteur d'attaque :
+      phishing_social_eng                                    0.388 
+      exploit_vuln                                           0.338 
+      supply_chain_tiers                                     0.158 
+      identifiants                                           0.063 
+      autres                                                 0.053 
+  surface TLPT (art. 26)                                     0.496 
+  surface tiers (art. 28-44)                                 0.158 
+
+  AVERTISSEMENT. Contrairement a PRC et OpRisk, le jeu Hackmageddon n'est PAS
+  versionne dans data/raw/ : ces valeurs sont une citation enregistree, pas une
+  sortie recalculable (cf. script 62). Elles ne servent qu'a fixer les parts de
+  repartition par vecteur, et ne portent aucun niveau de capital.
+
+====================================================================================
+Verdict
+====================================================================================
+Cette sortie rend citables les constantes de calibration dans les chapitres donnees
+et socle. Elle atteste la CONFORMITE A LA CONFIGURATION, non l'exactitude empirique :
+celle-ci releve des scripts 07, 08b, 47 et 57.
+
+EXIT 0

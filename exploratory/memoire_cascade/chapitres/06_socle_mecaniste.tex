@@ -25,6 +25,8 @@ Soit une séquence $(X_1, X_2, \dots, X_n)$ de variables aléatoires indépendan
 M_n = \max(X_1, X_2, \dots, X_n)
 \end{equation}
 
+\section{Les deux théorèmes qui autorisent l'extrapolation de queue}
+
 \paragraph{Théorème de Fisher-Tippett-Gnedenko (1928, 1943).} S'il existe des suites de constantes de normalisation $a_n > 0$ et $b_n \in \mathbb{R}$, et une distribution non dégénérée $H$ telles que :
 \begin{equation}
 \lim_{n \to \infty} \mathbb{P}\left( \frac{M_n - b_n}{a_n} \le x \right) = \lim_{n \to \infty} F^n(a_n x + b_n) = H(x)
@@ -99,6 +101,11 @@ L'appartenance de $F$ au domaine d'attraction de $H_\xi$ équivaut à une condit
 %--------------------------------------------------------------
 
 L'estimation de l'indice de queue $\xi$ est un enjeu critique, car une infime variation de ce paramètre modifie massivement le Capital de Solvabilité Requis (SCR). Deux approches principales s'affrontent dans la littérature.
+
+\section{Estimer l'indice de queue, et savoir ce que vaut l'estimation}
+
+\noindent Chiffres de cette section : script~\texttt{47} (adéquation, couverture réelle de
+l'intervalle de confiance) et \texttt{63} (calibration figée).
 
 \paragraph{L'estimateur de Hill.}
 Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) repose sur les statistiques d'ordre. Soit $X_{(1)} \ge X_{(2)} \ge \dots \ge X_{(n)}$ l'échantillon ordonné de manière décroissante. L'estimateur de Hill fondé sur les $k$ plus grandes observations est défini par :
@@ -177,6 +184,8 @@ pilier sur lequel il tombe ; la cascade du chapitre~\ref{chap:cascade} gouverne 
 La grille par vecteur ne réapparaît plus après lui, et aucun résultat de capital ne dépend de
 son appariement à un pilier.
 \end{attention}
+
+\section{La brique de fréquence}
 
 \paragraph{Décomposition par vecteur d'attaque.} Une fréquence de référence
 $\lambda_{ref}$, lue sur le périmètre \textbf{financier} de la base PRC
@@ -287,6 +296,11 @@ $\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
 
 %--------------------------------------------------------------
 
+\section{La brique de sévérité, calibrée sur OpRisk}
+
+\noindent Chiffres de cette section : scripts~\texttt{07} (marge de sévérité) et
+\texttt{47} (validation) et \texttt{63} (calibration figée).
+
 \paragraph{Choix de la loi de Pareto généralisée.} La sévérité des sinistres
 cyber présente une signature de queue lourde documentée au chapitre~\ref{chap:donnees} : sur
 OpRisk Global, les 10~\% d'incidents les plus graves concentrent 82{,}7~\%
@@ -330,6 +344,10 @@ correspondant ($n = 91$) demeure au-dessus du minimum de $30$ requis pour une
 estimation robuste.}
 \label{soc:fig:diagnostic-gpd}
 \end{figure}
+
+\section{Hill contre maximum de vraisemblance : deux estimateurs confrontés}
+
+\noindent Chiffres de cette section : scripts~\texttt{47} et \texttt{63}.
 
 \paragraph{L'estimateur de Hill : définition et rôle diagnostique.}
 Introduit par \citet{Hill1975}, l'estimateur de Hill fournit une estimation

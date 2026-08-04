@@ -18,7 +18,8 @@ trois sources utilisées, avant de formaliser un cadre épistémique explicite
 sur les limites de l'exercice.
 
 %--------------------------------------------------------------
-\subsection*{Bloc synthèse : cartographie des sources et de leurs rôles}
+\section{Cartographie des sources et de leurs rôles}
+\label{sec:carto}
 %--------------------------------------------------------------
 
 Un point de clarification méthodologique central structure l'ensemble de
@@ -62,6 +63,8 @@ Dans le domaine du risque cyber, aucune base de données publique ou commerciale
 
 %--------------------------------------------------------------
 
+\section{Trois biais statistiques à déclarer avant tout usage}
+
 L'utilisation conjointe des bases \textit{Privacy Rights Clearinghouse} (PRC) et SAS OpRisk Global permet de croiser les perspectives, mais nécessite d'identifier trois biais statistiques majeurs qui altèrent l'estimation de l'indice de queue $\xi$.
 
 \paragraph{1. Le biais de sélection (Selection Bias).}
@@ -78,6 +81,8 @@ Dans les bases de pertes opérationnelles, la sévérité maximale observée est
 %--------------------------------------------------------------
 
 %--------------------------------------------------------------
+
+\section{L'hétérogénéité temporelle et l'actualisation des sinistres}
 
 L'hétérogénéité temporelle des bases de données constitue une autre infraction potentielle au critère d'exactitude de Solvabilité II. La base OpRisk Global agrège des pertes allant de l'année 2000 à 2026. Utiliser un montant de perte de 2018 tel quel dans un modèle de capital en 2026 constitue une erreur actuarielle sévère, l'inflation cyber ne se comportant pas comme l'inflation macroéconomique classique (IPC).
 
@@ -157,6 +162,11 @@ La justification du recours à la PRC malgré ces limites tient à l'absence
 d'alternative comparable pour la fréquence : aucune des deux autres sources
 mobilisées (Hackmageddon, OpRisk Global) ne permet, seule, d'ancrer un niveau
 annuel de sinistralité directement transposable à un portefeuille assurantiel.
+
+\section{Les trois fréquences, et le seuil de collecte qui les sépare}
+
+\noindent Sources de cette section : scripts~\texttt{08b} (panel firme-année),
+\texttt{60} (lecture à la taille de l'entité) et \texttt{62} (périmètre de $\lambda_{ref}$).
 
 \paragraph{Le seuil de collecte, et pourquoi $\lambda$ se lit à deux niveaux.}
 La fréquence est la seule brique du modèle dont la valeur dépende
@@ -287,14 +297,31 @@ n'autorise donc pas à ignorer les deux biais.
 
 %--------------------------------------------------------------
 
-\paragraph{Périmètre consolidé.} La base Hackmageddon a été consolidée sur le
-semestre complet et contigu janvier--juin 2026, soit \textbf{1\,041
-incidents}. La couverture pluriannuelle initialement envisagée a été
-abandonnée : l'année 2024 est absente du jeu transmis, et 2025 n'est
-disponible que partiellement. La base est donc exploitée pour la
-\emph{structure} du risque, non pour son \emph{niveau} ou sa dynamique
-temporelle, ce qui explique pourquoi elle n'intervient pas dans la
-calibration de $\lambda_{ref}$, réservée à la PRC.
+\section{Ce que Hackmageddon fixe, et ce qu'elle ne fixe pas}
+
+Cette source a déjà été présentée au \S\ref{sec:carto} comme celle qui porte la
+\emph{structure} du risque et non son niveau. Reste à en donner le périmètre exact et les
+deux limites qui bornent son usage.
+
+\paragraph{Périmètre consolidé.} Le décompte retenu porte sur le semestre complet et contigu
+janvier--juin 2026, soit \textbf{1\,041 incidents}. La couverture pluriannuelle initialement
+envisagée a été abandonnée : l'année 2024 est absente du jeu consulté, et 2025 n'est
+disponible que partiellement. La base est donc exploitée pour la \emph{structure} du risque,
+non pour son \emph{niveau} ou sa dynamique temporelle, ce qui explique pourquoi elle
+n'intervient pas dans la calibration de $\lambda_{ref}$, réservée à la PRC.
+
+\begin{attention}
+\textbf{Ces deux décomptes sont une citation, non un résultat du dispositif.} Contrairement
+aux bases PRC et OpRisk, versionnées dans le dépôt du mémoire et rejouables par script, le
+jeu Hackmageddon a été \textbf{consulté puis non conservé}. Les $1\,041$ incidents et les
+$840$ à vecteur identifié ne sont donc reproductibles par aucun script, et le contrôle de
+non-régression du dépôt les signale explicitement comme tels plutôt que de les compter parmi
+les sorties vérifiées. Ils sont à lire comme un chiffre de rapport de place, avec sa date de
+consultation, et non comme une sortie du modèle. Cette clause ne fragilise aucune conclusion :
+ces décomptes ne servent qu'à fixer les parts $\pi_v$ de répartition par vecteur, dont le
+chapitre~\ref{chap:socle} montre qu'elles n'alimentent pas le moteur de cascade. Les faire
+porter un niveau de capital serait en revanche indéfendable.
+\end{attention}
 
 \paragraph{Apport 1 : structure du risque et mapping DORA.} Sur les 1\,041
 incidents, 840 disposent d'un vecteur d'accès initial identifié (81~\%),
@@ -361,6 +388,11 @@ d'une base de ce type.
 %--------------------------------------------------------------
 
 %--------------------------------------------------------------
+
+\section{OpRisk Global : la sévérité en euros}
+
+\noindent Sources de cette section : scripts~\texttt{07} (marge de sévérité) et
+\texttt{47} (adéquation et couverture de l'intervalle) et \texttt{63} (calibration figée).
 
 \paragraph{Nature et périmètre.} OpRisk Global est la base de référence
 historique du risque opérationnel au sens de Bâle~2/3, comptant
@@ -451,6 +483,8 @@ l'échantillon \og pannes\fg{} (28 excès), qui rend cette calibration indicativ
 
 %--------------------------------------------------------------
 
+\section{Ce que le dispositif de données permet, et ce qu'il interdit}
+
 La discipline méthodologique retenue dans ce mémoire consiste à ne jamais
 prétendre inférer davantage que ce que les données permettent réellement, ce
 qui impose d'expliciter aussi bien les capacités que les limites du dispositif.
@@ -517,7 +551,9 @@ rôles qu'exige une architecture fréquence-sévérité-structure, et leurs biai
 respectifs (sélection, déclaration, survie, visibilité, instabilité
 taxonomique) sont documentés plutôt que dissimulés (chapitre~\ref{chap:donnees}).
 
-\paragraph{Pourquoi ne pas simplement en ajouter d'autres.} Des bases
+\section{Pourquoi ne pas multiplier les sources}
+
+Des bases
 supplémentaires existent (bases commerciales de sinistres cyber assurantiels,
 enquêtes sectorielles européennes) et pourraient, en principe, enrichir le
 dispositif. Mais chacune porterait ses propres biais de sélection et de
