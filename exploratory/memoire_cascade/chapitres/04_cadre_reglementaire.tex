@@ -12,8 +12,8 @@
 
 La quantification du capital requis au titre de la non-conformité au règlement DORA
 s'inscrit dans un écosystème prudentiel dont il importe de retracer l'architecture.
-Le risque que nous cherchons à modéliser --- le risque opérationnel d'origine
-technologique, et le risque de manquement aux exigences de résilience numérique ---
+Le risque que nous cherchons à modéliser (le risque opérationnel d'origine
+technologique, et le risque de manquement aux exigences de résilience numérique)
 se situe à l'intersection de trois cadres réglementaires construits successivement,
 selon des philosophies distinctes mais convergentes : le dispositif bancaire de Bâle,
 la directive Solvabilité~II propre à l'assurance, et le règlement transsectoriel DORA.
@@ -82,7 +82,7 @@ l'exigence ; lorsqu'elle est élevée, il agit comme une pénalité en fonds pro
 \paragraph{Enseignement pour notre démarche.} Le retrait de l'AMA n'invalide nullement
 l'approche LDA en tant qu'outil de modélisation : il en restreint l'usage \emph{pour le
 calcul réglementaire de Pilier~1 dans le secteur bancaire}. La logique de la composante
-$LC$ --- faire dépendre le capital de l'historique réel des pertes --- demeure
+$LC$, qui fait dépendre le capital de l'historique réel des pertes, demeure
 parfaitement pertinente, et c'est cette logique, transposée à l'assurance et enrichie de
 la théorie des valeurs extrêmes, que nous mettons en oeuvre.
 
@@ -108,7 +108,7 @@ supérieures à $20\,\%$ d'un exercice à l'autre.
 Cette approche présente une faiblesse conceptuelle majeure pour l'actuaire. En se fondant
 exclusivement sur des indicateurs de volume, elle pose l'hypothèse implicite que deux
 assureurs gérant le même volume de primes présentent une exposition identique au risque
-opérationnel --- indépendamment de la qualité de leur infrastructure informatique, du
+opérationnel, indépendamment de la qualité de leur infrastructure informatique, du
 degré d'automatisation de leurs processus, ou de leur dépendance à des prestataires
 d'externalisation critiques. Or c'est précisément cette dépendance technologique que DORA
 vient encadrer, et dont nous cherchons à mesurer l'effet sur le capital.
@@ -117,8 +117,8 @@ vient encadrer, et dont nous cherchons à mesurer l'effet sur le capital.
 forfaitaire. Mais Solvabilité~II comporte un second pilier, l'évaluation interne des
 risques et de la solvabilité (\emph{Own Risk and Solvency Assessment}, ORSA), qui impose
 à l'assureur une évaluation prospective de l'adéquation entre son profil de risque réel
-et ses besoins de solvabilité. C'est dans le cadre de l'ORSA --- et non du forfait de
-Pilier~1, plafonné à $30\,\%$ du $BSCR$ --- que notre modélisation trouve sa place
+et ses besoins de solvabilité. C'est dans le cadre de l'ORSA, et non du forfait de
+Pilier~1 plafonné à $30\,\%$ du $BSCR$, que notre modélisation trouve sa place
 naturelle : l'ORSA autorise, et même encourage, le recours à des scénarios de stress
 stochastiques que la formule standard ne sait pas produire.
 
@@ -154,15 +154,15 @@ l'ensemble du cycle de vie du risque informatique, de sa prévention à sa
 résolution. Chacun d'entre eux introduit une granularité que ni la formule
 standard, ni l'ORSA qualitatif traditionnel ne parvenaient à atteindre.
 
-\paragraph{Pilier 1 --- Gouvernance et gestion du risque TIC.} DORA impose
+\paragraph{Pilier 1 : Gouvernance et gestion du risque TIC.} DORA impose
 l'existence d'un cadre de gouvernance formalisé, porté au plus haut niveau de
 l'organe de direction, incluant une cartographie des actifs informationnels et
 des dépendances critiques, une politique de sécurité documentée, et un
 dispositif de contrôle interne capable d'identifier et de corriger les
-faiblesses technologiques de façon continue --- non plus seulement lors
+faiblesses technologiques de façon continue, et non plus seulement lors
 d'audits ponctuels.
 
-\paragraph{Pilier 2 --- Gestion, classification et notification des incidents.}
+\paragraph{Pilier 2 : Gestion, classification et notification des incidents.}
 Les entités doivent disposer d'un processus structuré de détection, de
 qualification et de suivi des incidents liés aux TIC. Les incidents jugés
 majeurs doivent être notifiés selon un calendrier resserré : une alerte sous
@@ -170,13 +170,13 @@ quatre heures après classification (et au plus tard vingt-quatre heures après
 détection), un rapport intermédiaire sous soixante-douze heures, puis un
 rapport final sous un mois.
 
-\paragraph{Pilier 3 --- Tests de résilience opérationnelle numérique.} Il ne
+\paragraph{Pilier 3 : Tests de résilience opérationnelle numérique.} Il ne
 suffit plus de documenter des procédures : elles doivent être éprouvées. Les
 entités identifiées comme significatives sont soumises à des tests de
 pénétration guidés par la menace (\emph{Threat-Led Penetration Testing},
 TLPT), à mener au moins tous les trois ans, en conditions proches du réel.
 
-\paragraph{Pilier 4 --- Gestion du risque lié aux prestataires tiers ICT.}
+\paragraph{Pilier 4 : Gestion du risque lié aux prestataires tiers ICT.}
 Ce pilier est central dans un environnement marqué par l'externalisation et le
 recours au cloud. Il impose une cartographie exhaustive des contrats
 critiques via un Registre d'Informations harmonisé, une gouvernance
@@ -184,7 +184,7 @@ contractuelle renforcée (clauses impératives de l'article~30), et une
 surveillance directe des prestataires tiers critiques par les autorités
 européennes, jusqu'au rang~3 de la chaîne de sous-traitance.
 
-\paragraph{Pilier 5 --- Partage d'informations sur les cybermenaces.} DORA
+\paragraph{Pilier 5 : Partage d'informations sur les cybermenaces.} DORA
 encourage les entités à partager, de façon volontaire et encadrée, des
 informations sur les menaces observées, dans une logique de résilience
 collective. Ce pilier reste moins directement mobilisable dans le calibrage
@@ -220,7 +220,7 @@ critiques \\
 Le \emph{Registre d'Informations} (ROI) mérite une attention particulière. En imposant
 le recensement exhaustif et structuré des contrats TIC critiques et de leurs chaînes de
 sous-traitance, DORA produit, pour la première fois, une donnée exploitable pour modéliser
-quantitativement le risque de concentration technologique --- donnée qui faisait
+quantitativement le risque de concentration technologique, donnée qui faisait
 précisément défaut à l'ORSA traditionnel.
 
 %--------------------------------------------------------------
@@ -240,7 +240,7 @@ rarement modélisée de manière dynamique.
 \textbf{L'absence de données de sinistralité qualifiées.} Les assureurs ne disposaient
 pas de base standardisée permettant d'alimenter les modèles de sévérité pour les
 événements cyber de faible fréquence et de forte gravité. L'étalonnage des distributions
-à queue lourde restait hautement incertain et sujet à une forte volatilité de modèle ---
+à queue lourde restait hautement incertain et sujet à une forte volatilité de modèle,
 difficulté que notre travail aborde frontalement en mobilisant plusieurs sources
 indépendantes (PRC, SAS~OpRisk~Global, Hackmageddon) et en assumant explicitement
 l'incertitude résiduelle.
@@ -250,8 +250,8 @@ politiques d'externalisation sous Solvabilité~II se limitaient à des audits do
 ponctuels. L'effet de cascade d'une panne systémique chez un fournisseur d'infrastructure
 cloud partagé par plusieurs acteurs du marché n'était pas intégré aux tests de résistance.
 
-\paragraph{Zone de recouvrement.} ORSA et DORA partagent un même objet --- le risque opérationnel d'origine technologique
---- et une même exigence d'évaluation prospective. Trois domaines se recouvrent
+\paragraph{Zone de recouvrement.} ORSA et DORA partagent un même objet, le risque opérationnel d'origine technologique,
+et une même exigence d'évaluation prospective. Trois domaines se recouvrent
 explicitement : le risque opérationnel informatique, traité de façon agrégée par l'ORSA
 et granulaire par DORA ; les scénarios de stress cyber, que l'ORSA peut désormais alimenter
 des données et tests imposés par DORA ; et la continuité d'activité, exigence commune mais

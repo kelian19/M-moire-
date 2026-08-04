@@ -1,0 +1,143 @@
+% ---------------------------------------------------------------------
+% ANNEXE : pièces justificatives.
+% Regroupe le matériel dont le corps du mémoire a besoin pour être
+% vérifiable mais pas pour être compris : réconciliation des chiffres
+% entre chapitres, contrôles de la conversion de sévérité, inventaire
+% des paramètres, sensibilités hors tornado.
+% ---------------------------------------------------------------------
+\chapter{Pièces justificatives}
+\label{ann:pieces}
+
+Cette annexe rassemble ce qui rend le mémoire \emph{vérifiable} sans être nécessaire à sa
+lecture : la réconciliation des chiffres entre chapitres, deux contrôles de la brique de
+sévérité, l'inventaire complet des paramètres et les sensibilités qui ne figurent pas au
+tornado. Aucun chiffre du corps n'y est établi pour la première fois, et aucune conclusion
+n'en dépend ; l'objet est qu'aucun chiffre du mémoire ne soit sans origine déclarée.
+
+\section{Réconciliation du socle et de l'état conforme}
+\label{sec:ann-reconciliation}
+
+Le chapitre~\ref{chap:resultats} parle d'un SCR \emph{conforme} d'environ $5\,900$~M\euro{},
+quand le chapitre~\ref{chap:partielle} parle d'un \emph{socle} de $5\,275$~M\euro{}. Ce ne
+sont pas deux mesures de la même chose, mais deux points d'un seul modèle. Le socle est pris à
+contagion \textbf{nulle} ($W=0$), fréquence de référence, sans canal de détection. L'état
+conforme, lui, conserve une contagion (le gain $g=0{,}45$ n'est pas nul) et module la
+détection. Le pont, calculé sur le moteur commun à graine fixée, l'établit terme à terme :
+\[
+  \underbrace{5\,275}_{\text{socle }W=0}\;\xrightarrow{+\text{ contagion }g=0{,}45}\;6\,504
+  \;\xrightarrow{+\text{ détection }\times 0{,}85}\;5\,936\;\approx\;\text{conforme}.
+\]
+Le canal fréquence est neutre ici, le scénario conforme S0 ayant la fréquence de référence.
+L'écart résiduel entre le moteur exact du chapitre~\ref{chap:partielle} et le Monte-Carlo du
+chapitre~\ref{chap:resultats} est de $210$~M\euro{} ($4\,\%$) sur une configuration identique,
+soit le bruit d'échantillonnage déjà déclaré, non une divergence de fond. L'ordre socle $<$
+conforme $<$ non conforme est donc cohérent : le socle est plus bas \emph{parce qu'}il n'a
+aucune contagion.
+
+\begin{figure}[htbp]\centering
+\figover{Z7_reconciliation.png}
+\caption{Réconciliation des chiffres. (a)~Du socle ($W=0$, chapitre~\ref{chap:partielle}) à
+l'état conforme (chapitre~\ref{chap:resultats}), un canal ajouté à la fois sur le moteur
+commun. (b)~Sur une configuration identique, l'écart entre le moteur exact et le Monte-Carlo
+est le seul bruit d'échantillonnage. Source : script~\texttt{36}.}
+\label{fig:reconciliation}
+\end{figure}
+
+\section{L'intervalle PRC tient quand on cesse de croire la conversion exacte}
+\label{sec:ann-jacobs}
+
+La sévérité PRC est dérivée du nombre d'enregistrements compromis par la relation log-log de
+Jacobs (2014), dont la sortie de régression donne un écart-type résiduel de $0{,}523$ en
+logarithme naturel ($R^2 = 0{,}51$) : à volume donné, le coût réel varie d'un facteur $2{,}4$
+autour de la droite à $90\,\%$. Réinjecter ce résidu enregistrement par enregistrement dans le
+bootstrap ne rouvre pourtant presque pas l'intervalle (facteur d'IC $\approx 1{,}4$ avec comme
+sans résidu) : sur $15\,053$ enregistrements, le bruit se moyenne dans l'ajustement GPD, et le
+plafond de sévérité borne la queue épaissie. L'effet est un déplacement de \emph{niveau} : la
+queue dérivée s'épaissit ($\xi$ de $1{,}03$ à $1{,}07$, taux de matérialité de $0{,}150$ à
+$0{,}157$) et la médiane du surcoût monte de $7\,\%$ (de $3\,600$ à $3\,861$~M\euro).
+L'étroitesse de l'intervalle PRC relevée au chapitre~\ref{chap:resultats} n'est donc pas un
+artefact de la conversion déterministe. L'incertitude qui ne se moyenne pas, elle, est celle
+des coefficients $(a,b)$ de la régression, estimés sur $115$ observations : elle relève d'un
+axe de sensibilité, traité au \S\ref{sec:ann-hypotheses}, non d'un bruit par enregistrement.
+
+\begin{figure}[htbp]\centering
+\figover{S16_prc_jacobs_residu.png}
+\caption{Le résidu de la conversion Jacobs ($\mathrm{RSE} = 0{,}523$) : la distribution du
+surcoût PRC se déplace plus qu'elle ne s'élargit. Source : script~\texttt{21}.}
+\label{fig:jacobsresidu}
+\end{figure}
+
+\section{Tableau des paramètres non calibrés et de leur sensibilité}
+\label{sec:ann-parametres}
+
+Trois natures sont distinguées : \textbf{calibré} sur données (avec son incertitude),
+\textbf{posé} par jugement d'expert ou choix normatif (non identifiable, cf.\
+chapitre~\ref{ch:identifiabilite}), et \textbf{semi-ancré} sur un proxy externe non
+spécifique au périmètre.
+
+\vspace{0.25cm}
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.28}
+\begin{tabular}{@{}p{2.7cm} p{2.6cm} p{1.7cm} p{4.0cm} p{3.6cm}@{}}
+\toprule
+\textbf{Paramètre} & \textbf{Valeur} & \textbf{Nature} & \textbf{Justification} & \textbf{Sensibilité du SCR} \\
+\midrule
+Queue de sévérité $\xi$ & $0{,}90$ (OpRisk $0{,}60$, PRC $1{,}03$) & calibré, incertain & GPD sur pertes réelles ; hétérogène par catégorie ($0{,}92$--$1{,}37$) & \textbf{forte} : $0{,}68$--$0{,}93$ selon le seuil ; pilote la queue \\
+Échelle GPD $\sigma$, seuil $u$, $p_u$ & $57{,}97$ M\euro{} ; $20{,}03$ M\euro{} ; $0{,}15$ & calibré & POT au percentile 85, conversion en euros & modérée (via la queue) \\
+Fréquence $\lambda$ & ${\sim}21{,}6$/an (OpRisk) & calibré & incidents TIC matériels / 27 ans & linéaire sur le niveau \\
+Sur-dispersion $\phi$ & $9{,}20$ & semi-calibré & Var/Moyenne observé, maintenu entre scénarios & faible \\
+Choc commun fréquence $a$ & $0{,}60$ & \textbf{posé} (prudent) & dépasse l'IC empirique haut ($0{,}22$) : conservateur & enveloppe le modèle à paquets ($\times 2{,}5$) \\
+Structure $W = g\,\texttt{TRANS}/\max_k s_k$ & classeur qualitatif & \textbf{posé} / normatif & jugement d'expert consigné ; direction non identifiable & l'asymétrie porte le résultat (knockout) \\
+Gain de propagation $g$ & $0{,}90$ base ; par état $0{,}45/0{,}68/0{,}90$ & \textbf{posé} & amplitude de $W$, bornée par Leontief $\rho(W)\le g<1$ & \textbf{levier} : $\times 1{,}6$ sur $[0{,}05\,;0{,}90]$ \\
+Score de conformité $q$ / états & continu $[0,1]$ (ou NC/PC/C) & \textbf{posé} & décrit le profil, subsume 3 ou 5 niveaux & \textbf{levier} : $-53\,\%$ de NC à C \\
+Multiplicateur de matérialité par état & $0{,}85/1{,}00/1{,}20$ & \textbf{posé} & module $p_u$ selon la conformité & modérée (canal détection) \\
+Charge systémique $\gamma$ & $0{,}68$ & semi-ancré & proxy concentration cloud (AWS+Azure+GCP, Synergy 2025) & modérée \\
+Seuil de crise $\theta_{\text{crise}}$ & $-2{,}5$ & \textbf{posé} & déclenche le régime de co-mouvement extrême & agit sur la seule queue crise \\
+Probas d'état $P(\text{NC/PC/C})$ & $0{,}35/0{,}35/0{,}30$ & semi-ancré & enquêtes conformité DORA ${\sim}50\,\%$ non conformes (Deloitte, ESA) & déplace le mélange, pas les états \\
+Copule de dépendance $\theta$ & Gumbel $1{,}8$ & \textbf{posé} & queue supérieure entre briques & \textbf{négligeable} : $\Delta_{\text{DORA}}$ $<1{,}4\,\%$ sur $[1,4]$ \\
+Excès de source $u_{ij}$ & $\operatorname{logit}p_{ij}=\operatorname{logit}p_j+u_{ij}$ & \textbf{non identifié} & la direction elle-même ; normalisation $\sum_i u_{ij}=0$ (repérage, non information) & mesurée par l'échelle de repli (ch.~\ref{chap:partielle}) : rang~$1$ capte $74\,\%$ et resserre les bornes de $25\,\%$ ; à $u=0$ P1 et P4 deviennent indiscernables \\
+Élasticité sévérité/taille $b$ & $0{,}087$ $[0{,}026\,;0{,}148]$ & calibré, tronqué & EMV lognormale tronquée au seuil de collecte (ch.~\ref{chap:donnees}) & faible : $\times 0{,}86$ sur la sévérité transposée \\
+Plafond de sévérité & $40$ M\euro{} & \textbf{posé} & capacité de réassurance ($\xi\ge 1$) & borne la queue extrême \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\textbf{Ce que la table rend visible.} Les seuls paramètres à \textbf{forte} sensibilité sont
+soit calibrés sur données (la queue $\xi$, dont on assume et chiffre l'incertitude), soit des
+\textbf{leviers voulus} ($g$, $q$) qui traduisent précisément l'objet du mémoire, l'effet de
+la conformité et de la contagion sur le capital. Les paramètres purement \textbf{posés} qui
+ne sont pas des leviers ($\theta$ de copule, $\gamma$, $\theta_{\text{crise}}$, probas d'état,
+matérialité) ont une influence \textbf{faible à modérée} et documentée. Aucune conclusion ne
+repose sur un paramètre à la fois non calibré \emph{et} déterminant hors de son rôle attendu.
+
+\section{Les hypothèses hors tornado et leur axe de stress}
+\label{sec:ann-hypotheses}
+
+Trois entrées ne figuraient pas au tornado du chapitre~\ref{chap:resultats} : les coefficients
+de la conversion Jacobs, la charge systémique $\gamma$ et l'ancrage des probabilités d'état.
+Les coefficients $(a,b)$, estimés sur $115$ observations, sont stressés à $\pm 1{,}645$
+écart-type en \emph{pivotant la droite au centroïde} de la régression, déduit des erreurs-types
+publiées ($\bar{x} = 10{,}04$, soit environ $23\,000$ enregistrements) ; stresser $a$ et $b$
+indépendamment ignorerait leur corrélation négative. L'élasticité $b$ commande l'épaisseur de
+la queue dérivée ($\xi$ de $0{,}85$ à $1{,}21$) mais le surcoût PRC reste contenu, de $3\,125$
+à $3\,977$~M\euro{} autour du central ($3\,577$), le plafond de sévérité bornant l'effet :
+c'est l'axe d'hypothèse dominant du périmètre PRC, et le verdict y survit. $\gamma$ ne touche,
+par construction, ni le SCR par état ni le SCR espéré en régime normal (invariant à
+$10\,644$~M\euro) : il ne commande que la sévérité de la bascule en crise
+($\mathrm{P}(\text{NC} \mid \text{crise})$ de $84$ à $100\,\%$, SCR espéré en crise de
+$14\,148$ à $15\,071$). L'ancrage des probabilités d'état, enfin, déplace le capital espéré
+actuel ($9\,951$ à $11\,485$~M\euro{} selon les enquêtes retenues) mais jamais le SCR par état
+ni le surcoût NC contre C, qui lui sont conditionnels. Les trois axes confirment la ligne de
+partage du mémoire : les hypothèses bougent des niveaux, jamais la direction ni le classement.
+Source : script~\texttt{22}.
+
+\begin{figure}[htbp]\centering
+\figover{S17_sensibilites_hypotheses.png}
+\caption{Sensibilités des hypothèses restantes : coefficients Jacobs (pivotés au centroïde
+déduit des erreurs-types publiées), charge systémique $\gamma$, ancrage des probabilités
+d'état. Source : script~\texttt{22}.}
+\label{fig:hypotheses}
+\end{figure}
+
+% =====================================================================

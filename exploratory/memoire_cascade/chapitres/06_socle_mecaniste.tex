@@ -132,7 +132,7 @@ $\Var(\hat\xi)\simeq (1+\xi)^2/N_u$.
 La matrice de covariance limite est l'inverse de l'information de Fisher $\mathcal{I}(\xi,\sigma)$, obtenue en prenant l'espérance de l'opposé de la hessienne de $\ell$. Le détail du calcul de $\mathcal{I}$ (dérivées secondes de \eqref{soc:eq:loglik-gpd} et intégration contre la densité GPD, valide pour $\xi>-\tfrac12$ où l'information est finie) est reporté en Annexe~\ref{soc:ann:fisher}. Le résultat classique remonte à \citet{smith1987}.
 \end{proof}
 
-\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{soc:prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment (§5.5) : la concordance des deux approches --- l'une paramétrique et asymptotique, l'autre par rééchantillonnage --- renforce la fiabilité de l'incertitude reportée sur~$\xi$.
+\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{soc:prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment (§5.5) : la concordance des deux approches, l'une paramétrique et asymptotique, l'autre par rééchantillonnage, renforce la fiabilité de l'incertitude reportée sur~$\xi$.
 
 \begin{proposition}[Loi asymptotique de l'estimateur de Hill]\label{soc:prop:hill}
 Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alors pour une suite $k=k(n)\to\infty$ avec $k/n\to0$,
@@ -158,7 +158,7 @@ Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\TVaR_\alpha$ n'est pas
 Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\bigr)^{-1/\xi}$. En posant ce membre égal à $1-\alpha$ et en inversant, on obtient \eqref{soc:eq:var-gpd}. Pour \eqref{soc:eq:tvar-gpd}, la stabilité de la GPD par franchissement de seuil implique que l'excès au-delà de $\VaR_\alpha$ suit encore une GPD de paramètre $\xi$ et d'échelle $\sigma+\xi(\VaR_\alpha-u)$, d'espérance $\bigl(\sigma+\xi(\VaR_\alpha-u)\bigr)/(1-\xi)$ pour $\xi<1$ ; en ajoutant $\VaR_\alpha$ et en réarrangeant, on retrouve \eqref{soc:eq:tvar-gpd}. La divergence pour $\xi\ge1$ découle de $\E[X]=\int_u^\infty \Prob(X>x)\,\dd x=+\infty$ dès que $1/\xi\le1$. Détail en Annexe~\ref{soc:ann:varestvar}.
 \end{proof}
 
-\noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{soc:eq:var-gpd} une VaR mono-perte $\VaR_{99{,}5\%}=663{,}0$~M\euro\ et par \eqref{soc:eq:tvar-gpd} $\TVaR_{99{,}5\%}=1\,752{,}4$~M\euro. La Proposition~\ref{soc:prop:varestvar} éclaire surtout le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en \textbf{régime d'espérance infinie} --- l'Expected Shortfall y est mathématiquement indéfini, ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable.
+\noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{soc:eq:var-gpd} une VaR mono-perte $\VaR_{99{,}5\%}=663{,}0$~M\euro\ et par \eqref{soc:eq:tvar-gpd} $\TVaR_{99{,}5\%}=1\,752{,}4$~M\euro. La Proposition~\ref{soc:prop:varestvar} éclaire surtout le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en \textbf{régime d'espérance infinie} : l'Expected Shortfall y est mathématiquement indéfini, ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable.
 
 %--------------------------------------------------------------
 
@@ -224,7 +224,7 @@ p_{S_x} = \frac{r_{S_x}}{r_{S_x} + \lambda_{S_x}}.
 \end{equation}
 Augmenter $\lambda$ via les multiplicateurs DORA déplace ainsi la fréquence
 moyenne tout en préservant la \emph{forme} de sur-dispersion de la
-sinistralité --- une hypothèse de modélisation explicite, dont la limite est
+sinistralité, hypothèse de modélisation explicite, dont la limite est
 que le comportement de la sur-dispersion en régime de forte dégradation
 n'est pas lui-même observé, faute d'historique de crise DORA.
 
@@ -243,7 +243,7 @@ une échelle firme-année non comparable directement.
 
 Trois enseignements suivent (figure~\ref{soc:fig:nb}). D'abord, à variance égale la queue
 dépend encore de la loi de mélange : le quantile $99{,}5\,\%$ du nombre annuel vaut $74$
-(mélange Gamma) contre $82$ (lognormal), soit $+11\,\%$ --- appairer la variance n'appaire pas
+(mélange Gamma) contre $82$ (lognormal), soit $+11\,\%$ : appairer la variance n'appaire pas
 la queue. Ensuite, le choix de la loi de comptage déplace la VaR mais \emph{non} la moyenne
 (l'espérance $\E[N]=\lambda$ est fixe pour les trois lois) : passer du Poisson à la binomiale
 négative posée relève le SCR de $+9\,\%$ seulement, la queue restant portée au $99{,}5\,\%$ par
@@ -389,15 +389,15 @@ $u = 4{,}18$~M\euro, 2\,258 excès), supérieur à
 $\hat{\xi}_{\text{OpRisk}} = 0{,}595$, les IC90\% des deux estimateurs ne se
 chevauchant pas. Ce paramètre correspond formellement à une espérance de
 sévérité infinie ($\xi \geq 1$), ce qui impose un plafond de sévérité
-opérationnel --- fixé à 40~M\euro, ancré sur la capacité de réassurance cyber
-observable sur le marché --- pour que la simulation reste numériquement
+opérationnel, fixé à 40~M\euro{} et ancré sur la capacité de réassurance cyber
+observable sur le marché, pour que la simulation reste numériquement
 stable ; ce plafond ne s'applique qu'à la source PRC, la calibration OpRisk
 ($\xi < 1$, espérance finie) demeurant non plafonnée. L'écart entre
 les deux calibrations s'explique par le biais de taille d'OpRisk : les
 grandes entités financières y sont sur-représentées et absorbent mieux les
 chocs, d'où une queue apparemment plus légère. Les deux sources confirment
 néanmoins le même régime qualitatif de queue lourde ($\xi > 0$), et aucune
-hiérarchie de type \og source primaire\fg{} n'est retenue entre elles --- leur
+hiérarchie de type \og source primaire\fg{} n'est retenue entre elles : leur
 écart est traité comme une composante de l'incertitude totale du modèle,
 non comme un désaccord à trancher.
 
@@ -412,7 +412,7 @@ probabilité-probabilité s'alignent sur la diagonale ; la vie résiduelle moyen
 au-delà du seuil, ce qui est la signature même d'une queue GPD et justifie le choix de $u$ ;
 et $\hat\xi$ reste stable autour de $0{,}60$ quand on fait varier le seuil. Les tests formels
 ne rejettent pas l'ajustement, avec une $p$-value obtenue par \textbf{bootstrap paramétrique}
---- les valeurs critiques tabulées ne valant pas lorsque les paramètres sont estimés :
+les valeurs critiques tabulées ne valant pas lorsque les paramètres sont estimés :
 Anderson-Darling $p=0{,}87$, Kolmogorov-Smirnov $p=0{,}87$. Enfin, la \textbf{couverture réelle}
 de l'intervalle de confiance à $90\,\%$ de $\xi$, mesurée par simulation à $n$ fini, vaut
 $86\,\%$ : proche du nominal, ce qui conforte l'incertitude reportée et, à la marge, invite à

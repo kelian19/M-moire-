@@ -2,14 +2,15 @@
 \label{chap:adaptations}
 
 \begin{cle}
-\textbf{Idée directrice.} Le tuteur a fait passer le Vasicek d'un facteur unique à un
-facteur \emph{par pilier}. Les autres composants doivent-ils suivre ? Les cinq piliers ne
-sont pas cinq exemplaires du même risque : la queue de sévérité, l'accumulation par tiers et
-la détection sont des objets de nature différente. Ce chapitre les adapte pilier par pilier,
-mais sous la \emph{même} discipline que le chapitre~\ref{chap:partielle} : on n'adopte un
-raffinement que si la donnée le soutient, et ce qu'elle ne fixe pas, on le \textbf{borne}. Le
-fil qui en ressort est constant : chaque adaptation \textbf{relève le niveau}, aucune ne
-\textbf{renverse le classement}.
+\textbf{Idée directrice, et statut de cette annexe.} Le modèle fait passer le Vasicek d'un
+facteur unique à un facteur \emph{par pilier}. Les autres composants doivent-ils suivre ? Les
+cinq piliers ne sont pas cinq exemplaires du même risque : la queue de sévérité,
+l'accumulation par tiers et la détection sont des objets de nature différente. Cette annexe
+les adapte pilier par pilier, sous la \emph{même} discipline que le
+chapitre~\ref{chap:partielle} : on n'adopte un raffinement que si la donnée le soutient, et
+ce qu'elle ne fixe pas, on le \textbf{borne}. Elle est reportée hors du corps parce que son
+verdict est constant et ne modifie aucune conclusion : chaque adaptation \textbf{relève le
+niveau}, aucune ne \textbf{renverse le classement}.
 \end{cle}
 
 \section{La queue de sévérité par pilier}
@@ -127,11 +128,11 @@ lit le co-déclenchement en \textbf{bande}, à $\tau$ de Kendall égal, entre le
 et le haut de Gumbel. La fréquence \emph{marginale} d'un pilier reste $p_4=0{,}15$ pour les deux
 (la copule ne change pas combien un pilier bascule seul, mais s'ils basculent \emph{ensemble}) ;
 seul le \textbf{co-extrême} diverge : la probabilité que les cinq piliers tombent avec P4 passe
-de $0{,}17$ (gaussien) à $0{,}39$ (Gumbel), un facteur $2{,}3$ --- exactement le scénario MOVEit
+de $0{,}17$ (gaussien) à $0{,}39$ (Gumbel), un facteur $2{,}3$, exactement le scénario MOVEit
 que la queue gaussienne manque (figure~\ref{fig:p4-seuil}). Le co-déclenchement d'un autre
 pilier tient alors dans $[0{,}48\,;\,0{,}58]$, sous la borne $\gamma=0{,}68$ du choc commun, qui
 reçoit ainsi son origine structurelle. Tout est \emph{par pilier} : un nombre de piliers de
-l'entité, non une fraction de portefeuille --- la vue inter-clients (MOVEit et ses centaines
+l'entité, non une fraction de portefeuille : la vue inter-clients (MOVEit et ses centaines
 d'entités victimes) serait une loi de Vasicek en dimension entité, hors du SCR par entité.
 \end{attention}
 
@@ -208,7 +209,7 @@ l'ITS \citep{eu2024_2956} mais que seules les données de l'entité fournissent.
 donnée ouverte tranche déjà deux points opposés (figure~\ref{fig:p4-open}). D'un côté, la
 \textbf{taxonomie fine} du tiers y est trop rare : la sous-catégorie \og Vendors \& Suppliers \fg{}
 d'OpRisk ne compte que $20$ incidents en finance ($1\,\%$ du TIC), et \texttt{actor.Partner} du
-VCDB $56$, qui s'effondrent à zéro deux niveaux plus bas --- le même mur de sparsité que partout,
+VCDB $56$, qui s'effondrent à zéro deux niveaux plus bas : le même mur de sparsité que partout,
 qui renvoie au registre. De l'autre, l'\textbf{origination} et la \textbf{concentration} tierces
 sont, elles, ancrées sur donnée européenne officielle, ce qui \emph{valide de l'extérieur} deux
 paramètres jusqu'ici posés :
@@ -270,8 +271,9 @@ détection, borné sur l'élasticité. Source : script~\texttt{39}.}
 \label{sec:kpi}
 
 Les adaptations qui précèdent se lisent enfin comme un \textbf{tableau de bord opérationnel},
-opposable à un souscripteur ou à un superviseur. Chaque KPI observable --- fréquence d'entrée,
-délai de notification (P2) et de confinement (P3), concentration tiers (P4) --- est rattaché à
+opposable à un souscripteur ou à un superviseur. Chaque KPI observable, de la fréquence
+d'entrée au délai de notification (P2), au délai de confinement (P3) et à la concentration
+tiers (P4), est rattaché à
 un canal du moteur, et l'on mesure le \textbf{capital en jeu} derrière lui : l'écart de SCR
 entre l'état conforme (cible DORA) et l'état non conforme, canal isolé. Sur OpRisk cet écart
 total vaut $14\,139$~M\euro{} ($6\,049\to20\,188$), et il s'attribue par KPI : fréquence
@@ -283,7 +285,7 @@ amplifiant la somme des effets isolés).
 \textbf{Classer par capital \emph{et} par statut.} Les KPI à fort capital et \textbf{calibrables}
 (fréquence, détection) sont les leviers de remédiation à activer en priorité ; ceux à fort
 capital mais \textbf{bornés} (propagation, accumulation) mesurent surtout une incertitude, à
-résorber par la donnée --- le registre DORA --- plutôt que par une action directe. C'est l'aval
+résorber par la donnée, c'est-à-dire par le registre DORA, plutôt que par une action directe. C'est l'aval
 du fil du mémoire : la même discipline conforme\,/\,non conforme, bande, identification, cette
 fois déclinée en indicateurs observables (figure~\ref{fig:kpi}).
 \end{cle}
@@ -305,7 +307,7 @@ dont la valeur \emph{récurrente}, au coût du capital de Solvabilité~II (marge
 $6\,\%$), vaut $6\,\%\times\Delta\mathrm{SCR}$ par an. La conformité totale libère $14\,139$
 M\euro{} de SCR, soit $848$ M\euro/an, et ce capital est \textbf{concentré} : la fréquence à
 elle seule en porte près de la moitié (figure~\ref{fig:roi}). Face au coût de remédiation DORA
---- de l'ordre de $25$ à $150$ M\euro{} par grande entité selon les estimations de place ---,
+(de l'ordre de $25$ à $150$ M\euro{} par grande entité selon les estimations de place),
 le retour sur le \emph{seul} portage du capital est de l'ordre de $6$ à $35$ ans. C'est un
 \textbf{plancher} conservateur : le $\Delta\mathrm{SCR}$ est majoritairement de la \emph{perte
 évitée}, non du simple portage, de sorte qu'en ajoutant la baisse de la charge moyenne le
@@ -324,7 +326,7 @@ est de $6$ à $35$ ans, les pertes évitées venant en sus. Source : script~\tex
 \textbf{La conformité comme levier de capital.} Le bénéfice (le capital libéré) est issu du
 modèle ; le coût est externe et incertain, affiché comme tel. Mais la conclusion tient : la
 conformité n'est pas un pur coût, c'est un levier de capital, à \textbf{prioriser par capital
-libéré} --- les leviers \emph{calibrables} (fréquence, détection) d'abord. On passe ainsi du
+libéré} : les leviers \emph{calibrables} (fréquence, détection) d'abord. On passe ainsi du
 score de criticité abstrait à un arbitrage économique chiffré, opposable à une direction
 financière.
 \end{cle}

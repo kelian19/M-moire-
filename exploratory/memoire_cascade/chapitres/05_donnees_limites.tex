@@ -11,14 +11,14 @@
 
 La modélisation développée dans ce mémoire ne repose sur aucune base de
 données unique. Chaque source mobilisée présente un périmètre, un biais et un
-niveau de granularité distincts, et c'est précisément leur articulation ---
-plutôt que le choix d'une source \og privilégiée\fg{} --- qui constitue la
+niveau de granularité distincts, et c'est précisément leur articulation,
+plutôt que le choix d'une source \og privilégiée\fg{}, qui constitue la
 démarche méthodologique retenue. Cette partie présente successivement les
 trois sources utilisées, avant de formaliser un cadre épistémique explicite
 sur les limites de l'exercice.
 
 %--------------------------------------------------------------
-\subsection*{Bloc synthèse --- Cartographie des sources et de leurs rôles}
+\subsection*{Bloc synthèse : cartographie des sources et de leurs rôles}
 %--------------------------------------------------------------
 
 Un point de clarification méthodologique central structure l'ensemble de
@@ -113,7 +113,20 @@ La constitution de ce registre européen résoudra structurellement les trois fa
 
 Dès lors, l'architecture du Modèle Interne Partiel développée dans ce mémoire (LDA, théorie des valeurs extrêmes, facteurs de Vasicek, allocation d'Euler) prend toute sa valeur. Le modèle mathématique et les scripts de simulation construits sont intégralement agnostiques à la source de données. Lorsqu'une base d'incidents DORA harmonisée sera rendue disponible à la profession actuarielle, il suffira de substituer ces nouvelles données aux actuelles bases PRC et OpRisk. Le moteur de calcul absorbera ces entrées qualifiées pour produire un SCR cyber d'une précision inédite, répondant simultanément aux exigences qualitatives de DORA et aux contraintes quantitatives de Solvabilité II.
 
-\paragraph{Automatisation du reclassement par NLP.} En attendant ce registre harmonisé, une partie du travail de fiabilisation des données peut d'ores et déjà être outillée. Le reclassement manuel par grille de mots-clés opéré au chapitre~\ref{chap:donnees} sur la taxonomie Hackmageddon (nécessaire pour isoler le ransomware, absent en tant que catégorie en 2023) illustre une limite récurrente des bases de sinistralité cyber : une taxonomie déclarative instable, dont la correction repose aujourd'hui sur un travail manuel documenté mais non reproductible à grande échelle. Les travaux R\&D menés chez Nexialog Consulting sur l'exploitation du NLP et des modèles de langage pour l'enrichissement de bases de sinistralité cyber (rapports d'incidents, bases de vulnérabilités, publications techniques) ouvrent une voie directe pour systématiser ce type de reclassement --- en le rendant à la fois plus rigoureux (classification supervisée validée statistiquement plutôt que grille de mots-clés ad hoc) et transposable à d'autres bases (OpRisk, futur registre DORA). Cette piste n'a pas été mise en oeuvre dans le présent mémoire, faute de corpus annoté disponible dans le périmètre de ce travail, mais constitue une perspective directe de prolongement.
+\paragraph{Automatisation du reclassement par NLP.} En attendant ce registre harmonisé, une
+partie du travail de fiabilisation peut déjà être outillée. Le reclassement manuel par grille
+de mots-clés opéré plus haut sur la taxonomie Hackmageddon, nécessaire pour isoler le
+ransomware qui n'existait pas comme catégorie en 2023, illustre une limite récurrente des
+bases de sinistralité cyber : une taxonomie déclarative instable, dont la correction repose
+sur un travail manuel documenté mais non reproductible à grande échelle.
+
+Les travaux de recherche menés chez Nexialog Consulting sur le traitement automatique du
+langage appliqué aux bases de sinistralité cyber (rapports d'incidents, bases de
+vulnérabilités, publications techniques) ouvrent une voie pour systématiser ce reclassement.
+Le gain serait double : une classification supervisée validée statistiquement remplacerait la
+grille ad hoc, et la procédure deviendrait transposable à d'autres bases, OpRisk comme le
+futur registre DORA. Faute de corpus annoté dans le périmètre de ce travail, cette piste n'a
+pas été mise en \oe uvre ; elle constitue un prolongement direct.
 
 %--------------------------------------------------------------
 
@@ -131,12 +144,12 @@ d'enregistrements compromis en un montant de perte financière à partir d'un
 modèle log-log. Ce mécanisme permet d'élargir le spectre de tailles
 d'incidents disponibles, mais introduit un biais de modèle supplémentaire :
 la sévérité qui en résulte n'est pas observée directement, elle est
-\emph{dérivée}. La calibration en queue de distribution obtenue sur la PRC
---- réalisée en propre sur les 15\,053 incidents 2019--2025 de la base brute,
-via la conversion Jacobs $\ln(L) = 7{,}68 + 0{,}76\,\ln(X)$ --- donne un
+\emph{dérivée}. La calibration en queue de distribution obtenue sur la PRC,
+réalisée en propre sur les 15\,053 incidents 2019--2025 de la base brute,
+via la conversion Jacobs $\ln(L) = 7{,}68 + 0{,}76\,\ln(X)$, donne un
 paramètre de forme $\hat{\xi}_{\text{PRC}} = 1{,}03$ (IC90\%
 $[0{,}97~;~1{,}09]$), caractéristique d'une queue extrêmement lourde, à
-espérance infinie --- un résultat qui, pris seul, rendrait toute simulation
+espérance infinie, résultat qui, pris seul, rendrait toute simulation
 numériquement instable et qui doit donc être discuté conjointement avec les
 corrections méthodologiques présentées au chapitre~\ref{chap:donnees}.
 
@@ -276,7 +289,7 @@ incidents}. La couverture pluriannuelle initialement envisagée a été
 abandonnée : l'année 2024 est absente du jeu transmis, et 2025 n'est
 disponible que partiellement. La base est donc exploitée pour la
 \emph{structure} du risque, non pour son \emph{niveau} ou sa dynamique
-temporelle --- ce qui explique pourquoi elle n'intervient pas dans la
+temporelle, ce qui explique pourquoi elle n'intervient pas dans la
 calibration de $\lambda_{ref}$, réservée à la PRC.
 
 \paragraph{Apport 1 : structure du risque et mapping DORA.} Sur les 1\,041
@@ -290,10 +303,10 @@ regroupés en familles et reliés directement aux articles DORA :
 \rowcolor{lightblue}
 \textbf{Vecteur d'attaque} & \textbf{Part} & \textbf{Exigence DORA} \\
 \midrule
-Phishing / Ingénierie sociale & 38{,}8~\% & Art.~13 --- Sensibilisation \& formation \\
-Exploitation vuln.\ exposée & 33{,}8~\% & Art.~26 --- Tests TLPT ; Art.~8--10 \\
-Supply chain / Tiers ICT & 15{,}8~\% & Art.~28--44 --- Gestion risque tiers \\
-Identifiants compromis & 6{,}3~\% & Art.~9 --- Contrôle d'accès \& MFA \\
+Phishing / Ingénierie sociale & 38{,}8~\% & Art.~13, sensibilisation \& formation \\
+Exploitation vuln.\ exposée & 33{,}8~\% & Art.~26, tests TLPT ; Art.~8--10 \\
+Supply chain / Tiers ICT & 15{,}8~\% & Art.~28--44, gestion du risque tiers \\
+Identifiants compromis & 6{,}3~\% & Art.~9, contrôle d'accès \& MFA \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -377,9 +390,9 @@ P90 & 51{,}5 M\$ & Total cumulé & 15{,}4 Md\$ \\
 \end{tabular}
 \end{center}
 
-La concentration extrême de la sévérité --- les 10~\% d'incidents les plus
+La concentration extrême de la sévérité (les 10~\% d'incidents les plus
 graves représentent 82{,}7~\% de la perte totale, et le seul top~1~\% en
-représente 31~\% --- constitue une signature de queue lourde qui justifie
+représente 31~\%) constitue une signature de queue lourde qui justifie
 directement le recours à la théorie des valeurs extrêmes développée en
 chapitre~\ref{chap:cascade}.
 
@@ -408,7 +421,7 @@ Global. La linéarité de $e(u)$ au-delà du seuil retenu $u = 20$~M\euro
 \text{VaR}_{99{,}5\%} = 663~\text{M\euro}.
 \]
 L'intervalle de confiance bootstrap sur cette VaR est $[411\,;\,1037]$~M\euro,
-soit un facteur~2{,}5 entre les bornes --- une ampleur qui, à elle seule,
+soit un facteur~2{,}5 entre les bornes, une ampleur qui, à elle seule,
 illustre que le SCR ne peut être présenté comme un point.
 
 La comparaison avec la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}03$ contre
@@ -418,7 +431,7 @@ sont sur-représentées et absorbent mieux les chocs, d'où une queue
 apparemment plus légère. Les deux sources confirment néanmoins le même régime
 qualitatif de queue lourde ($\xi > 0$). Il n'existe donc pas de hiérarchie
 \og source primaire\fg{} en sévérité : OpRisk fournit des montants réels, la PRC
-un spectre de tailles plus large via la conversion Jacobs --- deux
+un spectre de tailles plus large via la conversion Jacobs : deux
 estimations indépendantes et complémentaires, dont l'écart constitue
 lui-même une information sur l'incertitude du modèle.
 
@@ -427,7 +440,7 @@ distincts : les pannes (\og Business Disruption\fg{}) sont moins fréquentes
 (19~\% des incidents) mais nettement plus coûteuses, avec une médiane cinq
 fois supérieure à celle des intrusions (\og Systems Security\fg{}), suggérant que
 les multiplicateurs DORA pourraient à terme être différenciés non seulement
-en fréquence mais aussi en sévérité --- sous réserve de la taille réduite de
+en fréquence mais aussi en sévérité, sous réserve de la taille réduite de
 l'échantillon \og pannes\fg{} (28 excès), qui rend cette calibration indicative.
 
 %--------------------------------------------------------------
@@ -478,27 +491,27 @@ La conséquence directe de ce cadre épistémique est méthodologique autant que
 présentationnelle : le résultat final ne peut être livré comme un montant
 unique, mais doit être présenté comme une distribution large, conditionnelle
 à des hypothèses documentées et à des sources dont les écarts sont eux-mêmes
-informatifs --- ce principe structure l'ensemble de le chapitre~\ref{chap:resultats}.
+informatifs, et ce principe structure tout le chapitre~\ref{chap:resultats}.
 
 %--------------------------------------------------------------
 
 %--------------------------------------------------------------
 
-Le dispositif retenu --- PRC pour la fréquence, OpRisk Global pour la
-sévérité observée, Hackmageddon pour la structure du risque --- appelle une
+Le dispositif retenu (PRC pour la fréquence, OpRisk Global pour la
+sévérité observée, Hackmageddon pour la structure du risque) appelle une
 question préalable à toute discussion de robustesse : ce triptyque est-il
 suffisant pour l'exercice mené dans ce mémoire ? La réponse tient à la nature
 même de l'exercice. L'objectif n'est pas de produire une formule
 réglementaire de Pilier~1, qui exigerait une base exhaustive et représentative
-du marché au sens de l'Article~19 --- base qui, comme l'a établi la
+du marché au sens de l'Article~19, base qui, comme l'a établi la
 chapitre~\ref{chap:donnees}, n'existe aujourd'hui pour aucun acteur, public ou privé, sur le
 risque cyber. L'objectif est de construire, dans l'esprit du Pilier~2 et de
 l'ORSA, une mesure prospective dont la valeur ajoutée actuarielle réside dans
 la transparence de ses limites autant que dans la précision de son résultat.
 Sous cet angle, les trois sources mobilisées couvrent exactement les trois
 rôles qu'exige une architecture fréquence-sévérité-structure, et leurs biais
-respectifs --- sélection, déclaration, survie, visibilité, instabilité
-taxonomique --- sont documentés plutôt que dissimulés (chapitre~\ref{chap:donnees}).
+respectifs (sélection, déclaration, survie, visibilité, instabilité
+taxonomique) sont documentés plutôt que dissimulés (chapitre~\ref{chap:donnees}).
 
 \paragraph{Pourquoi ne pas simplement en ajouter d'autres.} Des bases
 supplémentaires existent (bases commerciales de sinistres cyber assurantiels,
@@ -507,12 +520,12 @@ dispositif. Mais chacune porterait ses propres biais de sélection et de
 représentativité, sans lever la limite structurelle identifiée dès la
 chapitre~\ref{chap:donnees} : l'absence, à ce jour, d'un registre harmonisé et exhaustif à
 l'échelle du marché. Multiplier les sources déplacerait la difficulté sans la
-résoudre, et complexifierait un narratif dont la clarté --- trois sources, trois
-rôles distincts, aucune hiérarchie de \og source primaire\fg{} --- constitue
+résoudre, et complexifierait un narratif dont la clarté (trois sources, trois
+rôles distincts, aucune hiérarchie de \og source primaire\fg{}) constitue
 en elle-même un gage de rigueur méthodologique. L'analyse de sensibilité menée
 au chapitre~\ref{chap:resultats} confirme d'ailleurs, \emph{a posteriori}, la pertinence de ce choix :
-c'est l'incertitude sur l'indice de queue $\xi$ de la sévérité --- estimé sur
-les sources déjà mobilisées --- qui domine très largement toute autre source
+c'est l'incertitude sur l'indice de queue $\xi$ de la sévérité, estimé sur
+les sources déjà mobilisées, qui domine très largement toute autre source
 de variation du modèle, multipliers de fréquence et paramètres de dépendance
 compris. Approfondir l'exploitation des trois sources retenues (bootstrap,
 validation croisée, diagnostics de stabilité) réduit donc l'incertitude du
@@ -543,8 +556,8 @@ révéler à partir du seul volume d'incidents observés : le phishing domine la
 structure en volume (38{,}8~\% contre 33{,}8~\% pour l'exploitation de
 vulnérabilités, chapitre~\ref{chap:donnees}), mais convertit nettement moins efficacement en
 intrusion réussie. Les deux sources s'accordent ainsi, chacune sur son propre
-plan --- structure des incidents rapportés pour Hackmageddon, taux de
-conversion pour ENISA --- sur une même hiérarchie qualitative des vecteurs
+plan (structure des incidents rapportés pour Hackmageddon, taux de
+conversion pour ENISA) sur une même hiérarchie qualitative des vecteurs
 d'attaque, ce qui renforce la crédibilité du mapping vecteurs~$\rightarrow$~exigences
 DORA retenu au chapitre~\ref{chap:multietats} sans nécessiter de recalibration.
 
@@ -553,7 +566,7 @@ Investigations Report} de Verizon, fondé sur des méthodologies de collecte
 distinctes à la fois de Hackmageddon et d'ENISA, constituerait une troisième
 confrontation naturelle. Il n'est pas mobilisé dans le présent mémoire, faute
 de statistiques suffisamment vérifiées dans le périmètre de ce travail pour
-en garantir l'exactitude des chiffres cités --- une prudence identique à
+en garantir l'exactitude des chiffres cités, une prudence identique à
 celle déjà retenue pour les références bibliographiques marquées comme à
 vérifier (cf.~\texttt{references.bib}). Cette confrontation constitue une
 perspective directe de prolongement, dans le même esprit que l'automatisation

@@ -1,6 +1,8 @@
 # Le mémoire : état réel et ce qui reste
 
-Dernière mise à jour : 2026-07-21. **Le document est `main.tex`**, 54 pages compilées.
+Dernière mise à jour : 2026-08-04. **Le document est `main.tex`.** Corps 88 pages
+(parties I à V), annexes A à E ensuite. Le corps a été ramené de 103 à 88 pages le 04/08 :
+voir la section « Format » plus bas.
 
 ```powershell
 cd exploratory\memoire_cascade
@@ -28,7 +30,7 @@ chapitre dans `chapitres/`.
 | `05_donnees_limites` | migré |
 | `06_socle_mecaniste` | migré (EVT + calibration) |
 | `07_cascade_dirigee` | rédigé 16/07 ; section faisabilité corrigée (temps inversé dégénéré) |
-| `08_proprietes_formelles` | neuf, vérifié (script 32) |
+| ~~`08_proprietes_formelles`~~ | **supprimé le 04/08** : ses six propositions étaient déjà énoncées en `\S sec:formalisation` (ch. 6) et démontrées en annexe A. Ses vérifications numériques sont reprises en fin de `07_cascade_dirigee` |
 | `09_identifiabilite` | neuf ; + event-study MOVEit (script 35) |
 | `10_identification_partielle` | neuf, chapitre central ; + échelle u_ij (script 34) |
 | `11_conformite_multietats` | rédigé 16/07, à relire |
@@ -36,6 +38,39 @@ chapitre dans `chapitres/`.
 | `13_inventaire_hypotheses` | intégré |
 | `14_conclusion` | réécrite : établi / non mesurable / régulateur / limites / ouvertures |
 | `15_demonstrations`, `16_notations` | migrés |
+
+## Format : ce qui a été fait le 04/08
+
+Le corps dépassait de 47 % la convention de l'Institut (~70 pages). Un mémoire qui
+déborde contredit sa propre thèse, qui est une thèse de retenue. Corps ramené de **103 à
+88 pages**, sans supprimer un seul résultat :
+
+- **`08_proprietes_formelles` dissous.** Redondant à 100 % : ses six propositions sont
+  énoncées en `\S sec:formalisation` (ch. 6) et démontrées en annexe A. Ses vérifications
+  numériques (22/26 chaînes, rho = 0,506, écart 10,6-19,9 %, 1 173 M€) sont reprises en
+  fin de `07_cascade_dirigee`. L'encadré qui admettait « le recouvrement est voulu »
+  disparaît avec lui.
+- **`12b_adaptations_pilier` passé en annexe C** (8 pages, 8 figures, zéro renvoi entrant).
+  Un renvoi depuis le ch. Résultats dit ce qu'on y trouve et pourquoi c'est en annexe.
+- **Annexe D `17_pieces_justificatives` créée** : réconciliation socle/conforme, résidu
+  Jacobs, inventaire des paramètres, sensibilités hors tornado. Le corps garde le verdict
+  d'une phrase et renvoie.
+- **`titlespacing` du chapitre resserré** (l'espacement par défaut de `report` coûtait un
+  quart de page par chapitre).
+
+Reste ouvert si l'on veut descendre plus bas : le ch. Résultats pèse encore 16 pages et le
+ch. Identifiabilité 12. Descendre à 70 imposerait de supprimer des résultats, pas de les
+déplacer.
+
+## Passe de prose : ce qui a été fait le 04/08
+
+- **Tirets cadratins éliminés** (une soixantaine en prose, règle maison).
+- **Gabarits d'encadrés cassés** : « ... et il faut le dire » (4 occurrences), « Ce que X
+  établit » (4, dont 3 dans le seul ch. Résultats), « n'est pas un défaut » (2). Un même
+  cadre rhétorique réemployé d'un chapitre à l'autre est le tic le plus visible du
+  document.
+- **Paragraphe fleuve du ch. 5** (NLP, 900 caractères d'une traite) scindé en deux.
+- Faute corrigée : « l'ensemble de le chapitre ».
 
 ## Ce qui reste, par ordre de rentabilité
 

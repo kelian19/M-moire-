@@ -50,7 +50,7 @@ $\rho_{ij}=\rho_j+u_{ij}$, où la sensibilité de chaque entité gravite autour 
 son pilier $\rho_j$ (pooling partiel).
 
 \begin{cle}
-\textbf{Cette partie A n'est pas neuve, et il faut le dire.} Le Merton-Vasicek multifacteur à
+\textbf{La partie A n'est pas une contribution.} Le Merton-Vasicek multifacteur à
 matrice de corrélation générale est celui de Li~(2000), employé tel quel dans les modèles de
 stress-test (Pineau et Zuñiga, 2023). La contribution propre ne commence qu'en partie~B, avec
 la contagion \textbf{dirigée}. Le revendiquer clairement évite de se voir opposer une
@@ -165,7 +165,7 @@ classement \textbf{identique} à celui du barème ROOT (Spearman $=1{,}00$), et 
 valeur de $g$.
 
 \begin{attention}
-\textbf{Ce que cela prouve, et ce que cela ne prouve pas.} ROOT et TRANS ont été élicités par le
+\textbf{Cohérence interne, et non validation externe.} ROOT et TRANS sont issus du jugement du
 même expert ; retrouver ROOT à partir de TRANS n'est pas une validation externe mais un test de
 \textbf{cohérence interne} du jugement, réussi. Sa portée réelle est une \textbf{réduction de
 paramètres} : ROOT se déduit de TRANS au lieu d'être posé, soit cinq paramètres d'expert en
@@ -319,5 +319,66 @@ que par sa partie symétrique $S$. Les matrices $W$ et $W^\top$, de même $S$, s
 \emph{observationnellement équivalentes} sous les données de co-occurrence, alors que
 $\mathrm{SCR}(W)\neq\mathrm{SCR}(W^\top)$ en général : la direction est non identifiée.
 \end{proposition}
+
+\section{Vérification numérique des trois propriétés qui portent l'argument}
+\label{sec:verif-proprietes}
+
+Parmi les six énoncés ci-dessus, trois portent l'argument du mémoire. Chacun est accompagné de
+sa vérification numérique, produite par le script \texttt{32\_proprietes\_formelles} : l'énoncé
+dit ce qui doit se produire, le calcul montre que cela se produit.
+
+\paragraph{La criticité dépend de l'ordre (proposition~\ref{prop:ordre}).} Sur les $26$
+sous-ensembles de taille au moins deux, \textbf{$22$ changent de criticité selon l'ordre}, avec
+un écart atteignant \textbf{$6$ points sur une échelle de $10$}, soit $60\,\%$ de l'échelle, pour
+un \emph{même} ensemble de piliers. Le contre-exemple minimal suffit à le voir : sur la paire
+$\{P_1,P_2\}$, le classeur donne $\mathrm{TRANS}[1][2]=0{,}80$ et $\mathrm{TRANS}[2][1]=0{,}20$,
+d'où des criticités de $8$ et $2$ pour le même ensemble.
+
+\begin{cle}
+\textbf{La contraposée est l'argument utile.} Toute mesure de risque qui ne dépend que de
+l'ensemble touché est invariante par permutation. La proposition~\ref{prop:ordre} exhibe donc un
+objet qu'\emph{aucune} copule et qu'\emph{aucun} score additif ne reproduit, et l'hypothèse
+requise est minimale : il suffit que $\mathrm{TRANS}$ soit asymétrique, sans qu'aucune
+\emph{valeur} de la direction ne soit revendiquée.
+\end{cle}
+
+\begin{cle}
+\textbf{Ce qui n'est pas revendiqué, et pourquoi le dire.} Une propriété plus forte, la
+\textbf{non-transitivité} de la dominance entre piliers, a été testée dans trois formulations :
+la transitivité des corrélations qu'impose un modèle à facteur unique, la positivité de la
+dépendance symétrisée, et l'existence de cycles de dominance par paire. \textbf{Aucune ne se
+vérifie} : zéro violation de l'inégalité de transitivité sur $420$ triplets, valeur propre
+minimale $+0{,}405$ donc matrice de corrélation parfaitement valide, et zéro cycle. Cette
+revendication est donc \textbf{retirée}. La dépendance à l'ordre exclut exactement les mêmes
+concurrents et, elle, se démontre.
+\end{cle}
+
+\paragraph{La borne de propagation tient, et son écart se lit (propositions~\ref{prop:reduite}
+et~\ref{prop:leontief}).} Avec le classeur actuel, $\rho(W)=0{,}506$. La majoration
+$\E\,|S_a|\le[(I-W)^{-1}\mathbf 1]_a$ est vérifiée sur les cinq amorces et sur $300$ matrices de
+l'ensemble admissible, sans aucun contre-exemple. L'écart entre la borne et la valeur exacte va
+de $10{,}6\,\%$ (amorce P5) à $19{,}9\,\%$ (amorce P1). \textbf{Cet écart n'est pas une
+imprécision} : il mesure exactement les \emph{collisions}, c'est-à-dire les piliers atteints par
+plusieurs chemins, que la forme linéaire compte plusieurs fois. Sur cinq piliers fortement
+connectés il n'est pas négligeable, ce qui justifie de conserver le calcul exact par
+sous-ensembles (proposition~\ref{prop:loi}) plutôt que la seule forme close.
+
+\paragraph{La direction n'est pas identifiée, et cela coûte (proposition~\ref{prop:nonid}).} La
+co-occurrence observée est une fonction de la seule partie symétrique $S$, et le test
+directionnel ne rejette pas l'hypothèse $A=0$ (chapitre~\ref{ch:identifiabilite} : asymétrie
+observée $119$ contre un nul de permutation à $128 \pm 27$, soit $z=-0{,}33$, et aucune arête
+significative sur $18$). Retourner la matrice déplace pourtant le capital de $3{,}6\,\%$ et la
+perte moyenne de $7{,}9\,\%$ (les niveaux sont établis en partie~\ref{part:resultats} ; seuls les
+écarts importent ici), et surtout \textbf{la priorité de remédiation bascule de P1 à P4}. Sur
+l'ensemble admissible, l'écart entre une matrice et sa transposée atteint $1\,173$~M\euro{}.
+
+\begin{cle}
+\textbf{L'énoncé à retenir : observationnellement indistinguables, matériellement différentes.}
+C'est la formulation la plus nette de la frontière d'identification, et elle ne repose sur
+\emph{aucun} dire d'expert. Elle chiffre en euros de capital, et en inversion de priorité, le
+prix de ne pas savoir dans quel sens la contagion circule. C'est ce qui fonde à la fois le
+modèle en couches (chapitre~\ref{chap:partielle}) et la spécification de reporting adressée au
+régulateur.
+\end{cle}
 
 % =====================================================================

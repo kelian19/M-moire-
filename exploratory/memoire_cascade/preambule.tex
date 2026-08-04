@@ -106,6 +106,9 @@
 \newcommand{\cascell}{\cellcolor{softgreen}}
 
 \titleformat{\chapter}[hang]{\normalfont\huge\bfseries\color{navy}}{\thechapter}{0.6em}{}
+% L'espacement de chapitre par defaut de la classe report (50pt avant, 40pt apres)
+% coute environ un quart de page par chapitre. Resserre sans nuire a la lecture.
+\titlespacing*{\chapter}{0pt}{-8pt}{20pt}
 \titleformat{\section}{\normalfont\large\bfseries\color{navy}}{\thesection}{0.6em}{}
 \titleformat{\subsection}{\normalfont\normalsize\bfseries\color{bluemid}}{\thesubsection}{0.5em}{}
 \captionsetup{font=small,labelfont={bf,color=navy},labelsep=period,skip=6pt}
