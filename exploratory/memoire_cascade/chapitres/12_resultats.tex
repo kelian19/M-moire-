@@ -643,18 +643,33 @@ Aucun n'est estimé. La conversion en dollars, nécessaire parce que le panel de
 exprime les actifs en \$, n'est pas un paramètre sensible : l'élasticité valant $0{,}074$, une
 erreur de $10\,\%$ sur le cours déplace $\lambda$ de $0{,}7\,\%$.
 
+\begin{attention}
+\textbf{Deux précautions de vocabulaire, avant tout chiffre.} D'abord, il n'existe \emph{aucun}
+module \textsc{dora} dans la Formule Standard : la grandeur calculée ici est un \textbf{besoin de
+capital \textsc{orsa}}, donc de pilier~2, conformément à ce que pose le
+chapitre~\ref{chap:reglementaire}. Écrire « le \textsc{scr} \textsc{dora} de telle entité » ferait
+croire à un objet réglementaire qui n'existe pas. Ensuite, le rapport de ce besoin au \textsc{scr}
+publié est une \textbf{mise à l'échelle et non une part} : diviser un besoin de pilier~2 par le
+\textsc{scr} réglementaire ne fait pas du premier une composante du second. Le rapport répond à
+« est-ce gros ou petit pour cette entité », et à rien d'autre. Enfin les entités sont désignées
+par leur classe de taille, non par leur nom : le modèle n'utilise que le total de bilan et les
+provisions, jamais l'identité, et il serait donc gratuit d'accoler un nom de société à un état de
+conformité \emph{supposé}. Les identités et les références \textsc{sfcr} exactes sont tenues dans
+le script~\texttt{65}, qui imprime la table de correspondance à chaque exécution.
+\end{attention}
+
 \begin{center}\small
 \renewcommand{\arraystretch}{1.25}
 \begin{tabular}{@{}l r r r r r@{}}
 \toprule
-\textbf{Entité} & \textbf{Actifs} & \textbf{SCR publié} & \textbf{DORA} &
-\textbf{Bande} & \textbf{DORA / SCR} \\
+\textbf{Entité} & \textbf{Actifs} & \textbf{SCR publié} & \textbf{Besoin ORSA} &
+\textbf{Bande} & \textbf{Rapport} \\
  & M\euro & M\euro & M\euro & M\euro & \\
 \midrule
-BPCE Assurances IARD & $2\,319$ & $426$ & $112$ & $[88\,;122]$ & $26{,}3\,\%$ \\
-MACSF Assurances (non-vie) & $3\,234$ & $292$ & $121$ & $[94\,;132]$ & $41{,}3\,\%$ \\
-MACSF Épargne Retraite & $37\,845$ & $1\,587$ & $196$ & $[149\,;213]$ & $12{,}3\,\%$ \\
-\textbf{CNP Assurances SA} & $\mathbf{309\,800}$ & $\mathbf{14\,800}$ & $\mathbf{294}$ &
+Assureur non-vie A & $2\,319$ & $426$ & $112$ & $[88\,;122]$ & $26{,}3\,\%$ \\
+Assureur non-vie B & $3\,234$ & $292$ & $121$ & $[94\,;132]$ & $41{,}3\,\%$ \\
+Assureur vie C & $37\,845$ & $1\,587$ & $196$ & $[149\,;213]$ & $12{,}3\,\%$ \\
+\textbf{Assureur vie D} & $\mathbf{309\,800}$ & $\mathbf{14\,800}$ & $\mathbf{294}$ &
 $\mathbf{[233\,;316]}$ & $\mathbf{2{,}0\,\%}$ \\
 \midrule
 \emph{Entité notionnelle} & $19\,231$ & --- & $169$ & $[132\,;183]$ & --- \\
@@ -663,12 +678,12 @@ $\mathbf{[233\,;316]}$ & $\mathbf{2{,}0\,\%}$ \\
 \end{center}
 
 \vspace{2pt}
-La première lecture est celle qu'on attendait. Sur la plus grande entité du panel, la charge de
-non-conformité vaut $294$~M\euro{} en point et $[233\,;316]$ en bande, soit $2{,}0\,\%$ de son
-\textsc{scr} publié : un ordre de grandeur défendable, obtenu sans aucune donnée interne. Et
-l'écart entre états de conformité subsiste à toutes les tailles, de $+41\,\%$ à $+47\,\%$, face
-à une charge forfaitaire qui n'en distingue aucune. La thèse ne dépendait donc pas de l'entité
-fictive.
+La première lecture est celle qu'on attendait. Sur la plus grande entité du panel, un assureur
+vie de $310$~Md\euro{} d'actifs, le besoin de capital associé à la non-conformité vaut
+$294$~M\euro{} en point et $[233\,;316]$ en bande, soit $2{,}0\,\%$ de son \textsc{scr} publié :
+un ordre de grandeur défendable, obtenu sans aucune donnée interne. Et l'écart entre états de
+conformité subsiste à toutes les tailles, de $+41\,\%$ à $+47\,\%$, face à une charge forfaitaire
+qui n'en distingue aucune. La thèse ne dépendait donc pas de l'entité fictive.
 
 \begin{attention}
 \textbf{La seconde lecture n'était pas attendue, et elle contraint le mémoire.} La charge décroît
@@ -705,14 +720,16 @@ soit désigné. Et deux des quatre entités publient « provisions techniques et
 sans les séparer, ce qui surestime l'assiette du forfait pour elles et sous-estime donc leur
 rapport à la charge forfaitaire ; le rapport au \textsc{scr} publié, lui, n'est pas concerné.
 
-\figcle{S22_entites_reelles.png}{Le SCR DORA d'entités réelles, à partir de leurs seuls chiffres
-\textsc{sfcr}. \textbf{(a)}~les quatre entités lues sur la courbe d'élasticité du panel,
-l'entité notionnelle du mémoire tombant au milieu d'elles. \textbf{(b)}~la charge et sa bande
-d'identification face à la charge forfaitaire, en échelle logarithmique : le forfait croît avec
-les provisions, la charge de contagion beaucoup moins vite, et c'est tout le sujet.
-\textbf{(c)}~la charge rapportée au SCR publié révèle une borne inférieure de validité de la
-transposition, que le mémoire publie plutôt que de la laisser découvrir. Source :
-script~\texttt{65}.}{fig:entites-reelles}
+\figcle{S22_entites_reelles.png}{Le besoin de capital \textsc{orsa} au titre de \textsc{dora}, sur
+quatre bilans réels et à partir des seuls chiffres \textsc{sfcr} publiés. Les entités sont
+désignées par leur classe de taille, le modèle n'utilisant que le bilan et jamais l'identité.
+\textbf{(a)}~les quatre entités lues sur la courbe d'élasticité du panel, l'entité notionnelle du
+mémoire tombant au milieu d'elles. \textbf{(b)}~le besoin et sa bande d'identification face à la
+charge forfaitaire, en échelle logarithmique : le forfait croît avec les provisions, la charge de
+contagion beaucoup moins vite, et c'est tout le sujet. \textbf{(c)}~le besoin rapporté au
+\textsc{scr} publié, à titre de mise à l'échelle et non de décomposition, révèle une borne
+inférieure de validité de la transposition, que le mémoire publie plutôt que de la laisser
+découvrir. Source : script~\texttt{65}.}{fig:entites-reelles}
 
 \section{Détenir ou transférer : le SCR confronté au prix de marché du risque}
 \label{sec:detenir-transferer}

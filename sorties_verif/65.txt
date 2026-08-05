@@ -10,6 +10,14 @@ MACSF Epargne Retraite      solo, vie             37845       33484      1587   
 CNP Assurances SA           solo, vie            309800      275000     14800    235%
 Entite notionnelle (ch. 12) fictive               19231       15000         -       -
 
+CORRESPONDANCE AVEC LES ETIQUETTES PUBLIEES AU MEMOIRE :
+  Assureur non-vie A     = BPCE Assurances IARD
+  Assureur non-vie B     = MACSF Assurances (non-vie)
+  Assureur vie C         = MACSF Epargne Retraite
+  Assureur vie D         = CNP Assurances SA
+  Le memoire ne publie que la colonne de gauche. Voir l'en-tete de ce script pour
+  la raison : le modele n'utilise que le bilan, jamais l'identite.
+
 PROVENANCE DE CHAQUE CHAMP, a ne pas confondre a la lecture :
   BPCE Assurances IARD
       actifs  : deduit (provisions + fonds propres, borne inferieure)
@@ -37,7 +45,7 @@ DEUX RESERVES A ECRIRE TELLES QUELLES.
       EXPOSITION sous un etat suppose, jamais une non-conformite constatee.
   (2) Deux entites publient « provisions techniques ET AUTRES PASSIFS » sans les
       separer. Pour celles-la l'assiette de la charge forfaitaire est SURESTIMEE,
-      donc le rapport charge DORA / forfait est SOUS-estime :
+      donc le rapport besoin ORSA / forfait est SOUS-estime :
         - MACSF Assurances (non-vie)
         - MACSF Epargne Retraite
       Le rapport au SCR PUBLIE, lui, n'est pas concerne par ce defaut d'assiette.
@@ -81,7 +89,7 @@ La frequence varie peu d'une entite a l'autre parce que l'elasticite est faible 
   ce qui limite la transposition vers les petites tailles (section 5).
 
 ============================================================================================
-3. Le SCR DORA par entite : un point, une bande, un socle
+3. Le besoin ORSA par entite : un point, une bande, un socle
 ============================================================================================
 La direction de W n'etant pas identifiee, le resultat d'une entite est une BANDE.
 On enumere les 1024 sommets du pave admissible a t = 1, comme au
@@ -108,7 +116,7 @@ provisions. Le second, plus parlant pour une direction des risques, est le SCR
 TOTAL publie de l'entite : il dit quelle part du capital reglementaire la
 non-conformite DORA representerait si elle etait chargee.
 
-entite                           DORA  forfait 3%  DORA/forfait  SCR publie  DORA/SCR
+entite                           ORSA  forfait 3%  ORSA/forfait  SCR publie / SCR pub.
 BPCE Assurances IARD            112.1        54.1          2.07         426     26.3%
 MACSF Assurances (non-vie)      120.8        62.1          1.94         292     41.3%
 MACSF Epargne Retraite          195.8      1004.5          0.19        1587     12.3%
@@ -146,7 +154,7 @@ non-conformite reglementaire pese plus de 10 % du SCR total d'une entite, tous
 risques confondus (marche, souscription, credit, operationnel). Le seuil de 10 % est
 un jugement d'ordre de grandeur, et il est explicite pour pouvoir etre contredit.
 
-  entite                        actifs M EUR  SCR/actifs  DORA/SCR   verdict
+  entite                        actifs M EUR  SCR/actifs / SCR pub.   verdict
   BPCE Assurances IARD                  2319       18.4%     26.3%   HORS DOMAINE
   MACSF Assurances (non-vie)            3234        9.0%     41.3%   HORS DOMAINE
   MACSF Epargne Retraite               37845        4.2%     12.3%   HORS DOMAINE
@@ -199,10 +207,11 @@ et elle est ici verifiee sur des bilans reels et non sur une entite posee.
 ============================================================================================
 VERDICT
 ============================================================================================
-1. Le SCR DORA est calculable sur des entites reelles a partir de leurs seuls
+1. Le besoin ORSA au titre de DORA est calculable sur des entites reelles a partir
    chiffres SFCR publies. La methode n'exige aucune donnee interne, ce qui est
    precisement ce qu'on lui demandait de demontrer.
-2. Sur la plus grande entite du panel, CNP Assurances SA, la charge vaut
+2. Sur la plus grande entite du panel, CNP Assurances SA (Assureur vie D), soit
+   310 Md EUR d'actifs, la charge vaut
    294.4 M EUR en point, [232.6 ; 316.0] en bande, soit 2.0% de son SCR publie
    de 14800 M EUR. C'est un ordre de grandeur defendable devant un jury.
 3. L'ecart entre etats de conformite subsiste a toutes les tailles, face a un

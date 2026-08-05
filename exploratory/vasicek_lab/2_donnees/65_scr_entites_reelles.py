@@ -1,7 +1,21 @@
 ﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 r"""
-65 : le SCR DORA d'ENTITES REELLES, a partir de leurs chiffres SFCR publies.
+65 : le besoin de capital ORSA au titre de DORA, sur des ENTITES REELLES.
+
+DEUX PRECAUTIONS DE VOCABULAIRE, ET ELLES NE SONT PAS COSMETIQUES.
+
+  (1) « SCR DORA » EST UN RACCOURCI DANGEREUX. Il n'existe aucun module DORA dans la
+      Formule Standard, et le chapitre 4 du memoire pose la grandeur comme un besoin de
+      capital ORSA, donc de pilier 2. Ecrire « le SCR DORA de telle entite » laisse croire
+      a un objet reglementaire qui n'existe pas. Ce script ecrit donc « besoin ORSA ».
+
+  (2) LE RAPPORT AU SCR PUBLIE EST UNE MISE A L'ECHELLE, PAS UNE PART. Diviser un besoin
+      de pilier 2 par le SCR reglementaire d'une entite ne fait pas du premier une
+      composante du second. Le rapport sert a repondre a « est-ce gros ou petit pour cette
+      entite », et a rien d'autre. Une premiere version l'intitulait « DORA / SCR », ce qui
+      se lisait comme une decomposition. Corrige.
+
 
 CE QUI MANQUAIT. Le script 60 etablit la descente d'echelle et la lit a une entite
 NOTIONNELLE, posee a 20 000 M USD d'actifs et 15 000 M EUR de provisions. La methode est
@@ -10,7 +24,7 @@ une entite. C'est le reproche qu'un rapporteur formule en premier, et il a raiso
 
 CE QUE FAIT CE SCRIPT. Il branche la descente d'echelle sur les chiffres PUBLIES de
 quatre entites d'assurance francaises, choisies pour couvrir deux ordres de grandeur de
-taille, et rapporte la charge DORA a DEUX reperes propres a chaque entite : la charge
+taille, et rapporte ce besoin a DEUX reperes propres a chaque entite : la charge
 operationnelle forfaitaire de Formule Standard, et son SCR total publie. Ce dernier
 rapport est le seul chiffre qu'un directeur des risques peut utiliser tel quel.
 
@@ -30,7 +44,7 @@ cote a cote, sans en designer un. C'est une reserve a ecrire, pas une note de ba
 CE QUE CE SCRIPT TROUVE, ET QUI N'ETAIT PAS ATTENDU. La transposition ne se degrade pas
 gracieusement vers le bas. L'elasticite de severite valant 0,087, la severite est presque
 invariante a la taille : diviser les actifs par cent ne divise la severite que par 1,5. La
-charge DORA rapportee au SCR publie est donc de quelques pourcents pour une grande entite
+charge rapportee au SCR publie est donc de quelques pourcents pour une grande entite
 et de plusieurs dizaines pour une petite. Ce n'est pas un defaut de ce script, c'est la
 limite que le script 60 nommait sans la chiffrer : l'elasticite corrige l'ECHELLE de la
 severite, jamais sa FORME, et la forme est celle de grandes institutions financieres. Le
@@ -70,10 +84,20 @@ TAUX_USD = 1.04
 # =====================================================================================
 # LES ENTITES. Un champ = une valeur + sa provenance. Les valeurs marquees None sont
 # DEDUITES plus bas par identite comptable ou par le taux de couverture publie.
+#
+# POURQUOI LE MEMOIRE ANONYMISE, ET PAS CE SCRIPT. Le modele n'utilise QUE le total de
+# bilan et les provisions techniques : jamais l'identite de l'entite. Nommer une societe
+# cotee a cote d'un etat de conformite SUPPOSE, qu'elle ne publie pas et que personne n'a
+# etabli, serait donc un risque d'attribution sans aucune contrepartie scientifique. Le
+# memoire designe les entites par une classe de taille ; ce script garde les noms et les
+# sources, parce que la tracabilite doit exister quelque part et que sa place est ici.
+# Le champ `anonyme` porte l'etiquette publiee, et la table de correspondance est imprimee
+# a chaque execution pour que le rapprochement soit toujours possible en interne.
 # =====================================================================================
 ENTITES = [
     dict(
         nom="BPCE Assurances IARD",
+        anonyme="Assureur non-vie A",
         perimetre="solo, non-vie",
         pt=1_804.0, of=515.0, scr=None, couverture=1.21, actifs=None,
         pt_inclut_autres_passifs=False,
@@ -82,6 +106,7 @@ ENTITES = [
     ),
     dict(
         nom="MACSF Assurances (non-vie)",
+        anonyme="Assureur non-vie B",
         perimetre="solo, non-vie",
         pt=2_071.0, of=None, scr=None, couverture=3.98, actifs=3_234.0,
         pt_inclut_autres_passifs=True,
@@ -90,6 +115,7 @@ ENTITES = [
     ),
     dict(
         nom="MACSF Epargne Retraite",
+        anonyme="Assureur vie C",
         perimetre="solo, vie",
         pt=33_484.0, of=4_361.0, scr=1_587.0, couverture=2.75, actifs=None,
         pt_inclut_autres_passifs=True,
@@ -98,6 +124,7 @@ ENTITES = [
     ),
     dict(
         nom="CNP Assurances SA",
+        anonyme="Assureur vie D",
         perimetre="solo, vie",
         pt=275_000.0, of=34_800.0, scr=14_800.0, couverture=None, actifs=None,
         pt_inclut_autres_passifs=False,
@@ -108,8 +135,8 @@ ENTITES = [
 ]
 
 # entite notionnelle du memoire (script 60), gardee comme point de comparaison
-NOTIONNELLE = dict(nom="Entite notionnelle (ch. 12)", perimetre="fictive",
-                   actifs_musd=20_000.0, pt=15_000.0)
+NOTIONNELLE = dict(nom="Entite notionnelle (ch. 12)", anonyme="Entite notionnelle",
+                   perimetre="fictive", actifs_musd=20_000.0, pt=15_000.0)
 
 
 def titre(s):
@@ -155,6 +182,12 @@ print(f"{NOTIONNELLE['nom']:<28}{NOTIONNELLE['perimetre']:<16}"
       f"{NOTIONNELLE['actifs_musd']/TAUX_USD:>11.0f}{NOTIONNELLE['pt']:>12.0f}"
       f"{'-':>10}{'-':>8}")
 
+print("\nCORRESPONDANCE AVEC LES ETIQUETTES PUBLIEES AU MEMOIRE :")
+for e in ENTITES:
+    print(f"  {e['anonyme']:<22} = {e['nom']}")
+print("  Le memoire ne publie que la colonne de gauche. Voir l'en-tete de ce script pour")
+print("  la raison : le modele n'utilise que le bilan, jamais l'identite.")
+
 print("\nPROVENANCE DE CHAQUE CHAMP, a ne pas confondre a la lecture :")
 for e in ENTITES:
     print(f"  {e['nom']}")
@@ -167,7 +200,7 @@ print("  (1) Aucune de ces entites ne publie son etat de conformite DORA. On mes
 print("      EXPOSITION sous un etat suppose, jamais une non-conformite constatee.")
 print("  (2) Deux entites publient « provisions techniques ET AUTRES PASSIFS » sans les")
 print("      separer. Pour celles-la l'assiette de la charge forfaitaire est SURESTIMEE,")
-print("      donc le rapport charge DORA / forfait est SOUS-estime :")
+print("      donc le rapport besoin ORSA / forfait est SOUS-estime :")
 for e in ENTITES:
     if e["pt_inclut_autres_passifs"]:
         print(f"        - {e['nom']}")
@@ -227,7 +260,7 @@ print("  ce qui limite la transposition vers les petites tailles (section 5).")
 
 
 # =====================================================================================
-titre("3. Le SCR DORA par entite : un point, une bande, un socle")
+titre("3. Le besoin ORSA par entite : un point, une bande, un socle")
 # =====================================================================================
 print("La direction de W n'etant pas identifiee, le resultat d'une entite est une BANDE.")
 print(f"On enumere les {1 << pid.NFREE} sommets du pave admissible a t = 1, comme au")
@@ -278,8 +311,8 @@ print("Le premier repere est la charge operationnelle de Formule Standard, 3 % d
 print("provisions. Le second, plus parlant pour une direction des risques, est le SCR")
 print("TOTAL publie de l'entite : il dit quelle part du capital reglementaire la")
 print("non-conformite DORA representerait si elle etait chargee.\n")
-print(f"{'entite':<28}{'DORA':>9}{'forfait 3%':>12}{'DORA/forfait':>14}"
-      f"{'SCR publie':>12}{'DORA/SCR':>10}")
+print(f"{'entite':<28}{'ORSA':>9}{'forfait 3%':>12}{'ORSA/forfait':>14}"
+      f"{'SCR publie':>12}{'/ SCR pub.':>11}")
 for e in ENTITES:
     sf = SF_TAUX * e["pt"]
     e["sf"], e["part_scr"] = sf, e["scr_dora"] / e["scr"]
@@ -320,7 +353,7 @@ print("risques confondus (marche, souscription, credit, operationnel). Le seuil 
 print("un jugement d'ordre de grandeur, et il est explicite pour pouvoir etre contredit.\n")
 plaus = [e for e in ordre if e["part_scr"] < 0.10]
 non_plaus = [e for e in ordre if e["part_scr"] >= 0.10]
-print(f"  {'entite':<28}{'actifs M EUR':>14}{'SCR/actifs':>12}{'DORA/SCR':>10}   verdict")
+print(f"  {'entite':<28}{'actifs M EUR':>14}{'SCR/actifs':>12}{'/ SCR pub.':>11}   verdict")
 for e in ordre:
     v = "credible" if e["part_scr"] < 0.10 else "HORS DOMAINE"
     print(f"  {e['nom']:<28}{e['actifs']:>14.0f}{e['scr']/e['actifs']:>12.1%}"
@@ -386,11 +419,15 @@ print("et elle est ici verifiee sur des bilans reels et non sur une entite posee
 # =====================================================================================
 titre("VERDICT")
 # =====================================================================================
-print("1. Le SCR DORA est calculable sur des entites reelles a partir de leurs seuls")
+print("1. Le besoin ORSA au titre de DORA est calculable sur des entites reelles a partir")
 print("   chiffres SFCR publies. La methode n'exige aucune donnee interne, ce qui est")
 print("   precisement ce qu'on lui demandait de demontrer.")
 gr = ordre[-1]
-print(f"2. Sur la plus grande entite du panel, {gr['nom']}, la charge vaut")
+# EN MILLIARDS AUSSI. Le memoire ecrit « un assureur vie de 310 Md EUR d'actifs », qui se
+# lit mieux que 309800 M EUR ; encore faut-il que ce 310 soit imprime quelque part, sinon
+# verif_chiffres.py le signale comme non confirme, ce qu'il a fait.
+print(f"2. Sur la plus grande entite du panel, {gr['nom']} ({gr['anonyme']}), soit")
+print(f"   {gr['actifs']/1000:.0f} Md EUR d'actifs, la charge vaut")
 print(f"   {gr['scr_dora']:.1f} M EUR en point, [{gr['scr_lo']:.1f} ; {gr['scr_hi']:.1f}] en bande, "
       f"soit {gr['part_scr']:.1%} de son SCR publie")
 print(f"   de {gr['scr']:.0f} M EUR. C'est un ordre de grandeur defendable devant un jury.")
@@ -425,18 +462,21 @@ INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
 ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
 LEG = dict(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5)
 
-COURT = {"BPCE Assurances IARD": "BPCE\nIARD",
-         "MACSF Assurances (non-vie)": "MACSF\nnon-vie",
-         "MACSF Epargne Retraite": "MACSF\nÉp. Retraite",
-         "CNP Assurances SA": "CNP\nAssurances",
+# LA FIGURE PART DANS LE MEMOIRE : ELLE EST ANONYMISEE. Les etiquettes viennent du champ
+# `anonyme`, jamais du nom. C'est le seul endroit du script ou la distinction compte, et
+# c'est aussi celui ou l'oublier aurait publie les noms sans que personne le voie.
+COURT = {"BPCE Assurances IARD": "non-vie\nA",
+         "MACSF Assurances (non-vie)": "non-vie\nB",
+         "MACSF Epargne Retraite": "vie\nC",
+         "CNP Assurances SA": "vie\nD",
          "Entite notionnelle (ch. 12)": "entité\nnotionnelle"}
 
 # DECALAGES D'ETIQUETTES, FIXES A LA MAIN ET NON PAR DEFAUT. Les deux plus petites entites
 # sont a 2 319 et 3 234 M EUR, donc quasi confondues en echelle log : une position unique
 # pour toutes les etiquettes les superposait dans les panneaux (a) et (c). Chaque entite
 # recoit donc son propre decalage, l'une au-dessus de son point et l'autre en dessous.
-DEC_A = {"BPCE Assurances IARD": (0, -22, "center"),
-         "MACSF Assurances (non-vie)": (9, 4, "left"),
+DEC_A = {"BPCE Assurances IARD": (-11, -4, "right"),
+         "MACSF Assurances (non-vie)": (10, -15, "left"),
          "MACSF Epargne Retraite": (9, -14, "left"),
          "CNP Assurances SA": (9, -14, "left")}
 DEC_C = {"BPCE Assurances IARD": (24, -26),
@@ -469,7 +509,7 @@ ax1.legend(loc="upper left", **LEG)
 ax1.set_title("(a)  Quatre entités réelles lues sur la courbe d'élasticité",
               fontsize=11, color=INK, pad=8)
 
-# (b) SCR DORA par entite, en bande
+# (b) besoin ORSA par entite, en bande
 noms = [e["nom"] for e in ENTITES] + [NOTIONNELLE["nom"]]
 tous = ENTITES + [NOTIONNELLE]
 xi = np.arange(len(tous))
@@ -489,7 +529,7 @@ ax2.set_xticklabels([COURT[n] for n in noms], fontsize=8.4)
 ax2.set_yscale("log")
 ax2.set_ylabel("M€ (échelle log)", color=INK2)
 ax2.legend(loc="upper left", **LEG)
-ax2.set_title("(b)  La charge DORA et le forfait, sur des bilans réels",
+ax2.set_title("(b)  Le besoin ORSA et le forfait, sur des bilans réels",
               fontsize=11, color=INK, pad=8)
 
 # (c) la part du SCR publie, et la borne inferieure de validite
@@ -508,7 +548,7 @@ for e in ordre_x:
 ax3.set_xscale("log")
 ax3.set_yscale("log")
 ax3.set_xlabel("actifs de l'entité (M€, échelle log)", color=INK2)
-ax3.set_ylabel("charge DORA / SCR publié", color=INK2)
+ax3.set_ylabel("besoin ORSA rapporté au SCR publié", color=INK2)
 ax3.set_ylim(min(ya) * 0.40, max(ya) * 4.0)
 # LES DEUX ZONES SONT NOMMEES CHACUNE DANS LA SIENNE. Un seul libelle pose sur la ligne
 # laissait croire qu'il qualifiait la zone verte, qui est justement l'inverse.
@@ -523,7 +563,7 @@ for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("S22 : le SCR DORA d'entités réelles, à partir de leurs seuls chiffres SFCR",
+fig.suptitle("S22 : le besoin de capital ORSA au titre de DORA, sur quatre bilans réels",
              fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 _top = 1.0 - 0.26 / fig.get_figheight()
 fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.9)
