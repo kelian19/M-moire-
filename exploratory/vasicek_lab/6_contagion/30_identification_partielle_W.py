@@ -247,7 +247,11 @@ ax1.scatter([1.0], [SCR_EXPERT], s=60, color=ACCENT, zorder=6, edgecolor="#fff",
 ax1.set_xlabel("$t$ : ignorance de la direction  (1 = donnée actuelle)", color=INK2)
 ax1.set_ylabel("SCR (VaR 99,5 %, M€)", color=INK2)
 ax1.set_title("(a)  Ce que la donnée manquante coûte", fontsize=11, color=INK, pad=8)
-ax1.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8, loc="upper left")
+# EN BAS A GAUCHE, ET NON EN HAUT. Rendre la legende opaque a corrige sa lisibilite mais
+# l'a rendue MASQUANTE : en haut a gauche elle recouvrait le debut de la bande et le point
+# d'expert a t = 0. La zone entre le socle et la borne basse est vide : la legende y va.
+ax1.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88,
+           fontsize=8, loc="lower left")
 
 ax2.hist(prior_vals, bins=28, color=BLUE, alpha=0.55, edgecolor="white", linewidth=0.5)
 ax2.axvspan(lo1, hi1, color=MUTED, alpha=0.13)
