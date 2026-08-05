@@ -73,3 +73,44 @@ pas apparie au `2\,319` du memoire : quinze chiffres de la nouvelle section du c
 ressortaient non confirmes pour cette seule raison. Les formats `:,.0f` des scripts 64 et 65
 ont ete remplaces par `:.0f`. **Regle : dans une sortie de script, un nombre s'ecrit sans
 separateur de milliers.**
+
+## Correction du harnais, 5 aout 2026 (remplace la regle ci-dessus)
+
+La regle « dans une sortie de script, un nombre s'ecrit sans separateur de milliers » etait un
+contournement. La cause etait dans le harnais : son motif d'extraction ne franchissait pas la
+virgule, si bien que « 8,122.9 » devenait DEUX nombres, 8 et 122.9. Deux consequences, la
+seconde plus grave que la premiere.
+
+- **Fausses alertes** sur toute la classe des montants a quatre chiffres et plus.
+- **FAUSSES CONFIRMATIONS** ailleurs : le jeton « 100,000 » produisait un 100,0 qui confirmait
+  a tort un « 99,9 % » a la tolerance d'arrondi pres. Une confirmation a tort est plus grave
+  qu'une fausse alerte, puisque personne ne va verifier derriere.
+
+`verif_chiffres.py` recolle desormais les groupes de milliers de forme anglo-saxonne stricte
+(1 a 3 chiffres commencant par un chiffre non nul, puis exactement 3 chiffres), ce qui exclut
+« 0,807 ». Il reste un cas indecidable, « 2,150 » voulant dire 2,150 en decimal francais ; le
+risque est alors une confirmation a tort, et le commentaire du code le dit.
+
+**Il n'est donc plus necessaire de proscrire le separateur dans les scripts.** Les scripts 64,
+65, 20b et 62 l'ont perdu au passage, sans inconvenient, mais ce n'est plus une regle.
+
+## Les quatre classes du residu, et la seule qui soit un defaut
+
+Un passage complet sur les dix-neuf chapitres a montre que le residu se repartit ainsi :
+
+1. **separateur de milliers** : corrige dans le harnais ;
+2. **unite** : le memoire cite en pourcentage ce que le script imprime en fraction (« 15,8 % »
+   contre « 0.158 ») ; le script 67 imprime les deux formes ;
+3. **valeur legitimement hors script** : un seuil statistique pose (n = 91 > 30), un point de
+   lecture sur un graphique (k = 200), un exposant (10^-30) ; ceux-la ne doivent pas etre
+   produits par un script ;
+4. **grandeur citee mais jamais imprimee** : la seule classe fautive, objet du script 67.
+
+DEUX CHIFFRES PERIMES trouves par ce passage : la table de severite du chapitre donnees, non
+reproductible par aucun filtre du dispositif (elle venait de la version pre-cascade et decrivait
+une population de 583 observations qui n'existe plus), et le facteur entre les trois frequences,
+reste a 1600 alors que lambda d'entite est passe de 0,21 a 0,092 (vrai rapport : 3719).
+
+ATTENTION : la classification AUTOMATIQUE du residu ne fonctionne pas. Les correspondances
+trouvees a un facteur 100 pres sur des nombres ronds sont fortuites, un pool de plusieurs
+milliers de valeurs en produit toujours une. Les 36 nombres restants doivent etre lus un par un.

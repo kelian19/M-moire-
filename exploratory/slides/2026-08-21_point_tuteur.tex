@@ -1,0 +1,285 @@
+% Point d'avancement tuteur, 21 aout 2026. TREIZE slides.
+% Continuite du 14/08, verifiee point par point :
+%   - le 14/08 proposait de renoncer a l'elicitation et annoncait la mesure des biais
+%     declares -> la slide A mesure le dernier et le plus serieux, le biais de narration ;
+%   - le 14/08 donnait le SCR d'entite sur une entite NOTIONNELLE -> la slide B le donne sur
+%     quatre bilans reels, et en tire une limite que je n'avais pas prevue ;
+%   - le 14/08 laissait les trois valeurs de g posees sans les defendre -> la slide C rend la
+%     these independante de ces valeurs.
+% FIL : les trois derniers points faibles, traites. Et une demande precise a Hugo.
+% Figures : Z22, S22, S23 - aucune n'a servi dans un deck precedent.
+% Les trois sont en PORTRAIT (ratio ~1,44) : chacune a sa slide, contrainte en HAUTEUR.
+\documentclass[11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}
+\graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}{../vasicek_lab/notes/}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamerfont{block title}{size=\small}
+
+\title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
+\subtitle{Les trois derniers points faibles, traités}
+\author[K. Kaddouri]{Kélian Kaddouri}
+\institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
+\date[21/08/2026]{21 août 2026}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Depuis le point du 14 août}
+\small
+Le dernier point mesurait deux biais que nous déclarions. Cette semaine, j'ai pris les
+\textbf{trois objections} qui restaient et je les ai traitées dans l'ordre de gravité.
+\vspace{2mm}
+\begin{block}{Le fil : ce qui restait attaquable}
+\textbf{(A)} Le \textbf{biais de narration} du corpus de post-mortems, que je qualifiais
+moi-même de limite la plus sérieuse. Chiffré, plus seulement déclaré.\\[3pt]
+\textbf{(B)} Le SCR d'entité portait sur une entité \textbf{notionnelle}. Il porte maintenant
+sur \textbf{quatre bilans réels}, et j'en tire une limite que je n'avais pas anticipée.\\[3pt]
+\textbf{(C)} Les trois valeurs du gain de propagation $g$ étaient \textbf{posées}. La thèse
+n'en dépend plus.
+\end{block}
+\vspace{1mm}
+\begin{block}{Et une demande, une seule}
+Il me manque un \textbf{second codeur en aveugle}. Le kit est prêt, une heure de lecture. J'y
+reviens à la fin.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\section*{A. Le biais de narration, chiffré}
+
+\begin{frame}{Le biais que je déclarais depuis le début}
+\small
+Un rapport d'enquête cherche une \emph{cause racine}, et \og{}défaillance de gouvernance\fg{}
+est une conclusion de convention. Mon corpus pourrait donc surreprésenter $P_1$ comme source
+parce que les enquêteurs concluent ainsi, et non parce que la gouvernance émet.
+L'enjeu n'est pas mince : \textbf{onze des vingt-deux transitions codées partent de $P_1$}.
+\vspace{2mm}
+\begin{block}{La loi nulle devient exacte, et c'est ce qui rend la mesure possible}
+L'asymétrie se décompose en somme sur les paires non ordonnées, et sous $H_0$ chaque arête
+s'oriente à pile ou face indépendamment : la loi de la statistique s'obtient par
+\textbf{convolution exacte}, sans aucun tirage. La $p$-valeur n'est plus plafonnée par le
+nombre de permutations : $\mathbf{1{,}5\cdot10^{-5}}$ au lieu de $10^{-4}$. Et rejouer le test
+des milliers de fois ne coûte plus rien, ce qu'exige la suite.
+\end{block}
+\begin{block}{Un piège que j'ai failli laisser passer}
+La loi exacte est discrète et asymétrique : $z > 1{,}645$ \textbf{n'implique pas} $p < 0{,}05$.
+À quatre arêtes retournées je lis $z=+1{,}85$ et $p=0{,}084$. Ma première version décidait sur
+le $z$ et concluait \og{}aucune rupture\fg{} alors qu'il y en a une.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Combien le biais devrait-il fabriquer pour me contredire ?}
+\small
+J'énumère les $2^{11}$ sous-ensembles d'arêtes partant de $P_1$ et je retiens le \textbf{pire},
+jamais un tirage moyen. Deux opérations : le \emph{retrait} (le rapport n'établissait rien) et
+le \emph{retournement} (l'arête allait dans l'autre sens).
+\vspace{-1mm}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l l r@{}}
+\toprule
+\textbf{Hypothèse sur les $11$ arêtes de $P_1$} & \textbf{Reste} & $p$ \textbf{exacte} \\
+\midrule
+Aucune (corpus tel que codé) & $22$ transitions & $1{,}5\cdot10^{-5}$ \\
+$4$ arêtes \emph{retournées}, pire configuration & $22$ transitions & $\mathbf{0{,}084}$ \\
+Les $11$ arêtes \emph{retirées} & $11$ transitions & $0{,}0039$ \\
+Les $7$ \emph{rapports} concernés retirés & $3$ transitions & $0{,}50$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{block}{Ce que je retiens, et ce que je publie quand même}
+\textbf{Aucun nombre de retraits ne suffit} : en supprimant la totalité du rôle de la
+gouvernance, donc la moitié du corpus, la direction reste significative sur les seules chaînes
+$P_3\to P_2$ et $P_4\to P_2$, que le biais ne concerne pas. La quatrième ligne, elle, ne passe
+pas, et je la publie avec la raison pour laquelle ce n'est pas la bonne unité : elle jette des
+arêtes documentées dans les \emph{mêmes} rapports.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Le biais de narration, mesuré}
+\begin{center}
+\includegraphics[height=0.80\textheight]{Z22_biais_narration.png}
+\end{center}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Et ce que le biais coûte en capital}
+\small
+Un $z$ n'est pas un capital. Je dégrade donc l'émission de $P_1$ dans la matrice retenue et je
+\textbf{recalcule la bande} d'identification à chaque degré, la dégradation modifiant
+l'ensemble admissible lui-même.
+\vspace{2mm}
+\begin{block}{Le niveau résiste, le pilotage non}
+Avec $P_1$ rendue complètement muette, le capital d'entité passe de $169{,}0$ à
+$127{,}1$~M\euro, soit $-24{,}8\,\%$. Ce déplacement de $41{,}9$~M\euro{} vaut
+$\mathbf{0{,}81}$ \textbf{fois la largeur de la bande d'identification} que je publie déjà
+($51{,}7$~M\euro). Accorder au critique la totalité de son objection coûte donc \emph{moins}
+cher que l'ignorance directionnelle que j'assume et publie : le biais de narration n'est pas
+la première source d'incertitude du chiffre.
+\end{block}
+\begin{block}{Ce qui bouge, en revanche}
+Le pilier à remédier en premier passe de $P_1$ à $P_4$ dès une dégradation de $50\,\%$. Le
+chiffre de capital résiste au biais, la \textbf{recommandation opérationnelle en dépend}, et je
+ne les présente donc plus avec la même assurance.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\section*{B. Quatre bilans réels}
+
+\begin{frame}{Le SCR ne porte plus sur une entité fictive}
+\scriptsize
+Trois grandeurs suffisent par entité, toutes tirées des rapports \textsc{sfcr} de l'exercice
+2024 : provisions techniques, fonds propres éligibles, \textsc{scr}. Chaque champ porte sa
+provenance, \emph{publié} ou \emph{déduit} ; aucun n'est estimé. Les entités sont désignées par
+leur classe de taille : le modèle n'utilise que le bilan, jamais l'identité, et il serait
+gratuit d'accoler un nom de société à un état de conformité \emph{supposé}.
+\vspace{-1mm}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l r r r r@{}}
+\toprule
+\textbf{Entité} & \textbf{Actifs} & \textbf{SCR publié} & \textbf{Besoin ORSA} &
+\textbf{Rapport} \\
+ & M\euro & M\euro & M\euro & \\
+\midrule
+Assureur non-vie A & $2\,319$ & $426$ & $112$ & $26{,}3\,\%$ \\
+Assureur non-vie B & $3\,234$ & $292$ & $121$ & $41{,}3\,\%$ \\
+Assureur vie C & $37\,845$ & $1\,587$ & $196$ & $12{,}3\,\%$ \\
+\textbf{Assureur vie D} & $\mathbf{309\,800}$ & $\mathbf{14\,800}$ & $\mathbf{294}$ &
+$\mathbf{2{,}0\,\%}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{block}{Deux précautions de vocabulaire, et elles ne sont pas cosmétiques}
+Il n'existe \textbf{aucun module DORA} en Formule Standard : la grandeur est un besoin de
+capital \textsc{orsa}, donc de pilier~2. Et le rapport au \textsc{scr} publié est une
+\textbf{mise à l'échelle, pas une part} : diviser un besoin de pilier~2 par le \textsc{scr}
+réglementaire n'en fait pas une composante.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Ce que je n'avais pas prévu, et qui me contraint}
+\small
+\begin{block}{La transposition ne se dégrade pas gracieusement vers le bas}
+L'élasticité de sévérité valant $0{,}087$, un facteur $134$ sur les actifs ne divise la
+sévérité que par $1{,}53$. Rapporté au \textsc{scr} publié, le besoin va donc de
+$\mathbf{2{,}0\,\%}$ pour une grande entité à $\mathbf{41{,}3\,\%}$ pour une petite. En posant
+qu'un seul risque de non-conformité ne peut raisonnablement peser plus de $10\,\%$ du
+\textsc{scr} total, \textbf{la bascule se situe entre $37\,845$ et $309\,800$~M\euro{}
+d'actifs}.
+\end{block}
+\alert{\textbf{Conséquence sur mon chiffre central, et je l'assume.}} L'entité notionnelle pèse
+$19\,231$~M\euro{} d'actifs : elle tombe \emph{dans} cette zone. Au levier médian des quatre
+entités réelles, les $169$~M\euro{} en représenteraient $13\,\%$. Le $169$ devient donc une
+\textbf{borne supérieure d'ordre de grandeur}, non une mesure.
+\vspace{1mm}
+\begin{block}{Pourquoi la thèse n'en souffre pas}
+Elle porte sur l'\emph{écart} entre états face à un forfait insensible, et un écart est un
+\textbf{rapport} : il survit à une erreur de niveau commune aux trois états. Le \emph{niveau},
+lui, cesse d'être présenté comme une mesure. Mieux vaut que ce soit moi qui le publie.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Quatre bilans réels, et la borne inférieure de la méthode}
+\begin{center}
+\includegraphics[height=0.80\textheight]{S22_entites_reelles.png}
+\end{center}
+\end{frame}
+
+% =====================================================================
+\section*{C. La thèse sans les valeurs de \texorpdfstring{$g$}{g}}
+
+\begin{frame}{Les trois valeurs de \texorpdfstring{$g$}{g} étaient posées}
+\small
+$g = 0{,}45 / 0{,}68 / 0{,}90$ n'est calibré sur rien, et pour une raison irréductible : aucune
+entité ne publie son état de conformité \textsc{dora}. Le code les marque \og{}non calibré\fg{}
+depuis l'origine, ce qui est honnête et insuffisant. Je ne les calibre pas. Je montre que la
+conclusion n'en a pas besoin.
+\vspace{2mm}
+\begin{block}{Le lemme, qui n'allait pas de soi}
+Le capital est \textbf{croissant} en $g$. Ce n'était pas acquis : à indice de queue élevé la
+\textsc{var} est \emph{peu sensible} à la structure de cascade, et peu sensible ne veut pas
+dire monotone. Vérifié sur vingt points de grille, à nombres aléatoires communs, sur le capital
+\emph{et} la perte moyenne, aux deux échelles : \textbf{zéro pas décroissant} sur dix-neuf
+intervalles, partout.
+\end{block}
+\begin{block}{L'invariance, qui en découle}
+Toute correspondance état $\to g$ respectant l'\textbf{ordre} donne
+$\mathrm{SCR}_C < \mathrm{SCR}_{PC} < \mathrm{SCR}_{NC}$, \emph{quelles que soient les
+valeurs}, quand le forfait reste plat. Vérifié sur cinq correspondances. Même en n'accordant à
+la conformité qu'un déplacement de $0{,}05$ sur $g$, l'écart subsiste ($+3{,}9\,\%$) et le
+forfait ne bouge d'aucun euro.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{La thèse ne dépend que de l'ordre}
+\begin{center}
+\includegraphics[height=0.80\textheight]{S23_invariance_conformite.png}
+\end{center}
+\end{frame}
+
+% =====================================================================
+\section*{D. Contrôle qualité, et ce que je te demande}
+
+\begin{frame}{Le harnais a rattrapé deux chiffres périmés}
+\scriptsize
+Le harnais cherche chaque nombre publié dans la sortie du script censé le produire. Il est
+passé de $93{,}4$ à $\mathbf{96{,}1\,\%}$ sur $915$ nombres, et le passage a trouvé deux
+défauts réels.
+\vspace{1mm}
+\begin{block}{La table de sévérité du chapitre données n'était pas reproductible}
+Médiane $1{,}50$, P90 $51{,}5$, total $15{,}4$~Md\$ : \textbf{aucun filtre} du dispositif ne
+les redonne, et sa moyenne rapportée à son total impliquait $583$ observations, effectif
+qu'aucun sous-ensemble ne présente. Elle venait d'une migration automatique depuis la version
+pré-cascade et décrivait une population que le mémoire n'utilise plus. Remplacée par celle
+qu'il calibre, avec un encadré qui dit pourquoi.
+\end{block}
+\begin{block}{Et le harnais se trompait lui-même, dans les deux sens}
+Son extraction ne franchissait pas le séparateur de milliers : \og{}8,122.9\fg{} devenait deux
+nombres. Il criait donc à tort sur les montants à quatre chiffres, \textbf{et il confirmait à
+tort} ailleurs, un \og{}100,000\fg{} produisant un $100{,}0$ qui validait un $99{,}9\,\%$ à la
+tolérance d'arrondi près. Une confirmation à tort est plus grave qu'une fausse alerte, puisque
+personne ne va vérifier. Corrigé.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Ce que je te demande, et les deux arbitrages}
+\small
+\begin{block}{Une demande : le second codeur en aveugle}
+C'est le dernier point vraiment attaquable, et il ne dépend plus que de trouver quelqu'un. Le
+kit couvre les \textbf{dix} récits, anonymisés, réduits aux faits établis par les rapports,
+sans aucune de mes flèches. Une heure de lecture, cent cases à remplir. Toi, ou un praticien
+hors du projet. Le $\kappa$ de Cohen sort automatiquement ensuite.
+\end{block}
+\begin{block}{Deux arbitrages qui te reviennent}
+\textbf{(1) Le corps est passé de $88$ à $94$ pages} avec ces trois sections, alors que nous
+venions de le réduire. Je peux en récupérer une en repassant une figure en format large. \\[3pt]
+\textbf{(2) Faut-il ancrer les trois valeurs de $g$} sur des sources publiques (revues de
+résilience opérationnelle \textsc{acpr} ou \textsc{eiopa}) ? Ce n'est plus nécessaire depuis
+l'invariance, cela transformerait un scénario en ordre de grandeur sourcé.
+\end{block}
+\vspace{1mm}
+{\footnotesize Reste attendu et hors de mon contrôle : l'élicitation, et la posture sur la VaR
+prédictive.}
+\end{frame}
+
+\end{document}
