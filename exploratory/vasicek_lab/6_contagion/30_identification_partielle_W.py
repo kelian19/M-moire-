@@ -247,7 +247,7 @@ ax1.scatter([1.0], [SCR_EXPERT], s=60, color=ACCENT, zorder=6, edgecolor="#fff",
 ax1.set_xlabel("$t$ : ignorance de la direction  (1 = donnée actuelle)", color=INK2)
 ax1.set_ylabel("SCR (VaR 99,5 %, M€)", color=INK2)
 ax1.set_title("(a)  Ce que la donnée manquante coûte", fontsize=11, color=INK, pad=8)
-ax1.legend(frameon=False, fontsize=8, loc="upper left")
+ax1.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8, loc="upper left")
 
 ax2.hist(prior_vals, bins=28, color=BLUE, alpha=0.55, edgecolor="white", linewidth=0.5)
 ax2.axvspan(lo1, hi1, color=MUTED, alpha=0.13)
@@ -267,7 +267,7 @@ ax3.set_xticks(xs)
 ax3.set_xticklabels([f"P{p}" for p in pid.PIL])
 ax3.set_ylabel("M€ de SCR", color=INK2)
 ax3.set_title(f"(c)  Priorité robuste : P{pid.PIL[j1]} (minimax)", fontsize=11, color=INK, pad=8)
-ax3.legend(frameon=False, fontsize=8)
+ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8)
 
 im = ax4.imshow(np.where(np.eye(pid.NP_) == 1, np.nan, domin), cmap="RdBu_r", vmin=0, vmax=1)
 for j in range(pid.NP_):
@@ -285,8 +285,14 @@ for ax in (ax1, ax2, ax3):
         ax.spines[s].set_visible(False)
 
 fig.suptitle("Z : identification partielle de la contagion dirigée, et bornes de capital",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.93])
+             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
+# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
+# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
+# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
+# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
+_top = 1.0 - 0.26 / fig.get_figheight()
+fig.suptitle_y = _top
+fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z_identification_partielle.png")

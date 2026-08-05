@@ -256,8 +256,14 @@ for ax in (ax1, ax2):
 
 fig.suptitle("Z18 : la valeur de l'information manquante, chiffrée et hiérarchisée : "
              "quelle dépendance le registre DORA devrait documenter d'abord",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.93])
+             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
+# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
+# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
+# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
+# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
+_top = 1.0 - 0.26 / fig.get_figheight()
+fig.suptitle_y = _top
+fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z18_valeur_information.png")

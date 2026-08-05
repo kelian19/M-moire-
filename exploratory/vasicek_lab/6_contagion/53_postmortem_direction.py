@@ -327,7 +327,7 @@ ax2.axvline(a_obs, color=ACCENT, lw=2.2, label=f"observé = {a_obs:.0f}")
 ax2.axvline(mu, color=INK, lw=1.4, ls="--", label=f"placebo = {mu:.1f}")
 ax2.set_xlabel("asymétrie $\\|M-M^\\top\\|_1/2$", color=INK2)
 ax2.set_ylabel("fréquence (permutations)", color=INK2)
-ax2.legend(frameon=False, fontsize=8.5)
+ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5)
 ax2.set_title(f"(b)  Placebo directionnel : $z={z:+.1f}$, $p={p_perm:.4f}$\n"
               f"(OpRisk annuel : $z=-0{{,}}33$)", fontsize=11, color=INK, pad=8)
 
@@ -338,7 +338,7 @@ ax3.bar(xs - wd / 2, [out[j] for j in PIL], width=wd, color=ACCENT, alpha=0.9, l
 ax3.bar(xs + wd / 2, [inn[j] for j in PIL], width=wd, color=BLUE, alpha=0.9, label="entrées (cible)")
 ax3.set_xticks(xs); ax3.set_xticklabels([f"P{j}" for j in PIL])
 ax3.set_ylabel("nombre de transitions", color=INK2)
-ax3.legend(frameon=False, fontsize=8.5)
+ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5)
 ax3.annotate("jamais\nune cible", (0 + wd / 2, 0.15), textcoords="offset points", xytext=(6, 18),
              fontsize=8, color=ACCENT, ha="left")
 ax3.set_title("(c)  P1 est source pure, P2 est puits :\nla structure du classeur, retrouvée",
@@ -350,8 +350,14 @@ for ax in (ax2, ax3):
 
 fig.suptitle("Z17 : la direction de $W$ identifiée par codage de post-mortems officiels, "
              "là où les bases agrégées échouaient",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.93])
+             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
+# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
+# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
+# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
+# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
+_top = 1.0 - 0.26 / fig.get_figheight()
+fig.suptitle_y = _top
+fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z17_postmortem_direction.png")

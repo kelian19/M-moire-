@@ -438,7 +438,7 @@ ax2.set_yticklabels([f"P{j}$\\to$P{k}" for (j, k) in pairs], fontsize=9)
 ax2.invert_yaxis()
 ax2.set_xlim(0, 1)
 ax2.set_xlabel("$p_{jk}$, crédible à 90 %", color=INK2)
-ax2.legend(frameon=False, fontsize=9, loc="lower right")
+ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=9, loc="lower right")
 ax2.set_title("(b)  Dix premiers liens ordonnés :\nla direction ressort, l'amplitude reste large",
               fontsize=11, color=INK, pad=8)
 for s_ in ("top", "right"):
@@ -459,7 +459,7 @@ ax3.plot(deltas, partA, color=ACCENT, lw=2.3, label=r"part de direction $\|A\|/\
 ax3.set_xlabel(r"sous-documentation $\delta$ (défaillances non propagées ajoutées)",
                color=INK2, fontsize=9.5)
 ax3.set_ylabel("valeur", color=INK2)
-ax3.legend(frameon=False, fontsize=8.8)
+ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.8)
 ax3.set_ylim(0, max(max(niveau), max(partA)) * 1.15)
 ax3.set_title("(c)  L'amplitude s'effondre,\nla direction tient", fontsize=11, color=INK, pad=8)
 for s_ in ("top", "right"):
@@ -467,8 +467,14 @@ for s_ in ("top", "right"):
 
 fig.suptitle(f"Z20 : corpus étendu à {n_inc} post-mortems, et matrice ordonnée "
              r"$p_{jk}$ au lieu du seul sens par paire",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.90])
+             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
+# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
+# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
+# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
+# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
+_top = 1.0 - 0.26 / fig.get_figheight()
+fig.suptitle_y = _top
+fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z20_corpus_etendu_pij.png")

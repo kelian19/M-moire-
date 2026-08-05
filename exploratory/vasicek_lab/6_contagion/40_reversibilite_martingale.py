@@ -262,11 +262,15 @@ ax2.bar(x + 0.19, sym, width=0.36, color=GREEN, alpha=0.9, label="chaîne symét
 ax2.set_xticks(x); ax2.set_xticklabels(labels, fontsize=8.5)
 ax2.set_ylabel("valeur (normalisée à la chaîne posée)", color=INK2, fontsize=9)
 ax2.set_ylim(0, 1.25)
-ax2.legend(frameon=False, fontsize=8, loc="upper center")
-ax2.text(0.02, 0.42, "la fluctuation est\nIDENTIQUE\n(ne voit que S)", transform=ax2.transAxes,
-         fontsize=8, color=MUTED, style="italic", ha="left")
-ax2.text(0.62, 0.10, "l'irréversibilité\ns'efface\n(σ → 0)", transform=ax2.transAxes,
-         fontsize=8, color=MUTED, style="italic", ha="left")
+ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8, loc="upper center")
+# FOND OPAQUE SUR LES ANNOTATIONS. En panneaux empiles les barres sont larges et ces deux
+# textes tombent DESSUS : ecrits en gris a nu sur du bleu, ils devenaient illisibles. Le
+# cadre les rend lisibles quelle que soit la barre derriere, sans deplacer l'annotation.
+_boite = dict(boxstyle="round,pad=0.28", facecolor="#fcfcfb", edgecolor="none", alpha=0.90)
+ax2.text(0.02, 0.44, "la fluctuation est\nIDENTIQUE\n(ne voit que S)", transform=ax2.transAxes,
+         fontsize=8, color=MUTED, style="italic", ha="left", bbox=_boite, zorder=6)
+ax2.text(0.60, 0.12, "l'irréversibilité\ns'efface\n(σ → 0)", transform=ax2.transAxes,
+         fontsize=8, color=MUTED, style="italic", ha="left", bbox=_boite, zorder=6)
 ax2.set_title("(b)  La martingale (fluctuation) ne voit que $S$ ;\n$A$ est toute la direction",
               fontsize=10.5, color=INK, pad=8)
 
@@ -291,8 +295,14 @@ ax3.text(0.02, 0.09, "$S$ : identifiée.   $A$ : placebo $z=-0{,}33$,\n"
 
 fig.suptitle("Z11 : la direction $A$ est le courant irréversible d'un processus, "
              "ce que la martingalisation retire et que la co-occurrence ne voit pas",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
+# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
+# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
+# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
+# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
+_top = 1.0 - 0.26 / fig.get_figheight()
+fig.suptitle_y = _top
+fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
 outdir = os.path.join(os.path.dirname(_HERE), "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z11_reversibilite_martingale.png")

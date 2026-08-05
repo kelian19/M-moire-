@@ -24,8 +24,11 @@ C'est un arbitrage classique retention/capital, applique ici a un risque dont la
 issue d'une cascade dirigee. Il donne une conclusion OPERATIONNELLE la ou le memoire ne
 donnait qu'un niveau.
 
-ECHELLE. Tout est calcule a l'echelle d'UNE ENTITE (lambda = 0,21/an), pas du secteur :
-c'est la seule echelle a laquelle la question du transfert se pose.
+ECHELLE. Tout est calcule a l'echelle d'UNE ENTITE, pas du secteur : c'est la seule echelle
+a laquelle la question du transfert se pose. La frequence est lue A LA TAILLE de l'entite
+visee (lambda = 0,0917/an) et la severite transposee a la meme taille (x 0,8545), et non
+prise dans un seau de firmes dix-neuf fois plus grandes comme dans une premiere version.
+Voir le script 60, qui etablit les deux corrections et les compose.
 
 Sortie : diagnostics + figure S19_detenir_ou_transferer.png.
 """
@@ -284,7 +287,7 @@ ax2.axvline(scr0, color=INK, ls="--", lw=1.3)
 ax2.text(scr0 * 1.02, ax2.get_ylim()[1] * 0.92, f"SCR = {scr0:,.0f}", fontsize=8.5, color=INK)
 ax2.set_xlabel("portée du traité en excès de perte $L$ (M€)", color=INK2)
 ax2.set_ylabel("coût annuel total (M€)", color=INK2)
-ax2.legend(frameon=False, fontsize=9)
+ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=9)
 ax2.set_title("(b)  Prime + coût du capital résiduel :\nun optimum intérieur",
               fontsize=11, color=INK, pad=8)
 for s_ in ("top", "right"):
@@ -300,21 +303,35 @@ ax3.bar([0], [c0_], color=BL[2], edgecolor="#fcfcfb", width=0.55, label="coût d
 ax3.bar([1], [COC_REVISE * s_r], color=BL[2], edgecolor="#fcfcfb", width=0.55)
 ax3.bar([1], [p_], bottom=[COC_REVISE * s_r], color=ACCENT, edgecolor="#fcfcfb",
         width=0.55, label="prime de transfert")
-ax3.text(0, c0_ * 1.03, f"{c0_:,.1f}", ha="center", fontsize=9.5, color=INK2)
-ax3.text(1, c_ * 1.03, f"{c_:,.1f}", ha="center", fontsize=9.5, color=INK2)
-ax3.text(1, c_ * 1.14, f"{c_/c0_-1:+.0%}", ha="center", fontsize=10,
+# ESPACEMENT DES ETIQUETTES EN VALEUR ABSOLUE, PAS EN POURCENTAGE DE LA BARRE.
+# Un decalage multiplicatif (c_ * 1.03 puis c_ * 1.14) place les deux etiquettes de la
+# barre basse a 0,3 M d'ecart sur un axe qui monte a 8 : elles se chevauchaient. On les
+# separe d'une fraction de la HAUTEUR DE L'AXE, ce qui est invariant a la valeur des barres.
+_pas = 0.055 * c0_
+ax3.text(0, c0_ + _pas, f"{c0_:,.1f}", ha="center", fontsize=9.5, color=INK2)
+ax3.text(1, c_ + _pas, f"{c_:,.1f}", ha="center", fontsize=9.5, color=INK2)
+ax3.text(1, c_ + 3 * _pas, f"{c_/c0_-1:+.0%}", ha="center", fontsize=10,
          color=ACCENT, fontweight="bold")
+ax3.set_ylim(0, c0_ * 1.28)          # de la place pour les deux etiquettes empilees
 ax3.set_xticks([0, 1])
 ax3.set_xticklabels(["tout détenir", f"traité optimal\n$L^*={grid[i]:,.0f}$ M€"], fontsize=9)
 ax3.set_ylabel("coût annuel (M€)", color=INK2)
-ax3.legend(frameon=False, fontsize=8.5, loc="upper left")
+# legende en HAUT A DROITE : la barre de gauche monte jusqu'au sommet de l'axe, la
+# legende y recouvrait son etiquette de valeur.
+ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5, loc="upper right")
 ax3.set_title("(c)  Ce que le dimensionnement fait gagner", fontsize=11, color=INK, pad=8)
 for s_ in ("top", "right"):
     ax3.spines[s_].set_visible(False)
 
 fig.suptitle("S19 : détenir ou transférer, le SCR confronté au prix de marché du risque",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.91])
+             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
+# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
+# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
+# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
+# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
+_top = 1.0 - 0.26 / fig.get_figheight()
+fig.suptitle_y = _top
+fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "S19_detenir_ou_transferer.png")
