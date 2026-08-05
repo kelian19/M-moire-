@@ -368,6 +368,120 @@ entièrement au-dessus de $0{,}5$. \textbf{(c)}~sensibilité à la sous-document
 défaillances non propagées : le niveau s'effondre, la part de direction tient. Source :
 script~\texttt{59}.}{fig:corpus-etendu}
 
+\section{Le biais de narration, mesuré au lieu d'être déclaré}
+\label{sec:biais-narration}
+
+Des trois limites nommées au \S\ref{sec:postmortems}, la troisième est la plus sérieuse et la
+seule qui ne se corrige pas en ajoutant des rapports. Une enquête officielle cherche une
+\emph{cause racine}, et « défaillance de gouvernance » est une conclusion de convention : le
+corpus pourrait surreprésenter $P_1$ comme source non parce que la gouvernance émet, mais parce
+que les enquêteurs concluent ainsi. L'enjeu n'est pas mince, puisque \textbf{onze des vingt-deux
+transitions codées partent de $P_1$}. Jusqu'ici cette limite était écrite et non chiffrée, ce
+qui est la différence entre une réserve et un résultat. On la chiffre.
+
+\paragraph{La loi nulle devient exacte, et c'est ce qui rend la mesure possible.} L'asymétrie se
+décompose sur les paires non ordonnées,
+\[
+  T \;=\; \tfrac12\lVert M - M^\top\rVert_1
+    \;=\; \sum_{\{j,k\}} \bigl| m_{jk} - m_{kj} \bigr|,
+\]
+et sous $H_0$ chaque arête s'oriente indépendamment à pile ou face. Le solde d'une paire portant
+$n$ arêtes suit donc la loi de $2B-n$ avec $B$ binomiale $(n,1/2)$, et les paires étant
+indépendantes, la loi de $T$ s'obtient par \textbf{convolution exacte}, sans aucun tirage. On y
+gagne deux choses. La $p$-valeur n'est plus plafonnée par le nombre de permutations : elle vaut
+$1{,}53\cdot10^{-5}$, soit une chance sur $65\,536$, là où les $20\,000$ permutations butaient
+sur $10^{-4}$. Et rejouer le test des milliers de fois ne coûte plus rien, ce qui est
+exactement ce qu'exige la suite.
+
+\begin{attention}
+\textbf{Le $z$ cesse d'être le critère.} La loi nulle exacte est discrète et asymétrique. Dans
+la configuration la plus défavorable examinée ci-dessous, on lit $z=+1{,}85$, donc au-dessus du
+repère gaussien $1{,}645$, alors que la $p$-valeur exacte vaut $0{,}084$, donc au-dessus de
+$0{,}05$. Le $z$ y \emph{surestime} la significativité. Toutes les décisions de cette section
+sont donc prises sur la $p$-valeur exacte, le $z$ n'étant conservé que comme grandeur de
+lecture comparable à celle des sections précédentes.
+\end{attention}
+
+\paragraph{Aucun rapport ne porte le signal à lui seul.} Le jackknife retire un incident à la
+fois et rejoue le test exact. Le pire retrait, celui de TSB Bank 2018, laisse
+$p = 2{,}44\cdot10^{-4}$ ; les dix retraits restent sous $3\cdot10^{-4}$. Ce n'était pas
+surprenant vu la cohérence totale du corpus, mais ce n'est pas non plus ce qui le menace : le
+danger n'est pas un rapport aberrant, c'est un biais \emph{systématique} présent dans tous les
+rapports à la fois.
+
+\paragraph{Combien le biais devrait-il fabriquer pour renverser la conclusion ?} On suppose donc
+que la convention narrative a produit une partie des arêtes partant de $P_1$, et l'on cherche
+l'ampleur qu'il faudrait. Deux opérations, la seconde bien plus hostile : le \textbf{retrait},
+où le rapport n'établissait rien, et le \textbf{retournement}, où l'arête allait en réalité dans
+l'autre sens. Dans les deux cas on énumère les $2^{11}$ sous-ensembles d'arêtes et on retient le
+\emph{pire}, jamais un tirage moyen : c'est une borne adverse, pas une espérance.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Hypothèse sur les $11$ arêtes de $P_1$} & \textbf{Reste} & $p$ \textbf{exacte} \\
+\midrule
+Aucune (corpus tel qu'il est codé) & $22$ transitions & $1{,}5\cdot10^{-5}$ \\
+$4$ arêtes \emph{retournées}, pire configuration & $22$ transitions & $\mathbf{0{,}084}$ \\
+Les $11$ arêtes \emph{retirées} & $11$ transitions & $0{,}0039$ \\
+Les $7$ \emph{rapports} concernés retirés & $3$ transitions & $0{,}50$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+La deuxième ligne donne le point de rupture : il faudrait que la convention narrative ait
+\textbf{inversé} quatre des onze arêtes, et dans l'agencement le plus défavorable, pour perdre
+la significativité. La troisième est plus instructive encore : \textbf{aucun nombre de retraits
+ne suffit}. En supprimant la totalité du rôle de la gouvernance, donc la moitié du corpus, la
+direction reste significative, portée par les seules chaînes $P_3\to P_2$ et $P_4\to P_2$, les
+tests qui ne détectent pas et les tiers qui entraînent la gestion d'incident. Ces deux chaînes
+ne doivent rien à la convention « cause racine = gouvernance », puisque $P_1$ n'y figure pas.
+
+\begin{attention}
+\textbf{La quatrième ligne ne passe pas, et il faut la donner quand même.} Retirer les sept
+\emph{rapports} où $P_1$ apparaît comme source, au lieu des seules arêtes, ne laisse que trois
+transitions et $p = 0{,}50$. Cette variante jette cependant avec l'eau du bain des arêtes que le
+biais ne concerne pas, les chaînes $P_3\to P_2$ documentées dans les \emph{mêmes} rapports : un
+biais sur la désignation de la cause racine n'invalide pas la séquence technique que le même
+rapport établit par ailleurs. La borne pertinente est celle du retrait des arêtes ; celle du
+retrait des rapports est une borne de pure forme, et elle est publiée ici pour que personne
+n'ait à la reconstituer contre nous.
+\end{attention}
+
+\begin{cle}
+\textbf{Ce que le biais coûte en capital, et ce qu'il ne coûte pas.} Un $z$ n'est pas un
+capital. En dégradant l'émission de $P_1$ dans la matrice retenue,
+$W_{1k}\to(1-a)\,W_{1k}$, et en \emph{recalculant} la bande d'identification pour chaque degré
+(la dégradation modifie $S$, donc l'ensemble admissible lui-même), le \textsc{scr} d'entité passe
+de $169{,}0$ à $127{,}1$~M\euro{} quand $P_1$ devient complètement muette, soit $-24{,}8\,\%$.
+Ce déplacement de $41{,}9$~M\euro{} vaut \textbf{$0{,}81$ fois la largeur de la bande
+d'identification} déjà publiée, $51{,}7$~M\euro. Accorder au critique la totalité de son
+objection coûte donc \emph{moins} cher que l'ignorance directionnelle que le mémoire assume et
+publie : le biais de narration n'est pas la première source d'incertitude du chiffre d'entité,
+et il ne faut pas le présenter comme telle. Ce qui bouge, en revanche, est le \textbf{pilotage} :
+le pilier à remédier en premier passe de $P_1$ à $P_4$ dès $a = 0{,}50$. Le niveau de capital
+résiste au biais, la recommandation opérationnelle en dépend, et les deux ne doivent pas être
+présentés avec la même assurance.
+\end{cle}
+
+Enfin, l'écart entre états de conformité, qui est la thèse du mémoire, survit à tous les degrés
+testés : de $+45{,}2\,\%$ à $a=0$ il descend à $+29{,}1\,\%$ à $a=1$ sans s'annuler, la
+conformité agissant par le gain $g$ sur \emph{toutes} les arêtes et pas seulement sur celles de
+$P_1$. Rien de tout cela ne remplace le second codage en aveugle du script~\texttt{54}, qui
+reste le remède propre et attend son second codeur. Ceci en est la borne, pas le substitut.
+
+\figcle{Z22_biais_narration.png}{Le biais de narration, mesuré au lieu d'être déclaré.
+\textbf{(a)}~jackknife par incident : aucun rapport ne porte le signal à lui seul, les dix
+retraits laissant $p \leq 2{,}4\cdot10^{-4}$. \textbf{(b)}~point de rupture, en $p$-valeur
+exacte et non en $z$ : il faudrait quatre arêtes de $P_1$ retournées dans la pire configuration
+pour perdre la significativité, et aucun nombre de retraits n'y suffit. La courbe de
+retournement remonte au-delà de sept parce que retourner \emph{toutes} les arêtes n'efface pas
+l'asymétrie, elle l'inverse. \textbf{(c)}~le niveau de capital résiste, y compris avec $P_1$
+rendue muette, et la bande d'identification se resserre à mesure que l'émission de $P_1$
+disparaît. Source : script~\texttt{64}.}{fig:biais-narration}
+
 \section{La formalisation bayésienne, et sa prudence}
 \label{sec:bayes}
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 60 : la descente d'echelle secteur -> entite, rendue COHERENTE et composee.
@@ -40,7 +40,7 @@ import sys
 
 import numpy as np
 import pandas as pd
-from scipy import optimize, special, stats
+from scipy import stats
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -50,29 +50,19 @@ if HERE not in sys.path:
 os.chdir(HERE)
 import partial_id as pid                                          # noqa: E402
 
-RAW = os.path.abspath(os.path.join(HERE, "..", "..", "data", "raw"))
-OPRISK_XLS = os.path.join(RAW, "SAS_OpRisk_Global_Data_June_2026.xlsx")
-if not os.path.exists(OPRISK_XLS):
-    sys.exit(f"donnee absente : {OPRISK_XLS}\n(les sources brutes ne sont pas versionnees)")
-
-ICT = ["Systems Security", "Systems", "Vendors & Suppliers",
-       "Monitoring and Reporting", "Unauthorized Activity"]
-# MEME fenetre et MEME ordre d'operations que le script 08b, dont ce script doit
-# reproduire les deux seaux avant de les depasser : le filtre annuel s'applique AVANT
-# le calcul de la fenetre d'observation, sans quoi les spans sont artificiellement
-# allonges et lambda s'effondre.
-Y0, Y1 = 2005, 2022
-LOSS = "Current Value of Loss ($M)"
-ASSETS = "Assets ($M)"
+# LE PANEL ET L'ELASTICITE SONT DESORMAIS DANS UN MODULE. Ils vivaient ici ; le script 65
+# les reutilise sur des entites reelles, et une estimation de maximum de vraisemblance
+# recopiee dans deux fichiers finit toujours par diverger de l'autre. Le protocole, la
+# fenetre d'observation et l'ordre des operations (filtre annuel AVANT calcul de la
+# fenetre, faute de quoi lambda s'effondre) sont documentes dans `descente.py`.
+import descente as dsc                                              # noqa: E402
+from descente import ASSETS, B_SEV, B_SEV_LO, B_SEV_HI              # noqa: E402
 
 # entite notionnelle du memoire : 15 000 M EUR de provisions, soit de l'ordre de
 # 20 000 M USD d'actifs (ratio prudentiel usuel ~1,3). Meme convention que le script 57.
 ACTIFS_CIBLE = 20_000.0
 PROVISIONS_CIBLE = 15_000.0
 SF_TAUX = 0.03               # charge operationnelle de Formule Standard, plafond en provisions
-
-# elasticite severite / taille, EMV lognormale tronquee (script 57)
-B_SEV, B_SEV_LO, B_SEV_HI = 0.087, 0.026, 0.148
 
 # MEMES reglages Monte-Carlo que le script 58, qui consomme ces chiffres en aval : sans
 # cela les deux scripts publieraient deux SCR d'entite differant du seul bruit de tirage.
@@ -89,38 +79,16 @@ def titre(s):
 # =====================================================================================
 titre("Donnees : panel firme-annee, avec la taille de firme")
 # =====================================================================================
-d = pd.read_excel(OPRISK_XLS, sheet_name="Datasets")
-d["year"] = pd.to_datetime(d["First Year of Event"], errors="coerce").dt.year
-fs = d[d["Basel Business Line - Level 1"] != "Non-FS"].copy()
-fs = fs[(fs.year >= Y0) & (fs.year <= Y1)]
-ict = fs[fs["Sub Risk Category"].isin(ICT)].copy()
-
-# Panel : protocole du script 08b. La fenetre d'observation d'une firme est l'intervalle
-# [premiere, derniere] annee ou elle apparait pour UN RISQUE QUELCONQUE ; une annee de cet
-# intervalle sans incident TIC est alors un VRAI zero.
-span = fs.groupby("Firm Name")["year"].agg(["min", "max"])
-ict_n = ict.groupby(["Firm Name", "year"]).size().rename("n")
-
-# taille par firme : mediane des actifs declares sur l'ensemble de ses evenements
-fs[ASSETS] = pd.to_numeric(fs[ASSETS], errors="coerce")
-taille = fs.groupby("Firm Name")[ASSETS].median()
-
-rows = []
-for firm, (y0, y1) in span[["min", "max"]].iterrows():
-    a = taille.get(firm, np.nan)
-    for y in range(int(y0), int(y1) + 1):
-        rows.append((firm, y, int(ict_n.get((firm, y), 0)), a))
-panel = pd.DataFrame(rows, columns=["firm", "year", "n", "actifs"])
+D = dsc.Descente()
+fs, ict = D.fs, D.ict
+panel, pa, taille = D.panel, D.pa, D.taille
 
 print(f"observations firme-annee            : {len(panel):,}  ({panel.firm.nunique()} firmes)")
-pa = panel.dropna(subset=["actifs"])
-pa = pa[pa.actifs > 0]
 print(f"dont avec actifs renseignes         : {len(pa):,}  ({pa.firm.nunique()} firmes)")
 print(f"lambda brut, toutes firmes          : {panel.n.mean():.4f}")
 print(f"lambda brut, sous-panel avec actifs : {pa.n.mean():.4f}")
 
-med_act = float(taille.dropna().median())
-med_act_ict = float(pd.to_numeric(ict[ASSETS], errors="coerce").median())
+med_act, med_act_ict = D.med_act, D.med_act_ict
 print(f"\nactifs medians, firme du panel      : {med_act:,.0f} M USD")
 print(f"actifs medians, ponderes evenements : {med_act_ict:,.0f} M USD")
 print(f"actifs de l'entite cible            : {ACTIFS_CIBLE:,.0f} M USD")
@@ -146,42 +114,8 @@ print(f"  actifs medians de ces firmes >= 10 ev. : {act_big:,.0f} M USD")
 print(f"  soit {act_big/ACTIFS_CIBLE:,.0f}x l'entite cible : utiliser leur lambda POUR l'entite")
 print("  cible etait bien l'incoherence a corriger.")
 
-x = np.log(pa.actifs.to_numpy())
-k = pa.n.to_numpy().astype(float)
-xbar = x.mean()
-xc = x - xbar                                    # centrage : l'intercept devient log-lambda
-                                                 # a la taille MEDIANE, mieux conditionne
-
-
-def nll_nb2(p):
-    """NB2 a log-lien : mu_i = exp(a + b * xc_i), variance mu + mu^2 / r."""
-    a, b, lr = p
-    r = np.exp(lr)
-    mu = np.exp(np.clip(a + b * xc, -30, 30))
-    return -np.sum(special.gammaln(k + r) - special.gammaln(r) - special.gammaln(k + 1)
-                   + r * np.log(r / (r + mu)) + k * np.log(mu / (r + mu)))
-
-
-opt = optimize.minimize(nll_nb2, x0=[np.log(max(k.mean(), 1e-6)), 0.2, 0.0],
-                        method="Nelder-Mead",
-                        options={"xatol": 1e-9, "fatol": 1e-9, "maxiter": 20000})
-a_hat, b_lam, lr_hat = opt.x
-
-# erreur-type de b par hessienne numerique de la log-vraisemblance
-eps = 1e-4
-H = np.zeros((3, 3))
-for i in range(3):
-    for j in range(3):
-        pp, pm, mp, mm = (opt.x.copy() for _ in range(4))
-        pp[i] += eps; pp[j] += eps
-        pm[i] += eps; pm[j] -= eps
-        mp[i] -= eps; mp[j] += eps
-        mm[i] -= eps; mm[j] -= eps
-        H[i, j] = (nll_nb2(pp) - nll_nb2(pm) - nll_nb2(mp) + nll_nb2(mm)) / (4 * eps * eps)
-cov = np.linalg.inv(H)
-se_b = float(np.sqrt(max(cov[1, 1], 0.0)))
-z_b = b_lam / se_b if se_b > 0 else np.nan
-p_b = 2 * stats.norm.sf(abs(z_b))
+a_hat, b_lam = D.a_hat, D.b_lam
+xbar, se_b, z_b, p_b = D.xbar, D.se_b, D.z_b, D.p_b
 
 print(f"\nBinomiale negative, log-lien, covariable log(actifs) centree :")
 print(f"  elasticite frequence / taille b_lambda = {b_lam:+.4f}  "

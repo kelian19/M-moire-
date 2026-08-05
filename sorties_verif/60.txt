@@ -148,7 +148,7 @@ multiple de capital SCR / E[X]                             52.0               46
 cout annuel de detention  (M EUR)                          23.3                8.0
    soit x la sinistralite attendue                         2.47               2.21
 portee optimale L*  (M EUR)                                 488                169
-part de la sinistralite cedee                              63%                38%
+part de la sinistralite cedee                              61%                38%
 gain du dimensionnement                                   -47%               -64%
 
 CE QUI EST INVARIANT, ET CE QUI NE L'EST PAS. Il faut separer les deux, car tout
@@ -165,7 +165,7 @@ ne survit pas de la meme facon.
   le dire au lieu de le ranger avec les rapports. La cause est mecanique : a lambda
   plus faible, la perte annuelle est plus dominee par un sinistre unique, donc une
   part PLUS GRANDE de E[X] se situe au-dela du SCR et echappe a une portee bornee
-  par le SCR. La part cedee tombe de 63% a 38%, et le cout residuel
+  par le SCR. La part cedee tombe de 61% a 38%, et le cout residuel
   avec elle. Le sens de la conclusion (transferer est nettement moins cher que
   detenir) est donc renforce par la correction, mais son AMPLEUR chiffree en depend
   et ne doit pas etre citee comme une grandeur d'entite.

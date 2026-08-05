@@ -563,6 +563,13 @@ la largeur de bande à la borne haute, l'échelle d'entité fixe $72\,\%$ du cap
 $79\,\%$ à l'échelle du secteur : la descente d'échelle élargit la part exposée, sans la
 faire basculer.
 
+Une dernière précaution, et elle est lourde : ce $169$~M\euro{} est une \textbf{borne supérieure
+d'ordre de grandeur}, non une charge plausible. Le \S\ref{sec:entites-reelles} établit sur des
+bilans réels que la transposition a une borne inférieure de taille, et que l'entité notionnelle
+se situe en dessous. Rien de ce qui suit dans ce chapitre ne repose sur le niveau lui-même, mais
+sur les \emph{écarts} et les \emph{rapports} qui s'en déduisent ; il faut néanmoins l'avoir lu
+avant de citer le chiffre.
+
 \begin{figure}[htbp]\centering
 \figover{S21_descente_echelle.png}
 \caption{La descente d'échelle, rendue cohérente. \textbf{(a)}~$\lambda$ estimé comme une
@@ -618,6 +625,94 @@ choc systémique NotPetya : la brique de sévérité est crédible. \textbf{(b)}
 domine de loin la charge de Formule Standard. C'est l'agrégation à une fréquence sectorielle,
 non la sévérité, qui porte l'agrégat à une échelle de secteur. Source :
 script~\texttt{49}.}{fig:benchmark-externe}
+
+\section{Quatre entités réelles, et la borne inférieure de la méthode}
+\label{sec:entites-reelles}
+
+Tout ce qui précède porte sur une entité \emph{notionnelle}, posée à $20\,000$~M\$ d'actifs et
+$15\,000$~M\euro{} de provisions. La méthode est complète, l'objet est fictif : le mémoire
+démontre une faisabilité, il ne mesure pas une entité. C'est la première objection qu'un
+rapporteur formule, et elle est juste. On la lève avec la seule donnée disponible sans accès
+interne, les rapports \textsc{sfcr} de l'exercice 2024, qui sont des publications
+réglementaires.
+
+Trois grandeurs suffisent par entité : provisions techniques, fonds propres éligibles,
+\textsc{scr}. Chaque champ porte sa provenance, \emph{publié} quand il est lu tel quel,
+\emph{déduit} quand il résulte d'une identité comptable ou d'un ratio de couverture publié.
+Aucun n'est estimé. La conversion en dollars, nécessaire parce que le panel de calibration
+exprime les actifs en \$, n'est pas un paramètre sensible : l'élasticité valant $0{,}074$, une
+erreur de $10\,\%$ sur le cours déplace $\lambda$ de $0{,}7\,\%$.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l r r r r r@{}}
+\toprule
+\textbf{Entité} & \textbf{Actifs} & \textbf{SCR publié} & \textbf{DORA} &
+\textbf{Bande} & \textbf{DORA / SCR} \\
+ & M\euro & M\euro & M\euro & M\euro & \\
+\midrule
+BPCE Assurances IARD & $2\,319$ & $426$ & $112$ & $[88\,;122]$ & $26{,}3\,\%$ \\
+MACSF Assurances (non-vie) & $3\,234$ & $292$ & $121$ & $[94\,;132]$ & $41{,}3\,\%$ \\
+MACSF Épargne Retraite & $37\,845$ & $1\,587$ & $196$ & $[149\,;213]$ & $12{,}3\,\%$ \\
+\textbf{CNP Assurances SA} & $\mathbf{309\,800}$ & $\mathbf{14\,800}$ & $\mathbf{294}$ &
+$\mathbf{[233\,;316]}$ & $\mathbf{2{,}0\,\%}$ \\
+\midrule
+\emph{Entité notionnelle} & $19\,231$ & --- & $169$ & $[132\,;183]$ & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+La première lecture est celle qu'on attendait. Sur la plus grande entité du panel, la charge de
+non-conformité vaut $294$~M\euro{} en point et $[233\,;316]$ en bande, soit $2{,}0\,\%$ de son
+\textsc{scr} publié : un ordre de grandeur défendable, obtenu sans aucune donnée interne. Et
+l'écart entre états de conformité subsiste à toutes les tailles, de $+41\,\%$ à $+47\,\%$, face
+à une charge forfaitaire qui n'en distingue aucune. La thèse ne dépendait donc pas de l'entité
+fictive.
+
+\begin{attention}
+\textbf{La seconde lecture n'était pas attendue, et elle contraint le mémoire.} La charge décroît
+beaucoup moins vite que la taille : un facteur $134$ sur les actifs ne divise la sévérité que par
+$1{,}53$ et la fréquence que par $1{,}44$. Rapportée au \textsc{scr} publié, la charge passe donc
+de $2{,}0\,\%$ pour une grande entité à $41{,}3\,\%$ pour une petite. En posant qu'un seul risque
+de non-conformité réglementaire ne peut raisonnablement peser plus de $10\,\%$ du \textsc{scr}
+total d'une entité, tous risques confondus, \textbf{la bascule se situe entre $37\,845$ et
+$309\,800$~M\euro{} d'actifs}. Ce n'est pas un seuil fin, quatre entités ne le déterminent pas,
+et il dépend aussi du levier propre de l'entité, dont le rapport \textsc{scr} sur actifs va ici
+de $4{,}2$ à $18{,}4\,\%$. C'est un ordre de grandeur, et la cause est celle que le
+\S\ref{sec:ancrage} nommait sans la chiffrer : l'élasticité corrige l'\emph{échelle} de la
+sévérité, jamais sa \emph{forme}, et la forme est celle de grandes institutions financières.
+\end{attention}
+
+\begin{cle}
+\textbf{Conséquence directe sur le chiffre central, qu'il faut assumer.} L'entité notionnelle
+pèse $19\,231$~M\euro{} d'actifs et se trouve donc \emph{dans} la zone que la ligne précédente
+déclare hors domaine. Elle ne publie pas de \textsc{scr}, mais en lui imputant le levier médian
+des quatre entités réelles ($6{,}9\,\%$), soit $1\,328$~M\euro, la charge de $169$~M\euro{} en
+représenterait $13\,\%$. Le $169$~M\euro{} doit donc être lu comme une \textbf{borne supérieure
+d'ordre de grandeur}, non comme une charge plausible. Ce que le mémoire établit n'en est pas
+affaibli, parce que sa thèse porte sur l'\emph{écart} entre états de conformité face à un
+forfait insensible, et qu'un écart est un rapport : il survit à une erreur de niveau commune aux
+trois états. Mais le \emph{niveau}, lui, cesse ici d'être présenté comme une mesure. Le lever
+demanderait une sévérité calibrée sur des incidents d'entités de cette taille, c'est-à-dire
+exactement la donnée que le chapitre~\ref{chap:donnees} déclare absente.
+\end{cle}
+
+Deux réserves enfin, à ne pas reléguer en note. Aucune de ces entités ne publie son état de
+conformité \textsc{dora} : on mesure une \emph{exposition} sous un état supposé, jamais une
+non-conformité constatée, et c'est pourquoi les trois états sont donnés côte à côte sans qu'aucun
+soit désigné. Et deux des quatre entités publient « provisions techniques et autres passifs »
+sans les séparer, ce qui surestime l'assiette du forfait pour elles et sous-estime donc leur
+rapport à la charge forfaitaire ; le rapport au \textsc{scr} publié, lui, n'est pas concerné.
+
+\figcle{S22_entites_reelles.png}{Le SCR DORA d'entités réelles, à partir de leurs seuls chiffres
+\textsc{sfcr}. \textbf{(a)}~les quatre entités lues sur la courbe d'élasticité du panel,
+l'entité notionnelle du mémoire tombant au milieu d'elles. \textbf{(b)}~la charge et sa bande
+d'identification face à la charge forfaitaire, en échelle logarithmique : le forfait croît avec
+les provisions, la charge de contagion beaucoup moins vite, et c'est tout le sujet.
+\textbf{(c)}~la charge rapportée au SCR publié révèle une borne inférieure de validité de la
+transposition, que le mémoire publie plutôt que de la laisser découvrir. Source :
+script~\texttt{65}.}{fig:entites-reelles}
 
 \section{Détenir ou transférer : le SCR confronté au prix de marché du risque}
 \label{sec:detenir-transferer}

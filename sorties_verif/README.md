@@ -1,4 +1,4 @@
-# Sorties de scripts, pour la vérification des chiffres
+﻿# Sorties de scripts, pour la vérification des chiffres
 
 Ce dossier contient la sortie texte des scripts cités par les chapitres du mémoire, une
 par fichier `NN.txt`. Il sert d'entrée à `exploratory/memoire_cascade/verif_chiffres.py`,
@@ -49,3 +49,27 @@ sont de cette nature.
 
 Les sorties sont purement agrégées : aucun nom de firme, aucune donnée individuelle de la
 base sous licence n'y figure.
+
+## Ajouts du 5 aout 2026
+
+Deux scripts nouveaux, et une lecon de harnais.
+
+- **64** biais de narration : loi nulle EXACTE de l'asymetrie par convolution sur les paires
+  (plus aucune permutation), jackknife par incident, point de rupture du biais, et effet sur
+  la bande de capital d'entite. A a = 0 il reproduit par un chemin de code independant les
+  trois chiffres publies au chapitre resultats (169,0 et [131,5 ; 183,3]), ce qu'aucun script
+  ne verifiait jusqu'ici.
+- **65** entites reelles : le SCR DORA calcule sur les chiffres SFCR publies de quatre
+  assureurs francais, avec la provenance de chaque champ (publie / deduit) et la borne
+  INFERIEURE de validite de la descente d'echelle, que le memoire publie desormais.
+
+**Deux modules extraits**, pour cesser de recopier ce que deux scripts partagent :
+`postmortem_corpus.py` (corpus des post-mortems, lu par 59 et 64) et `descente.py` (panel
+OpRisk et elasticites, lu par 60 et 65). Dans les deux cas la sortie du script d'origine a
+ete rejouee et comparee caractere par caractere a celle versionnee ici : identique.
+
+**Le separateur de milliers casse le harnais.** Un nombre imprime `2,319` ou `2 319` n'est
+pas apparie au `2\,319` du memoire : quinze chiffres de la nouvelle section du chapitre 12
+ressortaient non confirmes pour cette seule raison. Les formats `:,.0f` des scripts 64 et 65
+ont ete remplaces par `:.0f`. **Regle : dans une sortie de script, un nombre s'ecrit sans
+separateur de milliers.**
