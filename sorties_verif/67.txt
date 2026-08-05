@@ -1,0 +1,112 @@
+﻿
+========================================================================================
+1. VaR et TVaR mono-perte, par les formes fermees de la GPD
+========================================================================================
+Le chapitre socle donne ces deux valeurs comme resultats de ses propositions, mais
+aucun script ne les imprimait : elles etaient calculees a la main a partir de la
+calibration. On les reproduit ici depuis la configuration figee.
+
+  OPRISK : u = 20.03, sigma = 57.97, xi = 0.5954, zeta_u = 0.1509
+      p = 0.995   VaR = 663.0 M EUR    TVaR = 1752.4
+      p = 0.999   VaR = 1852.8 M EUR    TVaR = 4693.1
+
+  PRC : u = 4.176, sigma = 6.507, xi = 1.0328, zeta_u = 0.15
+      p = 0.995   VaR = 209.2 M EUR    TVaR = INDEFINI (xi >= 1)
+      p = 0.999   VaR = 1111.7 M EUR    TVaR = INDEFINI (xi >= 1)
+      xi = 1.0328 > 1 : esperance infinie, l'Expected Shortfall est
+      mathematiquement INDEFINI. C'est ce qui justifie le plafond de severite.
+
+  Les deux valeurs citees au chapitre socle sont la ligne OPRISK a p = 0,995.
+
+========================================================================================
+2. Les parts de vecteur, en pourcentage autant qu'en fraction
+========================================================================================
+Le script 63 imprime ces parts en FRACTION, le memoire les cite en POURCENTAGE : le
+harnais ne pouvait apparier ni l'un ni l'autre. On imprime les deux formes.
+
+  vecteur                     fraction   pourcentage
+  phishing_social_eng            0.388         38.8 %
+  exploit_vuln                   0.338         33.8 %
+  supply_chain_tiers             0.158         15.8 %
+  identifiants                   0.063          6.3 %
+  autres                         0.053          5.3 %
+  surface TLPT (art. 26)         0.496         49.6 %
+  surface tiers (art. 28-44)     0.158         15.8 %
+
+  somme des parts : 1.000 (100.0 %)
+  RAPPEL : citation externe datee, non recalculable (cf. scripts 62 et 63). Ces parts
+  ne servent qu'a repartir par vecteur et ne portent aucun niveau de capital.
+
+========================================================================================
+3. Les rapports derives que la redaction citait sans les tracer
+========================================================================================
+Chacun de ces rapports se deduit d'une valeur imprimee ailleurs. Les tracer ici evite
+qu'une valeur amont bouge sans que le rapport suive, ce qui est arrive une fois.
+
+  multiplicateur de severite (script 60)     : 0.8545
+  soit, en variation                         : -14.5 %
+     le memoire arrondissait a -14 % ; la valeur imprimee est -14.5 %
+
+  les trois frequences du chapitre donnees :
+     lambda_ref, notifications PRC (BSF)     : 341 /an
+     lambda, secteur financier mondial       : 21.56 /an
+     lambda, entite lue a sa taille          : 0.09168 /an
+  rapport entre les extremes (ref / entite)  : 3719
+  rapport secteur / entite                   : 235
+
+  indice de queue OpRisk                     : 0.5954
+  1 / xi (indice de regularite de la queue)  : 1.680
+  xi > 0,5 : variance infinie                : True
+  xi < 1   : esperance finie, TVaR defini    : True
+
+========================================================================================
+4. Statistiques de severite de la population EFFECTIVEMENT utilisee
+========================================================================================
+POURQUOI CETTE SECTION EXISTE, ET CE QU'ELLE A TROUVE. Le chapitre donnees publie une
+table de statistiques de severite (mediane 1,50 M USD, moyenne 26,4, P90 51,5, P99 402,
+maximum 1500, total cumule 15,4 Md USD). Cette table a ete MIGREE AUTOMATIQUEMENT depuis
+la version pre-cascade du memoire, et AUCUN filtre du pipeline actuel ne la reproduit :
+ni la base entiere, ni le secteur financier, ni le sous-ensemble TIC, ni aucune
+combinaison de fenetres. Sa moyenne et son total impliquent n = 583 observations, effectif
+qu'aucun sous-ensemble courant ne presente. Elle decrit donc une population que le memoire
+n'utilise plus nulle part ailleurs.
+
+CE SCRIPT NE TENTE PAS DE LA RETROUVER. Il imprime les statistiques de la population que
+le memoire utilise REELLEMENT partout ailleurs, c'est-a-dire celle de la descente
+d'echelle et de la calibration de frequence : secteur financier, categories TIC, fenetre
+2005-2022. C'est cette table qui doit figurer au chapitre donnees, faute de quoi le
+chapitre decrit un echantillon et calibre sur un autre.
+
+  filtre : secteur financier x categories TIC x annees 2005-2022
+  observations                  1476
+  mediane                       1.20 M USD
+  moyenne                       33.8 M USD
+  P90                           25.3 M USD
+  P99                          419.3 M USD
+  maximum                    10970.8 M USD
+  total cumule                  49.8 Md USD
+
+  concentration de la queue, sur la meme population :
+  part du decile superieur              92.3 %
+  part du centile superieur             65.1 %
+
+  Le memoire annoncait 82,7 % et 31 % pour ces deux parts, sur la population non
+  reproductible. Les valeurs ci-dessus sont celles de la population qu'il calibre.
+
+L'ECART DE HILL AU MLE (chapitre socle, 138,7 % a k = 86) N'EST PAS RECALCULE ICI, et
+c'est deliberé. Cet ecart porte sur les excedents CONVERTIS EN EUROS au-dessus du seuil
+de collecte, objet construit par le pipeline du script 47. Le recalculer ici sur les
+pertes brutes en dollars donne un tout autre nombre, et publier deux valeurs sous le
+meme nom creerait la contradiction que ce script est cense eviter. C'est au script 47
+de l'imprimer, puisque c'est lui qui possede la conversion.
+
+========================================================================================
+VERDICT
+========================================================================================
+Ce script ne produit aucun resultat nouveau : il rend VERIFIABLES des valeurs qui
+etaient publiees sans l'etre. C'est la quatrieme classe du residu du harnais, la seule
+qui soit un defaut. Les trois autres (separateur, unite, valeur legitimement hors
+script) se traitent respectivement dans le harnais, en imprimant les deux unites, et
+en assumant la valeur dans le texte.
+
+A RELANCER sur un poste disposant de data/raw/ pour completer la section 4.

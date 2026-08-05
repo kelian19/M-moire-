@@ -75,6 +75,23 @@ def nombres(txt, latex=True):
     t = re.sub(r"\\multicolumn\{\d+\}", " ", t)
     t = t.replace("\\,", "").replace("~", " ").replace("{,}", ".")
     t = re.sub(r"\\[a-zA-Z]+", " ", t)          # commandes LaTeX restantes
+    if not latex:
+        # LE SEPARATEUR DE MILLIERS DES SORTIES DE SCRIPT. Le motif d'extraction ci-dessous
+        # ne franchit pas la virgule : « 8,122.9 » y devenait DEUX nombres, 8 et 122.9, et le
+        # « 8123 » du memoire ressortait donc non confirme alors que le script l'imprimait.
+        # Toute la classe des montants a quatre chiffres et plus etait touchee, ce qui noyait
+        # les vraies erreurs sous les fausses alertes.
+        #
+        # AMBIGUITE ASSUMEE, ET C'EST LE POINT DELICAT. Une virgule entre chiffres peut aussi
+        # etre un separateur DECIMAL francais, que certaines chaines de narration emploient
+        # (« z = +5,12 »). On ne colle donc que les groupes de la forme anglo-saxonne stricte :
+        # 1 a 3 chiffres commencant par un chiffre NON NUL, puis exactement 3 chiffres. Cela
+        # exclut « 0,807 » et « 0,505 ». Il reste un cas indecidable, « 2,150 » voulant dire
+        # 2,150 en decimal francais ; le risque est alors une confirmation a tort, pas un
+        # chiffre faux dans le memoire, et il est prefereable a un detecteur ignore parce
+        # qu'il crie trop souvent.
+        t = re.sub(r"(?<![\d.,])([1-9]\d{0,2})((?:,\d{3})+)(?!\d)",
+                   lambda m: m.group(1) + m.group(2).replace(",", ""), t)
     out = []
     for m in re.finditer(r"-?\d+(?:\.\d+)?", t):
         try:

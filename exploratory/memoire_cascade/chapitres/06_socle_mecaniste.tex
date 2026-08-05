@@ -105,7 +105,8 @@ L'estimation de l'indice de queue $\xi$ est un enjeu critique, car une infime va
 \section{Estimer l'indice de queue, et savoir ce que vaut l'estimation}
 
 \noindent Chiffres de cette section : script~\texttt{47} (adéquation, couverture réelle de
-l'intervalle de confiance) et \texttt{63} (calibration figée).
+l'intervalle de confiance), \texttt{63} (calibration figée) et \texttt{67} (formes fermées de
+la VaR et de la TVaR, jusqu'ici calculées à la main).
 
 \paragraph{L'estimateur de Hill.}
 Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) repose sur les statistiques d'ordre. Soit $X_{(1)} \ge X_{(2)} \ge \dots \ge X_{(n)}$ l'échantillon ordonné de manière décroissante. L'estimateur de Hill fondé sur les $k$ plus grandes observations est défini par :
@@ -269,7 +270,9 @@ $a=0{,}122$ (IC~$95\,\%$ $[0{,}054\,;0{,}223]$). La valeur posée $a=0{,}60$ dé
 dépasse de loin le $2{,}24$ mesuré : l'un comme l'autre sont un \textbf{choix de prudence sur
 la queue de fréquence, non une calibration}, à assumer comme tel. La conclusion
 \og{}le calage posé est conservateur\fg{} résiste ainsi à l'incertitude d'estimation, ce qui
-est la seule chose que dix-huit points autorisent à affirmer.
+est la seule chose que dix-huit points autorisent à affirmer. La dispersion résiduelle et son
+intervalle sont produits par le script~\texttt{08b}, les parts par vecteur d'attaque par le
+script~\texttt{67}, qui les imprime en pourcentage autant qu'en fraction.
 
 \begin{figure}[htbp]\centering
 \figover{N2_simulation_nb.png}
@@ -299,11 +302,13 @@ $\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
 \section{La brique de sévérité, calibrée sur OpRisk}
 
 \noindent Chiffres de cette section : scripts~\texttt{07} (marge de sévérité) et
-\texttt{47} (validation) et \texttt{63} (calibration figée).
+\texttt{47} (validation), \texttt{63} (calibration figée) et \texttt{67} (concentration de la
+queue sur la population calibrée).
 
 \paragraph{Choix de la loi de Pareto généralisée.} La sévérité des sinistres
 cyber présente une signature de queue lourde documentée au chapitre~\ref{chap:donnees} : sur
-OpRisk Global, les 10~\% d'incidents les plus graves concentrent 82{,}7~\%
+OpRisk Global, sur la population effectivement calibrée, les $10\,\%$ d'incidents les plus
+graves concentrent $92{,}3\,\%$
 de la perte totale. Cette concentration extrême justifie le recours à la
 théorie des valeurs extrêmes, et plus précisément à une modélisation de la
 queue de distribution par une loi de Pareto généralisée (GPD) au-delà d'un
@@ -347,7 +352,7 @@ estimation robuste.}
 
 \section{Hill contre maximum de vraisemblance : deux estimateurs confrontés}
 
-\noindent Chiffres de cette section : scripts~\texttt{47} et \texttt{63}.
+\noindent Chiffres de cette section : scripts~\texttt{47}, \texttt{63} et \texttt{67}.
 
 \paragraph{L'estimateur de Hill : définition et rôle diagnostique.}
 Introduit par \citet{Hill1975}, l'estimateur de Hill fournit une estimation

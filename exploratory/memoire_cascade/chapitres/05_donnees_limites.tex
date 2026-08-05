@@ -223,9 +223,11 @@ l'échelle de lecture d'une entité soumise à DORA. \\
 \end{tabular}
 \end{center}
 \vspace{2pt}
-Le facteur $1\,600$ entre les extrêmes n'est donc pas une incohérence : c'est l'écart entre
+Le facteur $3\,719$ entre les extrêmes n'est donc pas une incohérence : c'est l'écart entre
 un comptage de notifications, un comptage de pertes matérielles sectorielles et un comptage
-de pertes matérielles par entité. \textbf{Seul $\lambda$ alimente le moteur}, et c'est lui
+de pertes matérielles par entité, et le script~\texttt{67} l'imprime pour qu'il ne se
+désynchronise plus des trois fréquences dont il découle. \textbf{Seul $\lambda$ alimente le
+moteur}, et c'est lui
 seul qui doit être invoqué quand le mémoire parle de \og{}la fréquence du modèle\fg{}.
 \end{attention}
 
@@ -254,9 +256,11 @@ maximum de vraisemblance sur une lognormale tronquée à gauche au seuil de coll
 double, $b=0{,}087$ (IC~$95\,\%$ $[0{,}026\,;0{,}148]$), et devient significative. Le seuil de
 collecte était donc bien le confondant, mais l'effet reste \textbf{modeste} : transposée de la
 firme médiane de la base ($112$~Md\$ d'actifs) à l'entité notionnelle, la sévérité est
-multipliée par $0{,}86$, soit $-14\,\%$. Le biais de taille n'explique pas un facteur dix ; il
+multipliée par $0{,}85$, soit $-14{,}5\,\%$. Le biais de taille n'explique pas un facteur dix ; il
 explique un septième. \textbf{Ce n'est pas la sévérité qui rend le niveau non transposable,
-c'est la fréquence}, ce que la table~\ref{tab:echelle} établit par ailleurs.
+c'est la fréquence}, ce que la table~\ref{tab:echelle} établit par ailleurs. Le multiplicateur
+et sa variation sont imprimés par le script~\texttt{67}, qui les trace précisément pour qu'ils
+ne puissent plus se désynchroniser de l'élasticité dont ils découlent.
 
 \paragraph{La troncature à droite se corrige, au lieu de coûter trois années.} Les comptes
 s'effondrent après 2022 ($34$ en 2023, $39$ en 2024 contre $70$ à $100$ auparavant), ce qui
@@ -410,7 +414,11 @@ non de calcul réglementaire de Pilier~1, avec la logique originelle de la LDA
 bancaire : calibrer une sévérité extrême à partir de pertes réellement
 observées plutôt qu'à partir d'un indicateur de volume forfaitaire.
 
-\paragraph{Statistiques de sévérité.}
+\paragraph{Statistiques de sévérité.} Elles portent sur la population que le mémoire calibre
+effectivement, et sur elle seule : secteur financier, catégories \textsc{tic}, fenêtre
+$2005$--$2022$, soit $1\,476$ observations. C'est le même filtre que celui de la descente
+d'échelle et de la calibration de fréquence, condition pour que le chapitre ne décrive pas un
+échantillon et n'en calibre pas un autre.
 
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
@@ -419,18 +427,29 @@ observées plutôt qu'à partir d'un indicateur de volume forfaitaire.
 \rowcolor{lightblue}
 \textbf{Indicateur} & \textbf{Valeur} & \textbf{Indicateur} & \textbf{Valeur} \\
 \midrule
-Médiane & 1{,}50 M\$ & P99 & 402 M\$ \\
-Moyenne & 26{,}4 M\$ & Maximum & 1\,500 M\$ \\
-P90 & 51{,}5 M\$ & Total cumulé & 15{,}4 Md\$ \\
+Médiane & 1{,}20 M\$ & P99 & 419{,}3 M\$ \\
+Moyenne & 33{,}8 M\$ & Maximum & 10\,970{,}8 M\$ \\
+P90 & 25{,}3 M\$ & Total cumulé & 49{,}8 Md\$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-La concentration extrême de la sévérité (les 10~\% d'incidents les plus
-graves représentent 82{,}7~\% de la perte totale, et le seul top~1~\% en
-représente 31~\%) constitue une signature de queue lourde qui justifie
-directement le recours à la théorie des valeurs extrêmes développée en
-chapitre~\ref{chap:cascade}.
+La concentration extrême de la sévérité constitue une signature de queue lourde qui justifie
+directement le recours à la théorie des valeurs extrêmes développée au
+chapitre~\ref{chap:cascade} : le décile supérieur porte $92{,}3\,\%$ de la perte totale, et le
+seul centile supérieur en porte $65{,}1\,\%$.
+
+\begin{attention}
+\textbf{Ces six valeurs ont été corrigées, et il faut dire pourquoi.} La version précédente de
+cette table (médiane $1{,}50$, moyenne $26{,}4$, P90 $51{,}5$, P99 $402$, maximum $1\,500$,
+total $15{,}4$~Md\$) provenait d'une migration automatique depuis la version pré-cascade du
+mémoire. Aucun filtre du dispositif actuel ne la reproduit : ni la base entière, ni le secteur
+financier, ni le sous-ensemble \textsc{tic}, ni aucune combinaison de fenêtres, et sa moyenne
+rapportée à son total impliquait $583$ observations, effectif qu'aucun sous-ensemble courant ne
+présente. Elle décrivait donc une population que le mémoire n'utilise plus. Le harnais de
+vérification l'a signalée comme non reproductible, ce qui est exactement ce qu'on lui demande.
+Source : script~\texttt{67}.
+\end{attention}
 
 \paragraph{Choix du seuil POT.} Le choix du seuil $u$ au-dessus duquel la loi
 de Pareto généralisée est calibrée résulte d'un compromis classique

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 20b : Robustesse de l'INTERACTION (super/sous-additive) du Delta_DORA.
@@ -123,13 +123,13 @@ for s in SEEDS:
     b = interaction("OPRISK", NY, s, 1)
     iv.append(a)
     im.append(b)
-    print(f"{s:>9}{a:>26,.1f}{b:>28,.1f}")
-print(f"\n  VaR      : de {min(iv):+,.1f} a {max(iv):+,.1f} M EUR "
+    print(f"{s:>9}{a:>26.1f}{b:>28.1f}")
+print(f"\n  VaR      : de {min(iv):+.1f} a {max(iv):+.1f} M EUR "
       f"({min(iv)/1000:+.1f} a {max(iv)/1000:+.1f} Md)")
 print(f"  signes   : {sum(1 for x in iv if x > 0)} positifs / {len(iv)} graines"
       f"  -> le SIGNE n'est pas resolu en VaR" if min(iv) < 0 < max(iv)
       else f"  signes   : tous de meme signe")
-print(f"  moyenne  : de {min(im):+,.1f} a {max(im):+,.1f} M EUR ; "
+print(f"  moyenne  : de {min(im):+.1f} a {max(im):+.1f} M EUR ; "
       f"{sum(1 for x in im if x > 0)}/{len(im)} positifs")
 print("  La perte MOYENNE garde son signe, la VaR non : c'est l'argument du memoire, et")
 print("  c'est pourquoi la super-additivite n'est revendiquee qu'en moyenne.")

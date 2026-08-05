@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 62 : rendre VERIFIABLES les comptages de tete du chapitre donnees.
@@ -63,7 +63,7 @@ print("organisations FINANCIERES (organization_type = BSF). Un relecteur qui rec
 print("la base entiere trouve six fois plus et conclut que le nombre est faux.")
 
 print(f"\n{'perimetre':<46}{'incidents':>11}{'par an':>10}")
-print(f"{'toute la base PRC (tous acteurs)':<46}{len(d):>11,}{len(d)/annees:>10,.1f}")
+print(f"{'toute la base PRC (tous acteurs)':<46}{len(d):>11,}{len(d)/annees:>10.1f}")
 TYPE_COL = "organization_type"
 if TYPE_COL in d.columns:
     for t, lab in (("BSF", "organisations financieres (BSF)"),
@@ -71,10 +71,10 @@ if TYPE_COL in d.columns:
                    ("MED", "sante (MED)")):
         s = d[d[TYPE_COL] == t]
         marque = "   <<< le 341 publie" if t == "BSF" else ""
-        print(f"{'  dont ' + lab:<46}{len(s):>11,}{len(s)/annees:>10,.1f}{marque}")
+        print(f"{'  dont ' + lab:<46}{len(s):>11,}{len(s)/annees:>10.1f}{marque}")
     bsf = d[d[TYPE_COL] == "BSF"]
     lam = len(bsf) / annees
-    print(f"\n  >>> lambda_ref (perimetre financier) = {len(bsf)}/{annees} = {lam:,.1f} par an")
+    print(f"\n  >>> lambda_ref (perimetre financier) = {len(bsf)}/{annees} = {lam:.1f} par an")
     print(f"      valeur publiee dans config.py et dans le memoire : 341")
     print(f"      ecart : {100*(lam/341 - 1):+.1f} %")
 
@@ -87,7 +87,7 @@ if TYPE_COL in d.columns:
             if pd.notna(a):
                 print(f"{int(a):>10}{int(v):>12,}")
         pleines = y[y.index <= Y1 - 1]
-        print(f"\n  moyenne sur annees pleines ({Y0}-{Y1-1}) : {pleines.mean():,.1f} par an.")
+        print(f"\n  moyenne sur annees pleines ({Y0}-{Y1-1}) : {pleines.mean():.1f} par an.")
         print(f"  L'annee {Y1} est incomplete (remontee en cours) et tire la moyenne vers le bas ;")
         print("  sur annees pleines le 341 publie est LEGEREMENT PRUDENT.")
 
@@ -119,9 +119,9 @@ else:
 
 
 titre("Verdict")
-print(f"lambda_ref, perimetre financier       : {lam:,.1f} / an contre 341 publie "
+print(f"lambda_ref, perimetre financier       : {lam:.1f} / an contre 341 publie "
       f"({100*(lam/341-1):+.1f} %)  -> VERIFIABLE")
-print(f"lambda_ref, toute la base PRC         : {len(d)/annees:,.1f} / an  -> ce n'est PAS")
+print(f"lambda_ref, toute la base PRC         : {len(d)/annees:.1f} / an  -> ce n'est PAS")
 print("   le nombre du memoire. La mention 'tous acteurs confondus' etait fausse et a ete")
 print("   corrigee en 'organisations financieres'.")
 print("1 041 et 840 (Hackmageddon)           : source non versionnee -> A REQUALIFIER")
