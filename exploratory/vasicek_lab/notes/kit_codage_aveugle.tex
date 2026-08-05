@@ -19,7 +19,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4pt}
 
-\title{\vspace{-1.2cm}\color{navy}\bfseries Sept incidents, une question simple\\[2pt]
+\title{\vspace{-1.2cm}\color{navy}\bfseries Dix incidents, une question simple\\[2pt]
   \large Dans chaque incident, qu'est-ce qui a lâché en premier ?}
 \author{Kélian Kaddouri}
 \date{}
@@ -29,10 +29,10 @@
 \vspace{-1.1cm}
 
 \begin{cle}
-\textbf{Ce qu'on vous demande.} Vous allez lire sept récits d'incidents réels, tirés de rapports
+\textbf{Ce qu'on vous demande.} Vous allez lire dix récits d'incidents réels, tirés de rapports
 d'enquête publics. Pour chacun, on vous demande simplement, entre deux domaines qui ont tous les
 deux flanché, \textbf{lequel a flanché en premier et a entraîné l'autre}. C'est tout. Comptez
-trois quarts d'heure. Aucune connaissance technique n'est nécessaire : les faits vous sont
+une heure. Aucune connaissance technique n'est nécessaire : les faits vous sont
 donnés, vous n'avez qu'à les ordonner.
 \end{cle}
 
@@ -183,6 +183,44 @@ britanniques ; sanction personnelle de l'ancien directeur informatique.}
       temps et ont dû gérer puis déclarer un incident.
 \end{itemize}
 
+\subsection*{8. Éditeur d'un logiciel de sécurité pour postes de travail, juillet 2024}
+\textit{Analyse technique publiée par l'entreprise elle-même.}
+\begin{itemize}[itemsep=2pt]
+\item Une mise à jour de contenu diffusée automatiquement contenait un fichier dont le nombre de
+      champs ne correspondait pas au modèle attendu : vingt-et-un champs prévus, vingt fournis.
+\item Le contrôle automatique chargé de valider ces fichiers avant diffusion ne l'a pas arrêté.
+\item Les couches de test ne l'ont pas vu non plus, à cause d'un mécanisme de correspondance
+      générique introduit plusieurs mois plus tôt.
+\item Environ huit millions et demi de machines se sont arrêtées, dans des hôpitaux, des banques,
+      des aéroports et des administrations.
+\item L'entreprise a dû gérer une crise mondiale et publier une procédure de réparation manuelle,
+      machine par machine.
+\end{itemize}
+
+\subsection*{9. Bibliothèque logicielle libre très répandue, fin 2021}
+\textit{Rapport d'une commission d'enquête publique américaine.}
+\begin{itemize}[itemsep=2pt]
+\item Une faille critique est révélée dans un composant logiciel gratuit, utilisé sans le savoir
+      par une très grande partie des organisations.
+\item Beaucoup d'entre elles n'ont pas pu dire où ce composant était installé chez elles : elles
+      ne tenaient pas d'inventaire de ce qu'elles utilisaient et n'avaient pas de règles sur la
+      façon de suivre les composants venus de l'extérieur.
+\item Les équipes ont donc dû chercher pendant des semaines avant de pouvoir corriger.
+\item La commission qualifie la faille de durablement présente et estime qu'on la retrouvera
+      pendant une décennie.
+\end{itemize}
+
+\subsection*{10. Petite banque britannique, 2015}
+\textit{Sanctions conjointes des deux autorités de contrôle britanniques.}
+\begin{itemize}[itemsep=2pt]
+\item Les autorités relèvent que les systèmes et les contrôles de la banque étaient insuffisants
+      pour surveiller et encadrer ses contrats d'externalisation.
+\item Elles notent qu'il s'agit d'un manquement déjà signalé auparavant et resté sans correction.
+\item Une panne chez le prestataire qui traitait les paiements par carte a interrompu le service
+      aux clients pendant plusieurs heures.
+\item Le rétablissement et l'information des clients ont été jugés tardifs.
+\end{itemize}
+
 \newpage
 \section*{La grille}
 
@@ -193,7 +231,9 @@ Une ligne par incident. Dans chaque case, écrivez le nom du domaine qui a lâch
 \begin{center}\scriptsize
 \renewcommand{\arraystretch}{2.7}
 \setlength{\tabcolsep}{2pt}
-\begin{tabular}{@{}p{2.05cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}|p{1.42cm}@{}}
+% DIX COLONNES A 1,42 cm DEBORDAIENT DE 17 pt, soit 6 mm hors du bloc de texte. Le defaut
+% etait la avant l'extension a dix recits. 1,36 cm rend exactement les 6 mm manquants.
+\begin{tabular}{@{}p{2.05cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}|p{1.36cm}@{}}
 \toprule
 \textbf{Incident} & Gouv. \newline / Incid. & Gouv. \newline / Tests & Gouv. \newline / Prest. &
 Gouv. \newline / Partage & Incid. \newline / Tests & Incid. \newline / Prest. &
@@ -206,7 +246,10 @@ Prest. \newline / Partage \\
 4. Courtage & & & & & & & & & & \\ \hline
 5. Banque US & & & & & & & & & & \\ \hline
 6. Éditeur & & & & & & & & & & \\ \hline
-7. Transfert & & & & & & & & & & \\
+7. Transfert & & & & & & & & & & \\ \hline
+8. Sécurité & & & & & & & & & & \\ \hline
+9. Composant & & & & & & & & & & \\ \hline
+10. Cartes & & & & & & & & & & \\
 \bottomrule
 \end{tabular}
 \end{center}

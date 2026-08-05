@@ -56,7 +56,22 @@ INCIDENTS = [
     "Capital One 2019",
     "ION Cleared Derivatives 2023",
     "MOVEit 2023",
+    # EXTENSION AU CORPUS DE DIX. Le memoire ne s'appuie plus sur les sept initiaux mais sur
+    # le corpus etendu du script 59 (z = +5,12), et les scripts 59 et 64 raisonnent sur dix
+    # rapports. Un second codage qui n'en couvrirait que sept mesurerait l'accord sur un
+    # corpus que le memoire n'utilise plus.
+    "CrowdStrike Falcon 2024",
+    "Log4Shell 2021-2022",
+    "Raphaels Bank 2015",
 ]
+
+# L'ORDRE CI-DESSUS EST CELUI DES RECITS DU KIT, ET CE N'EST PAS UN DETAIL. Le kit anonymise
+# les incidents ("Fournisseur de messagerie d'entreprise, 2023") pour que le codeur ne
+# reconnaisse pas le cas et ne se souvienne pas de la cause racine publiee. Le gabarit qu'il
+# remplit doit donc porter les MEMES etiquettes anonymes, sans quoi l'aveuglement est rompu
+# par le fichier de reponse lui-meme. Une premiere version du gabarit nommait les entreprises.
+ANONYME = {nom: f"Recit {i+1}" for i, nom in enumerate(INCIDENTS)}
+REEL = {v: k for k, v in ANONYME.items()}
 
 # --- codage de reference, DERIVE du script 53 (transitions codees -> grille 70 cellules) -----
 # Toute paire non listee dans le script 53 est "abs" par defaut ; les paires ou les deux piliers
@@ -69,6 +84,10 @@ REF_EDGES = {
     "Capital One 2019": [(1, 4), (1, 3)],
     "ION Cleared Derivatives 2023": [(4, 2)],
     "MOVEit 2023": [(4, 2)],
+    # extension : transitions du corpus etendu (script 59), reprises a l'identique
+    "CrowdStrike Falcon 2024": [(3, 2)],
+    "Log4Shell 2021-2022": [(1, 4), (4, 2)],
+    "Raphaels Bank 2015": [(1, 4), (4, 2)],
 }
 
 
@@ -146,6 +165,9 @@ def load_coding(path):
     with open(path, newline="", encoding="utf-8-sig") as f:
         for row in csv.DictReader(f):
             inc = row["incident"].strip()
+            # le gabarit porte des etiquettes ANONYMES ("Recit 3") ; le codage de reference
+            # porte les noms reels. On ramene tout aux noms reels pour pouvoir apparier.
+            inc = REEL.get(inc, inc)
             pr = row["paire"].strip()
             cd = traduire(row["code"], pr)
             if cd is None:
@@ -194,8 +216,13 @@ with open(tpl_path, "w", newline="", encoding="utf-8-sig") as f:
     for inc in INCIDENTS:
         for p in PAIRS:
             lo, hi = (int(x[1:]) for x in p.split("-"))
-            w.writerow([inc, p, f"{NOM_PILIER[lo]} / {NOM_PILIER[hi]}", ""])
+            # ETIQUETTE ANONYME, jamais le nom de l'entreprise : voir ANONYME plus haut.
+            w.writerow([ANONYME[inc], p, f"{NOM_PILIER[lo]} / {NOM_PILIER[hi]}", ""])
 print(f"  Ecrit : codage_{REF_CODER}.csv (reference) et gabarit_second_codeur.csv (a remplir).")
+print(f"  Le gabarit porte les etiquettes ANONYMES ({ANONYME[INCIDENTS[0]]} a "
+      f"{ANONYME[INCIDENTS[-1]]}), correspondant aux recits")
+print("  numerotes du kit. Le codeur ne voit donc aucun nom d'entreprise, ni dans le kit ni")
+print("  dans le fichier qu'il remplit : c'est la condition de l'aveuglement.")
 
 # =====================================================================================
 titre("2. Second codage : present ou non ?")

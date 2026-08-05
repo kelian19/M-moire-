@@ -83,6 +83,96 @@ détection), ce qui rend visible la contribution marginale de chacun et empêche
 domine en silence. Le canal détection, qui se compose avec la fréquence, est traité à part et
 présenté en sensibilité tant que son ampleur n'est pas tranchée.
 
+\section{Les valeurs de \texorpdfstring{$g$}{g} sont posées, et la conclusion n'en dépend pas}
+\label{sec:invariance-g}
+
+Il faut ici s'arrêter sur ce qui est la faiblesse la plus sérieuse de tout le dispositif, et la
+traiter de front. Le canal par lequel la conformité agit est le gain de propagation $g$, et les
+trois valeurs retenues,
+\[
+  g = 0{,}45 \ \text{(conforme)}, \qquad 0{,}68 \ \text{(partiellement conforme)},
+  \qquad 0{,}90 \ \text{(non conforme)},
+\]
+sont \textbf{posées}. Elles ne sont calibrées sur aucune donnée, et pour une raison
+irréductible : aucune entité ne publie son état de conformité \textsc{dora}, si bien qu'il
+n'existe aucun échantillon d'où tirer la correspondance état $\to g$. Le code les marque
+« non calibré » depuis l'origine, ce qui est honnête mais insuffisant. Tant que le résultat est
+énoncé comme « le capital passe de $116$ à $169$~M\euro », il hérite entièrement de ces trois
+décimales, et la première question d'un rapporteur sera : d'où vient le $0{,}90$ ?
+
+Nous ne la calibrons pas. Nous montrons que la conclusion n'en a pas besoin, en deux temps.
+
+\paragraph{Le lemme, qui n'allait pas de soi.} Le capital est \textbf{croissant} en $g$. Ce
+n'est pas une évidence : le chapitre~\ref{chap:resultats} établit qu'à indice de queue élevé la
+\textsc{var} annuelle est \emph{peu sensible} à la structure de cascade, par principe du grand
+saut unique, et peu sensible ne veut pas dire monotone. On le vérifie donc numériquement plutôt
+que de le supposer, sur une grille de vingt points et à nombres aléatoires communs, condition
+sans laquelle deux valeurs voisines de $g$ ne différeraient que par le bruit de tirage. Résultat :
+\textbf{aucun pas décroissant} sur les vingt intervalles, et cela sur quatre grandeurs à la fois,
+le capital et la perte moyenne, à l'échelle d'entité comme à celle du secteur.
+
+\paragraph{L'invariance, qui en découle.} Si le capital est croissant en $g$, alors toute
+application état $\to g$ respectant l'ordre $g_C < g_{PC} < g_{NC}$ produit
+$\mathrm{SCR}_C < \mathrm{SCR}_{PC} < \mathrm{SCR}_{NC}$, \emph{quelles que soient les valeurs}.
+Or la charge forfaitaire de Formule Standard ne dépend pas de l'état. L'existence et le
+\textbf{sens} de l'écart sont donc invariants à la calibration ; seule son \textbf{amplitude}
+est un scénario.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l r r r r r@{}}
+\toprule
+\textbf{Application état $\to g$} & \textbf{Conf.} & \textbf{Part.} & \textbf{Non conf.} &
+\textbf{Écart} & \textbf{Ordre} \\
+ & M\euro & M\euro & M\euro & & \\
+\midrule
+étroite $(0{,}70 / 0{,}80 / 0{,}90)$ & $145{,}5$ & $156{,}5$ & $169{,}0$ & $+16{,}2\,\%$ & oui \\
+\textbf{retenue} $(0{,}45 / 0{,}68 / 0{,}90)$ & $\mathbf{116{,}4}$ & $\mathbf{143{,}2}$ &
+$\mathbf{169{,}0}$ & $\mathbf{+45{,}2\,\%}$ & oui \\
+large $(0{,}20 / 0{,}55 / 0{,}90)$ & $94{,}4$ & $126{,}4$ & $169{,}0$ & $+79{,}1\,\%$ & oui \\
+conformité faible $(0{,}45 / 0{,}55 / 0{,}65)$ & $116{,}4$ & $126{,}4$ & $139{,}2$ &
+$+19{,}5\,\%$ & oui \\
+très étroite $(0{,}85 / 0{,}875 / 0{,}90)$ & $162{,}6$ & $166{,}7$ & $169{,}0$ & $+3{,}9\,\%$ &
+oui \\
+\midrule
+\emph{forfait de Formule Standard} & $450$ & $450$ & $450$ & $0\,\%$ & \emph{plat} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+La dernière ligne du tableau est la plus instructive. Même en n'accordant à la conformité qu'un
+déplacement de $0{,}05$ sur $g$, soit une hypothèse presque nulle, l'écart de capital subsiste
+($+3{,}9\,\%$) quand le forfait reste exactement plat. C'est cela, la thèse du mémoire, et elle
+ne contient aucune décimale.
+
+\begin{cle}
+\textbf{Ce qui reste une hypothèse, et c'est tout ce qui reste.} La proposition
+« se conformer à \textsc{dora} réduit la propagation entre piliers », soit $g_C < g_{NC}$. C'est
+une affirmation qualitative, discutable, et sur laquelle le règlement lui-même prend parti
+puisque ses cinq piliers sont des exigences de maîtrise. Elle est d'un autre ordre de solidité
+qu'un triplet de valeurs. \textbf{Ce qui reste un scénario} : l'amplitude, qui ne dépend que de
+l'écartement $g_{NC}-g_C$. L'élasticité d'arc du capital au gain vaut $0{,}41$ sur
+$g \in [0{,}20\,;0{,}95]$, de sorte qu'un lecteur qui préfère ses propres valeurs recalcule son
+écart sans relancer le modèle. Et pour que cet écart dépasse $10\,\%$, il suffit que la
+conformité fasse baisser $g$ de $0{,}90$ à $0{,}75$, soit un écartement de $0{,}15$ : l'exigence
+porte sur un ordre de grandeur, pas sur une mesure.
+\end{cle}
+
+Une conséquence de rédaction en découle, et elle est appliquée au
+chapitre~\ref{chap:resultats} : l'écart entre états n'y est pas présenté comme une mesure mais
+comme un \emph{scénario d'écartement}, et c'est l'invariance d'ordre qui est mise en avant,
+puisque c'est elle qui est établie.
+
+\figcle{S23_invariance_conformite.png}{La thèse ne dépend pas des valeurs de $g$, seulement de
+leur ordre. \textbf{(a)}~le lemme de monotonie sur vingt points de grille, à nombres aléatoires
+communs, avec les trois valeurs retenues situées sur la courbe et la charge forfaitaire qui,
+elle, ne dépend pas de l'état. \textbf{(b)}~cinq applications état $\to g$, de très étroite à
+large : l'ordre du capital est respecté par toutes, le forfait reste plat dans tous les cas.
+\textbf{(c)}~l'amplitude de l'écart en fonction du seul écartement $g_{NC}-g_C$, la valeur
+retenue étant marquée : c'est la seule grandeur qui soit un scénario. Source :
+script~\texttt{66}.}{fig:invariance-g}
+
 \section{L'état par pilier}
 
 L'apport central est de porter l'état \textbf{par pilier} : chaque pilier a sa propre latente
