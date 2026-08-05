@@ -66,7 +66,14 @@ pas versionnés.
 - **Écrire les formules en texte brut dans le chat** : le LaTeX math ne s'affiche pas chez lui.
 - **L'élicitation est encore attendue.** Ne pas réécrire les passages qui la mentionnent comme
   si elle était abandonnée.
-- **Hackmageddon est tranché**, ne pas le rouvrir.
+- **Hackmageddon n'est PAS rejetée**, et c'est un piège de lecture. Elle est utilisée : elle
+  porte la *structure* du risque (les parts par vecteur d'attaque qui décomposent λ_ref) et
+  jamais son niveau. Ce qui est tranché, c'est son **statut de preuve** : le jeu a été consulté
+  puis non conservé, donc les 1 041 incidents et les 840 à vecteur identifié ne sont
+  reproductibles par aucun script. Kélian a choisi d'assumer la citation datée plutôt que de
+  versionner la source. Le mémoire le dit dans un encadré, le script 63 l'imprime sous
+  l'étiquette « citation externe, non recalculable ». Ne pas rouvrir ce choix, et surtout **ne
+  pas retirer la source** : elle est utilisée aux chapitres 5 et 6.
 
 ## Conventions du modèle, à ne pas confondre
 
@@ -185,9 +192,11 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
 - les **7 % de blanc résiduels** sous trois titres de figures : cosmétique, refusé deux fois,
   le corriger imposerait de changer de moteur de mise en page sur sept scripts déjà validés.
 
-**Clos, à ne pas rouvrir :** Hackmageddon, le Hawkes (rejeté, rejet documenté), la
-non-transitivité (réfutée, remplacée par la dépendance à l'ordre), le périmètre,
-l'anonymisation des entités, les decks du 07, 14 et 21 août.
+**Clos, à ne pas rouvrir :** le **statut de citation** de Hackmageddon (la source reste
+utilisée, voir plus haut), le **Hawkes** (celui-là est bien rejeté, et le rejet est documenté et
+positionné par rapport à Boumezoued et Hillairet), la **non-transitivité** (réfutée par son
+auteur, remplacée par la dépendance à l'ordre), le périmètre, l'anonymisation des entités, les
+decks du 07, 14 et 21 août.
 
 ## Note d'honnêteté
 
