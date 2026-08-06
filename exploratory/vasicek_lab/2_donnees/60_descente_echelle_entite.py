@@ -91,6 +91,11 @@ print(f"lambda brut, sous-panel avec actifs : {pa.n.mean():.4f}")
 med_act, med_act_ict = D.med_act, D.med_act_ict
 print(f"\nactifs medians, firme du panel      : {med_act:,.0f} M USD")
 print(f"actifs medians, ponderes evenements : {med_act_ict:,.0f} M USD")
+# LES MEMES EN MILLIARDS. Le chapitre resultats cite ces tailles de bilan en Md$, ce script ne
+# les imprimait qu'en M USD : 121 894 M USD et 122 Md$ sont le meme nombre, mais le harnais ne
+# pouvait pas le savoir. On imprime les deux formes.
+print(f"   soit, en milliards               : {med_act/1000:,.1f} Md USD (panel) et "
+      f"{med_act_ict/1000:,.1f} Md USD (ponderes evenements)")
 print(f"actifs de l'entite cible            : {ACTIFS_CIBLE:,.0f} M USD")
 print(f"   -> l'entite cible est {med_act_ict/ACTIFS_CIBLE:,.0f} fois plus petite que la firme")
 print("      mediane PONDEREE PAR EVENEMENT de la base. C'est cet ecart que les deux")
@@ -110,7 +115,8 @@ print(f"\n  rappel seau 1, toutes firmes           : lambda = {panel.n.mean():.4
 print(f"  rappel seau 2, firmes >= 10 evenements : lambda = "
       f"{panel[panel.firm.isin(big)].n.mean():.4f}")
 act_big = float(taille.reindex(big).dropna().median())
-print(f"  actifs medians de ces firmes >= 10 ev. : {act_big:,.0f} M USD")
+print(f"  actifs medians de ces firmes >= 10 ev. : {act_big:,.0f} M USD"
+      f"  (soit {act_big/1000:,.1f} Md USD)")
 print(f"  soit {act_big/ACTIFS_CIBLE:,.0f}x l'entite cible : utiliser leur lambda POUR l'entite")
 print("  cible etait bien l'incoherence a corriger.")
 

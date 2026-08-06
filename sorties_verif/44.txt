@@ -1,4 +1,4 @@
-﻿
+
 ==================================================================================
 1. Le sous-process tiers : la taxonomie fine est rare sur donnee ouverte (calcul)
 ==================================================================================
@@ -20,7 +20,7 @@ Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s
 ==================================================================================
 3. Origination et concentration tiers : ancrage sur donnee europeenne officielle
 ==================================================================================
-  ORIGINATION. ESAs, 1er rapport incidents DORA (3 juin 2026) : 29 % des 3 383 incidents ICT
+  ORIGINATION. ESAs, 1er rapport incidents DORA (3 juin 2026) : 29 % des 3383 incidents ICT
     MAJEURS de 2025 d'origine TIERCE => validation externe de P4 amorce (ROOT[4]=0.9).
   CONCENTRATION (exposition). ECB 2024 (registres 2023) :
     10 fournisseurs = 30 % du budget d'externalisation.
@@ -39,4 +39,4 @@ VERDICT
   3. On avance donc sans Mehdi sur la partie IDENTIFIEE (origination, accumulation
      symetrique) et on reserve au registre la partie non resoluble (taxonomie fine).
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\Z14_p4_sousprocess_open.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/Z14_p4_sousprocess_open.png

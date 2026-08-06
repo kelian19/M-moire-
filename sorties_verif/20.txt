@@ -1,9 +1,10 @@
-﻿
+
 ==========================================================================
 Allocation Shapley du surcout Delta_DORA (NC vs C) aux 5 piliers
 ==========================================================================
   phi_j : part principielle du pilier j dans le surcout total, interaction comprise.
   Reference classement ROOT (qualitatif) : P1 > P4 > P2 > P3 > P5
+  Parts d'amorce (ROOT normalise, entree du modele) : P1 30.3 %, P4 27.3 %, P2 18.2 %, P3 15.2 %, P5 9.1 %
 
   OPRISK  (base tous C = 6085 M ; Delta total NC vs C = 10927 M)
   pilier              marginal 16b   Shapley phi   redistrib.  part phi
@@ -54,4 +55,4 @@ Allocation d'Euler du NIVEAU SCR_DORA(NC) : contribution au capital vs a la moye
   classement capital (Euler) : P2 > P4 > P1 > P3 > P5   != ROOT
   Lecture : l'ecart capital - moyenne mesure la contribution PROPRE a la QUEUE (au-dela du poids moyen).
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\S15_allocation_shapley_euler.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/S15_allocation_shapley_euler.png

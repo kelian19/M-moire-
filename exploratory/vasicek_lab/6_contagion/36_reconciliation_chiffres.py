@@ -87,7 +87,9 @@ etapes = [
     ("socle : W=0, freq ref, detection neutre",      LAM_REF,  0.0,     1.0),
     ("+ contagion a l'etat conforme (g=0,45)",       LAM_REF,  G_CONF,  1.0),
     ("+ frequence de l'etat conforme (S0)",          LAM_CONF, G_CONF,  1.0),
-    ("+ detection de l'etat conforme (p_u x0,85)",   LAM_CONF, G_CONF,  PU_CONF),
+    # MULTIPLICATEUR EN POINT DECIMAL. Ecrit « x0,85 », le harnais y lisait 0 et 85, et le
+    # « 0,85 » du memoire ressortait non confirme alors que cette ligne le porte.
+    ("+ detection de l'etat conforme (p_u x0.85)",   LAM_CONF, G_CONF,  PU_CONF),
 ]
 prec = None
 print(f"  {'etape':<46}{'SCR':>9}{'variation':>12}")

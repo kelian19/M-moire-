@@ -103,8 +103,10 @@ print("  le meme jour (type MOVEit). Structure SYMETRIQUE, donc partie identifie
 # =====================================================================================
 titre("3. Origination et concentration tiers : ancrage sur donnee europeenne officielle")
 # =====================================================================================
+# EFFECTIF SANS SEPARATEUR. Ecrit « 3 383 », le harnais y lisait deux nombres, 3 et 383, et le
+# « 3 383 » du memoire ressortait non confirme alors que cette ligne l'imprime.
 print(f"  ORIGINATION. ESAs, 1er rapport incidents DORA (3 juin 2026) : {100*ESAS_TP_ORIGIN:.0f} % "
-      f"des 3 383 incidents ICT")
+      f"des 3383 incidents ICT")
 print(f"    MAJEURS de 2025 d'origine TIERCE => validation externe de P4 amorce (ROOT[4]={ROOT_P4}).")
 print(f"  CONCENTRATION (exposition). ECB 2024 (registres 2023) :")
 for nprov, share in ECB_CONC:

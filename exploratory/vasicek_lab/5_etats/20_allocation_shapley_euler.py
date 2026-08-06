@@ -136,6 +136,13 @@ def rang(order):
 titre("Allocation Shapley du surcout Delta_DORA (NC vs C) aux 5 piliers")
 print("  phi_j : part principielle du pilier j dans le surcout total, interaction comprise.")
 print(f"  Reference classement ROOT (qualitatif) : {rang(ROOT_ORDER)}")
+# LES PARTS D'AMORCE, EN CLAIR. Le memoire compare la part de Shapley de P1 (34 %) a sa part
+# d'amorce (30 %) pour montrer que la propagation DEFORME l'amorce : c'est le test non
+# trivial de la section. La part d'amorce n'etait imprimee nulle part, donc la moitie de la
+# comparaison n'etait pas verifiable. Ce sont des ENTREES du modele, pas des resultats :
+# le vecteur ROOT normalise, ni calibre ni estime.
+print("  Parts d'amorce (ROOT normalise, entree du modele) : "
+      + ", ".join(f"P{j} {100*SHARE[j]:.1f} %" for j in ROOT_ORDER))
 shap = {}
 for source in ("OPRISK", "PRC"):
     phi, v, d_tot, base_c = shapley(source)

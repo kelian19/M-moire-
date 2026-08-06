@@ -1,4 +1,4 @@
-﻿Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s))
+Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s))
 
 ==================================================================================
 AXE 1 : structure de dependance (marges OpRisk par pilier fixees)
@@ -10,6 +10,7 @@ AXE 1 : structure de dependance (marges OpRisk par pilier fixees)
     comonotone (Frechet)           9806 M€
     formule standard SII           7632 M€
   Bande de dependance : [5322 ; 9806] M€ (facteur 1.8).
+  soit, en milliards  : [5.3 ; 9.8] Md€
   Repere : notre cascade dirigee (mecanisme generatif) = 8318 M€.
 
 ==================================================================================
@@ -40,4 +41,4 @@ VERDICT
   4. Reponse a la question : oui, chaque brique a des alternatives ; on ne pretend pas
      avoir LA methode, on borne l'effet du choix et on le lit en bande, comme le reste.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\J4_bande_modele.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/J4_bande_modele.png

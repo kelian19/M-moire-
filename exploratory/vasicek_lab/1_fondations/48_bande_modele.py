@@ -150,6 +150,10 @@ for k, v in dep.items():
     print(f"    {k:<26}{v:>9.0f} M€")
 dlo, dhi = min(dep.values()), max(dep.values())
 print(f"  Bande de dependance : [{dlo:.0f} ; {dhi:.0f}] M€ (facteur {dhi/dlo:.1f}).")
+# LA MEME BANDE EN MILLIARDS. La legende de la figure la cite en Md€, ce script ne l'imprimait
+# qu'en M€ : le harnais ne pouvait apparier ni l'une ni l'autre. On imprime les deux formes,
+# comme le script 67 le fait pour les parts de vecteur.
+print(f"  soit, en milliards  : [{dlo/1000:.1f} ; {dhi/1000:.1f}] Md€")
 
 # repere : notre modele generatif (cascade dirigee)
 sp = PARAMS["OPRISK"]

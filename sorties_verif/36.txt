@@ -1,4 +1,4 @@
-﻿
+
 ================================================================================
 (B) Ecart pur des deux moteurs, sur configuration IDENTIQUE
 ================================================================================
@@ -17,7 +17,7 @@
   socle : W=0, freq ref, detection neutre           5065 M            
   + contagion a l'etat conforme (g=0,45)            6504 M     +1439 M
   + frequence de l'etat conforme (S0)               6504 M        +0 M
-  + detection de l'etat conforme (p_u x0,85)        5936 M      -568 M
+  + detection de l'etat conforme (p_u x0.85)        5936 M      -568 M
 
   Point d'arrivee = SCR de l'etat CONFORME : 5936 M
   C'est, au bruit MC pres, le chiffre du chapitre 12 (lecture C, ~5932 M) et du
@@ -34,4 +34,4 @@ Lecture pour le memoire
   socle < conforme < ... < non conforme est donc coherent, pas contradictoire.
   A ecrire : une note de passage entre les deux chapitres, renvoyant a ce pont.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\Z7_reconciliation.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/Z7_reconciliation.png

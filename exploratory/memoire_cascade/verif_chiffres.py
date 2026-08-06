@@ -73,9 +73,27 @@ def nombres(txt, latex=True):
     # en page : elles produisaient un 6 et un -8 dans chaque section a tableau.
     t = re.sub(r"\\c(?:midrule|line)\s*(?:\([^)]*\))?\s*\{[^}]*\}", " ", t)
     t = re.sub(r"\\multicolumn\{\d+\}", " ", t)
+    # LA FRACTION COURTE. \tfrac12 s'ecrit sans accolades ; le nettoyage generique des
+    # commandes LaTeX, quelques lignes plus bas, en retirait le \tfrac et laissait « 12 ».
+    # Un demi devenait donc le nombre douze, a confirmer dans les sorties de scripts. Le
+    # chapitre identifiabilite en fabriquait cinq a lui seul, sur la decomposition
+    # P = S_pi + A_pi. La forme longue \frac{1}{2} n'a pas le probleme : elle laisse 1 et 2,
+    # deja neutralises par IGNORE.
+    t = re.sub(r"\\[tdc]?frac\s*\d\d", " ", t)
+    # LES LARGEURS DE COLONNE. Un \begin{tabular}{@{}p{4.3cm} r r r r@{}} produisait 4.3,
+    # de la mise en page au meme titre qu'un \arraystretch. Meme motif pour m{} et b{}.
+    t = re.sub(r"\b[pmb]\{\s*[\d.]+\s*(?:cm|mm|in|pt|em|ex|\\[a-zA-Z]+)\s*\}", " ", t)
     t = t.replace("\\,", "").replace("~", " ").replace("{,}", ".")
     t = re.sub(r"\\[a-zA-Z]+", " ", t)          # commandes LaTeX restantes
     if not latex:
+        # UN NUMERO DE SCRIPT N'EST PAS UN RESULTAT, DES DEUX COTES. Le filtre \texttt{} plus
+        # haut l'assure pour le memoire ; rien ne l'assurait pour les sorties, ou une ligne
+        # « P1 en tete de priorite (script 30) » versait un 30 dans le pool de reference. Ce
+        # 30 confirmait alors, dans toute section citant ce script, le « minimum de 30 exces »
+        # et le « k = 30 » du graphe de Hill du chapitre socle, deux valeurs qui n'ont aucun
+        # rapport avec lui et que le harnais avait raison de signaler.
+        t = re.sub(r"\bscripts?\s*n?o?s?\.?\s*\d+[a-z]?(?:\s*(?:,|et|;)\s*\d+[a-z]?)*",
+                   " ", t, flags=re.IGNORECASE)
         # LE SEPARATEUR DE MILLIERS DES SORTIES DE SCRIPT. Le motif d'extraction ci-dessous
         # ne franchit pas la virgule : « 8,122.9 » y devenait DEUX nombres, 8 et 122.9, et le
         # « 8123 » du memoire ressortait donc non confirme alors que le script l'imprimait.
@@ -113,9 +131,29 @@ def charge_sorties(dossier):
     return src
 
 
+def decimales(v):
+    """Nombre de décimales significatives de v, tel qu'il a été écrit dans le mémoire."""
+    s = repr(float(v))
+    if "e" in s or "E" in s:
+        return 0
+    return len(s.split(".")[1].rstrip("0")) if "." in s else 0
+
+
 def confirme(v, pool):
-    """Tolérance d'arrondi : 0,6 % en relatif, au moins 0,5 en absolu."""
-    tol = max(0.5, 0.006 * abs(v))
+    """Tolérance d'arrondi : 0,6 % en relatif, ou la demi-unité du dernier chiffre écrit.
+
+    POURQUOI PAS UN PLANCHER ABSOLU FIXE. La version precedente prenait max(0,5 ; 0,6 %),
+    et ce plancher de 0,5 etait ecrasant sur les petites valeurs : il rendait 0,9 apparie
+    a tout ce qui tombe entre 0,4 et 1,4, donc confirme par un 0,99 sans rapport. Tout
+    nombre publie sous 83 etait apparie plus largement que la tolerance relative annoncee.
+
+    LA BONNE BORNE EST CELLE DE L'ARRONDI D'ECRITURE. Un nombre ecrit « 122 » vient d'une
+    valeur dans [121,5 ; 122,5[ : la tolerance est 0,5. Ecrit « 2,1 », il vient de
+    [2,05 ; 2,15[ : la tolerance est 0,05. Ecrit « 0,90 », elle est 0,005. On prend donc la
+    demi-unite du dernier chiffre ECRIT, et l'on garde la tolerance relative de 0,6 % pour
+    les grands nombres, ou le mémoire arrondit plus librement que le dernier chiffre.
+    """
+    tol = max(0.006 * abs(v), 0.5 * 10 ** (-decimales(v)))
     return any(abs(v - w) <= tol for w in pool)
 
 

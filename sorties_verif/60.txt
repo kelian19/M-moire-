@@ -1,4 +1,4 @@
-﻿
+
 ======================================================================================
 Donnees : panel firme-annee, avec la taille de firme
 ======================================================================================
@@ -9,6 +9,7 @@ lambda brut, sous-panel avec actifs : 0.0978
 
 actifs medians, firme du panel      : 9,903 M USD
 actifs medians, ponderes evenements : 121,894 M USD
+   soit, en milliards               : 9.9 Md USD (panel) et 121.9 Md USD (ponderes evenements)
 actifs de l'entite cible            : 20,000 M USD
    -> l'entite cible est 6 fois plus petite que la firme
       mediane PONDEREE PAR EVENEMENT de la base. C'est cet ecart que les deux
@@ -23,7 +24,7 @@ estime donc directement le taux en fonction de la taille, sur le panel firme-ann
 
   rappel seau 1, toutes firmes           : lambda = 0.0988
   rappel seau 2, firmes >= 10 evenements : lambda = 0.2102
-  actifs medians de ces firmes >= 10 ev. : 372,538 M USD
+  actifs medians de ces firmes >= 10 ev. : 372,538 M USD  (soit 372.5 Md USD)
   soit 19x l'entite cible : utiliser leur lambda POUR l'entite
   cible etait bien l'incoherence a corriger.
 
@@ -173,7 +174,7 @@ ne survit pas de la meme facon.
 ======================================================================================
 Figure
 ======================================================================================
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\S21_descente_echelle.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/S21_descente_echelle.png
 
 ======================================================================================
 Verdict
