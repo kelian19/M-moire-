@@ -246,7 +246,18 @@ sinistralité, hypothèse de modélisation explicite, dont la limite est
 que le comportement de la sur-dispersion en régime de forte dégradation
 n'est pas lui-même observé, faute d'historique de crise DORA.
 
-\paragraph{Réconciliation des trois mesures de surdispersion, et effet sur le capital.}
+\paragraph{Réconciliation des quatre mesures de surdispersion, et effet sur le capital.}
+Avant les trois mesures de forme, un mot sur celle que l'on observe directement, car un lecteur
+qui parcourt ce chapitre rencontre \emph{quatre} nombres de surdispersion et pourrait les croire
+en concurrence. Ils ne le sont pas, ils vivent à des échelles différentes, et
+\textbf{l'indice de dispersion n'est pas invariant d'échelle} : pour un mélange de Poisson il
+vaut $1+\lambda/r$, donc il croît avec le niveau de fréquence auquel on le lit. Sur les
+$14\,944$ cellules firme-année du panel, où la fréquence moyenne est de l'ordre de quatre
+centièmes d'incident par cellule, on mesure $\Var/\E=1{,}19$. Sur la série annuelle sectorielle
+détendancée, où $\lambda$ vaut $21{,}6$, on mesure $2{,}24$. Le moteur, lui, retient $9{,}20$,
+qui est un \textbf{choix de prudence posé} et non une mesure. Une échelle de lecture, une
+agrégation de cellules corrélées, puis une marge prudentielle assumée : les trois écarts
+s'expliquent l'un après l'autre, et aucun ne contredit les autres.
 Le modèle porte, à trois échelles distinctes, trois mesures de surdispersion qu'il faut
 réconcilier pour ne pas les confondre : la forme du mélange Gamma au niveau firme-année
 ($r=0{,}63$), la charge systémique commune ($a=0{,}60$, mélange lognormal du
@@ -274,7 +285,8 @@ $a=0{,}122$ (IC~$95\,\%$ $[0{,}054\,;0{,}223]$). La valeur posée $a=0{,}60$ dé
 dépasse de loin le $2{,}24$ mesuré : l'un comme l'autre sont un \textbf{choix de prudence sur
 la queue de fréquence, non une calibration}, à assumer comme tel. La conclusion
 \og{}le calage posé est conservateur\fg{} résiste ainsi à l'incertitude d'estimation, ce qui
-est la seule chose que dix-huit points autorisent à affirmer. La dispersion résiduelle et son
+est la seule chose que dix-huit points autorisent à affirmer. La dispersion mesurée sur les cellules firme-année vient du script~\texttt{47}~;
+la dispersion résiduelle annuelle et son
 intervalle sont produits par le script~\texttt{08b}, les parts par vecteur d'attaque par le
 script~\texttt{67}, qui les imprime en pourcentage autant qu'en fraction.
 
@@ -401,6 +413,51 @@ $k$ et que le MLE-GPD, qui exploite un cadre théorique plus général
 (loi GPD complète plutôt que Pareto pure), demeure l'estimateur de
 référence pour la calibration finale.
 
+\paragraph{Cet écart est démontré, pas invoqué, et l'enjeu justifie qu'on s'y arrête.}
+Écrire que l'estimateur de Hill est biaisé en échantillon fini est vrai en général, mais c'est
+un argument d'autorité : cela ne dit pas si \emph{cet} écart-là, sur \emph{ces} données, relève
+du biais ou d'un désaccord réel. Or l'enjeu n'est pas mince. À $\hat\xi = 0{,}595$, la variance
+de la sévérité est infinie mais l'espérance existe ; à $\hat\xi = 1{,}32$, l'espérance elle-même
+cesse d'exister, et le modèle de perte agrégée qui suit n'aurait plus d'objet. C'est le point le
+plus attaquable du socle, et il se tranche par le calcul plutôt que par la citation.
+
+On simule donc $2\,000$ échantillons sous le modèle \emph{publié}, c'est-à-dire le corps observé
+sous le seuil et une queue GPD de paramètres $(\hat\xi,\hat\sigma) = (0{,}595\,;57{,}97)$
+au-dessus, puis on applique à chacun exactement le même estimateur de Hill, aux mêmes $k$. Si un
+monde où $\xi$ vaut $0{,}595$ reproduit les valeurs de Hill observées, alors ces valeurs ne
+témoignent de rien : elles sont précisément ce qu'un tel $\xi$ produit.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}r r r c@{}}
+\toprule
+$k$ & $\hat\xi_{\text{Hill}}$ observé & simulé (moyenne) & intervalle simulé à $90\,\%$ \\
+\midrule
+$30$  & $0{,}932$ & $0{,}825$ & $[0{,}604\,;1{,}076]$ \\
+$50$  & $0{,}956$ & $0{,}961$ & $[0{,}768\,;1{,}165]$ \\
+$86$  & $1{,}315$ & $1{,}327$ & $[1{,}155\,;1{,}506]$ \\
+$91$  & $1{,}396$ & $1{,}422$ & $[1{,}248\,;1{,}596]$ \\
+$120$ & $1{,}457$ & $1{,}477$ & $[1{,}344\,;1{,}608]$ \\
+$200$ & $1{,}717$ & $1{,}728$ & $[1{,}649\,;1{,}807]$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Les six valeurs observées tombent dans l'intervalle simulé, et les moyennes coïncident
+à quelques millièmes près. L'écart de $120{,}8\,\%$ n'est donc pas un désaccord entre deux
+estimateurs : c'est le comportement attendu de Hill appliqué à des pertes brutes, décalées du
+seuil, sur un échantillon de cette taille. Les données ne contredisent pas la calibration
+publiée, elles la corroborent par un troisième chemin, après Anderson-Darling et
+Kolmogorov-Smirnov.
+
+Deux dérives de sens contraire achèvent de le montrer. Un indice de queue authentique produit un
+\emph{plateau} sur le tracé de Hill ; ici l'estimateur croît sans s'arrêter avec $k$, de
+$0{,}93$ à $k=30$ jusqu'à $1{,}72$ à $k=200$, c'est-à-dire qu'il monte à mesure qu'on descend
+dans le corps de la loi. Le balayage de seuil va exactement dans l'autre sens, puisque $\hat\xi$
+\emph{décroît} de $0{,}60$ à $0{,}38$ quand on remonte dans la queue. Si la queue valait
+réellement $1{,}32$, les deux dérives seraient inversées. Source : script~\texttt{47}.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/hill_plot_ic90_oprisk.png}
@@ -462,8 +519,14 @@ $p=0{,}89$, sans rejet non plus. Le seuil retenu ne porte pas la conclusion : au
 $85$ des données plutôt qu'au seuil publié, $\hat\xi$ ne bouge que de $0{,}5\,\%$. Enfin,
 la \textbf{couverture réelle}
 de l'intervalle de confiance à $90\,\%$ de $\xi$, mesurée par simulation à $n$ fini, vaut
-$86\,\%$ : proche du nominal, ce qui conforte l'incertitude reportée et, à la marge, invite à
-préférer le bootstrap à l'asymptotique.
+$86\,\%$. Le mot juste n'est pas \og{}proche du nominal\fg{} : un intervalle annoncé à
+$90\,\%$ qui n'en couvre que $86$ est \textbf{trop étroit}, donc l'incertitude reportée sur
+$\xi$ est sous-estimée et non l'inverse. Sous l'approximation normale, atteindre le nominal
+demanderait d'élargir la demi-largeur d'environ $10\,\%$. L'écart est petit, mais son sens
+compte, et il rejoint celui du taux de dépassement gelé au \S\ref{sec:pu-coherence} : les deux
+seuls défauts d'estimation du mémoire vont du même côté, celui de la sous-estimation, quand
+tous ses choix \emph{posés} vont du côté prudent. C'est aussi ce qui justifie de rapporter les
+intervalles bootstrap plutôt que les asymptotiques.
 
 \textbf{Fréquence.} Sur les $14\,944$ cellules firme-année du panel financier, la binomiale
 négative domine le Poisson sans ambiguïté : le test du rapport de vraisemblance donne

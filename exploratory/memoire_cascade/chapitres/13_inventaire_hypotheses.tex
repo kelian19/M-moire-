@@ -199,7 +199,36 @@ modèle, et on ne requalifie pas le couple pour le rendre cohérent sur le papie
 reviendrait à rendre la réserve moins visible. On inscrit l'écart au registre des limites, avec
 son signe et sa taille. Le contrôle qui le mesure est reconduit à chaque exécution, de sorte
 qu'il ne peut pas se périmer en silence si le seuil ou le périmètre bougent.
-Source : script~\texttt{47}.
+
+\paragraph{Le sens des écarts, en deux colonnes.} Un défaut isolé se pardonne ; une série de
+défauts qui vont tous du même côté est un biais. Il vaut donc mieux mettre les deux colonnes
+en regard une fois pour toutes, plutôt que de laisser le lecteur les rassembler lui-même.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{5.6cm} p{2.9cm} p{5.6cm}@{}}
+\toprule
+\textbf{Écart} & \textbf{Sens} & \textbf{Taille} \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Défauts d'estimation, tous deux anti-conservateurs}} \\
+Taux de dépassement gelé ($p_u$) & sous-estime & $+2{,}4\,\%$ de VaR manquante \\
+Couverture réelle de l'IC$_{90}$ de $\xi$ & sous-estime & $86\,\%$ au lieu de $90\,\%$ ; demi-largeur à élargir d'environ $10\,\%$ \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Choix posés, tous prudents}} \\
+Queue de sévérité de base $\xi$ & majore & $0{,}90$ posé contre $0{,}60$ estimé sur OpRisk \\
+Charge systémique $a$ & majore & $0{,}60$ posé, au-delà de la borne haute empirique $0{,}22$ \\
+Sur-dispersion du moteur $\varphi$ & majore & $9{,}20$ posé contre $2{,}24$ mesuré \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent La lecture est nette. Les deux seuls écarts \emph{involontaires} sous-estiment le
+capital, de quelques pour cent chacun ; les trois choix \emph{délibérés} le majorent, et de
+beaucoup plus. Le mémoire ne se protège donc pas derrière ses erreurs, il les déclare, et sa
+prudence vient d'ailleurs, de choix assumés qu'il nomme comme tels. C'est aussi pourquoi
+corriger les deux premiers ne changerait aucune conclusion : ils sont dominés d'un ordre de
+grandeur par les seconds. Sources : scripts~\texttt{08b}, \texttt{47} et~\texttt{63}.
 
 \begin{cle}
 \textbf{La double lecture.} \og Insensible aux choix innocents, sensible aux leviers réels \fg :

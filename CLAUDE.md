@@ -9,8 +9,8 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 6 août 2026, fin de journée : corps de 95 pages (120 pages au total), branche
-`exploratory`. Le harnais est à **97,2 % de confirmation sur 1 234 nombres, pour une
+État au 6 août 2026, fin de journée : corps de 96 pages (121 pages au total), branche
+`exploratory`. Le harnais est à **97,3 % de confirmation sur 1 303 nombres, pour une
 couverture de 100 %**.
 
 **Lire les deux chiffres ensemble, jamais l'un sans l'autre.** Le mémoire a commencé la
@@ -424,6 +424,42 @@ non sourcé contre un autre.
    que le `.csv` : **à relancer sur le PC**), les 8 301 / 2 589 / 5 900 / 5 275 / 2 554 des
    préambules résultats et résumé, le 3 000 du knockout, le $-0{,}8$ et le $-63{,}9$ du biais
    de sévérité, le 81 % de direction du classeur.
+
+8. **L'écart Hill contre MLE est démontré, plus seulement invoqué, et c'est le point le
+   plus exposé du mémoire qui tombe.** Dire « Hill est biaisé en échantillon fini » est un
+   argument d'autorité. L'enjeu ne l'est pas : à $\xi = 0{,}595$ la variance de la sévérité
+   est infinie mais l'espérance existe ; à $\xi = 1{,}32$ **l'espérance cesse d'exister** et
+   le modèle de perte agrégée n'a plus d'objet. On simule donc 2 000 échantillons sous le
+   modèle publié et l'on applique le même estimateur de Hill aux mêmes $k$. **Les six valeurs
+   observées tombent dans l'intervalle simulé à 90 %**, moyennes coïncidant à quelques
+   millièmes : 1,315 observé contre 1,327 simulé à $k=86$. L'écart de 120,8 % est donc
+   exactement ce qu'un $\xi$ de 0,595 produit, et les données corroborent la calibration par
+   un troisième chemin après Anderson-Darling et Kolmogorov-Smirnov. Deux dérives de sens
+   contraire l'achèvent : Hill croît avec $k$ (0,93 à 1,72) quand le balayage de seuil fait
+   décroître $\xi$ (0,60 à 0,38). Si la queue valait 1,32, les deux dérives seraient inversées.
+
+9. **Les quatre mesures de surdispersion sont réconciliées, et la couverture de l'IC était
+   mal lue.** L'indice de dispersion vaut $1+\lambda/r$, donc **il n'est pas invariant
+   d'échelle** : 1,19 sur les cellules firme-année, 2,24 sur la série annuelle détendancée,
+   9,20 au moteur qui est un choix posé. Une échelle de lecture, une agrégation, une marge
+   prudentielle. Par ailleurs le script 47 qualifiait de « bonne calibration » une couverture
+   réelle de 86 % pour un IC annoncé à 90 % : c'est l'inverse, **l'intervalle est trop
+   étroit**, l'incertitude sur $\xi$ est sous-estimée, et il faudrait élargir la demi-largeur
+   d'environ 10 %.
+
+   **D'où une table à deux colonnes au chapitre 13, qui vaut mieux que trois mentions
+   éparses.** Les deux seuls écarts *involontaires* du mémoire (le $p_u$ gelé, la couverture
+   de l'IC) sous-estiment le capital de quelques pour cent chacun ; les trois choix
+   *délibérés* ($\xi = 0{,}90$, $a = 0{,}60$, $\varphi = 9{,}20$) le majorent, et de beaucoup
+   plus. Le mémoire ne se protège pas derrière ses erreurs : sa prudence vient de choix
+   assumés, et corriger les deux premiers ne changerait aucune conclusion.
+
+10. **Les deux SCR déduits du panel SFCR sont bornés.** Deux entités sur quatre ne publient
+    pas leur SCR : il se déduit des fonds propres divisés par le taux de couverture, et ce
+    sont justement celles dont la part attribuée à DORA est la plus frappante, 26,3 et
+    41,3 %. Sous un stress de ±10 %, borne large, les parts deviennent [23,9 ; 29,3] et
+    [37,6 ; 45,9] : les ordres de grandeur tiennent. **Cette borne ne remplace pas la lecture
+    des quatre rapports SFCR, qui reste due** et qui ne dépend pas de l'assistant.
 
 **Faisable :**
 - les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :

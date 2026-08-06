@@ -25,6 +25,34 @@ Tests d'adequation (p-value par bootstrap parametrique)
   ecart relatif de Hill au MLE : +134.5 %
   Hill suppose une queue de Pareto pure et ignore le parametre d'echelle : sur des
   excedents convertis, il surestime systematiquement. C'est le MLE qui est retenu.
+
+==================================================================================
+Hill contre MLE : l'ecart est-il du biais, ou un desaccord ?
+==================================================================================
+  Monde simule : corps observe sous u = 20.03 M EUR, queue GPD de
+  parametres publies (xi = 0.5954, sigma = 57.97), 2000 tirages.
+
+      k   Hill observe    Hill simule (moy.)             IC90 simule  dedans ?
+     30          0.932                 0.825   [ 0.604 ;  1.076]       oui
+     50          0.956                 0.961   [ 0.768 ;  1.165]       oui
+     86          1.315                 1.327   [ 1.155 ;  1.506]       oui
+     91          1.396                 1.422   [ 1.248 ;  1.596]       oui
+    120          1.457                 1.477   [ 1.344 ;  1.608]       oui
+    200          1.717                 1.728   [ 1.649 ;  1.807]       oui
+
+  VERDICT. 6 valeurs de Hill sur 6 tombent dans l'intervalle a 90 % du monde
+  simule a xi = 0.5954. L'ecart de +120 % au MLE n'est donc PAS un desaccord entre
+  deux estimateurs : c'est ce qu'un xi de 0.5954 produit quand on applique Hill
+  a des pertes brutes, decalees du seuil, sur un echantillon de cette taille.
+  Les donnees ne contredisent pas la calibration publiee, elles la confirment par un
+  troisieme chemin, apres Anderson-Darling et Kolmogorov-Smirnov.
+
+  LA SIGNATURE DU BIAIS SE LIT AUSSI DANS LE SENS DE LA DERIVE. Un vrai indice de
+  queue donne un PLATEAU sur le trace de Hill. Ici l'estimateur croit sans s'arreter
+  avec k (0.93 a k=30 puis 1.72 a k=200) : plus on
+  descend dans le CORPS de la loi, plus il monte. Et le balayage de seuil ci-dessous
+  va dans le sens inverse, xi DECROIT quand on monte dans la queue. Si la queue valait
+  vraiment 1,32, les deux derives seraient inversees.
   Ci-dessus : la FAMILLE GPD est-elle compatible avec les exces, parametres refaits
   a chaque tirage. Ci-dessous : le couple (xi, sigma) que le memoire PUBLIE est-il
   compatible avec eux, parametres imposes. C'est le second test qui atteste le
@@ -74,7 +102,15 @@ Coherence du taux de depassement p_u : un defaut connu, chiffre et publie
 ==================================================================================
 Couverture reelle de l'IC90 asymptotique de xi (a n fini)
 ==================================================================================
-  Couverture empirique de l'IC90 = 86 % (nominal 90 %). Bonne calibration.
+  Couverture empirique de l'IC90 = 86 % (nominal 90 %).
+  LECTURE. Un intervalle annonce a 90 % qui n'en couvre que 86 est trop
+  ETROIT : l'incertitude publiee sur xi est sous-estimee, pas l'inverse. Pour atteindre
+  le nominal il faudrait elargir la demi-largeur d'un facteur 1.10, soit 10 %.
+  C'est le second des deux defauts d'estimation du memoire, et il va DANS LE MEME SENS
+  que le premier (le taux de depassement gele, +2,4 % de capital manquant) : tous deux
+  sous-estiment. Les choix POSES du memoire, eux, sont tous prudents. Voir le
+  chapitre inventaire des hypotheses, qui met les deux colonnes en regard.
+  Cela conforte le choix de rapporter les IC bootstrap plutot que les asymptotiques.
 
   Stabilite de xi au seuil, balayage q = 0.75, 0.80, 0.85, 0.90, 0.93, 0.95 :
     q = 0.75   u =   8.62 M EUR   146 exces   xi = 0.982

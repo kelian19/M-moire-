@@ -1,4 +1,4 @@
-﻿
+
 ============================================================================================
 0. Les entites, leurs chiffres publies, et la provenance de chaque champ
 ============================================================================================
@@ -127,6 +127,22 @@ en M EUR. Le rapport DORA / forfait de l'entite notionnelle vaut 0,38, chiffre
 deja publie : les entites reelles s'en ecartent parce que leur ratio provisions
 sur actifs n'est pas celui pose au chapitre 12.
 
+STRESS DES SCR DEDUITS (10 %) : ce que devient la part du SCR publie
+entite                         statut du SCR     part  part si -10%  part si +10%
+BPCE Assurances IARD                  deduit   26.3%        29.3%         23.9%
+MACSF Assurances (non-vie)            deduit   41.3%        45.9%         37.6%
+MACSF Epargne Retraite                publie   12.3%            -             -
+CNP Assurances SA                     publie    2.0%            -             -
+
+Lecture : les deux parts deduites bougent de trois a cinq points sous un stress de
+dix pour cent, et restent du meme ordre. La conclusion de la section 5, la charge
+DORA pese une fraction MATERIELLE du capital d'une petite entite non-vie et une
+fraction marginale de celui d'un grand assureur vie, ne depend donc pas de la
+reconstitution. Ce qui en depend, c'est le troisieme chiffre significatif, que le
+memoire ne publie pas.
+CE QUE CE STRESS NE REMPLACE PAS : la lecture des quatre rapports SFCR eux-memes.
+Il borne l'erreur, il ne la mesure pas. La verification piece par piece reste due.
+
 ============================================================================================
 5. Ou la transposition cesse d'etre credible, et pourquoi
 ============================================================================================
@@ -232,4 +248,4 @@ VERDICT
 Figure
 ============================================================================================
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\S22_entites_reelles.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/S22_entites_reelles.png

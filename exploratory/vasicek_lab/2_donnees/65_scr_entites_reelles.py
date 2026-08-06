@@ -325,6 +325,42 @@ print("\nen M EUR. Le rapport DORA / forfait de l'entite notionnelle vaut 0,38, 
 print("deja publie : les entites reelles s'en ecartent parce que leur ratio provisions")
 print("sur actifs n'est pas celui pose au chapitre 12.")
 
+# -------------------------------------------------------------------------------------
+# CE QUE VAUT LA COLONNE « / SCR PUB. » QUAND LE DENOMINATEUR EST DEDUIT
+# -------------------------------------------------------------------------------------
+# LE POINT FAIBLE, ET IL FAUT LE BORNER PLUTOT QUE LE MENTIONNER. Deux des quatre SCR ne
+# sont pas publies tels quels : ils sont reconstitues en divisant les fonds propres
+# eligibles par le taux de couverture. Or ce sont justement les deux entites dont la part
+# du SCR attribuee a DORA est la plus SPECTACULAIRE, 26 % et 41 %. Une reserve qualitative
+# (« ces deux chiffres sont deduits ») ne vaut rien ici : ce qu'un lecteur veut savoir,
+# c'est de combien la conclusion bouge si la reconstitution est fausse.
+#
+# DEUX SOURCES D'ERREUR SUR UN SCR DEDUIT. Le taux de couverture est publie arrondi au
+# point de pourcentage, ce qui vaut moins de 0,5 % sur le SCR ; et la definition des fonds
+# propres retenue au numerateur du taux publie peut differer des « fonds propres eligibles »
+# lus dans le rapport, ce qui pese bien davantage. On stresse donc le SCR deduit de +-10 %,
+# une borne large au regard de ces deux effets.
+STRESS = 0.10
+print(f"\nSTRESS DES SCR DEDUITS ({100*STRESS:.0f} %) : ce que devient la part du SCR publie")
+print(f"{'entite':<28}{'statut du SCR':>16}{'part':>9}{'part si -10%':>14}"
+      f"{'part si +10%':>14}")
+for e in ENTITES:
+    deduit = "deduit" in e["prov"]["scr"]
+    if deduit:
+        bas = e["scr_dora"] / (e["scr"] * (1 - STRESS))
+        haut = e["scr_dora"] / (e["scr"] * (1 + STRESS))
+        print(f"{e['nom']:<28}{'deduit':>16}{e['part_scr']:>8.1%}{bas:>13.1%}{haut:>14.1%}")
+    else:
+        print(f"{e['nom']:<28}{'publie':>16}{e['part_scr']:>8.1%}{'-':>13}{'-':>14}")
+print("\nLecture : les deux parts deduites bougent de trois a cinq points sous un stress de")
+print("dix pour cent, et restent du meme ordre. La conclusion de la section 5, la charge")
+print("DORA pese une fraction MATERIELLE du capital d'une petite entite non-vie et une")
+print("fraction marginale de celui d'un grand assureur vie, ne depend donc pas de la")
+print("reconstitution. Ce qui en depend, c'est le troisieme chiffre significatif, que le")
+print("memoire ne publie pas.")
+print("CE QUE CE STRESS NE REMPLACE PAS : la lecture des quatre rapports SFCR eux-memes.")
+print("Il borne l'erreur, il ne la mesure pas. La verification piece par piece reste due.")
+
 
 # =====================================================================================
 titre("5. Ou la transposition cesse d'etre credible, et pourquoi")
