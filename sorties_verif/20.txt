@@ -8,25 +8,27 @@ Allocation Shapley du surcout Delta_DORA (NC vs C) aux 5 piliers
 
   OPRISK  (base tous C = 6085 M ; Delta total NC vs C = 10927 M)
   pilier              marginal 16b   Shapley phi   redistrib.  part phi
-  P1 gouvernance             3481M         3717M        +236M      34%
-  P4 tiers                   2658M         2810M        +152M      26%
-  P2 incidents               1634M         1867M        +233M      17%
-  P3 tests                   1094M         1484M        +391M      14%
-  P5 partage                  665M         1048M        +383M      10%
+  P1 gouvernance             3481M         3717M        +236M    34.0%
+  P4 tiers                   2658M         2810M        +152M    25.7%
+  P2 incidents               1634M         1867M        +233M    17.1%
+  P3 tests                   1094M         1484M        +391M    13.6%
+  P5 partage                  665M         1048M        +383M     9.6%
   somme marginaux 16b = 9531 M  (NE somme PAS au total)
   somme Shapley       = 10927 M  (= Delta total, exact)
+  somme des parts     = 100.0%  (partition exacte)
   interaction super-additive redistribuee = +1395 M
   classement Shapley : P1 > P4 > P2 > P3 > P5   == ROOT
 
   PRC  (base tous C = 1654 M ; Delta total NC vs C = 4957 M)
   pilier              marginal 16b   Shapley phi   redistrib.  part phi
-  P1 gouvernance             1375M         1608M        +233M      32%
-  P4 tiers                   1075M         1252M        +178M      25%
-  P2 incidents                721M          920M        +199M      19%
-  P3 tests                    571M          738M        +167M      15%
-  P5 partage                  311M          438M        +128M       9%
+  P1 gouvernance             1375M         1608M        +233M    32.4%
+  P4 tiers                   1075M         1252M        +178M    25.3%
+  P2 incidents                721M          920M        +199M    18.6%
+  P3 tests                    571M          738M        +167M    14.9%
+  P5 partage                  311M          438M        +128M     8.8%
   somme marginaux 16b = 4052 M  (NE somme PAS au total)
   somme Shapley       = 4957 M  (= Delta total, exact)
+  somme des parts     = 100.0%  (partition exacte)
   interaction super-additive redistribuee = +905 M
   classement Shapley : P1 > P4 > P2 > P3 > P5   == ROOT
 

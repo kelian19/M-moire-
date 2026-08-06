@@ -9,10 +9,12 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 6 août 2026 : corps de 94 pages (annexes à partir de la 99, 119 pages au total),
-harnais de vérification à **99,6 %** sur 904 nombres, branche `exploratory`, avec une
-tolérance resserrée (point 3 ci-dessous) qui rend ce taux plus exigeant que celui de la
-veille, pas moins.
+État au 6 août 2026, fin de journée : corps de 95 pages (120 pages au total), harnais de
+vérification à **99,8 % sur 983 nombres**, branche `exploratory`. Le dénominateur a grandi
+de 904 à 983 dans la même journée : ce n'est pas un adoucissement, c'est l'inverse. La
+tolérance a été resserrée (point 3 ci-dessous), puis le **périmètre du contrôle a été élargi
+deux fois** (point 4). Le taux se lit donc sur une population plus large et une tolérance
+plus dure que celle de la veille.
 
 Le harnais était à 96,1 % sur 915 nombres la veille. Les 36 non confirmés ont été dépouillés
 un par un : aucun chiffre faux. Sept n'étaient pas des nombres du mémoire mais des artefacts de
@@ -206,8 +208,18 @@ semaine étaient de cette nature.
 ## Le harnais, et ce qu'il ne fait pas
 
 Il cherche chaque nombre publié dans une section du mémoire parmi les sorties des scripts que
-cette section cite en `\texttt{NN}`. Tolérance d'arrondi : 0,6 % en relatif, au moins 0,5 en
-absolu.
+cette section cite en `\texttt{NN}`. Tolérance d'arrondi : `max(0,6 % ; demi-unité du dernier
+chiffre écrit)`.
+
+Il rend trois lignes, et pas une : **vérifiés, exemptés par motif, non confirmés**. Une
+exemption n'est jamais silencieuse, sinon le taux se mesure lui-même. Et une exemption se
+juge sur le **contexte**, jamais sur la valeur : c'est en indexant sur la valeur que le
+facteur 2,5 est passé entre les mailles pendant des semaines.
+
+**Une section sans script cité est hors contrôle.** C'est la faille structurelle du dispositif,
+et elle est plus dangereuse qu'un non confirmé, parce qu'elle ne se voit pas dans le taux. Le
+harnais les liste sous « Sections SANS script cité » : cette liste est à relire, pas à
+parcourir. La table des paramètres de l'annexe y a dormi jusqu'au 6 août.
 
 Il **ne vérifie pas** qu'un nombre est au bon endroit ni qu'il veut dire ce que la phrase
 prétend. Un nombre confirmé peut être mal commenté.
@@ -309,6 +321,65 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
    imprimées et les artefacts de lecture corrigés, le résidu tombe à **quatre** nombres, tous
    irréductibles par nature (l'exposant de $10^{-30}$, deux sommes à $100\,\%$ par
    construction, le niveau de confiance $99{,}9\,\%$).
+
+4. **Le périmètre du harnais a été élargi, et c'est ce qui a fait remonter le reste.**
+   Deux angles morts, tous deux dans l'instrument et non dans le mémoire.
+   *Le premier* : la liste d'exemption du harnais était indexée sur la **valeur**, pas sur le
+   contexte, et elle retirait les nombres **en silence**. Le dénominateur n'était donc pas
+   « les nombres publiés » mais « les nombres publiés moins une liste », et le rapport ne
+   disait pas laquelle. Deux entrées y figuraient à tort : le **2,5**, facteur d'incertitude
+   de calibration sur la VaR, qui est un résultat central et l'objet même de l'arbitrage
+   2,5 contre 2,6 (le harnais ne pouvait pas le trancher, il ne le regardait pas), et le
+   **19**, qui désigne tantôt l'article de la directive, tantôt une part de 19 %. Les deux
+   sont retirés de la liste ; les exemptions restantes (niveaux de confiance, entiers
+   d'énumération, millésimes) sont **comptées et affichées par motif**.
+   *Le second* : la **table des paramètres de l'annexe 17**, celle qu'un jury lit en premier
+   pour savoir ce qui est calibré et ce qui est posé, **ne citait aucun script** : elle
+   échappait entièrement au contrôle. Elle est rattachée aux scripts 08b, 22, 34, 47, 60
+   et 67, ce qui a fait ressortir sept grandeurs non imprimées, toutes traitées depuis.
+   Trois artefacts de lecture ont été corrigés au passage : la mantisse d'une notation
+   scientifique (garder 1,53 dans « 1,53·10⁻⁵ » et jeter l'exposant, pas l'inverse), la
+   virgule décimale française des sorties (qui versait « 99,9 » dans le pool sous forme de
+   deux entiers, 99 et 9, perdant la vraie valeur et en injectant deux fausses), et les
+   `\vspace{}`. **Le contrôle de fin de tâche reste harnais ≥ 99 %.**
+
+5. **`p_u` est tranché : gelé, chiffré, publié comme limite.** `p_u` n'est pas un paramètre
+   libre : la formule POT a trois entrées pour deux degrés de liberté, et le taux de
+   dépassement se **compte** une fois le seuil et l'échantillon fixés. Publier
+   (u = 20,03 ; p_u = 0,1509) n'est donc pas une hypothèse assumable, c'est une incohérence
+   arithmétique. L'effet est calculé : VaR 99,5 % mono-perte de 662,78 à **678,60 M€**,
+   soit **+2,4 %**, ou 15,8 M€, soit 2,5 % de la largeur de l'IC90 de cette même VaR.
+   La valeur reste gelée, et le raisonnement est écrit dans `config.py` : rejouer un pipeline
+   stochastique (bootstrap à 200 tirages) pour un écart de cette taille déplacerait des
+   centaines de nombres publiés sans qu'aucun déplacement soit attribuable à la correction.
+   **Deux prudences à ne pas confondre**, et le script 47 l'imprime : côté solvabilité l'écart
+   est anti-conservateur, il sous-estime le capital et une sous-estimation se déclare ; côté
+   thèse il va dans l'autre sens, le chiffre avancé est minoré et non gonflé. Seul le premier
+   engage. Le tout est publié au **chapitre 13, section « Un défaut de calibration, chiffré
+   plutôt que corrigé »**, et le bloc `OPRISK_COHERENCE` de `config.py` recalcule l'écart à
+   chaque import, donc il ne peut plus se périmer en silence.
+
+6. **La stabilité de $\xi$ au seuil était surévaluée, aux chapitres 06 et 17.** Le mémoire
+   écrivait « $\hat\xi$ reste stable autour de 0,60 quand on fait varier le seuil », et le
+   script 47 imprimait la même conclusion en dur. Le balayage qu'il calcule lui-même dit
+   autre chose : $\xi$ décroît de 0,98 (percentile 75) à 0,38 (percentile 95), six seuils à
+   trente excès au moins. La lecture correcte coupe le balayage au seuil publié. **Au-dessus**,
+   $\xi$ va de 0,60 à 0,38 et reste **entièrement dans l'IC90 déjà publié [0,30 ; 0,83]** :
+   la sensibilité au seuil ne crée pas d'incertitude nouvelle, elle se lit dans celle qui est
+   déclarée. **En dessous**, $\xi$ remonte à 0,98 et sort de l'intervalle : biais de seuil
+   classique, et c'est ce qui justifie de ne pas descendre plus bas. La table de l'annexe
+   annonçait une sensibilité « 0,68 à 0,93 selon le seuil » qu'aucun calcul ne reproduit, et
+   qui **sous-estimait** la vraie amplitude ; elle est remplacée par la mesure.
+
+**Le seul non confirmé qui soit un défaut, et il attend une décision :** le **`-53 %`** de
+baisse du SCR de l'état non conforme à l'état conforme, cité dans la table de robustesse du
+chapitre 13 et dans celle de l'annexe 17. **Aucun script ne l'imprime, et aucune grandeur
+publiée ne le reproduit** : le script 20 donne `-64 %` sous OpRisk (6 085 contre 17 012 M€)
+et `-75 %` sous PRC. C'est le cinquième de la même famille cette semaine, après les queues
+Bâle, le Hill à 1,42, le κ* à 76 % et la plage de $\xi$ « 0,68 à 0,93 ». Il n'a pas été
+corrigé parce que sa **définition** reste à établir : à $g$ fixé, en $q$ continu, par entité ?
+Ne pas le remplacer par le `-64 %` sans avoir tranché ce point, ce serait échanger un chiffre
+non sourcé contre un autre.
 
 **Faisable :**
 - les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :

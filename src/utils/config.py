@@ -54,19 +54,9 @@ OPRISK = {
     "seuil_u_eur": 20.03,        # M€ — percentile 84,4 (et NON 85 : voir la note ci-dessous)
     "xi": 0.5954,                # paramètre de queue GPD
     "sigma_eur": 57.97,          # M€
-    # TAUX DE DÉPASSEMENT GELÉ, ET IL NE CORRESPOND PAS AU SEUIL CI-DESSUS. À LIRE AVANT
-    # D'Y TOUCHER. p_u = 0,1509 vaut 88/583, c'est-à-dire le taux du percentile 85 d'une
-    # version antérieure du filtrage. Le seuil publié, lui, est au percentile 84,4 et donne
-    # 91 excès sur 582 pertes, soit un taux de 0,1564. Les deux champs décrivent donc deux
-    # seuils différents, et c'est p_u qui est en décalage, pas n_excess (vérifié par le
-    # script 47, qui l'imprime).
-    # CE QUE CELA CHANGE, CHIFFRÉ. Avec p_u = 0,1564 la VaR 99,5 % mono-perte passerait de
-    # 662,78 à 678,8 M€, soit +2,4 %. Le mémoire sous-estime donc son capital de 2,4 % sur
-    # ce canal. C'est une sous-estimation, pas une surestimation : la réserve va dans le
-    # sens prudent de la lecture, pas contre elle.
-    # POURQUOI CE N'EST PAS CORRIGÉ ICI. euro_cascade_model.py lit ce dictionnaire : changer
-    # p_u déplacerait la VaR, donc tous les SCR publiés, donc les 119 pages et les decks
-    # déjà remis. C'est une recalibration, pas une coquille, et elle se décide.
+    # TAUX DE DÉPASSEMENT GELÉ, ET IL NE CORRESPOND PAS AU SEUIL CI-DESSUS. Ne pas le
+    # « corriger » sans avoir lu le bloc OPRISK_COHERENCE, en bas de fichier, qui recalcule
+    # l'écart et son effet à chaque import.
     "p_u": 0.1509,
     "xi_ic90": [0.3044, 0.8313],
     "sigma_ic90": [41.88, 82.80],
@@ -83,6 +73,79 @@ OPRISK = {
         "à ne JAMAIS mélanger avec λ_ref PRC."
     ),
 }
+
+# ---------------------------------------------------------------------------
+# CONTRÔLE DE COHÉRENCE DU TAUX DE DÉPASSEMENT OpRisk
+# ---------------------------------------------------------------------------
+# POURQUOI CE BLOC EXISTE. p_u N'EST PAS UN PARAMÈTRE LIBRE. La formule POT a trois entrées
+# (u, p_u, (ξ, σ)) mais deux degrés de liberté seulement : une fois le seuil et l'échantillon
+# fixés, le taux de dépassement est COMPTÉ, il n'est pas choisi. Publier le couple
+# (u = 20,03 M€ ; p_u = 0,1509) n'est donc pas une hypothèse de modélisation que l'on pourrait
+# assumer comme telle : il n'existe aucun état du monde où les deux sont vrais ensemble.
+# C'est une incohérence arithmétique, et un lecteur qui divise 91 par 582 la trouve en trente
+# secondes. Le 0,1509 vaut 88/583, le taux du percentile 85 d'une version antérieure du
+# filtrage ; le seuil publié est au percentile 84,4 et donne 91 excès sur 582.
+#
+# CE QUE L'ON EN FAIT, ET POURQUOI PAS AUTRE CHOSE. Trois postures étaient possibles.
+#   (1) Recalibrer. C'est juste en principe, et c'est ce qu'il faut faire si le temps le
+#       permet. Mais le pipeline aval est stochastique (bootstrap n_boot = 200, n_sim = 20 000
+#       pour la grille Δ_DORA) : le rejouer réinjecterait un bruit de Monte-Carlo du même
+#       ordre, voire supérieur, à l'effet que l'on cherche à corriger. On déplacerait plusieurs
+#       centaines de nombres publiés sans pouvoir attribuer un seul de ces déplacements à la
+#       correction. On perdrait la piste d'audit pour gagner 2,4 % sur une grandeur dont
+#       l'intervalle de calibration couvre un facteur 2,5.
+#   (2) Requalifier le couple pour le rendre cohérent sur le papier. Refusé : c'est une
+#       reformulation qui rend la réserve moins visible, exactement ce que ce mémoire s'interdit.
+#   (3) Geler la valeur publiée, rendre l'écart calculable à chaque import, et le PUBLIER comme
+#       une limite chiffrée et signée dans l'inventaire des hypothèses. C'est le traitement
+#       standard d'une erreur de paramètre connue, quantifiée, immatérielle et détectée tard :
+#       on ne rebase pas le modèle, on inscrit l'écart au registre des limites avec son sens et
+#       sa taille. C'est la posture retenue.
+#
+# LE SENS COMPTE PLUS QUE LA TAILLE. L'écart va dans le sens de la SOUS-estimation du capital.
+# On ne peut donc pas l'excuser par la prudence : une sous-estimation ne se couvre pas par un
+# argument de prudence, elle se déclare. D'où sa présence dans l'inventaire du chapitre 13.
+
+
+def _var_pot(u, xi, sigma, p_u, q=0.995):
+    """VaR de niveau q par la formule POT, à seuil et taux de dépassement donnés."""
+    return u + (sigma / xi) * (((1.0 - q) / p_u) ** (-xi) - 1.0)
+
+
+def _coherence_oprisk():
+    o = OPRISK
+    p_pub = o["p_u"]
+    p_coh = o["n_excess"] / o["n_incidents"]
+    args = (o["seuil_u_eur"], o["xi"], o["sigma_eur"])
+    # On raisonne en RAPPORT, pas en niveau : la VaR recalculée à partir des ξ et σ arrondis
+    # du dictionnaire vaut 662,99 et non les 662,78 publiés. Le rapport, lui, est insensible
+    # à cet arrondi, et c'est lui qui porte l'effet du taux de dépassement.
+    ratio = _var_pot(*args, p_coh) / _var_pot(*args, p_pub)
+    # LA MATERIALITE SE MESURE CONTRE L'INCERTITUDE DEJA PUBLIEE, pas dans l'absolu. Le bon
+    # denominateur est la largeur de l'IC90 de la meme VaR : c'est la precision que le memoire
+    # revendique, et un ecart qui tient dans un quarantieme de cette largeur ne change aucune
+    # lecture. Calcule et non ecrit a la main : une premiere version de ce commentaire portait
+    # « un soixantieme », qui etait faux.
+    ic = OPRISK["var_995_ic90"]
+    ecart_abs = OPRISK["var_995"] * (ratio - 1.0)
+    part_ic = ecart_abs / (ic[1] - ic[0])
+    return {
+        "p_u_publie": p_pub,
+        "p_u_coherent": p_coh,
+        "ecart_relatif_p_u": p_coh / p_pub - 1.0,
+        "var_995_publiee": o["var_995"],
+        "var_995_coherente": o["var_995"] * ratio,
+        "ecart_relatif_var": ratio - 1.0,
+        "sens": "sous-estimation du capital",
+        "ecart_absolu": ecart_abs,
+        "part_largeur_ic90": part_ic,
+        "materialite": (f"{ecart_abs:.1f} M EUR, soit {100*part_ic:.1f} % de la largeur de "
+                        f"l'IC90 de cette meme VaR ([{ic[0]:.1f} ; {ic[1]:.1f}] M EUR)"),
+        "decision": "valeur gelée, écart publié au chapitre 13 (inventaire des hypothèses)",
+    }
+
+
+OPRISK_COHERENCE = _coherence_oprisk()
 
 # ---------------------------------------------------------------------------
 # PARAMÈTRES CALIBRÉS — FRÉQUENCE (PRC 2019-2025)

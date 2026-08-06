@@ -38,7 +38,7 @@ for _p in (REPO, HERE):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 from src.severity.oprisk_analysis import load_clean, filter_cyber, filter_finance, USD_EUR  # noqa: E402
-from src.utils.config import OPRISK                                                        # noqa: E402
+from src.utils.config import OPRISK, OPRISK_COHERENCE                                      # noqa: E402
 
 WID = 82
 B_GOF = 800          # bootstrap parametrique pour les p-values d'adequation
@@ -170,26 +170,40 @@ print(f"  le re-ajustement libre donne xi = {xi_q:.4f}, sigma = {sig_q:.2f}, a c
 print(f"  au seuil publie. L'indice de queue bouge de "
       f"{100*abs(xi_q-xi)/xi:.1f} % entre les deux seuils : le resultat ne tient pas au seuil.")
 
-# INCOHERENCE INTERNE DE LA CONFIGURATION, signalee et non corrigee : la corriger deplacerait
-# la VaR publiee, donc tous les SCR du memoire.
-print(f"\n  A SIGNALER. La configuration porte n_excess = {OPRISK['n_excess']} et "
-      f"p_u = {OPRISK['p_u']}, or")
-print(f"  p_u x n = {OPRISK['p_u']*loss.size:.1f} exces, et le seuil publie en donne "
-      f"{n} dans la donnee courante.")
-print(f"  Les deux champs decrivent des percentiles differents ({100*OPRISK['p_u']:.2f} % "
-      f"contre {100*n/loss.size:.2f} %).")
-print(f"  p_u vaut 88/583 : c'est le taux du percentile 85 d'un filtrage anterieur. C'est donc")
-print(f"  lui qui est en decalage, et non n_excess, qui compte bien les exces du seuil publie.")
-_pu_coh = n / loss.size
-_var_pu = OPRISK["seuil_u_eur"] + (OPRISK["sigma_eur"] / OPRISK["xi"]) * (
-    (_pu_coh / 0.005) ** OPRISK["xi"] - 1)
-print(f"  CHIFFRE. Avec le taux coherent {_pu_coh:.4f}, la VaR 99,5 % mono-perte passerait de "
-      f"{OPRISK['var_995']:.2f} a {_var_pu:.1f} M EUR,")
-print(f"  soit {100*(_var_pu/OPRISK['var_995']-1):+.1f} %. Le memoire SOUS-ESTIME donc son "
-      f"capital de {100*(_var_pu/OPRISK['var_995']-1):.1f} % sur ce canal :")
-print(f"  la reserve va dans le sens prudent de la lecture, pas contre elle.")
-print(f"  Non corrige : euro_cascade_model.py lit ce dictionnaire, donc toucher a p_u")
-print(f"  deplacerait tous les SCR publies. C'est une recalibration, pas une coquille.")
+# INCOHERENCE INTERNE DE LA CONFIGURATION. Les chiffres viennent tous du bloc
+# OPRISK_COHERENCE de config.py, qui les recalcule a chaque import : ils ne peuvent donc pas
+# se perimer en silence si le seuil ou le perimetre bougent un jour.
+C = OPRISK_COHERENCE
+titre("Coherence du taux de depassement p_u : un defaut connu, chiffre et publie")
+print(f"  p_u N'EST PAS UN PARAMETRE LIBRE. La formule POT a trois entrees (u, p_u, (xi, sigma))")
+print(f"  et deux degres de liberte : le seuil et l'echantillon fixes, le taux de depassement")
+print(f"  est COMPTE, il n'est pas choisi. Le couple publie n'est donc pas une hypothese que")
+print(f"  l'on pourrait assumer, c'est une incoherence arithmetique.")
+print(f"\n  configuration : n_excess = {OPRISK['n_excess']}, p_u = {C['p_u_publie']:.4f}")
+print(f"  p_u x n = {C['p_u_publie']*loss.size:.1f} exces attendus, contre {n} que le seuil "
+      f"publie donne dans la donnee courante.")
+print(f"  taux coherent = {n}/{loss.size} = {C['p_u_coherent']:.4f}, soit "
+      f"{100*C['ecart_relatif_p_u']:+.1f} % sur le taux.")
+print(f"  p_u vaut 88/583 : le taux du percentile 85 d'un filtrage anterieur. C'est donc lui")
+print(f"  qui est en decalage, et non n_excess, qui compte bien les exces du seuil publie.")
+print(f"\n  EFFET. VaR 99,5 % mono-perte : {C['var_995_publiee']:.2f} publiee contre "
+      f"{C['var_995_coherente']:.2f} M EUR coherente,")
+print(f"  soit {100*C['ecart_relatif_var']:+.1f} %. Calcule en rapport et non en niveau : la VaR")
+print(f"  reconstruite a partir des xi et sigma arrondis du dictionnaire vaut 662,99 et non")
+print(f"  662,78, mais le rapport, lui, ne depend pas de cet arrondi.")
+print(f"\n  SENS, ET IL FAUT DISTINGUER DEUX PRUDENCES QUE L'ON CONFOND FACILEMENT.")
+print(f"  Du point de vue de la SOLVABILITE, l'ecart est anti-conservateur : il sous-estime")
+print(f"  le besoin de capital de {100*C['ecart_relatif_var']:.1f} %, et une sous-estimation ne "
+      f"s'excuse pas par la prudence,")
+print(f"  elle se declare. Du point de vue de la THESE, il va au contraire dans le bon sens :")
+print(f"  le chiffre avance par le memoire n'est pas gonfle par ce defaut, il est minore.")
+print(f"  Les deux sont vrais, ils ne parlent pas de la meme chose, et seul le premier engage.")
+print(f"\n  MATERIALITE. {C['materialite']}.")
+print(f"  DECISION. {C['decision']}.")
+print(f"  Rejouer le pipeline pour ce seul ecart reinjecterait un bruit de Monte-Carlo du meme")
+print(f"  ordre (bootstrap a 200 tirages) : on deplacerait des centaines de nombres publies")
+print(f"  sans pouvoir attribuer un seul deplacement a la correction. On ne rebase pas un")
+print(f"  modele pour un ecart immateriel detecte tard, on l'inscrit au registre des limites.")
 
 # couverture de l'IC90 asymptotique de xi (sd = (1+xi)/sqrt(n)) a n fini
 titre("Couverture reelle de l'IC90 asymptotique de xi (a n fini)")
@@ -214,6 +228,42 @@ for q in qs:
     cc, _, _ = genpareto.fit(e, floc=0)
     xi_thr.append(cc); sd_thr.append((1 + cc) / np.sqrt(e.size)); u_thr.append(uu)
 xi_thr, sd_thr = np.array(xi_thr), np.array(sd_thr)
+# LA PLAGE DE xi SUR LES SEUILS, IMPRIMEE. La table des parametres de l'annexe annonce une
+# sensibilite « forte, 0,68 a 0,93 selon le seuil » : c'est le resultat de ce balayage, et il
+# n'etait affiche que dans le panneau (d) de la figure. Une sensibilite qui ne se lit que sur
+# un graphique n'est verifiable par personne.
+n_thr = np.array([int((loss > uu).sum()) for uu in u_thr])
+print(f"\n  Stabilite de xi au seuil, balayage q = {', '.join(f'{q:.2f}' for q in qs)} :")
+for q, uu, cc, ne in zip(qs, u_thr, xi_thr, n_thr):
+    flag = "" if ne >= 30 else "   (sous le minimum de 30 exces : non retenu)"
+    print(f"    q = {q:.2f}   u = {uu:6.2f} M EUR   {ne:>3} exces   xi = {cc:.3f}{flag}")
+adm = n_thr >= 30
+print(f"  plage brute sur tout le balayage : [{xi_thr.min():.2f} ; {xi_thr.max():.2f}].")
+print(f"  plage RETENUE, seuils a 30 exces au moins : "
+      f"[{xi_thr[adm].min():.2f} ; {xi_thr[adm].max():.2f}].")
+# ET IL FAUT COUPER LE BALAYAGE AU SEUIL PUBLIE, parce que les deux moities ne disent pas la
+# meme chose. Au-dessus, on est dans la queue et l'on voit l'estimation se deplacer a l'interieur
+# de son propre intervalle de confiance : c'est de l'incertitude d'estimation, deja publiee.
+# En dessous, on ajuste une GPD a des pertes qui ne sont pas encore dans le regime asymptotique,
+# et xi remonte : c'est le biais de seuil classique, pas une information sur la queue. Melanger
+# les deux moities produit une amplitude spectaculaire qui ne veut rien dire.
+sup = np.array(u_thr) >= OPRISK["seuil_u_eur"]
+ic = OPRISK["xi_ic90"]
+print(f"  AU-DESSUS du seuil publie : xi va de {xi_thr[sup].max():.2f} a {xi_thr[sup].min():.2f} "
+      f"quand le seuil monte,")
+print(f"    tout entier dans l'IC90 publie de xi, [{ic[0]:.2f} ; {ic[1]:.2f}] : la sensibilite au")
+print(f"    seuil ne cree donc pas d'incertitude nouvelle, elle se lit dans celle deja declaree.")
+print(f"  EN DESSOUS : xi remonte jusqu'a {xi_thr[~sup].max():.2f}, au-dela de la borne haute de "
+      f"cet IC.")
+print(f"    Biais de seuil attendu, et c'est ce qui justifie de ne pas descendre plus bas.")
+print(f"  A NE PAS ECRIRE : « xi est stable quand on fait varier le seuil ». Il ne l'est pas.")
+print(f"    Ce qui est stable, c'est le VOISINAGE du seuil retenu, ou l'indice ne bouge que de")
+print(f"    0.5 % entre le seuil publie et le q85 des donnees courantes.")
+# POURQUOI DEUX PLAGES. La plage brute inclut des seuils ou l'ajustement n'est pas defendable :
+# tout en haut il ne reste plus assez d'exces pour estimer une queue, tout en bas on ajuste une
+# GPD a des pertes qui ne sont pas encore dans le regime asymptotique. La regle des 30 exces est
+# celle que le memoire s'impose deja ailleurs (registre du script 67) ; on l'applique ici plutot
+# que d'annoncer une amplitude flatteuse ou alarmiste selon le bout du balayage que l'on garde.
 
 # =====================================================================================
 # FREQUENCE (comptes firme-annee)
@@ -259,7 +309,8 @@ print(f"  LR Poisson vs NB : LR = {lr:,.0f}, p = {p_lr:.1e} -> la NB l'emporte n
 titre("VERDICT")
 # =====================================================================================
 print(f"  1. Severite : la GPD n'est PAS rejetee (Anderson-Darling p = {p_ad:.2f}, KS p = {p_ks:.2f}) ;")
-print(f"     xi stable autour de {xi:.2f} sur les seuils, mean residual life lineaire au-dela de u.")
+print(f"     xi = {xi:.2f} au seuil publie, stable dans son VOISINAGE (0.5 % jusqu'au q85) mais")
+print(f"     decroissant sur tout le balayage ; mean residual life lineaire au-dela de u.")
 print(f"  2. La couverture de l'IC90 asymptotique est de {100*cov/M_COV:.0f} % : "
       f"{'correcte' if abs(cov/M_COV-0.9)<0.05 else 'imparfaite a n fini, d ou le recours au bootstrap'}.")
 print(f"  3. Frequence : la binomiale negative domine le Poisson sans ambiguite "

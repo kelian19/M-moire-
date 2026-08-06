@@ -22,7 +22,28 @@ Quand on régénère un `NN.txt` sur le Mac, rediriger stderr à part : `> NN.tx
 matplotlib y écrit des avertissements de police qui s'intercalent sinon au milieu d'une ligne
 de résultats. Le détail est dans la section « Comment construire » du `CLAUDE.md`.
 
-## État du dernier passage (4 août 2026, chapitre Résultats)
+## État du dernier passage (6 août 2026, tous chapitres)
+
+**983 nombres vérifiables, 981 confirmés, soit 99,8 %**, plus les exemptions, désormais
+comptées et affichées par motif au lieu d'être retirées en silence : niveaux de confiance,
+entiers d'énumération, millésimes. Un taux calculé sur une population filtrée sans le dire
+n'est pas un contrôle, c'est une mesure de soi-même ; le rapport donne maintenant les trois
+lignes.
+
+Le périmètre a été élargi le 6 août sur deux points qui échappaient au contrôle. La valeur
+`2,5`, facteur d'incertitude de calibration sur la VaR, et la valeur `19` figuraient dans la
+liste d'exemption : le harnais ne les regardait donc nulle part, alors que la première est
+un résultat central et l'objet même de l'arbitrage 2,5 contre 2,6. Et la table des paramètres
+de l'annexe, celle qu'un jury lit en premier pour savoir ce qui est calibré et ce qui est
+posé, ne citait aucun script : elle était entièrement hors contrôle. Elle y entre, ce qui a
+fait ressortir sept grandeurs non imprimées, traitées depuis.
+
+Deux non confirmés subsistent, et un seul est un défaut : le `-53 %` de baisse du SCR de
+l'état non conforme à l'état conforme, cité dans deux tables de synthèse, qu'aucun script
+n'imprime et qu'aucune grandeur publiée ne reproduit (le script 20 donne `-64 %` sous OpRisk
+et `-75 %` sous PRC). Sa définition exacte reste à établir avant de le corriger.
+
+### Ancien état (4 août 2026, chapitre Résultats seul)
 
 **339 nombres vérifiables, 306 confirmés, soit 90,3 %.**
 

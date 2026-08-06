@@ -155,9 +155,19 @@ for source in ("OPRISK", "PRC"):
     print(f"  {'pilier':<18}{'marginal 16b':>14}{'Shapley phi':>14}{'redistrib.':>13}{'part phi':>10}")
     for k in order_phi:
         redis = phi[k] - marg[k]
-        print(f"  {PIL_LAB[k]:<18}{marg[k]:>13.0f}M{phi[k]:>13.0f}M{redis:>+12.0f}M{phi[k] / d_tot:>9.0%}")
+        print(f"  {PIL_LAB[k]:<18}{marg[k]:>13.0f}M{phi[k]:>13.0f}M{redis:>+12.0f}M{phi[k] / d_tot:>9.1%}")
     print(f"  somme marginaux 16b = {somme_marg:.0f} M  (NE somme PAS au total)")
     print(f"  somme Shapley       = {sum(phi.values()):.0f} M  (= Delta total, exact)")
+    # LA SOMME DES PARTS, CALCULEE PLUTOT QU'ECRITE. Le tableau du chapitre resultats publie
+    # une ligne « somme ... 100 % » que rien ne produisait : c'etait un cent de redaction, le
+    # seul nombre du tableau dont personne ne pouvait dire d'ou il venait. Or c'est aussi le
+    # seul controle qui atteste que l'allocation est une PARTITION du surcout, ce qui est
+    # exactement la propriete que l'on invoque pour preferer Shapley au marginal. Elle merite
+    # donc d'etre calculee.
+    # ET LES PARTS PASSENT A UNE DECIMALE. A l'entier, la colonne OpRisk sommait a 101 % et il
+    # fallait une note de bas de tableau pour dire que l'ecart venait de l'arrondi. Une note de
+    # bas de tableau qui excuse un total faux est moins bonne qu'un total juste.
+    print(f"  somme des parts     = {sum(phi.values()) / d_tot:.1%}  (partition exacte)")
     print(f"  interaction super-additive redistribuee = {inter:+.0f} M")
     print(f"  classement Shapley : {rang(order_phi)}"
           f"   {'== ROOT' if order_phi == ROOT_ORDER else '!= ROOT'}")

@@ -42,7 +42,7 @@ REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 for _p in (REPO, HERE):
     if _p not in sys.path:
         sys.path.insert(0, _p)
-from src.utils.config import OPRISK, PRC, HACKMAGEDDON                # noqa: E402
+from src.utils.config import OPRISK, PRC, HACKMAGEDDON, FREQUENCY, COPULE   # noqa: E402
 
 W_ = 88
 
@@ -325,6 +325,18 @@ POSES = [
      "source externe", "21"),
     ("resolutions Monte-Carlo employees", "60 / 150 / 240 / 600 mille annees",
      "resolution, pas un resultat", "16b, 20, 58, 60"),
+    # AJOUTS DU 6 AOUT. La table des parametres de l'annexe 17 ne citait aucun script : elle
+    # echappait donc entierement au harnais, alors que c'est la table qu'un jury lit en
+    # premier pour savoir ce qui est calibre et ce qui est pose. En la rattachant a ses
+    # sources, quatre constantes posees sont ressorties non imprimees. Les voici.
+    ("sur-dispersion de la frequence phi", f"{FREQUENCY['dispersion_factor']:.2f}",
+     "semi-calibre, maintenu", "06, 08b, 17"),
+    ("copule de dependance, parametre de Gumbel theta", f"{COPULE['theta_nc']}",
+     "pose", "23, 42, 48"),
+    ("seuil de crise de la latente theta_crise", "-2.5",
+     "pose", "16, 30"),
+    ("probabilites d'etat P(NC / PC / C)", "0.35 / 0.35 / 0.30",
+     "semi-ancre, enquetes de conformite", "16, 20, 36"),
 ]
 print(f"  {'parametre':<50}{'valeur':>28}  {'statut':<24}{'scripts'}")
 print("  " + "-" * 116)

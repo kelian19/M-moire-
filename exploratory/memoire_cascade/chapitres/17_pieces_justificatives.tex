@@ -82,8 +82,8 @@ spécifique au périmètre.
 \toprule
 \textbf{Paramètre} & \textbf{Valeur} & \textbf{Nature} & \textbf{Justification} & \textbf{Sensibilité du SCR} \\
 \midrule
-Queue de sévérité $\xi$ & $0{,}90$ (OpRisk $0{,}60$, PRC $1{,}03$) & calibré, incertain & GPD sur pertes réelles ; hétérogène par catégorie ($0{,}92$--$1{,}37$) & \textbf{forte} : $0{,}68$--$0{,}93$ selon le seuil ; pilote la queue \\
-Échelle GPD $\sigma$, seuil $u$, $p_u$ & $57{,}97$ M\euro{} ; $20{,}03$ M\euro{} ; $0{,}15$ & calibré & POT au percentile 85, conversion en euros & modérée (via la queue) \\
+Queue de sévérité $\xi$ & $0{,}90$ (OpRisk $0{,}60$, PRC $1{,}03$) & calibré, incertain & GPD sur pertes réelles ; hétérogène par catégorie ($0{,}87$--$1{,}37$) & \textbf{forte} : de $0{,}60$ à $0{,}38$ quand le seuil monte au-dessus de celui retenu, dans l'IC90 $[0{,}30\,;0{,}83]$ ; pilote la queue \\
+Échelle GPD $\sigma$, seuil $u$, $p_u$ & $57{,}97$ M\euro{} ; $20{,}03$ M\euro{} ; $0{,}15$ & calibré & POT au percentile $84{,}4$ ; $p_u$ gelé et en écart de $+3{,}6\,\%$ avec ce seuil, effet chiffré au \S\ref{sec:pu-coherence} & modérée (via la queue) \\
 Fréquence $\lambda$ & ${\sim}21{,}6$/an (OpRisk) & calibré & incidents TIC matériels / 27 ans & linéaire sur le niveau \\
 Sur-dispersion $\phi$ & $9{,}20$ & semi-calibré & Var/Moyenne observé, maintenu entre scénarios & faible \\
 Choc commun fréquence $a$ & $0{,}60$ & \textbf{posé} (prudent) & dépasse l'IC empirique haut ($0{,}22$) : conservateur & enveloppe le modèle à paquets ($\times 2{,}5$) \\
@@ -103,6 +103,9 @@ Plafond de sévérité & $40$ M\euro{} & \textbf{posé} & capacité de réassura
 \end{center}
 
 \vspace{4pt}
+\textbf{Sources.} Scripts~\texttt{08b}, \texttt{22}, \texttt{34}, \texttt{47}, \texttt{60}
+et~\texttt{67}.
+
 \textbf{Ce que la table rend visible.} Les seuls paramètres à \textbf{forte} sensibilité sont
 soit calibrés sur données (la queue $\xi$, dont on assume et chiffre l'incertitude), soit des
 \textbf{leviers voulus} ($g$, $q$) qui traduisent précisément l'objet du mémoire, l'effet de

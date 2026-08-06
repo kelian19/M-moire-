@@ -438,7 +438,16 @@ de quoi tout le reste serait bâti sur du sable (figure~\ref{soc:fig:validation}
 \textbf{Sévérité.} La GPD passe les diagnostics sans réserve. Les tracés quantile-quantile et
 probabilité-probabilité s'alignent sur la diagonale ; la vie résiduelle moyenne est linéaire
 au-delà du seuil, ce qui est la signature même d'une queue GPD et justifie le choix de $u$ ;
-et $\hat\xi$ reste stable autour de $0{,}60$ quand on fait varier le seuil. Les tests formels
+et $\hat\xi$ est stable dans le \emph{voisinage} du seuil retenu, à $0{,}5\,\%$ près jusqu'au
+percentile $85$ des données courantes. Il ne l'est pas sur toute la plage, et il faut le dire :
+en remontant le seuil du percentile $85$ au percentile $95$, l'indice décroît de $0{,}60$ à
+$0{,}38$, six seuils comptant chacun au moins trente excès. Cette décroissance reste
+\emph{entièrement} dans l'intervalle de confiance à $90\,\%$ déjà publié pour $\xi$,
+$[0{,}30\,;0{,}83]$ : la sensibilité au seuil ne crée donc pas d'incertitude nouvelle, elle se
+lit dans celle qui est déjà déclarée. En descendant au contraire sous le seuil retenu, $\hat\xi$
+remonte jusqu'à $0{,}98$ et sort de cet intervalle par le haut, ce qui est le biais de seuil
+attendu lorsqu'on ajuste une loi de queue à des pertes qui n'y appartiennent pas encore, et ce
+qui justifie de ne pas descendre plus bas. Les tests formels
 ne rejettent pas l'ajustement, avec une $p$-value obtenue par \textbf{bootstrap paramétrique}
 les valeurs critiques tabulées ne valant pas lorsque les paramètres sont estimés :
 Anderson-Darling $p=0{,}96$, Kolmogorov-Smirnov $p=0{,}89$. Ces deux tests portent sur la

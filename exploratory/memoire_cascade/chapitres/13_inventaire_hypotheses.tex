@@ -161,6 +161,43 @@ prudentielle, non du calcul. L'essentiel est de ne jamais reporter le seul \emph
 SCR se cite avec sa bande, ou par un point qui assume l'incertitude, jamais nu.
 \end{cle}
 
+\section{Un défaut de calibration, chiffré plutôt que corrigé}
+\label{sec:pu-coherence}
+
+Un inventaire qui ne porterait que les hypothèses choisies serait incomplet : il doit aussi
+porter les défauts connus. Il en reste un, de nature différente des précédents, car ce n'est
+pas une hypothèse discutable mais une incohérence arithmétique.
+
+La formule des dépassements de seuil prend trois entrées, le seuil $u$, le taux de dépassement
+$p_u$ et le couple $(\xi,\sigma)$, pour deux degrés de liberté seulement : le seuil et
+l'échantillon une fois fixés, $p_u$ se \emph{compte}, il ne se choisit pas. Or la calibration
+figée publie $u=20{,}03$~M\euro{} et $p_u=0{,}1509$, quand ce seuil laisse $91$ excès sur $582$
+pertes, soit $0{,}1564$. Le $0{,}1509$ vaut $88/583$, le taux du percentile $85$ d'un filtrage
+antérieur resté dans la configuration après que le seuil eut bougé. Aucun état du monde ne rend
+les deux valeurs vraies ensemble, et un lecteur qui pose la division le voit en trente secondes.
+
+L'effet se chiffre exactement. Au taux cohérent, la VaR $99{,}5\,\%$ mono-perte passerait de
+$662{,}78$ à $678{,}60$~M\euro, soit $+2{,}4\,\%$, ou $15{,}8$~M\euro. Deux lectures de ce signe
+doivent être distinguées, parce qu'on les confond volontiers. Du côté de la solvabilité, l'écart
+est anti-conservateur : il sous-estime le besoin de capital, et une sous-estimation ne s'excuse
+pas par la prudence, elle se déclare. Du côté de la thèse, il va dans l'autre sens, puisque le
+chiffre avancé n'est pas gonflé par ce défaut mais minoré. Les deux sont vrais, ils ne portent
+pas sur la même chose, et seul le premier engage.
+
+La valeur est néanmoins gelée. L'écart représente $2{,}5\,\%$ de la largeur de l'intervalle de
+confiance à $90\,\%$ de cette même VaR, $[411{,}5\,;1\,037{,}1]$~M\euro, c'est-à-dire un
+quarantième de la précision que le mémoire revendique déjà. Rejouer le pipeline pour le corriger
+réinjecterait, sur une grille bootstrap à $200$ tirages, un bruit de simulation du même ordre :
+plusieurs centaines de nombres publiés se déplaceraient sans qu'aucun déplacement puisse être
+attribué à la correction, et la piste d'audit serait perdue pour un gain immatériel. Le
+traitement retenu est celui qu'appelle un défaut de paramètre connu, quantifié, immatériel et
+découvert tard, et il vaut mieux que les deux autres postures possibles : on ne recale pas le
+modèle, et on ne requalifie pas le couple pour le rendre cohérent sur le papier, ce qui
+reviendrait à rendre la réserve moins visible. On inscrit l'écart au registre des limites, avec
+son signe et sa taille. Le contrôle qui le mesure est reconduit à chaque exécution, de sorte
+qu'il ne peut pas se périmer en silence si le seuil ou le périmètre bougent.
+Source : script~\texttt{47}.
+
 \begin{cle}
 \textbf{La double lecture.} \og Insensible aux choix innocents, sensible aux leviers réels \fg :
 le modèle n'est ni sur-ajusté ni fragile, il est \textbf{piloté par ce qui doit le piloter}.

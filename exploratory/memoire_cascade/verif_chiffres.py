@@ -31,9 +31,29 @@ import sys
 ICI = os.path.dirname(os.path.abspath(__file__))
 CHAPITRE_DEFAUT = os.path.join(ICI, "chapitres", "12_resultats.tex")
 
-# Nombres qui ne sont pas des résultats : niveaux de confiance, millésimes, tailles de
-# grille, numéros d'article. Les comparer n'aurait aucun sens.
-IGNORE = {99.5, 0.995, 97.5, 2.5, 90.0, 95.0, 5.0, 19.0, 1.0, 2.0, 3.0, 4.0, 5.0}
+# Nombres qui ne sont pas des résultats : niveaux de confiance, entiers d'énumération,
+# millésimes. Les comparer n'aurait aucun sens.
+#
+# EXEMPTES, ET DESORMAIS COMPTES COMME TELS. La version precedente les retirait en silence :
+# le denominateur du taux de confirmation n'etait donc pas « les nombres publies » mais
+# « les nombres publies moins une liste », et le rapport ne disait pas laquelle. Un taux de
+# 99,6 % sur une population filtree sans le dire n'est pas un controle, c'est une mesure de
+# soi-meme. Le rapport imprime maintenant les trois lignes : verifies, exemptes par motif,
+# non confirmes.
+#
+# L'EXEMPTION SE JUGE SUR LE CONTEXTE, PAS SUR LA VALEUR, et c'est la que la liste pechait.
+# Deux entrees y figuraient qui designent aussi des resultats, et n'ont donc jamais ete
+# verifiees nulle part dans le memoire :
+#   - 2,5, retire ici : c'est le facteur d'incertitude de calibration sur la VaR, cite aux
+#     chapitres 05, 06, 12 et 13, et c'est precisement le nombre sur lequel portait
+#     l'arbitrage 2,5 contre 2,6. Le harnais ne pouvait pas le trancher : il ne le regardait
+#     pas.
+#   - 19, retire ici : tantot l'article 19 de la directive, tantot la part de 19 % du pilier
+#     P2 sous PRC, tantot les dix-neuf prestataires TIC critiques designes par les AES.
+# Les deux premieres acceptions se confirment sur les sorties ; la troisieme, l'article, est
+# dans un \texttt{} ou dans une phrase sans script cite, donc hors champ de toute facon.
+NIVEAUX = {99.5, 0.995, 97.5, 90.0, 95.0}     # niveaux de confiance et de quantile
+ENUM = {1.0, 2.0, 3.0, 4.0, 5.0}              # indices de pilier, compteurs d'items
 # Millesimes. La borne basse descend a 1900 pour couvrir les dates de theoremes citees dans
 # le chapitre socle (Fisher-Tippett-Gnedenko 1928, 1943 ; Balkema-de Haan-Pickands 1974).
 # Un montant de cet ordre s'ecrit toujours avec un separateur de milliers dans le memoire,
@@ -42,8 +62,10 @@ IGNORE = {99.5, 0.995, 97.5, 2.5, 90.0, 95.0, 5.0, 19.0, 1.0, 2.0, 3.0, 4.0, 5.0
 ANNEES = set(range(1900, 2036))
 
 
-def nombres(txt, latex=True):
-    """Nombres d'un fragment LaTeX, normalisés (8\\,301 -> 8301 ; 0{,}92 -> 0.92).
+def extrait(txt, latex=True):
+    """Tous les nombres d'un fragment, normalisés (8\\,301 -> 8301 ; 0{,}92 -> 0.92).
+
+    Avant exemption : c'est `nombres` qui filtre, et `exemption` qui dit pourquoi.
 
     On retire d'abord la MISE EN PAGE : un \\arraystretch de 1,25 ou une largeur de
     figure de 0,9\\linewidth ne sont pas des résultats et les compter comme tels
@@ -61,6 +83,9 @@ def nombres(txt, latex=True):
     if latex:
         t = re.sub(r"(?<!\\)%.*", " ", t)
     t = re.sub(r"\\renewcommand\{[^}]*\}\{[^}]*\}", " ", t)
+    # LES ESPACEMENTS SONT DE LA MISE EN PAGE, au meme titre que \arraystretch : un
+    # \vspace{0.25cm} versait un 0,25 a confirmer dans chaque section qui aere un tableau.
+    t = re.sub(r"\\[vh]space\*?\{[^}]*\}", " ", t)
     t = re.sub(r"\\includegraphics\[[^\]]*\]", " ", t)
     t = re.sub(r"\\(?:label|ref|eqref|cite[tp]?)\{[^}]*\}", " ", t)
     t = re.sub(r"\[[^\]]*(?:width|height|scale)[^\]]*\]", " ", t)
@@ -83,6 +108,13 @@ def nombres(txt, latex=True):
     # LES LARGEURS DE COLONNE. Un \begin{tabular}{@{}p{4.3cm} r r r r@{}} produisait 4.3,
     # de la mise en page au meme titre qu'un \arraystretch. Meme motif pour m{} et b{}.
     t = re.sub(r"\b[pmb]\{\s*[\d.]+\s*(?:cm|mm|in|pt|em|ex|\\[a-zA-Z]+)\s*\}", " ", t)
+    # LA NOTATION SCIENTIFIQUE N'EST PAS DEUX NOMBRES. « p \approx 10^{-30} » ne publie ni un
+    # dix ni un trente : il publie un ordre de grandeur, et le motif d'extraction en tirait un
+    # « 10 » que rien ne pouvait confirmer. Meme classe que \tfrac12 et p{4.3cm} : un artefact
+    # de lecture, pas un chiffre du memoire. On ne neutralise que les puissances NEGATIVES de
+    # dix, qui sont toujours de la notation scientifique ; 2^{10} garde son exposant, qui lui
+    # compte bien dix parametres libres.
+    t = re.sub(r"\b10\s*\^\s*\{?\s*-\s*\d+\s*\}?", " ", t)
     t = t.replace("\\,", "").replace("~", " ").replace("{,}", ".")
     t = re.sub(r"\\[a-zA-Z]+", " ", t)          # commandes LaTeX restantes
     if not latex:
@@ -114,6 +146,22 @@ def nombres(txt, latex=True):
         # qu'il crie trop souvent.
         t = re.sub(r"(?<![\d.,])([1-9]\d{0,2})((?:,\d{3})+)(?!\d)",
                    lambda m: m.group(1) + m.group(2).replace(",", ""), t)
+        # LA VIRGULE DECIMALE FRANCAISE DES SORTIES, ET C'EST LE PLUS NUISIBLE DES DEUX SENS.
+        # Les scripts narrent en francais : « +4 % a 99,9 % », « xi = 0,595 ». Une fois les
+        # groupes de milliers anglo-saxons recolles juste au-dessus, toute virgule qui reste
+        # entre deux chiffres est un separateur decimal. Sans cette ligne, « 99,9 » n'entrait
+        # pas dans le pool sous la forme 99,9 : il y versait DEUX entiers, 99 et 9. Le pool
+        # perdait donc la vraie valeur et gagnait deux fausses, dont un « 9 » qui confirmait
+        # ensuite n'importe quel neuf du memoire. Corriger cela resserre le controle autant
+        # qu'il l'elargit.
+        t = re.sub(r"(?<=\d),(?=\d)", ".", t)
+        # Notation scientifique des sorties. LA MANTISSE EST UN CHIFFRE PUBLIE, PAS L'EXPOSANT :
+        # le memoire ecrit « p = 1,53 \cdot 10^{-5} », et c'est bien 1,53 qu'il faut confirmer.
+        # On garde donc la mantisse et l'on jette l'exposant, qui versait sinon un -5 ou un -30
+        # dans le pool. Supprimer le jeton entier, comme une premiere version le faisait, sortait
+        # au contraire le 1,53 du chapitre identifiabilite : le filtre doit couper la notation,
+        # pas la valeur.
+        t = re.sub(r"\b(\d+(?:\.\d+)?)[eE][-+]?\d+\b", r" \1 ", t)
     t = t.replace("--", " ")
     out = []
     # UN MOINS ENTRE DEUX NOMBRES EST UNE SOUSTRACTION, PAS UN SIGNE. Dans « kappa = 1 -
@@ -123,13 +171,26 @@ def nombres(txt, latex=True):
     # neutralise juste avant : sans cela il fabriquait l'annee negative -2022.
     for m in re.finditer(r"(?<![\d)])-?\d+(?:\.\d+)?", t):
         try:
-            v = float(m.group(0))
+            out.append(float(m.group(0)))
         except ValueError:
             continue
-        if abs(v) in IGNORE or (v == int(v) and int(v) in ANNEES):
-            continue
-        out.append(v)
     return out
+
+
+def exemption(v):
+    """Motif pour lequel v n'est pas un résultat à confirmer, ou None s'il doit l'être."""
+    if abs(v) in NIVEAUX:
+        return "niveau de confiance"
+    if abs(v) in ENUM:
+        return "entier d'énumération"
+    if v == int(v) and int(v) in ANNEES:
+        return "millésime"
+    return None
+
+
+def nombres(txt, latex=True):
+    """Les nombres d'un fragment qui sont des résultats, donc à confirmer."""
+    return [v for v in extrait(txt, latex) if exemption(v) is None]
 
 
 def charge_sorties(dossier):
@@ -198,6 +259,7 @@ def main():
     tot = ok = orphelins = 0
     sans_source = []
     detail = []
+    exemptes = {}
     for titre, corps in sections:
         txt = "\n".join(corps)
         # Tout \texttt{...} dont le contenu est un identifiant de script connu. Plus
@@ -205,12 +267,17 @@ def main():
         # en liste (\og scripts 16b, 20b \fg), et le second serait alors manqué.
         cites = sorted({c for c in re.findall(r"\\texttt\{([0-9a-z]+)\}", txt)
                         if c in sorties})
-        vals = nombres(txt)
+        bruts = extrait(txt)
+        vals = [v for v in bruts if exemption(v) is None]
         if not vals:
             continue
         if not cites:
             sans_source.append((titre, len(vals)))
             continue
+        for v in bruts:
+            motif = exemption(v)
+            if motif:
+                exemptes[motif] = exemptes.get(motif, 0) + 1
         pool = [v for c in cites for v in sorties.get(c, [])]
         manquants = [v for v in vals if not confirme(v, pool)]
         tot += len(vals)
@@ -233,6 +300,13 @@ def main():
         print("\n  Sections SANS script cité (non vérifiables automatiquement) :")
         for t, n in sans_source:
             print(f"    {t[:56]:<56} {n:>3} nombres")
+
+    if exemptes:
+        n_ex = sum(exemptes.values())
+        print(f"\n  Exemptés de vérification ({n_ex} nombres, comptés ici pour que le "
+              f"dénominateur\n  du taux ne soit pas silencieusement filtré) :")
+        for motif, n in sorted(exemptes.items(), key=lambda kv: -kv[1]):
+            print(f"    {motif:<24} {n:>4}")
 
     print("\n" + "=" * 78)
     print(f"  {tot} nombres vérifiables, {ok} confirmés, {orphelins} non confirmés "
