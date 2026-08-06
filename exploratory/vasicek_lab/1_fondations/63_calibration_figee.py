@@ -115,10 +115,29 @@ ligne("incidents du semestre", HACKMAGEDDON["n_incidents"])
 ligne("dont a vecteur d'acces identifie", HACKMAGEDDON["n_identifies"])
 ligne("taux d'identification", HACKMAGEDDON["taux_identification"])
 print("\n  parts par vecteur d'attaque :")
+# EN FRACTION ET EN POURCENTAGE, LES DEUX. Le chapitre donnees cite « 38,8 % » la ou cette
+# sortie n'imprimait que « 0.388 » : le harnais ne rapproche pas deux ecritures separees par
+# un facteur cent, et ces parts ressortaient donc non confirmees alors qu'elles sont ici. La
+# double ecriture coute une colonne et supprime toute une classe de fausses alertes.
 for k, v in HACKMAGEDDON["proportions"].items():
-    ligne(f"    {k}", v)
-ligne("surface TLPT (art. 26)", HACKMAGEDDON["surface_tlpt"])
-ligne("surface tiers (art. 28-44)", HACKMAGEDDON["surface_tiers"])
+    ligne(f"    {k}", f"{v:.3f}   soit {100*v:.1f} %")
+ligne("surface TLPT (art. 26)", f"{HACKMAGEDDON['surface_tlpt']:.3f}   soit "
+                                f"{100*HACKMAGEDDON['surface_tlpt']:.1f} %")
+ligne("surface tiers (art. 28-44)", f"{HACKMAGEDDON['surface_tiers']:.3f}   soit "
+                                    f"{100*HACKMAGEDDON['surface_tiers']:.1f} %")
+
+cmp_ = HACKMAGEDDON["comparaison_2023_2026"]
+print("\n  comparaison de structure 2023 contre 2026, MEME STATUT DE CITATION :")
+print(f"    effectif 2023 : {cmp_['n_2023']} incidents, "
+      f"trimestre {cmp_['trimestre_manquant_2023']} manquant")
+print(f"    {'dimension (motivation)':<28}{'2023':>10}{'2026':>10}{'ecart (pts)':>14}")
+for k, (a, b) in cmp_["motivations"].items():
+    print(f"    {k:<28}{100*a:>9.1f} %{100*b:>9.1f} %{100*(b-a):>+13.1f}")
+print(f"    lecture naive du ransomware : hausse de "
+      f"{cmp_['hausse_ransomware_lecture_naive_pts']} points ; apres reclassement : recul de "
+      f"{cmp_['recul_ransomware_apres_reclassement_pts']} points.")
+print("    C'est l'artefact de taxonomie qui justifie de ne retenir de cette base que la")
+print("    STRUCTURE, et encore, apres reclassement documente.")
 print("\n  AVERTISSEMENT. Contrairement a PRC et OpRisk, le jeu Hackmageddon n'est PAS")
 print("  versionne dans data/raw/ : ces valeurs sont une citation enregistree, pas une")
 print("  sortie recalculable (cf. script 62). Elles ne servent qu'a fixer les parts de")

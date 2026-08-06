@@ -115,6 +115,12 @@ def extrait(txt, latex=True):
     # dix, qui sont toujours de la notation scientifique ; 2^{10} garde son exposant, qui lui
     # compte bien dix parametres libres.
     t = re.sub(r"\b10\s*\^\s*\{?\s*-\s*\d+\s*\}?", " ", t)
+    # UN NUMERO D'ARTICLE N'EST PAS UN RESULTAT, et c'est une exemption de CONTEXTE, la seule
+    # sorte qui vaille : on ne retire pas la valeur 18 partout, on retire « art. 18 ». La
+    # difference compte, c'est en exemptant sur la valeur que le facteur 2,5 avait echappe au
+    # controle pendant des semaines.
+    t = re.sub(r"\b(?:art\.?|articles?)\s*~?\s*\d+(?:\s*(?:,|et|à|a|--?|–)\s*\d+)*", " ", t,
+               flags=re.IGNORECASE)
     t = t.replace("\\,", "").replace("~", " ").replace("{,}", ".")
     t = re.sub(r"\\[a-zA-Z]+", " ", t)          # commandes LaTeX restantes
     if not latex:
@@ -238,7 +244,17 @@ def main():
     sorties = charge_sorties(dossier)
     print(f"sorties chargées : {', '.join(sorted(sorties))}")
     with open(chapitre, encoding="utf-8") as f:
-        lignes = f.read().split("\n")
+        brut = f.read()
+    lignes = brut.split("\n")
+
+    # HORS SCRIPT PAR NATURE, ET DECLARE COMME TEL. Un chapitre de demonstrations ou de
+    # notations ne peut citer aucun script : ses nombres sont des constantes d'enonce, pas des
+    # resultats. Les laisser dans le meme sac que les sections qu'on a simplement oublie de
+    # rattacher est trompeur dans les deux sens : cela gonfle le hors-controle, et cela permet
+    # d'y cacher une vraie omission. La declaration se fait dans le chapitre lui-meme, par un
+    # commentaire LaTeX, avec sa justification, et le rapport la compte a part.
+    m_decl = re.search(r"%\s*HARNAIS-HORS-SCRIPT\s*:\s*(.+)", brut)
+    declare = m_decl.group(1).strip() if m_decl else None
 
     # Découpage en sections. On coupe aussi sur \section* et \subsection(*) : deux
     # chapitres (données, socle) n'ont qu'une seule \section numérotée sur une dizaine de
@@ -258,6 +274,7 @@ def main():
 
     tot = ok = orphelins = 0
     sans_source = []
+    sections_declarees = []
     detail = []
     exemptes = {}
     for titre, corps in sections:
@@ -265,11 +282,22 @@ def main():
         # Tout \texttt{...} dont le contenu est un identifiant de script connu. Plus
         # robuste que d'exiger le mot "script" juste avant : les sections citent souvent
         # en liste (\og scripts 16b, 20b \fg), et le second serait alors manqué.
-        cites = sorted({c for c in re.findall(r"\\texttt\{([0-9a-z]+)\}", txt)
+        # LE NOM LONG COMPTE AUSSI. Une section citait « script \texttt{32\_proprietes\_formelles} »
+        # et le harnais la classait sans source, donc hors controle : le motif n'acceptait que
+        # l'identifiant nu. La citation longue est pourtant la meilleure des deux pour un lecteur.
+        # On capture donc le prefixe numerique, avec ou sans suite.
+        cites = sorted({c for c in re.findall(r"\\texttt\{([0-9]+[a-z]?)(?:\\?_[^}]*)?\}", txt)
                         if c in sorties})
         bruts = extrait(txt)
         vals = [v for v in bruts if exemption(v) is None]
         if not vals:
+            continue
+        # Meme mecanisme que la declaration de chapitre, a l'echelle d'une section : le chapitre
+        # socle est verifie de bout en bout sauf sa section de theoremes, dont les nombres sont
+        # des constantes d'enonce. Declarer la section vaut mieux que declarer le chapitre.
+        m_sec = re.search(r"%\s*HARNAIS-HORS-SECTION\s*:\s*(.+)", txt)
+        if m_sec and not cites:
+            sections_declarees.append((titre, len(vals), m_sec.group(1).strip()))
             continue
         if not cites:
             sans_source.append((titre, len(vals)))
@@ -307,6 +335,38 @@ def main():
               f"dénominateur\n  du taux ne soit pas silencieusement filtré) :")
         for motif, n in sorted(exemptes.items(), key=lambda kv: -kv[1]):
             print(f"    {motif:<24} {n:>4}")
+
+    # LA COUVERTURE, A COTE DU TAUX, ET C'EST LE CHIFFRE QUI ENGAGE. Le taux de confirmation
+    # se calcule sur les seules sections qui citent un script. Une section qui n'en cite aucun
+    # n'est pas confirmee : elle est HORS CONTROLE, ce qui est pire, et cela ne se voyait nulle
+    # part dans le rapport. On pouvait donc faire monter le taux en retirant une citation. Les
+    # cinq chiffres perimes trouves cette semaine venaient tous de la zone non couverte ou d'une
+    # exemption silencieuse, jamais d'un non confirme. Le harnais imprime desormais les deux.
+    if sections_declarees:
+        print("\n  Sections DECLAREES hors script, avec leur motif :")
+        for t, n, motif in sections_declarees:
+            print(f"    {t[:52]:<52} {n:>3} nombres")
+            print(f"      {motif}")
+
+    decl_sec = sum(n for _, n, _ in sections_declarees)
+    brut_hors = sum(n for _, n in sans_source)
+    hors = 0 if declare else brut_hors
+    publie = tot + brut_hors + decl_sec
+    if publie:
+        print("\n" + "=" * 78)
+        print(f"  COUVERTURE : {tot} nombres sous controle sur {publie} publies "
+              f"({100*tot/publie:.1f} %).")
+        if decl_sec:
+            print(f"  {decl_sec} nombres hors script PAR NATURE, declares section par section.")
+        if declare:
+            print(f"  {brut_hors} nombres hors script PAR NATURE, declare dans le chapitre :")
+            print(f"    {declare}")
+            print(f"  Hors controle non declare : 0. C'est ce dernier chiffre qui doit tomber a")
+            print(f"  zero, pas le precedent.")
+        elif hors:
+            print(f"  {hors} nombres vivent dans une section qui ne cite aucun script : ils ne")
+            print(f"  sont ni confirmes ni infirmes, personne ne les regarde. Voir la liste")
+            print(f"  ci-dessus, qui est a relire et non a parcourir.")
 
     print("\n" + "=" * 78)
     print(f"  {tot} nombres vérifiables, {ok} confirmés, {orphelins} non confirmés "

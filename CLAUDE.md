@@ -9,12 +9,18 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 6 août 2026, fin de journée : corps de 95 pages (120 pages au total), harnais de
-vérification à **99,8 % sur 983 nombres**, branche `exploratory`. Le dénominateur a grandi
-de 904 à 983 dans la même journée : ce n'est pas un adoucissement, c'est l'inverse. La
-tolérance a été resserrée (point 3 ci-dessous), puis le **périmètre du contrôle a été élargi
-deux fois** (point 4). Le taux se lit donc sur une population plus large et une tolérance
-plus dure que celle de la veille.
+État au 6 août 2026, fin de journée : corps de 95 pages (120 pages au total), branche
+`exploratory`. Le harnais est à **97,2 % de confirmation sur 1 234 nombres, pour une
+couverture de 100 %**.
+
+**Lire les deux chiffres ensemble, jamais l'un sans l'autre.** Le mémoire a commencé la
+journée à 99,6 % sur 904 nombres, mais ces 904 ne représentaient que **74,7 %** des nombres
+publiés : 332 vivaient dans des sections qui ne citaient aucun script, donc sans être ni
+confirmés ni infirmés. Un taux de confirmation se règle en retirant une citation ; la
+couverture, non. Les cinq chiffres périmés trouvés cette semaine venaient tous de la zone
+non couverte ou d'une exemption silencieuse, **jamais d'un non confirmé**. Le contrôle de
+fin de tâche est donc désormais **couverture = 100 % et confirmation ≥ 97 %**, dans cet
+ordre.
 
 Le harnais était à 96,1 % sur 915 nombres la veille. Les 36 non confirmés ont été dépouillés
 un par un : aucun chiffre faux. Sept n'étaient pas des nombres du mémoire mais des artefacts de
@@ -380,6 +386,44 @@ Bâle, le Hill à 1,42, le κ* à 76 % et la plage de $\xi$ « 0,68 à 0,93 ». 
 corrigé parce que sa **définition** reste à établir : à $g$ fixé, en $q$ continu, par entité ?
 Ne pas le remplacer par le `-64 %` sans avoir tranché ce point, ce serait échanger un chiffre
 non sourcé contre un autre.
+
+7. **Le périmètre du contrôle est passé de 74,7 % à 100 %, et c'est le vrai travail de la
+   journée.** Dix-neuf sorties de scripts ont été versionnées (01 à 06, 09 à 13, 15, 24, 25,
+   29, 31, 32, 34, 45, 61) et toutes les sections du mémoire ont été rattachées à leurs
+   scripts. Ce qui en est sorti :
+   - **le chapitre 07, qui porte la contribution centrale, n'était vérifié par rien.** Ses
+     67 nombres étaient entièrement hors contrôle. Il est aujourd'hui à 95,5 % sur 67 nombres ;
+   - **le `-53 %` n'était pas faux, il était invisible.** Le script 25 l'imprime :
+     « gain de conformite (NC->C) : 8861 M de SCR en moins (-53 %) ». Sa sortie n'était pas
+     versionnée, voilà tout ;
+   - **désaccord de normalisation entre le script 03 et le reste du pipeline, à trancher.**
+     Le script 03 transpose TRANS et divise par la **réception** maximale (2,3) ; le reste
+     divise par l'**émission** maximale (2,60), qui est la convention du projet. D'où
+     $\rho(W) = 0{,}572$ contre 0,506, et un $g$ critique de 1,57 contre 1,78. Le chapitre 07
+     publie 0,506 et 1,78 (seconde convention) **et** $R_0 = 0{,}062$ (première) dans la même
+     phrase. Les deux lectures restent sous-critiques sur tout le domaine admissible, donc la
+     conclusion tient, mais un seul diviseur doit gouverner les nombres publiés. Le script 03
+     imprime maintenant les deux lectures et le dit ;
+   - trois scripts (09, 10, 11) n'étaient pas lançables depuis la racine du dépôt, faute
+     d'amorce de `sys.path` ; corrigé ;
+   - le commentaire de `03_calibration_W.py` annonçait une incidence de fond de 7 % là où
+     $\Phi(-1{,}7) = 4{,}5\,\%$, la valeur que le chapitre publie ; corrigé et imprimée ;
+   - la table Hackmageddon 2023 contre 2026 ne vivait que dans la prose. Elle est enregistrée
+     dans `config.py` sous le **même statut de citation externe** que les 1 041 incidents, et
+     imprimée par le script 63. Son écart de cybercriminalité était écrit $-7{,}1$ pour
+     $81{,}1 - 73{,}9 = 7{,}2$ ; corrigé.
+
+   **Le harnais distingue désormais trois états, pas deux :** sous contrôle, **déclaré hors
+   script** (par un commentaire `% HARNAIS-HORS-SCRIPT:` ou `% HARNAIS-HORS-SECTION:` dans le
+   chapitre, avec son motif), et hors contrôle. Seul le dernier doit valoir zéro. Sont
+   déclarés : les chapitres démonstrations, état de l'art et cadre réglementaire, et la
+   section des théorèmes du chapitre socle.
+
+   **Trente-cinq non confirmés restent**, et ce sont de vraies pistes, pas du bruit : les huit
+   du choc MOVEit (script 35, qui exige `Data_Breach_Chronology.xlsx`, absent du Mac qui n'a
+   que le `.csv` : **à relancer sur le PC**), les 8 301 / 2 589 / 5 900 / 5 275 / 2 554 des
+   préambules résultats et résumé, le 3 000 du knockout, le $-0{,}8$ et le $-63{,}9$ du biais
+   de sévérité, le 81 % de direction du classeur.
 
 **Faisable :**
 - les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :

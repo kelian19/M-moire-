@@ -273,6 +273,28 @@ HACKMAGEDDON = {
     },
     "surface_tlpt": 0.496,       # exploit + supply chain (art. 26)
     "surface_tiers": 0.158,      # supply chain seul (art. 28-44)
+    # COMPARAISON DE STRUCTURE 2023 CONTRE 2026, ENREGISTREE ICI PLUTOT QUE FLOTTANTE.
+    # Ces valeurs vivaient uniquement dans la prose du chapitre données, donc dans aucun
+    # script : le harnais ne pouvait ni les confirmer ni les infirmer. Elles ont exactement le
+    # même statut que les 1 041 incidents ci-dessus, une CITATION EXTERNE non recalculable, et
+    # elles doivent donc figurer au même endroit et sous la même étiquette. Les enregistrer ne
+    # rouvre pas le statut de la source, cela le rend vérifiable.
+    # L'ARTEFACT QU'ELLES DOCUMENTENT. La catégorie « Ransomware » n'existait pas en 2023, ces
+    # incidents étant classés sous « Malware ». Une lecture naïve concluait à une hausse du
+    # ransomware de +11 points ; après reclassement par grille de mots-clés commune, il recule
+    # de 23 points. C'est l'exemple qui justifie de n'utiliser de cette base que la structure.
+    "comparaison_2023_2026": {
+        "n_2023": 3019,          # incidents 2023, Q3 manquant
+        "trimestre_manquant_2023": "Q3",
+        "motivations": {
+            # dimension : (part 2023, part 2026) en fraction
+            "cybercriminalite": (0.811, 0.739),
+            "cyberespionnage": (0.096, 0.206),
+            "ransomware_reclasse": (0.358, 0.127),
+        },
+        "hausse_ransomware_lecture_naive_pts": 11,
+        "recul_ransomware_apres_reclassement_pts": 23,
+    },
 }
 
 # ---------------------------------------------------------------------------

@@ -33,6 +33,8 @@ une valeur de firme sous-jacente, dont rien n'existe en cyber. Les deux généra
 suivent lèvent ces deux limites.
 \end{attention}
 
+\noindent Source : script~\texttt{03}, pour la part dirigée du classeur d'expert.
+
 \section{Généralisation A : la structure systémique dépend du pilier}
 
 On indexe désormais par entité~$i$ et pilier~$j\in\{1,\dots,5\}$, et l'on remplace le facteur
@@ -94,6 +96,9 @@ l'emboîtement est propre.
 propagation d'un choc sur un sous-réseau. Source : \texttt{build\_network\_figure}.}
 \end{figure}
 
+\noindent Source de cette section : script~\texttt{29}, qui imprime la normalisation
+$\max_j s_j$ et les descendants directs par pilier.
+
 \section{La normalisation de Leontief : une stabilité garantie}
 
 \begin{attention}
@@ -125,6 +130,9 @@ le domaine admissible, et non supposée. Numériquement, $\rho(W)=0{,}562\,g$. O
 scalaire et non ligne à ligne, ce qui préserve l'hétérogénéité de ce que \emph{reçoit} chaque
 pilier (P1 reçoit trois fois moins que P2) : la revendication « P1 émet fort et reçoit peu »
 survit à la normalisation.
+
+\noindent Source de cette section : script~\texttt{03}, qui imprime le rayon spectral brut
+de \textsc{trans}, le diviseur de Leontief et les parts obtenues.
 
 \section{La cascade est un processus de branchement}
 \label{sec:branch}
@@ -172,6 +180,9 @@ paramètres} : ROOT se déduit de TRANS au lieu d'être posé, soit cinq paramè
 moins.
 \end{attention}
 
+\noindent Sources de cette section : scripts~\texttt{03} (matrice de génération suivante,
+$R_0$, seuils critiques) et~\texttt{29} (rayon spectral de $W$ et progéniture).
+
 \section{Le seuil $K_j$ : ce qui remplace $\Phi^{-1}(\mathrm{PD})$}
 
 Il faut distinguer deux seuils vivant dans deux espaces : $u_j$, le seuil de \textbf{matérialité}
@@ -207,6 +218,9 @@ débiaiser cette fréquence (extrapoler le taux depuis un seuil haut n'est pas p
 modéliser la \textbf{sévérité} au-dessus de la barre, donc le capital ($-0{,}8\,\%$ de biais
 contre $-63{,}9\,\%$ pour la lognormale).
 
+\noindent Source de cette section : script~\texttt{04}, qui balaie la barre de matérialité
+et imprime le biais résiduel sur le capital.
+
 \section{Calibration et faisabilité}
 \label{sec:calib-cascade}
 
@@ -231,6 +245,9 @@ construction, la transposée. Il ne prouve rien, et seul le placebo par permutat
 Le présent chapitre en donne la substance ; le détail du banc d'essai
 $\Phi^{-1}$ contre EVT, de la calibration du facteur systémique et des diagnostics de
 puissance est reporté en annexe.
+
+\noindent Sources de cette section : scripts~\texttt{03} (corrélations et pentes de
+récupération de $W$) et~\texttt{05} (faisabilité de la donnée).
 
 \section{Formalisation : définitions et propriétés}
 \label{sec:formalisation}
@@ -320,6 +337,9 @@ que par sa partie symétrique $S$. Les matrices $W$ et $W^\top$, de même $S$, s
 $\mathrm{SCR}(W)\neq\mathrm{SCR}(W^\top)$ en général : la direction est non identifiée.
 \end{proposition}
 
+\noindent Sources de cette section : scripts~\texttt{32} et~\texttt{61}, qui vérifient les
+propriétés énoncées sur la matrice du classeur puis sur des matrices tirées au hasard.
+
 \section{Vérification numérique des trois propriétés qui portent l'argument}
 \label{sec:verif-proprietes}
 
@@ -382,3 +402,6 @@ régulateur.
 \end{cle}
 
 % =====================================================================
+
+\noindent Sources complémentaires de cette section : scripts~\texttt{40} (test de
+réversibilité, loi nulle de permutation) et~\texttt{03} (valeurs du classeur).

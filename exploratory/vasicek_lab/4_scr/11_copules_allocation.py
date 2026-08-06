@@ -31,6 +31,14 @@ Sortie : diagnostics (SCR par copule, allocations) + figure S5_copules_allocatio
 """
 
 import os
+import sys
+
+# AMORCE DE CHEMIN. Ce script importait les modules partages du lab en supposant que le
+# repertoire courant etait la racine du lab : il echouait donc depuis la racine du depot,
+# ou le harnais et les autres scripts sont lances. Meme amorce que les scripts 29 et 32.
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
 
 import numpy as np
 from scipy.stats import norm, t as student_t, rankdata

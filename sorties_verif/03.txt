@@ -1,0 +1,68 @@
+Panel : 800 entites x 60 periodes x 5 piliers ; incidence moyenne 6.9%
+
+Recuperation de W (hors diagonale) :
+  probit : correlation 0.920 | pente 1.082 | sens de l'asymetrie 100%
+  logit  : correlation 0.920 | pente 2.110
+  (pente ~1 = W dans ses propres unites ; ~1,6 = unites logit, magnitudes fausses)
+
+Normalisation de W (la lecon de Leontief) :
+  TRANS brut : sommes des lignes [0.8 2.3 1.6 1.5 1.7] ; rho = 1.461
+     -> ce n'est PAS une matrice de parts. (I-TRANS)^-1 aurait 21 entrees
+        negatives sur 25 : erreur de categorie, pas de calibration.
+  W = g * TRANS / 2.3  avec g = 0.9 (part de contagion du pilier expose)
+     parts recues s_j = [0.313 0.9   0.626 0.587 0.665]  (<= g : asymetrie preservee)
+     rho(W) = 0.572 = 0.635 x g   -> stable pour tout g <= 1
+  incidence de fond Phi(base) = 4.5 %  (base = -1.7)
+
+  ATTENTION, DIVISEUR DE NORMALISATION. Ce script divise par la RECEPTION maximale
+  (2.3), le reste du pipeline par l'EMISSION maximale (2.60). D'ou :
+     ici        : rapport 0.635 ; rho(W) = 0.572 ; critique a g = 1.57
+     ailleurs   : rapport 0.562 ; rho(W) = 0.506 ; critique a g = 1.78
+  Le memoire publie la seconde pour rho(W) et le seuil critique, et la PREMIERE pour R0.
+  A trancher : les deux lectures restent sous-critiques, mais un seul diviseur doit
+  gouverner les nombres publies.
+
+Lecture epidemique (processus de branchement multitype) :
+  rho(W), systeme latent SIMULTANE = 0.572  (stable)
+  R0 = rho(M), cascade d'INCIDENTS = 0.062  sous-critique : la cascade s eteint
+  R0 estime sur le panel simule    = 0.061
+
+Progeniture totale (I-M)^-1 : descendants attendus d'un incident initial
+  P1 : 0.127 descendants   (ROOT expert = 1.00)
+  P2 : 0.068 descendants   (ROOT expert = 0.60)
+  P3 : 0.063 descendants   (ROOT expert = 0.50)
+  P4 : 0.080 descendants   (ROOT expert = 0.90)
+  P5 : 0.030 descendants   (ROOT expert = 0.30)
+
+  classement progeniture : P1 > P4 > P2 > P3 > P5
+  classement ROOT expert : P1 > P4 > P2 > P3 > P5
+  correlation de rang (Spearman) = 1.000
+  => ROOT se deduit de TRANS par coherence interne (Spearman=1.00) : reduction de parametres, non validation externe.
+
+Seuils critiques, dans la parametrisation admissible g dans (0, 1] :
+  rho(W) = 1 a g = 1.57   (systeme latent simultane)  HORS DOMAINE
+  R0     = 1 a g = 7.2    (cascade d'incidents)       HORS DOMAINE
+  ratio 5x : si l'on forcait le modele hors de son domaine,
+  la forme simultanee crierait a l'emballement bien avant la cascade reelle.
+  A g = 1 (contagion maximale admissible) : rho(W) = 0.635, R0 = 0.070
+  => sur tout le domaine admissible, les DEUX lectures sont stables.
+
+  N=  50 : corr 0.43 ; sens asymetrie 72%
+  N= 100 : corr 0.59 ; sens asymetrie 89%
+  N= 200 : corr 0.74 ; sens asymetrie 87%
+  N= 400 : corr 0.90 ; sens asymetrie 91%
+  N= 800 : corr 0.92 ; sens asymetrie 96%
+  sous-declaration 0% : corr 0.85 ; sens 91%
+  sous-declaration 20% : corr 0.84 ; sens 89%
+  sous-declaration 40% : corr 0.70 ; sens 87%
+  sous-declaration 60% : corr 0.50 ; sens 69%
+
+Tests de falsification (l'asymetrie doit disparaitre / s'inverser) :
+  asymetrie sur le panel reel     = 1.571
+  asymetrie apres permutation     = 0.382  (doit tendre vers 0)
+  asymetrie en temps inverse      = 1.489
+  correlation W_avant vs W_inverse = -0.704  (proche de 1 => on capte de la co-occurrence, pas de la direction)
+
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/K1_calibration_W.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/K2_calibration_diagnostics.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/K3_branchement_R0.png

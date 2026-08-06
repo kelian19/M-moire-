@@ -104,7 +104,10 @@ RHO_RAW = float(max(abs(np.linalg.eigvals(T_RAW))))   # 1,461 : INADMISSIBLE
 
 GAIN = 0.9                            # g : part de contagion du pilier le plus expose
 W_TRUE = GAIN * T_RAW / MAXROW        # normalisation de Leontief : matrice de PARTS
-BASE = np.full(J, -1.7)               # cale l'incidence de base (~ 7 %)
+BASE = np.full(J, -1.7)               # cale l'incidence de base : Phi(-1,7) = 4,5 % et NON 7 %,
+#                                       comme le disait ce commentaire. Le chapitre cascade
+#                                       publie bien 4,5 % ; c'est ici que la valeur etait fausse,
+#                                       et elle n'etait imprimee nulle part, donc invisible.
 SLOAD = 0.5                           # charge du facteur systemique
 
 
@@ -235,7 +238,30 @@ print("     -> ce n'est PAS une matrice de parts. (I-TRANS)^-1 aurait 21 entrees
 print("        negatives sur 25 : erreur de categorie, pas de calibration.")
 print(f"  W = g * TRANS / {MAXROW:.1f}  avec g = {GAIN} (part de contagion du pilier expose)")
 print(f"     parts recues s_j = {np.round(W_TRUE.sum(1), 3)}  (<= g : asymetrie preservee)")
-print(f"     rho(W) = {rho_W:.3f} = {RHO_RAW/MAXROW:.3f} x g   -> stable pour tout g <= 1\n")
+print(f"     rho(W) = {rho_W:.3f} = {RHO_RAW/MAXROW:.3f} x g   -> stable pour tout g <= 1")
+print(f"  incidence de fond Phi(base) = {100*stats.norm.cdf(BASE[0]):.1f} %  (base = {BASE[0]})")
+# DIVISEUR DE LEONTIEF : CE SCRIPT ET LE MEMOIRE NE PRENNENT PAS LE MEME, ET IL FAUT TRANCHER.
+# Ce script transpose TRANS (ligne j = ce que j RECOIT, cf. T_RAW plus haut) et divise par la
+# RECEPTION maximale, 2,3. Le reste du pipeline suit la convention du projet, ligne = source, et
+# divise par l'EMISSION maximale, 2,60. Le rayon spectral etant invariant par transposition,
+# seul le diviseur separe les deux lectures :
+#     / 2,3   -> rapport 0,635 ; rho(W) = 0,572 ; rho(W) = 1 a g = 1,57
+#     / 2,60  -> rapport 0,562 ; rho(W) = 0,506 ; rho(W) = 1 a g = 1,78
+# Le chapitre cascade publie 0,562 / 0,506 / 1,78, donc la seconde. Mais il publie AUSSI
+# R0 = 0,062, qui est la valeur de CE script, donc la premiere : les deux conventions coexistent
+# dans la meme phrase du memoire. Ce n'est pas un desaccord de calcul, c'est un choix de
+# normalisation qui n'a pas ete fait une fois pour toutes. La conclusion ne bouge pas, les deux
+# lectures restent sous-critiques sur tout le domaine admissible g <= 1, mais les nombres
+# publies doivent venir d'une seule des deux.
+print(f"\n  ATTENTION, DIVISEUR DE NORMALISATION. Ce script divise par la RECEPTION maximale")
+print(f"  ({MAXROW:.1f}), le reste du pipeline par l'EMISSION maximale (2.60). D'ou :")
+print(f"     ici        : rapport {RHO_RAW/MAXROW:.3f} ; rho(W) = {rho_W:.3f} ; critique a g = "
+      f"{MAXROW/RHO_RAW/GAIN*GAIN:.2f}")
+print(f"     ailleurs   : rapport {RHO_RAW/2.60:.3f} ; rho(W) = {GAIN*RHO_RAW/2.60:.3f} ; "
+      f"critique a g = {2.60/RHO_RAW:.2f}")
+print(f"  Le memoire publie la seconde pour rho(W) et le seuil critique, et la PREMIERE pour R0.")
+print(f"  A trancher : les deux lectures restent sous-critiques, mais un seul diviseur doit")
+print(f"  gouverner les nombres publies.\n")
 
 # --------------------------------------------------- lecture epidemique
 M_true = next_generation(W_TRUE, BASE)

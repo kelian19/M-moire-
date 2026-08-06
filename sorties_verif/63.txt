@@ -1,4 +1,4 @@
-﻿
+
 ====================================================================================
 Severite OpRisk Global (montants reels, source de reference en euros)
 ====================================================================================
@@ -75,13 +75,23 @@ Hackmageddon : CITATION EXTERNE, non recalculable
   taux d'identification                                      0.807 
 
   parts par vecteur d'attaque :
-      phishing_social_eng                                    0.388 
-      exploit_vuln                                           0.338 
-      supply_chain_tiers                                     0.158 
-      identifiants                                           0.063 
-      autres                                                 0.053 
-  surface TLPT (art. 26)                                     0.496 
-  surface tiers (art. 28-44)                                 0.158 
+      phishing_social_eng                       0.388   soit 38.8 % 
+      exploit_vuln                              0.338   soit 33.8 % 
+      supply_chain_tiers                        0.158   soit 15.8 % 
+      identifiants                              0.063   soit 6.3 % 
+      autres                                    0.053   soit 5.3 % 
+  surface TLPT (art. 26)                        0.496   soit 49.6 % 
+  surface tiers (art. 28-44)                    0.158   soit 15.8 % 
+
+  comparaison de structure 2023 contre 2026, MEME STATUT DE CITATION :
+    effectif 2023 : 3019 incidents, trimestre Q3 manquant
+    dimension (motivation)            2023      2026   ecart (pts)
+    cybercriminalite                 81.1 %     73.9 %         -7.2
+    cyberespionnage                   9.6 %     20.6 %        +11.0
+    ransomware_reclasse              35.8 %     12.7 %        -23.1
+    lecture naive du ransomware : hausse de 11 points ; apres reclassement : recul de 23 points.
+    C'est l'artefact de taxonomie qui justifie de ne retenir de cette base que la
+    STRUCTURE, et encore, apres reclassement documente.
 
   AVERTISSEMENT. Contrairement a PRC et OpRisk, le jeu Hackmageddon n'est PAS
   versionne dans data/raw/ : ces valeurs sont une citation enregistree, pas une
