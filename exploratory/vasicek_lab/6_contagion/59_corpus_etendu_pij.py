@@ -173,7 +173,8 @@ for lab, sub in (("corpus complet", CORPUS), ("sources primaires seules", prim),
     ni, nt = stats_corpus(sub)
     print(f"  {lab:<28} {ni:>2} inc., {nt:>2} trans. : "
           f"T={o:>5.1f}  nul={m0:>5.1f}+-{s0:.1f}  z={z:>+5.2f}  p={p:.4f}")
-print("\n  Rappel : le corpus initial (7 rapports, 17 transitions) donnait z = +3,93.")
+print("\n  Rappel : le corpus initial (7 rapports, 17 transitions) donnait z = +3.93,")
+print("  contre un placebo par permutation de 8.4 +/- 2.2 transitions (script 53).")
 print("  Si z tient ou monte sur le corpus etendu, le signal n'etait pas un artefact des")
 print("  sept incidents choisis. S'il tient sur les seules sources PRIMAIRES, il ne vient")
 print("  pas non plus de la couverture de presse.")

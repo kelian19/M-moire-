@@ -150,6 +150,15 @@ for lab, coc in (("6,00 %", COC_ACTUEL), ("4,75 %", COC_REVISE)):
           f"({c/c0-1:+.0%})")
     print(f"   prime {p:,.2f} + cout du capital residuel {coc*s:,.2f} ; "
           f"{part:.0%} de la sinistralite cedee")
+    # LE TAUX MARGINAL DE PRIME, ET LE SEUIL D'INEFFICACITE QUI EN DECOULE.
+    # Le memoire publie kappa* = 1 - taux marginal / CoC comme seuil au-dela duquel detenir
+    # redevient preferable, et ni le taux marginal ni kappa* n'etaient imprimes : ils
+    # etaient calcules pendant la redaction, donc verifiables par personne.
+    _h = grid[1] - grid[0]
+    _tm = (evalue(0.0, grid[i] + _h, coc)[0] - evalue(0.0, max(grid[i] - _h, 0.0), coc)[0]) \
+        / (2 * _h)
+    print(f"   taux marginal de prime a l'optimum : {_tm:.4f} par euro de portee")
+    print(f"   seuil d'inefficacite kappa* = 1 - {_tm:.4f}/{coc:.4f} = {1 - _tm/coc:.0%}")
 
 titre("Le seuil d'indifference : a partir de quel chargement detenir redevient rationnel ?")
 # transferer tout le risque jusqu'a L = SCR ; a quel loss ratio le cout s'egalise-t-il ?

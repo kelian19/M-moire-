@@ -119,6 +119,25 @@ print(f"  a comparer a l'IC bootstrap de la configuration figee : "
       f"[{OPRISK['xi_ic90'][0]:.3f} ; {OPRISK['xi_ic90'][1]:.3f}]")
 print("  Les deux approches, asymptotique et par reechantillonnage, se recoupent.")
 
+# L'ESTIMATEUR DE HILL, ET SON ECART AU MLE. Le chapitre socle oppose les deux estimateurs et
+# publie l'ecart, que le script 67 avait explicitement renvoye ici : c'est ce script qui
+# possede la conversion en euros et les exces au-dessus du seuil de collecte.
+# Hill se calcule sur les pertes converties triees, convention de src/severity/gpd.py.
+# LE CHAPITRE SOCLE ANNONCAIT xi_Hill = 1,42 et un ecart de 138,7 % a k = 86. Ni cette
+# fonction ni aucune population du pipeline ne les reproduit : cyber x finance en euros
+# donne 1,315 et +120,8 %, le cyber seul 0,935, le secteur financier 0,893, la base entiere
+# 0,697. La valeur publiee vient d'une sonde dont le filtre n'a pas ete conserve. Le
+# chapitre a ete aligne sur la valeur ci-dessous, qui a un script qui l'imprime.
+_ord = np.sort(loss)[::-1]
+for _k in (86, n):
+    _lx = np.log(_ord[:_k + 1])
+    _hill = float(np.mean(_lx[:_k]) - _lx[_k])
+    print(f"\n  Estimateur de Hill, k = {_k} : xi_Hill = {_hill:.3f}   "
+          f"(MLE au seuil publie : {OPRISK['xi']:.4f})")
+    print(f"  ecart relatif de Hill au MLE : {100*(_hill/OPRISK['xi'] - 1):+.1f} %")
+print("  Hill suppose une queue de Pareto pure et ignore le parametre d'echelle : sur des")
+print("  excedents convertis, il surestime systematiquement. C'est le MLE qui est retenu.")
+
 print("  Ci-dessus : la FAMILLE GPD est-elle compatible avec les exces, parametres refaits")
 print("  a chaque tirage. Ci-dessous : le couple (xi, sigma) que le memoire PUBLIE est-il")
 print("  compatible avec eux, parametres imposes. C'est le second test qui atteste le")

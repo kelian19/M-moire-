@@ -86,6 +86,10 @@ def nombres(txt, latex=True):
     t = t.replace("\\,", "").replace("~", " ").replace("{,}", ".")
     t = re.sub(r"\\[a-zA-Z]+", " ", t)          # commandes LaTeX restantes
     if not latex:
+        # L'ECART-TYPE N'EST PAS UN NOMBRE NEGATIF. Les sorties ecrivent « 9.5+-2.4 » pour
+        # 9,5 plus ou moins 2,4 ; le motif d'extraction y voyait 9.5 puis MOINS 2.4, et le
+        # « 2,4 » du memoire ressortait non confirme alors que le script l'imprime.
+        t = t.replace("+-", "  ").replace("+/-", "  ")
         # UN NUMERO DE SCRIPT N'EST PAS UN RESULTAT, DES DEUX COTES. Le filtre \texttt{} plus
         # haut l'assure pour le memoire ; rien ne l'assurait pour les sorties, ou une ligne
         # « P1 en tete de priorite (script 30) » versait un 30 dans le pool de reference. Ce
@@ -110,8 +114,14 @@ def nombres(txt, latex=True):
         # qu'il crie trop souvent.
         t = re.sub(r"(?<![\d.,])([1-9]\d{0,2})((?:,\d{3})+)(?!\d)",
                    lambda m: m.group(1) + m.group(2).replace(",", ""), t)
+    t = t.replace("--", " ")
     out = []
-    for m in re.finditer(r"-?\d+(?:\.\d+)?", t):
+    # UN MOINS ENTRE DEUX NOMBRES EST UNE SOUSTRACTION, PAS UN SIGNE. Dans « kappa = 1 -
+    # 0,0103/0,0475 », le motif lisait « -0,0103 » et cherchait un nombre negatif que le
+    # script imprime positif. On n'accepte donc le signe que s'il ne suit ni un chiffre ni
+    # une parenthese fermante. Le tiret demi-cadratin des plages, « 2005--2022 », est
+    # neutralise juste avant : sans cela il fabriquait l'annee negative -2022.
+    for m in re.finditer(r"(?<![\d)])-?\d+(?:\.\d+)?", t):
         try:
             v = float(m.group(0))
         except ValueError:

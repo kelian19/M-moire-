@@ -10,9 +10,9 @@ les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 nationa
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
 État au 6 août 2026 : corps de 94 pages (annexes à partir de la 99, 119 pages au total),
-harnais de vérification à **95,7 %** sur 910 nombres, branche `exploratory`.
-Le taux n'est pas comparable à celui de la veille : la tolérance a été resserrée (point 3
-ci-dessous). À tolérance inchangée il serait de 98,8 %.
+harnais de vérification à **99,6 %** sur 904 nombres, branche `exploratory`, avec une
+tolérance resserrée (point 3 ci-dessous) qui rend ce taux plus exigeant que celui de la
+veille, pas moins.
 
 Le harnais était à 96,1 % sur 915 nombres la veille. Les 36 non confirmés ont été dépouillés
 un par un : aucun chiffre faux. Sept n'étaient pas des nombres du mémoire mais des artefacts de
@@ -21,13 +21,19 @@ rapports dérivés et les parts d'amorce sont désormais imprimés par les scrip
 quatre écarts d'unité ou de séparateur sont corrigés dans les scripts 36, 44, 48 et 60 ; trois
 valeurs étaient imprimées par un script que leur section ne citait pas.
 
-La tolérance a ensuite été resserrée (point 3 de « Ce qui est ouvert »), ce qui a sorti
-35 nombres de plus et fait tomber le taux à 95,7 %. Ce second passage a trouvé **une erreur
-réelle** : le chapitre socle écrivait l'intervalle de $\xi$ `[0,31 ; 0,83]` alors que la borne
-basse vaut 0,3044, qui s'arrondit à 0,30. Corrigé. Le reste se répartit en 14 grandeurs
-dérivées encore non imprimées, qui sont du travail identifié, et 25 valeurs légitimement hors
-script : 9 entrées posées du modèle, 13 constantes statistiques ou réglementaires, 3 sources
-externes.
+La tolérance a ensuite été resserrée, ce qui a sorti 35 nombres de plus, puis tout a été
+traité. **Trois erreurs réelles**, toutes corrigées : l'intervalle de $\xi$ écrit
+`[0,31 ; 0,83]` alors que la borne basse 0,3044 s'arrondit à 0,30, aux chapitres 05 et 06 ;
+l'estimateur de Hill publié à 1,42 avec un écart de 138,7 % au MLE, qu'aucune population du
+pipeline ne reproduit (la fonction `hill_estimator` du projet donne **1,32** et **+120,8 %**
+sur la population calibrée) ; et le seuil d'inefficacité $\kappa^\star$, publié à 76 % sur un
+taux marginal de prime de 0,0116 calculé à la main, alors que le script 58 l'imprime
+désormais à **0,0103**, soit $\kappa^\star = 78\,\%$.
+
+Cinq nouveaux artefacts de lecture ont aussi été corrigés dans le harnais : le `±` des
+sorties lu comme un signe négatif, le renvoi de section `§5.5` lu comme un nombre, le moins
+d'une soustraction lu comme un signe, le tiret demi-cadratin des plages d'années, et les
+virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 
 ## Où sont les choses
 
@@ -244,7 +250,7 @@ valeurs en produit toujours une. Les nombres restants se lisent un par un.
 
 ```
 0 référence indéfinie · 0 « Annotation out of page boundary » · 0 Overfull \vbox
-0 page tournée (/Rotate absent) · harnais ≥ 95 % · git status propre
+0 page tournée (/Rotate absent) · harnais ≥ 99 % · git status propre
 ```
 
 Et, pour toute figure modifiée : **l'ouvrir et la regarder**. L'outil Read affiche les PNG. Le
@@ -299,7 +305,10 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
    `max(0,6 % ; demi-unité du dernier chiffre écrit)`, c'est-à-dire la borne de l'arrondi
    d'écriture : 0,05 pour un nombre écrit « 2,1 », 0,5 pour « 122 ». **Le taux passe de 98,8 à
    95,7 %, et ce n'est pas une régression : c'est la même vérification, faite honnêtement.**
-   Le contrôle de fin de tâche devient donc **harnais ≥ 95 %**, et non plus 96 %.
+   Le contrôle de fin de tâche devient **harnais ≥ 99 %** : une fois les grandeurs dérivées
+   imprimées et les artefacts de lecture corrigés, le résidu tombe à **quatre** nombres, tous
+   irréductibles par nature (l'exposant de $10^{-30}$, deux sommes à $100\,\%$ par
+   construction, le niveau de confiance $99{,}9\,\%$).
 
 **Faisable :**
 - les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :

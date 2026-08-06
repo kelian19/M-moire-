@@ -1,4 +1,4 @@
-﻿
+
 ======================================================================================
 0. Verification de la convention d'indices (ligne = source)
 ======================================================================================
@@ -45,7 +45,8 @@
   sources primaires seules      7 inc., 18 trans. : T= 18.0  nul=  8.2+-2.4  z=+4.08  p=0.0003
   perspective entite seule      6 inc., 16 trans. : T= 16.0  nul=  8.0+-2.2  z=+3.62  p=0.0006
 
-  Rappel : le corpus initial (7 rapports, 17 transitions) donnait z = +3,93.
+  Rappel : le corpus initial (7 rapports, 17 transitions) donnait z = +3.93,
+  contre un placebo par permutation de 8.4 +/- 2.2 transitions (script 53).
   Si z tient ou monte sur le corpus etendu, le signal n'etait pas un artefact des
   sept incidents choisis. S'il tient sur les seules sources PRIMAIRES, il ne vient
   pas non plus de la couverture de presse.
@@ -128,7 +129,7 @@
   C'est la meme conclusion que le mémoire tenait deja, mais obtenue cette fois sur la
   matrice ordonnee complete et non plus sur le seul sens a l'interieur des paires.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\Z20_corpus_etendu_pij.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/Z20_corpus_etendu_pij.png
 
 ======================================================================================
 AVERTISSEMENT DE VALIDATION

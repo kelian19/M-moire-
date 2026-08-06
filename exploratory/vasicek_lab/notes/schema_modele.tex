@@ -1,11 +1,16 @@
-﻿% Schema COMPLET du modele : ingredients, mecanisme, sorties.
+% Schema COMPLET du modele : donnees, calibration, mecanisme, identification, sorties.
 % Compile avec Tectonic. Une page A4 paysage, incluable dans le memoire et les slides.
+%
+% PRINCIPE DE LECTURE, ET C'EST LE POINT DU SCHEMA. Chaque grandeur porte une pastille qui
+% dit son STATUT epistemique : estimee sur donnee, posee sans calibration, bornee faute
+% d'identification, ou reglementaire. Un lecteur doit pouvoir attaquer le modele bloc par
+% bloc, et savoir en un coup d'oeil ce qui se discute et ce qui se verifie.
 \documentclass[11pt,a4paper,landscape]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[french]{babel}
-\usepackage[margin=0.7cm]{geometry}
+\usepackage[margin=0.38cm]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{eurosym}
 \usepackage[table]{xcolor}
@@ -17,230 +22,261 @@
 \definecolor{lightblue}{HTML}{D6E0F0}
 \definecolor{accent}{HTML}{C0491F}
 \definecolor{vert}{HTML}{3D8361}
+\definecolor{ocre}{HTML}{B07D2B}
 \definecolor{gris}{HTML}{6B6B6B}
+\definecolor{grisclair}{HTML}{ECECEC}
 
 \pagestyle{empty}
 
 \tikzset{
   bloc/.style={
-    draw=navy, fill=lightblue!30, line width=0.6pt, rounded corners=2pt,
-    align=left, inner sep=4pt, font=\scriptsize, text width=#1},
-  bloc/.default=8.4cm,
+    draw=navy, fill=lightblue!25, line width=0.6pt, rounded corners=2pt,
+    align=left, inner sep=3.5pt, font=\scriptsize, text width=#1},
+  bloc/.default=8.7cm,
   sortie/.style={
-    draw=vert!80!black, fill=vert!10, line width=0.7pt, rounded corners=2pt,
-    align=left, inner sep=4pt, font=\scriptsize, text width=#1},
-  sortie/.default=8.4cm,
+    draw=vert!80!black, fill=vert!8, line width=0.7pt, rounded corners=2pt,
+    align=left, inner sep=3.5pt, font=\scriptsize, text width=#1},
+  sortie/.default=8.7cm,
   limite/.style={
-    draw=accent!70!black, fill=accent!7, line width=0.7pt, rounded corners=2pt,
-    align=left, inner sep=4pt, font=\scriptsize, text width=#1},
-  limite/.default=8.4cm,
+    draw=accent!70!black, fill=accent!6, line width=0.7pt, rounded corners=2pt,
+    align=left, inner sep=3.5pt, font=\scriptsize, text width=#1},
+  limite/.default=8.7cm,
   entete/.style={
     fill=navy, text=white, rounded corners=2pt, align=center,
-    inner sep=3pt, font=\small\bfseries, text width=8.4cm},
+    inner sep=2.5pt, font=\small\bfseries, text width=8.7cm},
   pilier/.style={
     draw=bluemid, fill=white, line width=0.7pt, rounded corners=2pt,
-    align=center, inner sep=2pt, font=\tiny, text width=1.32cm, minimum height=0.72cm},
-  fl/.style={-{Stealth[length=2.2mm]}, line width=0.8pt, color=navy},
-  flfin/.style={-{Stealth[length=1.6mm]}, line width=0.55pt, color=bluemid},
-  flcol/.style={-{Stealth[length=2.6mm]}, line width=1.1pt, color=navy!70},
-  tt/.style={font=\scriptsize\bfseries\color{navy}},
+    align=center, inner sep=1.5pt, font=\tiny, text width=1.34cm, minimum height=0.62cm},
+  fl/.style={-{Stealth[length=2.0mm]}, line width=0.7pt, color=navy},
+  flfin/.style={-{Stealth[length=1.5mm]}, line width=0.5pt, color=bluemid},
+  flcol/.style={-{Stealth[length=2.4mm]}, line width=1.0pt, color=navy!70},
 }
 
-\newcommand{\eq}[1]{\par\vspace{2pt}{\centering$\displaystyle #1$\par}\vspace{2pt}}
-\newcommand{\ttl}[1]{{\color{navy}\bfseries #1}\\[1pt]}
+% --- pastilles de statut : le coeur de la lecture
+\newcommand{\pest}{\textcolor{bluemid}{$\blacksquare$}}   % estime sur donnee
+\newcommand{\ppos}{\textcolor{ocre}{$\blacklozenge$}}     % pose, non calibre
+\newcommand{\pbor}{\textcolor{accent}{$\blacktriangle$}}  % borne, non identifie
+\newcommand{\preg}{\textcolor{gris}{$\bullet$}}           % reglementaire ou standard
+
+\newcommand{\eq}[1]{\par\vspace{1.5pt}{\centering$\displaystyle #1$\par}\vspace{1.5pt}}
+\newcommand{\ttl}[1]{{\color{navy}\bfseries #1}\\[0.5pt]}
+\newcommand{\src}[1]{\hfill{\tiny\color{gris}script~#1}}
 
 \begin{document}
 \begin{center}
 
-{\color{navy}\large\bfseries De la donnée brute au capital, puis à son allocation}\\[0pt]
-{\scriptsize\color{gris} Chaque bloc est un choix de modélisation attaquable séparément.
-En vert ce qui sort, en rouge ce qu'on ne sait pas trancher.}
+{\color{navy}\large\bfseries Quantifier le besoin de capital DORA : de la donnée brute au
+capital, puis à son allocation}\\[1pt]
+{\scriptsize\color{gris}
+\pest~estimé sur donnée \quad
+\ppos~posé, non calibré \quad
+\pbor~borné faute d'identification \quad
+\preg~réglementaire ou standard
+\;\textbar\; chaque bloc est un choix attaquable séparément, et chaque nombre est imprimé par
+le script indiqué à droite.}
 
-\vspace{1.5mm}
+\vspace{0.8mm}
 
-\begin{tikzpicture}[node distance=2.6mm]
+\begin{tikzpicture}[node distance=1.7mm]
 
 % =====================================================================
-% COLONNE 1 : LES INGREDIENTS
+% COLONNE 1 : DONNEES ET CALIBRATION
 % =====================================================================
-\node[entete] (h1) {I. Les ingrédients};
+\node[entete] (h1) {I. Les données, et ce qu'on en tire};
 
 \node[bloc, below=of h1] (b11)
-  {\ttl{1. Trois sources, trois rôles disjoints}
-   \textbf{OpRisk} $4\,329$ transitions, pertes en dollars $\to$ le \emph{niveau}.\\
-   \textbf{PRC} $15\,053$ incidents en enregistrements, converti par Jacobs
+  {\ttl{1. Trois sources, trois rôles disjoints \src{62, 63}}
+   \pest~\textbf{OpRisk Global} (SAS), $582$ pertes cyber${\times}$finance sur $27$ ans,
+   converties en euros $\to$ porte le \emph{niveau} de sévérité.\\
+   \pest~\textbf{Privacy Rights Clearinghouse}, $15\,053$ incidents en nombre
+   d'enregistrements, convertis par la régression de Jacobs
    $\ln L = 7{,}68+0{,}76\ln X+\varepsilon$ $\to$ axe de \emph{sensibilité}.\\
-   \textbf{7 rapports post-incident}, $17$ enchaînements $\to$ le seul \emph{ordre}.};
+   \pest~\textbf{Corpus de post-mortems}, $10$ incidents et $22$ transitions codées
+   $\to$ la seule source d'\emph{ordre} entre piliers.\\[1pt]
+   \preg~\textbf{Hackmageddon} : parts par vecteur seulement, citation externe datée et
+   \emph{non recalculable}, qui ne porte aucun niveau de capital.};
 
 \node[bloc, below=of b11] (b12)
-  {\ttl{2. Fréquence : une charge systémique commune}
-   $Y\sim\mathcal{N}(0,1)$ tirée \emph{une fois par an}, commune aux cinq piliers.\\[2pt]
-   $m=\exp\!\bigl(aY-\tfrac{a^2}{2}\bigr)$, \; $a=0{,}60$, \; $\mathbb{E}[m]=1$\\[2pt]
-   $N_j \mid Y \ \sim\ \mathcal{P}\bigl(\lambda_j\, m\bigr)$, \quad
-   $\lambda_{\text{tot}}=12$, \; $\lambda_j\propto \mathrm{ROOT}_j$\\[3pt]
-   \emph{C'est le mélange qui crée la surdispersion~:}
-   $\dfrac{\mathrm{Var}(N)}{\mathbb{E}[N]}=1+\lambda\bigl(e^{a^2}-1\bigr)=\varphi=9{,}2$};
+  {\ttl{2. Fréquence : une charge systémique commune \src{08b, 41}}
+   $Y\sim\mathcal{N}(0,1)$ tirée \emph{une fois par an}, commune aux cinq piliers~:
+   \eq{
+     m=\exp\!\bigl(aY-\tfrac{a^2}{2}\bigr),\quad \mathbb{E}[m]=1,\qquad
+     N_j \mid Y \sim \mathcal{P}\bigl(\lambda_j\, m\bigr)
+   }
+   \ppos~$a=0{,}60$ \emph{posé}, contre \pest~$a=0{,}122$ \emph{estimé}
+   (IC$_{95\%}$ $[0{,}054\,;0{,}223]$) : \textbf{le mémoire retient donc une charge
+   systémique plus lourde que sa propre estimation}, et le dit.\\
+   \pest~$\lambda_{\text{secteur}}=21{,}56$/an, \; $\lambda_j\propto\mathrm{ROOT}_j$,
+   parts $30/27/18/15/9\,\%$. Surdispersion observée $\mathrm{Var}/\mathbb{E}=1{,}19$,
+   dispersion de Pearson $\varphi=2{,}24$.};
 
 \node[bloc, below=of b12] (b13)
-  {\ttl{3. La matrice de corrélation entre piliers}
-   Le facteur commun $Y$ corrèle les comptages sans qu'on ait à poser de copule~:
+  {\ttl{3. Sévérité : loi recollée, corps empirique et queue GPD \src{07, 47, 63}}
    \eq{
-     \mathrm{Corr}_{jk}=\frac{\lambda_j\lambda_k\bigl(e^{a^2}-1\bigr)}
-     {\sqrt{\bigl(\lambda_j+\lambda_j^2(e^{a^2}-1)\bigr)
-            \bigl(\lambda_k+\lambda_k^2(e^{a^2}-1)\bigr)}}
+     \mathbb{P}(X>x)=p_u\Bigl(1+\tfrac{\xi(x-u)}{\sigma}\Bigr)^{-1/\xi},\qquad x>u
    }
-   avec $e^{a^2}-1=0{,}433$. \emph{Corrélation croissante en $\lambda$~: les piliers les
-   plus exposés sont aussi les plus solidaires.}};
+   \pest~\textbf{OpRisk} : $u=20{,}03$~M\euro, $91$ excès, $\xi=0{,}595$
+   (IC$_{90\%}$ $[0{,}30\,;0{,}83]$), $\sigma=57{,}97$~M\euro, $p_u=0{,}151$.\\
+   \pest~\textbf{PRC} : $u=4{,}176$~M\euro, $2\,258$ excès, $\xi=1{,}033$ :
+   \emph{espérance infinie}, ce qui justifie \ppos~un plafond de sévérité à $40$~M\euro.\\[1pt]
+   \textbf{Validé, pas supposé} : Anderson-Darling $p=0{,}99$ et Kolmogorov-Smirnov
+   $p=0{,}89$ sur les paramètres \emph{publiés}, paramètres imposés. $\xi$ ne bouge que de
+   $0{,}5\,\%$ si l'on déplace le seuil au percentile $85$.};
 
-\node[bloc, below=of b13] (b14)
-  {\ttl{4. Sévérité : loi recollée}
-   Corps empirique sous le seuil, queue paramétrique au dessus~:
-   \eq{
-     \mathbb{P}(X>x)=p_u\Bigl(1+\tfrac{\xi(x-u)}{\sigma}\Bigr)^{-1/\xi}, \quad x>u
-   }
-   $\xi=0{,}60$ (OpRisk), $\xi=1{,}03$ (PRC), \; $u=4{,}176$~M\euro, \; $p_u=0{,}150$.\\[2pt]
-   \emph{$\xi>1$ sur PRC~: la moyenne théorique n'existe pas.}};
+\node[limite, below=of b13] (b14)
+  {\ttl{4. Ce que la donnée ne permet pas, et qu'on ne masque pas \src{57, 67}}
+   \pbor~Biais de taille : OpRisk sur-représente les grandes institutions, la queue est
+   possiblement sous-estimée. Biais de troncature au seuil de collecte.\\
+   \pbor~Aucune base ne date les enchaînements : $4\,329$ transitions annuelles ne donnent
+   \emph{aucun} signal directionnel ($z=-0{,}33$).\\
+   \pbor~Le second codage en aveugle du corpus reste à faire : la fiabilité inter-juges
+   n'est pas mesurée.};
 
 % =====================================================================
-% COLONNE 2 : LE MECANISME
+% COLONNE 2 : MECANISME ET IDENTIFICATION
 % =====================================================================
-\node[entete, right=9mm of h1] (h2) {II. Le mécanisme de propagation};
+\node[entete, right=6mm of h1] (h2) {II. Le mécanisme, et sa part inidentifiable};
 
 \node[bloc, below=of h2] (b21)
-  {\ttl{5. De la matrice de jugement à la matrice de contagion}
-   $s_j=\sum_k \mathrm{TRANS}_{jk}$ \; la \emph{puissance de propagation} du pilier $j$.
+  {\ttl{5. De la matrice de jugement à la matrice de contagion \src{16, 20, 30}}
+   $s_j=\sum_k \mathrm{TRANS}_{jk}$ est la \emph{puissance de propagation} du pilier $j$~:
    \eq{
-     W_{jk}=g\,\frac{\mathrm{TRANS}_{jk}}{\max_s s_s}, \qquad g=0{,}90
+     W_{jk}=g\,\frac{\mathrm{TRANS}_{jk}}{\max_\ell s_\ell},\qquad
+     e_j = g\,\frac{s_j}{\max_\ell s_\ell}
    }
-   Nombre moyen de descendants directs de $j$~:
-   $e_j = g\,s_j/\max_s s_s$.\\[2pt]
-   Comme $\sum_k W_{jk}\le g$, on a $\rho(W)\le g<1$~: \textbf{sous-criticité garantie par
-   construction}, la cascade s'éteint toujours.};
+   \ppos~$g$ par état de conformité : $0{,}45$ / $0{,}68$ / $0{,}90$, \emph{posés}.\\
+   \pest~$\rho(W)=0{,}506$ à $g=0{,}90$. Comme $\sum_k W_{jk}\le g$, on a $\rho(W)\le g<1$~:
+   \textbf{sous-criticité garantie par construction}, la cascade s'éteint toujours.};
 
-% --- les cinq piliers
-\node[pilier, below=7mm of b21.south west, xshift=0.85cm] (p1) {\textbf{P1}\\gouvernance};
-\node[pilier, right=2.5mm of p1] (p2) {\textbf{P2}\\incidents};
-\node[pilier, right=2.5mm of p2] (p3) {\textbf{P3}\\tests};
-\node[pilier, right=2.5mm of p3] (p4) {\textbf{P4}\\tiers};
-\node[pilier, right=2.5mm of p4] (p5) {\textbf{P5}\\partage};
+\node[pilier, below=5mm of b21.south west, xshift=0.88cm] (p1) {\textbf{P1}\\gouvernance};
+\node[pilier, right=2.2mm of p1] (p2) {\textbf{P2}\\incidents};
+\node[pilier, right=2.2mm of p2] (p3) {\textbf{P3}\\tests};
+\node[pilier, right=2.2mm of p3] (p4) {\textbf{P4}\\tiers};
+\node[pilier, right=2.2mm of p4] (p5) {\textbf{P5}\\partage};
 
 \draw[flfin] (p1.south) to[bend right=22] (p2.south);
 \draw[flfin] (p4.south) to[bend left=18] (p2.south);
 \draw[flfin] (p2.south) to[bend right=16] (p5.south);
 \draw[flfin] (p5.south) to[bend left=20] (p3.south);
 \draw[flfin] (p1.south) to[bend right=13] (p3.south);
-\node[font=\tiny\itshape, color=gris] (lbr) at ($(p3.south)+(0,-0.92)$)
-  {les cinq courants nets dominants, $\max|J_{jk}|=0{,}044$};
+\node[font=\tiny\itshape, color=gris] (lbr) at ($(p3.south)+(0,-0.82)$)
+  {les cinq courants nets dominants ; $\max_{jk}|J_{jk}|=0{,}044$, aucun n'est significatif};
 
 \begin{scope}[on background layer]
   \node[draw=navy, dashed, line width=0.5pt, rounded corners=3pt,
-        fit=(p1)(p2)(p3)(p4)(p5)(lbr), inner sep=4pt, fill=white] (casc) {};
+        fit=(p1)(p2)(p3)(p4)(p5)(lbr), inner sep=3pt, fill=white] (casc) {};
 \end{scope}
 
-\node[bloc, below=3mm of casc] (b22)
-  {\ttl{6. Le branchement, et la loi exacte de l'étendue}
+\node[bloc, below=2mm of casc] (b22)
+  {\ttl{6. Le branchement, et la loi exacte de l'étendue \src{16b}}
    Depuis un pilier $j$ tombé, chaque cible est tirée proportionnellement à
-   $\mathrm{TRANS}_{jk}/s_j$, et infectée avec probabilité $W_{jk}$.\\[2pt]
-   La loi du \textbf{nombre de piliers touchés} est calculée \emph{exactement}, sans
-   Monte-Carlo, par récursion sur les $2^5$ sous-ensembles~:
+   $\mathrm{TRANS}_{jk}/s_j$ et infectée avec probabilité $W_{jk}$. La loi du
+   \textbf{nombre de piliers touchés} est calculée \emph{exactement}, sans Monte-Carlo,
+   par récursion sur les $2^5$ sous-ensembles~:
    \eq{
-     \mathbb{P}(\mathcal{S}=\mathcal{A})=R(\mathcal{A})\!\!\prod_{j\in\mathcal{A},\,
-     k\notin\mathcal{A}}\!\!(1-W_{jk})
+     \mathbb{P}(\mathcal{S}=\mathcal{A})=R(\mathcal{A})
+     \!\!\prod_{j\in\mathcal{A},\,k\notin\mathcal{A}}\!\!(1-W_{jk})
    }
    où le produit est la probabilité qu'\emph{aucune} fuite ne sorte de $\mathcal{A}$.};
 
-\node[bloc, below=of b22] (b23)
-  {\ttl{7. Le seuil de bascule et la copule}
-   \textbf{Marge} (un pilier bascule seul)~: $K_j=\Phi^{-1}(1-p_j)$, \; $K_4=1{,}033$.
-   La loi de la latente n'est ici qu'une \emph{normalisation}.\\[3pt]
-   \textbf{Dépendance} (combien basculent ensemble)~: on ne tranche pas, on encadre, à
-   $\tau$ de Kendall égal $\tau=1-1/\theta=0{,}444$~:
-   \\[2pt]
-   \quad plancher gaussien \; $\rho_G=\sin(\pi\tau/2)=0{,}643$, \; $\lambda_U=0$\\
-   \quad plafond de Gumbel \; $\theta=1{,}8$, \;
-   $\lambda_U=2-2^{1/\theta}=0{,}53$\\[2pt]
-   \emph{Co-extrême des cinq piliers~: $0{,}17 \to 0{,}39$.}};
+\node[limite, below=of b22] (b23)
+  {\ttl{7. Le c\oe{}ur du problème : la direction n'est pas identifiée \src{40, 53, 59}}
+   Décomposition $W=S+A$, avec $S$ symétrique (\emph{le lien}) et $A$ antisymétrique
+   (\emph{le sens}).\\
+   \pest~$S$ est identifié : la co-occurrence se lit dans les données.\\
+   \pbor~$A$ ne l'est pas : trois tests successifs le montrent.
+   Placebo par permutation sur le pas annuel d'OpRisk, $z=-0{,}33$, \emph{aucun signal} ;
+   sur les post-mortems, $z=+3{,}93$ contre un nul de $8{,}4\pm2{,}2$ ; sur le corpus
+   étendu, $z=+5{,}12$.\\[1pt]
+   \textbf{Réponse : l'identification partielle.} On énumère \emph{exhaustivement} les
+   $2^{10}=1024$ sommets de la boîte admissible $|A_{jk}|\le t\,S_{jk}$, et l'on rapporte
+   une \textbf{bande}, pas un point.};
 
 \node[bloc, below=of b23] (b24)
-  {\ttl{8. Amplification}
-   $(I-W)^{-1}=I+W+W^2+W^3+\cdots$ \; converge car $\rho(W)<1$.\\[1pt]
-   \emph{Le choc direct, plus ce qu'il déclenche, plus ce que cela déclenche.
-   La direction n'apparaît qu'à partir de $W^2$.}};
+  {\ttl{8. Amplification, et adaptations par pilier \src{37, 38, 39}}
+   $(I-W)^{-1}=I+W+W^2+\cdots$ converge car $\rho(W)<1$. \emph{La direction n'apparaît
+   qu'à partir de $W^2$ : c'est là que se joue la dépendance à l'ordre.}\\[1pt]
+   \pbor~Queue par pilier : cinq queues Bâle observées, $0{,}87$ à $1{,}37$, non
+   assignables aux piliers. Les $120$ assignations bornent le SCR à $+55$ / $+96\,\%$.\\
+   \pest~P4 (tiers) n'est pas un n\oe{}ud comme les autres : $191$ victimes d'un seul choc
+   (MOVEit) $\to$ \textbf{choc commun}, structure symétrique donc \emph{identifiée}.};
 
 % =====================================================================
-% COLONNE 3 : LES SORTIES
+% COLONNE 3 : SORTIES, ECHELLE, LIMITES
 % =====================================================================
-\node[entete, right=9mm of h2] (h3) {III. Les sorties, et leurs limites};
+\node[entete, right=6mm of h2] (h3) {III. Ce qui sort, et à quelles conditions};
 
 \node[sortie, below=of h3] (b31)
-  {\ttl{9. Agrégation, modèle collectif}
-   \eq{
-     L=\sum_{i=1}^{N} X_i^{\text{amplifiée}}, \qquad L=\sum_{j=1}^{5} L_j
-   }
-   $L_j$ est la perte des incidents \emph{amorcés} au pilier $j$. $10^5$ années simulées,
-   nombres aléatoires communs entre configurations.};
+  {\ttl{9. Agrégation et capital \src{14, 16, 21}}
+   Modèle collectif, $L=\sum_{i=1}^{N} X_i^{\text{amplifiée}}=\sum_{j=1}^{5} L_j$,
+   $60\,000$ à $600\,000$ années simulées, nombres aléatoires communs entre configurations.\\
+   \preg~$\mathrm{SCR}=\mathrm{VaR}_{99{,}5\,\%}(L)$, forme imposée par Solvabilité~II.\\[1pt]
+   socle sans contagion \; $5\,275$~M\euro \\
+   \pbor~avec contagion, ignorance directionnelle totale \;
+   $[\,6\,858\;;\;8\,697\,]$~M\euro\\
+   surcoût de non-conformité \; $\Delta_{\text{DORA}}=10\,927$~M\euro};
 
 \node[sortie, below=of b31] (b32)
-  {\ttl{10. Capital}
-   $\mathrm{SCR}=\mathrm{VaR}_{99{,}5\,\%}(L)$, imposé par Solvabilité~II.\\[2pt]
-   socle sans contagion \; $5\,275$~M\euro\\
-   avec contagion, ignorance totale \; $[\,6\,858\;;\;8\,697\,]$~M\euro\\[2pt]
-   \emph{On rapporte aussi la TVaR, cohérente, là où la VaR ne l'est pas.}};
+  {\ttl{10. Allocation aux cinq piliers : deux vues, deux questions \src{20}}
+   \textbf{Shapley}, vue \emph{source}, pour le surcoût~:
+   $\varphi_j=\sum_{\mathcal{A}\not\ni j}
+   \frac{|\mathcal{A}|!\,(4-|\mathcal{A}|)!}{5!}
+   [v(\mathcal{A}\cup\{j\})-v(\mathcal{A})]$, avec
+   $v(\mathcal{A})=\mathrm{SCR}(\mathcal{A}\text{ non conformes})-\mathrm{SCR}(\text{tous
+   conformes})$. P1 concentre $34\,\%$, au-dessus de sa part d'amorce de $30\,\%$~:
+   \emph{la propagation déforme l'amorce}.\\
+   \textbf{Euler}, vue \emph{réceptacle}, pour le niveau~:
+   $C_j=\mathbb{E}[L_j \mid L\ge \mathrm{VaR}_{99{,}5\,\%}]$, presque plate.\\[1pt]
+   \emph{La remédiation se décide côté source, le capital se loge côté réceptacle.}};
 
 \node[sortie, below=of b32] (b33)
-  {\ttl{11. Allocation aux cinq piliers}
-   \textbf{Euler}, pour le \emph{niveau} de capital, version TVaR~:
-   \eq{
-     C_j=\mathbb{E}\bigl[L_j \,\big|\, L\ge \mathrm{VaR}_{99{,}5\,\%}\bigr],
-     \qquad \textstyle\sum_j C_j=\mathrm{SCR}
-   }
-   \textbf{Shapley}, pour le \emph{surcoût} $\Delta_{\text{DORA}}$, avec
-   $v(\mathcal{A})=\mathrm{SCR}(\mathcal{A}\ \text{non conformes})-\mathrm{SCR}(\text{tous
-   conformes})$~:
-   \eq{
-     \varphi_j=\!\!\sum_{\mathcal{A}\not\ni j}\!\!
-     \frac{|\mathcal{A}|!\,(5-|\mathcal{A}|-1)!}{5!}
-     \bigl[v(\mathcal{A}\cup\{j\})-v(\mathcal{A})\bigr]
-   }
-   \emph{La cascade est super-additive~: les effets marginaux ne somment pas au total.
-   Shapley redistribue exactement l'interaction laissée de côté.}};
+  {\ttl{11. Descente à l'échelle d'une entité, et emploi \src{58, 60, 65}}
+   $\lambda$ lu \emph{à la taille} de l'entité, $0{,}092$/an, et non choisi dans un seau.
+   Besoin de capital $169$~M\euro, bornes $[\,131{,}5\;;\;183{,}3\,]$.\\
+   \textbf{Arbitrage détenir ou transférer} : le coût annuel du capital vaut $2{,}2$ fois
+   la sinistralité attendue ; la portée optimale suit le capital, et la conformité fait
+   tomber le coût total de $2{,}89$ à $0{,}54$~M\euro/an, soit $-81\,\%$.\\
+   \pest~Quatre bilans SFCR réels, entités anonymisées : le rapport au SCR publié est une
+   \textbf{mise à l'échelle, pas une part}.};
 
 \node[limite, below=of b33] (b34)
-  {\ttl{12. Ce qu'on ne sait pas trancher}
-   $W=S+A$~: $S$ (le lien) est identifié, $A$ (le sens) ne l'est pas.\\[2pt]
-   Placebo~: $z=-0{,}33$ sur les bases annuelles, $z=+3{,}93$ sur les post-mortems.\\[2pt]
-   Boîte admissible $|A_{jk}|\le t\,S_{jk}$, \; $2^{10}=1024$ sommets énumérés.\\[2pt]
-   $\sigma$ est \emph{constante} sur les $1024$~: elle voit $|A|$, jamais son signe.};
-
-\node[limite, below=of b34] (b35)
-  {\ttl{13. Trois étages d'incertitude}
-   paramètre (bootstrap) $\times 2{,}6$ \; $\cdot$ \; dépendance $\times 1{,}8$ \; $\cdot$
-   \; famille de queue $\times 5{,}5$\\[2pt]
-   \textbf{Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.}};
+  {\ttl{12. Les réserves, publiées et non dissimulées \src{46, 48, 51, 66}}
+   \pbor~\textbf{Trois étages d'incertitude} : paramètre $\times 2{,}5$ \; $\cdot$ \;
+   dépendance $\times 1{,}8$ \; $\cdot$ \; famille de queue $\times 5{,}5$.
+   \textbf{Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.}\\
+   \pbor~Le $169$~M\euro{} est une \textbf{borne supérieure d'ordre de grandeur}, pas une
+   mesure : l'entité notionnelle tombe sous la borne inférieure de validité de la descente.\\
+   \ppos~Les trois $g$ sont posés, mais la thèse n'en dépend pas : le capital est
+   \emph{croissant} en $g$ (lemme vérifié), donc tout ordre respecté produit l'écart.
+   Seule l'\textbf{amplitude} est un scénario.\\
+   \preg~\textbf{Ce n'est pas un SCR réglementaire} : aucun module DORA n'existe en Formule
+   Standard. On écrit \og{}besoin de capital ORSA au titre de DORA\fg{}.};
 
 % =====================================================================
-% fleches inter-colonnes et intra-colonne
+% fleches
 % =====================================================================
 \draw[fl] (b11.south) -- (b12.north);
 \draw[fl] (b12.south) -- (b13.north);
+\draw[fl] (b13.south) -- (b14.north);
 \draw[fl] (b21.south) -- (casc.north);
 \draw[fl] (casc.south) -- (b22.north);
 \draw[fl] (b22.south) -- (b23.north);
 \draw[fl] (b23.south) -- (b24.north);
 \draw[fl] (b31.south) -- (b32.north);
 \draw[fl] (b32.south) -- (b33.north);
+\draw[fl] (b33.south) -- (b34.north);
 
-% passage d'une colonne a l'autre : fleches courtes dans les gouttieres, sans texte,
-% pour ne traverser aucun bloc. Le sens de lecture est donne par la legende sous la figure.
-\coordinate (g1) at ($(b12.east)!0.5!(b13.east)$);
-\coordinate (g2) at ($(b23.west)!0.5!(b22.west)$);
-\draw[flcol] ($(g1)+(0.10,0)$) -- ($(g1)+(0.78,0)$);
-\draw[flcol] ($(b24.east)+(0.10,0)$) -- ($(b24.east)+(0.78,0)$);
-\draw[flcol] ($(b21.east)+(0.10,0)$) -- ($(b21.east)+(0.78,0)$);
+\draw[flcol] ($(b12.east)+(0.10,0)$) -- ($(b12.east)+(0.50,0)$);
+\draw[flcol] ($(b21.east)+(0.10,0)$) -- ($(b21.east)+(0.50,0)$);
+\draw[flcol] ($(b24.east)+(0.10,0)$) -- ($(b24.east)+(0.50,0)$);
 
 \end{tikzpicture}
 
-{\scriptsize\color{gris} Lecture~: la colonne~I fournit le combien et le combien ça coûte, la colonne~II dit comment cela se propage, la colonne~III ce que l'on en tire et ce que l'on ne sait pas trancher.}
+\vspace{0.4mm}
+{\scriptsize\color{gris}
+\textbf{Le fil, en une phrase} : la donnée identifie le \emph{lien} entre piliers, pas son
+\emph{sens} ; on ne pose donc pas la direction, on l'encadre, et le classement des piliers
+survit à cet encadrement là où le niveau du capital, lui, n'y survit pas.}
 
 \end{center}
 \end{document}

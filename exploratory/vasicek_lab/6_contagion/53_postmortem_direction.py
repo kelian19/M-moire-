@@ -219,7 +219,7 @@ print(f"  Placebo (orientation aleatoire) = {mu:.1f} +/- {sd:.1f}   (n = {NPERM}
 print(f"  z = {z:+.2f}   p = {p_perm:.5f}"
       + ("   -> SIGNAL DIRECTIONNEL" if p_perm < 0.05 else "   -> pas de signal"))
 print(f"\n  Rappel (chapitre 9, OpRisk, pas annuel) : asymetrie 119 vs placebo 128 +/- 27,")
-print(f"  z = -0,33, AUCUN signal. Ici le compromis est inverse : peu de volume, mais une")
+print(f"  z = -0.33, AUCUN signal. Ici le compromis est inverse : peu de volume, mais une")
 print(f"  direction ETABLIE par l'enquete. C'est la qualite du codage qui donne la puissance.")
 
 # test de signe : les aretes vont-elles dans un sens coherent ?
@@ -282,7 +282,7 @@ titre("VERDICT")
 # =====================================================================================
 print(f"  1. La direction de W devient IDENTIFIABLE sur un corpus de post-mortems : asymetrie")
 print(f"     {a_obs:.0f} contre placebo {mu:.1f} +/- {sd:.1f} (z = {z:+.2f}, p = {p_perm:.4f}), la ou")
-print(f"     le pas annuel d'OpRisk ne donnait rien (z = -0,33).")
+print(f"     le pas annuel d'OpRisk ne donnait rien (z = -0.33).")
 print(f"  2. La coherence est totale : {n_conc} transitions dans le sens dominant, {n_disc} a")
 print(f"     contre-sens. P1 n'est jamais cible, P2 est un puits.")
 print(f"  3. Le jugement d'expert du classeur est CORROBORE ({agree}/{tot} signes concordants) :")

@@ -17,6 +17,14 @@ Tests d'adequation (p-value par bootstrap parametrique)
   IC 90 % par delta-methode : [0.320 ; 0.871]
   a comparer a l'IC bootstrap de la configuration figee : [0.304 ; 0.831]
   Les deux approches, asymptotique et par reechantillonnage, se recoupent.
+
+  Estimateur de Hill, k = 86 : xi_Hill = 1.315   (MLE au seuil publie : 0.5954)
+  ecart relatif de Hill au MLE : +120.8 %
+
+  Estimateur de Hill, k = 91 : xi_Hill = 1.396   (MLE au seuil publie : 0.5954)
+  ecart relatif de Hill au MLE : +134.5 %
+  Hill suppose une queue de Pareto pure et ignore le parametre d'echelle : sur des
+  excedents convertis, il surestime systematiquement. C'est le MLE qui est retenu.
   Ci-dessus : la FAMILLE GPD est-elle compatible avec les exces, parametres refaits
   a chaque tirage. Ci-dessous : le couple (xi, sigma) que le memoire PUBLIE est-il
   compatible avec eux, parametres imposes. C'est le second test qui atteste le

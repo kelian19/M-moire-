@@ -1,4 +1,4 @@
-﻿
+
 ====================================================================================
 La distribution de perte annuelle, a l'echelle d'une entite
 ====================================================================================
@@ -40,10 +40,14 @@ Retention R = 0 (le traite prend tout des le premier euro), CoC = 4,75 %
 CoC = 6,00 % : portee optimale L* = 170 M EUR
    cout total 2.89 M EUR/an contre 10.14 en tout-detention (-72%)
    prime 2.89 + cout du capital residuel 0.00 ; 38% de la sinistralite cedee
+   taux marginal de prime a l'optimum : 0.0103 par euro de portee
+   seuil d'inefficacite kappa* = 1 - 0.0103/0.0600 = 83%
 
 CoC = 4,75 % : portee optimale L* = 170 M EUR
    cout total 2.89 M EUR/an contre 8.03 en tout-detention (-64%)
    prime 2.89 + cout du capital residuel 0.00 ; 38% de la sinistralite cedee
+   taux marginal de prime a l'optimum : 0.0103 par euro de portee
+   seuil d'inefficacite kappa* = 1 - 0.0103/0.0475 = 78%
 
 ====================================================================================
 Le seuil d'indifference : a partir de quel chargement detenir redevient rationnel ?
@@ -106,4 +110,4 @@ Lecture : la conformite ne fait pas que baisser le capital, elle deplace le
 point d'equilibre entre retention et transfert. C'est un resultat de PILOTAGE,
 pas seulement de mesure.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\S19_detenir_ou_transferer.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/S19_detenir_ou_transferer.png

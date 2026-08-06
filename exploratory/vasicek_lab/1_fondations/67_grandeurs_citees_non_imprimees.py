@@ -291,6 +291,54 @@ else:
 
 
 # =====================================================================================
+titre("6. Les parametres POSES, et les constantes, en un seul endroit")
+# =====================================================================================
+print("POURQUOI CETTE SECTION EXISTE. Le harnais confrontait chaque nombre publie aux")
+print("sorties des scripts cites par sa section, et signalait tout ce qui n'y figurait pas.")
+print("Restait une classe qu'aucun script n'imprimait parce qu'elle n'est le RESULTAT de")
+print("rien : les entrees posees du modele et les constantes standard. Elles sont pourtant")
+print("ce qu'un relecteur veut verifier en premier, puisque ce sont les hypotheses. On les")
+print("liste donc ici, avec, en regard, le script qui les consomme.\n")
+
+POSES = [
+    ("g par etat de conformite (C / PC / NC)", "0.45 / 0.68 / 0.90",
+     "pose, non calibre", "16, 20, 66"),
+    ("grille tres etroite de g, test d'invariance", "0.85 / 0.875 / 0.90",
+     "pose", "66"),
+    ("multiplicateur de materialite p_u par etat", "0.85 / 1.00 / 1.20",
+     "pose", "20, 36, 39"),
+    ("quantile de stress, loi normale a 95 %", "1.645",
+     "constante standard", "19, 22, 30"),
+    ("formule standard, plafond operationnel (art. 204)", "0.30 du BSCR",
+     "reglementaire", "27, 28"),
+    ("formule standard, part des primes", "0.03",
+     "reglementaire", "27, 28"),
+    ("ratio de sinistralite du traite en exces", "0.485",
+     "pose, prix de marche", "58"),
+    ("minimum d'exces pour une estimation GPD fiable", "30",
+     "regle de l'art", "07, 47, 63"),
+    ("points de lecture du graphe de Hill", "k = 30 et k = 200",
+     "lecture graphique", "47"),
+    ("fourchette d'estimations de place, cout DORA", "25 a 150 M EUR",
+     "source externe", "50"),
+    ("regression Jacobs 2014, effectif et ajustement", "115 obs., R2 = 0.51",
+     "source externe", "21"),
+    ("resolutions Monte-Carlo employees", "60 / 150 / 240 / 600 mille annees",
+     "resolution, pas un resultat", "16b, 20, 58, 60"),
+]
+print(f"  {'parametre':<50}{'valeur':>28}  {'statut':<24}{'scripts'}")
+print("  " + "-" * 116)
+for nom, val, statut, scr in POSES:
+    print(f"  {nom:<50}{val:>28}  {statut:<24}{scr}")
+
+print("\n  AUCUN de ces nombres n'est un resultat, et c'est le point. Les trois premiers sont")
+print("  les hypotheses que le memoire assume et dont il montre, script 66, que sa these ne")
+print("  depend pas ; les deux suivants sont reglementaires ; les autres sont des conventions")
+print("  de lecture ou des sources externes. Les publier ici les rend verifiables sans")
+print("  laisser croire qu'ils sont estimes.")
+
+
+# =====================================================================================
 titre("VERDICT")
 # =====================================================================================
 print("Ce script ne produit aucun resultat nouveau : il rend VERIFIABLES des valeurs qui")

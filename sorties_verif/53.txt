@@ -1,4 +1,4 @@
-﻿
+
 ====================================================================================
 1. Le corpus code
 ====================================================================================
@@ -30,7 +30,7 @@
   z = +3.93   p = 0.00045   -> SIGNAL DIRECTIONNEL
 
   Rappel (chapitre 9, OpRisk, pas annuel) : asymetrie 119 vs placebo 128 +/- 27,
-  z = -0,33, AUCUN signal. Ici le compromis est inverse : peu de volume, mais une
+  z = -0.33, AUCUN signal. Ici le compromis est inverse : peu de volume, mais une
   direction ETABLIE par l'enquete. C'est la qualite du codage qui donne la puissance.
 
   Test de signe par paire de piliers : 17 transitions dans le sens dominant,
@@ -68,7 +68,7 @@ VERDICT
 ====================================================================================
   1. La direction de W devient IDENTIFIABLE sur un corpus de post-mortems : asymetrie
      17 contre placebo 8.4 +/- 2.2 (z = +3.93, p = 0.0004), la ou
-     le pas annuel d'OpRisk ne donnait rien (z = -0,33).
+     le pas annuel d'OpRisk ne donnait rien (z = -0.33).
   2. La coherence est totale : 17 transitions dans le sens dominant, 0 a
      contre-sens. P1 n'est jamais cible, P2 est un puits.
   3. Le jugement d'expert du classeur est CORROBORE (5/6 signes concordants) :
@@ -78,4 +78,4 @@ VERDICT
      cause racine favorise « gouvernance »). Le test mesure la COHERENCE d'une
      direction, pas son exogeneite. C'est une corroboration, pas une calibration.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\Z17_postmortem_direction.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/Z17_postmortem_direction.png

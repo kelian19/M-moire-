@@ -140,7 +140,7 @@ $\Var(\hat\xi)\simeq (1+\xi)^2/N_u$.
 La matrice de covariance limite est l'inverse de l'information de Fisher $\mathcal{I}(\xi,\sigma)$, obtenue en prenant l'espérance de l'opposé de la hessienne de $\ell$. Le détail du calcul de $\mathcal{I}$ (dérivées secondes de \eqref{soc:eq:loglik-gpd} et intégration contre la densité GPD, valide pour $\xi>-\tfrac12$ où l'information est finie) est reporté en Annexe~\ref{soc:ann:fisher}. Le résultat classique remonte à \citet{smith1987}.
 \end{proof}
 
-\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{soc:prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment (§5.5) : la concordance des deux approches, l'une paramétrique et asymptotique, l'autre par rééchantillonnage, renforce la fiabilité de l'incertitude reportée sur~$\xi$.
+\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{soc:prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment au \S\ref{soc:sec:severite} : la concordance des deux approches, l'une paramétrique et asymptotique, l'autre par rééchantillonnage, renforce la fiabilité de l'incertitude reportée sur~$\xi$.
 
 \begin{proposition}[Loi asymptotique de l'estimateur de Hill]\label{soc:prop:hill}
 Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alors pour une suite $k=k(n)\to\infty$ avec $k/n\to0$,
@@ -300,6 +300,7 @@ $\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
 %--------------------------------------------------------------
 
 \section{La brique de sévérité, calibrée sur OpRisk}
+\label{soc:sec:severite}
 
 \noindent Chiffres de cette section : scripts~\texttt{07} (marge de sévérité) et
 \texttt{47} (validation), \texttt{63} (calibration figée) et \texttt{67} (concentration de la
@@ -389,8 +390,8 @@ encore la valeur MLE. Au-delà de $k \approx 30$, l'estimateur de Hill
 diverge continûment de cette référence, ce qui traduit le biais positif
 attendu lorsque des observations hors du régime purement asymptotique de la
 queue sont intégrées au calcul. Sur le seuil effectivement retenu pour la
-calibration ($k = 86$), cet écart atteint 138{,}7~\%
-($\hat{\xi}_{\text{Hill}} = 1{,}42$ contre $\hat{\xi}_{\text{MLE}} = 0{,}595$),
+calibration ($k = 86$), cet écart atteint 120{,}8~\%
+($\hat{\xi}_{\text{Hill}} = 1{,}32$ contre $\hat{\xi}_{\text{MLE}} = 0{,}595$),
 ce qui confirme que l'estimateur de Hill n'est pas adapté à ce niveau de
 $k$ et que le MLE-GPD, qui exploite un cadre théorique plus général
 (loi GPD complète plutôt que Pareto pure), demeure l'estimateur de
