@@ -9,9 +9,25 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 5 août 2026 : corps de 94 pages (annexes à partir de la 99, 119 pages au total),
-harnais de vérification à 96,1 % sur 915 nombres, branche `exploratory`, dernier commit
-`a95f7a3`.
+État au 6 août 2026 : corps de 94 pages (annexes à partir de la 99, 119 pages au total),
+harnais de vérification à **95,7 %** sur 910 nombres, branche `exploratory`.
+Le taux n'est pas comparable à celui de la veille : la tolérance a été resserrée (point 3
+ci-dessous). À tolérance inchangée il serait de 98,8 %.
+
+Le harnais était à 96,1 % sur 915 nombres la veille. Les 36 non confirmés ont été dépouillés
+un par un : aucun chiffre faux. Sept n'étaient pas des nombres du mémoire mais des artefacts de
+lecture (`\tfrac12` lu comme 12, `p{4.3cm}` lu comme 4,3), corrigés dans le harnais ; six
+rapports dérivés et les parts d'amorce sont désormais imprimés par les scripts 20 et 67 ;
+quatre écarts d'unité ou de séparateur sont corrigés dans les scripts 36, 44, 48 et 60 ; trois
+valeurs étaient imprimées par un script que leur section ne citait pas.
+
+La tolérance a ensuite été resserrée (point 3 de « Ce qui est ouvert »), ce qui a sorti
+35 nombres de plus et fait tomber le taux à 95,7 %. Ce second passage a trouvé **une erreur
+réelle** : le chapitre socle écrivait l'intervalle de $\xi$ `[0,31 ; 0,83]` alors que la borne
+basse vaut 0,3044, qui s'arrondit à 0,30. Corrigé. Le reste se répartit en 14 grandeurs
+dérivées encore non imprimées, qui sont du travail identifié, et 25 valeurs légitimement hors
+script : 9 entrées posées du modèle, 13 constantes statistiques ou réglementaires, 3 sources
+externes.
 
 ## Où sont les choses
 
@@ -33,6 +49,11 @@ lit, et son `STATUT.md` le dit. Ne pas y puiser.
 
 ## Comment construire
 
+Le projet se construit sur les deux machines. Les commandes diffèrent, les résultats non :
+la parité a été vérifiée le 6 août 2026 (voir plus bas).
+
+**Sur le PC (Windows, PowerShell)**
+
 ```powershell
 # Python
 $py = "C:\Users\KélianKADDOURI\Projects\M-moire-\.venv\Scripts\python.exe"
@@ -51,8 +72,65 @@ powershell -ExecutionPolicy Bypass -File verif_tous_chapitres.ps1
 & $py verif_chiffres.py ..\..\sorties_verif chapitres\12_resultats.tex
 ```
 
+**Sur le Mac (macOS, zsh ou bash)**
+
+```bash
+# Python, depuis la racine du dépôt
+.venv/bin/python exploratory/vasicek_lab/5_etats/66_invariance_ordre_conformite.py
+
+# LaTeX (le binaire tectonic macOS est dans memoire/, sans extension, non versionné)
+cd exploratory/memoire_cascade
+../../memoire/tectonic -X compile main.tex --keep-intermediates
+
+# Harnais, tous les chapitres
+bash exploratory/memoire_cascade/verif_tous_chapitres.sh
+
+# Harnais, un chapitre avec le détail des non confirmés
+.venv/bin/python exploratory/memoire_cascade/verif_chiffres.py \
+    sorties_verif exploratory/memoire_cascade/chapitres/12_resultats.tex
+```
+
+Si le `.venv` du Mac est absent, le reconstruire depuis la racine :
+
+```bash
+/Users/larbi/miniconda3/bin/python3.13 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/pip install 'matplotlib==3.11.0'   # voir la note figures ci-dessous
+```
+
 Après compilation, **supprimer** `main.aux`, `main.bbl`, `main.out`, `main.toc` : ils ne sont
-pas versionnés.
+pas versionnés. `main.pdf`, lui, **l'est** : une compilation de simple vérification le salit
+sans qu'aucune source ait changé, il faut alors le restaurer par `git checkout`.
+
+**Parité des deux machines, vérifiée le 6 août 2026.** Sur Python 3.13.5, numpy 2.5.1,
+pandas 3.0.5, scipy 1.18.0, le script 66 reproduit `sorties_verif/66.txt` à l'identique,
+seul le chemin absolu de la figure diffère. Le harnais complet, lancé **avant** les corrections
+de la journée, redonnait exactement le chiffre du PC : 915 nombres, 879 confirmés, 96,1 %.
+C'est ce qui atteste la parité ; les corrections du jour et le resserrage de la tolérance
+sont venus après, et ne viennent pas de la
+machine. Le mémoire compile en 119 pages, 0 référence indéfinie, 0 annotation hors page,
+0 Overfull \vbox, 0 `/Rotate`. Les scripts 20, 36, 44, 46, 48, 60, 66 et 67 ont été relancés
+sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin absolu près.
+
+**Deux points propres au Mac :**
+
+- **Épingler matplotlib à 3.11.0**, la version du PC. Le numéro de version est écrit dans les
+  métadonnées du PNG : en 3.11.1 les pixels sont rigoureusement identiques mais le fichier
+  diffère de cinq octets, et `git status` signale alors comme modifiée une figure qui ne l'est
+  pas. Avec 3.11.0, une figure rejouée est identique à l'octet.
+- **Une figure en `bbox_inches="tight"` ne se régénère pas à l'octet d'une machine à l'autre.**
+  Le recadrage dépend des métriques de police, qui diffèrent entre freetype Windows et macOS :
+  `S15_allocation_shapley_euler.png` passe de 1057x2653 à 1059x2659 pixels pour un contenu
+  identique. Les figures sans recadrage serré, elles, sont identiques à l'octet. Donc une
+  figure qui apparaît modifiée après une simple relance n'est pas forcément une régression :
+  comparer les dimensions et regarder l'image avant de conclure, et restaurer par
+  `git checkout` si seul le cadrage a bougé.
+- **Rediriger stderr séparément** quand on régénère un `sorties_verif/NN.txt`. matplotlib
+  émet sur stderr des `findfont: Font family 'Segoe UI' not found.` qui s'intercalent au milieu
+  d'une ligne de résultats et corrompent le fichier. Ces avertissements sont sans effet sur le
+  tracé : la famille effective est `DejaVu Sans`, que matplotlib fournit lui-même et qui est
+  placée en premier dans les 73 scripts concernés, sans exception ; `Segoe UI` n'est qu'un repli
+  jamais atteint. Donc `> NN.txt 2>/dev/null`, jamais `> NN.txt 2>&1`.
 
 ## Contraintes de Kélian, à respecter littéralement
 
@@ -166,7 +244,7 @@ valeurs en produit toujours une. Les nombres restants se lisent un par un.
 
 ```
 0 référence indéfinie · 0 « Annotation out of page boundary » · 0 Overfull \vbox
-0 page tournée (/Rotate absent) · harnais ≥ 96 % · git status propre
+0 page tournée (/Rotate absent) · harnais ≥ 95 % · git status propre
 ```
 
 Et, pour toute figure modifiée : **l'ouvrir et la regarder**. L'outil Read affiche les PNG. Le
@@ -183,10 +261,53 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
 - l'arbitrage sur les **six pages** regagnées par le corps (88 vers 94) ;
 - la posture sur la VaR prédictive, le registre de sous-traitance.
 
+**Deux arbitrages, trouvés et tranchés le 6 août 2026 en dépouillant les 36 non confirmés.**
+
+1. **Le seuil de la calibration est celui de `config.py`, et les scripts s'y ancrent.**
+   Le mémoire publie partout la calibration figée : `u = 20,03 M€`, `91 excès`,
+   `xi = 0,5954`, `sigma = 57,97`, `VaR = 662,78`, `IC90 = [411,5 ; 1037]`, facteur 2,5.
+   Les scripts 46, 47 et 51 redérivaient chacun leur propre seuil comme le q85 des données
+   courantes, soit `22,03 M€` et `88 excès` : ils validaient et bootstrapaient un ajustement
+   que le mémoire ne publie pas. C'est de là que venait le facteur 2,6 du chapitre 13 contre
+   2,5 aux chapitres 05 et 06. **Les trois scripts lisent désormais le seuil dans
+   `config.py`.** Vérifications faites : le seuil publié donne exactement 91 excès dans la
+   donnée courante ; les paramètres publiés, imposés, passent Anderson-Darling à p = 0,99 et
+   Kolmogorov-Smirnov à p = 0,89 ; l'indice de queue ne bouge que de 0,5 % entre les deux
+   seuils. Le résidu 2,52 contre 2,56 est du bruit de bootstrap sur la borne haute d'une
+   queue lourde, pas un désaccord de méthode. `config.py` n'a pas été touché :
+   `euro_cascade_model.py` le lit, donc y toucher déplacerait tous les SCR.
+   **Reste un point à trancher, signalé par le script 47 et non corrigé :** `config.py` porte
+   `n_excess = 91` et `p_u = 0,1509`, or `p_u` correspond à 87,8 excès. La VaR publiée est
+   calculée avec `p_u` et reste reproductible ; c'est le champ descriptif `n_excess` qui est
+   en désaccord. Corriger `p_u` déplacerait la VaR, donc tous les SCR.
+2. **La table des queues par catégorie Bâle a été recalculée et adoptée.** Les cinq queues
+   0,92 / 0,98 / 1,03 / 1,27 / 1,37 et les 105 observations de *Business Disruption and
+   System Failures* venaient d'une sonde dont le filtre n'a pas été conservé, et n'étaient
+   imprimées par aucun script. Aucune combinaison du pipeline ne les reproduisait. Elles sont
+   remplacées par la table du **script 67, section 5**, qui la calcule et l'imprime avec un
+   filtre écrit : convention de sévérité du projet (`load_clean`, colonne `Loss Amount ($M)`,
+   `filter_finance` sur `Industry Sector Name`), seuil q75 par catégorie, ajustement GPD
+   libre. Nouvelles valeurs : **0,865 / 1,031 / 1,038 / 1,355 / 1,368**, dispersion 0,50, et
+   **111 observations** pour la catégorie TIC. Le script 37 en est le consommateur.
+   Conséquence au chapitre 12b : la borne du SCR passe de +38 / +82 % à **+55 / +96 %**, le
+   classement reste dominé par P1 dans 83 % des assignations, et la conclusion du chapitre,
+   supposer une queue commune sous-estime le capital, en sort renforcée.
+
+3. **La tolérance du harnais a été resserrée, et le seuil de contrôle change avec elle.**
+   L'ancienne tolérance était `max(0,5 ; 0,6 %)`. Le plancher absolu de 0,5 était écrasant sous
+   83 : il faisait confirmer 0,9 par un 0,99 sans rapport. La nouvelle est
+   `max(0,6 % ; demi-unité du dernier chiffre écrit)`, c'est-à-dire la borne de l'arrondi
+   d'écriture : 0,05 pour un nombre écrit « 2,1 », 0,5 pour « 122 ». **Le taux passe de 98,8 à
+   95,7 %, et ce n'est pas une régression : c'est la même vérification, faite honnêtement.**
+   Le contrôle de fin de tâche devient donc **harnais ≥ 95 %**, et non plus 96 %.
+
 **Faisable :**
-- les **36 nombres non confirmés** restants, à lire un par un : chapitre 12 (13), 06 (7),
-  09 (5), 12b (4), 13 (4), 10 (2), 17 (2). Le passage précédent a trouvé deux périmés sur huit
-  examinés, dont une table entière non reproductible : ça vaut le coup ;
+- les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :
+  le $z=-0{,}33$ du test de réversibilité (script 40), cinq quantités du corpus étendu
+  (script 59), le multiple de capital 8,3 (script 58), le $\xi$ de Hill 1,42 (script 47).
+  Même traitement que les six déjà traitées : les faire imprimer par le script qui les
+  possède. Le reste du résidu, 25 nombres, est légitimement hors script : 9 entrées posées
+  du modèle, 13 constantes statistiques ou réglementaires, 3 sources externes ;
 - l'**ancrage des valeurs de g** sur des sources publiques (ACPR, EIOPA), devenu optionnel
   depuis l'invariance — en attente de la décision d'Hugo ;
 - les **7 % de blanc résiduels** sous trois titres de figures : cosmétique, refusé deux fois,

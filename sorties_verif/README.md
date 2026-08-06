@@ -4,10 +4,23 @@ Ce dossier contient la sortie texte des scripts cités par les chapitres du mém
 par fichier `NN.txt`. Il sert d'entrée à `exploratory/memoire_cascade/verif_chiffres.py`,
 qui confronte chaque nombre publié aux sorties des scripts que sa section cite.
 
+Sur le PC :
+
 ```powershell
 cd exploratory\memoire_cascade
 ..\..\.venv\Scripts\python.exe verif_chiffres.py ..\..\sorties_verif chapitres\12_resultats.tex
 ```
+
+Sur le Mac, depuis la racine du dépôt :
+
+```bash
+.venv/bin/python exploratory/memoire_cascade/verif_chiffres.py \
+    sorties_verif exploratory/memoire_cascade/chapitres/12_resultats.tex
+```
+
+Quand on régénère un `NN.txt` sur le Mac, rediriger stderr à part : `> NN.txt 2>/dev/null`.
+matplotlib y écrit des avertissements de police qui s'intercalent sinon au milieu d'une ligne
+de résultats. Le détail est dans la section « Comment construire » du `CLAUDE.md`.
 
 ## État du dernier passage (4 août 2026, chapitre Résultats)
 
