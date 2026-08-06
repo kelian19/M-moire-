@@ -38,6 +38,7 @@ for _p in (REPO, HERE):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 from src.severity.oprisk_analysis import load_clean, filter_cyber, filter_finance, USD_EUR  # noqa: E402
+from src.utils.config import OPRISK                                                        # noqa: E402
 
 WID = 82
 B_GOF = 800          # bootstrap parametrique pour les p-values d'adequation
@@ -57,11 +58,21 @@ titre("Severite GPD : chargement et ajustement (OpRisk cyber x finance)")
 d = filter_finance(filter_cyber(load_clean(
     os.path.join(REPO, "data", "raw", "SAS_OpRisk_Global_Data_June_2026.xlsx"))))
 loss = np.sort(d["loss"].to_numpy() * USD_EUR)
-u = float(np.quantile(loss, 0.85))
+# LE SEUIL TESTE EST CELUI QUE LE MEMOIRE PUBLIE.
+# Ce script rederivait le q85 des donnees courantes, soit 22,03 M€ et 88 exces, et testait
+# l'adequation de CET ajustement. Or le memoire publie la calibration figee, 20,03 M€ et
+# 91 exces : la section de validation attestait donc un ajustement autre que celui dont
+# elle publie les parametres. On teste desormais l'ajustement publie, et l'on garde le
+# q85 rederive comme controle de robustesse, plus bas.
+u = float(OPRISK["seuil_u_eur"])
 exc = np.sort(loss[loss > u] - u)
 n = exc.size
 xi, _, sig = genpareto.fit(exc, floc=0)
-print(f"  {loss.size} pertes ; seuil u = {u:.2f} M€ ; {n} exces ; GPD xi = {xi:.3f}, sigma = {sig:.2f}.")
+print(f"  {loss.size} pertes ; seuil u = {u:.2f} M€ (configuration figee, percentile "
+      f"{100*(loss < u).mean():.1f}) ; {n} exces ;")
+print(f"  re-ajustement libre a ce seuil : GPD xi = {xi:.3f}, sigma = {sig:.2f}.")
+print(f"  parametres PUBLIES par la configuration : xi = {OPRISK['xi']:.4f}, "
+      f"sigma = {OPRISK['sigma_eur']:.2f}.")
 
 
 def ad_stat(x, c, s):
@@ -96,6 +107,70 @@ print(f"  Anderson-Darling : A2 = {ad_obs:.3f}, p = {p_ad:.3f}  "
       f"({'ajustement NON rejete' if p_ad > 0.05 else 'ajustement rejete'} a 5 %).")
 print(f"  Kolmogorov-Smirnov : D = {ks_obs:.3f}, p = {p_ks:.3f}  "
       f"({'non rejete' if p_ks > 0.05 else 'rejete'} a 5 %).")
+# L'ECART-TYPE ASYMPTOTIQUE ET L'IC PAR DELTA-METHODE. Le chapitre socle les publie comme
+# resultats de sa proposition de Fisher, et aucun script ne les imprimait : ils etaient
+# calcules a la main. Ils se deduisent pourtant de deux valeurs que ce script possede deja,
+# l'indice de queue et le nombre d'exces.
+_sd = (1.0 + OPRISK["xi"]) / np.sqrt(n)
+_lo, _hi = OPRISK["xi"] - 1.645 * _sd, OPRISK["xi"] + 1.645 * _sd
+print(f"\n  Ecart-type asymptotique de xi, (1+xi)/sqrt(N_u) avec N_u = {n} : {_sd:.3f}")
+print(f"  IC 90 % par delta-methode : [{_lo:.3f} ; {_hi:.3f}]")
+print(f"  a comparer a l'IC bootstrap de la configuration figee : "
+      f"[{OPRISK['xi_ic90'][0]:.3f} ; {OPRISK['xi_ic90'][1]:.3f}]")
+print("  Les deux approches, asymptotique et par reechantillonnage, se recoupent.")
+
+print("  Ci-dessus : la FAMILLE GPD est-elle compatible avec les exces, parametres refaits")
+print("  a chaque tirage. Ci-dessous : le couple (xi, sigma) que le memoire PUBLIE est-il")
+print("  compatible avec eux, parametres imposes. C'est le second test qui atteste le")
+print("  chiffre publie ; le premier n'atteste que le choix de loi.")
+
+xi_p, sig_p = OPRISK["xi"], OPRISK["sigma_eur"]
+ad_p, ks_p = ad_stat(exc, xi_p, sig_p), ks_stat(exc, xi_p, sig_p)
+ad_n2, ks_n2 = [], []
+for _ in range(B_GOF):
+    xb = genpareto.rvs(xi_p, scale=sig_p, size=n, random_state=rng)
+    ad_n2.append(ad_stat(xb, xi_p, sig_p))
+    ks_n2.append(ks_stat(xb, xi_p, sig_p))
+p_ad2 = float((np.array(ad_n2) >= ad_p).mean())
+p_ks2 = float((np.array(ks_n2) >= ks_p).mean())
+print(f"\n  Parametres PUBLIES imposes (xi = {xi_p:.4f}, sigma = {sig_p:.2f}) :")
+print(f"  Anderson-Darling : A2 = {ad_p:.3f}, p = {p_ad2:.3f}  "
+      f"({'NON rejete' if p_ad2 > 0.05 else 'REJETE'} a 5 %).")
+print(f"  Kolmogorov-Smirnov : D = {ks_p:.3f}, p = {p_ks2:.3f}  "
+      f"({'non rejete' if p_ks2 > 0.05 else 'REJETE'} a 5 %).")
+
+# CONTROLE DE ROBUSTESSE AU SEUIL. Le seuil publie n'est pas le q85 des donnees courantes ;
+# on verifie que le choix de seuil ne porte pas la conclusion.
+u_q85 = float(np.quantile(loss, 0.85))
+e_q85 = np.sort(loss[loss > u_q85] - u_q85)
+xi_q, _, sig_q = genpareto.fit(e_q85, floc=0)
+print(f"\n  Controle de robustesse au seuil : au q85 des donnees courantes "
+      f"({u_q85:.2f} M€, {e_q85.size} exces),")
+print(f"  le re-ajustement libre donne xi = {xi_q:.4f}, sigma = {sig_q:.2f}, a comparer a "
+      f"xi = {xi:.4f}, sigma = {sig:.2f}")
+print(f"  au seuil publie. L'indice de queue bouge de "
+      f"{100*abs(xi_q-xi)/xi:.1f} % entre les deux seuils : le resultat ne tient pas au seuil.")
+
+# INCOHERENCE INTERNE DE LA CONFIGURATION, signalee et non corrigee : la corriger deplacerait
+# la VaR publiee, donc tous les SCR du memoire.
+print(f"\n  A SIGNALER. La configuration porte n_excess = {OPRISK['n_excess']} et "
+      f"p_u = {OPRISK['p_u']}, or")
+print(f"  p_u x n = {OPRISK['p_u']*loss.size:.1f} exces, et le seuil publie en donne "
+      f"{n} dans la donnee courante.")
+print(f"  Les deux champs decrivent des percentiles differents ({100*OPRISK['p_u']:.2f} % "
+      f"contre {100*n/loss.size:.2f} %).")
+print(f"  p_u vaut 88/583 : c'est le taux du percentile 85 d'un filtrage anterieur. C'est donc")
+print(f"  lui qui est en decalage, et non n_excess, qui compte bien les exces du seuil publie.")
+_pu_coh = n / loss.size
+_var_pu = OPRISK["seuil_u_eur"] + (OPRISK["sigma_eur"] / OPRISK["xi"]) * (
+    (_pu_coh / 0.005) ** OPRISK["xi"] - 1)
+print(f"  CHIFFRE. Avec le taux coherent {_pu_coh:.4f}, la VaR 99,5 % mono-perte passerait de "
+      f"{OPRISK['var_995']:.2f} a {_var_pu:.1f} M EUR,")
+print(f"  soit {100*(_var_pu/OPRISK['var_995']-1):+.1f} %. Le memoire SOUS-ESTIME donc son "
+      f"capital de {100*(_var_pu/OPRISK['var_995']-1):.1f} % sur ce canal :")
+print(f"  la reserve va dans le sens prudent de la lecture, pas contre elle.")
+print(f"  Non corrige : euro_cascade_model.py lit ce dictionnaire, donc toucher a p_u")
+print(f"  deplacerait tous les SCR publies. C'est une recalibration, pas une coquille.")
 
 # couverture de l'IC90 asymptotique de xi (sd = (1+xi)/sqrt(n)) a n fini
 titre("Couverture reelle de l'IC90 asymptotique de xi (a n fini)")

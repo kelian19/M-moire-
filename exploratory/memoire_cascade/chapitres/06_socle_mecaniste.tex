@@ -317,7 +317,7 @@ seuil $u$, selon l'approche \emph{peaks-over-threshold}.
 \paragraph{Calibration OpRisk.} Au seuil du percentile~85
 ($u = 20{,}0$~M\euro, 91 excès), la calibration donne :
 \begin{equation}
-\hat{\xi}_{\text{OpRisk}} = 0{,}595 \quad (\text{IC}_{90\%}=[0{,}31\,;\,0{,}83]),
+\hat{\xi}_{\text{OpRisk}} = 0{,}595 \quad (\text{IC}_{90\%}=[0{,}30\,;\,0{,}83]),
 \qquad
 \hat{\sigma}_{\text{OpRisk}} = 58{,}0~\text{M\euro},
 \qquad
@@ -440,7 +440,13 @@ au-delà du seuil, ce qui est la signature même d'une queue GPD et justifie le 
 et $\hat\xi$ reste stable autour de $0{,}60$ quand on fait varier le seuil. Les tests formels
 ne rejettent pas l'ajustement, avec une $p$-value obtenue par \textbf{bootstrap paramétrique}
 les valeurs critiques tabulées ne valant pas lorsque les paramètres sont estimés :
-Anderson-Darling $p=0{,}87$, Kolmogorov-Smirnov $p=0{,}87$. Enfin, la \textbf{couverture réelle}
+Anderson-Darling $p=0{,}96$, Kolmogorov-Smirnov $p=0{,}89$. Ces deux tests portent sur la
+\emph{famille} GPD, paramètres réajustés à chaque tirage. On teste séparément le couple
+$(\hat\xi,\hat\sigma)$ \emph{effectivement publié}, paramètres imposés, seule façon d'attester
+le chiffre plutôt que le choix de loi : Anderson-Darling $p=0{,}99$, Kolmogorov-Smirnov
+$p=0{,}89$, sans rejet non plus. Le seuil retenu ne porte pas la conclusion : au percentile
+$85$ des données plutôt qu'au seuil publié, $\hat\xi$ ne bouge que de $0{,}5\,\%$. Enfin,
+la \textbf{couverture réelle}
 de l'intervalle de confiance à $90\,\%$ de $\xi$, mesurée par simulation à $n$ fini, vaut
 $86\,\%$ : proche du nominal, ce qui conforte l'incertitude reportée et, à la marge, invite à
 préférer le bootstrap à l'asymptotique.
@@ -455,7 +461,7 @@ artefact, et la NB épouse la queue des comptes là où le Poisson s'effondre.
 \caption{Validation du socle. \textbf{(a-b)} QQ-plot et PP-plot de la sévérité contre la GPD
 ajustée. \textbf{(c)} vie résiduelle moyenne, linéaire au-delà de $u$. \textbf{(d)} stabilité
 de $\hat\xi$ au seuil. \textbf{(e)} test d'Anderson-Darling, loi nulle par bootstrap
-paramétrique et statistique observée ($p=0{,}87$). \textbf{(f)} adéquation de la fréquence :
+paramétrique et statistique observée ($p=0{,}96$). \textbf{(f)} adéquation de la fréquence :
 la NB colle aux comptes firme-année, le Poisson rate la queue. Source : script~\texttt{47}.}
 \label{soc:fig:validation}
 \end{figure}

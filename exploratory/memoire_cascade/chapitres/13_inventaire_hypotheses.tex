@@ -77,7 +77,8 @@ domine l'incertitude, donc toute lecture ponctuelle du SCR serait une surinterpr
 L'incertitude sur le SCR ne se réduit pas au paramètre. Elle se cumule sur trois étages, qu'il
 faut nommer plutôt que confondre (figure~\ref{fig:bande-modele}). Le premier est l'incertitude
 de \textbf{paramètre} : l'intervalle de confiance de $\xi$ à lui seul dilate la VaR d'un facteur
-$2{,}6$ (chapitre~\ref{chap:socle}). Le deuxième est l'incertitude d'\textbf{identification} :
+$2{,}5$ (calibration figée, script~\texttt{63} ; le bootstrap du script~\texttt{46} le retrouve
+à la précision près). Le deuxième est l'incertitude d'\textbf{identification} :
 la direction de $W$ n'étant pas identifiable, la contagion se lit en bande
 (chapitre~\ref{chap:partielle}). Le troisième, le plus souvent passé sous silence, est
 l'incertitude de \textbf{modèle} : le choix de la \emph{famille} elle-même.
@@ -127,13 +128,13 @@ et~\ref{fig:robuste}).
 \textbf{La VaR prédictive} intègre l'incertitude de paramètre \emph{avant} de prendre le
 quantile : on prend le quantile de la loi \emph{prédictive}, mélange des GPD sur la distribution
 bootstrap de $(\xi,\sigma)$. Le résultat est instructif : à $99{,}5\,\%$ elle est \emph{quasi
-égale} au \emph{plug-in} ($657$ contre $659$~M\euro) : le risque d'estimation n'est pas un
-biais de point à ce niveau, il ne le devient qu'en profondeur ($+6\,\%$ à $99{,}9\,\%$). La
+égale} au \emph{plug-in} ($648$ contre $657$~M\euro) : le risque d'estimation n'est pas un
+biais de point à ce niveau, il ne le devient qu'en profondeur ($+4\,\%$ à $99{,}9\,\%$). La
 fragilité est dans la \textbf{largeur} de la bande, pas dans le point.
 
 \textbf{La VaR robuste} prend au contraire la \textbf{borne haute} de la VaR sur l'ensemble
-d'ambiguïté (paramètre, puis modèle) : la VaR robuste à $95\,\%$ vaut $1\,026$~M\euro{}
-($1{,}6\times$ le \emph{plug-in}), le pire-cas de famille lourde $1\,311$~M\euro. C'est la
+d'ambiguïté (paramètre, puis modèle) : la VaR robuste à $95\,\%$ vaut $1\,037$~M\euro{}
+($1{,}6\times$ le \emph{plug-in}), le pire-cas de famille lourde $1\,331$~M\euro. C'est la
 posture prudente, où le niveau de robustesse est un \textbf{choix prudentiel explicite}.
 
 \begin{figure}[htbp]\centering
@@ -147,8 +148,8 @@ en profil et en bande. Source : script~\texttt{46}.}
 \begin{figure}[htbp]\centering
 \figover{J7_scr_robuste.png}
 \caption{VaR robuste. \textbf{(a)}~la VaR est elle-même incertaine ; le robuste en prend la
-borne haute. \textbf{(b)}~l'échelle des postures, du point ($659$) au pire-cas de modèle
-($1\,311$~M\euro). Source : script~\texttt{51}.}
+borne haute. \textbf{(b)}~l'échelle des postures, du point ($657$) au pire-cas de modèle
+($1\,331$~M\euro). Source : script~\texttt{51}.}
 \label{fig:robuste}
 \end{figure}
 

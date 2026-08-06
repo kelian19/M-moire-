@@ -1,33 +1,33 @@
-﻿Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s))
+Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s))
 
 ==================================================================================
 Calibration et ensemble d'ambiguite (OpRisk cyber x finance)
 ==================================================================================
-  u = 22.0 M€, 88 exces ; xi = 0.601, sigma = 56.6.
-  Bootstrap : 3000 ajustements ; xi IC90 = [0.31 ; 0.86].
+  u = 20.0 M€, 91 exces ; xi = 0.598, sigma = 55.7.
+  Bootstrap : 3000 ajustements ; xi IC90 = [0.32 ; 0.84].
 
 ==================================================================================
 L'echelle des postures : du point au pire-cas
 ==================================================================================
   posture                                  VaR 99,5 % (M€)
-  point (branchement xi_hat)                           659
-  predictive (melange, script 46)                      646
-  robuste parametre (beta=90%)                         919
-  robuste parametre (beta=95%)                        1026
-  robuste parametre (beta=99%)                        1278
-  robuste parametre+modele (xi=0,90)                  1311
+  point (branchement xi_hat)                           657
+  predictive (melange, script 46)                      645
+  robuste parametre (beta=90%)                         939
+  robuste parametre (beta=95%)                        1037
+  robuste parametre (beta=99%)                        1247
+  robuste parametre+modele (xi=0,90)                  1331
 
-  La VaR robuste a 95 % (1026 M€) est 1.6x le point
-  (659) : c'est la marge de prudence pour le risque d'ESTIMATION. Le pire-cas
-  de MODELE (queue lourde, 1311 M€) ajoute la prudence sur le CHOIX de famille.
+  La VaR robuste a 95 % (1037 M€) est 1.6x le point
+  (657) : c'est la marge de prudence pour le risque d'ESTIMATION. Le pire-cas
+  de MODELE (queue lourde, 1331 M€) ajoute la prudence sur le CHOIX de famille.
 
 ==================================================================================
 VERDICT
 ==================================================================================
   1. Le SCR robuste = borne haute de la VaR sur l'ensemble d'ambiguite (parametre, puis
      modele). Il repond a Caroline par la PRUDENCE : on ne parie pas sur un point.
-  2. Echelle : point 659 -> predictive 646 -> robuste 95 % 1026 -> pire-cas modele 1311 M€.
+  2. Echelle : point 657 -> predictive 645 -> robuste 95 % 1037 -> pire-cas modele 1331 M€.
   3. Le niveau de robustesse beta est un CHOIX prudentiel explicite, pas un calcul : on
      l'affiche, on ne le cache pas. C'est l'exact complement de la lecture en bande.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\J7_scr_robuste.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/J7_scr_robuste.png

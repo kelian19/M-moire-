@@ -50,10 +50,23 @@ OPRISK = {
     "source": "SAS OpRisk Global Data, juin 2026",
     "perimetre": "Systems Security + Business Disruption — Finance (2000–2026)",
     "n_incidents": 582,          # périmètre cyber×finance reconstruit (filtrage validé)
-    "n_excess": 91,              # excès > seuil (conversion EUR appliquée aux pertes)
-    "seuil_u_eur": 20.03,        # M€ (percentile 85%)
+    "n_excess": 91,              # excès au-dessus de seuil_u_eur dans la donnée courante
+    "seuil_u_eur": 20.03,        # M€ — percentile 84,4 (et NON 85 : voir la note ci-dessous)
     "xi": 0.5954,                # paramètre de queue GPD
     "sigma_eur": 57.97,          # M€
+    # TAUX DE DÉPASSEMENT GELÉ, ET IL NE CORRESPOND PAS AU SEUIL CI-DESSUS. À LIRE AVANT
+    # D'Y TOUCHER. p_u = 0,1509 vaut 88/583, c'est-à-dire le taux du percentile 85 d'une
+    # version antérieure du filtrage. Le seuil publié, lui, est au percentile 84,4 et donne
+    # 91 excès sur 582 pertes, soit un taux de 0,1564. Les deux champs décrivent donc deux
+    # seuils différents, et c'est p_u qui est en décalage, pas n_excess (vérifié par le
+    # script 47, qui l'imprime).
+    # CE QUE CELA CHANGE, CHIFFRÉ. Avec p_u = 0,1564 la VaR 99,5 % mono-perte passerait de
+    # 662,78 à 678,8 M€, soit +2,4 %. Le mémoire sous-estime donc son capital de 2,4 % sur
+    # ce canal. C'est une sous-estimation, pas une surestimation : la réserve va dans le
+    # sens prudent de la lecture, pas contre elle.
+    # POURQUOI CE N'EST PAS CORRIGÉ ICI. euro_cascade_model.py lit ce dictionnaire : changer
+    # p_u déplacerait la VaR, donc tous les SCR publiés, donc les 119 pages et les decks
+    # déjà remis. C'est une recalibration, pas une coquille, et elle se décide.
     "p_u": 0.1509,
     "xi_ic90": [0.3044, 0.8313],
     "sigma_ic90": [41.88, 82.80],

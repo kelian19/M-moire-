@@ -1,15 +1,45 @@
-﻿
+
 ==================================================================================
 Severite GPD : chargement et ajustement (OpRisk cyber x finance)
 ==================================================================================
 Base chargée : 41,975 incidents valides (1 aberration(s) > 100,000M$ retirée(s))
-  582 pertes ; seuil u = 22.03 M€ ; 88 exces ; GPD xi = 0.601, sigma = 56.59.
+  582 pertes ; seuil u = 20.03 M€ (configuration figee, percentile 84.4) ; 91 exces ;
+  re-ajustement libre a ce seuil : GPD xi = 0.598, sigma = 55.75.
+  parametres PUBLIES par la configuration : xi = 0.5954, sigma = 57.97.
 
 ==================================================================================
 Tests d'adequation (p-value par bootstrap parametrique)
 ==================================================================================
-  Anderson-Darling : A2 = 0.214, p = 0.871  (ajustement NON rejete a 5 %).
-  Kolmogorov-Smirnov : D = 0.044, p = 0.870  (non rejete a 5 %).
+  Anderson-Darling : A2 = 0.163, p = 0.959  (ajustement NON rejete a 5 %).
+  Kolmogorov-Smirnov : D = 0.043, p = 0.889  (non rejete a 5 %).
+
+  Ecart-type asymptotique de xi, (1+xi)/sqrt(N_u) avec N_u = 91 : 0.167
+  IC 90 % par delta-methode : [0.320 ; 0.871]
+  a comparer a l'IC bootstrap de la configuration figee : [0.304 ; 0.831]
+  Les deux approches, asymptotique et par reechantillonnage, se recoupent.
+  Ci-dessus : la FAMILLE GPD est-elle compatible avec les exces, parametres refaits
+  a chaque tirage. Ci-dessous : le couple (xi, sigma) que le memoire PUBLIE est-il
+  compatible avec eux, parametres imposes. C'est le second test qui atteste le
+  chiffre publie ; le premier n'atteste que le choix de loi.
+
+  Parametres PUBLIES imposes (xi = 0.5954, sigma = 57.97) :
+  Anderson-Darling : A2 = 0.200, p = 0.986  (NON rejete a 5 %).
+  Kolmogorov-Smirnov : D = 0.054, p = 0.891  (non rejete a 5 %).
+
+  Controle de robustesse au seuil : au q85 des donnees courantes (22.03 M€, 88 exces),
+  le re-ajustement libre donne xi = 0.6012, sigma = 56.59, a comparer a xi = 0.5979, sigma = 55.75
+  au seuil publie. L'indice de queue bouge de 0.5 % entre les deux seuils : le resultat ne tient pas au seuil.
+
+  A SIGNALER. La configuration porte n_excess = 91 et p_u = 0.1509, or
+  p_u x n = 87.8 exces, et le seuil publie en donne 91 dans la donnee courante.
+  Les deux champs decrivent des percentiles differents (15.09 % contre 15.64 %).
+  p_u vaut 88/583 : c'est le taux du percentile 85 d'un filtrage anterieur. C'est donc
+  lui qui est en decalage, et non n_excess, qui compte bien les exces du seuil publie.
+  CHIFFRE. Avec le taux coherent 0.1564, la VaR 99,5 % mono-perte passerait de 662.78 a 678.8 M EUR,
+  soit +2.4 %. Le memoire SOUS-ESTIME donc son capital de 2.4 % sur ce canal :
+  la reserve va dans le sens prudent de la lecture, pas contre elle.
+  Non corrige : euro_cascade_model.py lit ce dictionnaire, donc toucher a p_u
+  deplacerait tous les SCR publies. C'est une recalibration, pas une coquille.
 
 ==================================================================================
 Couverture reelle de l'IC90 asymptotique de xi (a n fini)
@@ -26,11 +56,11 @@ Frequence : adequation binomiale negative vs Poisson (comptes firme-annee)
 ==================================================================================
 VERDICT
 ==================================================================================
-  1. Severite : la GPD n'est PAS rejetee (Anderson-Darling p = 0.87, KS p = 0.87) ;
+  1. Severite : la GPD n'est PAS rejetee (Anderson-Darling p = 0.96, KS p = 0.89) ;
      xi stable autour de 0.60 sur les seuils, mean residual life lineaire au-dela de u.
   2. La couverture de l'IC90 asymptotique est de 86 % : correcte.
   3. Frequence : la binomiale negative domine le Poisson sans ambiguite (LR p = 2e-30), la surdispersion est un fait, pas un artefact.
   Les deux briques du socle passent les tests d'adequation : le niveau reste incertain
   (bande), mais les FORMES de loi posees sont soutenues par la donnee.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\J3_validation_adequation.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/J3_validation_adequation.png

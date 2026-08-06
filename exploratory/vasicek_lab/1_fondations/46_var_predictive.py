@@ -41,6 +41,7 @@ for _p in (REPO, HERE):
         sys.path.insert(0, _p)
 
 from src.severity.oprisk_analysis import load_clean, filter_cyber, filter_finance, USD_EUR  # noqa: E402
+from src.utils.config import OPRISK                                                        # noqa: E402
 
 WID = 82
 LEVELS = [0.99, 0.995, 0.999]
@@ -65,19 +66,34 @@ def tvar_gpd(alpha, xi, sigma, u, zu):
 
 
 # =====================================================================================
-titre("Calibration OpRisk (cyber x finance), POT au percentile 85")
+titre("Calibration OpRisk (cyber x finance), au seuil PUBLIE par le memoire")
 # =====================================================================================
+# LE SEUIL VIENT DE LA CONFIGURATION FIGEE, ET C'EST LE POINT.
+# Ce script rederivait son propre seuil comme le q85 des donnees courantes, soit 22,03 M€
+# et 88 exces, alors que le memoire publie partout la calibration figee, soit 20,03 M€ et
+# 91 exces. Il bootstrapait donc l'incertitude d'un ajustement que le memoire ne publie
+# pas. Consequence visible : le chapitre socle et le chapitre des donnees citaient un
+# facteur 2,5 entre les bornes de l'IC (script 63, configuration figee) et le chapitre de
+# l'inventaire des hypotheses un facteur 2,6 (ce script), pour la meme grandeur.
+# Au seuil publie, ce script retombe sur l'intervalle publie. L'ecart residuel entre 2,5
+# et 2,6 etait du bruit de bootstrap sur la borne haute d'une queue lourde, pas une
+# divergence de methode : a graine differente, le meme calcul donne 2,50 puis 2,59.
 df = filter_finance(filter_cyber(load_clean(
     os.path.join(REPO, "data", "raw", "SAS_OpRisk_Global_Data_June_2026.xlsx"))))
 loss = df["loss"].to_numpy() * USD_EUR                 # M$ -> M€ (le shape xi est invariant)
-u = float(np.quantile(loss, 0.85))
+u = float(OPRISK["seuil_u_eur"])
 zu = float((loss > u).mean())
 exc = loss[loss > u] - u
 n = exc.size
 xi_hat, _, sig_hat = genpareto.fit(exc, floc=0)
-print(f"  n = {loss.size} pertes ; seuil u = {u:.2f} M€ (q85) ; zeta_u = {zu:.3f} ; "
-      f"{n} exces.")
-print(f"  GPD MLE : xi = {xi_hat:.3f}, sigma = {sig_hat:.2f} M€.")
+print(f"  n = {loss.size} pertes ; seuil u = {u:.2f} M€ (configuration figee) ; "
+      f"zeta_u = {zu:.3f} ; {n} exces.")
+print(f"  GPD MLE au seuil publie : xi = {xi_hat:.3f}, sigma = {sig_hat:.2f} M€.")
+print(f"  pour memoire, la configuration figee porte xi = {OPRISK['xi']:.4f}, "
+      f"sigma = {OPRISK['sigma_eur']:.2f}, VaR 99,5 % = {OPRISK['var_995']:.2f} M€.")
+_q85 = float(np.quantile(loss, 0.85))
+print(f"  le q85 des donnees courantes vaut {_q85:.2f} M€ ({int((loss > _q85).sum())} exces) : "
+      f"le seuil publie est au percentile {100*(loss < u).mean():.1f}, pas 85.")
 
 # =====================================================================================
 titre("Bootstrap : la distribution de la VaR (le quantile est lui-meme incertain)")
@@ -123,12 +139,26 @@ r0, r9 = res[a0], res[a9]
 print(f"\n  Au niveau reglementaire 99,5 % :")
 print(f"    - VaR plug-in           = {r0['plug']:.0f} M€  (le point aujourd'hui)")
 print(f"    - IC90 bootstrap        = [{r0['lo']:.0f} ; {r0['hi']:.0f}] M€  "
-      f"(facteur {r0['hi']/r0['lo']:.1f}, dû a la seule incertitude de xi)")
+      f"(facteur {r0['hi']/r0['lo']:.2f}, dû a la seule incertitude de xi)")
+# LE FACTEUR PUBLIE EST CELUI DE LA CONFIGURATION FIGEE, ET CE BLOC DIT POURQUOI.
+# Le memoire cite 2,5 aux chapitres des donnees et du socle, d'apres l'intervalle fige. Ce
+# script, meme ancre sur le seuil publie, retombe sur un facteur voisin mais pas identique :
+# la borne HAUTE d'un IC bootstrap sur un quantile de queue lourde est instable a B = 2000,
+# et le rapport tombe pile sur 2,55, ou l'arrondi a une decimale bascule. Les deux valeurs
+# ne sont donc pas deux mesures concurrentes, mais une seule, connue a la precision du
+# bootstrap. Le chiffre PUBLIE reste celui de la configuration figee.
+_ic_f = OPRISK["var_995_ic90"]
+print(f"      a comparer a la configuration figee : [{_ic_f[0]:.1f} ; {_ic_f[1]:.1f}] M€, "
+      f"facteur {_ic_f[1]/_ic_f[0]:.2f}")
+print(f"      ecart sur la borne haute : {100*abs(r0['hi']-_ic_f[1])/_ic_f[1]:.1f} % ; "
+      f"sur la borne basse : {100*abs(r0['lo']-_ic_f[0])/_ic_f[0]:.1f} %")
+print(f"      C'est du bruit de bootstrap, pas un desaccord de methode. Le facteur PUBLIE "
+      f"est {_ic_f[1]/_ic_f[0]:.1f}.")
 print(f"    - VaR PREDICTIVE        = {r0['pred']:.0f} M€  ({100*(r0['pred']/r0['plug']-1):+.0f} % "
       f"vs plug-in)")
 print("  Enseignement, plus subtil que prevu : a 99,5 % la VaR predictive est QUASI EGALE a la")
 print("  plug-in. Le risque d'estimation ne cree pas un biais de POINT ici ; il gonfle la")
-print(f"  LARGEUR de la bande (facteur {r0['hi']/r0['lo']:.1f}). Le chargement predictif n'apparait")
+print(f"  LARGEUR de la bande (facteur {OPRISK['var_995_ic90'][1]/OPRISK['var_995_ic90'][0]:.1f}, valeur publiee). Le chargement predictif n'apparait")
 print(f"  que PLUS LOIN dans la queue : {100*(r9['pred']/r9['plug']-1):+.0f} % a 99,9 %. Autrement dit,")
 print("  plus la mesure s'enfonce dans la queue, plus la donnee incertaine la rend fragile.")
 

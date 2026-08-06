@@ -34,6 +34,7 @@ for _p in (REPO, HERE):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 from src.severity.oprisk_analysis import load_clean, filter_cyber, filter_finance, USD_EUR  # noqa: E402
+from src.utils.config import OPRISK                                                        # noqa: E402
 
 WID = 82
 A = 0.995
@@ -55,7 +56,11 @@ def var_gpd(a, xi, sig, u, zu):
 d = filter_finance(filter_cyber(load_clean(
     os.path.join(REPO, "data", "raw", "SAS_OpRisk_Global_Data_June_2026.xlsx"))))
 loss = np.sort(d["loss"].to_numpy() * USD_EUR)
-u = float(np.quantile(loss, 0.85)); zu = float((loss > u).mean())
+# SEUIL PUBLIE, PAS SEUIL REDERIVE. Comme les scripts 46 et 47, celui-ci prenait le q85 des
+# donnees courantes (22,03 M€, 88 exces) alors que le memoire publie la calibration figee
+# (20,03 M€, 91 exces) : la VaR robuste etait donc construite sur un ensemble d'ambiguite
+# autour d'un ajustement autre que celui du memoire.
+u = float(OPRISK["seuil_u_eur"]); zu = float((loss > u).mean())
 exc = loss[loss > u] - u; n = exc.size
 xi_hat, _, sig_hat = genpareto.fit(exc, floc=0)
 
