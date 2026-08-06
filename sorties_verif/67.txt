@@ -1,4 +1,4 @@
-﻿
+
 ========================================================================================
 1. VaR et TVaR mono-perte, par les formes fermees de la GPD
 ========================================================================================
@@ -59,12 +59,29 @@ qu'une valeur amont bouge sans que le rapport suive, ce qui est arrive une fois.
   xi > 0,5 : variance infinie                : True
   xi < 1   : esperance finie, TVaR defini    : True
 
+  VaR 99,5 % OpRisk tous NC (script 20)      : 16942 M EUR
+  TVaR correspondante                        : 35645 M EUR
+  rapport TVaR / VaR                         : 2.10
+     a comparer a l'asymptote 1/(1-xi)       : 2.47
+
+  surcout total, cascade (script 23)         : 10927 M EUR
+  surcout total, copule de dependance        : 6760 M EUR
+  sous-estimation du modele sans mecanisme   : 38.1 %
+
+  cout total annuel, lambda = 0,092 (58)     : 2.89 M EUR/an
+  cout total annuel, lambda = 0,046          : 0.54 M EUR/an
+  variation apportee par la conformite       : -81.3 %
+
+  P1 en tete de priorite (script 30)         : 43.6 %
+  P4 en tete                                 : 37.7 %
+  P1 ou P4 en tete, cumule                   : 81.3 %
+
 ========================================================================================
 4. Statistiques de severite de la population EFFECTIVEMENT utilisee
 ========================================================================================
 POURQUOI CETTE SECTION EXISTE, ET CE QU'ELLE A TROUVE. Le chapitre donnees publie une
-table de statistiques de severite (mediane 1,50 M USD, moyenne 26,4, P90 51,5, P99 402,
-maximum 1500, total cumule 15,4 Md USD). Cette table a ete MIGREE AUTOMATIQUEMENT depuis
+table de statistiques de severite (mediane 1.50 M USD, moyenne 26.4, P90 51.5, P99 402,
+maximum 1500, total cumule 15.4 Md USD). Cette table a ete MIGREE AUTOMATIQUEMENT depuis
 la version pre-cascade du memoire, et AUCUN filtre du pipeline actuel ne la reproduit :
 ni la base entiere, ni le secteur financier, ni le sous-ensemble TIC, ni aucune
 combinaison de fenetres. Sa moyenne et son total impliquent n = 583 observations, effectif
@@ -90,7 +107,7 @@ chapitre decrit un echantillon et calibre sur un autre.
   part du decile superieur              92.3 %
   part du centile superieur             65.1 %
 
-  Le memoire annoncait 82,7 % et 31 % pour ces deux parts, sur la population non
+  Le memoire annoncait 82.7 % et 31 % pour ces deux parts, sur la population non
   reproductible. Les valeurs ci-dessus sont celles de la population qu'il calibre.
 
 L'ECART DE HILL AU MLE (chapitre socle, 138,7 % a k = 86) N'EST PAS RECALCULE ICI, et
@@ -99,6 +116,50 @@ de collecte, objet construit par le pipeline du script 47. Le recalculer ici sur
 pertes brutes en dollars donne un tout autre nombre, et publier deux valeurs sous le
 meme nom creerait la contradiction que ce script est cense eviter. C'est au script 47
 de l'imprimer, puisque c'est lui qui possede la conversion.
+
+========================================================================================
+5. La table des queues par categorie Bale, et son effectif le plus faible
+========================================================================================
+POURQUOI CETTE SECTION EXISTE. Le chapitre des adaptations par pilier ouvre son
+argument sur deux valeurs : les cinq queues observees par categorie Bale
+(0,92 / 0,98 / 1,03 / 1,27 / 1,37) et les 105 observations de la categorie la plus
+proche du TIC, qui la rendent non estimable. Le script 37 porte les deux dans son
+en-tete, en commentaire, et n'en imprime aucune : elles ne sont donc verifiables par
+personne, alors qu'elles portent tout le raisonnement d'heterogeneite de queue.
+
+  filtre : secteur financier (Industry Sector Name), toutes annees, colonne Loss Amount (22139 lignes)
+  seuil par categorie : percentile 75 ; xi par MLE GPD a seuil libre
+
+  categorie Bale (Event Risk Category)                n      xi
+  Clients, Products & Business Practices          10475   1.031
+  External Fraud                                   4712   1.038
+  Internal Fraud                                   4550   1.355
+  Execution, Delivery & Process Management         1604   1.368
+  Employment Practices and Workplace Safety         541   0.865
+  Damage to Physical Assets                         146   1.217
+  Business Disruption and System Failures           111   0.552
+
+  LES CINQ QUEUES RETENUES (n >= 150), triees :
+     0.865 | 1.031 | 1.038 | 1.355 | 1.368
+  dispersion (max - min) : 0.503
+  categorie la plus proche du TIC : 111 observations, sous le seuil de 150.
+  Damage to Physical Assets (146) est exclue pour la meme raison.
+
+  CE QUE CETTE TABLE A REMPLACE, ET POURQUOI. Le memoire citait auparavant
+  0,92 / 0,98 / 1,03 / 1,27 / 1,37 et 105 observations, valeurs heritees d'une sonde
+  dont le filtre n'a pas ete conserve. Aucune combinaison du pipeline ne les
+  reproduisait : ni le secteur financier seul, ni les fenetres 2000-2026 et
+  2005-2022, ni la base entiere, ni les seuils q75 et q85. Elles ont donc ete
+  remplacees par la table ci-dessus, qui a un filtre ecrit et un script qui
+  l'imprime. Le script 37 en est le consommateur et en recopie les cinq valeurs.
+
+  CE QUE LE REMPLACEMENT CHANGE, ET CE QU'IL NE CHANGE PAS. L'argument du chapitre
+  12b ne porte pas sur le niveau des queues mais sur leur DISPERSION et sur le
+  sous-echantillonnage de la categorie TIC : les deux tiennent, et la dispersion est
+  meme un peu plus large (0,50 contre 0,45). La borne du SCR sur les 120
+  assignations passe donc de +38 / +82 % a +55 / +96 %, et le classement des piliers
+  reste domine par P1 dans 83 % des assignations, inchange. La conclusion du
+  chapitre, supposer une queue commune SOUS-ESTIME le capital, en sort renforcee.
 
 ========================================================================================
 VERDICT

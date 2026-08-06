@@ -18,15 +18,16 @@ niveau}, aucune ne \textbf{renverse le classement}.
 
 Aujourd'hui une seule queue $\xi$ est appliquée aux cinq piliers. Le
 chapitre~\ref{chap:donnees} note pourtant que la queue est hétérogène selon la catégorie
-Bâle : $\xi$ varie de $0{,}92$ (\emph{Employment}) à $1{,}37$ (\emph{Internal Fraud}). Faut-il
-un $\xi_j$ par pilier ? La réponse honnête distingue deux choses.
+Bâle : $\xi$ varie de $0{,}87$ (\emph{Employment}) à $1{,}37$ (\emph{Execution, Delivery \&
+Process Management}), soit une dispersion de $0{,}50$ (table recalculée et imprimée par le
+script~\texttt{67}). Faut-il un $\xi_j$ par pilier ? La réponse honnête distingue deux choses.
 
 \begin{attention}
 \textbf{L'hétérogénéité est un fait, l'assignation n'en est pas un.} On ne peut pas
 \emph{poser} $\xi_j = f(\text{pilier})$ : les catégories Bâle décrivent la nature de la
 perte, pas les domaines de contrôle DORA, et la catégorie la plus proche du TIC
-(\emph{Business Disruption \& System Failures}) n'a que $105$ observations, sous le seuil
-d'estimation. On applique donc la logique du chapitre~\ref{chap:partielle} : chaque pilier
+(\emph{Business Disruption \& System Failures}) n'a que $111$ observations, sous le seuil
+d'estimation de $150$. On applique donc la logique du chapitre~\ref{chap:partielle} : chaque pilier
 reçoit une des cinq queues observées, on énumère les $120$ assignations, et l'on borne le
 SCR. Pour isoler l'hétérogénéité du niveau, les cinq queues sont centrées sur la valeur de
 référence.
@@ -34,7 +35,7 @@ référence.
 
 Le résultat est net, et en partie inattendu. \textbf{L'hétérogénéité de queue n'est pas
 neutre en capital} : même en gardant la moyenne des queues fixe, donner à chaque pilier sa
-propre queue \textbf{relève} le SCR de $+38\,\%$ à $+82\,\%$. C'est un effet de convexité, la
+propre queue \textbf{relève} le SCR de $+55\,\%$ à $+96\,\%$. C'est un effet de convexité, la
 VaR croissant plus vite que linéairement en $\xi$, de sorte qu'une queue lourde sur un pilier
 n'est pas compensée par une queue légère ailleurs. \textbf{Supposer une queue commune
 sous-estime donc le capital}, une raison de plus de lire le niveau en bande. Le classement,
@@ -56,7 +57,8 @@ script~\texttt{37}.}
 P4 (prestataires tiers) n'est pas un n\oe{}ud de cascade comme les autres. Une défaillance
 d'un prestataire \emph{partagé} dégrade plusieurs piliers \textbf{simultanément}, par
 dépendance commune, au lieu de se propager de proche en proche : c'est le mécanisme de MOVEit
-($191$ victimes d'un seul choc, chapitre~\ref{chap:donnees}). On lui substitue donc un
+($191$ victimes d'un seul choc, chapitre~\ref{chap:donnees}, script~\texttt{08g}). On lui
+substitue donc un
 \textbf{choc commun}, où P4 et chaque autre pilier tombent ensemble avec une probabilité
 $\varphi_{cs}$, plutôt qu'une propagation dirigée.
 

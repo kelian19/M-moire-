@@ -205,7 +205,8 @@ point de pourcentage~; les sommes sont calculées avant arrondi. Source : script
 
 Le classement de Shapley reproduit le classement ROOT sur les deux périmètres. Une part de
 cette convergence est mécanique : les amorces de la cascade sont semées
-proportionnellement à ROOT (parts $30/27/18/15/9\,\%$), et le canal fréquence d'un pilier
+proportionnellement à ROOT (parts $30/27/18/15/9\,\%$, imprimées par le script~\texttt{20}),
+et le canal fréquence d'un pilier
 module sa propre part d'amorce. Le test non trivial est la \emph{déformation} : la part de
 Shapley de P1 ($34\,\%$) excède sa part d'amorce ($30\,\%$), effet propre de la propagation
 (P1 est l'émetteur le plus fort de $W$), et l'interaction redistribuée ($+1\,395$~M\euro{}
@@ -228,7 +229,8 @@ l'estimateur Monte-Carlo de la TVaR converge en régime de loi stable, et le cla
 conditionnel bascule d'une résolution à l'autre (vérifié à $150$ et $240$~mille années
 simulées). On rapporte donc l'allocation de queue du périmètre PRC, régularisée par le cap,
 et l'on tient celle d'OpRisk pour indicative. Contrôle de cohérence EVT au passage :
-$\mathrm{TVaR}/\mathrm{VaR} \approx 2{,}1$, à comparer à l'asymptote $1/(1-\xi) = 2{,}5$.
+$\mathrm{TVaR}/\mathrm{VaR} \approx 2{,}1$, à comparer à l'asymptote $1/(1-\xi) = 2{,}5$
+(les deux rapports sont imprimés par le script~\texttt{67}).
 
 \begin{cle}
 \textbf{Sources et réceptacles.} Les deux allocations ne racontent pas la même chose, et
@@ -374,7 +376,8 @@ liberté : sa dépendance est produite par le mécanisme, pas choisie.
 conditionnement. Le jumeau LDA-copule exprime les canaux fréquence et détection (les marges
 dépendent de l'état de leur pilier), mais trois manques sont structurels.
 \emph{(i)}~La propagation n'a nulle part où vivre : le surcoût total ressort à
-$6\,760$~M\euro{} contre $10\,927$ pour la cascade, une sous-estimation de $38\,\%$.
+$6\,760$~M\euro{} contre $10\,927$ pour la cascade, une sous-estimation de $38\,\%$
+(rapport imprimé par le script~\texttt{67}).
 \emph{(ii)}~Les marges ne dépendant que de l'état de leur propre pilier et la copule étant
 figée, la perte moyenne totale est \emph{exactement} additive : interaction moyenne nulle
 par construction ($+0$~M\euro{} mesuré), là où la cascade en produit $+560$~M\euro{} :
@@ -795,7 +798,8 @@ qualitative est donc robuste, le chiffre ne l'est pas.
 d'amorce. En rejouant l'arbitrage à $\lambda$ réduit, ce qui simule une entité devenue
 conforme, la portée optimale suit le capital ($169 \to 97 \to 43$~M\euro{} quand $\lambda$
 passe de $0{,}092$ à $0{,}064$ puis $0{,}046$) et le coût total tombe de $2{,}9$ à
-$0{,}5$~M\euro{} par an, soit $-81\,\%$. \textbf{La conformité ne fait donc pas que réduire le
+$0{,}5$~M\euro{} par an, soit $-81\,\%$ (script~\texttt{67}). \textbf{La conformité ne fait
+donc pas que réduire le
 capital : elle déplace le point d'équilibre entre rétention et transfert}, et réduit
 simultanément les deux termes du coût. C'est un résultat de \emph{pilotage} et non de mesure,
 et il met les trois leviers de l'entité (remédier, détenir, transférer) sur un seul axe en

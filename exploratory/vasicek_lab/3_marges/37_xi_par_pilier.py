@@ -10,11 +10,20 @@ piliers. Le chapitre donnees note pourtant que la queue est HETEROGENE selon la 
 
 CE QUE LA DONNEE PERMET, ET CE QU'ELLE N'AUTORISE PAS. Sur OpRisk (secteur financier),
 l'indice de queue estime PAR CATEGORIE Bale (seuil q75, n >= 150) vaut :
-    Internal Fraud 1,37 | Execution/Delivery 1,27 | Clients/Products 1,03 |
-    External Fraud 0,98 | Employment 0,92
+    Execution/Delivery 1,37 | Internal Fraud 1,36 | External Fraud 1,04 |
+    Clients/Products 1,03 | Employment 0,87
 et la categorie la plus proche du TIC (Business Disruption & System Failures) n'a que
-105 observations : NON estimable. Donc :
-  - l'HETEROGENEITE de queue (spread ~0,45) est un fait de donnee ;
+111 observations : NON estimable. Donc :
+  - l'HETEROGENEITE de queue (spread ~0,50) est un fait de donnee ;
+
+D'OU VIENNENT CES CINQ VALEURS, ET POURQUOI ELLES ONT CHANGE. Elles etaient auparavant
+codees ici sans qu'aucun script ne les imprime, heritees d'une sonde dont le filtre n'a pas
+ete conserve : aucune combinaison du pipeline actuel ne les reproduisait, et l'effectif de
+la categorie TIC etait donne a 105. La table est desormais RECALCULEE et IMPRIMEE par le
+script 67, section 5, avec la convention de severite du projet : load_clean (colonne
+« Loss Amount ($M) », saisies aberrantes retirees), filter_finance (secteur lu sur
+« Industry Sector Name »), seuil q75 par categorie, ajustement GPD libre. Les valeurs
+ci-dessous en sont la copie ; elles sont donc verifiables par le harnais.
   - mais l'ASSIGNATION xi_j = f(pilier) ne l'est PAS : les categories Bale ne sont pas les
     domaines de controle DORA, et la seule categorie vraiment TIC est sous-echantillonnee.
 
@@ -51,8 +60,13 @@ NY = 30_000
 SEED = 909
 XI_REF = 0.90                        # xi de reference du pipeline (chapitre 12)
 
-# queues observees par categorie Bale (script 05 / probe), triees
-XI_CAT = np.array([0.92, 0.98, 1.03, 1.27, 1.37])
+# queues observees par categorie Bale, triees. Recalculees et imprimees par le script 67,
+# section 5 (convention de severite : Loss Amount, Industry Sector Name, seuil q75).
+# Employment 0,865 | Clients/Products 1,031 | External Fraud 1,038 | Internal Fraud 1,355 |
+# Execution/Delivery 1,368. Les deux categories sous le seuil de 150 observations, Damage to
+# Physical Assets (146) et Business Disruption & System Failures (111), sont exclues.
+XI_CAT = np.array([0.865, 1.031, 1.038, 1.355, 1.368])
+N_BDSF = 111        # effectif de la categorie la plus proche du TIC (script 67, section 5)
 # centrees sur XI_REF en conservant la dispersion : isole l'heterogeneite, pas le niveau
 XI_CENTRE = XI_CAT - XI_CAT.mean() + XI_REF     # somme/moyenne = XI_REF
 
@@ -80,6 +94,11 @@ def scr(xi_vec, seed=SEED, ny=NY, by_pillar=False):
 
 
 print(f"queues observees (categories Bale)  : {XI_CAT}")
+print(f"  source : script 67 section 5, convention de severite (Loss Amount, secteur lu sur")
+print(f"  Industry Sector Name, seuil q75 par categorie, ajustement GPD libre).")
+print(f"  dispersion des cinq queues (max - min) : {XI_CAT.max()-XI_CAT.min():.3f}")
+print(f"  categorie la plus proche du TIC (Business Disruption & System Failures) :")
+print(f"     {N_BDSF} observations, sous le seuil de 150 : queue NON estimable.")
 print(f"queues centrees sur xi_ref = {XI_REF} : {np.round(XI_CENTRE,3)}  "
       f"(moyenne {XI_CENTRE.mean():.3f})")
 
