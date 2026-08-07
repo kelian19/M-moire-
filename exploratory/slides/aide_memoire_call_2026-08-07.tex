@@ -18,6 +18,8 @@
 \definecolor{lightblue}{HTML}{D6E0F0}
 \definecolor{warm}{HTML}{C55A11}
 \definecolor{vert}{HTML}{1E6B3A}
+\definecolor{gris}{HTML}{6E6E6E}
+\definecolor{rouge}{HTML}{9E2A2B}
 
 \newtcolorbox{alerte}[1][]{colback=orange!8,colframe=orange!70!black,boxrule=0.6pt,
   arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1}
@@ -33,6 +35,14 @@
 % Une definition : le terme, puis la phrase a dire telle quelle.
 \newcommand{\dfn}[2]{\noindent\hangindent=1.1em\hangafter=1
   {\color{warm}\bfseries #1} \textemdash{} #2\par\smallskip}
+% Un bloc de slide : ouverture a dire mot pour mot, question appelee, piege, transition.
+\newcommand{\ouv}[1]{\noindent{\color{vert}\bfseries Ouvrir}~: \emph{\og #1\fg}\par\smallskip}
+\newcommand{\srcs}[1]{\noindent{\scriptsize\color{gris}Source~: script#1}\par\smallskip}
+\newcommand{\qq}[2]{\noindent\hangindent=1em\hangafter=1{\color{warm}\bfseries Si on demande}
+  \emph{\og #1\fg} $\rightarrow$ #2\par\smallskip}
+\newcommand{\pasdire}[1]{\noindent\hangindent=1em\hangafter=1{\color{rouge}\bfseries Ne pas dire}~:
+  #1\par\smallskip}
+\newcommand{\ench}[1]{\noindent{\color{navy}\bfseries Enchaîner}~: \emph{\og #1\fg}\par}
 
 \setlength{\parindent}{0pt}
 \setlength{\columnsep}{14pt}
@@ -301,122 +311,201 @@ $\n{[6\,858;8\,697]}$ \textbullet{} entité $\n{169}$~M\euro{} contre $\n{450}$ 
 \textbf{\og Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas. C'est ça, mon
 résultat.\fg{}}\\[3pt]
 {\footnotesize Sans elle, la liste des incertitudes passe pour du flou. Avec elle, elle passe
-pour de la rigueur.}
+pour de la rigueur.}\\[4pt]
+{\footnotesize\textbf{Budget de temps sur 45 min}~: ouverture \textbf{3} \textbullet{} partie A
+(slides 3 à 8) \textbf{25} \textbullet{} partie B (9 et 10) \textbf{10} \textbullet{} clôture
+\textbf{7}. \textbf{Les deux slides à ne jamais presser sont la 4 et la 8}~: l'échelle, et le
+capital libéré. Si le temps manque, sacrifier la 5.}
 \end{reflexe}
 
 \vspace{2pt}
 \begin{multicols}{2}
 \footnotesize
 
-\slide{1. Titre}{}
-Point d'avancement. Premier point où je donne un capital chiffré.
+\slide{1. Titre}{30 s}
+\ouv{Point d'avancement. C'est le premier point où je donne un capital chiffré.}
+\ench{Je commence par le résultat, je finis par les vérifications que tu m'avais demandées.}
 
-\slide{2. Depuis le 31 juillet}{annoncer le plan}
-\dire{$\bullet$ Le placebo et la clarification $z$ / $\sigma$ sont partis par écrit, je n'y
-reviens pas. \n{Mais je dois pouvoir les redéfinir si on me relance} (partie 1, section A).}
-\dire{$\bullet$ Trois temps~: \n{(A)} le capital et son échelle, \n{(B)} tient-il face au
-réel, \n{(C)} les vérifications demandées.}
+\slide{2. Depuis le 31 juillet}{2 min}
+\ouv{La documentation du placebo et la clarification sur $z$ et $\sigma$ te sont parvenues par
+écrit, je n'y reviens pas.}
+\dire{$\bullet$ Trois temps~: \n{(A)} le capital et son échelle, \n{(B)} tient-il face au réel
+et de combien peut-il bouger, \n{(C)} Jacobs et les deux marges.}
+\qq{Redonne-moi quand même ce que c'est, un placebo}{la phrase de la partie~1, puis enchaîner
+tout de suite~: \n{\og{}et c'est pour ça que mon $-0{,}33$ n'est pas un échec, c'est le
+résultat\fg{}}.}
+\pasdire{\og{}on en a déjà parlé\fg{} sans redonner la définition. \n{C'est exactement le
+piège de la dernière fois}, et il coûte la slide entière.}
+\ench{Je commence par le résultat.}
 
-\slide{3. Le capital et la contagion}{la table des bornes}
-\dire{$\bullet$ Socle sans contagion~: \n{5\,275}~M\euro. \og Plancher défendable.\fg}
-\dire{$\bullet$ Ignorance totale sur la direction ($t=1$)~: \n{[6\,858 ; 8\,697]}, largeur
-\n{1\,839}, soit \n{34,9\,\%} du socle.}
+\slide{3. Le capital et la contagion}{5 min}
+\ouv{Sans aucune contagion, le SCR vaut 5\,275 M\euro. C'est le plancher défendable~; tout ce
+qui est au-dessus est de la contagion, donc à borner.}
+\dire{$\bullet$ Ignorance totale sur la direction ($t=1$, l'état actuel)~:
+\n{[6\,858 ; 8\,697]}, largeur \n{1\,839}, soit \n{34,9\,\%} du socle.}
 \dire{$\bullet$ \n{La contagion ajoute entre $+30$ et $+65\,\%$ au socle.}}
-\dire{$\bullet$ Le point d'expert (8\,110) est \n{un} point de l'ensemble, \n{pas sa mesure}.}
+\dire{$\bullet$ Le point d'expert (\n{8\,110}) est \n{un} point de l'ensemble, \n{pas sa
+mesure}.}
 \dire{$\bullet$ $\rho(W)=\n{0{,}506}$~: la cascade reste sous-critique.}
-\dire{$\bullet$ Contrôle croisé~: un second moteur donne 8\,553, soit \n{5\,\%} d'écart.}
-\dire{{\color{warm}\textbf{Mots à tenir}~: socle, identification partielle, $t$, rayon
-spectral, sous-criticité.}}
+\dire{$\bullet$ Contrôle croisé~: un second moteur, en marche aléatoire au lieu du branchement
+exact, donne \n{8\,553}, soit \n{5\,\%} d'écart.}
+\srcs{s~\texttt{31} (socle et point d'expert), \texttt{30} (bornes), \texttt{41} (contrôle
+croisé)}
+\qq{Pourquoi une bande et pas un point~?}{parce que la direction de $W$ n'est pas identifiable
+sur ces données. Je publie l'ensemble des valeurs compatibles. \n{C'est de l'identification
+partielle, et c'est un résultat, pas un aveu.}}
+\pasdire{\og{}le SCR vaut 8\,110\fg{}. C'est \emph{un} point de l'ensemble, et le dire au
+singulier détruit tout l'argument des trois slides suivantes.}
+\ench{Et maintenant la question que nous ne nous étions jamais posée~: à quelle échelle se lit
+ce chiffre~?}
 
-\slide{4. À quelle échelle}{le point le plus neuf}
-\dire{$\bullet$ \n{\og Ces montants sont un SCR de marché, pas d'entreprise.\fg} À dire tôt
-et fort.}
-\dire{$\bullet$ Calage secteur mondial~: \n{21,6} incidents TIC matériels par an.}
-\dire{$\bullet$ En ne changeant \emph{que} $\lambda$~: 8\,123 $\to$ \n{169}~M\euro.}
-\dire{$\bullet$ Les deux lignes du milieu sont des \n{seaux}, définis par un filtre sur la
-grandeur même qu'on estime. D'où $\lambda$ estimé comme \n{fonction de la taille}.}
-\dire{$\bullet$ \n{Le fait actuariel}~: la moyenne suit $\lambda$ (facteur 270), la
-\n{VaR ne suit pas} (facteur 48). \n{Perte unique dominante}, \n{98,8\,\%} des années sans
+\slide{4. À quelle échelle}{6 min \textemdash{} ne pas presser}
+\ouv{Point capital~: ces montants sont un SCR de \emph{marché}, pas d'entreprise.}
+\dire{$\bullet$ À dire \n{tôt et fort}. C'est le point le plus neuf du call.}
+\dire{$\bullet$ Calage~: secteur financier mondial, \n{21,6} incidents \textsc{tic} matériels
+par an.}
+\dire{$\bullet$ En ne changeant \emph{que} $\lambda$, même sévérité et même cascade~: de
+\n{8\,123} à \n{169}~M\euro.}
+\dire{$\bullet$ Les deux lignes du milieu sont des \n{seaux}~: celui à $0{,}21$ retient les
+firmes à au moins dix événements, dont les actifs médians valent \n{dix-neuf fois} notre
+entité, \n{et il est défini par un filtre sur la grandeur qu'on estime}. D'où $\lambda$ estimé
+comme une \n{fonction de la taille}, et lu à la bonne taille.}
+\dire{$\bullet$ \n{Le fait actuariel}~: la moyenne suit $\lambda$ (facteur \n{270}), la
+\n{VaR ne suit pas} (facteur \n{48}). \n{Perte unique dominante}, \n{98,8\,\%} des années sans
 aucun incident.}
-\dire{{\color{warm}\textbf{Mots à tenir}~: élasticité, perte unique dominante.}}
+\srcs{~\texttt{60}}
+\qq{Pourquoi la VaR ne suit pas la fréquence~?}{parce qu'à cette fréquence le quantile
+$99{,}5\,\%$ est porté par \n{une seule perte}, pas par un cumul. Diviser $\lambda$ par 200 ne
+divise pas la plus grosse perte par 200.}
+\pasdire{que le $169$ est \og{}le SCR de l'entité\fg{}. C'est une \n{borne supérieure d'ordre
+de grandeur}, et il vaut mieux le dire soi-même que se le faire dire.}
+\ench{Reste à savoir si ce chiffre tient face à des pertes réelles.}
 
-\slide{5. Face au réel}{J5}
-\dire{$\bullet$ Au niveau \n{unitaire}~: VaR \n{663}, TVaR \n{1\,752}~M\euro, dans la
-fourchette des grandes pertes cyber réelles.}
-\dire{$\bullet$ Au niveau \n{annuel}~: de l'ordre du marché cyber mondial. \n{C'est une
-échelle de secteur}, ce qui confirme la slide précédente.}
-\dire{{\color{warm}\textbf{Mots à tenir}~: VaR, TVaR, et la différence entre les deux.}}
+\slide{5. Face au réel}{3 min \textemdash{} sacrifiable si retard}
+\ouv{Au niveau unitaire, ma VaR de 663 M\euro{} et ma TVaR de 1\,752 tombent dans la fourchette
+des grandes pertes cyber réelles.}
+\dire{$\bullet$ Au niveau \n{annuel}~: de l'ordre du marché cyber mondial. \n{C'est une échelle
+de secteur}, ce qui confirme la slide précédente par un chemin indépendant.}
+\srcs{~\texttt{49}}
+\qq{C'est quoi la différence entre VaR et TVaR~?}{la VaR est le montant dépassé une année sur
+deux cents~; la TVaR est la perte \n{moyenne sachant qu'on l'a dépassé}. L'une s'arrête au
+quantile, l'autre regarde au-delà.}
+\pasdire{\og{}ça valide le modèle\fg{}. C'est un \n{contrôle de plausibilité}, pas une
+validation~: la validation, c'est la slide 7 et les tests d'adéquation.}
+\ench{Ramené à une entité, ce n'est plus le niveau qui parle.}
 
-\slide{6. Ramené à une entité}{le renversement}
-\dire{$\bullet$ \n{169}~M\euro{} contre \n{450} de forfait, soit \n{0,38} fois.}
-\dire{$\bullet$ \n{\og Comparer les niveaux n'a pas de sens\fg}~: le forfait couvre tout
-l'opérationnel, moi seulement le cyber.}
-\dire{$\bullet$ \n{Ce qui parle, c'est l'insensibilité}~: le forfait vaut 450 pour un profil
-exemplaire comme pour un profil défaillant. \n{Il ne bouge pas d'un euro.} Moi j'écarte les
-deux de \n{+45\,\%}.}
-\dire{$\bullet$ Réserve à donner \n{soi-même}~: le 169 est une \n{borne supérieure} d'ordre
-de grandeur, la sévérité est calibrée sur de grandes institutions. \n{L'écart entre états,
-lui, est un rapport et ne dépend pas de cette réserve.}}
-\dire{{\color{warm}\textbf{Mots à tenir}~: ORSA, Formule Standard, charge opérationnelle.}}
+\slide{6. Ramené à une entité}{4 min}
+\ouv{169 M\euro{} contre 450 de charge opérationnelle en Formule Standard. Mais comparer les
+niveaux n'a pas de sens~: le forfait couvre \emph{tout} l'opérationnel, moi seulement le cyber.}
+\dire{$\bullet$ \n{Ce qui parle, c'est l'insensibilité du forfait}~: il vaut $450$ pour un
+profil exemplaire \n{comme} pour un profil défaillant. \n{Il ne bouge pas d'un euro.} Mon
+modèle écarte les deux de \n{116} à \n{169}, soit \n{+45\,\%}.}
+\dire{$\bullet$ Réserve à donner \n{soi-même}~: le $169$ est une borne supérieure, la sévérité
+étant calibrée sur de grandes institutions. \n{L'écart entre états, lui, est un rapport et ne
+dépend pas de cette réserve.}}
+\srcs{s~\texttt{60} et~\texttt{65}}
+\qq{Et sur des entités réelles~?}{quatre bilans \textsc{sfcr} publiés. La part attribuée à
+\textsc{dora} va de \n{2,0\,\%} pour un grand assureur vie à \n{41,3\,\%} pour une petite
+non-vie. Deux des quatre \textsc{scr} sont déduits d'un taux de couverture, \n{et je borne cet
+effet à $\pm10\,\%$}~: les ordres de grandeur tiennent.}
+\pasdire{\og{}le \textsc{scr} \textsc{dora} de telle entité\fg{}. \n{Il n'existe aucun module
+\textsc{dora} en Formule Standard}~: c'est un \n{besoin de capital ORSA}.}
+\ench{Sur quel point ne faut-il pas parier~?}
 
-\slide{7. Sur quel point ne pas parier}{J7}
-\dire{$\bullet$ \n{91} excès, $\xi=\n{0{,}598}$, IC bootstrap $90\,\%$ \n{[0,32 ; 0,84]}.}
-\dire{$\bullet$ L'échelle des postures~: point \n{657}, prédictive \n{645}, robuste
-\n{1\,037}, pire cas \n{1\,331}~M\euro.}
+\slide{7. Sur quel point ne pas parier}{4 min}
+\ouv{Sur 91 excès, $\xi$ vaut 0,598 avec un intervalle bootstrap à 90 \% de [0,32 ; 0,84].
+Cette incertitude se propage en une échelle de postures.}
+\dire{$\bullet$ Au niveau du sinistre unique~: point \n{657}, prédictive \n{645}, robuste à
+$95\,\%$ \n{1\,037}, pire cas de modèle \n{1\,331}~M\euro.}
 \dire{$\bullet$ \n{1.} La prédictive coïncide presque avec le point~: \n{ce n'est pas
 l'intégration de l'incertitude qui manquait, c'est la largeur}.}
-\dire{$\bullet$ \n{2.} Le niveau $\beta$ est un \n{choix prudentiel explicite, pas un
-calcul}. On l'affiche au lieu de le cacher dans un point.}
-\dire{{\color{warm}\textbf{Mots à tenir}~: bootstrap, VaR prédictive, VaR robuste, plug-in.}}
+\dire{$\bullet$ \n{2.} Le niveau $\beta$ est un \n{choix prudentiel explicite, pas un calcul}.
+On l'affiche au lieu de le cacher dans un point.}
+\srcs{s~\texttt{46} et~\texttt{51}}
+\qq{Laquelle des deux tu retiens~?}{le choix relève de la \n{politique prudentielle}, pas du
+calcul. Les deux sont chiffrées et l'écart est lui-même un résultat. \n{Ce que je refuse, c'est
+de reporter le \emph{plug-in} seul.}}
+\pasdire{qu'une des deux est \og{}la bonne\fg{}. Les nommer \n{le point honnête} et \n{le point
+prudent} est plus juste et se retient mieux.}
+\ench{Et voilà ce que la conformité rapporte.}
 
-\slide{8. Capital libéré}{placer la phrase}
-\dire{$\bullet$ Conforme \n{6\,049}, non conforme \n{20\,188}, écart
-$\Delta_{\text{DORA}}=\n{14\,139}$~M\euro.}
+\slide{8. Capital libéré}{6 min \textemdash{} placer la phrase}
+\ouv{Conforme 6\,049, non conforme 20\,188. L'écart, le $\Delta_{\text{DORA}}$, vaut
+14\,139 M\euro.}
 \dire{$\bullet$ Dont \n{5\,001} d'\n{interaction}, soit \n{35\,\%}~: \n{les canaux ne
 s'additionnent pas, la cascade est super-additive}.}
-\dire{$\bullet$ Par levier~: fréquence \n{4\,328}, accumulation P4 \n{1\,728}, propagation
-$W$ \n{1\,633}, détection \n{1\,448}.}
-\dire{$\bullet$ Portage seul (\n{6\,\%}, marge de risque)~: \n{848}~M\euro/an.}
-\dire{$\bullet$ \n{1.} Le capital libéré est \n{concentré}~: la fréquence porte \n{47\,\%}
-de la somme des leviers. \n{Prioriser, pas étaler.}}
-\dire{$\bullet$ \n{2.} Retour sur le \emph{seul} portage~: \n{6 à 35 ans}. \n{Et le portage
-est le plancher}, l'essentiel du $\Delta$SCR est de la perte évitée.}
-\dire{{\color{warm}\textbf{Mots à tenir}~: super-additivité, marge de risque, Shapley si on
-me demande comment j'attribue.}}
+\dire{$\bullet$ Par levier~: fréquence \n{4\,328}, accumulation P4 \n{1\,728}, propagation $W$
+\n{1\,633}, détection P2/P3 \n{1\,448}.}
+\dire{$\bullet$ \n{Contrôle à avoir en tête}~: les quatre leviers font $9\,137$, le total
+$14\,139$. \n{L'écart, c'est exactement l'interaction.} Si on me dit que ça ne somme pas,
+c'est le point, pas une erreur.}
+\dire{$\bullet$ Portage seul (\n{6\,\%}, marge de risque Solvabilité~II)~: \n{848}~M\euro/an.}
+\dire{$\bullet$ \n{1.} Le capital libéré est \n{concentré}~: la fréquence porte \n{47\,\%} de
+la somme des leviers. \n{Prioriser, pas étaler.}}
+\dire{$\bullet$ \n{2.} Retour sur le \emph{seul} portage~: \n{6 à 35 ans}. \n{Et le portage est
+le plancher}~: l'essentiel du $\Delta$SCR est de la perte évitée.}
+\srcs{s~\texttt{43} (états et interaction) et~\texttt{50} (leviers, portage)}
+\qq{Comment tu attribues aux piliers~?}{\n{Shapley} pour le surcoût, vue \emph{source}, qui l'a
+causé~; \n{Euler} pour le niveau, vue \emph{réceptacle}, où le capital est consommé. Deux
+questions différentes, deux outils, et c'est le prochain sujet.}
+\pasdire{que les leviers s'additionnent au total. \n{Ils ne le font pas, et c'est le
+résultat.}}
+\ench{\n{Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.} Voilà pour le
+résultat~; les vérifications que tu m'avais demandées maintenant.}
 
-\slide{9. Jacobs}{vérification demandée}
-\dire{$\bullet$ \n{1.} Ce n'est \n{pas} un lien fréquence-sévérité, c'est une \n{conversion
-de sévérité seule}~: $\ln L=7{,}68+0{,}76\ln X+\varepsilon$.}
+\slide{9. Jacobs}{4 min \textemdash{} vérification demandée}
+\ouv{Vérifié, et la réponse tient en trois points.}
+\dire{$\bullet$ \n{1.} Ce n'est \n{pas} un lien fréquence-sévérité, c'est une \n{conversion de
+sévérité seule}~: $\ln L = 7{,}68+0{,}76\ln X+\varepsilon$ transforme un nombre
+d'enregistrements en montant.}
 \dire{$\bullet$ \n{2.} \n{Le capital principal n'en dépend pas}~: il est calculé sur OpRisk,
 déjà en dollars. PRC n'est qu'un axe de sensibilité.}
 \dire{$\bullet$ \n{3.} La conversion était traitée comme \n{exacte}, ce qui écrasait la
 dispersion. En réinjectant le résidu ($\sigma_\varepsilon=\n{0{,}523}$)~: niveau \n{+7\,\%},
 queue \n{1,03 $\to$ 1,07}, mais \n{la largeur relative de l'intervalle ne bouge pas}
-(1,43 $\to$ 1,41).}
-\dire{{\color{warm}\textbf{Mots à tenir}~: résidu, hétéroscédasticité si on pousse.}}
+($1{,}43\to1{,}41$).}
+\srcs{~\texttt{21}}
+\qq{Pourquoi le résidu compte~?}{traiter une régression comme exacte revient à supposer la
+conversion \n{sans erreur}. Ça sous-estime la variance de la sévérité dérivée, donc la queue.}
+\pasdire{que c'est \og{}corrigé\fg{} partout. \n{C'est corrigé sur la branche PRC}, qui est un
+axe de sensibilité, pas le canal du capital principal.}
+\ench{Et la fréquence, deuxième chose que tu m'avais demandé de confronter.}
 
-\slide{10. La fréquence}{vérification demandée}
-\dire{$\bullet$ $N_j\mid Y\sim\mathcal{P}(\lambda_j m)$, $m=\exp(aY-a^2/2)$. \n{$\lambda$ est
-une propriété d'entité, $a$ est un choc commun. Ils ne se lisent pas au même endroit.}}
-\dire{$\bullet$ \n{Les mélanger serait une faute}~: la surdispersion d'un panel firme-année
-est dominée par l'\n{hétérogénéité de taille}, pas par le choc commun.}
-\dire{$\bullet$ Panel (\n{14\,944} obs.)~: Poisson rejeté, $p=\mathbf{1{,}6\times 10^{-30}}$.}
-\dire{$\bullet$ Série détrendée~: $a=\n{0,12}$ à $0,30$ contre \n{0,60} posé, \n{au-dessus de
-la borne haute} de l'intervalle (0,223).}
+\slide{10. La fréquence}{5 min \textemdash{} vérification demandée}
+\ouv{Deux paramètres qui étaient posés sont maintenant mesurés, et dans le bon sens.}
+\dire{$\bullet$ $N_j\mid Y\sim\mathcal{P}(\lambda_j m)$ avec $m=\exp(aY-a^2/2)$. \n{$\lambda$
+est une propriété d'entité, $a$ est un choc commun. Ils ne se lisent pas au même endroit.}}
+\dire{$\bullet$ \n{Les mélanger serait une faute}~: la surdispersion d'un panel firme-année est
+dominée par l'\n{hétérogénéité de taille}, pas par le choc commun, qui ne se lit qu'au niveau
+\n{agrégé} et \n{après retrait de tendance}.}
+\dire{$\bullet$ Panel (\n{14\,944} obs.)~: Poisson rejeté, $p=\mathbf{1{,}6\times 10^{-30}}$.
+Taux de $0{,}099$ toutes firmes à \n{0,210} sur les grandes.}
+\dire{$\bullet$ Série agrégée détrendée~: $a=\n{0,12}$ à $0{,}30$ contre \n{0,60} posé,
+\n{au-dessus même de la borne haute} de l'intervalle ($0{,}223$).}
 \dire{$\bullet$ Erlang~: forme \n{0,63} ajustée, or une Erlang exige une forme \n{entière
-$\ge1$}. \n{Le mélange Gamma est le bon objet.}}
-\dire{{\color{warm}\textbf{Mots à tenir}~: surdispersion, indice de dispersion, mélange
-Gamma, charge systémique.}}
+$\ge1$}. \n{Le mélange Gamma est le bon objet, l'Erlang n'en est qu'un cas particulier.}
+\emph{(Réponse au point bloquant de Coraline.)}}
+\srcs{s~\texttt{08b} et~\texttt{47}}
+\qq{Alors ton $a=0{,}60$ est faux~?}{il est \n{posé et conservateur}, pas faux. Il dépasse la
+borne haute de l'intervalle empirique, \n{donc il majore le capital}. C'est un choix de
+prudence, et je l'affiche comme tel.}
+\pasdire{\og{}$a=0{,}60$ est calibré\fg{}. \n{C'est exactement la faute que la ligne de
+conduite interdit}, et elle est vérifiable en trente secondes.}
+\ench{Ce qui reste ouvert, et la suite.}
 
-\slide{11. Points bloquants}{clôture}
-\dire{$\bullet$ Dépend d'autres~: le \n{registre d'externalisation} (ingestion prête), la
-\n{posture} sur le capital à trancher avec Caroline.}
-\dire{$\bullet$ Prochains sujets~: l'\n{allocation aux cinq piliers} (Euler pour le niveau,
-Shapley pour le surcoût), la \n{relecture complète}.}
+\slide{11. Points bloquants}{4 min \textemdash{} clôture}
+\dire{$\bullet$ \n{Dépend d'autres que moi}~: le \n{registre d'externalisation}, dont
+l'ingestion est prête et n'attend que la donnée~; le \n{choix de posture} sur le capital, à
+trancher avec Caroline, les deux étant désormais chiffrés.}
+\dire{$\bullet$ \n{Prochains sujets}~: l'\n{allocation aux cinq piliers}, Euler pour le niveau
+et Shapley pour le surcoût, suite naturelle des $5\,001$~M\euro{} d'interaction~; la
+\n{relecture complète}, jamais faite depuis la restructuration.}
 \dire{$\bullet$ \n{\og Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.\fg}
 Et elle survit maintenant à un \n{quatrième axe}~: le changement d'échelle.}
 \dire{$\bullet$ \n{\og Ne jamais présenter comme mesuré ce qui est posé.\fg} Deux paramètres
 viennent de changer de statut, \n{et dans le bon sens}.}
+\qq{Et ton second codeur~?}{relancer \n{avec un nom}, pas avec un accord~: Coraline ou
+Nathanael. \n{Mieux vaut un nom qu'un \og{}je vais voir\fg{}.}}
 
 \end{multicols}
 
