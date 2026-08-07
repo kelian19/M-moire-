@@ -139,13 +139,13 @@ le script indiqué à droite.}
 
 \node[bloc, below=of h2] (b21)
   {\ttl{5. De la matrice de jugement à la matrice de contagion \src{16, 20, 30}}
-   $s_j=\sum_k \mathrm{TRANS}_{jk}$ est la \emph{puissance de propagation} du pilier $j$~:
+   $s_j=\sum_k \mathrm{TRANS}_{jk}$ est l'\emph{émission} du pilier $j$ (la ligne émet)~:
    \eq{
      W_{jk}=g\,\frac{\mathrm{TRANS}_{jk}}{\max_\ell s_\ell},\qquad
      e_j = g\,\frac{s_j}{\max_\ell s_\ell}
    }
    \ppos~$g$ par état de conformité : $0{,}45$ / $0{,}68$ / $0{,}90$, \emph{posés}.\\
-   \pest~$\rho(W)=0{,}506$ à $g=0{,}90$. Comme $\sum_k W_{jk}\le g$, on a $\rho(W)\le g<1$~:
+   \pest~$\rho(W)=0{,}506$ et $R_0=0{,}054$ à $g=0{,}90$. Comme $\sum_k W_{jk}\le g$~:
    \textbf{sous-criticité garantie par construction}, la cascade s'éteint toujours.};
 
 \node[pilier, below=5mm of b21.south west, xshift=0.88cm] (p1) {\textbf{P1}\\gouvernance};

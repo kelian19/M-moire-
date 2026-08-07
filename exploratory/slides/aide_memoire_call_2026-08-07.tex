@@ -1,0 +1,461 @@
+\documentclass[9pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.2cm]{geometry}
+\usepackage{microtype}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{eurosym}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{warm}{HTML}{C55A11}
+\definecolor{vert}{HTML}{1E6B3A}
+
+\newtcolorbox{alerte}[1][]{colback=orange!8,colframe=orange!70!black,boxrule=0.6pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1}
+\newtcolorbox{reflexe}[1][]{colback=lightblue!50,colframe=navy,boxrule=0.8pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1}
+\newtcolorbox{vertb}[1][]{colback=vert!7,colframe=vert!70!black,boxrule=0.6pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1}
+
+\newcommand{\slide}[2]{%
+  \medskip\noindent{\color{navy}\bfseries #1.}\ \textcolor{navy}{\footnotesize #2}\par\nobreak\smallskip}
+\newcommand{\dire}[1]{\noindent\hangindent=1em\hangafter=1 #1\par}
+\newcommand{\n}[1]{\textbf{#1}}
+% Une definition : le terme, puis la phrase a dire telle quelle.
+\newcommand{\dfn}[2]{\noindent\hangindent=1.1em\hangafter=1
+  {\color{warm}\bfseries #1} \textemdash{} #2\par\smallskip}
+
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{14pt}
+\pagestyle{empty}
+
+\begin{document}
+
+{\color{navy}\Large\bfseries Aide-mémoire, point tuteur du 7 août 2026}\\[2pt]
+{\footnotesize Kélian Kaddouri. À garder sous les yeux. \textbf{Partie 1 : les définitions.}
+\textbf{Partie 2 : slide par slide.} Les chiffres en gras sont ceux qu'il ne faut pas se tromper.}
+
+\vspace{4pt}
+\begin{alerte}
+\footnotesize
+\textbf{Ce qui s'est passé la dernière fois, et qui ne doit pas se reproduire.} Je n'ai pas su
+définir \textbf{placebo} quand on me l'a demandé, alors que le mot était sur ma propre slide.
+Un terme que je place et que je ne peux pas définir en une phrase annule le crédit de la
+slide entière, et de celles d'avant. \textbf{Règle : je ne prononce aucun mot de la partie 1
+sans pouvoir en dire la phrase à voix haute.} S'il en reste un que je ne tiens pas, je le
+retire de mon vocabulaire du jour et je dis la chose en français.
+\end{alerte}
+
+\vspace{3pt}
+{\color{navy}\large\bfseries Partie 1 \textemdash{} Les définitions}\\
+{\footnotesize Chaque entrée se lit en une phrase. La phrase est \emph{suffisante} : si on
+m'en demande plus, c'est écrit en italique.}
+
+\vspace{2pt}
+\begin{multicols}{2}
+\scriptsize
+
+{\color{navy}\bfseries A. Les tests, et d'abord celui que j'ai raté}
+
+\dfn{Test placebo}{je casse volontairement la structure que je prétends détecter, je relance
+\emph{le même} calcul, et je vérifie que le signal disparaît. S'il survit, ce n'est pas la
+structure qui le produisait. \emph{Ici : je permute l'ordre du temps à l'intérieur de chaque
+entité, ce qui détruit « qui vient avant qui » sans rien changer d'autre, ni les volumes ni
+les co-occurrences.}}
+
+\dfn{Loi nulle (ou loi de permutation)}{la distribution de ma statistique dans le monde où il
+n'y a rien à trouver. Je l'obtiens en rejouant le placebo un grand nombre de fois. C'est mon
+étalon : sans elle, un chiffre observé ne veut rien dire.}
+
+\dfn{$z$ (score standardisé)}{de combien d'écarts-types mon observation s'écarte de la
+moyenne de la loi nulle. $z=(\text{observé}-\text{moyenne du nul})/\text{écart-type du nul}$.
+\emph{Repères : $|z|<2$ = indistinguable du hasard ; $z>3$ = fort.}}
+
+\dfn{Mon $z=-0{,}33$}{asymétrie observée $119$, loi nulle $128\pm27$, donc
+$(119-128)/27=-0{,}33$. \n{Ce n'est pas un échec, c'est le résultat} : sur une donnée sans
+ordre temporel, la direction \emph{ne peut pas} se voir, et le placebo le confirme.}
+
+\dfn{Mon $z=+3{,}9$ (post-mortems) et $+5{,}1$ (corpus étendu)}{là, le placebo est franchi :
+le corpus documentaire, lui, porte l'ordre des événements.}
+
+\dfn{$p$-value}{probabilité d'observer un résultat au moins aussi extrême \emph{si} il n'y
+avait rien. Petite $=$ incompatible avec le hasard. \emph{Elle ne dit pas que l'effet est
+grand, seulement qu'il n'est pas nul.}}
+
+\dfn{Bootstrap}{je rééchantillonne mes données avec remise, je refais l'estimation à chaque
+fois, et la dispersion des résultats me donne l'incertitude. \emph{Aucune hypothèse de loi.}}
+
+\dfn{Bootstrap paramétrique}{même idée, mais je tire les échantillons \emph{depuis mon modèle
+ajusté} au lieu des données. \emph{Nécessaire quand les valeurs critiques tabulées d'un test
+ne valent plus, parce que les paramètres ont été estimés.}}
+
+\dfn{Anderson-Darling, Kolmogorov-Smirnov}{deux tests d'adéquation : la loi que j'ai choisie
+colle-t-elle aux données. AD pèse davantage la \emph{queue}, KS le milieu. \emph{Chez moi,
+$p=0{,}96$ et $p=0{,}89$ : non rejetés.}}
+
+\dfn{Jackknife}{je retire une observation, je recalcule, je recommence pour chacune. Ça
+mesure l'influence de chaque point. \emph{Sert à vérifier qu'aucun résultat ne tient à un
+seul incident.}}
+
+\dfn{Knockout}{je retire un ingrédient du modèle et je regarde ce qui tombe. \emph{Ici : je
+supprime l'asymétrie de $W$ et le signal passe sous le bruit du placebo, donc c'est bien
+l'asymétrie qui porte le résultat.}}
+
+\vspace{3pt}
+{\color{navy}\bfseries B. La sévérité : la théorie des valeurs extrêmes}
+
+\dfn{EVT}{la statistique des \emph{maxima}, là où le théorème central limite est celle des
+sommes. Elle autorise à extrapoler au-delà du plus gros sinistre observé.}
+
+\dfn{POT (\emph{peaks over threshold})}{plutôt que de garder un maximum par bloc, je garde
+\emph{tout} ce qui dépasse un seuil $u$ et je modélise les excès. \emph{Moins de gaspillage
+d'information, ce qui compte quand la donnée est rare.}}
+
+\dfn{GPD (Pareto généralisée)}{la loi vers laquelle converge la distribution des excès quand
+le seuil monte. \emph{C'est le théorème de Pickands-Balkema-de Haan qui le garantit.}}
+
+\dfn{$\xi$ (indice de queue)}{le paramètre de forme de la GPD, celui qui commande la
+lourdeur. \n{$\xi>0$ = queue lourde} ; la variance n'existe plus si $\xi\ge0{,}5$,
+\n{l'espérance plus si $\xi\ge1$}. \emph{Chez moi $\xi=0{,}595$ sur OpRisk : variance
+infinie, espérance finie.}}
+
+\dfn{$\sigma$ (échelle GPD)}{le paramètre d'échelle des excès, en millions d'euros. \n{Ne pas
+le confondre avec l'écart-type d'un test.} \emph{Chez moi $57{,}97$~M\euro.}}
+
+\dfn{$u$ (seuil) et $p_u$ (taux de dépassement)}{$u=20{,}03$~M\euro{} et $p_u=\mathbb{P}(X>u)$.
+\n{$p_u$ n'est pas libre : une fois le seuil et l'échantillon fixés, il se compte.}}
+
+\dfn{Estimateur de Hill}{un estimateur non paramétrique de $\xi$, fondé sur les $k$ plus
+grandes observations. \n{Il suppose une queue de Pareto pure et il est biaisé en échantillon
+fini.}}
+
+\dfn{MLE (maximum de vraisemblance)}{je choisis les paramètres qui rendent mes données les
+plus probables. \emph{C'est l'estimateur que je retiens, sur les excès, parce qu'il n'exige
+pas la Pareto pure.}}
+
+\dfn{Information de Fisher}{la courbure de la vraisemblance à son sommet. Plus elle est
+grande, plus l'estimation est précise. \emph{Elle me donne l'écart-type asymptotique, ici
+$(1+\xi)/\sqrt{N_u}=0{,}167$.}}
+
+\dfn{VaR $99{,}5\,\%$}{le montant dépassé une année sur deux cents. \n{C'est la définition
+même du SCR sous Solvabilité~II.}}
+
+\dfn{TVaR (\emph{expected shortfall})}{la perte \emph{moyenne} sachant qu'on a dépassé la
+VaR. \emph{Elle regarde au-delà du quantile, la VaR s'arrête dessus.}}
+
+\vspace{3pt}
+{\color{navy}\bfseries C. La fréquence}
+
+\dfn{Poisson}{la loi du nombre d'événements quand ils arrivent indépendamment à taux
+constant. \emph{Sa propriété : variance $=$ moyenne.}}
+
+\dfn{Surdispersion}{quand la variance observée dépasse la moyenne. \n{C'est le signe qu'un
+facteur commun ou une hétérogénéité manque au modèle.}}
+
+\dfn{Indice de dispersion $\varphi$}{le rapport variance sur moyenne. \n{Il n'est pas
+invariant d'échelle} : il vaut $1+\lambda/r$, donc il croît avec le niveau de fréquence
+auquel on le lit. \emph{D'où $1{,}19$ sur les cellules firme-année, $2{,}24$ sur la série
+annuelle, $9{,}20$ au moteur qui est un choix posé.}}
+
+\dfn{Binomiale négative}{un mélange de Poisson par une loi Gamma. \emph{C'est la façon
+standard d'absorber la surdispersion sans changer la moyenne.}}
+
+\dfn{Mélange Gamma, et pourquoi pas Erlang}{la forme ajustée vaut $0{,}63$, or une Erlang
+exige une forme entière $\ge1$. \n{Le mélange Gamma est le bon objet, l'Erlang n'en est qu'un
+cas particulier.}}
+
+\dfn{Charge systémique $a$}{l'intensité du choc commun à tous les piliers, dans
+$m=\exp(aY-a^2/2)$ avec $Y$ gaussien centré réduit. \emph{Le $-a^2/2$ est là pour que
+$\mathbb{E}[m]=1$ : le choc redistribue, il n'ajoute pas de fréquence moyenne.}}
+
+\dfn{Élasticité}{de combien de pour cent bouge une grandeur quand une autre bouge d'un pour
+cent. \emph{Chez moi, sévérité contre taille : $0{,}087$, donc presque plate. C'est ce qui
+limite la transposition vers les petites entités.}}
+
+\dfn{Troncature}{les pertes sous le seuil de collecte n'existent pas dans la base.
+\n{L'ignorer biaise l'estimation}, et le corriger est le rôle de l'ajustement tronqué.}
+
+\vspace{3pt}
+{\color{navy}\bfseries D. La cascade}
+
+\dfn{$W$ (matrice de contagion dirigée)}{$W_{jk}$ est la force du lien \n{du pilier $j$ vers
+le pilier $k$}. \n{La ligne émet, la colonne reçoit.}}
+
+\dfn{Normalisation de Leontief}{je divise $\mathrm{TRANS}$ par l'\n{émission maximale} (2,60)
+et je multiplie par $g$. \emph{Ça garantit que le pilier le plus prolifique engendre au plus
+$g$ descendants directs, donc que le système est stable par construction et non par
+hypothèse.}}
+
+\dfn{$g$ (gain de propagation)}{la part de contagion du pilier le plus prolifique, dans
+$(0,1]$. \n{Posé, non calibré}, et la thèse n'en dépend pas.}
+
+\dfn{Rayon spectral $\rho(W)$}{la plus grande valeur propre en module. \n{Il gouverne la
+stabilité} : si $\rho(W)<1$, la série $I+W+W^2+\cdots$ converge et $(I-W)^{-1}$ existe.
+\emph{Chez moi $\n{0{,}506}$ à $g=0{,}9$, donc largement sous-critique.}}
+
+\dfn{Sous-criticité}{la propriété $\rho<1$. \n{Elle veut dire que la cascade s'éteint.}}
+
+\dfn{Processus de branchement}{un incident sur un pilier engendre, à la période suivante, un
+nombre aléatoire d'incidents sur les autres. \emph{Toute la théorie de l'extinction des
+épidémies s'applique.}}
+
+\dfn{$R_0$}{le nombre moyen d'incidents engendrés par un incident, en cascade. \n{La cascade
+s'éteint si et seulement si $R_0<1$.} \emph{Chez moi $\n{0{,}054}$ : c'est le $R_0$ des
+épidémiologistes.}}
+
+\dfn{$\rho(W)$ contre $R_0$, à ne pas confondre}{$\rho(W)$ gouverne le système latent
+\emph{simultané}, $R_0$ la cascade d'\emph{incidents}. \emph{Les deux sont stables sur tout
+le domaine admissible, mais pas du même ordre : la forme simultanée approche son seuil
+critique plus de quatre fois plus vite.}}
+
+\dfn{Identification partielle}{la donnée ne détermine pas le paramètre, mais elle le
+\emph{borne}. \n{Je publie l'ensemble des valeurs compatibles, pas un point.} \emph{Ici : la
+co-occurrence identifie la partie symétrique de $W$, jamais la direction.}}
+
+\dfn{$W=S+A$}{toute matrice se coupe en une partie symétrique $S$ (qui est lié à qui) et une
+partie antisymétrique $A$ (dans quel sens). \n{La donnée voit $S$, elle est aveugle à $A$.}}
+
+\dfn{$t$ (degré d'ignorance sur la direction)}{la largeur que je m'autorise autour de $S$ :
+$|A_{jk}|\le t\,S_{jk}$. \emph{$t=1$ = ignorance totale, et c'est l'état actuel.}}
+
+\dfn{Sommets ($2^{10}=1024$)}{le maximum d'une fonction convexe sur un pavé est atteint sur un
+coin. \emph{Je les énumère tous : les bornes sont exactes, pas approchées.}}
+
+\vspace{3pt}
+{\color{navy}\bfseries E. Le capital et l'allocation}
+
+\dfn{SCR}{le capital réglementaire de Solvabilité~II, défini comme la VaR à $99{,}5\,\%$ de
+la perte à un an.}
+
+\dfn{ORSA}{l'évaluation interne des risques, pilier 2. \n{Il n'existe aucun module DORA en
+Formule Standard} : ce que je calcule est un \n{besoin de capital ORSA}, jamais « le SCR
+DORA » d'une entité.}
+
+\dfn{Formule Standard, charge opérationnelle}{le forfait réglementaire, $3\,\%$ des
+provisions, plafonné à $30\,\%$ du BSCR. \n{Il ne bouge pas d'un euro selon le profil de
+conformité, et c'est tout mon argument.}}
+
+\dfn{Marge de risque}{le coût de portage du capital, $6\,\%$ par an sous Solvabilité~II.
+\emph{C'est ce qui transforme un $\Delta$SCR en euros annuels.}}
+
+\dfn{$\Delta_{\text{DORA}}$}{l'écart de capital entre l'état non conforme et l'état conforme.
+\n{C'est ma grandeur centrale, un écart, pas un niveau.}}
+
+\dfn{Socle}{le SCR à contagion nulle ($W=0$). \n{Le plancher défendable} : tout ce qui est
+au-dessus est de la contagion, donc à borner.}
+
+\dfn{Super-additivité}{la somme des effets isolés est plus petite que l'effet conjoint.
+\emph{Chez moi l'interaction vaut $5\,001$~M\euro, soit $35\,\%$ : les canaux ne
+s'additionnent pas.}}
+
+\dfn{Valeur de Shapley}{la seule façon d'attribuer un surcoût conjoint à des contributeurs
+qui respecte l'efficacité (la somme fait le total), la symétrie et la linéarité. \emph{Vue
+« source » : qui a causé le surcoût.}}
+
+\dfn{Allocation d'Euler}{la contribution marginale de chaque brique au capital, valide parce
+que la VaR est homogène de degré~1. \emph{Vue « réceptacle » : où le capital est consommé.}}
+
+\dfn{Copule}{la fonction qui relie des lois marginales pour en faire une loi jointe.
+\n{Elle décrit la dépendance sans toucher aux marges.}}
+
+\dfn{Dépendance de queue (Gumbel contre gaussienne)}{la probabilité que deux risques soient
+extrêmes \emph{ensemble}. \n{La gaussienne l'annule à la limite}, la Gumbel la conserve.
+\emph{C'est pourquoi une copule gaussienne raterait un choc comme MOVEit.}}
+
+\dfn{VaR prédictive}{j'intègre l'incertitude d'estimation \emph{avant} de prendre le
+quantile. \emph{Le point honnête.}}
+
+\dfn{VaR robuste}{je prends la borne haute sur l'ambiguïté du modèle. \emph{Le point
+prudent. Le choix entre les deux est prudentiel, pas mathématique.}}
+
+\dfn{Plug-in}{je prends le quantile de la loi estimée en un point, sans son incertitude.
+\n{C'est ce qu'il ne faut pas reporter seul.}}
+
+\end{multicols}
+
+\vspace{2pt}
+\begin{vertb}
+\scriptsize
+\textbf{Les six chiffres que je dois pouvoir sortir sans notes.}
+$\rho(W)=\n{0{,}506}$ \textbullet{} $R_0=\n{0{,}054}$ \textbullet{} $\xi=\n{0{,}595}$ sur
+$\n{91}$ excès \textbullet{} socle $\n{5\,275}$~M\euro{} \textbullet{} bande
+$\n{[6\,858;8\,697]}$ \textbullet{} entité $\n{169}$~M\euro{} contre $\n{450}$ de forfait.
+\end{vertb}
+
+\newpage
+
+{\color{navy}\large\bfseries Partie 2 \textemdash{} Slide par slide}
+
+\vspace{2pt}
+\begin{reflexe}
+\textbf{La phrase à placer deux fois, minimum} (slide 8, puis en clôture)~:\\
+\textbf{\og Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas. C'est ça, mon
+résultat.\fg{}}\\[3pt]
+{\footnotesize Sans elle, la liste des incertitudes passe pour du flou. Avec elle, elle passe
+pour de la rigueur.}
+\end{reflexe}
+
+\vspace{2pt}
+\begin{multicols}{2}
+\footnotesize
+
+\slide{1. Titre}{}
+Point d'avancement. Premier point où je donne un capital chiffré.
+
+\slide{2. Depuis le 31 juillet}{annoncer le plan}
+\dire{$\bullet$ Le placebo et la clarification $z$ / $\sigma$ sont partis par écrit, je n'y
+reviens pas. \n{Mais je dois pouvoir les redéfinir si on me relance} (partie 1, section A).}
+\dire{$\bullet$ Trois temps~: \n{(A)} le capital et son échelle, \n{(B)} tient-il face au
+réel, \n{(C)} les vérifications demandées.}
+
+\slide{3. Le capital et la contagion}{la table des bornes}
+\dire{$\bullet$ Socle sans contagion~: \n{5\,275}~M\euro. \og Plancher défendable.\fg}
+\dire{$\bullet$ Ignorance totale sur la direction ($t=1$)~: \n{[6\,858 ; 8\,697]}, largeur
+\n{1\,839}, soit \n{34,9\,\%} du socle.}
+\dire{$\bullet$ \n{La contagion ajoute entre $+30$ et $+65\,\%$ au socle.}}
+\dire{$\bullet$ Le point d'expert (8\,110) est \n{un} point de l'ensemble, \n{pas sa mesure}.}
+\dire{$\bullet$ $\rho(W)=\n{0{,}506}$~: la cascade reste sous-critique.}
+\dire{$\bullet$ Contrôle croisé~: un second moteur donne 8\,553, soit \n{5\,\%} d'écart.}
+\dire{{\color{warm}\textbf{Mots à tenir}~: socle, identification partielle, $t$, rayon
+spectral, sous-criticité.}}
+
+\slide{4. À quelle échelle}{le point le plus neuf}
+\dire{$\bullet$ \n{\og Ces montants sont un SCR de marché, pas d'entreprise.\fg} À dire tôt
+et fort.}
+\dire{$\bullet$ Calage secteur mondial~: \n{21,6} incidents TIC matériels par an.}
+\dire{$\bullet$ En ne changeant \emph{que} $\lambda$~: 8\,123 $\to$ \n{169}~M\euro.}
+\dire{$\bullet$ Les deux lignes du milieu sont des \n{seaux}, définis par un filtre sur la
+grandeur même qu'on estime. D'où $\lambda$ estimé comme \n{fonction de la taille}.}
+\dire{$\bullet$ \n{Le fait actuariel}~: la moyenne suit $\lambda$ (facteur 270), la
+\n{VaR ne suit pas} (facteur 48). \n{Perte unique dominante}, \n{98,8\,\%} des années sans
+aucun incident.}
+\dire{{\color{warm}\textbf{Mots à tenir}~: élasticité, perte unique dominante.}}
+
+\slide{5. Face au réel}{J5}
+\dire{$\bullet$ Au niveau \n{unitaire}~: VaR \n{663}, TVaR \n{1\,752}~M\euro, dans la
+fourchette des grandes pertes cyber réelles.}
+\dire{$\bullet$ Au niveau \n{annuel}~: de l'ordre du marché cyber mondial. \n{C'est une
+échelle de secteur}, ce qui confirme la slide précédente.}
+\dire{{\color{warm}\textbf{Mots à tenir}~: VaR, TVaR, et la différence entre les deux.}}
+
+\slide{6. Ramené à une entité}{le renversement}
+\dire{$\bullet$ \n{169}~M\euro{} contre \n{450} de forfait, soit \n{0,38} fois.}
+\dire{$\bullet$ \n{\og Comparer les niveaux n'a pas de sens\fg}~: le forfait couvre tout
+l'opérationnel, moi seulement le cyber.}
+\dire{$\bullet$ \n{Ce qui parle, c'est l'insensibilité}~: le forfait vaut 450 pour un profil
+exemplaire comme pour un profil défaillant. \n{Il ne bouge pas d'un euro.} Moi j'écarte les
+deux de \n{+45\,\%}.}
+\dire{$\bullet$ Réserve à donner \n{soi-même}~: le 169 est une \n{borne supérieure} d'ordre
+de grandeur, la sévérité est calibrée sur de grandes institutions. \n{L'écart entre états,
+lui, est un rapport et ne dépend pas de cette réserve.}}
+\dire{{\color{warm}\textbf{Mots à tenir}~: ORSA, Formule Standard, charge opérationnelle.}}
+
+\slide{7. Sur quel point ne pas parier}{J7}
+\dire{$\bullet$ \n{91} excès, $\xi=\n{0{,}598}$, IC bootstrap $90\,\%$ \n{[0,32 ; 0,84]}.}
+\dire{$\bullet$ L'échelle des postures~: point \n{657}, prédictive \n{645}, robuste
+\n{1\,037}, pire cas \n{1\,331}~M\euro.}
+\dire{$\bullet$ \n{1.} La prédictive coïncide presque avec le point~: \n{ce n'est pas
+l'intégration de l'incertitude qui manquait, c'est la largeur}.}
+\dire{$\bullet$ \n{2.} Le niveau $\beta$ est un \n{choix prudentiel explicite, pas un
+calcul}. On l'affiche au lieu de le cacher dans un point.}
+\dire{{\color{warm}\textbf{Mots à tenir}~: bootstrap, VaR prédictive, VaR robuste, plug-in.}}
+
+\slide{8. Capital libéré}{placer la phrase}
+\dire{$\bullet$ Conforme \n{6\,049}, non conforme \n{20\,188}, écart
+$\Delta_{\text{DORA}}=\n{14\,139}$~M\euro.}
+\dire{$\bullet$ Dont \n{5\,001} d'\n{interaction}, soit \n{35\,\%}~: \n{les canaux ne
+s'additionnent pas, la cascade est super-additive}.}
+\dire{$\bullet$ Par levier~: fréquence \n{4\,328}, accumulation P4 \n{1\,728}, propagation
+$W$ \n{1\,633}, détection \n{1\,448}.}
+\dire{$\bullet$ Portage seul (\n{6\,\%}, marge de risque)~: \n{848}~M\euro/an.}
+\dire{$\bullet$ \n{1.} Le capital libéré est \n{concentré}~: la fréquence porte \n{47\,\%}
+de la somme des leviers. \n{Prioriser, pas étaler.}}
+\dire{$\bullet$ \n{2.} Retour sur le \emph{seul} portage~: \n{6 à 35 ans}. \n{Et le portage
+est le plancher}, l'essentiel du $\Delta$SCR est de la perte évitée.}
+\dire{{\color{warm}\textbf{Mots à tenir}~: super-additivité, marge de risque, Shapley si on
+me demande comment j'attribue.}}
+
+\slide{9. Jacobs}{vérification demandée}
+\dire{$\bullet$ \n{1.} Ce n'est \n{pas} un lien fréquence-sévérité, c'est une \n{conversion
+de sévérité seule}~: $\ln L=7{,}68+0{,}76\ln X+\varepsilon$.}
+\dire{$\bullet$ \n{2.} \n{Le capital principal n'en dépend pas}~: il est calculé sur OpRisk,
+déjà en dollars. PRC n'est qu'un axe de sensibilité.}
+\dire{$\bullet$ \n{3.} La conversion était traitée comme \n{exacte}, ce qui écrasait la
+dispersion. En réinjectant le résidu ($\sigma_\varepsilon=\n{0{,}523}$)~: niveau \n{+7\,\%},
+queue \n{1,03 $\to$ 1,07}, mais \n{la largeur relative de l'intervalle ne bouge pas}
+(1,43 $\to$ 1,41).}
+\dire{{\color{warm}\textbf{Mots à tenir}~: résidu, hétéroscédasticité si on pousse.}}
+
+\slide{10. La fréquence}{vérification demandée}
+\dire{$\bullet$ $N_j\mid Y\sim\mathcal{P}(\lambda_j m)$, $m=\exp(aY-a^2/2)$. \n{$\lambda$ est
+une propriété d'entité, $a$ est un choc commun. Ils ne se lisent pas au même endroit.}}
+\dire{$\bullet$ \n{Les mélanger serait une faute}~: la surdispersion d'un panel firme-année
+est dominée par l'\n{hétérogénéité de taille}, pas par le choc commun.}
+\dire{$\bullet$ Panel (\n{14\,944} obs.)~: Poisson rejeté, $p=\mathbf{1{,}6\times 10^{-30}}$.}
+\dire{$\bullet$ Série détrendée~: $a=\n{0,12}$ à $0,30$ contre \n{0,60} posé, \n{au-dessus de
+la borne haute} de l'intervalle (0,223).}
+\dire{$\bullet$ Erlang~: forme \n{0,63} ajustée, or une Erlang exige une forme \n{entière
+$\ge1$}. \n{Le mélange Gamma est le bon objet.}}
+\dire{{\color{warm}\textbf{Mots à tenir}~: surdispersion, indice de dispersion, mélange
+Gamma, charge systémique.}}
+
+\slide{11. Points bloquants}{clôture}
+\dire{$\bullet$ Dépend d'autres~: le \n{registre d'externalisation} (ingestion prête), la
+\n{posture} sur le capital à trancher avec Caroline.}
+\dire{$\bullet$ Prochains sujets~: l'\n{allocation aux cinq piliers} (Euler pour le niveau,
+Shapley pour le surcoût), la \n{relecture complète}.}
+\dire{$\bullet$ \n{\og Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.\fg}
+Et elle survit maintenant à un \n{quatrième axe}~: le changement d'échelle.}
+\dire{$\bullet$ \n{\og Ne jamais présenter comme mesuré ce qui est posé.\fg} Deux paramètres
+viennent de changer de statut, \n{et dans le bon sens}.}
+
+\end{multicols}
+
+\vspace{-2pt}
+\begin{alerte}
+\footnotesize
+\textbf{Les quatre questions à anticiper.}\\[3pt]
+\textbf{\og C'est quoi, un placebo ?\fg} $\rightarrow$ \emph{Je casse volontairement la
+structure que je prétends détecter, je relance le même calcul, et je vérifie que le signal
+disparaît. Ici je permute l'ordre du temps dans chaque entité. S'il survit, ce n'est pas la
+structure qui le produisait.} \textbf{Puis enchaîner} : et c'est pour ça que mon $-0{,}33$
+n'est pas un échec.\\[3pt]
+\textbf{\og Ton $\xi$ à $0{,}595$, pourquoi pas le $1{,}3$ de Hill ?\fg} $\rightarrow$ Hill
+suppose une queue de Pareto pure et il est biaisé en échantillon fini. \emph{Et je l'ai
+démontré au lieu de l'invoquer : j'ai simulé 2\,000 échantillons sous mon modèle à
+$\xi=0{,}595$, appliqué le même Hill, et les six valeurs observées tombent dans l'intervalle
+simulé. Le $1{,}3$ est exactement ce qu'un $\xi$ de $0{,}595$ produit.}\\[3pt]
+\textbf{\og Pourquoi $g$ n'est pas calibré ?\fg} $\rightarrow$ Il est posé, et la thèse n'en
+dépend pas : le capital est croissant en $g$, donc toute correspondance qui respecte
+l'\textbf{ordre} produit l'écart, tant que le forfait reste plat. Seule l'amplitude est un
+scénario.\\[3pt]
+\textbf{\og Et le SCR d'une entité, il vaut combien ?\fg} $\rightarrow$ $169$~M\euro{} en
+\textbf{borne supérieure} d'ordre de grandeur, pas en mesure. Ce que j'affirme, c'est l'écart
+entre états et l'ordre des piliers.
+\end{alerte}
+
+\vspace{2pt}
+\begin{alerte}
+\footnotesize
+\textbf{Trois pièges de vocabulaire.}
+\textbf{(i)} Ne jamais dire \og le SCR DORA de telle entité\fg~: il n'existe aucun module
+DORA en Formule Standard, c'est un \textbf{besoin de capital ORSA}.
+\textbf{(ii)} Ne pas confondre le $\sigma$ d'échelle de la GPD ($57{,}97$~M\euro) avec
+l'écart-type d'un test.
+\textbf{(iii)} Ne pas confondre $\rho(W)$, qui gouverne le système \emph{simultané}, avec
+$R_0$, qui gouverne la cascade d'\emph{incidents}.\\[3pt]
+\textbf{Si je ne sais pas} $\rightarrow$ \og Je ne veux pas te répondre de travers, je te le
+mets par écrit ce soir.\fg{} \textbf{Puis le faire le jour même.} C'est infiniment mieux
+qu'une définition approximative.
+\end{alerte}
+
+\end{document}
