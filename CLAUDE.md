@@ -9,8 +9,13 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 6 août 2026, fin de journée : corps de 96 pages (121 pages au total), branche
-`exploratory`. Le harnais est à **97,3 % de confirmation sur 1 303 nombres, pour une
+État au 7 août 2026 : **corps de 101 pages, annexes à partir de la 102, 123 pages au total**,
+branche `exploratory`.
+
+**Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
+prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
+déjà commité. Compter en décompressant les flux d'objets, ou lire `main.toc` après une
+compilation avec `--keep-intermediates`. Le harnais est à **97,3 % de confirmation sur 1 303 nombres, pour une
 couverture de 100 %**.
 
 **Lire les deux chiffres ensemble, jamais l'un sans l'autre.** Le mémoire a commencé la
@@ -122,7 +127,7 @@ seul le chemin absolu de la figure diffère. Le harnais complet, lancé **avant*
 de la journée, redonnait exactement le chiffre du PC : 915 nombres, 879 confirmés, 96,1 %.
 C'est ce qui atteste la parité ; les corrections du jour et le resserrage de la tolérance
 sont venus après, et ne viennent pas de la
-machine. Le mémoire compile en 119 pages, 0 référence indéfinie, 0 annotation hors page,
+machine. Le mémoire compile sans erreur, 0 référence indéfinie, 0 annotation hors page,
 0 Overfull \vbox, 0 `/Rotate`. Les scripts 20, 36, 44, 46, 48, 60, 66 et 67 ont été relancés
 sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin absolu près.
 
@@ -171,7 +176,12 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 
 - `W_jk` va de la **source j** vers la **cible k**. La ligne émet, la colonne reçoit. Les
   scripts 59 et 64 vérifient cette convention avant de calculer.
-- `W(g) = g · TRANS / max_j(s_j)`, rayon spectral 0,506, sous-critique. `R_0 = 0,062`.
+- `W(g) = g · TRANS / max_j(s_j)` où **`s_j` est l'ÉMISSION du pilier j**, donc le diviseur
+  est 2,60 et non 2,3. Rayon spectral 0,506, sous-critique, `R_0 = 0,054`. La règle qui
+  tranche : la normalisation garantit que le pilier le plus prolifique engendre au plus `g`
+  descendants directs, et avec le diviseur de réception il en engendrait 1,02 pour `g = 0,9`.
+  Le script 03 divisait par la réception jusqu'au 7 août ; il est aligné, et son en-tête,
+  ses impressions et sa figure K3 avec lui. **Ne pas rouvrir ce point.**
 - Décomposition `W = S + A` : la donnée identifie S (co-occurrence), pas A (direction). D'où
   l'identification partielle, énumération exhaustive des 2^10 = 1024 sommets.
 - **La grandeur calculée n'est PAS un SCR réglementaire.** Il n'existe aucun module DORA en
@@ -268,8 +278,14 @@ valeurs en produit toujours une. Les nombres restants se lisent un par un.
 
 ```
 0 référence indéfinie · 0 « Annotation out of page boundary » · 0 Overfull \vbox
-0 page tournée (/Rotate absent) · harnais ≥ 99 % · git status propre
+0 page tournée (/Rotate absent) · git status propre
+COUVERTURE = 100 % (aucun nombre hors contrôle non déclaré) · confirmation ≥ 97 %
 ```
+
+La couverture passe **avant** le taux, et dans cet ordre. Un taux de confirmation se règle en
+retirant une citation ; la couverture, non. Le harnais imprime les deux, et distingue trois
+états : sous contrôle, déclaré hors script (`% HARNAIS-HORS-SCRIPT:` ou `% HARNAIS-HORS-SECTION:`
+dans le chapitre, avec son motif), hors contrôle. **Seul le dernier doit valoir zéro.**
 
 Et, pour toute figure modifiée : **l'ouvrir et la regarder**. L'outil Read affiche les PNG. Le
 contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibilité réels ont
@@ -396,14 +412,11 @@ non sourcé contre un autre.
    - **le `-53 %` n'était pas faux, il était invisible.** Le script 25 l'imprime :
      « gain de conformite (NC->C) : 8861 M de SCR en moins (-53 %) ». Sa sortie n'était pas
      versionnée, voilà tout ;
-   - **désaccord de normalisation entre le script 03 et le reste du pipeline, à trancher.**
-     Le script 03 transpose TRANS et divise par la **réception** maximale (2,3) ; le reste
-     divise par l'**émission** maximale (2,60), qui est la convention du projet. D'où
-     $\rho(W) = 0{,}572$ contre 0,506, et un $g$ critique de 1,57 contre 1,78. Le chapitre 07
-     publie 0,506 et 1,78 (seconde convention) **et** $R_0 = 0{,}062$ (première) dans la même
-     phrase. Les deux lectures restent sous-critiques sur tout le domaine admissible, donc la
-     conclusion tient, mais un seul diviseur doit gouverner les nombres publiés. Le script 03
-     imprime maintenant les deux lectures et le dit ;
+   - **désaccord de normalisation entre le script 03 et le reste du pipeline, TRANCHÉ depuis.**
+     Le script 03 divisait par la **réception** maximale (2,3) quand le reste divise par
+     l'**émission** maximale (2,60). D'où $\rho(W) = 0{,}572$ contre 0,506, et le chapitre 07
+     publiait 0,506 et 1,78 (convention d'émission) **et** $R_0 = 0{,}062$ (convention de
+     réception) dans la même phrase. Voir le point 11 ;
    - trois scripts (09, 10, 11) n'étaient pas lançables depuis la racine du dépôt, faute
      d'amorce de `sys.path` ; corrigé ;
    - le commentaire de `03_calibration_W.py` annonçait une incidence de fond de 7 % là où
@@ -460,6 +473,40 @@ non sourcé contre un autre.
     41,3 %. Sous un stress de ±10 %, borne large, les parts deviennent [23,9 ; 29,3] et
     [37,6 ; 45,9] : les ordres de grandeur tiennent. **Cette borne ne remplace pas la lecture
     des quatre rapports SFCR, qui reste due** et qui ne dépend pas de l'assistant.
+
+11. **La convention de normalisation de $W$ est tranchée, et le script 03 est aligné.**
+    Ce n'est pas un arbitrage de goût. La normalisation de Leontief existe pour garantir que le
+    pilier le plus prolifique engendre **au plus $g$** descendants directs, $e_k = g\,s_k/c$ où
+    $s_k$ est son **émission**. Avec le diviseur de réception ($c = 2{,}3$) on obtenait
+    $e_{P1} = 0{,}9 \times 2{,}60/2{,}3 = 1{,}02$, donc plus que $g = 0{,}9$ : la borne que la
+    normalisation est censée poser était franchie, et $g$ cessait de désigner ce qu'il désigne.
+    Avec le diviseur d'émission ($c = 2{,}60$) on a $e_{P1} = 0{,}90$ exactement, et la
+    contrainte de réception reste satisfaite puisque 2,3 est sous 2,60.
+    **Ce qui ne bouge pas :** $\rho(W) = 0{,}506$, le rapport 0,562, le $g$ critique de 1,78,
+    tous déjà publiés et tous corrects. **Ce qui bouge :** $R_0$ passe de 0,062 à **0,054**, le
+    seuil critique de $R_0$ de 7,2 à **8,1**, la progéniture de 0,127/0,080/0,068/0,063/0,030 à
+    **0,109/0,069/0,058/0,054/0,026**, et à $g = 1$ le couple (0,635 ; 0,070) devient
+    (0,562 ; 0,061). Les figures K1, K2 et K3 sont régénérées et relues. La conclusion se
+    renforce : un $R_0$ plus petit veut dire une cascade qui s'éteint plus vite.
+    Deux conclusions codées en dur ont été corrigées au passage dans le script 03 : le titre de
+    la figure K1 annonçait un logit gonflé de 60 % là où les pentes calculées donnent **96 %**,
+    et l'en-tête annonçait un facteur 1,6 pour un facteur 2 mesuré.
+
+12. **LA CALIBRATION EST GELÉE À COMPTER DU 7 AOÛT 2026. Règle, pas préférence.**
+    Plus aucune **recalibration** : ni `config.py`, ni les paramètres figés, ni le pipeline
+    stochastique. Les **corrections d'erreur** restent autorisées et attendues, et la distinction
+    est nette : une erreur est une valeur qu'aucun calcul du projet ne reproduit (les queues
+    Bâle, le Hill à 1,42, le $\kappa^\star$ à 76 %, la plage de $\xi$, le diviseur du script 03) ;
+    une recalibration est un changement d'entrée qui déplace des résultats corrects (corriger
+    $p_u$, rejouer un bootstrap, changer un seuil).
+    **Pourquoi ce gel plutôt que la correction de $p_u$.** L'écart vaut 2,4 %, soit un
+    quarantième de l'IC90 de la même VaR. Rejouer un pipeline à 200 tirages réinjecterait un
+    bruit de Monte-Carlo du même ordre : des centaines de nombres publiés bougeraient sans
+    qu'aucun déplacement soit attribuable à la correction, et la piste d'audit serait perdue
+    pour un gain immatériel. Surtout, une limite chiffrée, signée et recalculée à chaque import
+    vaut **mieux** devant un jury qu'un nombre corrigé en silence : la section
+    « Un défaut de calibration, chiffré plutôt que corrigé » du chapitre 13 est un actif du
+    mémoire, pas une dette. La faire disparaître serait un mauvais échange.
 
 **Faisable :**
 - les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :

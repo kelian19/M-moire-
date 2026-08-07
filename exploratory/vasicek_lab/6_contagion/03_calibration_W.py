@@ -25,7 +25,7 @@ seule ne donne qu'une dependance symetrique. Le modele est donc dynamique :
 
 Estimateur : PROBIT par pilier. Le modele generateur pose eps gaussien et
 D = 1{X >= 0} : c'est LITTERALEMENT un probit. Une regression logistique estimerait
-les memes coefficients gonfles d'un facteur ~1,6 (unites logit), d'ou une
+les memes coefficients gonfles d'environ un facteur 2 (unites logit), d'ou une
 correlation correcte mais des MAGNITUDES fausses. Le probit rend W dans ses
 propres unites. Effets fixes de periode pour absorber le systemique Y[j,t].
 
@@ -39,16 +39,24 @@ TRANS n'est pas une matrice de parts : ses lignes somment jusqu'a 2,3 et
 rho(TRANS) = 1,461 > 1. La brancher telle quelle dans (I-W)^-1 est une ERREUR DE
 CATEGORIE, pas un probleme de calibration. On applique donc la meme discipline :
 
-  W = g * TRANS / max_j( somme de la ligne j )
+  W = g * TRANS / max_k( EMISSION du pilier k )
 
-  ligne j de W = parts du stress de j provenant des autres piliers
-  g            = part de contagion du pilier LE PLUS EXPOSE, dans (0, 1]
+  g            = part de contagion du pilier LE PLUS PROLIFIQUE, dans (0, 1]
   contrainte   = decomposition de variance de Vasicek : contagion + systemique + idio = 1
 
-Alors somme_k W[j,k] <= g <= 1, donc rho(W) <= g < 1 : la STABILITE EST GARANTIE PAR LA
-DECOMPOSITION DE VARIANCE, comme la valeur ajoutee la garantit chez Leontief. Ici
-rho(W) = 0,635 * g. L'asymetrie de RECEPTION est preservee (P1 recoit 0,348 quand P2
-recoit 1,000) : on ne normalise pas ligne a ligne, on divise par un scalaire unique.
+LE DIVISEUR EST L'EMISSION MAXIMALE, ET C'EST LA CONVENTION DU PROJET : la ligne emet, la
+colonne recoit. Une version anterieure de ce script divisait par la RECEPTION maximale (2,3),
+ce qui donnait rho(W) = 0,572 et un g critique de 1,57, en desaccord avec les 0,506 et 1,78
+publies par le chapitre cascade. Ce qui tranche n'est pas une preference : la normalisation
+existe pour garantir que le pilier le plus prolifique engendre au plus g descendants directs,
+e_k = g * s_k / c avec s_k son EMISSION. Avec c = 2,3 on obtenait e_P1 = 1,02, donc PLUS que
+g : la borne etait franchie et g cessait de designer ce qu'il designe. Avec c = 2,60 on a
+e_P1 = 0,90 exactement. La contrainte de reception reste satisfaite au passage, la reception
+maximale (2,3) etant sous l'emission maximale.
+
+Alors rho(W) <= g < 1 : la STABILITE EST GARANTIE PAR LA DECOMPOSITION DE VARIANCE, comme la
+valeur ajoutee la garantit chez Leontief. Ici rho(W) = 0,562 * g. L'asymetrie est preservee
+d'un bout a l'autre : on ne normalise pas ligne a ligne, on divise par un scalaire unique.
 
 Lecture epidemique. Le modele dynamique est un PROCESSUS DE BRANCHEMENT multitype.
 La matrice de generation suivante M donne le nombre attendu d'incidents de type j
@@ -98,12 +106,30 @@ T_RAW = np.zeros((J, J))              # TRANS brut, ligne j = ce que j RECOIT
 for k in TRANS:                       # k -> j
     for j, v in TRANS[k].items():
         T_RAW[j - 1, k - 1] = v
-ROWSUM = T_RAW.sum(1)
-MAXROW = ROWSUM.max()                 # 2,3 : le pilier le plus expose (P2)
+RECEPTION = T_RAW.sum(1)              # ligne de T_RAW = ce que le pilier RECOIT
+EMISSION = T_RAW.sum(0)               # colonne de T_RAW = ce que le pilier EMET
+ROWSUM = RECEPTION                    # conserve pour la lecture d'exposition, plus bas
+MAXROW = RECEPTION.max()              # 2,3 : le pilier le plus EXPOSE (P2)
+# LE DIVISEUR DE LEONTIEF EST L'EMISSION MAXIMALE, ET C'EST UNE CORRECTION.
+# Ce script divisait par MAXROW, la RECEPTION maximale (2,3), quand tout le reste du pipeline
+# divise par l'EMISSION maximale (2,60). Le rayon spectral etant invariant par transposition,
+# seul le diviseur separait les deux lectures, et elles coexistaient dans une meme phrase du
+# chapitre cascade : rho(W) = 0,506 et g critique = 1,78 venaient de la convention d'emission,
+# R0 = 0,062 de celle-ci.
+#
+# CE QUI TRANCHE N'EST PAS UNE PREFERENCE. La normalisation existe pour garantir que le pilier
+# le plus prolifique engendre au plus g descendants directs, e_j = g * s_j / c avec s_j son
+# EMISSION. Avec c = 2,3, le plus prolifique donne e_P1 = 0,9 x 2,60 / 2,3 = 1,02 descendants,
+# donc PLUS que g : la borne que la normalisation est censee poser est franchie, et g cesse de
+# vouloir dire « part de contagion du pilier le plus expose ». Avec c = 2,60 on a e_P1 = 0,90
+# exactement, soit g. La contrainte de reception reste satisfaite au passage, la reception
+# maximale (2,3) etant inferieure a l'emission maximale.
+MAXEM = EMISSION.max()                # 2,60 : le pilier le plus PROLIFIQUE (P1)
+DIVISEUR = MAXEM
 RHO_RAW = float(max(abs(np.linalg.eigvals(T_RAW))))   # 1,461 : INADMISSIBLE
 
 GAIN = 0.9                            # g : part de contagion du pilier le plus expose
-W_TRUE = GAIN * T_RAW / MAXROW        # normalisation de Leontief : matrice de PARTS
+W_TRUE = GAIN * T_RAW / DIVISEUR      # normalisation de Leontief : matrice de PARTS
 BASE = np.full(J, -1.7)               # cale l'incidence de base : Phi(-1,7) = 4,5 % et NON 7 %,
 #                                       comme le disait ce commentaire. Le chapitre cascade
 #                                       publie bien 4,5 % ; c'est ici que la valeur etait fausse,
@@ -228,7 +254,8 @@ print(f"Panel : {N0} entites x {T0} periodes x {J} piliers ; incidence moyenne {
 print("Recuperation de W (hors diagonale) :")
 print(f"  probit : correlation {corr_p:.3f} | pente {sl_p:.3f} | sens de l'asymetrie {dir_p:.0%}")
 print(f"  logit  : correlation {np.corrcoef(offdiag(W_TRUE), offdiag(Wl))[0,1]:.3f} | pente {sl_l:.3f}")
-print("  (pente ~1 = W dans ses propres unites ; ~1,6 = unites logit, magnitudes fausses)\n")
+print(f"  (pente ~1 = W dans ses propres unites ; {sl_l:.2f} en unites logit, soit "
+      f"{100*(sl_l/sl_p-1):.0f} % de trop)\n")
 
 # --------------------------------------------------- normalisation et stabilite
 rho_W = float(max(abs(np.linalg.eigvals(W_TRUE))))
@@ -236,9 +263,9 @@ print("Normalisation de W (la lecon de Leontief) :")
 print(f"  TRANS brut : sommes des lignes {np.round(ROWSUM, 2)} ; rho = {RHO_RAW:.3f}")
 print("     -> ce n'est PAS une matrice de parts. (I-TRANS)^-1 aurait 21 entrees")
 print("        negatives sur 25 : erreur de categorie, pas de calibration.")
-print(f"  W = g * TRANS / {MAXROW:.1f}  avec g = {GAIN} (part de contagion du pilier expose)")
+print(f"  W = g * TRANS / {DIVISEUR:.1f}  avec g = {GAIN} ; le diviseur est l'EMISSION maximale")
 print(f"     parts recues s_j = {np.round(W_TRUE.sum(1), 3)}  (<= g : asymetrie preservee)")
-print(f"     rho(W) = {rho_W:.3f} = {RHO_RAW/MAXROW:.3f} x g   -> stable pour tout g <= 1")
+print(f"     rho(W) = {rho_W:.3f} = {RHO_RAW/DIVISEUR:.3f} x g   -> stable pour tout g <= 1")
 print(f"  incidence de fond Phi(base) = {100*stats.norm.cdf(BASE[0]):.1f} %  (base = {BASE[0]})")
 # DIVISEUR DE LEONTIEF : CE SCRIPT ET LE MEMOIRE NE PRENNENT PAS LE MEME, ET IL FAUT TRANCHER.
 # Ce script transpose TRANS (ligne j = ce que j RECOIT, cf. T_RAW plus haut) et divise par la
@@ -253,15 +280,18 @@ print(f"  incidence de fond Phi(base) = {100*stats.norm.cdf(BASE[0]):.1f} %  (ba
 # normalisation qui n'a pas ete fait une fois pour toutes. La conclusion ne bouge pas, les deux
 # lectures restent sous-critiques sur tout le domaine admissible g <= 1, mais les nombres
 # publies doivent venir d'une seule des deux.
-print(f"\n  ATTENTION, DIVISEUR DE NORMALISATION. Ce script divise par la RECEPTION maximale")
-print(f"  ({MAXROW:.1f}), le reste du pipeline par l'EMISSION maximale (2.60). D'ou :")
-print(f"     ici        : rapport {RHO_RAW/MAXROW:.3f} ; rho(W) = {rho_W:.3f} ; critique a g = "
-      f"{MAXROW/RHO_RAW/GAIN*GAIN:.2f}")
-print(f"     ailleurs   : rapport {RHO_RAW/2.60:.3f} ; rho(W) = {GAIN*RHO_RAW/2.60:.3f} ; "
-      f"critique a g = {2.60/RHO_RAW:.2f}")
-print(f"  Le memoire publie la seconde pour rho(W) et le seuil critique, et la PREMIERE pour R0.")
-print(f"  A trancher : les deux lectures restent sous-critiques, mais un seul diviseur doit")
-print(f"  gouverner les nombres publies.\n")
+print(f"\n  DIVISEUR DE NORMALISATION : l'EMISSION maximale ({DIVISEUR:.1f}), convention du projet,")
+print(f"  la ligne emet et la colonne recoit. Une version anterieure de ce script divisait par")
+print(f"  la RECEPTION maximale ({MAXROW:.1f}), ce qui donnait rho(W) = 0.572 et un g critique de")
+print(f"  1.57, en desaccord avec les 0.506 et 1.78 publies par le chapitre cascade.")
+print(f"  CE QUI TRANCHE. La normalisation garantit que le pilier le plus prolifique engendre au")
+print(f"  plus g descendants directs. Avec l'ancien diviseur il en engendrait "
+      f"{GAIN*EMISSION.max()/MAXROW:.2f}, donc PLUS")
+print(f"  que g = {GAIN} : la borne etait franchie et g cessait de designer ce qu'il designe.")
+print(f"  Avec celui-ci il en engendre exactement {GAIN*EMISSION.max()/DIVISEUR:.2f}. La contrainte de "
+      f"reception reste")
+print(f"  satisfaite au passage, la reception maximale ({MAXROW:.1f}) etant sous l'emission "
+      f"maximale.\n")
 
 # --------------------------------------------------- lecture epidemique
 M_true = next_generation(W_TRUE, BASE)
@@ -291,7 +321,7 @@ print("  => ROOT se deduit de TRANS par coherence interne (Spearman=1.00) : redu
 # g est BORNE par la decomposition de variance : g <= 1. On prolonge au-dela pour
 # localiser les seuils critiques et montrer qu'ils sont HORS du domaine admissible.
 gains = np.linspace(0.02, 9.0, 120)
-Wg = lambda g: g * T_RAW / MAXROW
+Wg = lambda g: g * T_RAW / DIVISEUR
 R0_by_gain = np.array([R0(next_generation(Wg(g), BASE)) for g in gains])
 rho_by_gain = np.array([float(max(abs(np.linalg.eigvals(Wg(g))))) for g in gains])
 g_crit_rho = np.interp(1.0, rho_by_gain, gains)
@@ -301,7 +331,7 @@ print(f"  rho(W) = 1 a g = {g_crit_rho:.2f}   (systeme latent simultane)  HORS D
 print(f"  R0     = 1 a g = {g_crit_R0:.1f}    (cascade d'incidents)       HORS DOMAINE")
 print(f"  ratio {g_crit_R0/g_crit_rho:.0f}x : si l'on forcait le modele hors de son domaine,")
 print("  la forme simultanee crierait a l'emballement bien avant la cascade reelle.")
-print(f"  A g = 1 (contagion maximale admissible) : rho(W) = {RHO_RAW/MAXROW:.3f}, "
+print(f"  A g = 1 (contagion maximale admissible) : rho(W) = {RHO_RAW/DIVISEUR:.3f}, "
       f"R0 = {R0(next_generation(Wg(1.0), BASE)):.3f}")
 print("  => sur tout le domaine admissible, les DEUX lectures sont stables.\n")
 
@@ -413,7 +443,8 @@ ax.set_title(f"Probit : bonnes unites (corr {corr_p:.2f} ; sens {dir_p:.0%})",
              fontsize=10.5, color=INK, pad=8)
 ax.grid(True, color=GRID, lw=0.7)
 ax.legend(frameon=False, fontsize=8.5, loc="upper left")
-fig.suptitle("K1 : le probit retrouve W dans ses propres unites, le logit le gonfle de 60 %",
+fig.suptitle(f"K1 : le probit retrouve W dans ses propres unites, le logit le gonfle de "
+             f"{100*(sl_l/sl_p-1):.0f} %",
              fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.94])
 p1 = os.path.join(outdir, "K1_calibration_W.png")
