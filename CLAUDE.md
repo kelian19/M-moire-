@@ -9,14 +9,20 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 7 août 2026 : **corps de 101 pages, annexes à partir de la 102, 123 pages au total**,
-branche `exploratory`.
+État au 10 août 2026 : **corps de 104 pages, annexes à partir de la 105, 126 pages au total**,
+branche `exploratory`, dernier commit `f4cae3c`.
 
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
 déjà commité. Compter en décompressant les flux d'objets, ou lire `main.toc` après une
-compilation avec `--keep-intermediates`. Le harnais est à **97,3 % de confirmation sur 1 303 nombres, pour une
-couverture de 100 %**.
+compilation avec `--keep-intermediates`. Le harnais est à **97,4 % de confirmation sur 1 339
+nombres, pour une couverture de 100 %**.
+
+**Le corps a gagné trois pages les 9 et 10 août** (101 → 104), au titre de la table des
+postures, des deux limites déclarées du chapitre 13 et du cadrage de la CTE. L'arbitrage de
+format reste ouvert et ces ajouts vont contre lui : à trancher par Kélian, pas par l'assistant,
+puisque ce qui a été ajouté est exactement ce qui fait la valeur du mémoire selon la note
+d'honnêteté en bas de ce fichier.
 
 **Lire les deux chiffres ensemble, jamais l'un sans l'autre.** Le mémoire a commencé la
 journée à 99,6 % sur 904 nombres, mais ces 904 ne représentaient que **74,7 %** des nombres
@@ -61,6 +67,8 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 | Figures | `exploratory/vasicek_lab/figures/*.png` |
 | Sorties de scripts versionnées | `sorties_verif/NN.txt` + son `README.md` |
 | Decks tuteur | `exploratory/slides/AAAA-MM-JJ_point_tuteur.tex` |
+| Deck tutrice de stage | `exploratory/slides/2026-08-10_point_caroline.tex` |
+| Aide-mémoire de call | `exploratory/slides/aide_memoire_call_AAAA-MM-JJ.tex` |
 | Données brutes | `data/raw/` — **gitignoré, sous licence, ne jamais committer** |
 
 Le dossier `exploratory/memoire_cascade/a_integrer/` est **mort** : aucun `\input` ne le
@@ -197,6 +205,20 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
   dépend pas : le capital est croissant en g (lemme vérifié, script 66), donc toute
   correspondance respectant l'**ordre** produit l'écart, quand le forfait reste plat. Seule
   l'amplitude est un scénario.
+- **`\VaR` et `\TVaR` sont réservées à la charge annuelle AGRÉGÉE, `\qsev` et `\qbarsev` à la
+  sévérité d'un sinistre.** Ce n'est pas une coquetterie : le niveau 99,5 % n'a de sens
+  réglementaire que sur un horizon annuel, et une perte isolée n'en porte aucun. Le 663 M€ est un
+  quantile de sévérité, **pas un SCR**, et le confondre avec les 8 123 M€ du secteur fait lire une
+  différence d'échelle comme une contradiction. C'est arrivé en séance le 7 août. Le pont entre
+  les deux est imprimé par le script 67, section 1bis.
+- **Les quatre canaux que la conformité déplace, et ils ne s'additionnent pas.** La
+  non-conformité n'ajoute aucune pénalité au SCR : elle déplace quatre paramètres de la loi de
+  perte, $\lambda$ de 21,6 à 53,6, $p_u$ de 0,128 à 0,181, $g$ de 0,45 à 0,90, $\varphi_{cs}$ de
+  0 à 0,68. Les canaux isolés somment à 9 138 M€ quand l'écart total vaut 14 139 :
+  **+5 001 M€ d'interaction, soit +35 %**, la cascade étant super-additive. Deux canaux sont
+  calibrables (fréquence, détection), deux sont bornés (propagation, accumulation) : ne pas
+  promettre une remédiation là où l'on n'a qu'une borne, et **ne jamais additionner les quatre
+  leviers** pour chiffrer une remédiation partielle.
 
 ## Les scripts qu'il faut connaître
 
@@ -211,7 +233,10 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 64 | biais de narration : loi nulle exacte, jackknife, point de rupture |
 | 65 | besoin ORSA sur quatre bilans SFCR réels, borne inférieure de validité |
 | 66 | invariance de la thèse aux valeurs de g |
-| 67 | grandeurs citées et jamais imprimées (VaR/TVaR fermées, rapports dérivés) |
+| 46, 51 | VaR prédictive et échelle des six postures — **51 est le dépositaire du bruit de simulation de chaque posture** ; 46 recalcule la prédictive à `B = 2000`, 51 à `B = 3000`, d'où deux valeurs du même nombre |
+| 43 | KPI DORA en leviers de capital : les quatre canaux, leur attribution, l'interaction, le facteur 3,34 entre états |
+| 08h | le rejet du Hawkes contre les variantes de Bessy-Roland/Boumezoued/Hillairet — **exige `Data_Breach_Chronology.xlsx`, absent du Mac, et sa sortie n'est pas versionnée** |
+| 67 | grandeurs citées et jamais imprimées (formes fermées, rapports dérivés) et, section 1bis, **le pont entre quantile unitaire et capital agrégé** |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
@@ -252,6 +277,31 @@ Le résidu se répartit en quatre classes, une seule est un défaut :
 un facteur 100 près sur des nombres ronds sont fortuites, un pool de plusieurs milliers de
 valeurs en produit toujours une. Les nombres restants se lisent un par un.
 
+**Le harnais tourne aussi sur un fichier de slides**, et il faut s'en servir. Il prend n'importe
+quel chemin `.tex` en second argument :
+
+```bash
+.venv/bin/python exploratory/memoire_cascade/verif_chiffres.py \
+    sorties_verif exploratory/slides/2026-08-14_point_tuteur.tex
+```
+
+Le deck du 14 août était à **35 % de couverture** quand on l'y a passé la première fois, avec
+douze non confirmés : il ne citait que deux scripts. C'est la même faille que pour les chapitres,
+et elle avait laissé passer dans ce fichier le $\kappa^\star$ à 76 % et un compte de pages
+périmé. Les decks se rattachent donc à leurs scripts par une ligne « Sources : scripts… » en bas
+de slide, discrète, et les slides de métadonnées (état du document, comptes de pages) se
+déclarent par `% HARNAIS-HORS-SECTION:`. **Un deck sans `\section*` est vu comme un seul bloc**,
+donc une déclaration posée en tête avale tout le fichier : découper avant de déclarer.
+
+**N'essayez pas de faire détecter au harnais les contradictions entre scripts.** L'idée paraît
+bonne et elle a été instruite le 10 août : elle ne tient pas. Le cas qui l'avait suggérée, la
+VaR prédictive à 648 dans un script et 645 dans un autre, **n'est pas un angle mort** — la
+tolérance d'arrondi (3,89 sur 648) dépasse l'écart (3), donc les deux valeurs se confirment
+mutuellement et le harnais fait exactement ce qu'il annonce. Un détecteur de quasi-collision sur
+les valeurs retomberait dans le travers déjà documenté juste au-dessus. Ce qui remplace ce
+contrôle est une **convention**, et elle est plus efficace : toute grandeur simulée se publie
+avec son bruit. Un lecteur qui voit ± 7 ne pose plus la question du troisième chiffre.
+
 ## Pièges qui ont déjà coûté du temps
 
 - **`.Replace()` PowerShell avec `\n` échoue sur des fichiers CRLF.** Utiliser
@@ -289,7 +339,169 @@ dans le chapitre, avec son motif), hors contrôle. **Seul le dernier doit valoir
 
 Et, pour toute figure modifiée : **l'ouvrir et la regarder**. L'outil Read affiche les PNG. Le
 contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibilité réels ont
-été trouvés cette semaine sur des figures dont le ratio était correct.
+été trouvés cette semaine sur des figures dont le ratio était correct. Un cinquième le 10 août,
+sur la figure J7 : l'étiquette « prédictive 645 » était coupée par la ligne du point à 657, les
+deux lignes n'étant qu'à 12 M€ l'une de l'autre. Renvoyée à gauche (`ha="right"`).
+
+**Et, pour tout deck : passer le harnais dessus aussi.** Voir la section sur le harnais.
+
+## Ce qui a été tranché le 10 août 2026
+
+Cette section est le compte rendu d'une journée dont le fil est parti d'une **confusion
+d'échelles** au call du 7 août, et qui a fini par toucher le vocabulaire du mémoire, deux
+limites déclarées et trois valeurs périmées.
+
+### 1. Le quantile unitaire et le capital agrégé sont deux objets, et le mémoire les confondait
+
+Le call du 7 août a buté là-dessus : le 663 M€ présenté comme une « VaR 99,5 % » est un
+**quantile de sévérité d'un sinistre**, alors que le SCR est le quantile de la **charge annuelle
+agrégée**. Un lecteur voit « VaR 99,5 % = 663 » à quelques pages de « SCR = 8 123 » et conclut à
+une incohérence. C'est ce qui s'est passé en séance, et un jury le referait.
+
+**Convention, désormais appliquée partout.** `\VaR` et `\TVaR` sont **réservées à la charge
+annuelle agrégée $L$**, donc à la mesure de capital. Le quantile de sévérité d'un sinistre porte
+`\qsev` ($\mathrm{q}$) et sa moyenne de queue `\qbarsev`, deux macros définies dans
+`preambule.tex` avec le commentaire qui l'explique. La table des notations porte les deux entrées
+et l'avertissement. Traité dans 05, 06, 12, 13, 15 et 16.
+
+**Le pont entre les deux échelles est calculé et imprimé** par le script 67, section 1bis, au
+lieu d'être fait à la main. À $\lambda = 21{,}56$ sinistres par an, atteindre le quantile annuel
+à 99,5 % demande un quantile **par sinistre** à 99,977 %, soit 4 530 M€ ; le facteur résiduel de
+1,8 est l'empreinte de la surdispersion et de la contagion. Deux mises en garde y sont imprimées
+et il ne faut pas les perdre : $\lambda^\xi$ est une **borne basse** du facteur d'agrégation et
+non son approximation centrée, parce que le terme additif $u - \sigma/\xi$ de la forme fermée est
+négatif ; et le résidu vaut 1,79 au secteur contre 1,96 à l'entité, soit le même **ordre** à 9 %
+près et non la même valeur, l'écart mesurant la qualité du pont.
+
+**Le résultat qui ferme la question** : au secteur le capital vaut 12,3 fois le quantile
+unitaire, à l'entité 0,30 fois, donc **il passe en dessous**. Le sens de l'inégalité s'inverse
+avec l'échelle, donc aucun rapport fixe ne relie les deux objets et les comparer ne conclut
+jamais, dans un sens comme dans l'autre.
+
+### 2. La CTE mesure, elle ne couvre pas, et l'argument qui tranche est l'existence
+
+Demande d'Hugo au call. Le mémoire y était déjà conforme sans le dire : le capital est partout un
+$\VaR_{99,5\%}(L)$ centré (`scr_engine.py:213`), aucune grandeur de couverture n'est une TVaR.
+C'est écrit maintenant, au chapitre 12, avec les deux titres de **diagnostic** sous lesquels la
+mesure de queue intervient : noyau d'allocation d'Euler, qui répartit un niveau déjà fixé, et
+indicateur de forme de queue par le rapport $\TVaR/\VaR = 2{,}1$ contre l'asymptote
+$1/(1-\xi) = 2{,}5$.
+
+**L'argument décisif n'est pas la proportion mais l'existence** : sous la calibration PRC,
+$\hat\xi = 1{,}033 > 1$, donc l'espérance est infinie et **la mesure n'existe pas**. Une
+couverture qui cesse d'être définie selon la source de sévérité ne peut pas porter un capital.
+À utiliser plutôt que « la TVaR est excessive », qui est un argument de degré.
+
+### 3. Les six postures sont définies, et leur bruit est publié
+
+La figure J7 affichait **six** postures et le mémoire n'en expliquait que quatre : les niveaux
+$\beta = 90\,\%$ (939) et $\beta = 99\,\%$ (1 247) n'étaient cités nulle part dans le texte, sur
+une figure qu'un jury lit avant la prose. Table de définitions au chapitre 13, et le script 51
+imprime les définitions avec les valeurs.
+
+**Le bruit de simulation de chaque posture est mesuré** (quatre rééchantillonnages, `B = 3000`)
+et publié : prédictive $\pm 7$, $\beta = 90\,\%$ $\pm 13$, $\beta = 95\,\%$ $\pm 9$,
+$\beta = 99\,\%$ $\pm 24$. Deux constats, et le second n'était pas attendu :
+
+- **les deux extrémités de l'échelle sont exactes**, le point étant le quantile d'un ajustement
+  unique et le pire-cas celui d'un $\xi$ **posé** à 0,90. Tout le bruit est au milieu, donc dans
+  les postures qui intègrent l'incertitude : une posture plus riche est moins reproductible ;
+- **la posture la plus prudente est la moins précise.** À ne pas surinterpréter : sur quatre
+  graines un écart-type est lui-même connu à 40 % près, donc l'ordre entre $\beta = 90$ et
+  $95\,\%$ n'est **pas** résolu et n'a pas à l'être. Seul le saut vers $\beta = 99\,\%$ est net.
+
+La figure J7 porte désormais ses **barres d'erreur**, sans lesquelles six barres étiquetées à
+trois chiffres suggèrent six mesures également précises.
+
+### 4. La VaR prédictive : 648 et 645 sont le même nombre
+
+Le mémoire publiait 648 (script 46) et la figure affichait 645 (script 51), sans que rien ne
+signalât laquelle lire. **Aucun des deux n'a tort** : même estimateur, ensembles bootstrap de
+tailles différentes (`B = 2000` contre `3000`), et l'écart de 3 M€ vaut moins d'un écart-type de
+simulation (7). L'étiquette du script 51 disait « melange, script 46 » alors qu'il **recalcule** :
+corrigée. Le script 46 imprime la précision de sa propre valeur et renvoie au 51.
+
+**Conséquence de rédaction, à tenir** : toute grandeur simulée se publie **avec son bruit**, ce
+qui rend la question sans objet et donne la précision plutôt que des décimales.
+
+### 5. Deux limites déclarées au chapitre 13, de sens opposés
+
+Elles forment un troisième bloc de la table à deux colonnes, distinct des défauts d'estimation et
+des choix de prudence, et **elles ne se compensent pas, elles s'additionnent en incertitude** :
+
+- **l'attritionnel est absent de la donnée**, la base étant tronquée à son seuil de collecte : le
+  capital publié est un capital de **queue**, et il exclut cette composante par absence
+  d'observation et non par choix. Sens clair, il sous-estime ; taille non chiffrable. Deux
+  atténuations à garder : à 99,5 % l'attritionnel pèse peu par construction, le quantile étant
+  porté par un sinistre unique, et à l'échelle d'entité 98,8 % des années sont sans aucun
+  incident matériel, donc il n'y a pas de régime courant à modéliser à cette échelle ;
+- **la sévérité n'est pas plafonnée à l'échelle d'entité.** L'élasticité sévérité/taille vaut
+  0,087, intervalle $[0{,}026 ; 0{,}148]$ qui contient presque zéro : le modèle affirme qu'une
+  entité de quelques milliards subit à peu près la sévérité d'une institution mondiale. C'est la
+  cause de la borne inférieure de validité et de la requalification du 169 en borne supérieure.
+  Le correctif est identifié, un plafond adossé à l'exposition propre, du même type que celui qui
+  rend le capital PRC calculable quand $\hat\xi > 1$ — mais il déplacerait tous les résultats
+  d'entité, donc **il relève de la recalibration et le gel l'interdit**. Cette ligne n'affecte que
+  le *niveau* d'entité, jamais les écarts entre états, qui sont des rapports.
+
+### 6. Trois valeurs périmées, de la famille des queues Bâle et du Hill à 1,42
+
+- **le $\kappa^\star$, que le script 58 imprimait à la fois à 76 % et à 78 %.** Sa différence
+  finie utilisait un pas de 50 M€ sur une portée de 170, soit 30 %, donc elle mesurait une
+  moyenne d'intervalle et non une pente en $L = \mathrm{SCR}$ ; la prime étant concave, le biais
+  était haussier. Pas relatif (1 % de la portée), les deux impressions concordent à **78 %**.
+  Le mémoire citait les deux valeurs à 25 lignes d'écart, corrigé ;
+- **le taux marginal de prime, 1,16 % devenu 1,04 %**, même cause ;
+- **un gain de $-47\,\%$ codé en dur** dans le script 58, valeur de l'ancienne échelle, alors que
+  le script calcule $-64\,\%$ à l'échelle corrigée. Il est désormais relu et non récité.
+
+### 7. Ce qui a bougé côté decks
+
+- **le deck du 7 août a perdu sa slide de comparaison au forfait de Formule Standard**, sur
+  décision de Kélian. Motif : le rapport besoin ORSA / forfait va de 0,04 à 2,07 selon le mix de
+  bilan, donc son niveau ne mesure rien, et les trois entités où il dépasse 1 sont hors du
+  domaine de validité de la sévérité. Ses réponses préparées sont passées dans la **banque de
+  questions de l'aide-mémoire**, qui compte six entrées. Le sujet n'a pas disparu du call, il est
+  passé du côté des questions ;
+- **le deck du 14 août** compte 16 slides, dont trois répondent aux questions du call (échelles,
+  CTE, postures) et deux exposent le traitement des états de conformité. Il est passé sous le
+  harnais, de 35 à 96 % de couverture ;
+- **nouveau deck `2026-08-10_point_caroline.tex`**, huit slides pour quinze minutes, pour la
+  tutrice de stage. Voir plus bas ce qui l'engage personnellement.
+
+### 8. Le facteur 3,34 entre états, maintenant imprimé
+
+« Un facteur 3,3 entre l'état non conforme et l'état conforme » était un rapport écrit sur une
+slide et calculé à la main. Le **script 43** l'imprime (3,34), avec la mention que seuls les
+quatre canaux bougent, à sévérité de base et échelle inchangées.
+
+## Le point de stage avec Caroline Hillairet
+
+Elle est **tutrice de stage**, et son rôle dans le projet n'est pas symétrique de celui d'Hugo :
+trois choses l'engagent personnellement, et un deck avec elle doit partir de là.
+
+1. **Sa remarque « le quantile d'un objet incertain est mauvais »** a produit deux briques du
+   mémoire, la VaR prédictive (script 46) et la bande de modèle (script 48). Le résultat lui est
+   rendu tel qu'il est, **y compris en ce qu'il la contredit** : intégrer l'incertitude ne
+   déplace pas le point à 99,5 %, l'écart au plug-in valant 5 M€ en moyenne sur les
+   rééchantillonnages pour un bruit de 7. Ce qui était fragile n'était pas le point mais la
+   **largeur**. Formulation retenue : sa remarque était juste, mais pas par le mécanisme attendu,
+   et elle ne condamne pas le quantile mais le quantile *cité seul*.
+2. **Le rejet du Hawkes est adossé à ses propres travaux** (Bessy-Roland/Boumezoued/Hillairet
+   2021 ; Boumezoued/Cherkaoui/Hillairet 2023). Le script 08h le teste contre **leur** noyau à
+   retard $\varphi(a) = \alpha a e^{-\beta a}$ et contre leur logique *two-phase*, pas contre un
+   noyau de paille : excitation intra-journalière, pic à 3 h, et ratio de branchement qui passe
+   de 0,55 à quasiment zéro dès que les co-occurrences du même jour passent en exogène.
+3. **Le mémoire lui emprunte** la logique d'états de conformité (Hillairet et Lopez, chapitre 3).
+
+**Le choix de posture à reporter est le seul arbitrage qui lui revient**, et c'est la seule slide
+du deck qui appelle une décision. Le mémoire publie aujourd'hui le plug-in avec sa bande.
+
+**Réserve à connaître avant ce call, et elle est sérieuse :** la sortie du script 08h **n'est pas
+versionnée**, ce script exigeant `Data_Breach_Chronology.xlsx`, absent du Mac qui n'a que le
+`.csv`. Les chiffres de la slide Hawkes sont donc lus sur la figure O2. **À relancer sur le PC et
+à versionner**, c'est le seul endroit du deck hors contrôle et c'est le plus mauvais endroit
+possible puisque c'est le point qui la concerne le plus directement.
 
 ## Ce qui est ouvert
 
@@ -298,8 +510,15 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
 - l'**élicitation** et les autres documents ;
 - **vérifier les quatre jeux de chiffres SFCR** contre les PDF (tableau en tête du script 65,
   deux SCR sur quatre sont déduits d'un taux de couverture) ;
-- l'arbitrage sur les **six pages** regagnées par le corps (88 vers 94) ;
-- la posture sur la VaR prédictive, le registre de sous-traitance.
+- l'arbitrage de **format** : le corps est à 104 pages pour 126 au total, contre les ~70 de corps
+  recommandés par l'Institut, et il a gagné trois pages les 9 et 10 août ;
+- **le choix de la posture à reporter**, plug-in avec sa bande, prédictive ou robuste, à trancher
+  avec Caroline. La grille pour le faire existe désormais : table des six postures au chapitre 13,
+  avec le bruit de chacune. Passer au robuste 95 % multiplierait le capital par 1,6 ;
+- **relancer le script 08h sur le PC et versionner sa sortie** (il exige
+  `Data_Breach_Chronology.xlsx`, absent du Mac). C'est ce qui met les chiffres du rejet du Hawkes
+  sous contrôle, et ils sont adossés aux travaux de Caroline : à faire avant le point avec elle ;
+- le registre de sous-traitance.
 
 **Deux arbitrages, trouvés et tranchés le 6 août 2026 en dépouillant les 36 non confirmés.**
 
@@ -339,10 +558,14 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
    `max(0,6 % ; demi-unité du dernier chiffre écrit)`, c'est-à-dire la borne de l'arrondi
    d'écriture : 0,05 pour un nombre écrit « 2,1 », 0,5 pour « 122 ». **Le taux passe de 98,8 à
    95,7 %, et ce n'est pas une régression : c'est la même vérification, faite honnêtement.**
-   Le contrôle de fin de tâche devient **harnais ≥ 99 %** : une fois les grandeurs dérivées
-   imprimées et les artefacts de lecture corrigés, le résidu tombe à **quatre** nombres, tous
+   Le contrôle de fin de tâche devenait alors **harnais ≥ 99 %** : une fois les grandeurs dérivées
+   imprimées et les artefacts de lecture corrigés, le résidu tombait à **quatre** nombres, tous
    irréductibles par nature (l'exposant de $10^{-30}$, deux sommes à $100\,\%$ par
    construction, le niveau de confiance $99{,}9\,\%$).
+   **Ce seuil de 99 % est périmé et ne s'applique plus** : il valait sur le périmètre restreint
+   d'alors, 74,7 % des nombres publiés. Depuis l'élargissement à 100 % de couverture, le contrôle
+   est **couverture = 100 % et confirmation ≥ 97 %**, dans cet ordre. Voir la section « Contrôles
+   à passer avant de dire que c'est fini », qui fait foi.
 
 4. **Le périmètre du harnais a été élargi, et c'est ce qui a fait remonter le reste.**
    Deux angles morts, tous deux dans l'instrument et non dans le mémoire.
@@ -363,7 +586,8 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
    scientifique (garder 1,53 dans « 1,53·10⁻⁵ » et jeter l'exposant, pas l'inverse), la
    virgule décimale française des sorties (qui versait « 99,9 » dans le pool sous forme de
    deux entiers, 99 et 9, perdant la vraie valeur et en injectant deux fausses), et les
-   `\vspace{}`. **Le contrôle de fin de tâche reste harnais ≥ 99 %.**
+   `\vspace{}`. Le contrôle de fin de tâche restait alors harnais ≥ 99 % ; **ce seuil est périmé**,
+   voir la remarque au point 3 ci-dessus.
 
 5. **`p_u` est tranché : gelé, chiffré, publié comme limite.** `p_u` n'est pas un paramètre
    libre : la formule POT a trois entrées pour deux degrés de liberté, et le taux de
@@ -393,15 +617,19 @@ contrôle des proportions ne remplace pas la lecture : quatre défauts de lisibi
    annonçait une sensibilité « 0,68 à 0,93 selon le seuil » qu'aucun calcul ne reproduit, et
    qui **sous-estimait** la vraie amplitude ; elle est remplacée par la mesure.
 
-**Le seul non confirmé qui soit un défaut, et il attend une décision :** le **`-53 %`** de
-baisse du SCR de l'état non conforme à l'état conforme, cité dans la table de robustesse du
-chapitre 13 et dans celle de l'annexe 17. **Aucun script ne l'imprime, et aucune grandeur
-publiée ne le reproduit** : le script 20 donne `-64 %` sous OpRisk (6 085 contre 17 012 M€)
-et `-75 %` sous PRC. C'est le cinquième de la même famille cette semaine, après les queues
-Bâle, le Hill à 1,42, le κ* à 76 % et la plage de $\xi$ « 0,68 à 0,93 ». Il n'a pas été
-corrigé parce que sa **définition** reste à établir : à $g$ fixé, en $q$ continu, par entité ?
-Ne pas le remplacer par le `-64 %` sans avoir tranché ce point, ce serait échanger un chiffre
-non sourcé contre un autre.
+**Le `-53 %`, et l'état exact de la question.** Ce paragraphe a été écrit quand le chiffre
+semblait n'être imprimé par rien ; le point 7 ci-dessous l'a démenti le même jour, et c'est le
+point 7 qui fait foi. Le script 25 l'imprime : « gain de conformite (NC->C) : 8861 M de SCR en
+moins (-53 %) », à $g$ fixé à 0,9 et en balayant $q$ de 0 à 1, soit 16 847 vers 7 987 M€. Sa
+sortie n'était simplement pas versionnée.
+
+**Ce qui reste ouvert n'est donc pas sa source mais sa définition.** Le script 20 donne `-64 %`
+sous OpRisk et `-75 %` sous PRC, et le script 43 donne un facteur 3,34 entre les deux états de
+référence : ces chiffres ne mesurent pas la même chose, parce qu'ils ne bougent pas les mêmes
+canaux. Celui du script 25 garde $g$ au niveau **non conforme** pendant qu'il fait varier $q$, ce
+qui explique que son état « conforme » soit à 7 987 et non à 6 049. Le mémoire doit dire lequel il
+publie et sous quelle définition. **Ne pas remplacer un de ces chiffres par un autre sans avoir
+tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
 
 7. **Le périmètre du contrôle est passé de 74,7 % à 100 %, et c'est le vrai travail de la
    journée.** Dix-neuf sorties de scripts ont été versionnées (01 à 06, 09 à 13, 15, 24, 25,
@@ -524,7 +752,10 @@ non sourcé contre un autre.
 utilisée, voir plus haut), le **Hawkes** (celui-là est bien rejeté, et le rejet est documenté et
 positionné par rapport à Boumezoued et Hillairet), la **non-transitivité** (réfutée par son
 auteur, remplacée par la dépendance à l'ordre), le périmètre, l'anonymisation des entités, les
-decks du 07, 14 et 21 août.
+decks du 07, 14 et 21 août, la **convention de normalisation de $W$** (diviseur d'émission,
+2,60), le **gel de la calibration**, la **convention `\VaR`/`\qsev`** (voir la section du 10
+août), et le **détecteur de contradictions inter-scripts** dans le harnais, instruit et écarté
+pour une raison, non par manque de temps.
 
 ## Note d'honnêteté
 
@@ -534,3 +765,18 @@ auteur, le chiffre central a été requalifié en borne supérieure, la borne in
 de la méthode est publiée, et le harnais signale ce qu'il ne peut pas confirmer. **Ne pas défaire
 cela.** Toute reformulation qui rendrait une réserve moins visible dégrade le travail, même si
 elle le fait paraître plus assuré.
+
+**Deux additions du 10 août vont dans le même sens, et il faut les protéger de la même façon.**
+Les grandeurs simulées sont désormais publiées **avec leur bruit** : une posture citée à
+« 1 247 ± 24 » est plus utile qu'à « 1 247 », et la tentation d'enlever le ± pour faire plus net
+est exactement la dégradation contre laquelle ce paragraphe met en garde. Et la table des postures
+dit que **la plus prudente est la moins précise**, ce qui affaiblit en apparence la posture la
+plus rassurante : c'est un résultat, pas une faiblesse, et le supprimer rendrait le mémoire moins
+défendable, pas plus.
+
+**Une dernière chose sur la méthode de travail, apprise trois fois cette semaine.** Les défauts
+trouvés ne l'ont pas été en relisant le mémoire : ils l'ont été en **regardant une slide** et en
+allant vérifier ce qu'elle affirmait. Le κ⋆ contradictoire, les six postures non définies, la
+prédictive à deux valeurs, le facteur 3,3 non imprimé, le compte de pages périmé — tous. Une
+figure ou une slide est le meilleur détecteur de défauts du projet, parce qu'elle force à
+énoncer un chiffre hors du contexte qui le justifiait.
