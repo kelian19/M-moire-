@@ -1,0 +1,262 @@
+% Point avec Caroline Hillairet (tutrice de stage), 10 aout 2026. HUIT slides pour QUINZE
+% minutes, dont une de RESERVE (la derniere) et une de figure seule.
+%
+% POURQUOI CE DECK EST DIFFERENT DES DECKS TUTEUR. Le point avec Hugo est un point d'avancement
+% Nexialog : on y montre ce qui a ete produit. Ici l'objectif est autre, et il tient en deux
+% verbes : RENDRE COMPTE de ce qui a ete fait de ses remarques, et DEMANDER un arbitrage qui
+% lui revient. On ne redemande donc pas son avis sur tout : on isole les DEUX points ou son
+% avis change ce que le memoire fera, et on lui donne de quoi trancher.
+%
+% CE QUI L'ENGAGE PERSONNELLEMENT, ET C'EST LE FIL DU DECK :
+%   1. Sa remarque « le quantile d'un objet incertain est mauvais » a produit deux briques du
+%      memoire, la VaR predictive (script 46) et la bande de modele (script 48). Slides 3 et 4.
+%   2. Le rejet du processus de Hawkes est positionne contre SES PROPRES travaux
+%      (Bessy-Roland/Boumezoued/Hillairet 2021 ; Boumezoued/Cherkaoui/Hillairet 2023), et il est
+%      teste contre leurs variantes de noyau, pas contre un noyau de paille. Slide 5.
+%   3. Le memoire emprunte a Hillairet et Lopez la logique d'etats de conformite (ch. 3).
+%
+% BUDGET DE TEMPS SUR 15 MIN : ouverture 1 ; etat du memoire 2 ; sa remarque 3 ; les postures
+% et la question 4 ; Hawkes 3 (dont 1 sur la figure) ; demandes et suite 2. La slide a ne jamais
+% presser est la 4 : c'est la seule qui appelle une DECISION de sa part. La slide 8 est une
+% RESERVE, a sacrifier sans regret : elle ne porte aucune demande d'arbitrage.
+%
+% FIGURES. Une seule, O2_hawkes_variantes.png, jamais utilisee dans un deck precedent (verifie
+% sur les sept fichiers de exploratory/slides/). Elle est retenue parce que son ratio de 2,55
+% et ses polices restent lisibles a la largeur d'une slide 4:3. J2_var_predictive.png aurait
+% convenu au fond mais son ratio de 3,35 sur trois panneaux rend ses axes illisibles a cette
+% largeur, donc la slide 3 est en texte.
+%
+% ETAT DU HARNAIS SUR CE DECK, ET LE RESIDU EST CONNU. Le harnais tourne aussi sur un fichier de
+% slides : ici couverture 100 %, et cinq nombres non confirmes dans la section A, tous des
+% METADONNEES du document (104 et 126 pages, 1 339 nombres verifies, 97,4 % de confirmation,
+% 100 % de couverture). Aucun script ne les imprime et aucun ne le doit : ce sont des faits sur
+% le fichier, pas des resultats de modele. Ne pas chercher a les faire confirmer.
+%
+% RESERVE DE VERIFICATION, A DIRE SI ELLE POUSSE. Les chiffres de la slide Hawkes (pic a 3 h,
+% ratio de branchement 0,55 qui tombe a ~0) sont lus sur la figure : la sortie du script 08h
+% n'est PAS versionnee dans sorties_verif/, parce que ce script exige
+% Data_Breach_Chronology.xlsx, absent du Mac qui n'a que le .csv. Il faut le relancer sur le PC
+% et versionner sa sortie pour que ces nombres passent sous le harnais. C'est le seul endroit
+% de ce deck qui echappe au controle, et c'est le plus mauvais endroit possible pour cela
+% puisque c'est le point qui la concerne le plus directement.
+\documentclass[11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}
+\graphicspath{{../vasicek_lab/figures/}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamerfont{block title}{size=\small}
+
+\title[Point de stage]{Mémoire SCR DORA : point de stage}
+\subtitle{Ce que j'ai fait de vos remarques, et l'arbitrage que je vous demande}
+\author[K. Kaddouri]{Kélian Kaddouri}
+\institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
+\date[10/08/2026]{10 août 2026}
+
+\begin{document}
+
+% HARNAIS-HORS-SECTION: page de titre seule, aucun nombre a confirmer.
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% =====================================================================
+\section*{A. L'état du mémoire}
+
+\begin{frame}{Où en est le mémoire, et ce que j'y ai renoncé}
+\scriptsize
+La contribution tient en une phrase : le besoin de capital cyber d'une entité \textbf{dépend de
+l'ordre} dans lequel les cinq piliers DORA défaillent, et ce n'est pas la Formule Standard qui
+peut le voir, puisqu'elle est \emph{plate} en conformité.
+\vspace{1.5mm}
+\begin{block}{L'état, en trois chiffres}
+$104$ pages de corps, $126$ au total. Un harnais de vérification maison relit chaque nombre
+publié en le cherchant dans les sorties des scripts que sa section cite : $1\,339$ nombres,
+$97{,}4\,\%$ confirmés, et surtout \textbf{$100\,\%$ de couverture}, c'est-à-dire aucun nombre
+qui échappe au contrôle sans être déclaré. Le second chiffre compte moins que le premier : un
+taux se règle en retirant une citation, une couverture non.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Trois abandons, et je préfère les annoncer moi-même}
+\textbf{1.} La \textbf{non-transitivité} qui donnait son titre au mémoire : je l'ai réfutée
+moi-même, elle est remplacée par la dépendance à l'ordre, qui est plus faible et qui tient.\\[2pt]
+\textbf{2.} Le chiffre central de $169$~M\euro{} d'entité, \textbf{requalifié en borne
+supérieure} d'ordre de grandeur : ma sévérité est calibrée sur de grandes institutions et son
+élasticité à la taille vaut $0{,}087$, donc elle ne se transpose pas vers le bas. La méthode a
+une borne inférieure de validité, et je la publie.\\[2pt]
+\textbf{3.} Le \textbf{processus de Hawkes}, et j'y reviens en fin de point parce que le rejet
+se positionne contre vos travaux.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{60} et~\texttt{65}. Les comptes de pages et les taux du
+harnais sont des métadonnées du document, hors script par nature.}
+\end{frame}
+
+% =====================================================================
+\section*{B. Votre remarque sur le quantile}
+
+\begin{frame}{Votre remarque, et les deux briques qu'elle a produites}
+\scriptsize
+\begin{block}{Le point de départ}
+\og{}Le quantile d'un objet incertain est mauvais\fg. Un SCR pris comme quantile
+$99{,}5\,\%$ d'une loi estimée en un point lit une queue sur données rares : sur $91$ excès,
+$\hat\xi = 0{,}595$ avec un intervalle bootstrap à $90\,\%$ de $[0{,}30\,;0{,}83]$.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Deux réponses, et elles ne disent pas la même chose}
+\textbf{La VaR prédictive} intègre l'incertitude \emph{avant} de prendre le quantile : c'est le
+quantile de la loi mélange des GPD sur la distribution bootstrap de $(\xi,\sigma)$. \textbf{La
+VaR robuste} prend au contraire la \emph{borne haute} de la VaR sur un ensemble d'ambiguïté, à
+deux couches, le paramètre puis la famille de queue.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Le résultat m'a surpris, et c'est lui qui compte}
+À $99{,}5\,\%$ la prédictive vaut $645$~M\euro{} contre $657$ pour le \emph{plug-in}, et en
+moyenne sur les rééchantillonnages l'écart n'est que de $5$~M\euro, pour un bruit de simulation
+de $7$. \textbf{Intégrer l'incertitude ne déplace donc pas le point}, à ce niveau : elle ne le
+déplace qu'en profondeur,
+$+4\,\%$ à $99{,}9\,\%$. Ce qui était fragile n'était pas le point, c'était la
+\textbf{largeur} : l'intervalle bootstrap de cette même VaR va de $411$ à $1\,037$~M\euro,
+soit un facteur $2{,}5$ par la seule incertitude de calibration.\\[2pt]
+Autrement dit votre remarque était juste, mais pas par le mécanisme que j'attendais. Elle ne
+condamne pas le quantile, elle condamne le quantile \emph{cité seul}.
+\emph{Sources : scripts~\texttt{46}, \texttt{47} et~\texttt{51}.}
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Les six postures, leur précision, et la question que je vous pose}
+\scriptsize
+\vspace{-1mm}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l l r r@{}}
+\toprule
+\textbf{Posture} & \textbf{Ce qu'elle intègre} & \textbf{VaR} & \textbf{bruit} \\
+\midrule
+Point (\emph{plug-in}) & rien : quantile d'un ajustement ponctuel & $657$ & --- \\
+Prédictive & l'incertitude de paramètre, \emph{avant} le quantile & $645$ & $\pm\,7$ \\
+Robuste $\beta=90\,\%$ & borne haute sur l'ambiguïté de paramètre & $939$ & $\pm\,13$ \\
+Robuste $\beta=95\,\%$ & idem, prudence plus élevée & $1\,037$ & $\pm\,9$ \\
+Robuste $\beta=99\,\%$ & idem, et la plus bruitée des six & $1\,247$ & $\pm\,24$ \\
+Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille} ($\xi=0{,}90$) & $1\,331$ & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-1mm}
+{\scriptsize En M\euro, bruit = écart-type sur quatre rééchantillonnages bootstrap.
+\textbf{Les deux extrémités de l'échelle sont exactes}, le point et le pire-cas ne comportant
+aucune simulation : tout le bruit est au milieu, dans les postures qui intègrent l'incertitude.
+Et \textbf{la plus prudente est la moins précise}, l'écart-type doublant à $\beta=99\,\%$.}
+\vspace{1mm}
+\begin{block}{Ma question, et c'est la seule qui appelle une décision de votre part}
+Le mémoire publie aujourd'hui le \textbf{plug-in avec sa bande}, et présente l'échelle comme un
+axe de sensibilité. Est-ce le bon choix, ou faut-il reporter la \textbf{prédictive}, plus
+honnête sur l'estimation et sans coût en niveau ? Passer au \textbf{robuste $95\,\%$}
+multiplierait le capital par $1{,}6$ : cela relève d'une politique prudentielle, et je ne pense
+pas que ce soit à moi de le décider seul.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{46} et~\texttt{51}.}
+\end{frame}
+
+% =====================================================================
+\section*{C. Le rejet du Hawkes}
+
+% HARNAIS-HORS-SECTION: les chiffres de cette section (pic a 3 h, ratio de branchement 0,55 qui
+% tombe a zero) sont lus sur la figure O2. La sortie du script 08h n'est PAS versionnee, parce
+% qu'il exige Data_Breach_Chronology.xlsx, absent du Mac qui n'a que le .csv : a relancer sur le
+% PC et a versionner. C'est le seul endroit de ce deck hors controle, et il faut le savoir avant
+% le call plutot qu'apres.
+\begin{frame}{Le rejet du Hawkes, testé contre vos propres variantes}
+\scriptsize
+Rejeter un Hawkes sur un seul noyau exponentiel n'aurait rien valu. J'ai donc pris le noyau que
+\textbf{Bessy-Roland, Boumezoued et vous-même} retenez comme meilleur ajustement, le noyau à
+retard $\varphi(a)=\alpha\,a\,e^{-\beta a}$, sur la même famille de données que la vôtre. Deux
+tests, dont le second reprend votre logique \emph{two-phase} de 2023 : la figure est sur la
+slide suivante.
+\vspace{1mm}
+\begin{block}{Ce que je crois lire, et où j'ai besoin de vous}
+\textbf{(a)} Avec votre noyau, l'excitation vit \emph{dans la journée}, pic à $3$~heures, et
+votre $\beta$ de $5$ à $6$ place le vôtre au même endroit : ce n'est pas un désaccord d'échelle
+de temps, c'est un désaccord d'\textbf{interprétation}. \textbf{(b)} En appliquant votre logique
+\emph{two-phase}, le ratio de branchement passe de $0{,}55$ à quasiment zéro dès que les
+co-occurrences du même jour sont traitées comme exogènes : ce que mesurait l'auto-excitation
+était une \textbf{cause commune}, pas une contagion séquentielle.\\[2pt]
+\textbf{Mes deux questions.} Est-ce le bon test ? Et ai-je raison de tenir le Hawkes
+\emph{multivarié} hors périmètre, mes piliers n'étant pas des types d'attaque et mon périmètre
+étant mono-secteur là où vous aviez toute l'industrie ?
+\end{block}
+\end{frame}
+
+% =====================================================================
+% LA FIGURE A SA PROPRE SLIDE. Posee sous le bloc de texte de la slide precedente, elle devait
+% descendre a 0,72 de la largeur pour tenir, et ses annotations (pic a 3 h, ratio 0,55) y
+% devenaient illisibles. Deux slides valent mieux qu'une figure qu'on ne lit pas.
+\begin{frame}{Les deux tests, en image}
+\begin{center}
+\includegraphics[width=0.99\linewidth]{O2_hawkes_variantes.png}
+\end{center}
+\vspace{1mm}
+{\scriptsize À gauche, votre noyau à retard : l'excitation culmine à $3$~heures et vit dans la
+journée. À droite, la logique \emph{two-phase} : l'endogénéité s'effondre dès que les
+co-occurrences du même jour passent en exogène.}
+\end{frame}
+
+% =====================================================================
+\section*{D. Ce que je vous demande}
+
+\begin{frame}{Ce que je vous demande, et la suite}
+\scriptsize
+\begin{block}{Deux arbitrages, dans l'ordre où ils m'engagent}
+\textbf{1. La posture à reporter} (slide 4). C'est celui qui change le chiffre affiché du
+mémoire, et il ne relève pas du calcul.\\[2pt]
+\textbf{2. Le test du Hawkes} (slide 5). Si le test vous paraît insuffisant, je préfère le
+savoir maintenant qu'en soutenance, puisque le rejet est adossé à vos travaux.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Un point qui ne dépend pas de moi, et il est petit}
+Le corpus de post-mortems est codé par un seul lecteur, moi. La fiabilité inter-juges attend un
+\textbf{second codage en aveugle} : dix récits, une heure, kit prêt, et cela ne demande pas un
+expert du domaine. Auriez-vous un nom à me suggérer ?
+\end{block}
+\vfill
+{\scriptsize Et si le temps le permet, deux points de lecture sur la slide suivante. Sinon, ils
+attendront : ils ne demandent pas de décision.}
+\end{frame}
+
+% =====================================================================
+% SLIDE DE RESERVE, A SACRIFIER SANS REGRET SI LES QUINZE MINUTES SONT PASSEES. Elle ne porte
+% aucune demande d'arbitrage : c'est du compte rendu, et il peut se faire par ecrit.
+\begin{frame}{Deux points de lecture, si le temps le permet}
+\scriptsize
+\begin{block}{La Tail-VaR mesure, elle ne couvre pas}
+Je l'utilise à deux titres et tous deux sont des diagnostics : noyau d'allocation d'Euler, qui
+répartit un niveau déjà fixé sans le modifier, et indicateur de forme de queue par le rapport
+$\mathrm{TVaR}/\mathrm{VaR}=2{,}1$ à comparer à son asymptote $1/(1-\xi)=2{,}5$. Jamais comme
+niveau de couverture, et un argument me semble décisif plutôt que la seule proportion : sous ma
+seconde source de sévérité, $\hat\xi=1{,}033>1$, donc l'espérance est infinie et \textbf{la
+mesure n'existe pas}. Une couverture qui cesse d'être définie selon la source de sévérité
+retenue ne peut pas porter un besoin de capital.
+\end{block}
+\vspace{-1mm}
+\begin{block}{L'identification partielle, et pourquoi je ne publie pas un point}
+La donnée identifie la \emph{co-occurrence} des défaillances, pas leur \emph{direction} : la
+décomposition $W = S + A$ laisse $A$ non identifiée. Je publie donc l'ensemble des valeurs
+compatibles plutôt qu'un point, par énumération exhaustive des $2^{10}=1\,024$ sommets. Socle
+sans contagion $5\,275$~M\euro, bornes $[6\,858\,;8\,697]$. C'est un résultat, pas un aveu : je
+peux dire que la contagion ajoute au socle, et de combien au plus et au moins, sans prétendre
+savoir de combien exactement.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{16}, \texttt{31}, \texttt{54}, \texttt{60}
+et~\texttt{67}.}
+\end{frame}
+
+\end{document}
