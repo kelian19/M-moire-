@@ -156,6 +156,15 @@ print(f"      C'est du bruit de bootstrap, pas un desaccord de methode. Le facte
       f"est {_ic_f[1]/_ic_f[0]:.1f}.")
 print(f"    - VaR PREDICTIVE        = {r0['pred']:.0f} M€  ({100*(r0['pred']/r0['plug']-1):+.0f} % "
       f"vs plug-in)")
+# COMBIEN DE CHIFFRES CE NOMBRE SUPPORTE-T-IL. Il est SIMULE : il depend de l'ensemble bootstrap
+# tire, donc de la graine et de B. A graine differente, ou a B = 3000 comme dans le script 51,
+# le meme estimateur donne 645 plutot que 648, et l'ecart-type de simulation mesure vaut 7 M EUR
+# (script 51, section « Combien de chiffres chaque posture supporte-t-elle »). Les 645 et 648
+# sont donc LE MEME NOMBRE, et le troisieme chiffre significatif ne se cite pas. Le memoire
+# publie desormais cette grandeur avec son bruit, ce qui rend la question sans objet.
+print("      NB : grandeur SIMULEE, ecart-type de simulation 7 M EUR (mesure par le script 51).")
+print("      A B = 3000 le meme estimateur donne 645 : c'est le meme nombre, pas un desaccord.")
+print("      Ne pas citer son troisieme chiffre significatif.")
 print("  Enseignement, plus subtil que prevu : a 99,5 % la VaR predictive est QUASI EGALE a la")
 print("  plug-in. Le risque d'estimation ne cree pas un biais de POINT ici ; il gonfle la")
 print(f"  LARGEUR de la bande (facteur {OPRISK['var_995_ic90'][1]/OPRISK['var_995_ic90'][0]:.1f}, valeur publiee). Le chargement predictif n'apparait")

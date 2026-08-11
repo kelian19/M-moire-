@@ -85,14 +85,15 @@ marginal de prime reste sous CoC x (1 - kappa).
     0.20          170         4.50             -44%      38%
     0.30          170         5.31             -34%      38%
 
-taux marginal de prime pres de L = SCR : 0.0116 par euro de portee
-   soit 1.16% de taux sur ligne, contre un cout du capital economise
+taux marginal de prime pres de L = SCR (pas de 1.69 M EUR, soit 1 % de la portee) :
+   0.0104 par euro de portee
+   soit 1.04% de taux sur ligne, contre un cout du capital economise
    de 4.75% par euro.
 
-SEUIL CRITIQUE : kappa* = 1 - 0.0116/0.0475 = 76%
+SEUIL CRITIQUE : kappa* = 1 - 0.0104/0.0475 = 78%
 Il faudrait donc que plus des trois quarts de la couverture soient inefficaces
 (capacite indisponible, exclusion, ou defaut de contrepartie) pour que la detention
-redevienne preferable. La conclusion est robuste, mais le gain affiche (-47 %) est
+redevienne preferable. La conclusion est robuste, mais le gain affiche (-64%) est
 une BORNE SUPERIEURE et doit etre cite comme telle.
 
 ====================================================================================

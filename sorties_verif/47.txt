@@ -80,7 +80,7 @@ Coherence du taux de depassement p_u : un defaut connu, chiffre et publie
   p_u vaut 88/583 : le taux du percentile 85 d'un filtrage anterieur. C'est donc lui
   qui est en decalage, et non n_excess, qui compte bien les exces du seuil publie.
 
-  EFFET. VaR 99,5 % mono-perte : 662.78 publiee contre 678.60 M EUR coherente,
+  EFFET. Quantile de severite a 99,5 % (UN sinistre, pas un capital) : 662.78 publie contre 678.60 M EUR coherente,
   soit +2.4 %. Calcule en rapport et non en niveau : la VaR
   reconstruite a partir des xi et sigma arrondis du dictionnaire vaut 662,99 et non
   662,78, mais le rapport, lui, ne depend pas de cet arrondi.

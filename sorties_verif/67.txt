@@ -1,6 +1,6 @@
 
 ========================================================================================
-1. VaR et TVaR mono-perte, par les formes fermees de la GPD
+1. Quantile de severite et moyenne de queue, par les formes fermees de la GPD
 ========================================================================================
 Le chapitre socle donne ces deux valeurs comme resultats de ses propositions, mais
 aucun script ne les imprimait : elles etaient calculees a la main a partir de la
@@ -17,6 +17,56 @@ calibration. On les reproduit ici depuis la configuration figee.
       mathematiquement INDEFINI. C'est ce qui justifie le plafond de severite.
 
   Les deux valeurs citees au chapitre socle sont la ligne OPRISK a p = 0,995.
+
+========================================================================================
+1bis. Le pont entre le quantile UNITAIRE et le besoin de capital AGREGE
+========================================================================================
+POURQUOI CETTE SECTION. Le quantile de severite a 99,5 % (663 M EUR) et le besoin de
+capital (8 123 M EUR au secteur, 169 a l'entite) sont des objets differents, et le
+memoire les citait cote a cote sans imprimer ce qui les relie. Un lecteur y voit une
+incoherence ; il n'y en a pas, il y a une agregation. Le rapport a ete calcule a la
+main pendant la redaction, donc verifiable par personne : il est calcule ici.
+
+LE PONT, ET SON APPROXIMATION. A queue lourde le quantile annuel est porte par UN
+sinistre (principe du grand saut unique). Atteindre le quantile annuel au niveau alpha
+demande donc, PAR SINISTRE, le niveau 1 - (1 - alpha)/lambda, et le rapport des deux
+quantiles vaut asymptotiquement lambda^xi. C'est une APPROXIMATION et non une identite :
+elle ignore le cumul de plusieurs sinistres dans une meme annee, et elle ne contient ni
+la surdispersion ni la contagion. Ces deux effets sont dans le RESIDU de la derniere
+colonne, qui n'est donc pas une erreur mais leur empreinte multiplicative.
+
+  quantile de severite a 0.995 sur UN sinistre : 662.99 M EUR
+  (c'est le 663 du chapitre socle, et ce n'est pas un capital)
+
+  echelle     lambda  x sev  niveau/sinistre  q(niveau)  SCR publie  residu  SCR/q unit
+  secteur     21.556  1.000          99.977 %     4529.7      8122.9    1.79       12.25
+  entite       0.092  0.855          94.546 %       86.4       169.0    1.96        0.30
+
+  controle analytique au secteur : rapport exact des quantiles = 6.832,
+  asymptote lambda^xi = 6.223. L'ecart de 10 % n'est pas du bruit :
+  la forme fermee porte un terme additif u - sigma/xi = -77.3, negatif ici, et
+  le rapport tend vers son asymptote PAR VALEURS SUPERIEURES. lambda^xi est donc une
+  borne basse du facteur d'agregation, pas son approximation centree.
+
+CE QU'IL FAUT LIRE, ET C'EST LE POINT.
+  1. Au SECTEUR, le capital vaut 12.3 fois le quantile unitaire.
+     A l'ENTITE, il n'en vaut plus que 0.30 fois, donc il passe
+     EN DESSOUS. Le sens de l'inegalite s'inverse avec l'echelle : aucun rapport fixe
+     ne relie les deux objets, et comparer un quantile unitaire a un SCR ne conclut
+     jamais, dans un sens comme dans l'autre.
+  2. La raison est dans la colonne « niveau/sinistre » : a lambda = 21.6 le
+     quantile annuel exige un niveau par sinistre bien PLUS HAUT que 99,5 %, alors qu'a
+     lambda = 0.092 il n'exige qu'un niveau BIEN PLUS BAS, la plupart des annees
+     n'ayant aucun sinistre.
+  3. Le residu vaut 1.79 au secteur et 1.96 a l'entite, soit le meme ORDRE
+     a 9 % pres, et non la meme valeur. C'est ce qu'on attend : la surdispersion et
+     la contagion sont des facteurs multiplicatifs independants de l'echelle, donc le
+     residu doit etre stable, mais le pont lui-meme est approche et son erreur n'est
+     pas la meme aux deux frequences (le cumul de plusieurs sinistres compte au
+     secteur, ou lambda = 21.6, et pas a l'entite, ou il est rarissime). L'ecart
+     residuel mesure donc la qualite du pont, pas un desaccord du pipeline.
+  4. Ce pont ne remplace pas le moteur : il explique un ordre de grandeur, il ne
+     produit aucun chiffre publie. Les SCR restent ceux du script 60.
 
 ========================================================================================
 2. Les parts de vecteur, en pourcentage autant qu'en fraction

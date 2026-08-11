@@ -155,22 +155,37 @@ Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alo
 
 \noindent L'écart-type $\xi/\sqrt{k}$ décroît en $\sqrt{k}$ : d'où l'arbitrage biais--variance qui gouverne le choix de $k$ dans le \emph{Hill plot}, et qui explique l'instabilité signalée plus haut lorsque $k$ est pris trop grand (contamination par le corps de la loi) ou trop petit (variance explosive). La preuve, fondée sur la représentation de Rényi des espacements exponentiels, est esquissée en Annexe~\ref{soc:ann:hill}.
 
-\paragraph{Quantile extrême et capital : formules fermées.} Le passage des paramètres $(\xi,\sigma)$ au capital réglementaire est explicite. Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil.
+\paragraph{Quantile de sévérité : formules fermées, et ce qu'elles ne donnent pas.} Le passage des paramètres $(\xi,\sigma)$ au quantile d'\emph{un} sinistre est explicite. Il faut dire tout de suite ce qu'il n'est pas : ce quantile n'est pas un besoin de capital, et l'on n'y accède au capital qu'après agrégation annuelle de la fréquence et de la sévérité, puis propagation dans la cascade (chapitre~\ref{chap:cascade}). Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil.
 
-\begin{proposition}[VaR et Expected Shortfall d'une queue GPD]\label{soc:prop:varestvar}
-Sous le modèle POT, pour $\alpha$ tel que $\mathrm{VaR}_\alpha>u$ et $\xi\in(0,1)$ :
+\begin{proposition}[Quantile et moyenne de queue d'une sévérité GPD]\label{soc:prop:varestvar}
+Sous le modèle POT, pour $\alpha$ tel que $\qsev_\alpha(X)>u$ et $\xi\in(0,1)$ :
 \begin{align}
-\VaR_\alpha(X) &= \boxed{\,u + \frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\zeta_u}\right)^{-\xi}-1\right]\,},\label{soc:eq:var-gpd}\\[4pt]
-\TVaR_\alpha(X) = \E[X\mid X>\VaR_\alpha] &= \boxed{\,\frac{\VaR_\alpha(X)}{1-\xi}+\frac{\sigma-\xi u}{1-\xi}\,}.\label{soc:eq:tvar-gpd}
+\qsev_\alpha(X) &= \boxed{\,u + \frac{\sigma}{\xi}\left[\left(\frac{1-\alpha}{\zeta_u}\right)^{-\xi}-1\right]\,},\label{soc:eq:var-gpd}\\[4pt]
+\qbarsev_\alpha(X) = \E[X\mid X>\qsev_\alpha(X)] &= \boxed{\,\frac{\qsev_\alpha(X)}{1-\xi}+\frac{\sigma-\xi u}{1-\xi}\,}.\label{soc:eq:tvar-gpd}
 \end{align}
-Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\TVaR_\alpha$ n'est pas définie.
+Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\qbarsev_\alpha$ n'est pas définie.
 \end{proposition}
 
 \begin{proof}
-Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\bigr)^{-1/\xi}$. En posant ce membre égal à $1-\alpha$ et en inversant, on obtient \eqref{soc:eq:var-gpd}. Pour \eqref{soc:eq:tvar-gpd}, la stabilité de la GPD par franchissement de seuil implique que l'excès au-delà de $\VaR_\alpha$ suit encore une GPD de paramètre $\xi$ et d'échelle $\sigma+\xi(\VaR_\alpha-u)$, d'espérance $\bigl(\sigma+\xi(\VaR_\alpha-u)\bigr)/(1-\xi)$ pour $\xi<1$ ; en ajoutant $\VaR_\alpha$ et en réarrangeant, on retrouve \eqref{soc:eq:tvar-gpd}. La divergence pour $\xi\ge1$ découle de $\E[X]=\int_u^\infty \Prob(X>x)\,\dd x=+\infty$ dès que $1/\xi\le1$. Détail en Annexe~\ref{soc:ann:varestvar}.
+Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\bigr)^{-1/\xi}$. En posant ce membre égal à $1-\alpha$ et en inversant, on obtient \eqref{soc:eq:var-gpd}. Pour \eqref{soc:eq:tvar-gpd}, la stabilité de la GPD par franchissement de seuil implique que l'excès au-delà de $\qsev_\alpha(X)$ suit encore une GPD de paramètre $\xi$ et d'échelle $\sigma+\xi(\qsev_\alpha(X)-u)$, d'espérance $\bigl(\sigma+\xi(\qsev_\alpha(X)-u)\bigr)/(1-\xi)$ pour $\xi<1$ ; en ajoutant $\qsev_\alpha(X)$ et en réarrangeant, on retrouve \eqref{soc:eq:tvar-gpd}. La divergence pour $\xi\ge1$ découle de $\E[X]=\int_u^\infty \Prob(X>x)\,\dd x=+\infty$ dès que $1/\xi\le1$. Détail en Annexe~\ref{soc:ann:varestvar}.
 \end{proof}
 
-\noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{soc:eq:var-gpd} une VaR mono-perte $\VaR_{99{,}5\%}=663{,}0$~M\euro\ et par \eqref{soc:eq:tvar-gpd} $\TVaR_{99{,}5\%}=1\,752{,}4$~M\euro. La Proposition~\ref{soc:prop:varestvar} éclaire surtout le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en \textbf{régime d'espérance infinie} : l'Expected Shortfall y est mathématiquement indéfini, ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable.
+\noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{soc:eq:var-gpd} un quantile de sévérité $\qsev_{99{,}5\%}(X)=663{,}0$~M\euro\ et par \eqref{soc:eq:tvar-gpd} une moyenne de queue $\qbarsev_{99{,}5\%}(X)=1\,752{,}4$~M\euro.
+
+\begin{attention}
+\textbf{Ces deux nombres ne sont pas des capitaux, et le mémoire ne les compare jamais à un SCR.}
+Ils décrivent \emph{un} sinistre. La mesure de capital est $\VaR_{99{,}5\,\%}(L)$, quantile de la
+charge \emph{annuelle agrégée}, et elle vaut plusieurs milliers de millions d'euros à l'échelle
+sectorielle : l'écart avec les $663$~M\euro\ ci-dessus ne traduit aucune incohérence, il traduit
+l'agrégation. À $\lambda\simeq21{,}6$ sinistres matériels par an, atteindre le quantile annuel à
+$99{,}5\,\%$ demande un quantile \emph{par sinistre} de l'ordre de $99{,}98\,\%$, bien plus haut
+dans la queue. Le pont entre les deux échelles est chiffré au chapitre~\ref{chap:resultats} et
+imprimé par le script~\texttt{67}. Réserver $\VaR$ et $\TVaR$ à $L$, et $\qsev$ et $\qbarsev$ à
+$X$, n'est donc pas une coquetterie de notation : c'est ce qui empêche de lire une différence
+d'échelle comme une contradiction.
+\end{attention}
+
+\noindent La Proposition~\ref{soc:prop:varestvar} éclaire par ailleurs le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en \textbf{régime d'espérance infinie} : la moyenne de queue, et donc tout Expected Shortfall bâti sur elle, y est mathématiquement indéfinie. C'est ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable, et c'est aussi le premier argument contre l'usage d'une mesure de queue comme \emph{niveau de couverture} : sur l'une de nos deux sources, cette mesure n'existe pas.
 
 %--------------------------------------------------------------
 
@@ -338,10 +353,11 @@ seuil $u$, selon l'approche \emph{peaks-over-threshold}.
 \qquad
 \hat{\sigma}_{\text{OpRisk}} = 58{,}0~\text{M\euro},
 \qquad
-\text{VaR}_{99{,}5\%} = 663~\text{M\euro}.
+\qsev_{99{,}5\%}(X) = 663~\text{M\euro}.
 \end{equation}
-L'intervalle de confiance bootstrap sur cette VaR, $[411\,;\,1037]$~M\euro,
-matérialise à lui seul un facteur~2{,}5 entre les bornes, uniquement
+Le dernier terme est un quantile de \textbf{sévérité}, c'est-à-dire le montant d'\emph{un}
+sinistre, et non un besoin de capital. L'intervalle de confiance bootstrap qui l'entoure,
+$[411\,;\,1037]$~M\euro, matérialise à lui seul un facteur~2{,}5 entre les bornes, uniquement
 imputable à l'incertitude de paramètre.
 
 \paragraph{Stabilité du paramètre de forme.} Le choix du seuil est corroboré

@@ -71,8 +71,15 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Prob}{\mathbb{P}}
 \newcommand{\Var}{\mathrm{Var}}
+% VaR et TVaR sont RESERVEES a la charge annuelle agregee L, c'est-a-dire a la mesure de
+% capital. Le quantile de la severite d'un SINISTRE UNIQUE est un autre objet : il porte le
+% symbole q, et sa moyenne de queue le symbole q barre. Ne pas les confondre : un niveau de
+% 99,5 % n'a de sens reglementaire que sur un horizon ANNUEL, et une perte unique n'en porte
+% aucun. Voir la table des notations et le chapitre socle.
 \newcommand{\VaR}{\mathrm{VaR}}
 \newcommand{\TVaR}{\mathrm{TVaR}}
+\newcommand{\qsev}{\mathrm{q}}
+\newcommand{\qbarsev}{\overline{\mathrm{q}}}
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\indic}{\mathbf{1}}
 \providecommand{\up}[1]{\textsuperscript{#1}}

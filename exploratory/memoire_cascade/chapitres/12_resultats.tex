@@ -233,9 +233,29 @@ théorique : avec $\xi \approx 0{,}6 > 0{,}5$, la sévérité est de variance in
 l'estimateur Monte-Carlo de la TVaR converge en régime de loi stable, et le classement
 conditionnel bascule d'une résolution à l'autre (vérifié à $150$ et $240$~mille années
 simulées). On rapporte donc l'allocation de queue du périmètre PRC, régularisée par le cap,
-et l'on tient celle d'OpRisk pour indicative. Contrôle de cohérence EVT au passage :
-$\mathrm{TVaR}/\mathrm{VaR} \approx 2{,}1$, à comparer à l'asymptote $1/(1-\xi) = 2{,}5$
-(les deux rapports sont imprimés par le script~\texttt{67}).
+et l'on tient celle d'OpRisk pour indicative.
+
+\paragraph{La mesure de queue sert ici à \emph{mesurer}, jamais à couvrir.} La distinction est
+assez souvent négligée pour qu'il faille l'écrire. Le besoin de capital publié dans ce mémoire
+est partout un $\VaR_{99{,}5\,\%}(L)$ centré, conformément au niveau de Solvabilité~II ; aucune
+grandeur de couverture n'est une \textbf{TVaR}, ni une CTE, ni un Expected Shortfall. La mesure
+de queue intervient à deux titres, et tous deux sont des titres de \emph{diagnostic}. Comme
+noyau d'allocation d'abord, dans la règle d'Euler ci-dessus, où elle répartit un niveau déjà
+fixé sans le modifier. Comme \emph{indicateur de forme de queue} ensuite : le rapport
+$\TVaR_{99{,}5\,\%}(L)/\VaR_{99{,}5\,\%}(L) \approx 2{,}1$ se compare à son asymptote théorique
+$1/(1-\xi) = 2{,}5$, et c'est ce rapport, non les deux montants, qui porte l'information (les
+deux sont imprimés par le script~\texttt{67}).
+
+Deux raisons de ne pas en faire un niveau de couverture, et la seconde est décisive. La
+première est de proportion : sur un risque aussi large, dont les queues sont plurielles selon la
+catégorie d'événement (chapitre~\ref{chap:adaptations}), adosser la couverture à une moyenne de queue
+déformerait la distribution et immobiliserait un capital sans commune mesure avec le niveau
+réglementaire de référence. La seconde est d'existence : sous la calibration PRC,
+$\hat\xi=1{,}033>1$ place la sévérité en régime d'espérance infinie, et \textbf{la mesure
+n'existe alors pas} au sens mathématique. Une mesure de couverture qui cesse d'être définie
+selon la source de sévérité retenue ne peut pas porter un besoin de capital ; le même objet,
+lu comme un diagnostic de queue, reste au contraire parfaitement informatif, puisque sa
+divergence \emph{est} l'information.
 
 \begin{cle}
 \textbf{Sources et réceptacles.} Les deux allocations ne racontent pas la même chose, et
@@ -485,8 +505,9 @@ notionnelle, ne saurait être lu comme le capital d'une entité réelle.
 \paragraph{Au niveau du sinistre unique, l'ordre de grandeur est en revanche crédible.} Le
 constat précédent porte sur l'\emph{agrégat} annuel. À l'échelle du \emph{sinistre unique},
 nos quantiles tombent exactement dans la fourchette des grandes pertes cyber \textbf{réelles}
-(figure~\ref{fig:benchmark-externe}) : la VaR $99{,}5\,\%$ ($663$~M\euro) et la TVaR
-($1\,752$~M\euro) encadrent Merck-NotPetya ($\sim$1,3~Md\euro), Equifax ($\sim$1,3) et Change
+(figure~\ref{fig:benchmark-externe}) : le quantile de sévérité $\qsev_{99{,}5\,\%}(X)$
+($663$~M\euro) et sa moyenne de queue $\qbarsev_{99{,}5\,\%}(X)$ ($1\,752$~M\euro) encadrent
+Merck-NotPetya ($\sim$1,3~Md\euro), Equifax ($\sim$1,3) et Change
 Healthcare 2024 ($\sim$2,2), tout en restant sous le choc systémique NotPetya ($\sim$9~Md\euro
 au total). La brique de sévérité est donc crédible \emph{à l'échelle de l'événement} ; c'est
 son agrégation à une fréquence \textbf{systémique} ($\sim$21,6 incidents matériels par an, à
@@ -634,7 +655,8 @@ dépend de l'échelle et ne doit pas être citée comme une grandeur d'entité.
 
 \figcle{J5_benchmark_externe.png}{Benchmark externe : la confrontation au réel, à deux échelles
 qu'il ne faut pas confondre. \textbf{(a)}~au niveau du \emph{sinistre unique}, nos quantiles
-(VaR $663$~M\euro{} et TVaR $1\,752$~M\euro{} à $99{,}5\,\%$) s'insèrent parmi les grandes pertes
+(quantile de sévérité $663$~M\euro{} et moyenne de queue $1\,752$~M\euro{} à $99{,}5\,\%$, et non
+des capitaux) s'insèrent parmi les grandes pertes
 cyber réelles, encadrant Merck-NotPetya, Equifax et Change Healthcare tout en restant sous le
 choc systémique NotPetya : la brique de sévérité est crédible. \textbf{(b)}~à l'échelle
 \emph{annuelle}, le capital est d'ordre systémique, comparable au marché cyber mondial, et
@@ -796,7 +818,7 @@ Le capital résiduel vaut $\max(\mathrm{SCR}-L,0)$, de sorte que l'optimum tombe
 $L^\star=\mathrm{SCR}=169$~M\euro{} : au-delà, la portée ne rachète plus aucun capital. Le
 coût total passe de $8{,}0$ à $\mathbf{2{,}9}$~M\euro{} par an, soit $\mathbf{-64\,\%}$, en
 cédant $38\,\%$ de la sinistralité. Le mécanisme est transparent : près de l'optimum, un euro
-de portée supplémentaire coûte $1{,}16\,\%$ de prime et libère $4{,}75\,\%$ de coût du capital.
+de portée supplémentaire coûte $1{,}04\,\%$ de prime et libère $4{,}75\,\%$ de coût du capital.
 
 \begin{attention}
 \textbf{Ce gain est une borne supérieure, et il faut le citer comme telle.} Trois raisons
@@ -835,7 +857,7 @@ transfert pertinent.
 traité en excès de perte ; l'optimum tombe en $L^\star=\mathrm{SCR}=169$~M\euro, là où le
 capital résiduel s'annule. \textbf{(c)}~ce que le dimensionnement fait gagner, $-64\,\%$, chiffre
 à lire comme une \emph{borne supérieure} : capacité de marché, exclusions et risque de
-contrepartie l'entament, mais il faudrait $76\,\%$ d'inefficacité pour renverser la conclusion.
+contrepartie l'entament, mais il faudrait $78\,\%$ d'inefficacité pour renverser la conclusion.
 Source : script~\texttt{58}.}{fig:detenir}
 
 \begin{cle}

@@ -60,7 +60,12 @@ OPRISK = {
     "p_u": 0.1509,
     "xi_ic90": [0.3044, 0.8313],
     "sigma_ic90": [41.88, 82.80],
-    "var_995": 662.78,           # M€ (formule POT corrigée)
+    # ATTENTION AU NOM DE CE CHAMP. C'est le quantile à 99,5 % de la SÉVÉRITÉ d'un sinistre
+    # unique, et non un besoin de capital : la mesure de capital est le quantile de la charge
+    # ANNUELLE AGRÉGÉE, qui vaut plusieurs milliers de M€ au secteur. Le nom « var_995 » est
+    # conservé parce que des scripts le lisent, mais VaR et TVaR sont réservées à l'agrégé
+    # dans le mémoire. Le pont entre les deux échelles est imprimé par le script 67 (1bis).
+    "var_995": 662.78,           # M€ (formule POT corrigée) — quantile de sévérité, pas un SCR
     "tvar_99": 1133.05,
     "n_years": 27,               # période 2000–2026 (fréquence propre OpRisk = 582/27 ≈ 21,6/an)          # M€
     "var_995_ic90": [411.5, 1037.1],

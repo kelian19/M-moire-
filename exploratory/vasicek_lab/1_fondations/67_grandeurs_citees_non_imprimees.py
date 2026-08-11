@@ -20,10 +20,18 @@ residu se repartit en quatre classes, et une seule constitue un vrai defaut :
       redaction, qu'aucun script ne produisait. Un lecteur qui les recalcule n'avait aucun
       point de comparaison, et une derive silencieuse y etait indetectable.
 
-CE QU'IL IMPRIME. Les formes analytiques fermees du chapitre socle (VaR et TVaR de la GPD),
+CE QU'IL IMPRIME. Les formes analytiques fermees du chapitre socle (quantile de severite et
+moyenne de queue de la GPD), le PONT entre ce quantile unitaire et le besoin de capital agrege,
 les parts de vecteur en pourcentage autant qu'en fraction, les rapports derives que la
 redaction citait sans les tracer, et, quand la base sous licence est presente, les statistiques
 descriptives et l'estimateur de Hill au seuil retenu.
+
+UNE CONVENTION DE VOCABULAIRE, ET ELLE COMPTE. VaR et TVaR sont reservees a la charge annuelle
+AGREGEE, donc a la mesure de capital. Le quantile de la severite d'un SINISTRE UNIQUE est un
+autre objet : ce n'est pas un capital, et le niveau 99,5 % n'y a aucun sens reglementaire,
+puisqu'il designe une probabilite de ruine ANNUELLE. Citer les deux cote a cote sans le dire
+fait lire une difference d'echelle comme une contradiction ; c'est arrive, et la section 1bis
+existe pour que cela ne se reproduise pas.
 
 IL NE RECALCULE RIEN QUI EXISTE AILLEURS. La calibration vient de la configuration figee, comme
 dans le script 63 : cette sortie atteste la conformite a la configuration, pas l'exactitude
@@ -52,7 +60,7 @@ def titre(s):
 
 
 # =====================================================================================
-titre("1. VaR et TVaR mono-perte, par les formes fermees de la GPD")
+titre("1. Quantile de severite et moyenne de queue, par les formes fermees de la GPD")
 # =====================================================================================
 print("Le chapitre socle donne ces deux valeurs comme resultats de ses propositions, mais")
 print("aucun script ne les imprimait : elles etaient calculees a la main a partir de la")
@@ -85,6 +93,82 @@ for nom, cfg in (("OPRISK", OPRISK), ("PRC", PRC)):
         print(f"      mathematiquement INDEFINI. C'est ce qui justifie le plafond de severite.")
     print()
 print("  Les deux valeurs citees au chapitre socle sont la ligne OPRISK a p = 0,995.")
+
+
+# =====================================================================================
+titre("1bis. Le pont entre le quantile UNITAIRE et le besoin de capital AGREGE")
+# =====================================================================================
+print("POURQUOI CETTE SECTION. Le quantile de severite a 99,5 % (663 M EUR) et le besoin de")
+print("capital (8 123 M EUR au secteur, 169 a l'entite) sont des objets differents, et le")
+print("memoire les citait cote a cote sans imprimer ce qui les relie. Un lecteur y voit une")
+print("incoherence ; il n'y en a pas, il y a une agregation. Le rapport a ete calcule a la")
+print("main pendant la redaction, donc verifiable par personne : il est calcule ici.\n")
+print("LE PONT, ET SON APPROXIMATION. A queue lourde le quantile annuel est porte par UN")
+print("sinistre (principe du grand saut unique). Atteindre le quantile annuel au niveau alpha")
+print("demande donc, PAR SINISTRE, le niveau 1 - (1 - alpha)/lambda, et le rapport des deux")
+print("quantiles vaut asymptotiquement lambda^xi. C'est une APPROXIMATION et non une identite :")
+print("elle ignore le cumul de plusieurs sinistres dans une meme annee, et elle ne contient ni")
+print("la surdispersion ni la contagion. Ces deux effets sont dans le RESIDU de la derniere")
+print("colonne, qui n'est donc pas une erreur mais leur empreinte multiplicative.\n")
+
+LAM_SECTEUR = OPRISK["n_incidents"] / OPRISK["n_years"]     # 582 / 27
+LAM_ENTITE = 0.09168423156000373    # script 60 (A) : lambda lu a la taille cible
+SEV_MULT = 0.8545                   # script 60 (B) : severite transposee a la meme taille
+SCR_SECTEUR = 8122.9                # script 60 (C) : ligne « Secteur (calage du chapitre) »
+SCR_ENTITE = 169.0                  # script 60 (C) : ligne « Entite, taille + severite »
+ALPHA = 0.995
+
+_u, _sg = OPRISK["seuil_u_eur"], OPRISK["sigma_eur"]
+_xi, _zu = OPRISK["xi"], OPRISK["p_u"]
+q_unit = var_gpd(_u, _sg, _xi, _zu, ALPHA)
+
+print(f"  quantile de severite a {ALPHA:.3f} sur UN sinistre : {q_unit:.2f} M EUR")
+print(f"  (c'est le 663 du chapitre socle, et ce n'est pas un capital)\n")
+
+print(f"  {'echelle':<9}{'lambda':>9}{'x sev':>7}{'niveau/sinistre':>17}"
+      f"{'q(niveau)':>11}{'SCR publie':>12}{'residu':>8}{'SCR/q unit':>12}")
+_lignes = (("secteur", LAM_SECTEUR, 1.0, SCR_SECTEUR),
+           ("entite", LAM_ENTITE, SEV_MULT, SCR_ENTITE))
+_residus = {}
+for _nom, _lam, _mult, _scr in _lignes:
+    _p_eq = 1.0 - (1.0 - ALPHA) / _lam
+    if 1.0 - _p_eq >= _zu:
+        print(f"  {_nom:<9}{_lam:>9.3f} : niveau equivalent sous le seuil POT, pont non applicable")
+        continue
+    _q_eq = var_gpd(_u, _sg, _xi, _zu, _p_eq) * _mult
+    _res = _scr / _q_eq
+    _residus[_nom] = _res
+    print(f"  {_nom:<9}{_lam:>9.3f}{_mult:>7.3f}{100*_p_eq:>16.3f} %"
+          f"{_q_eq:>11.1f}{_scr:>12.1f}{_res:>8.2f}{_scr/(q_unit*_mult):>12.2f}")
+
+_ratio_exact = var_gpd(_u, _sg, _xi, _zu, 1.0 - (1.0 - ALPHA) / LAM_SECTEUR) / q_unit
+print(f"\n  controle analytique au secteur : rapport exact des quantiles = {_ratio_exact:.3f},")
+print(f"  asymptote lambda^xi = {LAM_SECTEUR ** _xi:.3f}. L'ecart de {100*(_ratio_exact/LAM_SECTEUR**_xi - 1):.0f} % n'est pas du bruit :")
+print(f"  la forme fermee porte un terme additif u - sigma/xi = {_u - _sg/_xi:.1f}, negatif ici, et")
+print("  le rapport tend vers son asymptote PAR VALEURS SUPERIEURES. lambda^xi est donc une")
+print("  borne basse du facteur d'agregation, pas son approximation centree.\n")
+
+print("CE QU'IL FAUT LIRE, ET C'EST LE POINT.")
+print(f"  1. Au SECTEUR, le capital vaut {SCR_SECTEUR/q_unit:.1f} fois le quantile unitaire.")
+print(f"     A l'ENTITE, il n'en vaut plus que {SCR_ENTITE/(q_unit*SEV_MULT):.2f} fois, donc il passe")
+print("     EN DESSOUS. Le sens de l'inegalite s'inverse avec l'echelle : aucun rapport fixe")
+print("     ne relie les deux objets, et comparer un quantile unitaire a un SCR ne conclut")
+print("     jamais, dans un sens comme dans l'autre.")
+print(f"  2. La raison est dans la colonne « niveau/sinistre » : a lambda = {LAM_SECTEUR:.1f} le")
+print("     quantile annuel exige un niveau par sinistre bien PLUS HAUT que 99,5 %, alors qu'a")
+print(f"     lambda = {LAM_ENTITE:.3f} il n'exige qu'un niveau BIEN PLUS BAS, la plupart des annees")
+print("     n'ayant aucun sinistre.")
+if len(_residus) == 2:
+    _e = 100.0 * (_residus["entite"] / _residus["secteur"] - 1.0)
+    print(f"  3. Le residu vaut {_residus['secteur']:.2f} au secteur et {_residus['entite']:.2f} a l'entite, soit le meme ORDRE")
+    print(f"     a {_e:.0f} % pres, et non la meme valeur. C'est ce qu'on attend : la surdispersion et")
+    print("     la contagion sont des facteurs multiplicatifs independants de l'echelle, donc le")
+    print("     residu doit etre stable, mais le pont lui-meme est approche et son erreur n'est")
+    print("     pas la meme aux deux frequences (le cumul de plusieurs sinistres compte au")
+    print(f"     secteur, ou lambda = {LAM_SECTEUR:.1f}, et pas a l'entite, ou il est rarissime). L'ecart")
+    print("     residuel mesure donc la qualite du pont, pas un desaccord du pipeline.")
+print("  4. Ce pont ne remplace pas le moteur : il explique un ordre de grandeur, il ne")
+print("     produit aucun chiffre publie. Les SCR restent ceux du script 60.")
 
 
 # =====================================================================================

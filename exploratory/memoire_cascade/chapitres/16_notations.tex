@@ -76,7 +76,8 @@ $Q$ & Générateur de la chaîne de Markov de mise en conformité (séjours de t
 $S_0,S_1,S_2$ & Scénarios conforme / partiel / non conforme (multiplicateurs de fréquence) & \ref{chap:socle} \\
 \midrule
 \multicolumn{3}{@{}l}{\textit{\textcolor{navy}{Capital, allocation et décision}}} \\
-$\VaR_\alpha,\ \TVaR_\alpha$ & Value-at-Risk et Tail-VaR au niveau $\alpha=99{,}5\,\%$ & \ref{chap:socle} \\
+$\VaR_\alpha(L),\ \TVaR_\alpha(L)$ & Value-at-Risk et Tail-VaR de la charge \textbf{annuelle agrégée} $L$, au niveau $\alpha=99{,}5\,\%$ : ce sont les \emph{mesures de capital} & \ref{chap:socle} \\
+$\qsev_\alpha(X),\ \qbarsev_\alpha(X)$ & Quantile de \textbf{sévérité} d'un sinistre unique et sa moyenne de queue. \emph{Ne pas confondre avec les précédents} : le niveau $99{,}5\,\%$ n'a de sens réglementaire que sur un horizon annuel, et une perte isolée n'en porte aucun. Objets \emph{descriptifs}, jamais un besoin de capital & \ref{chap:socle} \\
 $\Delta_{DORA}$ & Surcoût de capital imputable à la non-conformité & \ref{chap:resultats} \\
 $AC_k,\ \phi_j$ & Contribution d'Euler ; valeur de Shapley du pilier $j$ & \ref{chap:resultats} \\
 $\mathrm{CoC}$ & Taux de coût du capital de la marge de risque ($6\,\%$, révisé à $4{,}75\,\%$) & \ref{chap:resultats} \\

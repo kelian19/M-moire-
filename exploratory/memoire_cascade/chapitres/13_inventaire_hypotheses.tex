@@ -131,7 +131,8 @@ et~\ref{fig:robuste}).
 \textbf{La VaR prédictive} intègre l'incertitude de paramètre \emph{avant} de prendre le
 quantile : on prend le quantile de la loi \emph{prédictive}, mélange des GPD sur la distribution
 bootstrap de $(\xi,\sigma)$. Le résultat est instructif : à $99{,}5\,\%$ elle est \emph{quasi
-égale} au \emph{plug-in} ($648$ contre $657$~M\euro) : le risque d'estimation n'est pas un
+égale} au \emph{plug-in} ($645$ contre $657$~M\euro, pour un bruit de simulation de $7$~M\euro,
+donc un écart qui n'excède pas deux fois ce bruit) : le risque d'estimation n'est pas un
 biais de point à ce niveau, il ne le devient qu'en profondeur ($+4\,\%$ à $99{,}9\,\%$). La
 fragilité est dans la \textbf{largeur} de la bande, pas dans le point.
 
@@ -139,6 +140,65 @@ fragilité est dans la \textbf{largeur} de la bande, pas dans le point.
 d'ambiguïté (paramètre, puis modèle) : la VaR robuste à $95\,\%$ vaut $1\,037$~M\euro{}
 ($1{,}6\times$ le \emph{plug-in}), le pire-cas de famille lourde $1\,331$~M\euro. C'est la
 posture prudente, où le niveau de robustesse est un \textbf{choix prudentiel explicite}.
+
+\paragraph{Les six postures, et ce que chacune intègre.} La figure~\ref{fig:robuste} en affiche
+six, et les nommer ne suffit pas : une échelle dont les crans ne sont pas définis n'est pas une
+échelle, c'est une suite de nombres. La table les définit donc une fois, avec la précision que
+chacune supporte.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l p{6.6cm} r r@{}}
+\toprule
+\textbf{Posture} & \textbf{Ce qu'elle intègre} & \textbf{VaR} & \textbf{bruit} \\
+\midrule
+Point (\emph{plug-in}) & rien : le quantile d'un ajustement ponctuel $(\hat\xi,\hat\sigma)$ & $657$ & --- \\
+Prédictive & l'incertitude de paramètre, \emph{avant} le quantile, par mélange sur le bootstrap & $645$ & $\pm\,7$ \\
+Robuste $\beta=90\,\%$ & la borne haute de la VaR sur l'ambiguïté de \emph{paramètre} : le quantile $\beta$ de la loi bootstrap de la VaR & $939$ & $\pm\,13$ \\
+Robuste $\beta=95\,\%$ & idem, à un niveau de prudence plus élevé & $1\,037$ & $\pm\,9$ \\
+Robuste $\beta=99\,\%$ & idem, et c'est la plus bruitée des six & $1\,247$ & $\pm\,24$ \\
+Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille}, en poussant la queue à $\xi=0{,}90$ & $1\,331$ & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent En M\euro. Le \textbf{bruit} est l'écart-type de simulation sur quatre rééchantillonnages
+indépendants, à $3\,000$ tirages bootstrap chacun. Deux lectures s'imposent, et la seconde
+n'était pas attendue.
+
+\textbf{Les deux extrémités de l'échelle sont exactes, tout le bruit est au milieu.} Le point est
+le quantile d'un ajustement unique et le pire-cas celui d'un $\xi$ \emph{posé} : ni l'un ni
+l'autre ne comporte de simulation. Ce sont les postures intermédiaires, celles qui intègrent
+l'incertitude, qui en héritent un bruit propre. Une posture plus riche est donc, à ce titre
+précis, moins reproductible.
+
+\textbf{La posture la plus prudente est la moins précise.} À $\beta=99\,\%$ l'écart-type de
+simulation vaut $24$~M\euro, environ le double de celui des deux niveaux inférieurs, et la raison
+est structurelle : un percentile à $99\,\%$ de la loi bootstrap s'estime sur bien moins de
+tirages utiles que sa médiane, dans une queue lourde. Cela ne disqualifie pas la posture, mais
+cela interdit de la citer à trois chiffres significatifs. Sur quatre rééchantillonnages, un
+écart-type est lui-même connu à $40\,\%$ près : le classement de $\beta=90\,\%$ et
+$\beta=95\,\%$ n'est donc pas résolu ici et n'a pas à l'être, seul le saut vers $\beta=99\,\%$
+est net.
+
+\textbf{Une conséquence de rédaction, appliquée ici.} La VaR prédictive était publiée à $648$~M\euro{}
+dans ce chapitre et affichée à $645$ sur la figure, sans que rien ne signalât laquelle des deux
+lire. Les deux valeurs sortent du même estimateur appliqué à des ensembles bootstrap de tailles
+différentes ($2\,000$ contre $3\,000$), et leur écart de $3$~M\euro{} vaut moins d'un écart-type
+de simulation : c'était le même nombre, écrit deux fois avec un chiffre de trop. Toute grandeur
+simulée de cette section est désormais publiée \textbf{avec son bruit}, ce qui rend la question
+sans objet et donne au lecteur ce dont il a besoin, la précision plutôt que les décimales.
+
+\paragraph{Quelle posture le mémoire reporte-t-il.} La question mérite une réponse explicite,
+puisque six valeurs vont de $657$ à $1\,331$~M\euro. Tous les capitaux publiés dans ce mémoire
+sont bâtis sur la calibration figée, donc sur le \emph{plug-in}, et ils sont cités \textbf{avec
+leur bande} d'identification partielle. L'échelle des postures n'est pas une alternative à ce
+choix : c'est l'axe de sensibilité qui en donne le coût, et le passage du point au robuste
+$95\,\%$ multiplierait le capital par $1{,}6$. Le choix d'une posture reportée relève de la
+politique prudentielle de l'entité, non du modèle, et il reste \emph{ouvert} : c'est l'un des
+points à trancher, et le mémoire fournit la grille pour le faire plutôt que de le trancher à la
+place de son lecteur.
 
 \begin{figure}[htbp]\centering
 \figover{J2_var_predictive.png}
@@ -152,7 +212,9 @@ en profil et en bande. Source : script~\texttt{46}.}
 \figover{J7_scr_robuste.png}
 \caption{VaR robuste. \textbf{(a)}~la VaR est elle-même incertaine ; le robuste en prend la
 borne haute. \textbf{(b)}~l'échelle des postures, du point ($657$) au pire-cas de modèle
-($1\,331$~M\euro). Source : script~\texttt{51}.}
+($1\,331$~M\euro), \textbf{chacune avec son écart-type de simulation}. Les deux extrémités n'en
+portent aucun, étant déterministes ; la barre la plus longue est celle de $\beta=99\,\%$, la
+posture la plus prudente et la moins précise. Source : script~\texttt{51}.}
 \label{fig:robuste}
 \end{figure}
 
@@ -179,8 +241,8 @@ pertes, soit $0{,}1564$. Le $0{,}1509$ vaut $88/583$, le taux du percentile $85$
 antérieur resté dans la configuration après que le seuil eut bougé. Aucun état du monde ne rend
 les deux valeurs vraies ensemble, et un lecteur qui pose la division le voit en trente secondes.
 
-L'effet se chiffre exactement. Au taux cohérent, la VaR $99{,}5\,\%$ mono-perte passerait de
-$662{,}78$ à $678{,}60$~M\euro, soit $+2{,}4\,\%$, ou $15{,}8$~M\euro. Deux lectures de ce signe
+L'effet se chiffre exactement. Au taux cohérent, le quantile de sévérité à $99{,}5\,\%$ passerait
+de $662{,}78$ à $678{,}60$~M\euro, soit $+2{,}4\,\%$, ou $15{,}8$~M\euro. Deux lectures de ce signe
 doivent être distinguées, parce qu'on les confond volontiers. Du côté de la solvabilité, l'écart
 est anti-conservateur : il sous-estime le besoin de capital, et une sous-estimation ne s'excuse
 pas par la prudence, elle se déclare. Du côté de la thèse, il va dans l'autre sens, puisque le
@@ -218,17 +280,56 @@ Couverture réelle de l'IC$_{90}$ de $\xi$ & sous-estime & $86\,\%$ au lieu de $
 Queue de sévérité de base $\xi$ & majore & $0{,}90$ posé contre $0{,}60$ estimé sur OpRisk \\
 Charge systémique $a$ & majore & $0{,}60$ posé, au-delà de la borne haute empirique $0{,}22$ \\
 Sur-dispersion du moteur $\varphi$ & majore & $9{,}20$ posé contre $2{,}24$ mesuré \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Limites de périmètre et de transposition, de sens opposés}} \\
+Attritionnel absent de la donnée & sous-estime & non chiffrable : la base est tronquée à son seuil de collecte, les petits sinistres n'y figurent pas \\
+Sévérité non plafonnée à l'échelle d'entité & majore & élasticité sévérité/taille $0{,}087$ $[0{,}026\,;0{,}148]$, presque nulle ; n'affecte que le \emph{niveau} d'entité \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \vspace{4pt}
-\noindent La lecture est nette. Les deux seuls écarts \emph{involontaires} sous-estiment le
-capital, de quelques pour cent chacun ; les trois choix \emph{délibérés} le majorent, et de
-beaucoup plus. Le mémoire ne se protège donc pas derrière ses erreurs, il les déclare, et sa
-prudence vient d'ailleurs, de choix assumés qu'il nomme comme tels. C'est aussi pourquoi
-corriger les deux premiers ne changerait aucune conclusion : ils sont dominés d'un ordre de
-grandeur par les seconds. Sources : scripts~\texttt{08b}, \texttt{47} et~\texttt{63}.
+\noindent La lecture est nette sur les cinq premières lignes. Les deux seuls écarts
+\emph{involontaires} d'estimation sous-estiment le capital, de quelques pour cent chacun ; les
+trois choix \emph{délibérés} le majorent, et de beaucoup plus. Le mémoire ne se protège donc pas
+derrière ses erreurs, il les déclare, et sa prudence vient d'ailleurs, de choix assumés qu'il
+nomme comme tels. C'est aussi pourquoi corriger les deux premiers ne changerait aucune
+conclusion : ils sont dominés d'un ordre de grandeur par les seconds.
+
+\paragraph{Les deux dernières lignes sont d'une autre nature, et vont en sens contraire.} Ce ne
+sont ni des défauts d'estimation ni des choix de prudence, mais les deux bornes du périmètre, et
+il vaut mieux les nommer ensemble parce qu'elles ne se compensent pas : elles s'additionnent en
+incertitude.
+
+La première tient à la donnée. La base de sévérité est tronquée à son seuil de collecte, si bien
+que l'\textbf{attritionnel} cyber, les incidents courants à quelques dizaines ou centaines de
+milliers d'euros, n'y figure pas du tout. Le besoin de capital publié est donc un capital de
+\emph{queue}, et il exclut cette composante non par choix de modèle mais par absence
+d'observation. Le sens est clair, il sous-estime, et la taille ne l'est pas : on ne chiffre pas
+ce que l'on n'observe pas. Deux remarques en atténuent la portée sans l'annuler. À un niveau de
+$99{,}5\,\%$, l'attritionnel pèse peu par construction, puisque le quantile est porté par un
+sinistre unique et non par un cumul de petits montants. Et à l'échelle d'une entité, la
+fréquence lue vaut $0{,}092$ par an, si bien que $98{,}8\,\%$ des années se passent sans aucun
+incident matériel : il n'y a pas, à cette échelle, de régime courant à modéliser. La limite est
+réelle au niveau sectoriel, marginale au niveau du quantile d'entité, et elle est ici déclarée
+plutôt qu'estimée.
+
+La seconde tient à la transposition. L'élasticité de la sévérité à la taille vaut $0{,}087$, avec
+un intervalle qui contient presque zéro : le modèle affirme donc qu'une entité de quelques
+milliards d'actifs subit à peu près la sévérité d'une institution mondiale. C'est exactement ce
+qui produit la borne inférieure de validité établie au
+chapitre~\ref{chap:resultats} et la requalification du niveau d'entité en borne supérieure. Le
+correctif est identifié, c'est un \textbf{plafond de sévérité} adossé à l'exposition propre de
+l'entité, du même type que celui qui rend le capital PRC calculable lorsque
+$\hat\xi>1$. Il n'est pas appliqué, et pour une raison de méthode plutôt que de temps :
+l'introduire déplacerait tous les résultats d'entité, ce qui relève de la recalibration et non
+de la correction d'erreur. La posture est celle déjà retenue pour $p_u$, une limite écrite et
+signée plutôt qu'une reprise silencieuse du pipeline. À noter que cette ligne n'affecte que le
+\emph{niveau} d'entité, jamais les écarts entre états de conformité, qui sont des rapports.
+
+\vspace{2pt}
+\noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60}
+et~\texttt{63}.
 
 \begin{cle}
 \textbf{La double lecture.} \og Insensible aux choix innocents, sensible aux leviers réels \fg :

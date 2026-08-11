@@ -148,6 +148,8 @@ for lab, coc in (("6,00 %", COC_ACTUEL), ("4,75 %", COC_REVISE)):
     print(f"\nCoC = {lab} : portee optimale L* = {grid[i]:,.0f} M EUR")
     print(f"   cout total {c:,.2f} M EUR/an contre {c0:,.2f} en tout-detention "
           f"({c/c0-1:+.0%})")
+    if coc == COC_REVISE:
+        gain_revise = c / c0 - 1.0     # relu plus bas, au lieu d'un -47 % code en dur
     print(f"   prime {p:,.2f} + cout du capital residuel {coc*s:,.2f} ; "
           f"{part:.0%} de la sinistralite cedee")
     # LE TAUX MARGINAL DE PRIME, ET LE SEUIL D'INEFFICACITE QUI EN DECOULE.
@@ -209,18 +211,31 @@ for kappa in (0.00, 0.02, 0.05, 0.10, 0.20, 0.30):
 
 # seuil critique : le transfert cesse d'etre marginalement rentable quand le taux
 # marginal de prime depasse CoC x (1 - kappa).
-dL = 50.0
+# POURQUOI LE PAS EST RELATIF ET NON DE 50 M EUR. Ce bloc tourne a l'echelle d'ENTITE, ou
+# scr0 vaut environ 170 M EUR : un pas de 50 y represente 30 % de la portee, si bien que la
+# difference finie ne mesurait plus la pente EN L = SCR mais sa moyenne sur un large
+# intervalle. La prime etant concave en L, ce biais etait haussier, et le script imprimait
+# 0,0116 ici contre 0,0103 a l'optimum plus haut : deux valeurs de la MEME grandeur, d'ou le
+# 76 % contre 78 % qui a circule. Le pas est desormais de 1 % de la portee, et les deux
+# impressions concordent. C'est une correction d'artefact numerique, pas une recalibration :
+# aucune entree du modele ne change.
+dL = max(scr0 / 100.0, 1e-6)
 p_hi = np.minimum(X, scr0).mean() / LOSS_RATIO
 p_lo = np.minimum(X, scr0 - dL).mean() / LOSS_RATIO
 taux_marginal = (p_hi - p_lo) / dL
 kappa_star = 1.0 - taux_marginal / COC_REVISE
-print(f"\ntaux marginal de prime pres de L = SCR : {taux_marginal:.4f} par euro de portee")
+print(f"\ntaux marginal de prime pres de L = SCR (pas de {dL:.2f} M EUR, soit 1 % de la portee) :")
+print(f"   {taux_marginal:.4f} par euro de portee")
 print(f"   soit {taux_marginal:.2%} de taux sur ligne, contre un cout du capital economise")
 print(f"   de {COC_REVISE:.2%} par euro.")
 print(f"\nSEUIL CRITIQUE : kappa* = 1 - {taux_marginal:.4f}/{COC_REVISE:.4f} = {kappa_star:.0%}")
 print("Il faudrait donc que plus des trois quarts de la couverture soient inefficaces")
 print("(capacite indisponible, exclusion, ou defaut de contrepartie) pour que la detention")
-print("redevienne preferable. La conclusion est robuste, mais le gain affiche (-47 %) est")
+# Le gain etait ecrit -47 % en dur : c'etait la valeur de l'ANCIENNE echelle (lambda du seau
+# a 0,21). A l'echelle corrigee le script calcule -64 % plus haut. On le relit au lieu de le
+# reciter, pour qu'il ne puisse plus se perimer.
+print("redevienne preferable. La conclusion est robuste, mais le gain affiche"
+      f" ({gain_revise:+.0%}) est")
 print("une BORNE SUPERIEURE et doit etre cite comme telle.")
 
 titre("Ce que la conformite DORA change a cet arbitrage")

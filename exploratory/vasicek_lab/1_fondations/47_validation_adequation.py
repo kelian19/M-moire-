@@ -253,7 +253,8 @@ print(f"  taux coherent = {n}/{loss.size} = {C['p_u_coherent']:.4f}, soit "
       f"{100*C['ecart_relatif_p_u']:+.1f} % sur le taux.")
 print(f"  p_u vaut 88/583 : le taux du percentile 85 d'un filtrage anterieur. C'est donc lui")
 print(f"  qui est en decalage, et non n_excess, qui compte bien les exces du seuil publie.")
-print(f"\n  EFFET. VaR 99,5 % mono-perte : {C['var_995_publiee']:.2f} publiee contre "
+print(f"\n  EFFET. Quantile de severite a 99,5 % (UN sinistre, pas un capital) : "
+      f"{C['var_995_publiee']:.2f} publie contre "
       f"{C['var_995_coherente']:.2f} M EUR coherente,")
 print(f"  soit {100*C['ecart_relatif_var']:+.1f} %. Calcule en rapport et non en niveau : la VaR")
 print(f"  reconstruite a partir des xi et sigma arrondis du dictionnaire vaut 662,99 et non")

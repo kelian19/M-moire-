@@ -482,10 +482,12 @@ Global. La linéarité de $e(u)$ au-delà du seuil retenu $u = 20$~M\euro
 \[
 \hat{\xi} = 0{,}595 \quad (\text{IC}_{90\%}=[0{,}30\,;\,0{,}83]), \qquad
 \hat{\sigma} = 58{,}0~\text{M\euro}, \qquad
-\text{VaR}_{99{,}5\%} = 663~\text{M\euro}.
+\qsev_{99{,}5\%}(X) = 663~\text{M\euro}.
 \]
-L'intervalle de confiance bootstrap sur cette VaR est $[411\,;\,1037]$~M\euro,
-soit un facteur~2{,}5 entre les bornes, une ampleur qui, à elle seule,
+Le dernier terme est le quantile de la \textbf{sévérité} d'un sinistre, pas un capital : le
+besoin de capital est le quantile de la charge \emph{annuelle agrégée}, obtenu plus loin par
+composition avec la fréquence. L'intervalle de confiance bootstrap qui entoure ce quantile est
+$[411\,;\,1037]$~M\euro, soit un facteur~2{,}5 entre les bornes, une ampleur qui, à elle seule,
 illustre que le SCR ne peut être présenté comme un point.
 
 La comparaison avec la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}03$ contre
