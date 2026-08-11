@@ -145,6 +145,12 @@ print(f"  lam : C={LAM_C:.1f} -> NC={LAM_NC:.1f} | p_u : C={PU_C:.3f} -> NC={PU_
 print(f"\n  SCR conforme (cible DORA)   = {scr_C:.0f} M")
 print(f"  SCR non conforme            = {scr_NC:.0f} M")
 print(f"  Ecart de capital DORA total = {scr_NC - scr_C:.0f} M  (ce que la conformite met en jeu)")
+# LE RAPPORT, ET PAS SEULEMENT L'ECART. Le deck cite volontiers « un facteur 3,3 entre les deux
+# etats », et ce rapport n'etait imprime nulle part : il se calculait a la main pendant la
+# redaction, donc verifiable par personne. C'est la classe de defaut qui a produit les queues
+# Bale et le Hill a 1,42. On l'imprime.
+print(f"  soit un FACTEUR {scr_NC / scr_C:.2f} entre l'etat non conforme et l'etat conforme,")
+print("  a severite de base et a echelle inchangees : seuls les quatre canaux bougent.")
 
 # =====================================================================================
 titre("2. Attribution : capital en jeu derriere chaque KPI (un canal a la fois)")

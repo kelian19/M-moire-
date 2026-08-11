@@ -1,4 +1,4 @@
-﻿
+
 ==================================================================================
 1. Reperes : etat conforme (cible DORA) et etat non conforme
 ==================================================================================
@@ -7,6 +7,8 @@
   SCR conforme (cible DORA)   = 6049 M
   SCR non conforme            = 20188 M
   Ecart de capital DORA total = 14139 M  (ce que la conformite met en jeu)
+  soit un FACTEUR 3.34 entre l'etat non conforme et l'etat conforme,
+  a severite de base et a echelle inchangees : seuls les quatre canaux bougent.
 
 ==================================================================================
 2. Attribution : capital en jeu derriere chaque KPI (un canal a la fois)
@@ -47,4 +49,4 @@ VERDICT
   4. C'est l'aval du fil : la meme discipline C..NC / bande / identification, exprimee
      cette fois en KPI opposables a un souscripteur ou a un superviseur DORA.
 
-figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\Z13_kpi_pilotables.png
+figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/Z13_kpi_pilotables.png

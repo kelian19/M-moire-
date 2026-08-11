@@ -43,6 +43,9 @@
 
 \begin{document}
 
+% HARNAIS-HORS-SECTION: page de titre et fil du point. Millesimes, lettres de section et
+% renvois internes, aucun resultat de modele.
+
 \begin{frame}
 \titlepage
 \end{frame}
@@ -144,6 +147,8 @@ estimateur, deux tailles de bootstrap, écart de $3$ pour un bruit de $7$ : \tex
 même nombre écrit avec un chiffre de trop}. Toutes les grandeurs simulées de la section sont
 désormais publiées avec leur bruit.
 \end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{46} et~\texttt{51}.}
 \end{frame}
 
 % =====================================================================
@@ -173,7 +178,8 @@ informatif, puisque sa divergence \emph{est} l'information.
 {\scriptsize Deux limites déclarées au passage, de sens opposés : l'\textbf{attritionnel} est
 absent de la base, tronquée à son seuil de collecte, ce qui \emph{sous-estime} ; et la sévérité
 n'est \textbf{pas plafonnée} à l'échelle d'entité, élasticité à la taille $0{,}087$, ce qui
-\emph{majore} le niveau d'entité. Elles ne se compensent pas.}
+\emph{majore} le niveau d'entité. Elles ne se compensent pas.
+Sources : scripts~\texttt{51}, \texttt{60} et~\texttt{67}.}
 \end{frame}
 
 % =====================================================================
@@ -300,6 +306,9 @@ $20\,\%$), mais à $\xi\approx0{,}6>0{,}5$ la sévérité est de \textbf{varianc
 classement de queue bascule d'une résolution à l'autre. Je rapporte donc la queue du périmètre
 PRC et tiens celle d'OpRisk pour indicative.
 \end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{16b}, \texttt{20}, \texttt{20b}, \texttt{43}
+et~\texttt{67}.}
 \end{frame}
 
 % =====================================================================
@@ -326,6 +335,8 @@ $8{,}3$ au secteur. Le traité optimal ($L^\star=\mathrm{SCR}=169$) ramène le c
 soit $\mathbf{-64\,\%}$. \textbf{Borne supérieure} : il faudrait $\mathbf{78\,\%}$
 d'inefficacité, capacité et contrepartie comprises, pour renverser la conclusion.
 \end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{50}, \texttt{58} et~\texttt{60}.}
 \end{frame}
 
 % =====================================================================
@@ -360,7 +371,7 @@ $\mathbf{0{,}087}$ $[0{,}026;0{,}148]$, soit une sévérité transposée $\times
 \begin{block}{Troncature : la baisse après 2022 n'existe pas}
 Délai médian de remontée \textbf{trois ans}. Au chain-ladder, les $97$ événements de
 2023--2025 deviennent $\mathbf{255}$, soit $\mathbf{+163\,\%}$, \emph{au-dessus} de la moyenne
-historique.
+historique. \emph{Sources : scripts~\texttt{08} et~\texttt{57}.}
 \end{block}
 \end{frame}
 
@@ -385,7 +396,7 @@ s'y transmet mal.
 \begin{block}{Ce qu'il faut en retenir}
 \textbf{Deux biais qui s'annulent sur l'espérance peuvent ne pas s'annuler sur le quantile, et
 c'est le quantile qui fait le SCR.} Une compensation constatée en moyenne n'autorise donc pas
-à ignorer les deux biais.
+à ignorer les deux biais. \emph{Sources : scripts~\texttt{57} et~\texttt{60}.}
 \end{block}
 \end{frame}
 
@@ -414,6 +425,8 @@ au-dessus. J'établis très bien \emph{où la contagion ne va pas}, pas où elle
 corrélation avec le classeur n'est pas significative ($\rho=+0{,}31$, $p=0{,}19$).
 \textbf{Le corpus établit un ordre, pas une magnitude.}
 \end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{53}, \texttt{59} et~\texttt{64}.}
 \end{frame}
 
 % =====================================================================
@@ -465,9 +478,20 @@ qui formalise la direction \emph{sans aucun prior d'expert}, l'\textbf{échelle 
 $u_{ij}$ dont le cran de rang~$1$ capte $74\,\%$ de la direction et resserre les bornes de
 $25\,\%$, et les \textbf{ancrages réglementaires} (ESA, BCE) déjà utilisés.
 \end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{29}, \texttt{31}, \texttt{34}, \texttt{54}
+et~\texttt{59}.}
 \end{frame}
 
 % =====================================================================
+% CINQ NOMBRES DE CETTE SLIDE SONT HORS SCRIPT, ET CHACUN POUR UNE RAISON PROPRE. Le harnais
+% les remonte comme non confirmes, ce qui est correct : ils ne viennent d'aucun calcul.
+%   0,572 : la valeur FAUSSE du rayon spectral, citee ici justement parce qu'elle a ete
+%           corrigee. Aucun script ne l'imprime, et c'est le resultat voulu.
+%   30    : une CIBLE de corpus proposee, pas une mesure.
+%   104, 126, 70 : comptes de pages et recommandation de l'Institut, metadonnees du document.
+% A relire si ce compte de pages bouge : le corps a gagne deux pages le 10 aout avec la table
+% des postures et les deux limites declarees au chapitre 13.
 \begin{frame}{L'état du document, et les points bloquants}
 \scriptsize
 \begin{block}{La relecture complète est faite : dix-neuf chapitres, quinze défauts corrigés}
@@ -492,7 +516,7 @@ pointer l'annexe de démonstrations vers le mauvais chapitre.
 \begin{itemize}\itemsep0pt
 \item Porter le corpus de $10$ à $30$ rapports : le registre d'\emph{enforcement} de la FCA
       est public et dense en entités réglementées.
-\item Vérifier le \textbf{format} : $102$ pages de corps et $124$ au total, contre les $\sim70$
+\item Vérifier le \textbf{format} : $104$ pages de corps et $126$ au total, contre les $\sim70$
       de corps recommandés par l'Institut.
 \end{itemize}
 \end{column}
