@@ -1,35 +1,49 @@
-﻿% Point avec Caroline Hillairet (tutrice de stage), 10 aout 2026. DIX slides pour QUINZE
+﻿% Point avec Caroline Hillairet (tutrice de stage), 10 aout 2026. TREIZE slides pour QUINZE
 % minutes, dont une de RESERVE (la derniere) et une de figure seule.
 %
-% VERSION REECRITE SUR DEMANDE DE KELIAN, ET LE PERIMETRE A CHANGE. Deux consignes explicites :
-%   1. NE PAS CITER LE MEMOIRE. On parle du MODELE et de son avancement, jamais du document :
-%      pas de compte de pages, pas de taux de harnais, pas de numero de chapitre. Ce sont des
-%      metadonnees de redaction, sans interet pour une tutrice de stage.
-%   2. NE PAS PARLER DU PROCESSUS DE HAWKES. La section C de la version precedente et sa slide
-%      de figure ont donc ete RETIREES, avec la figure O2 qui les portait.
+% QUATRE CONSIGNES DE KELIAN, ET ELLES ONT FACONNE CE DECK.
+%   1. NE PAS CITER LE MEMOIRE. On parle du MODELE, jamais du document : pas de compte de
+%      pages, pas de taux de harnais, pas de numero de chapitre.
+%   2. NE PAS PARLER DU PROCESSUS DE HAWKES. Verifie : zero occurrence dans le CORPS du deck,
+%      cette ligne de consigne etant la seule du fichier, et un commentaire n'allant pas au PDF.
+%   3. PARLER DE W ET DU MODELE, le plus clairement possible, de sorte que Kelian puisse tout
+%      expliquer simplement et qu'elle ait une idee claire de l'avancee.
+%   4. ECRIRE LA FORMULE DU VASICEK MULTIVARIE RETENUE, AVEC LES s_j.
 %
-% CONSEQUENCE PRATIQUE A CONNAITRE : la sortie non versionnee du script 08h ne bloque plus ce
-% point, puisque plus aucun chiffre du deck n'en depend. Elle reste a produire pour le suivi
-% interne, mais elle sort du chemin critique de ce call.
+% ATTENTION, PIEGE EVITE DE JUSTESSE SUR LE POINT 4. La formule retenue N'EST PAS la contagion
+% simultanee sur latentes X = (I-W)^{-1}(...). La note note_vasicek_dirige.tex l'ABANDONNE
+% explicitement (section « Le bon modele : la cascade est un processus de branchement ») au
+% profit de la contagion RETARDEE SUR INCIDENTS, seule identifiable sur donnees. C'est dans
+% cette forme-la que vivent les s_j, et s_j y vaut sqrt(rho_j / (1 - rho_j)), la charge
+% systemique exprimee en unites idiosyncratiques, PAS une somme de ligne de TRANS.
 %
-% CE QUE LE DECK FAIT DESORMAIS, DANS L'ORDRE : expliquer la modelisation retenue (slides 3 a 5),
-% rendre compte du dernier point tuteur du 07/08 (slide 6), puis poser les demandes d'appui
-% (slides 7 et 8). La slide 9 est une reserve, a sacrifier sans regret.
+% TROIS SENS DE s_j COEXISTENT DANS LE PROJET, ET IL FAUT N'EN AFFICHER QU'UN.
+%   (a) CLAUDE.md : s_j = emission du pilier j, somme de la ligne de TRANS, sert au diviseur ;
+%   (b) note, section normalisation : s_j = part recue apres normalisation ;
+%   (c) note, formule retenue : s_j = sqrt(rho_j/(1-rho_j)), charge du facteur systemique.
+% Ce deck reserve s_j au sens (c), celui de la formule retenue, et ecrit le diviseur en clair
+% comme max_j (somme des T_jk) pour ne pas reutiliser le symbole. Signale a Kelian.
 %
-% CE QUI L'ENGAGE PERSONNELLEMENT, ET C'EST CE QUI OUVRE LA PARTIE DEMANDES :
-%   1. Sa remarque « le quantile d'un objet incertain est mauvais » a produit deux briques du
-%      modele, la VaR predictive (script 46) et la bande de modele (script 48). Slide 7.
-%   2. Le modele emprunte a Hillairet et Lopez la logique d'etats de conformite.
+% LE FIL PEDAGOGIQUE, A TENIR DANS CET ORDRE :
+%   slide 2  les cinq piliers, parce que tout le vocabulaire qui suit en depend ;
+%   slide 3  les trois briques, et OU la cascade agit (elle ne majore pas une perte, elle
+%            augmente le NOMBRE de piliers touches) ;
+%   slide 4  la formule retenue, ses quatre termes, et d'ou sort s_j ;
+%   slide 5  W, sa definition en une phrase et sa normalisation ;
+%   slide 6  ce que la cascade fait a la perte, et les DEUX criticites a ne pas confondre ;
+%   slide 7  ce que la donnee dit de W (la co-occurrence) et ce qu'elle ne dit pas (l'ordre) ;
+%   slide 8  comment la direction a quand meme ete estimee, et c'est l'avancee a montrer.
 %
-% BUDGET DE TEMPS SUR 15 MIN : ouverture 1 ; modelisation 3 ; schema 2 ; cascade 3 ; point
-% tuteur 2 ; postures et question 3 ; trois questions 1. La slide a ne jamais presser est la 7 :
-% c'est la seule qui appelle une DECISION de sa part.
+% BUDGET DE TEMPS SUR 15 MIN : piliers 1 ; briques 2 ; formule 2 ; W 2 ; schema 1 ; S+A 1,5 ;
+% corpus 1,5 ; point tuteur 2 ; posture 2. La slide a ne jamais presser est la 11 : c'est la
+% seule qui appelle une DECISION. La 13 est une reserve, a sacrifier sans regret.
 %
-% FIGURE. Une seule, schema_modele.pdf, JAMAIS utilisee dans un deck precedent (verifie sur les
-% huit fichiers de exploratory/slides/). Elle est en A4 PAYSAGE, ratio 0,71, donc contrainte en
-% HAUTEUR et seule sur sa slide : posee en largeur elle ferait 76 mm pour 74 mm utiles. Son
-% interet ici est que chaque grandeur y porte une pastille de STATUT (estimee, posee, bornee,
-% reglementaire), ce qui permet d'attaquer le modele bloc par bloc.
+% CONVENTION D'INDICES, A NE PAS INVERSER EN SEANCE. W_jk va de la SOURCE j vers la CIBLE k :
+% la ligne emet, la colonne recoit. C'est la convention du projet, verifiee par les scripts 59
+% et 64 avant tout calcul. La note note_vasicek_dirige.tex ecrit ses equations dans la
+% convention INVERSE (ligne = ce que le pilier recoit) : les formules de ce deck sont donc
+% transposees par rapport a la note, a dessein, pour rester coherentes avec les scripts.
+% Signale a Kelian.
 \documentclass[11pt]{beamer}
 \usetheme{Madrid}
 \usecolortheme{seahorse}
@@ -45,76 +59,157 @@
 \setbeamerfont{block title}{size=\small}
 
 \title[Point de stage]{Quantification du risque de non-conformité DORA}
-\subtitle{La modélisation retenue, le dernier point tuteur, et quatre demandes d'appui}
+\subtitle{Le modèle, où j'en suis, et quatre demandes d'appui}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[10/08/2026]{10 août 2026}
 
 \begin{document}
 
-% HARNAIS-HORS-SECTION: page de titre et slide de sommaire, avant la premiere \section*. Les
-%   nombres y sont la date, la duree du point et la numerotation des trois temps : aucun
-%   resultat de modele, donc rien qu'un script doive produire. Le motif decrit bien la PORTEE
-%   de la declaration, qui couvre DEUX frames et non la seule page de titre : une declaration
-%   dont le motif est plus etroit que sa portee est une exemption silencieuse.
+% HARNAIS-HORS-SECTION: page de titre seule, avant la premiere \section*. Le seul nombre y est
+%   la date. Le motif decrit bien la PORTEE de la declaration.
 
 \begin{frame}
 \titlepage
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Le fil de ce point}
+\section*{1. Le modèle}
+
+\begin{frame}{Les cinq piliers, et la question que je pose}
 \small
-Quinze minutes, trois temps. Je passe l'essentiel du temps sur le troisième.
-\vspace{2mm}
-\begin{block}{Ce que je voudrais couvrir}
-\textbf{1. La modélisation retenue à ce jour}, en trois briques et une difficulté centrale.
-C'est court, mais nécessaire pour que les questions qui suivent aient un sens.\\[3pt]
-\textbf{2. Ce que le point avec mon tuteur du 7 août a produit}, dont deux corrections de fond
-qui touchent au vocabulaire et au statut de ce que je publie.\\[3pt]
-\textbf{3. Quatre demandes d'appui}, toutes sur la modélisation. La première appelle un
-arbitrage qui ne relève pas du calcul, et c'est celle sur laquelle je voudrais m'attarder.
+Le règlement DORA impose cinq familles d'exigences sur le risque informatique. Je les traite
+comme \textbf{cinq composantes de maîtrise} qui peuvent défaillir, et surtout s'entraîner.
+\vspace{1.5mm}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l l@{}}
+\toprule
+$P_1$ \textbf{Gouvernance} & qui décide, qui est responsable, quels moyens \\
+$P_2$ \textbf{Incidents} & détecter, escalader, répondre, notifier \\
+$P_3$ \textbf{Tests} & tester avant mise en service, corriger, renouveler les clés \\
+$P_4$ \textbf{Tiers} & fournisseurs, sous-traitance, dépendance externe \\
+$P_5$ \textbf{Partage} & recevoir et faire circuler les alertes sur les menaces \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1.5mm}
+\begin{block}{La question, en une phrase}
+Deux entités peuvent avoir \emph{les mêmes} faiblesses et ne pas porter le même risque, parce
+que ce qui compte est \textbf{quelle faiblesse entraîne quelle autre}. Une gouvernance
+défaillante qui provoque des tests insuffisants n'a pas le même coût que l'inverse. C'est cela
+que je cherche à quantifier, et c'est ce qu'une charge forfaitaire ne peut pas voir.
 \end{block}
-\vspace{1mm}
-{\footnotesize Une seule des quatre demandes exige une décision. Les trois autres sont des
-questions de méthode sur lesquelles je suis bloqué ou incertain.}
 \end{frame}
 
 % =====================================================================
-\section*{1. La modélisation}
-
-\begin{frame}{Trois briques, et ce que chacune apporte}
+\begin{frame}{Trois briques, et où la cascade agit}
 \scriptsize
-L'objet est de quantifier un besoin de capital associé à un défaut de maîtrise du risque
-informatique, en traitant les cinq domaines d'exigences du règlement DORA comme des composantes
-qui se propagent l'une sur l'autre, et non comme des risques indépendants à agréger.
-\vspace{1.5mm}
-\begin{block}{La fréquence}
+\begin{block}{1. La fréquence : combien d'incidents par an}
 Binomiale négative pilotée par un facteur systémique commun, calibrée à $21{,}56$ incidents
-informatiques matériels par an à l'échelle du secteur financier mondial. Pour descendre à une
-entité, la fréquence n'est pas prise dans une tranche de la base mais \textbf{lue sur une
-courbe} : elle est estimée comme une fonction de la taille de firme, log-actifs en covariable,
-l'élasticité valant $0{,}0744$.
+informatiques matériels par an pour le secteur financier mondial. Pour descendre à une entité,
+j'estime le taux comme une \textbf{fonction de la taille} de firme, log-actifs en covariable,
+élasticité $0{,}0744$, et je lis la courbe au bon endroit plutôt que de prendre une tranche.
 \end{block}
 \vspace{-1mm}
-\begin{block}{La sévérité}
-Dépassements de seuil et ajustement de Pareto généralisée au-delà de $u = 20{,}03$~M\euro, sur
-$91$ excès : $\hat\xi = 0{,}5954$, $\hat\sigma = 57{,}97$. Cette valeur est en elle-même une
-information : \textbf{au-dessus de $0{,}5$ la variance est infinie, en dessous de $1$ l'espérance
-existe encore}. Le quantile extrême est donc porté par un sinistre unique et non par une
-accumulation, ce qui conditionne tout ce qui suit.
+\begin{block}{2. La sévérité : combien coûte une défaillance de pilier}
+Dépassements de seuil et Pareto généralisée au-delà de $u = 20{,}03$~M\euro, sur $91$ excès :
+$\hat\xi = 0{,}5954$. Cette valeur dit déjà beaucoup : \textbf{au-dessus de $0{,}5$ la variance
+est infinie, en dessous de $1$ l'espérance existe encore}. Le quantile extrême est donc porté par
+un sinistre unique, pas par une accumulation.
 \end{block}
-\vspace{1mm}
-\textbf{L'agrégation}, où se situe l'apport : la propagation est modélisée explicitement plutôt
-que les marges couplées par une copule. J'y viens dans deux slides.
-\vspace{-0.5mm}
-
-{\scriptsize Sources : scripts~\texttt{07}, \texttt{47}, \texttt{60} et~\texttt{63}.}
+\vspace{-1mm}
+{\scriptsize La troisième brique est l'\textbf{agrégation}, et c'est là que se situe l'apport :
+je ne couple pas les marges par une copule, je modélise la propagation. Deux slides pour la
+formule, puis une pour ce qu'elle fait à la perte.
+\ Sources : scripts~\texttt{07}, \texttt{47}, \texttt{60} et~\texttt{63}.}
 \end{frame}
 
 % =====================================================================
-% LA FIGURE A SA PROPRE SLIDE, ET ELLE EST CONTRAINTE EN HAUTEUR. Voir l'en-tete : A4 paysage,
-% ratio 0,71, elle ne tient pas en largeur dans un cadre qui porte aussi du texte.
+\begin{frame}{La formule retenue : un Vasicek multivarié à contagion retardée}
+\scriptsize
+\vspace{-1mm}
+\begin{block}{Le stress latent du pilier $j$, pour l'entité $i$ à la période $t$}
+\[
+  X_{ij,t} \;=\; \text{base}_j \;+\; \sum_{k\neq j} W_{kj}\,D_{ik,t-1}
+  \;+\; s_j\,Y_{j,t} \;+\; \varepsilon_{ij,t}\,,
+  \qquad D_{ij,t} = \mathbf 1\{X_{ij,t} \geq 0\}
+\]
+Quatre termes : le \textbf{seuil}, la \textbf{contagion dirigée retardée}, le
+\textbf{systémique} du pilier, l'\textbf{idiosyncratique}. L'incident est le franchissement du
+seuil, et un incident sur $k$ relève le stress de $j$ de $W_{kj}$, la ligne $k$ étant celle qui
+\emph{émet}.
+\end{block}
+\vspace{-1mm}
+\begin{block}{D'où sort $s_j$, et pourquoi ce n'est pas un objet nouveau}
+Même décomposition systémique / idiosyncratique qu'un Vasicek, \textbf{réécrite dans les unités de
+l'estimation} : l'incident ne dépendant que du \emph{signe} de $X$, on renormalise pour mettre le
+coefficient de $\varepsilon$ à $1$, puisqu'on estime par probit. D'où
+\[
+  s_j \;=\; \sqrt{\frac{\rho_j}{1-\rho_j}}\,, \qquad
+  \rho_j \;=\; \frac{s_j^{\,2}}{1+s_j^{\,2}}\,.
+\]
+$s_j$ est donc $\sqrt{\rho_j}$ en unités idiosyncratiques, les deux paramétrages sont en
+\textbf{bijection}, et $\text{base}_j$ est le seuil déplacé du côté du stress.
+\end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{\texorpdfstring{$W$}{W}, sa normalisation, et deux criticités à ne pas confondre}
+\scriptsize
+\begin{block}{$W$ en une phrase, et sa normalisation}
+$W_{jk}$ est la force dirigée de $j$ vers $k$ : \textbf{la ligne émet, la colonne reçoit}. Une
+matrice $5\times5$, diagonale nulle, \textbf{non symétrique}, c'est tout l'objet.
+\[
+  W(g) \;=\; g\,\frac{T}{\max_j \sum_k T_{jk}}\,, \qquad g \in (0,1]
+\]
+$T$ porte la structure, $g$ l'amplitude, le diviseur est l'\textbf{émission maximale}, $2{,}60$,
+celle de $P_1$. Chaque ligne somme alors à au plus $g$ : le pilier le plus prolifique engendre
+\textbf{au plus $g$} descendants directs, exactement $0{,}90$ à $g = 0{,}90$. Donc \textbf{$g$ se
+lit comme le nombre de dominos qu'un domino fait tomber}, et la stabilité est gratuite.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{03} et~\texttt{59}.}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Ce que la cascade fait à la perte, et deux criticités}
+\scriptsize
+\begin{block}{Elle ne majore rien, elle compte des piliers}
+C'est le point à retenir. Un incident \textbf{démarre} à un pilier, puis se propage. La cascade ne
+multiplie aucune perte par un coefficient : elle détermine \textbf{combien de piliers sont
+touchés}, et la perte de l'incident est la \emph{somme} des sévérités des piliers touchés. Un
+incident qui touche trois piliers coûte trois tirages de sévérité, pas un.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Deux rayons spectraux, et c'est la confusion que j'ai évitée}
+La contagion portant sur des incidents, l'objet qui gouverne l'extinction n'est plus $W$ mais la
+\textbf{matrice de génération suivante} : $M_{kj} = \Phi(\text{base}_j + W_{kj}) -
+\Phi(\text{base}_j)$, la probabilité d'un incident en $j$ si $k$ a frappé, moins l'incidence de
+fond de $4{,}5\,\%$.
+% PAS D'OPTIONS ENUMITEM ICI. beamer lit le crochet apres \begin{itemize} comme une
+% specification d'OVERLAY, pas comme des cles enumitem : « [leftmargin=...] » declenche
+% « Use of \beamer@parseitem doesn't match its definition » et arrete la compilation. Le motif
+% venait de la note, qui est en classe article avec enumitem charge. Les autres decks du projet
+% utilisent \itemsep0pt, c'est la forme a suivre.
+\begin{itemize}\itemsep1pt
+\item $\rho(W) = 0{,}506$ gouverne le système latent \emph{simultané}, la forme abandonnée ;
+\item $R_0 = \rho(M) = \mathbf{0{,}054}$ gouverne la \textbf{cascade d'incidents} : c'est le
+  $R_0$ des épidémiologistes, et c'est lui qui compte.
+\end{itemize}
+Les deux sont sous-critiques, mais pas du même ordre : seuils à $g = 1{,}78$ et $g = 8{,}1$, hors
+du domaine. La forme simultanée est donc \textbf{structurellement alarmiste}, raison de plus de
+l'avoir écartée.
+\end{block}
+\vspace{-1mm}
+{\scriptsize D'où l'abandon de la forme simultanée : même normalisée, elle approche son seuil
+critique cinq fois plus vite que la cascade réelle, donc elle est \textbf{structurellement
+alarmiste}. Le prix d'une jolie formule fermée aurait été une exigence de capital surévaluée.
+\ Sources : scripts~\texttt{03} et~\texttt{29}.}
+\end{frame}
+
+% =====================================================================
+% LA FIGURE A SA PROPRE SLIDE, ET ELLE EST CONTRAINTE EN HAUTEUR. A4 paysage, ratio 0,71 : posee
+% en largeur elle ferait 76 mm pour 74 mm utiles.
 \begin{frame}{Le modèle en un schéma, et le statut de chaque grandeur}
 \begin{center}
 \includegraphics[height=0.72\textheight]{schema_modele.pdf}
@@ -125,30 +220,65 @@ modèle bloc par bloc.}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{La propagation, et pourquoi je publie une bande et non un point}
+\begin{frame}{Ce que la donnée dit de \texorpdfstring{$W$}{W}, et ce qu'elle ne dit pas}
 \scriptsize
-\begin{block}{Le mécanisme}
-Une matrice de propagation va du domaine \textbf{source} vers le domaine \textbf{cible},
-normalisée pour que le domaine le plus prolifique engendre au plus $g$ descendants directs. Rayon
-spectral $0{,}506$, donc cascade \textbf{sous-critique}, et nombre de reproduction $0{,}054$ :
-ce n'est pas un régime épidémique, c'est un amplificateur borné.
+\begin{block}{La difficulté, et elle est structurelle}
+Toute matrice se décompose de façon unique en $W = S + A$, $S$ symétrique et $A$ antisymétrique.
+Or une base d'incidents enregistre que deux piliers ont défailli \emph{ensemble}, jamais
+\textbf{lequel a cédé le premier} : elle identifie $S$, la co-occurrence, et \textbf{pas $A$},
+qui est exactement la direction. Sur la paire $P_1$--$P_3$ je sais combien de fois les deux ont
+lâché, pas dans quel ordre.
 \end{block}
 \vspace{-1mm}
-\begin{block}{La difficulté centrale, et le choix qu'elle impose}
-Les bases d'incidents identifient la \textbf{co-occurrence} de deux domaines défaillants, pas
-l'ordre dans lequel ils ont cédé : en décomposant la matrice en parties symétrique et
-antisymétrique, la donnée identifie la première et \textbf{pas la seconde}, qui est la
-direction.\\[3pt]
-Je ne tranche donc pas arbitrairement : j'énumère les $2^{10} = 1\,024$ sommets de l'ensemble
-admissible et je publie l'\textbf{ensemble} des valeurs compatibles. Socle sans propagation
-$5\,275$~M\euro, bornes $[6\,858\,;8\,697]$. Je peux dire que la propagation ajoute au socle, et
-de combien au plus et au moins, sans prétendre savoir de combien exactement.
+\begin{block}{Le choix : borner plutôt que trancher arbitrairement}
+La positivité impose $|A_{jk}| \leq S_{jk}$, ce qui définit un pavé de matrices admissibles. Je
+n'en choisis pas une : j'\textbf{énumère ses $2^{10} = 1\,024$ sommets} et je publie l'ensemble
+des valeurs compatibles. C'est de l'identification partielle, au sens de Manski.
 \end{block}
 \vspace{-1mm}
-{\scriptsize J'avais posé au départ une propriété de \textbf{non-transitivité} de la
-propagation : je l'ai testée et réfutée moi-même, et elle est remplacée par une
-\textbf{dépendance à l'ordre}, plus faible et qui tient.
-\ Sources : scripts~\texttt{03}, \texttt{30} et~\texttt{31}.}
+\begin{block}{Ce que cela donne, et pourquoi c'est un résultat}
+Socle sans aucune propagation $5\,275$~M\euro, bornes $[6\,858\,;8\,697]$. Je peux donc dire que
+la propagation ajoute au socle, et de combien au plus et au moins, \textbf{sans prétendre savoir
+de combien exactement}. La largeur de la bande mesure précisément ce que la donnée ignore.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{30} et~\texttt{31}.}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Comment j'ai quand même estimé la direction}
+\scriptsize
+Les bases agrégées ne donnant pas l'ordre, je suis allé le chercher là où il est écrit : dans les
+\textbf{rapports d'enquête publics}, qui reconstituent la séquence des défaillances.
+\vspace{-1mm}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l r r r r r@{}}
+\toprule
+ & $P_1$ & $P_2$ & $P_3$ & $P_4$ & $P_5$ \\
+\midrule
+\textbf{Émission} (somme de la ligne de $T$) & $\mathbf{2{,}60}$ & $1{,}50$ & $1{,}40$ & $1{,}70$ & $0{,}70$ \\
+\textbf{Réception} (somme de la colonne) & $0{,}80$ & $\mathbf{2{,}30}$ & $1{,}60$ & $1{,}50$ & $1{,}70$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+{\scriptsize $P_1$ émet le plus et reçoit le moins, c'est une \textbf{source} ; $P_2$ reçoit le
+plus, c'est un \textbf{puits}. Cette structure était un jugement ; le corpus la retrouve.}
+\begin{block}{Le dispositif, et le test}
+Dix rapports officiels codés en $22$ transitions dirigées, codées seulement si le rapport
+\emph{établit} que $j$ a précédé et conditionné $k$. Sous l'hypothèse nulle « pas de direction »,
+l'orientation de chaque transition est un tirage à pile ou face : cette loi nulle est
+\textbf{exacte}, par convolution sur les paires, sans simulation. $p = 1{,}5\cdot10^{-5}$.
+\end{block}
+\vspace{-1mm}
+\begin{block}{La limite que je me suis opposée moi-même}
+Un rapport cherche une \emph{cause racine}, et \og{}défaillance de gouvernance\fg{} est une
+conclusion de convention : \textbf{onze des vingt-deux transitions partent de $P_1$}. J'ai mesuré
+ce qu'il faudrait pour me contredire, et \textbf{aucun nombre de retraits ne suffit} : en
+supprimant les onze arêtes de $P_1$, donc la moitié du corpus, la direction reste significative
+($p = 0{,}0039$) sur les chaînes $P_3 \to P_2$ et $P_4 \to P_2$.
+\end{block}
+\vspace{-2.5mm}
+{\scriptsize Sources : scripts~\texttt{59} et~\texttt{64}.}
 \end{frame}
 
 % =====================================================================
@@ -186,38 +316,13 @@ maîtrise} là où le modèle les écarte. Depuis, la calibration est gelée.
 % =====================================================================
 \section*{3. Mes demandes d'appui}
 
-\begin{frame}{Votre remarque sur le quantile, et ce qu'elle a produit}
-\scriptsize
-\begin{block}{Le point de départ était le vôtre}
-\og{}Le quantile d'un objet incertain est mauvais\fg. Un capital pris comme quantile à
-$99{,}5\,\%$ d'une loi estimée en un point lit une queue sur données rares : $91$ excès,
-$\hat\xi = 0{,}5954$, intervalle bootstrap à $90\,\%$ de $[0{,}30\,;0{,}83]$.
-\end{block}
-\vspace{-1mm}
-\begin{block}{Deux réponses construites, et elles ne disent pas la même chose}
-Le \textbf{quantile prédictif} intègre l'incertitude \emph{avant} de prendre le quantile : c'est
-le quantile de la loi mélange sur la distribution bootstrap des paramètres. La \textbf{posture
-robuste} prend au contraire la borne haute sur un ensemble d'ambiguïté, à deux couches, le
-paramètre puis la famille de queue.
-\end{block}
-\vspace{-1mm}
-\begin{block}{Le résultat m'a surpris, et je vous le rends tel qu'il est}
-À $99{,}5\,\%$ le prédictif vaut $645$~M\euro{} contre $657$ pour le \emph{plug-in}, et en
-moyenne sur les rééchantillonnages l'écart n'est que de $5$~M\euro{} pour un bruit de simulation
-de $7$. \textbf{Intégrer l'incertitude ne déplace donc pas le point} à ce niveau ; elle ne le
-déplace qu'en profondeur, $+4\,\%$ à $99{,}9\,\%$. Ce qui était fragile n'était pas le point mais
-la \textbf{largeur} : l'intervalle bootstrap de cette même grandeur va de $411$ à
-$1\,037$~M\euro, soit un facteur $2{,}5$ par la seule incertitude de calibration.\\[3pt]
-Votre remarque tenait donc, mais \textbf{pas par le mécanisme que j'attendais} : elle ne
-condamne pas le quantile, elle condamne le quantile \emph{cité seul}.
-\end{block}
-\vspace{-1mm}
-{\scriptsize Sources : scripts~\texttt{46}, \texttt{47} et~\texttt{51}.}
-\end{frame}
-
-% =====================================================================
 \begin{frame}{Demande 1 : quelle posture reporter}
 \scriptsize
+\textbf{Votre remarque était le point de départ}, et je vous rends le résultat tel qu'il est.
+Intégrer l'incertitude \emph{avant} de prendre le quantile ne déplace presque pas le point : $645$
+contre $657$, écart moyen de $5$~M\euro{} pour un bruit de $7$. Ce qui était fragile était la
+\textbf{largeur} : de $411$ à $1\,037$~M\euro. Votre remarque tenait, mais pas par le mécanisme
+attendu : elle condamne le quantile \emph{cité seul}.
 \vspace{-1mm}
 \begin{center}\scriptsize
 \begin{tabular}{@{}l l r r@{}}
@@ -234,22 +339,18 @@ Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille} ($\xi=0{,}90$) &
 \end{tabular}
 \end{center}
 \vspace{-1mm}
-{\scriptsize En M\euro, bruit = écart-type sur quatre rééchantillonnages bootstrap.
-\textbf{Les deux extrémités de l'échelle sont exactes}, le point et le pire-cas ne comportant
-aucune simulation : tout le bruit est au milieu, dans les postures qui intègrent l'incertitude,
-donc une posture plus riche est moins reproductible. Et \textbf{la plus prudente est la moins
-précise}. À ne pas surinterpréter : sur quatre graines, l'ordre entre $\beta = 90$ et $95\,\%$
-n'est pas résolu et n'a pas à l'être ; seul le saut vers $\beta = 99\,\%$ est net.}
-\vspace{1.5mm}
+{\scriptsize En M\euro. \textbf{Les deux extrémités sont exactes}, ne comportant aucune
+simulation : tout le bruit est au milieu, donc une posture plus riche est moins reproductible. Et
+\textbf{la plus prudente est la moins précise}.}
+\vspace{1mm}
 \begin{block}{Ma question, et c'est la seule qui appelle une décision de votre part}
-Je reporte aujourd'hui le \textbf{plug-in avec sa bande}, et je présente l'échelle comme un axe
-de sensibilité. Est-ce le bon choix, ou faut-il reporter la \textbf{prédictive}, plus honnête sur
-l'estimation et sans coût en niveau ? Passer au \textbf{robuste $95\,\%$} multiplierait le
-résultat par $1{,}6$ : cela relève d'une politique prudentielle, et je ne pense pas que ce soit à
-moi de le décider seul.
+Je reporte aujourd'hui le \textbf{plug-in avec sa bande}. Faut-il plutôt reporter la
+\textbf{prédictive}, plus honnête sur l'estimation et sans coût en niveau ? Passer au
+\textbf{robuste $95\,\%$} multiplierait le résultat par $1{,}6$ : cela relève d'une politique
+prudentielle, et je ne pense pas que ce soit à moi de le décider seul.
 \end{block}
 \vspace{-1mm}
-{\scriptsize Sources : scripts~\texttt{46} et~\texttt{51}.}
+{\scriptsize Sources : scripts~\texttt{46}, \texttt{47} et~\texttt{51}.}
 \end{frame}
 
 % =====================================================================
@@ -259,10 +360,9 @@ moi de le décider seul.
 L'élasticité de la sévérité à la taille vaut $0{,}087$, intervalle $[0{,}026\,;0{,}148]$, donc
 \textbf{très proche de zéro à sa borne basse}. Le modèle affirme donc qu'une entité de quelques
 milliards subit à peu près la sévérité d'une institution mondiale. D'où une \textbf{borne
-inférieure de taille} sous laquelle la transposition n'est plus crédible, et la requalification de
-mon résultat d'entité en borne supérieure. Le correctif que je vois, un plafond adossé à
-l'exposition propre, déplacerait tous mes résultats d'entité et je suis en gel de calibration.
-\textbf{Peut-on borner ce biais sans recalibrer ?}
+inférieure de taille} sous laquelle la transposition n'est plus crédible. Le correctif que je
+vois, un plafond adossé à l'exposition propre, déplacerait tous mes résultats d'entité et je suis
+en gel de calibration. \textbf{Peut-on borner ce biais sans recalibrer ?}
 \end{block}
 \vspace{-1mm}
 \begin{block}{3. Mon capital est un capital de queue}
@@ -283,32 +383,29 @@ signalé plutôt que corrigé. \textbf{Correction reconnue, ou publier la sous-c
 \end{frame}
 
 % =====================================================================
-% SLIDE DE RESERVE, A SACRIFIER SANS REGRET SI LES QUINZE MINUTES SONT PASSEES. Elle ne porte
-% aucune demande d'arbitrage : c'est du compte rendu, et il peut se faire par ecrit.
-\begin{frame}{Si le temps le permet : comment la conformité entre dans la loi de perte}
+% SLIDE DE RESERVE, A SACRIFIER SANS REGRET SI LES QUINZE MINUTES SONT PASSEES.
+\begin{frame}{Si le temps le permet : comment la conformité entre dans le modèle}
 \scriptsize
-Un point de modélisation non trivial, qui emprunte à votre logique d'états de conformité.
+Un point non trivial, qui emprunte à votre logique d'états de conformité.
 \vspace{1.5mm}
 \begin{block}{La conformité n'ajoute pas une pénalité, elle déplace quatre paramètres}
-Passer de l'état conforme à l'état non conforme ne surcharge pas le capital d'un terme
+Passer de l'état conforme à l'état non conforme ne surcharge le capital d'aucun terme
 additionnel : cela déplace la \textbf{fréquence} de $21{,}6$ à $53{,}6$, le \textbf{taux de
-détection} de $0{,}128$ à $0{,}181$, le \textbf{gain de propagation} de $0{,}45$ à $0{,}90$, et
-un terme d'\textbf{accumulation} de $0$ à $0{,}68$.
+détection} de $0{,}128$ à $0{,}181$, le \textbf{gain de propagation} $g$ de $0{,}45$ à $0{,}90$,
+et un terme d'\textbf{accumulation} de $0$ à $0{,}68$.
 \end{block}
 \vspace{-1mm}
 \begin{block}{Et ces quatre canaux ne s'additionnent pas}
 Pris isolément ils somment à $9\,138$~M\euro{} quand l'écart total vaut $14\,139$ :
 \textbf{$+5\,001$~M\euro{} d'interaction, soit $+35\,\%$}. La propagation est super-additive, ce
 qui interdit d'additionner des leviers de remédiation pour chiffrer un plan partiel. Deux canaux
-sont calibrables, la fréquence et la détection ; les deux autres sont \emph{bornés}, et je ne
-promets donc pas une remédiation là où je n'ai qu'une borne.
+sont calibrables, la fréquence et la détection ; les deux autres sont \emph{bornés}.
 \end{block}
 \vspace{-1mm}
-\vspace{-1mm}
-{\scriptsize \textbf{Un point qui ne dépend pas de moi.} Ce qui identifie la \emph{direction} de
-la propagation est un corpus de rapports d'enquête que j'ai codé seul, et la fiabilité inter-juges
-attend un \textbf{second codage en aveugle} : dix récits, une heure, kit prêt, et cela ne demande
-pas un expert du domaine. Auriez-vous un nom à me suggérer ?
+{\scriptsize \textbf{Un point qui ne dépend pas de moi.} Le corpus de rapports qui identifie la
+direction de $W$ est codé par un seul lecteur, moi. La fiabilité inter-juges attend un
+\textbf{second codage en aveugle} : dix récits, une heure, kit prêt, et cela ne demande pas un
+expert du domaine. Auriez-vous un nom à me suggérer ?
 \ Sources : scripts~\texttt{20}, \texttt{43} et~\texttt{54}.}
 \end{frame}
 
