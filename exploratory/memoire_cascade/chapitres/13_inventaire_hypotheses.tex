@@ -47,7 +47,8 @@ sans la direction, le signal tombe sous le bruit du placebo &
 \rob \\
 Pas de couche de Hawkes &
 noyau exponentiel puis à retard, logique two-phase &
-excitation intra-journalière ; endogénéité $\to 0$ si exogène isolé &
+excitation intra-journalière (pic $3{,}3$ h) ; endogénéité de $0{,}551$ à ${\sim}0$ si les
+co-occurrences du jour passent en exogène &
 \rob \\
 Le SCR \emph{réagit} à la conformité et à la contagion &
 score de conformité $q\in[0,1]$, gain $g\in[0{,}05\,;0{,}90]$ &
@@ -70,14 +71,14 @@ conformité serait inutile (c'est le reproche fait à la Formule Standard,
 chapitre~\ref{chap:resultats}). La dernière est la limite honnête : la queue de sévérité
 domine l'incertitude, donc toute lecture ponctuelle du SCR serait une surinterprétation.
 
-\noindent Sources de la table : scripts~\texttt{25} (réaction du capital au score de conformité), \texttt{29} (branchement), \texttt{47} et~\texttt{63} (calibration figée), \texttt{66} (invariance en $g$) et~\texttt{67} (paramètres posés).
+\noindent Sources de la table : scripts~\texttt{25} (réaction du capital au score de conformité), \texttt{29} (branchement), \texttt{47} et~\texttt{63} (calibration figée), \texttt{66} (invariance en $g$), \texttt{67} (paramètres posés) et~\texttt{08h} (variantes de noyau et logique two-phase du rejet de l'auto-excitation).
 
 
 
 \section{Les trois étages de l'incertitude du SCR}
 \label{sec:trois-etages}
 
-L'incertitude sur le SCR ne se réduit pas au paramètre. Elle se cumule sur trois étages, qu'il
+L'incertitude sur le SCR ne se réduit pas au paramètre. Elle se répartit sur trois étages, qu'il
 faut nommer plutôt que confondre (figure~\ref{fig:bande-modele}). Le premier est l'incertitude
 de \textbf{paramètre} : l'intervalle de confiance de $\xi$ à lui seul dilate la VaR d'un facteur
 $2{,}5$ (calibration figée, script~\texttt{63} ; le bootstrap du script~\texttt{46} le retrouve
@@ -104,9 +105,50 @@ risque lui-même.
 marges fixées : la cascade se place entre les copules gaussienne et de Gumbel, dans une bande
 $[5{,}3\,;9{,}8]$ Md\euro. \textbf{(b)}~axe famille de queue : la queue lourde domine
 l'incertitude ($\times 5{,}5$). \textbf{(c)}~les trois étages (paramètre, identification,
-modèle) se cumulent. Source : script~\texttt{48}.}
+modèle) tels que le script les cumule ; la bande \emph{reportée} par le mémoire n'en retient que
+les deux premiers, le troisième étant publié comme axe de sensibilité
+(\S\ref{sec:etage-modele-hors-bande}). Source : script~\texttt{48}.}
 \label{fig:bande-modele}
 \end{figure}
+
+\subsection{Deux étages se cumulent dans la bande reportée, le troisième en sort}
+\label{sec:etage-modele-hors-bande}
+
+Les trois étages ne peuvent pas tous entrer dans un intervalle unique, et il faut dire lequel
+en sort et pourquoi. \textbf{La bande reportée par ce mémoire ne cumule que les deux premiers},
+paramètre et identification. L'étage de modèle est publié, mais comme \textbf{axe de
+sensibilité déclaré} et non comme composante de la bande.
+
+\paragraph{Le motif n'est pas que cet étage serait petit : c'est le plus grand des trois.} Il
+faut le dire dans cet ordre, parce que l'argument inverse serait malhonnête. Sur son axe
+dominant, la famille de queue, il vaut un facteur $5{,}5$, contre $2{,}5$ pour le paramètre et
+une bande de $6\,858$ à $8\,697$~M\euro{} pour l'identification. Le retirer de l'intervalle
+\textbf{rétrécit donc l'affichage plus que ne le ferait aucun autre retrait}, alors que
+l'incertitude sous-jacente ne bouge pas d'un euro. C'est exactement le mouvement contre lequel
+il faut se garder, et c'est pourquoi il ne s'agit pas d'une suppression mais d'un
+\textbf{déplacement}.
+
+\paragraph{Ce qui justifie le déplacement.} Les deux premiers étages sont de nature
+\emph{statistique} : ils mesurent ce que la donnée disponible ne permet pas de trancher, à
+modèle fixé, et un intervalle est l'objet qui convient pour les porter. Le troisième est de
+nature \emph{épistémique} : il mesure l'effet d'un choix de famille, et un choix ne se moyenne
+pas. Un intervalle qui cumule les trois mélange une incertitude d'estimation avec une
+divergence de spécification, et il devient illisible : le lecteur ne sait plus si la borne
+haute est un scénario défavorable ou une autre théorie du risque. En le sortant, on gagne un
+intervalle interprétable \emph{et} un axe de sensibilité qui se lit pour lui-même.
+
+\paragraph{Où cet étage est publié, désormais.} Il l'est deux fois, et rien n'est caché. Sur
+l'axe de la famille de queue, la \textbf{sixième posture} de la table du
+\S\ref{sec:predictive-robuste}, le pire cas de modèle à $\xi$ \emph{posé} à $0{,}90$, \emph{est}
+l'ambiguïté de famille : c'est le même objet, sous un autre nom, et il porte un chiffre.
+Sur l'axe de la dépendance, la bande de $5\,322$ à $9\,806$~M\euro{} reste publiée dans cette
+section, avec le repère qui compte, à savoir que la cascade dirigée s'y place entre une
+dépendance gaussienne et une dépendance de Gumbel.
+
+\paragraph{Et ce qui ne change pas.} L'ordre d'amorce des piliers reste invariant à la
+famille. Le déplacement porte sur la façon de \emph{reporter} le niveau, pas sur la thèse : le
+niveau bouge dans la bande, l'ordre résiste, et c'est vrai des trois étages qu'on les cumule
+ou non.
 
 \begin{cle}
 \textbf{Oui, chaque brique a des alternatives.} Fréquence (Poisson, Hawkes, Cox), sévérité

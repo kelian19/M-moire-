@@ -614,6 +614,101 @@ le harnais** : il demande si un script quelconque imprime la valeur, pas si le s
 cite l'imprime, et un nombre rond se trouve par hasard dans un pool de 2 212 valeurs. Il ne
 certifie donc rien ; il dit seulement qu'il n'y a pas de second `[0,32 ; 0,84]` évident.
 
+## Les retours de Caroline appliqués, le 12 août 2026 au soir
+
+**L'élicitation est abandonnée, décision de Kélian ce jour.** La slide G du deck du 14 tient,
+et la contradiction avec l'enthousiasme de Caroline pour la méthode de Cooke se règle donc en
+sa défaveur. **Ne pas rouvrir.** Conséquence à traiter : sa demande de mettre la méthode et le
+questionnaire en annexe reste pertinente, mais elle change de sens. L'annexe doit documenter
+**ce qui a été préparé et pourquoi il n'a pas été lancé**, pas un protocole à venir. C'est un
+actif devant un jury qui demanderait pourquoi il n'y a pas de jugement d'expert, et ce n'est
+pas fait.
+
+### Le script 08h est relancé et sa sortie versionnée
+
+C'était le seul endroit du dossier Hawkes hors contrôle, et le pire possible puisque le rejet
+est adossé aux travaux de Caroline. `sorties_verif/08h.txt` existe désormais : noyau
+exponentiel $n = 0{,}551$ avec demi-vie 5,4 h, noyau à retard de Bessy-Roland $n = 0{,}517$
+avec **pic à 3,3 h** et lag moyen 6,7 h, et l'endogénéité tombe de $0{,}551$ à ${\sim}0$ dès
+que les co-occurrences du même jour passent en exogène. La table du chapitre 13 cite maintenant
+`08h` et ses deux nombres sont confirmés. **Le « pic à 3 h » n'est plus lu sur une figure.**
+
+### L'étage de modèle sort de la bande reportée, il n'est pas supprimé
+
+Caroline demandait de chiffrer avant de retirer. C'était déjà chiffré par le script 48, et le
+résultat va contre l'intuition de l'arbitrage : **l'étage de modèle est le plus gros des
+trois**, facteur 5,5 sur l'axe de la famille de queue contre 2,5 pour le paramètre et une bande
+de 6 858 à 8 697 pour l'identification. Le retirer rétrécit donc l'affichage plus que tout
+autre retrait alors que l'incertitude ne bouge pas.
+
+Nouvelle sous-section du chapitre 13, `sec:etage-modele-hors-bande`. La bande reportée ne cumule
+plus que **paramètre et identification** ; l'étage de modèle devient un **axe de sensibilité
+déclaré**, et il reste publié deux fois : la sixième posture (pire cas à $\xi$ posé à 0,90)
+*est* l'ambiguïté de famille, et la bande de dépendance 5 322 à 9 806 reste dans la section.
+Le motif écrit est que les deux premiers étages sont statistiques, donc portables par un
+intervalle, et que le troisième est épistémique, un choix de famille ne se moyennant pas.
+**Ne pas transformer ce déplacement en suppression.**
+
+### Il n'y a jamais eu de test de martingalité, et c'est la réponse à sa réserve
+
+Vérifié : le mémoire n'en contient aucun. Il a **deux** usages du mot, tous deux légitimes et
+tous deux sous mesure physique. Au chapitre 09, la forme de Dirichlet d'une chaîne de Markov,
+qui est la variation quadratique de la martingale associée à une fonction test. À l'annexe C,
+un brownien sans dérive et le premier passage de P4 par principe de réflexion. Aucun prix,
+aucun actif répliqué, aucun changement de mesure.
+
+Deux paragraphes de précaution ajoutés, un dans chaque endroit, disant explicitement qu'aucun
+test de martingalité au sens des générateurs de scénarios n'est conduit. Et le lien rhétorique
+de l'annexe C est corrigé : il annonçait que le seuil de P4 « rejoint le cadre martingale de
+l'identification », alors que **le lien entre les deux usages est de vocabulaire et non de
+mathématique**. Ce qu'ils ont en commun est plus modeste, ils vivent sous la même mesure.
+Le seuil $z^\star$ ne se déduit d'aucun test : il vient de la calibration du facteur tiers.
+
+### La confusion « gravité » n'était pas dans le mémoire, elle est dans le code
+
+Balayage fait, et le résultat est inattendu : **le mémoire n'utilise nulle part « gravité »
+pour le caractère systémique.** Les seules occurrences sont la locution AMDEC
+« probabilité $\times$ gravité », qui est le terme consacré du domaine et qu'il faut garder, un
+« centre de gravité » métaphorique, et une occurrence au sens monétaire corrigée en
+« sévérité ». La confusion vient des decks de juillet (17/07, 20/07, 24/07 : « la gravité
+propre de chaque pilier », « criticité = probabilité croisée avec gravité »), qui sont archivés.
+
+**En revanche il y a une vraie collision dans le code, et elle n'est pas corrigée :**
+
+| Nom | Ce que c'est | Où |
+|---|---|---|
+| `G_BASE` | le **gain de propagation** $g = 0{,}90$ | `scr_engine.py`, `euro_cascade_model.py` |
+| `GBASE` | l'**échelon de sévérité** par pilier, chaque échelon doublant la médiane | `severite_model.py`, `cascade_model.py` |
+
+Deux objets sans rapport, des noms qui ne diffèrent que par un tiret bas, et le second est
+documenté avec le mot « gravité ». C'est exactement la confusion que Caroline a pointée, et
+elle vit dans le moteur. **Le renommage n'a pas été fait** : il touche 27 fichiers et le
+pipeline est gelé, donc c'est un arbitrage. En attendant, la distinction est verrouillée dans
+la table des notations, l'entrée $g$ portant « mesure une criticité, jamais un montant ».
+
+### Coût et contrôles
+
+**Le corps passe de 104 à 105 pages, le total de 127 à 129.** L'ajout du chapitre 13 (l'étage
+de modèle) et le paragraphe du chapitre 09 sont dans le corps ; le reste est en annexe. Cela va
+contre l'arbitrage de format, et c'est le prix de la demande de Caroline. Harnais à
+**1 400 nombres, 1 366 confirmés, 97,6 %**, 0 vbox, 0 référence indéfinie, 0 annotation hors
+page.
+
+### Ce qui reste de sa liste
+
+- **la section dédiée à la sensibilité des probabilités de propagation.** Une bonne partie
+  existe et il faut la rassembler plutôt que la refaire : l'invariance en g (script 66), les
+  sensibilités du script 22, et l'écart-type de chaque terme croisé (script 68) ;
+- **la méthode de Cooke et le questionnaire en annexe**, dans la version « ce qui a été
+  préparé et pourquoi il n'a pas été lancé » ;
+- **la CTE à 95 %** en diagnostic à côté de la VaR 99,5 %, jamais à sa place ;
+- **la renormalisation par taille** dans sa version à deux canaux, fréquence par le lien
+  logarithmique et sévérité par l'élasticité mesurée, la proportionnalité au SCR de marché
+  restant le repère contre lequel la méthode se distingue et non une méthode ;
+- **la contrainte conformité 1 et 2 vers 3** sur la dépendance des états, à ne pas confondre
+  avec la propagation ;
+- **le renommage `GBASE`**, arbitrage ouvert.
+
 ## Le point de stage avec Caroline Hillairet
 
 Elle est **tutrice de stage**, et son rôle dans le projet n'est pas symétrique de celui d'Hugo :

@@ -193,13 +193,22 @@ statique. Source : script~\texttt{52}.}
 \end{figure}
 
 \begin{cle}
-\textbf{Le fil se referme.} $Z_t$ sans dérive est une martingale et $\tau$ un temps d'arrêt :
-le seuil de P4 (ce chapitre) rejoint ainsi le cadre \textbf{martingale} de l'identification
-(chapitre~\ref{ch:identifiabilite}, $W=S+A$ comme réversibilité). Réserve assumée : le brownien
-pur atteint le niveau presque sûrement mais d'espérance de délai infinie ; un facteur
-\emph{moyen-réversif} (Ornstein-Uhlenbeck) donnerait un taux de déclenchement récurrent fini,
-plus réaliste pour un facteur systémique. Le brownien est le cas propre qui porte le lien
-théorique.
+\textbf{Un temps de premier passage, et rien de plus.} $Z_t$ sans dérive est une martingale et
+$\tau$ un temps d'arrêt, si bien que le délai de déclenchement a une loi explicite par le
+principe de réflexion. Il faut cependant se garder d'un rapprochement trop rapide avec le
+chapitre~\ref{ch:identifiabilite} : le mot \emph{martingale} y désigne la forme de Dirichlet
+d'une chaîne de Markov, ici la propriété d'un brownien sans dérive, et le lien entre les deux
+est de \textbf{vocabulaire} et non de mathématique. Ce que les deux usages ont réellement en
+commun est plus modeste et plus important : ils vivent tous deux sous la mesure
+\textbf{physique}. \textbf{Aucun test de martingalité au sens des générateurs de scénarios
+économiques n'est conduit dans ce mémoire}, aucun changement de mesure n'y intervient, et le
+seuil $z^\star$ ne se déduit d'aucun test de ce genre : il vient de la calibration du facteur
+tiers.
+
+Réserve assumée : le brownien pur atteint le niveau presque sûrement mais d'espérance de délai
+infinie ; un facteur \emph{moyen-réversif} (Ornstein-Uhlenbeck) donnerait un taux de
+déclenchement récurrent fini, plus réaliste pour un facteur systémique. Le brownien est le cas
+propre qui porte le calcul explicite.
 \end{cle}
 
 \subsection{Le sous-process tiers sur donnée ouverte : ce qu'on peut ancrer avant le registre}
