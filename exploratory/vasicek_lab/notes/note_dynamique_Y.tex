@@ -11,6 +11,14 @@
 % marginales de defaillance, donc tous les SCR publies, a l'identique. La calibration est
 % gelee depuis le 7 aout, et une note de redaction ne doit pas la deplacer.
 %
+% REVISION DU 12 AOUT, MEME JOUR. Caroline a demande si les sinistres arrivent regulierement
+% ou groupes en fin d'exercice, en disant qu'il fallait regarder le PETIT t de Y_{j,t}. Le
+% premier jet ne repondait pas : il ecrivait Y_{j,t} avec le meme indice que le terme de
+% propagation D_{ik,t-1}, et sa recommandation (kappa infini) effacait la question au lieu de
+% la traiter. Trois ajouts : le paragraphe des TROIS HORLOGES, la section GROUPEMENT qui
+% rapatrie la mesure du script 08g, et une recommandation reecrite autour du nombre sans
+% dimension theta = kappa x duree de grappe.
+%
 % DEUX OBJETS A NE JAMAIS CONFONDRE, et le projet s'est deja fait prendre par ce genre de
 % confusion (quantile unitaire contre capital agrege, canaux contre piliers) :
 %   - le facteur d'ETAT Y_{j,t}, objet de cette note, qui entre dans le probit de
@@ -28,6 +36,7 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{enumitem}
+\usepackage{booktabs}   % \toprule, \midrule, \bottomrule des deux tables ajoutees le 12 aout
 
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\E}{\mathbb{E}}
@@ -89,6 +98,57 @@ firme-année et $2{,}24$ sur la série annuelle détendancée. La surdispersion 
 \emph{fait} et non un artefact, et elle est la signature d'un aléa commun à atomes : c'est
 la composante de sauts qui la produit. Autrement dit, la seconde échelle n'est pas ajoutée
 pour enrichir le modèle, elle est \textbf{identifiée par la surdispersion}.
+
+\section{Trois horloges, et laquelle porte la normalisation}
+\label{sec:horloges}
+
+% AJOUT DU 12 AOUT, APRES UNE OBJECTION DE CAROLINE HILLAIRET AU POINT D'ETAPE : « est-ce que
+% les sinistres arrivent tous les trois jours, ou tous sur les trois derniers jours de
+% l'annee ? Il fallait regarder le petit t de Y_{j,t} ». L'objection est fondee et le premier
+% jet de cette note ne lui repondait pas : il ecrivait Y_{j,t} avec le MEME indice t que le
+% terme de propagation D_{ik,t-1}, si bien que la normalisation a variance un portait sur une
+% echelle qui n'etait pas nommee. Il y a trois horloges, elles different de trois ordres de
+% grandeur, et les confondre rend la formule ambigue.
+
+L'écriture \eqref{eq:latente} porte un seul indice $t$, et c'est une ambiguïté qu'il faut
+lever avant d'écrire quoi que ce soit sur $Y$. Le modèle fait intervenir \textbf{trois}
+échelles de temps distinctes.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Horloge} & \textbf{Ordre de grandeur} & \textbf{Ce qu'elle cadence} \\
+\midrule
+Pas de cascade & heures à quelques jours & le terme $\sum_k W_{kj} D_{ik,t-1}$ \\
+Persistance du facteur, $1/\kappa_j$ & non identifiée & la mémoire de l'état systémique \\
+Période comptable & un an & le quantile de charge agrégée, donc le capital \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{La séparation des deux échelles extrêmes est vérifiée, pas supposée.} Le pas de
+cascade se lit sur la donnée horodatée : l'excitation mesurée sur les dates au jour est
+\emph{intra-journalière}, avec un pic à trois heures, et la vague de mai 2023 sur un
+prestataire partagé s'étend sur cinq jours. La période comptable est l'année. Il y a donc
+environ trois ordres de grandeur entre les deux, ce qui autorise le traitement usuel en
+physique statistique comme en actuariat : \textbf{la cascade se résout instantanément à
+l'échelle comptable}. C'est exactement ce que fait l'implémentation, qui tire pour chaque
+sinistre l'ensemble des piliers atteints dans la loi de progéniture de la cascade, au lieu
+de faire avancer un compteur d'années.
+
+\paragraph{L'indice $t$ de \eqref{eq:latente} est donc le pas de cascade, et non l'année.}
+Lue autrement, l'équation ferait franchir un lien de propagation par exercice, ce qui serait
+absurde devant un pic d'excitation à trois heures. En revanche $Y_{j,t}$ est
+\textbf{constant sur la durée d'une cascade}, puisque celle-ci est brève devant toute
+persistance plausible du facteur : tous les piliers touchés par un même événement voient
+la même valeur du facteur. Ce n'est pas une approximation de confort, c'est la traduction
+formelle du mécanisme de choc commun.
+
+\paragraph{Et la normalisation porte la période comptable.} C'est sur l'exercice que
+l'incidence de fond $\Phi(-1{,}7) = 4{,}5\,\%$ et les charges systémiques $\rho_j$ ont été
+calibrées. La contrainte $\E[Y] = 0$, $\Var[Y] = 1$ s'entend donc sur l'année, et c'est ce
+qui rend l'enrichissement de la section suivante sans effet sur les probabilités publiées.
 
 \section{L'écriture retenue}
 
@@ -167,6 +227,90 @@ matrice de propagation. Elle ne touche pas la partie antisymétrique $A$, c'est-
 direction, qui reste non identifiée et bornée. La note ne dégrade donc pas le résultat
 d'identification partielle : elle en respecte le partage.
 
+\section{Les sinistres arrivent-ils groupés dans l'année ? Ce que la donnée dit}
+\label{sec:groupement}
+
+% CETTE SECTION REPOND A LA QUESTION POSEE AU POINT D'ETAPE, et elle le fait avec des chiffres
+% qui existaient DEJA dans le projet, rangés sous l'etiquette « KPI de concentration P4 » et
+% jamais relies au facteur systemique. C'est la meme classe de defaut que le facteur 3,34 ou le
+% -53 % : la grandeur etait calculee, elle n'etait pas branchee la ou elle sert.
+% RESERVE A LEVER : le pic d'excitation a trois heures est lu sur la figure O2, la sortie du
+% script qui le calcule n'etant pas encore versionnee. A relancer sur le PC.
+
+La question est empirique et elle a une réponse mesurée, sur $2\,922$ jours et $4\,614$
+événements du secteur financier.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l r@{}}
+\toprule
+Indice de Gini de la charge journalière & $0{,}69$ \\
+Part des sinistres portée par le centile de jours le plus chargé & $16\,\%$ \\
+\dots par les $2\,\%$ de jours les plus chargés & $21\,\%$ \\
+\dots par les $5\,\%$ de jours les plus chargés & $34\,\%$ \\
+Causes communes détectées & $49$, soit $6{,}1$ par an \\
+Part des sinistres portée par ces causes communes & $20\,\%$ \\
+Victimes par cause & médiane $11$, maximum $191$ \\
+Indice de queue (Hill) du nombre de victimes par cause & $1{,}46$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Aucun des deux cas d'école n'est donc le bon. Les sinistres n'arrivent ni
+régulièrement, ni tous dans une fenêtre unique de fin d'exercice : ils arrivent par
+\textbf{une poignée de causes communes par an, à queue lourde sur le nombre de victimes}. La
+vague de mai 2023 en donne la mesure, avec $388$ victimes en cinq jours consécutifs dont
+$191$ sur une seule journée.
+
+\paragraph{Un piège dans cette mesure, et il faut le nommer.} Les $191$ victimes d'une
+journée sont $191$ \emph{entités distinctes} atteintes par une cause, et non une entité
+subissant $191$ sinistres. Le Gini porte sur les comptes journaliers \emph{du marché} : ce
+qu'il mesure est de la dépendance \textbf{en coupe}, pas une accumulation intra-annuelle
+pour une entité donnée. Or le besoin de capital calculé est celui d'une entité. Les deux
+questions sont distinctes et une seule est observée.
+
+\paragraph{À l'échelle d'entité, la question est d'ailleurs presque vide.} Le mémoire publie
+que $98{,}8\,\%$ des années y sont sans aucun incident matériel. Demander si les sinistres
+d'une entité se regroupent dans l'année n'a donc guère de sens : il y en a au plus un. Le
+regroupement observé est un phénomène de marché, et c'est à ce titre qu'il doit entrer dans
+le modèle.
+
+\paragraph{Et pour le quantile annuel, le motif d'arrivée est du second ordre.} La sévérité
+est à queue régulièrement variable d'indice $1/\xi = 1{,}68$. La charge agrégée obéit alors
+au \textbf{principe du grand saut unique} :
+\begin{equation}
+\label{eq:gsu}
+  \Prob(S > x) \;\underset{x \to \infty}{\sim}\; \E[N]\;\Prob(X > x),
+\end{equation}
+c'est-à-dire que le quantile annuel est porté par \emph{un} sinistre et non par la somme de
+plusieurs. Le premier terme de \eqref{eq:gsu} ne dépend que de $\E[N]$ et de la queue
+marginale, deux grandeurs que le motif d'arrivée ne déplace pas. Que le sinistre qui porte
+le quantile survienne en mars ou dans une grappe de décembre est donc sans effet au premier
+ordre. Le mémoire chiffre déjà ce pont : à $\lambda = 21{,}56$, atteindre le quantile annuel
+à $99{,}5\,\%$ demande un quantile par sinistre à $99{,}977\,\%$, et il reste un facteur
+résiduel de $1{,}8$ qui est l'empreinte de la surdispersion et de la contagion.
+
+\paragraph{Ce qui est en revanche du premier ordre, et c'est là que le modèle le met.} La
+perte d'un sinistre n'est pas une sévérité isolée mais la somme des sévérités sur les
+piliers que \emph{ce même} sinistre atteint :
+\begin{equation}
+\label{eq:perte-incident}
+  L \;=\; \sum_{j \in \mathcal C} X_j ,
+\end{equation}
+où $\mathcal C$ est l'ensemble des piliers touchés, tiré dans la loi de progéniture de la
+cascade. Le regroupement agit donc sur $\mathcal C$, pas sur les dates : il multiplie la
+perte d'un événement unique. C'est exactement ce que portent la matrice de propagation et le
+choc commun du pilier des tiers.
+
+\paragraph{Conclusion, et elle est à déclarer plutôt qu'à supposer.} Le regroupement
+temporel est réel, fort, et mesuré. Le modèle le représente \textbf{en coupe} et non
+\textbf{dans le temps}, et ce choix est défendable pour trois raisons qui se cumulent : la
+séparation des échelles du \S\ref{sec:horloges}, la vacuité de la question à l'échelle
+d'entité, et le principe du grand saut unique \eqref{eq:gsu} à l'échelle du secteur. Ce qui
+n'était pas acceptable était de le supposer en silence, ce que faisait le premier jet de
+cette note.
+
 \section{Sur l'auto-excitation, et pourquoi le processus de sauts n'est pas auto-excité}
 
 La composante de sauts de \eqref{eq:sde} est un processus ponctuel dont l'intensité $\nu_j$
@@ -205,11 +349,56 @@ Deux écritures sont défendables et il faut choisir explicitement.
       remédiation.
 \end{description}
 
-\noindent \textbf{Recommandation.} Publier la forme à renouvellement dans le corps, avec
-\eqref{eq:sde} et \eqref{eq:norm} écrites en toutes lettres pour montrer de quoi elle est
-le cas limite, et traiter la forme à mémoire comme une extension déclarée. Motif :
-$\kappa_j$ n'est pas identifiable sur la profondeur d'historique disponible, et publier un
-paramètre non identifiable au cœur du modèle coûterait plus que ce qu'il apporte. Le dire
-vaut mieux que le supposer.
+% RECOMMANDATION REECRITE LE 12 AOUT. La premiere version recommandait la forme a
+% renouvellement sans un mot du regroupement intra-annuel, ce qui etait le plus mauvais choix
+% possible : kappa infini signifie que le facteur se renouvelle instantanement, donc que le
+% regroupement N'A PAR CONSTRUCTION AUCUN EFFET. Elle supposait donc la reponse a la question
+% posee au point d'etape au lieu de la traiter. C'est une hypothese cachee, et le projet en a
+% deja paye plusieurs.
+
+\paragraph{Le nombre qui tranche entre les deux.} Ce n'est ni $\kappa_j$ seul ni la durée
+d'une grappe seule, mais leur produit, seule quantité sans dimension du problème :
+\begin{equation}
+\label{eq:dimensionless}
+  \theta_j \;=\; \kappa_j \times \text{(durée d'une grappe)} .
+\end{equation}
+À $\theta_j \ll 1$ le facteur ne bouge pas pendant la grappe : tous les sinistres qu'elle
+contient voient la \emph{même} valeur de $Y_j$ et leurs sévérités sont fortement dépendantes.
+À $\theta_j \gg 1$ le facteur s'est renouvelé entre deux sinistres de la grappe, qui
+redeviennent quasi indépendants. La forme à renouvellement pose $\theta_j = \infty$.
+
+\noindent \textbf{Recommandation.} Publier la \textbf{forme à renouvellement}, avec
+\eqref{eq:sde} et \eqref{eq:norm} écrites en toutes lettres pour montrer de quoi elle est le
+cas limite, et surtout avec le \S\ref{sec:groupement} qui \emph{déclare} ce que ce choix
+suppose. Trois motifs, et ils ne se valent pas.
+
+\begin{enumerate}[itemsep=3pt,topsep=3pt]
+\item \textbf{Le motif de fond.} Le regroupement intra-annuel est du second ordre sur le
+      quantile annuel, par \eqref{eq:gsu}, et du premier ordre sur la co-occurrence entre
+      piliers, laquelle est déjà portée par la cascade et le choc commun via
+      \eqref{eq:perte-incident}. Le mécanisme n'est donc pas ignoré, il est logé dans la
+      coupe plutôt que dans le temps. C'est ce motif qui justifie le choix.
+\item \textbf{Le motif d'identifiabilité.} $\kappa_j$ n'est pas identifiable sur la
+      profondeur d'historique disponible, et publier un paramètre non identifiable au cœur
+      du modèle coûte plus qu'il n'apporte.
+\item \textbf{Le motif de discipline.} Calibrer $\kappa_j$ sur les durées de grappes
+      observées serait une recalibration, non une correction d'erreur, et la calibration est
+      gelée. Ce motif est le plus faible des trois : il dit quand le faire, pas s'il faut le
+      faire.
+\end{enumerate}
+
+\paragraph{Ce que coûterait la forme à mémoire, si on la voulait quand même.} Il faudrait
+estimer $\kappa_j$ sur la décroissance de l'autocorrélation des comptages sub-annuels,
+rejouer le pipeline stochastique, et accepter que des centaines de nombres publiés bougent
+sans qu'aucun déplacement soit imputable au seul $\kappa_j$. En contrepartie on gagnerait un
+lien explicite entre le facteur et la trajectoire multi-périodes des états de conformité,
+$\kappa_j$ y devenant la vitesse de remédiation. L'échange n'est pas absurde, mais il se
+décide avant le gel et non après.
+
+\paragraph{Une conséquence de rédaction, à tenir.} La forme retenue suppose
+$\theta_j = \infty$. Cela doit être \textbf{écrit}, avec la mesure du
+\S\ref{sec:groupement} en regard, et non laissé à la sagacité du lecteur. Une hypothèse qui
+n'apparaît nulle part n'est pas une hypothèse : c'est un angle mort, et celui-ci a été trouvé
+par une question posée en séance, pas par une relecture.
 
 \end{document}
