@@ -1,5 +1,6 @@
-﻿% Point avec Caroline Hillairet (tutrice de stage), 10 aout 2026. TREIZE slides pour QUINZE
-% minutes, dont une de RESERVE (la derniere) et une de figure seule.
+﻿% Point avec Caroline Hillairet (tutrice de stage), 10 aout 2026. DOUZE slides pour QUINZE
+% minutes, dont une de RESERVE (la derniere). AUCUNE figure : voir plus bas pourquoi le schema
+% a ete retire apres controle visuel.
 %
 % QUATRE CONSIGNES DE KELIAN, ET ELLES ONT FACONNE CE DECK.
 %   1. NE PAS CITER LE MEMOIRE. On parle du MODELE, jamais du document : pas de compte de
@@ -36,7 +37,7 @@
 %
 % BUDGET DE TEMPS SUR 15 MIN : piliers 1 ; briques 2 ; formule 2 ; W 2 ; schema 1 ; S+A 1,5 ;
 % corpus 1,5 ; point tuteur 2 ; posture 2. La slide a ne jamais presser est la 11 : c'est la
-% seule qui appelle une DECISION. La 13 est une reserve, a sacrifier sans regret.
+% seule qui appelle une DECISION. La 12 est une reserve, a sacrifier sans regret.
 %
 % CONVENTION D'INDICES, A NE PAS INVERSER EN SEANCE. W_jk va de la SOURCE j vers la CIBLE k :
 % la ligne emet, la colonne recoit. C'est la convention du projet, verifiee par les scripts 59
@@ -62,7 +63,7 @@
 \subtitle{Le modèle, où j'en suis, et quatre demandes d'appui}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
-\date[10/08/2026]{10 août 2026}
+\date[12/08/2026]{12 août 2026}
 
 \begin{document}
 
@@ -120,7 +121,9 @@ un sinistre unique, pas par une accumulation.
 \vspace{-1mm}
 {\scriptsize La troisième brique est l'\textbf{agrégation}, et c'est là que se situe l'apport :
 je ne couple pas les marges par une copule, je modélise la propagation. Deux slides pour la
-formule, puis une pour ce qu'elle fait à la perte.
+formule, puis une pour ce qu'elle fait à la perte. \emph{Je vous envoie séparément un schéma
+d'une page de tout le modèle, où chaque grandeur porte son statut : estimée, posée, bornée ou
+réglementaire.}
 \ Sources : scripts~\texttt{07}, \texttt{47}, \texttt{60} et~\texttt{63}.}
 \end{frame}
 
@@ -154,7 +157,10 @@ $s_j$ est donc $\sqrt{\rho_j}$ en unités idiosyncratiques, les deux paramétrag
 \end{frame}
 
 % =====================================================================
-\begin{frame}{\texorpdfstring{$W$}{W}, sa normalisation, et deux criticités à ne pas confondre}
+% TITRE CORRIGE. Il annoncait « et deux criticites a ne pas confondre » alors que ce bloc a
+% demenage sur la slide suivante quand la frame a ete scindee : un titre qui promet ce que la
+% slide ne contient pas.
+\begin{frame}{\texorpdfstring{$W$}{W} : ce qu'elle est, et pourquoi elle est normalisée ainsi}
 \scriptsize
 \begin{block}{$W$ en une phrase, et sa normalisation}
 $W_{jk}$ est la force dirigée de $j$ vers $k$ : \textbf{la ligne émet, la colonne reçoit}. Une
@@ -168,7 +174,19 @@ celle de $P_1$. Chaque ligne somme alors à au plus $g$ : le pilier le plus prol
 lit comme le nombre de dominos qu'un domino fait tomber}, et la stabilité est gratuite.
 \end{block}
 \vspace{-1mm}
-{\scriptsize Sources : scripts~\texttt{03} et~\texttt{59}.}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l r r r r r@{}}
+\toprule
+ & $P_1$ & $P_2$ & $P_3$ & $P_4$ & $P_5$ \\
+\midrule
+\textbf{Émission} (somme de la ligne de $T$) & $\mathbf{2{,}60}$ & $1{,}50$ & $1{,}40$ & $1{,}70$ & $0{,}70$ \\
+\textbf{Réception} (somme de la colonne) & $0{,}80$ & $\mathbf{2{,}30}$ & $1{,}60$ & $1{,}50$ & $1{,}70$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{0.5mm}
+{\scriptsize $P_1$ émet le plus et reçoit le moins, c'est une \textbf{source} ; $P_2$ reçoit le
+plus, c'est un \textbf{puits}. \ Sources : scripts~\texttt{03} et~\texttt{59}.}
 \end{frame}
 
 % =====================================================================
@@ -197,8 +215,7 @@ fond de $4{,}5\,\%$.
   $R_0$ des épidémiologistes, et c'est lui qui compte.
 \end{itemize}
 Les deux sont sous-critiques, mais pas du même ordre : seuils à $g = 1{,}78$ et $g = 8{,}1$, hors
-du domaine. La forme simultanée est donc \textbf{structurellement alarmiste}, raison de plus de
-l'avoir écartée.
+du domaine admissible.
 \end{block}
 \vspace{-1mm}
 {\scriptsize D'où l'abandon de la forme simultanée : même normalisée, elle approche son seuil
@@ -208,16 +225,17 @@ alarmiste}. Le prix d'une jolie formule fermée aurait été une exigence de cap
 \end{frame}
 
 % =====================================================================
-% LA FIGURE A SA PROPRE SLIDE, ET ELLE EST CONTRAINTE EN HAUTEUR. A4 paysage, ratio 0,71 : posee
-% en largeur elle ferait 76 mm pour 74 mm utiles.
-\begin{frame}{Le modèle en un schéma, et le statut de chaque grandeur}
-\begin{center}
-\includegraphics[height=0.72\textheight]{schema_modele.pdf}
-\end{center}
-{\scriptsize Chaque grandeur porte une pastille de statut : \textbf{estimée}, \textbf{posée},
-\textbf{bornée} faute d'identification, ou \textbf{réglementaire}, pour qu'on puisse attaquer le
-modèle bloc par bloc.}
-\end{frame}
+% LA SLIDE DU SCHEMA A ETE RETIREE, ET C EST UN CONTROLE VISUEL QUI L A DECIDE.
+% schema_modele.pdf est une page A4 PAYSAGE a trois colonnes de texte dense, concue pour etre
+% lue SUR PAPIER. Reduite a 0,72 de la hauteur d une slide 4:3, elle devient un tapis gris :
+% rendue en PNG et regardee, aucune de ses etiquettes n est lisible a distance de
+% videoprojecteur. Le ratio etait correct et le cadre ne debordait pas, ce qui montre une fois
+% de plus que le controle des proportions ne remplace pas la lecture.
+%
+% CE QUI LA REMPLACE : rien dans le deck projete. La modelisation est desormais expliquee par
+% les slides 2 a 6, formule ecrite comprise, donc le schema n est plus porteur. En revanche il
+% reste un excellent document A ENVOYER A CAROLINE separement, avant ou apres le point : une
+% page, et chaque grandeur y porte son statut epistemique. Une ligne de la slide 3 le signale.
 
 % =====================================================================
 \begin{frame}{Ce que la donnée dit de \texorpdfstring{$W$}{W}, et ce qu'elle ne dit pas}
@@ -250,22 +268,16 @@ de combien exactement}. La largeur de la bande mesure précisément ce que la do
 \scriptsize
 Les bases agrégées ne donnant pas l'ordre, je suis allé le chercher là où il est écrit : dans les
 \textbf{rapports d'enquête publics}, qui reconstituent la séquence des défaillances.
-\vspace{-1mm}
-\begin{center}\scriptsize
-\begin{tabular}{@{}l r r r r r@{}}
-\toprule
- & $P_1$ & $P_2$ & $P_3$ & $P_4$ & $P_5$ \\
-\midrule
-\textbf{Émission} (somme de la ligne de $T$) & $\mathbf{2{,}60}$ & $1{,}50$ & $1{,}40$ & $1{,}70$ & $0{,}70$ \\
-\textbf{Réception} (somme de la colonne) & $0{,}80$ & $\mathbf{2{,}30}$ & $1{,}60$ & $1{,}50$ & $1{,}70$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-{\scriptsize $P_1$ émet le plus et reçoit le moins, c'est une \textbf{source} ; $P_2$ reçoit le
-plus, c'est un \textbf{puits}. Cette structure était un jugement ; le corpus la retrouve.}
+\vspace{-0.5mm}
+{\scriptsize La structure \og{}$ source, $ puits\fg{} du tableau precedent etait un
+jugement d'expert ; le corpus la retrouve sur pieces.}
 \begin{block}{Le dispositif, et le test}
 Dix rapports officiels codés en $22$ transitions dirigées, codées seulement si le rapport
-\emph{établit} que $j$ a précédé et conditionné $k$. Sous l'hypothèse nulle « pas de direction »,
+% GUILLEMETS PAR \og{}...\fg{} ET NON EN CARACTERES BRUTS. Les « » litteraux de cette ligne se
+% rendaient en « n » et « z » accentues dans le PDF : le passage par Set-Content de PowerShell
+% avait abime leurs octets. La forme babel est insensible a ce genre d'accident.
+\emph{établit} que $j$ a précédé et conditionné $k$. Sous l'hypothèse nulle \og{}pas de
+direction\fg{},
 l'orientation de chaque transition est un tirage à pile ou face : cette loi nulle est
 \textbf{exacte}, par convolution sur les paires, sans simulation. $p = 1{,}5\cdot10^{-5}$.
 \end{block}
