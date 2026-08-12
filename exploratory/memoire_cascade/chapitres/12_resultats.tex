@@ -382,6 +382,93 @@ inchangés le SCR par état et le surcoût NC contre C, qui lui sont conditionne
 protocole de stress figure au \S\ref{sec:ann-hypotheses}. Sources : scripts~\texttt{22}
 et~\texttt{67}.
 
+\section{La sensibilité aux probabilités de propagation, prise pour elle-même}
+\label{sec:sensibilite-propagation}
+
+\noindent Chiffres de cette section : scripts~\texttt{15} (tornado), \texttt{30} (bornes
+d'identification), \texttt{66} (invariance en $g$) et~\texttt{68} (bruit de la décomposition).
+
+Le modèle repose sur des probabilités de propagation qui ne sont pas observées, et il serait
+malhonnête de le mentionner en passant. Cette section leur consacre donc un examen séparé, en
+distinguant deux questions que l'on confond volontiers : la sensibilité au \emph{niveau} de la
+propagation, qui est un facteur d'échelle posé, et la sensibilité à sa \emph{direction}, qui
+n'est pas identifiable. La première se stresse, la seconde se borne.
+
+\paragraph{Le niveau de propagation est le levier le \emph{moins} sensible des quatre.} Le
+tornado déplace chaque entrée du modèle vers le bas et vers le haut, à structure fixée. Le gain
+$g$ y va de $0{,}5$ à $1{,}0$, ce qui déplace le surcoût de $5\,517$ à $6\,579$~M\euro. Le
+\textbf{seuil} de la loi de queue, lui, le déplace de $4\,862$ à $12\,944$~M\euro{} entre les
+percentiles $90$ et $80$, et la fréquence de $4\,056$ à $8\,684$~M\euro{} en la divisant puis en
+la multipliant par $1{,}5$ ; la surdispersion, de $6\,449$ à $6\,834$. \textbf{La fragilité du
+capital n'est donc pas dans la propagation, elle est dans l'ajustement de valeurs extrêmes},
+et c'est l'inverse de ce que l'on redoute spontanément d'un modèle de contagion. Sur les huit
+variantes, le surcoût reste compris entre $4\,056$ et $12\,944$~M\euro, toujours positif et
+toujours pluri-milliard.
+
+\begin{attention}
+\textbf{Ces niveaux sont ceux de la configuration de base du tornado} ($6\,640$~M\euro), qui
+n'est pas l'écart à quatre canaux de $14\,139$~M\euro{} du \S\ref{sec:kpi} : ce tornado fait
+varier un paramètre à la fois autour d'un état non conforme unique. Ce qui se lit ici est
+l'\emph{amplitude relative des leviers}, en aucun cas un niveau de capital.
+\end{attention}
+
+\paragraph{Et la thèse ne dépend pas des trois valeurs posées.} Le capital est croissant en $g$,
+et ce n'est pas supposé mais vérifié à nombres aléatoires communs (script~\texttt{66}) : toute
+correspondance entre états de conformité et valeurs de $g$ qui respecte l'\textbf{ordre} produit
+l'écart, dès lors que le forfait réglementaire reste plat. L'élasticité d'arc du capital au gain
+vaut $0{,}410$. Seule l'\emph{amplitude} de l'écart est un scénario ; son signe et son ordre ne
+le sont pas.
+
+\paragraph{La direction, elle, ne se stresse pas : elle se borne, et la borne se gradue.} Puisque
+la donnée identifie la partie symétrique de $W$ et non sa partie antisymétrique, la sensibilité à
+la direction ne s'écrit pas comme un déplacement autour d'un point mais comme une \textbf{largeur
+d'ensemble}, indexée par le degré d'ignorance $t$ que l'on assume sur cette direction. Les
+$2^{10}$ sommets de l'ensemble admissible sont énumérés exhaustivement, et tous sont admissibles.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l r r@{}}
+\toprule
+\textbf{Ignorance $t$} & \textbf{Capital borné} & \textbf{Largeur} & \textbf{En part du socle} \\
+\midrule
+$t=0{,}25$ & $[7\,837\,;\,8\,174]$ & $336$ & $6{,}4\,\%$ \\
+$t=0{,}50$ & $[7\,605\,;\,8\,300]$ & $695$ & $13{,}2\,\%$ \\
+$t=0{,}75$ & $[7\,348\,;\,8\,431]$ & $1\,083$ & $20{,}5\,\%$ \\
+$t=1{,}00$ (état actuel) & $[\mathbf{6\,858}\,;\,\mathbf{8\,697}]$ & $\mathbf{1\,839}$ & $\mathbf{34{,}9}\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent En M\euro. La lecture est la suivante, et elle est plus favorable qu'un intervalle de
+confiance ordinaire : \textbf{l'ignorance sur la direction se paye linéairement}, et son coût
+maximal est connu d'avance. À ignorance totale le capital reste enfermé dans un facteur
+$1{,}27$ entre ses bornes, alors que le socle sans aucune contagion vaut $5\,275$~M\euro{} : la
+contagion ajoute entre $30$ et $65\,\%$ à ce socle, et l'on sait exactement de combien cette
+fourchette rétrécirait si la direction était mieux connue. À titre de repère, la direction nulle
+($W$ symétrique) donne $7\,993$~M\euro{} et le point du classeur d'expert $8\,110$, soit un écart
+soit respectivement $+51{,}5\,\%$ et $+53{,}7\,\%$ au-dessus du socle : \textbf{le point d'expert
+est un point de cet ensemble, pas sa mesure}, et l'essentiel du surcoût de contagion ne vient pas
+de la direction mais de la co-occurrence, qui est identifiée.
+
+\paragraph{Enfin, la décomposition de l'écart a son propre bruit, et il est publié.} Les quinze
+termes qui répartissent l'écart de capital entre les quatre canaux sont accompagnés de leur
+écart-type de simulation, et \textbf{neuf sur quinze seulement ont un signe résolu} sur seize
+graines (\S\ref{sec:kpi}). Ce n'est pas un défaut de la mesure, c'est sa précision : une
+interaction est une différence de différences, l'estimateur le plus fragile du dispositif, et
+les termes d'ordre trois et quatre figurent dans la table parce que la réconciliation l'exige,
+non parce qu'ils sont mesurés.
+
+\begin{cle}
+\textbf{Ce que cette section établit.} La sensibilité aux probabilités de propagation est
+\emph{bornée par construction} et non estimée : c'est la différence entre un modèle qui pose une
+direction et un modèle qui assume ne pas la connaître. Et elle n'est pas le point faible du
+dispositif : le niveau de propagation déplace le capital moins que tout autre levier, tandis que
+le seuil de la loi de queue le fait passer à lui seul de $4\,862$ à $12\,944$~M\euro. Toute vigilance sur les
+valeurs numériques du modèle doit donc se porter d'abord sur l'ajustement de valeurs extrêmes,
+et c'est là que le mémoire concentre ses réserves déclarées.
+\end{cle}
+
 \section{Comparaison de modèles : la dépendance n'est pas le mécanisme}
 \label{sec:benchmark}
 

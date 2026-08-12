@@ -1,0 +1,138 @@
+% =====================================================================================
+% ANNEXE AJOUTEE LE 12 AOUT 2026, a la demande de Caroline Hillairet, qui a salue
+% l'initiative de pallier le manque de donnees par un recueil d'avis d'experts et demande de
+% mettre la methode de Cooke et le questionnaire en annexe.
+%
+% LE SENS DE L'ANNEXE A CHANGE AVEC LA DECISION DE NE PAS LANCER L'ELICITATION. Elle ne
+% presente donc pas un protocole A VENIR mais un protocole PREPARE ET NON EXECUTE, avec le
+% chiffrage de la raison. C'est un actif devant un jury qui demanderait pourquoi un modele dont
+% la direction n'est pas identifiable ne recourt pas au jugement d'expert : la reponse existe,
+% elle est chiffree, et le materiel est pret.
+%
+% ATTENTION AU PIEGE DU HARNAIS, ET IL A ETE RENCONTRE ICI. Une declaration
+% HARNAIS-HORS-SCRIPT posee AVANT la premiere \section couvre tout le fichier : la premiere
+% version de cette annexe declarait ainsi ses onze nombres d'un coup, dont les huit qui sont
+% parfaitement verifiables. La declaration est donc descendue dans la seule section qui la
+% justifie, et les autres citent leurs scripts.
+% =====================================================================================
+
+\chapter{Le protocole d'élicitation, et pourquoi il n'a pas été exécuté}
+\label{ch:elicitation}
+
+\noindent Chiffres de cette annexe : scripts~\texttt{31} (sensibilité à un panel biaisé),
+\texttt{34} (échelle de repli sur la direction) et~\texttt{59} (corpus documentaire).
+
+La direction de la matrice de contagion n'est pas identifiable sur la donnée disponible
+(chapitre~\ref{ch:identifiabilite}). Le recours au jugement d'expert formalisé est la réponse
+classique à ce genre d'impasse, et un protocole complet a été construit pour cela. Il n'a pas
+été exécuté, et cette annexe existe pour que ce choix soit lisible : le protocole y est décrit,
+la raison de ne pas le lancer y est chiffrée, et ce que l'on perd y est dit.
+
+\section{La méthode de Cooke, en quatre temps}
+
+% HARNAIS-HORS-SCRIPT: les quantiles demandes a l'expert sont une propriete de CONCEPTION du
+% questionnaire, non une grandeur calculee : aucun script ne les imprime et aucun ne le devrait.
+
+Le \emph{modèle classique} de Cooke ne traite pas les experts comme interchangeables : il les
+\textbf{note}, sur des questions dont l'analyste connaît la réponse, puis pondère leurs avis par
+cette note. Il se déroule en quatre temps.
+
+\begin{enumerate}[itemsep=3pt,topsep=3pt]
+\item \textbf{Élicitation en quantiles.} Chaque expert ne donne pas un point mais trois
+      quantiles, à $5$, $50$ et $95\,\%$, ce qui rend son incertitude déclarée mesurable.
+\item \textbf{Calibration.} Sur les \emph{questions-graines}, dont la réponse est connue de
+      l'analyste et masquée à l'expert, on compare la fréquence empirique des réalisations dans
+      les intervalles déclarés à la fréquence théorique. L'écart se lit comme une statistique
+      d'information de Kullback-Leibler, et son niveau de signification devient le
+      \textbf{score de calibration}.
+\item \textbf{Information.} Un expert bien calibré mais qui déclare des intervalles très larges
+      n'apporte rien. Le \textbf{score d'information} mesure la concentration de ses
+      distributions relativement à une loi de référence.
+\item \textbf{Poids et agrégation.} Le poids d'un expert est le produit des deux scores, et il
+      est \textbf{nul} sous un seuil de calibration. L'avis agrégé est la combinaison linéaire
+      pondérée des distributions individuelles.
+\end{enumerate}
+
+C'est le quatrième point qui fait la force et la fragilité de la méthode : un expert mal
+calibré est écarté, ce qui protège des dires péremptoires, mais réduit d'autant la taille
+effective du panel.
+
+\section{Le protocole construit pour la matrice de contagion}
+
+Le questionnaire préparé comporte deux parties. La \textbf{partie d'étalonnage} pose des
+questions à réponse connue, tirées de sources publiques vérifiables, sur des grandeurs du même
+domaine que les cibles. La \textbf{partie cible} interroge les liens dirigés entre piliers, un
+par un, sous la forme d'une probabilité conditionnelle : sachant que le pilier source est
+défaillant, quelle est la probabilité que le pilier cible le devienne.
+
+Le dispositif complet demande seize questions par expert, dont dix questions-graines. Ce ratio
+n'est pas un excès de prudence : c'est le minimum qui permette de distinguer un expert calibré
+d'un expert chanceux, et le réduire viderait la méthode de ce qui la distingue d'une moyenne
+d'opinions. Le protocole, le questionnaire et le gabarit de réponses sont versionnés dans le
+dépôt du mémoire, et deux scripts implémentent l'agrégation, l'un sur réponses fictives pour
+valider la chaîne de traitement, l'autre prêt à recevoir des réponses réelles.
+
+\section{Pourquoi il n'a pas été exécuté}
+
+La raison est arithmétique, et elle porte sur la \emph{taille effective} du panel.
+
+\paragraph{Un panel de deux experts n'a aucun pouvoir de calibration.} Avec le calendrier du
+mémoire et un taux de réponse réaliste sur un questionnaire de seize questions quantitatives, le
+nombre de réponses exploitables, c'est-à-dire complètes et passant le seuil de calibration,
+serait de l'ordre de une à deux. Or à deux experts la pondération de Cooke dégénère : soit un
+seul survit au seuil et l'on obtient un avis unique déguisé en agrégation, soit les deux
+survivent et le poids relatif est estimé sur dix graines, ce qui ne le distingue pas d'une
+moyenne simple. Dans les deux cas la méthode ne fait plus ce pour quoi elle est choisie.
+
+\paragraph{Et une élicitation faible ne serait pas neutre, elle serait trompeuse.} C'est
+l'argument décisif, et il est chiffré. Le chapitre~\ref{chap:partielle} mesure l'effet d'un
+panel \textbf{biaisé} sur le capital : il déplace le \textsc{scr} de $777$~M\euro{} sans
+qu'aucun signal ne l'indique au lecteur, là où l'approche par bornes reste \emph{invariante} à
+ce biais. Un jugement d'expert faiblement calibré introduirait donc dans le résultat une
+incertitude \emph{non déclarable}, alors que la non-identifiabilité, elle, se déclare et se
+borne. En termes de qualité de la conclusion, l'échange serait défavorable : on remplacerait
+une ignorance mesurée par une erreur invisible. Source : script~\texttt{31}.
+
+\section{Ce qui le remplace}
+
+Trois dispositifs, tous en place et tous sans prior d'expert.
+
+\begin{description}[itemsep=3pt,topsep=3pt]
+\item[Le corpus documentaire.] Dix rapports post-mortem officiels sont codés selon un protocole
+      écrit, et le sens des transitions y est testé contre une loi nulle exacte de permutation :
+      $z = +5{,}12$ sur le corpus étendu. La direction n'est donc pas seulement posée, elle est
+      \emph{corroborée} par une source indépendante du classeur qualitatif.
+\item[L'échelle de repli sur la direction.] Plutôt que de connaître la direction, on peut
+      supposer qu'elle est de rang faible. Le premier cran de cette échelle capte $74{,}1\,\%$
+      de la variance de la direction posée et resserre le capital dans
+      $[7\,761\,;\,8\,316]$~M\euro, soit une largeur de $555$~M\euro{} contre $1\,839$ sous
+      ignorance totale. C'est une hypothèse structurelle, déclarée comme telle, et bien plus
+      modeste qu'un dire d'expert.
+\item[Les ancrages réglementaires.] Les niveaux d'exigence des textes et les publications des
+      autorités fournissent des repères externes sur les états de conformité, sans passer par un
+      panel.
+\end{description}
+
+\noindent Sources de cette section : scripts~\texttt{30} (largeur sous ignorance totale),
+\texttt{34} (échelle de repli) et~\texttt{59} (corpus documentaire étendu).
+
+\section{Ce que l'on perd, et pourquoi la décision reste réversible}
+
+Il faut nommer le coût. L'élicitation avait une fonction précise et une seule :
+\textbf{départager P1 et P4} en tête du classement des piliers sources. Sans elle, les deux
+restent pratiquement à égalité sur l'ensemble admissible, P1 arrivant premier dans
+$43{,}6\,\%$ des configurations et P4 dans $37{,}7\,\%$, pour un écart de regret maximal de
+$1{,}5\,\%$ (\S\ref{sec:res-prio}). Le mémoire conclut donc que P1 et P4 devancent nettement les
+trois autres piliers, et il s'arrête là où la donnée s'arrête, au lieu de trancher entre eux par
+un avis. Sources : scripts~\texttt{30} et~\texttt{31}.
+
+\begin{cle}
+\textbf{Une décision, pas un renoncement.} Le protocole est écrit, le questionnaire est prêt, le
+gabarit de réponses et la chaîne d'agrégation sont testés. Ce qui manque n'est pas le
+dispositif mais un panel de taille suffisante pour que la pondération de Cooke ait un sens.
+La décision est donc \emph{réversible sans coût de développement} : si un accès à un panel
+d'une dizaine de répondants devient possible, l'élicitation reprend là où elle a été laissée,
+et son apport attendu est connu d'avance, à savoir le départage de P1 et P4 et un resserrement
+de la bande d'identification. C'est le seul point du mémoire où une donnée supplémentaire
+changerait une conclusion plutôt qu'un niveau.
+\end{cle}

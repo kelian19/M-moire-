@@ -694,14 +694,73 @@ contre l'arbitrage de format, et c'est le prix de la demande de Caroline. Harnai
 **1 400 nombres, 1 366 confirmés, 97,6 %**, 0 vbox, 0 référence indéfinie, 0 annotation hors
 page.
 
+### La section de sensibilité aux probabilités de propagation, écrite
+
+Elle l'exigeait explicitement. Nouvelle section `sec:sensibilite-propagation` au chapitre 12,
+qui assemble du matériel déjà calculé mais **jamais publié**, et le résultat va contre
+l'inquiétude qui la motivait.
+
+**Le niveau de propagation est le levier le moins sensible des quatre.** Le tornado du
+script 15 : $g$ de 0,5 à 1,0 déplace le surcoût de 5 517 à 6 579 M€, quand le **seuil** de la
+loi de queue le déplace de 4 862 à 12 944 et la fréquence de 4 056 à 8 684. **La fragilité est
+dans l'ajustement de valeurs extrêmes, pas dans la contagion**, et c'est l'inverse de ce qu'on
+redoute d'un modèle de cascade. Garde posée dans un encadré : les niveaux du tornado sont ceux
+de sa propre base (6 640 M€), qui n'est pas l'écart à quatre canaux de 14 139.
+
+**Et la sensibilité à la direction ne se stresse pas, elle se gradue.** Table du script 30,
+jamais publiée jusqu'ici : l'ignorance $t$ sur la direction coûte 336 M€ de largeur à $t=0{,}25$,
+695 à 0,50, 1 083 à 0,75 et 1 839 à $t=1$. **L'ignorance se paye linéairement et son coût
+maximal est connu d'avance**, ce qui est plus favorable qu'un intervalle de confiance ordinaire.
+Le point d'expert (8 110, soit $+53{,}7\,\%$ du socle) est un point de l'ensemble, pas sa mesure,
+et la direction nulle donne déjà $+51{,}5\,\%$ : l'essentiel du surcoût de contagion vient de la
+co-occurrence, qui est identifiée, non de la direction.
+
+### L'annexe du protocole de Cooke, écrite, et son sens a changé
+
+Nouvelle annexe `chapitres/18_elicitation_protocole.tex`, branchée dans `main.tex` après les
+pièces justificatives. Elle ne présente pas un protocole à venir mais **un protocole préparé et
+non exécuté**, avec le chiffrage de la raison, ce qui est un actif devant un jury qui demanderait
+pourquoi un modèle dont la direction n'est pas identifiable ne recourt pas au jugement d'expert.
+
+L'argument décisif y est celui du script 31 et non celui du calendrier : un panel biaisé déplace
+le SCR de **777 M€ sans qu'aucun signal ne l'indique**, là où l'approche par bornes reste
+invariante. Une élicitation faiblement calibrée introduirait donc une incertitude **non
+déclarable** en échange d'une ignorance mesurée. Le coût est nommé : sans élicitation, P1 et P4
+restent à égalité (43,6 % contre 37,7 %, regret maximal 1,5 %). Et la décision est déclarée
+**réversible sans coût de développement**, protocole, questionnaire, gabarit et chaîne
+d'agrégation étant prêts.
+
+**Le piège du harnais a été rencontré ici, et il est documenté :** une déclaration
+`% HARNAIS-HORS-SCRIPT:` posée **avant la première `\section`** couvre tout le fichier. La
+première version de l'annexe déclarait ainsi ses onze nombres d'un coup, dont les huit
+parfaitement vérifiables. Descendre la déclaration dans la seule section qui la justifie, et
+citer les scripts dans les autres.
+
+### Coût cumulé de la journée, et il est réel
+
+**Le corps passe de 104 à 106 pages, le total de 126 à 132.** C'est le prix des demandes de
+Caroline, et cela va franchement contre l'arbitrage de format : le corps est désormais à 36 pages
+au-dessus des ~70 recommandés. Les deux sections du corps sont compressibles si tu le décides,
+celle du chapitre 13 en perdant le motif épistémique, celle du chapitre 12 en perdant la table
+graduée. Harnais à **1 456 nombres, 1 422 confirmés, 97,7 %**, 0 vbox, 0 référence indéfinie,
+0 annotation hors page, 0 page tournée.
+
+### Une relecture de ses notes à faire trancher
+
+« Le SCR doit être calculé avec un intervalle de confiance à 95 % » se lit plus naturellement
+comme **le niveau de l'intervalle reporté** (95 % au lieu des 90 % actuels) que comme un
+changement du quantile réglementaire, qui reste 99,5 % sous Solvabilité II. Cette lecture est
+cohérente avec deux choses qu'elle a dites : qu'un intervalle large est normal, et que l'inverse
+serait inquiétant. Elle est aussi cohérente avec la sous-couverture mesurée (86 % réels pour
+90 % nominaux), qui va dans le sens d'un élargissement. **Passer de 90 à 95 % ne déplacerait
+aucune calibration** (le point, les paramètres et tous les SCR restent identiques) mais
+déplacerait les bornes publiées et le facteur 2,5. À chiffrer avant de décider, comme elle l'a
+elle-même demandé pour l'étage de modèle.
+
 ### Ce qui reste de sa liste
 
-- **la section dédiée à la sensibilité des probabilités de propagation.** Une bonne partie
-  existe et il faut la rassembler plutôt que la refaire : l'invariance en g (script 66), les
-  sensibilités du script 22, et l'écart-type de chaque terme croisé (script 68) ;
-- **la méthode de Cooke et le questionnaire en annexe**, dans la version « ce qui a été
-  préparé et pourquoi il n'a pas été lancé » ;
 - **la CTE à 95 %** en diagnostic à côté de la VaR 99,5 %, jamais à sa place ;
+- **le niveau de l'intervalle reporté**, 90 ou 95 %, voir la relecture ci-dessus ;
 - **la renormalisation par taille** dans sa version à deux canaux, fréquence par le lien
   logarithmique et sévérité par l'élasticité mesurée, la proportionnalité au SCR de marché
   restant le repère contre lequel la méthode se distingue et non une méthode ;
