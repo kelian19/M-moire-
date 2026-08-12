@@ -1,0 +1,215 @@
+% =====================================================================================
+% PREMIER JET, 12 aout 2026. Justification de la dynamique du facteur systemique Y_{j,t},
+% demandee par Caroline Hillairet au point d'etape : mouvement brownien pour le bruit de
+% fond, processus a sauts pour les attaques ciblees.
+%
+% STATUT : NOTE, PAS ENCORE DU MEMOIRE. A relire avant integration au chapitre socle.
+%
+% CE QUE CETTE NOTE FAIT, ET SURTOUT CE QU'ELLE NE FAIT PAS. Elle ecrit la dynamique en
+% temps continu dont le facteur actuel est l'increment normalise. Elle NE recalibre rien :
+% la normalisation E[Y] = 0, Var(Y) = 1 est precisement ce qui laisse les probabilites
+% marginales de defaillance, donc tous les SCR publies, a l'identique. La calibration est
+% gelee depuis le 7 aout, et une note de redaction ne doit pas la deplacer.
+%
+% DEUX OBJETS A NE JAMAIS CONFONDRE, et le projet s'est deja fait prendre par ce genre de
+% confusion (quantile unitaire contre capital agrege, canaux contre piliers) :
+%   - le facteur d'ETAT Y_{j,t}, objet de cette note, qui entre dans le probit de
+%     defaillance de conformite du pilier j ;
+%   - le melange de FREQUENCE de la binomiale negative, qui est une intensite commune
+%     annuelle sur le comptage des sinistres.
+% Les deux portent un aléa commun, ils ne vivent pas au meme etage du modele et ils ne
+% s'additionnent pas.
+% =====================================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+
+\title{La dynamique du facteur systémique $Y_{j,t}$ :\\ deux échelles d'aléa, et pourquoi
+il en faut deux}
+\author{Note de travail}
+\date{12 août 2026}
+
+\begin{document}
+\maketitle
+
+\section{Le point de départ, et ce qui manquait}
+
+Le modèle retenu écrit la défaillance de conformité du pilier $j$ pour l'entité $i$ à la
+date $t$ comme le franchissement d'un seuil par une variable latente :
+\begin{equation}
+\label{eq:latente}
+  X_{ij,t} \;=\; \text{base}_j \;+\; \sum_{k\neq j} W_{kj}\,D_{ik,t-1}
+  \;+\; s_j\,Y_{j,t} \;+\; \varepsilon_{ij,t},
+  \qquad D_{ij,t} \;=\; \mathbf 1\{X_{ij,t} \geq 0\},
+\end{equation}
+où $\varepsilon_{ij,t}$ est l'aléa idiosyncratique, de variance $1$ par normalisation,
+$s_j = \sqrt{\rho_j/(1-\rho_j)}$ la charge systémique du pilier et
+$\text{base}_j = -K_j/\sqrt{1-\rho_j}$ son seuil.
+
+Le terme $Y_{j,t}$ y était posé comme un facteur commun centré et réduit, sans que sa
+\emph{dynamique} soit écrite. C'est une lacune réelle et pas une coquetterie : la loi de
+$Y_{j,t}$ ne change pas les probabilités marginales de défaillance, mais elle gouverne
+entièrement la façon dont plusieurs piliers tombent \emph{ensemble}. Or c'est exactement
+l'objet du mémoire.
+
+\section{Deux échelles d'aléa, et l'argument qui interdit de n'en garder qu'une}
+
+\paragraph{Le bruit de fond.} Un système d'information subit en permanence un grand nombre
+de petites atteintes : dérive de configuration, correctifs appliqués en retard,
+hameçonnage ordinaire, incidents d'exploitation. Aucune ne déplace seule l'état de
+conformité d'un pilier, et leur nombre sur un exercice est grand. Sous ces deux conditions,
+la somme normalisée de ces contributions converge, par le théorème central limite sous la
+condition de Lindeberg, vers une gaussienne. La modélisation naturelle de son accumulation
+en temps continu est donc un \textbf{mouvement brownien}, et ce n'est pas un choix de
+commodité : c'est la limite imposée par la structure de l'aléa, beaucoup d'événements dont
+aucun ne domine.
+
+\paragraph{Les attaques d'ampleur.} À l'autre extrémité se trouvent les campagnes qui
+touchent simultanément de nombreuses entités par une vulnérabilité partagée. La condition
+de Lindeberg y échoue précisément : \textbf{un seul événement domine la somme de l'année}.
+Un mouvement brownien ne peut pas les représenter, non parce qu'il serait trop régulier en
+trajectoire, mais parce que ses accroissements sont de variance proportionnelle au temps et
+sans atome : il ne produit pas de déplacement d'ordre un en un temps d'ordre zéro. Ces
+événements demandent une composante de \textbf{sauts}.
+
+\paragraph{L'argument décisif est empirique, non stylistique.} On pourrait objecter qu'une
+gaussienne de variance suffisante engloberait les deux régimes. La donnée l'interdit, et de
+façon mesurable. Un facteur purement brownien conduit, sur les comptages annuels, à un
+indice de dispersion égal à $1$. Les comptages observés donnent $1{,}19$ sur les cellules
+firme-année et $2{,}24$ sur la série annuelle détendancée. La surdispersion est donc un
+\emph{fait} et non un artefact, et elle est la signature d'un aléa commun à atomes : c'est
+la composante de sauts qui la produit. Autrement dit, la seconde échelle n'est pas ajoutée
+pour enrichir le modèle, elle est \textbf{identifiée par la surdispersion}.
+
+\section{L'écriture retenue}
+
+Soit, sur l'espace filtré usuel, pour chaque pilier $j$ :
+\begin{equation}
+\label{eq:sde}
+  \mathrm{d}Z_j(t) \;=\; -\kappa_j\,Z_j(t)\,\mathrm{d}t
+  \;+\; \sigma_j\,\mathrm{d}B_j(t)
+  \;+\; \mathrm{d}\!\left(\sum_{n\geq 1} \zeta^{(j)}_n\,
+        \mathbf 1\{\tau_n \leq t\}\right)
+  \;-\; \nu_j\,\mu_j\,\mathrm{d}t ,
+\end{equation}
+où
+\begin{itemize}[itemsep=2pt,topsep=3pt]
+\item $(B_1,\dots,B_5)$ est un mouvement brownien à cinq composantes, de matrice de
+      corrélation instantanée $\mathrm{R}$ : c'est le \textbf{bruit de fond}, et
+      $\mathrm{R}$ porte la co-occurrence \emph{ordinaire} entre piliers ;
+\item $(\tau_n)$ est la suite des dates d'arrivée d'un processus ponctuel d'intensité
+      $\nu_j$ et $\zeta^{(j)}_n$ les amplitudes associées, d'espérance $\mu_j$ : c'est la
+      composante d'\textbf{attaques d'ampleur}. Le dernier terme est son compensateur, qui
+      garantit $\E[Z_j(t)] = 0$ ;
+\item $\kappa_j > 0$ est la vitesse de rappel. Elle n'est pas décorative : elle représente
+      la remédiation, c'est-à-dire le fait qu'un écart de conformité se referme avec le
+      temps. À $\kappa_j = 0$ on retrouve un facteur sans mémoire.
+\end{itemize}
+
+Le facteur qui entre dans \eqref{eq:latente} est alors l'état normalisé en fin de période :
+\begin{equation}
+\label{eq:norm}
+  Y_{j,t} \;=\; \frac{Z_j(t)}{\varsigma_j},
+  \qquad
+  \varsigma_j^2 \;=\; \Var\!\left[Z_j(t)\right]
+  \;=\; \underbrace{\frac{\sigma_j^2}{2\kappa_j}}_{\text{brownien}}
+  \;+\; \underbrace{\frac{\nu_j\,\E\big[(\zeta^{(j)})^2\big]}{2\kappa_j}}_{\text{sauts}} ,
+\end{equation}
+la variance stationnaire d'un processus d'Ornstein-Uhlenbeck dirigé par une semimartingale
+de Lévy se lisant composante par composante, les deux sources étant indépendantes.
+
+\paragraph{Un paramètre nouveau, et il est interprétable.} La décomposition
+\eqref{eq:norm} fait apparaître la \textbf{part de variance systémique portée par les
+sauts} :
+\begin{equation}
+\label{eq:pi}
+  \pi_j \;=\; \frac{\nu_j\,\E\big[(\zeta^{(j)})^2\big]}
+                   {\sigma_j^2 + \nu_j\,\E\big[(\zeta^{(j)})^2\big]}
+  \;\in\; [0,1].
+\end{equation}
+À $\pi_j = 0$ le pilier ne subit que du bruit de fond ; à $\pi_j = 1$ il ne subit que des
+campagnes. C'est la grandeur que le point d'étape appelait de ses vœux, et elle se calibre
+sur la surdispersion plutôt que de se poser.
+
+\section{Ce que cette écriture change, et ce qu'elle ne change pas}
+
+C'est le point le plus important de la note, et il doit être dit avant tout usage.
+
+\paragraph{Elle ne change aucune probabilité marginale, donc aucun capital publié.} Le
+probit \eqref{eq:latente} ne voit $Y_{j,t}$ qu'à travers sa loi centrée réduite. Tant que
+l'on impose $\E[Y_{j,t}] = 0$ et $\Var[Y_{j,t}] = 1$, ce que fait \eqref{eq:norm} par
+construction, la probabilité inconditionnelle de défaillance du pilier $j$ reste
+$\Phi(\text{base}_j)$ et l'incidence de fond reste $\Phi(-1{,}7) = 4{,}5\,\%$. La
+calibration est gelée : cette note l'explicite sans la toucher, et c'est délibéré.
+
+\paragraph{Elle change la dépendance de queue, et c'est tout son objet.} À variance égale,
+remplacer une gaussienne par un mélange brownien et sauts laisse les marges intactes et
+\emph{augmente} la probabilité que plusieurs piliers franchissent leur seuil au cours du
+même événement. Formellement, la composante de sauts introduit un atome commun dans la
+filtration des cinq piliers, ce qu'une gaussienne multivariée ne produit jamais : le
+coefficient de dépendance de queue supérieure d'une gaussienne de corrélation $r < 1$ est
+nul, celui d'un mélange à choc commun est strictement positif. L'enrichissement se lit donc
+là, et uniquement là.
+
+\paragraph{Conséquence pour l'identification, et elle est favorable.} Puisque la composante
+de sauts se manifeste par de la \emph{co-occurrence} et non par un déplacement des marges,
+elle est identifiée par la même statistique qui identifie la partie symétrique $S$ de la
+matrice de propagation. Elle ne touche pas la partie antisymétrique $A$, c'est-à-dire la
+direction, qui reste non identifiée et bornée. La note ne dégrade donc pas le résultat
+d'identification partielle : elle en respecte le partage.
+
+\section{Sur l'auto-excitation, et pourquoi le processus de sauts n'est pas auto-excité}
+
+La composante de sauts de \eqref{eq:sde} est un processus ponctuel dont l'intensité $\nu_j$
+peut être constante, aléatoire, ou fonction du passé. Le troisième cas, l'auto-excitation,
+a été testé et non retenu, et il importe de dire précisément contre quoi.
+
+Le test n'a pas été mené contre un noyau de paille mais contre le noyau à retard
+$\varphi(a) = \alpha\,a\,e^{-\beta a}$ et la logique en deux phases de la littérature
+cyber-actuarielle de référence. Le résultat est net : l'excitation apparente est
+\emph{intra-journalière}, avec un pic à trois heures, et le rapport de branchement passe de
+$0{,}55$ à une valeur quasi nulle dès que les co-occurrences du même jour sont traitées
+comme exogènes. Autrement dit, ce que le noyau auto-excité capte à l'échelle où le modèle
+travaille n'est pas une contagion temporelle mais une \textbf{simultanéité}, laquelle est
+déjà portée, et mieux, par la composante de choc commun.
+
+Il faut souligner que le processus retenu \textbf{est} un processus à sauts, et même un
+processus à sauts d'intensité aléatoire : la binomiale négative calibrée sur les comptages
+est un mélange de Poisson, donc un processus doublement stochastique. Ce qui est écarté
+n'est pas la nature de saut, c'est la \emph{rétroaction} du passé sur l'intensité. La
+distinction n'est pas rhétorique : elle sépare ce que la donnée soutient de ce qu'elle ne
+soutient pas, à la résolution disponible.
+
+\section{Une variante, et la recommandation}
+
+Deux écritures sont défendables et il faut choisir explicitement.
+
+\begin{description}[itemsep=3pt,topsep=3pt]
+\item[Forme à renouvellement.] $\kappa_j \to \infty$ dans \eqref{eq:sde} : le facteur est
+      l'accroissement normalisé de la période, sans mémoire d'une période à l'autre. C'est
+      la forme la plus sobre, elle reproduit exactement les chiffres publiés, et elle
+      suffit à porter l'argument des deux échelles.
+\item[Forme à mémoire.] $\kappa_j$ fini : l'état systémique persiste, ce qui est plus
+      réaliste puisqu'une dégradation de conformité ne se referme pas en un exercice. Cette
+      forme a un mérite propre, elle relie le facteur à la trajectoire multi-périodes des
+      états de conformité déjà construite, dont $\kappa_j$ devient la vitesse de
+      remédiation.
+\end{description}
+
+\noindent \textbf{Recommandation.} Publier la forme à renouvellement dans le corps, avec
+\eqref{eq:sde} et \eqref{eq:norm} écrites en toutes lettres pour montrer de quoi elle est
+le cas limite, et traiter la forme à mémoire comme une extension déclarée. Motif :
+$\kappa_j$ n'est pas identifiable sur la profondeur d'historique disponible, et publier un
+paramètre non identifiable au cœur du modèle coûterait plus que ce qu'il apporte. Le dire
+vaut mieux que le supposer.
+
+\end{document}
