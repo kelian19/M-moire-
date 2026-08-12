@@ -360,26 +360,33 @@ sinistre, et non un besoin de capital. L'intervalle de confiance bootstrap qui l
 $[411\,;\,1037]$~M\euro, matérialise à lui seul un facteur~2{,}5 entre les bornes, uniquement
 imputable à l'incertitude de paramètre.
 
-\paragraph{Stabilité du paramètre de forme.} Le choix du seuil est corroboré
-par deux diagnostics complémentaires. Le \emph{diagnostic GPD}
-(figure~\ref{soc:fig:diagnostic-gpd}) montre que $\hat{\xi}$ se stabilise autour
-de $0{,}6$ dès que le seuil atteint $u = 20$~M\euro, tout en conservant un
-nombre d'excès suffisant ($n = 91 > 30$) pour une estimation fiable : le
-seuil retenu se situe précisément à la frontière où le paramètre de forme
-quitte la zone instable ($\xi \geq 1$) pour se fixer dans un régime de
-moments finis. Le \emph{Hill plot} (figure~\ref{soc:fig:hill-ic}) confirme
-qualitativement ce niveau, l'estimateur de Hill restant compatible avec la
-référence MLE $\hat{\xi} \approx 0{,}60$ dans la plage des extrêmes retenus.
+\paragraph{Ce que le seuil doit aux diagnostics, et ce qu'il ne leur doit pas.} Le choix de $u$
+s'appuie sur deux diagnostics, à condition de ne leur faire dire ni plus ni autre chose que ce
+qu'ils disent. Le \emph{diagnostic GPD} (figure~\ref{soc:fig:diagnostic-gpd}) établit un point,
+et un seul : le seuil retenu se situe à la frontière où le paramètre de forme quitte la zone
+instable ($\xi \geq 1$, où l'espérance n'existe pas) pour un régime de moments finis, tout en
+conservant assez d'excès pour estimer ($n = 91 > 30$). C'est un argument de \textbf{voisinage},
+et il ne s'étend pas à toute la plage : en portant le seuil au percentile $90$ puis au percentile
+$95$ des données, l'indice descend de $0{,}60$ à $0{,}53$ puis $0{,}38$. Écrire que
+$\hat\xi$ est \emph{stable} quand on fait varier le seuil serait donc inexact ; ce qui est
+stable, c'est son voisinage, où il ne bouge que de $0{,}5\,\%$. Cette décroissance est mesurée
+au \S\ref{soc:sec:validation}, avec ce qu'elle change et ce qu'elle ne change pas. Quant au
+\emph{Hill plot} (figure~\ref{soc:fig:hill-ic}), il ne corrobore pas ce niveau par sa valeur,
+qui en vaut plus du double : la section suivante établit que cet écart est exactement ce qu'un
+$\xi$ de $0{,}60$ produit en échantillon fini, ce qui en fait une corroboration d'un autre
+genre, et plus forte que la lecture d'un plateau.
 
 \begin{figure}[htbp]
 \centering
 \figover{figures/diagnostic_gpd_oprisk.png}
 \caption{Diagnostic GPD sur le périmètre cyber$\times$finance d'OpRisk.
-\textit{Gauche} : stabilité de $\hat{\xi}$ en fonction du seuil $u$ ; le
-paramètre passe sous $\xi = 1$ (espérance finie) et se stabilise autour de
-$0{,}6$ au seuil retenu $u = 20$~M\euro. \textit{Droite} : le nombre d'excès
-correspondant ($n = 91$) demeure au-dessus du minimum de $30$ requis pour une
-estimation robuste.}
+\textit{Gauche} : $\hat{\xi}$ en fonction du seuil $u$ ; le paramètre passe sous
+$\xi = 1$ (espérance finie) avant le seuil retenu $u = 20$~M\euro. La plage tracée
+s'arrête en deçà des seuils les plus élevés du balayage en percentiles, où l'indice
+descend plus bas : cette figure atteste le \emph{voisinage} du seuil, non une stabilité
+d'ensemble, et la décroissance complète est mesurée au \S\ref{soc:sec:validation}.
+\textit{Droite} : le nombre d'excès correspondant ($n = 91$) demeure au-dessus du
+minimum de $30$ requis pour une estimation robuste.}
 \label{soc:fig:diagnostic-gpd}
 \end{figure}
 

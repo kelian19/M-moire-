@@ -141,19 +141,27 @@ l'ordre du marché cyber mondial : c'est une échelle de \emph{secteur}.
 \end{center}
 \vspace{-1mm}
 \footnotesize
-Sur $91$ excès, $\xi=0{,}598$ avec un intervalle bootstrap à $90\,\%$ de
-$[\,0{,}32\,;\,0{,}84\,]$. Cette incertitude se propage en une échelle de postures, au niveau
+% DEUX CORRECTIONS APRES LE CALL DU 7 AOUT, et la seconde est une demande d'Hugo.
+%
+% 1. LA VALEUR ETAIT FAUSSE. La slide annoncait « intervalle bootstrap a 90 % de
+%    [0,32 ; 0,84] » sur un xi de 0,598. Aucun script ne reproduit ce couple : le script 47
+%    imprime l'IC par delta-methode a [0,320 ; 0,871] et l'IC bootstrap de la calibration
+%    figee a [0,304 ; 0,831]. La slide melangeait la borne basse du premier et une borne
+%    haute qui n'appartient a aucun des deux, sous l'etiquette du second. Corrige avec le
+%    couple PUBLIE : xi = 0,595, IC bootstrap [0,30 ; 0,83]. C'est l'exception au gel d'un
+%    deck : une valeur qu'on sait fausse se corrige.
+%
+% 2. LES DEUX CONCLUSIONS SONT RETIREES, sur demande d'Hugo au call : un intervalle de
+%    [0,30 ; 0,83] sur l'indice de queue est trop large pour etre interprete, donc il ne
+%    peut pas porter de conclusion. L'intervalle reste affiche comme un FAIT, ce qu'il est,
+%    et le mémoire garde la limite declaree. Ce qui disparait est la lecture qu'on en
+%    faisait. Le meme travers a ete corrige au chapitre socle, ou le mémoire ecrivait que
+%    l'indice « se stabilise autour de 0,6 » quand le balayage du script 47 le fait
+%    descendre a 0,38, et ou le script imprime justement l'interdiction de l'ecrire.
+Sur $91$ excès, $\xi=0{,}595$ avec un intervalle bootstrap à $90\,\%$ de
+$[\,0{,}30\,;\,0{,}83\,]$. Cette incertitude se propage en une échelle de postures, au niveau
 du sinistre unique : point $657$, prédictive $645$, robuste à $95\,\%$
 $\mathbf{1\,037}$, pire cas de modèle $1\,331$~M\euro.
-\vspace{-1mm}
-\begin{block}{Les deux enseignements}
-\small
-\textbf{1.} La prédictive coïncide presque avec le point ($645$ contre $657$) : ce n'est
-\emph{pas} l'intégration de l'incertitude qui manquait, c'est la \textbf{largeur} qui est le
-vrai sujet.
-\textbf{2.} Le niveau $\beta$ est un \textbf{choix prudentiel explicite}, pas un calcul. On
-l'affiche au lieu de le cacher dans un point.
-\end{block}
 \end{frame}
 
 % =====================================================================

@@ -9,14 +9,18 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 10 août 2026 : **corps de 104 pages, annexes à partir de la 105, 126 pages au total**,
-branche `exploratory`, dernier commit `f4cae3c`.
+État au 12 août 2026 : **corps de 104 pages, annexes à partir de la 105, 127 pages au total**,
+branche `exploratory`.
 
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
 déjà commité. Compter en décompressant les flux d'objets, ou lire `main.toc` après une
-compilation avec `--keep-intermediates`. Le harnais est à **97,4 % de confirmation sur 1 339
+compilation avec `--keep-intermediates`. Le harnais est à **97,5 % de confirmation sur 1 398
 nombres, pour une couverture de 100 %**.
+
+**Et vérifier dans quelle partie tombe un ajout avant de conclure qu'il grossit le corps.** Le
+chapitre `12b_adaptations_pilier.tex` est l'**annexe C**, pas un chapitre du corps : la page
+gagnée le 12 août y est allée, le corps restant à 104. Le nom du fichier ne dit pas la partie.
 
 **Le corps a gagné trois pages les 9 et 10 août** (101 → 104), au titre de la table des
 postures, des deux limites déclarées du chapitre 13 et du cadrage de la CTE. L'arbitrage de
@@ -235,12 +239,15 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 66 | invariance de la thèse aux valeurs de g |
 | 46, 51 | VaR prédictive et échelle des six postures — **51 est le dépositaire du bruit de simulation de chaque posture** ; 46 recalcule la prédictive à `B = 2000`, 51 à `B = 3000`, d'où deux valeurs du même nombre |
 | 43 | KPI DORA en leviers de capital : les quatre canaux, leur attribution, l'interaction, le facteur 3,34 entre états |
+| 68 | la table COMPLÈTE des quatre canaux : seize configurations, trois lectures d'un canal (isolé, fermeture, Shapley), décomposition de Möbius par ordre, six croisés de paires avec leur bruit. **C'est lui qui décompose le résidu de +5 001 M€ du script 43**, et les deux partagent `canaux_conformite.py` |
+| 50 | ROI de la conformité : portage, sinistralité évitée, sens de la borne, et l'écart entre 6 % et 4,75 % |
 | 08h | le rejet du Hawkes contre les variantes de Bessy-Roland/Boumezoued/Hillairet — **exige `Data_Breach_Chronology.xlsx`, absent du Mac, et sa sortie n'est pas versionnée** |
 | 67 | grandeurs citées et jamais imprimées (formes fermées, rapports dérivés) et, section 1bis, **le pont entre quantile unitaire et capital agrégé** |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
-et 64), `scr_engine.py`, `euro_cascade_model.py`.
+et 64), `canaux_conformite.py` (moteur des quatre canaux, lu par 43, 50 et 68 : **le modifier
+déplace les 14 139 M€**), `scr_engine.py`, `euro_cascade_model.py`.
 
 Règle : **tout rapport cité dans le mémoire doit être imprimé par un script.** Un ratio calculé
 pendant la rédaction n'est vérifiable par personne. Trois des chiffres périmés trouvés cette
@@ -474,6 +481,138 @@ des choix de prudence, et **elles ne se compensent pas, elles s'additionnent en 
 « Un facteur 3,3 entre l'état non conforme et l'état conforme » était un rapport écrit sur une
 slide et calculé à la main. Le **script 43** l'imprime (3,34), avec la mention que seuls les
 quatre canaux bougent, à sévérité de base et échelle inchangées.
+
+## Ce qui a été fait le 12 août 2026, sur les quatre suites du call du 7
+
+Quatre demandes d'Hugo, toutes traitées. Deux tenaient du calcul, deux de la rédaction, et les
+deux réécritures ont fait tomber un défaut chacune.
+
+### 1. Les conclusions tirées du bootstrap de $\xi$ sont retirées
+
+Motif d'Hugo : un intervalle de $[0{,}30 ; 0{,}83]$ sur l'indice de queue est trop large pour
+être interprété, donc il ne peut pas porter de conclusion. L'intervalle **reste affiché comme un
+fait** et la limite déclarée du mémoire ne bouge pas ; ce qui disparaît est la lecture qu'on en
+faisait. Deux trouvailles en faisant ce retrait :
+
+- **la slide du 7 portait une valeur fausse**, `[0,32 ; 0,84]`, qu'aucun script ne reproduit : le
+  script 47 imprime `[0,320 ; 0,871]` par delta-méthode et `[0,304 ; 0,831]` par bootstrap, et la
+  slide mélangeait la borne basse du premier avec une borne haute qui n'appartient à aucun des
+  deux, sous l'étiquette du second. Corrigée avec le couple publié. C'est l'exception au gel d'un
+  deck : une valeur qu'on sait fausse se corrige ;
+- **le même travers vivait au chapitre 06**, dont le paragraphe « Stabilité du paramètre de
+  forme » écrivait que $\hat\xi$ « se stabilise autour de 0,6 » et que Hill « reste compatible
+  avec la référence MLE ». Le balayage du script 47 le fait descendre à 0,38 au percentile 95, et
+  Hill vaut 1,315 soit plus du double du MLE. **Le script imprimait en clair l'interdiction de
+  l'écrire** (« A NE PAS ECRIRE : xi est stable quand on fait varier le seuil ») : la sortie
+  versionnée portait la consigne depuis le 6 août et personne ne l'avait lue. Paragraphe et
+  légende de figure réécrits sur la mesure, avec renvoi à la section de validation qui la porte.
+
+### 2 et 3. La table complète des leviers, et où vivent les 5 001 M€ (script 68)
+
+Le script 43 imprimait l'interaction en **résidu**. Un résidu n'est pas un résultat. Le
+**script 68** énumère les seize configurations du treillis des quatre canaux et en tire trois
+choses. Nouveau module partagé `canaux_conformite.py` : 43 et 68 tournent sur le même moteur,
+mêmes graines, même résolution, sans quoi la réconciliation serait une coïncidence de tirages. Le
+43 reproduit sa sortie versionnée ligne pour ligne après extraction.
+
+**Trois lectures d'un canal, et elles ne sont pas interchangeables.** Isolée (depuis l'état
+conforme), fermeture (depuis l'état non conforme) et Shapley :
+
+| Canal | isolé | fermeture | Shapley |
+|---|---|---|---|
+| Fréquence | 4 328 ± 463 | **8 775** ± 1 004 | 6 546 ± 457 |
+| Détection | 1 448 ± 277 | 4 562 ± 819 | 2 928 ± 343 |
+| Accumulation P4 | 1 728 ± 210 | 3 402 ± 493 | 2 576 ± 222 |
+| Propagation W | 1 633 ± 188 | 2 402 ± 442 | 2 088 ± 152 |
+| **somme** | 9 138 | 19 141 | **14 139** |
+
+La colonne isolée **manque** 5 001 M€, celle de fermeture le **dépasse** d'autant, et le rapport
+va de 1,5 à 3,1 selon le canal. Conséquence de gestion : **remédier un canal rapporte davantage à
+une entité défaillante partout qu'à une entité déjà conforme**, puisque le canal ferme aussi les
+croisés qu'il portait. C'est la colonne de fermeture, et non l'isolée, qu'un plan de remédiation
+doit citer. Shapley est la seule colonne additive, mais c'est une **convention** d'attribution :
+deux canaux sur quatre sont bornés, leur part n'est pas un budget.
+
+**La réconciliation est une identité, pas une mesure.** Décomposition de Möbius : ordre 1
+9 138 M€, ordre 2 **5 345**, ordre 3 $-691$, ordre 4 $+346$, somme des quinze termes = 14 139 à la
+précision machine. Ce qu'elle atteste est que la table est **complète**, pas que chaque terme est
+précis. Sur seize graines, neuf termes sur quinze ont un signe résolu ; **aucun** des cinq d'ordre
+3 et 4. Leur quasi-annulation ne se lit donc pas comme cinq mesures.
+
+**Les effets croisés, et deux choses à ne pas surinterpréter.** freq×det 1 739 ± 708,
+freq×accum 1 666 ± 354, freq×prop 1 182 ± 444, det×accum 573 ± 202, det×prop 515 ± 247,
+prop×accum **−330** ± 242.
+
+- **il n'y a pas de paire dominante et il ne faut pas en nommer une.** Les deux premières se
+  tiennent à 73 M€ pour des écarts-types de 708 et 354, et leur ordre **s'inverse** en perte
+  moyenne. Ce qui est résolu : les trois paires porteuses passent toutes par la **fréquence** et
+  font 86 % de l'ordre 2 ;
+- **une seule paire est négative, et c'est un résultat.** prop×accum est négative sur les seize
+  graines et sur les deux métriques : les deux canaux de co-occurrence sont **substituts** et non
+  compléments, un pilier déjà touché ne pouvant l'être deux fois. La cascade est super-additive
+  en bloc mais **sous-additive entre ses deux canaux de co-occurrence**, ce qui borne l'amplitude
+  imputable à la contagion prise en général.
+
+**DEUX INTERACTIONS DISTINCTES, À NE JAMAIS ADDITIONNER.** Celle entre les quatre **canaux**
+(+5 001 M€, signe résolu, script 68) et celle entre les cinq **piliers** (+1 395 M€, signe **non**
+résolu entre graines, scripts 20 et 20b). Deux partitions du même écart. Le titre de la slide
+Shapley annonçait « la suite des 5 001 M€ d'interaction », ce qui invitait précisément à les
+additionner : corrigé.
+
+### 4. « Portage » et « plancher », et une borne annoncée à l'envers
+
+Les deux mots n'ont pas été compris au call, et la relecture montre qu'ils étaient mal employés.
+Le mémoire écrivait que le **retour** (une durée) était un « plancher », alors que ce qui est
+minoré est le **bénéfice**. Or minorer le bénéfice **majore** la durée : le sens de la borne
+était inversé, dans le mémoire, dans le script 50 et dans le titre de la figure J6. Les trois
+sont corrigés.
+
+- **portage** : détenir du capital coûte, chaque année, un pourcentage du capital immobilisé (la
+  marge de risque). Libérer 14 139 M€ économise donc 848 M€/an à 6 %, et non une fois ;
+- **plancher** : le bénéfice a deux composantes et une seule est monétisée. Le portage vaut
+  848 M€/an, la **sinistralité évitée** 3 247 M€/an, la charge annuelle moyenne passant de 3 869 à
+  622. Ce qui est laissé de côté vaut **3,8 fois** ce qui est retenu. L'affirmation
+  « majoritairement de la perte évitée » était dans le mémoire depuis le début **sans être
+  chiffrée** : le script 50 l'imprime désormais ;
+- **d'où le sens de la borne** : le retour de 6 à 35 ans est un **MAJORANT**. Les deux composantes
+  réunies donneraient 1 à 7 ans, mais cette addition mêle un flux de compte de résultat à un coût
+  du capital : convention de ROI, pas sortie de modèle. Le chiffre de référence reste le portage
+  seul, avec le sens de sa borne.
+
+**Réserve sur le taux, déclarée et non corrigée.** Le projet portait **deux taux** pour la même
+notion sans que rien ne les relie : 6 % dans le script 50, **4,75 %** dans les scripts 58 et 60
+depuis la directive (UE) 2025/2. Le mémoire citait le premier, le deck du 14 le second. Au taux
+révisé le portage tombe à 672 M€/an et le majorant du retour passe de 35 à 45 ans. **Rien ne
+bascule** et la chaîne publiée reste au taux historique : la calibration est gelée, et l'écart est
+désormais imprimé plutôt que laissé au lecteur. Même traitement que le `p_u` gelé.
+
+### Ce qui a bougé côté document
+
+- **le corps reste à 104 pages**, le total passe de 126 à **127**. La page ajoutée est dans
+  l'**annexe C** (le chapitre `12b` est une annexe, pas un chapitre du corps : vérifier avant de
+  conclure qu'un ajout grossit le corps). Compte relu sur le PDF, pas sur un index ;
+- **le deck du 14 passe de 16 à 20 slides** : le retrait demandé, la table complète, les effets
+  croisés, et portage/plancher. Cinq cadres débordaient après ces ajouts, tous corrigés, et les
+  six slides touchées ont été rendues en PNG et regardées ;
+- **harnais : 1 398 nombres, 1 363 confirmés, 97,5 %**, couverture inchangée. Une correction
+  d'instrument : `\begin{column}{0.46\linewidth}` était lu comme le nombre 0,46. Les
+  `\includegraphics[width=...]` étaient neutralisés, les largeurs de colonne non. Le défaut ne se
+  voyait pas tant que la largeur tombait par hasard sur une sortie de script, ce qui était le cas
+  de 0,45 et 0,52 dans ce même deck.
+
+### Un point ouvert trouvé en passant, et il n'est pas traité
+
+**Le deck du 07-08 est à 0 % de couverture** : 105 nombres, aucun sous contrôle, parce qu'il ne
+cite aucun script. C'est exactement la faille qui a laissé passer le `[0,32 ; 0,84]`. Le retrofit
+n'a pas été fait : ajouter des lignes « Sources : scripts… » à dix slides d'un deck déjà présenté
+risque de casser des cadres, et cela sort des quatre demandes.
+
+Un contrôle de repli a été passé à la place, en lecture seule : chacun des 87 nombres distincts du
+deck a été cherché dans **tout** le pool des 71 sorties versionnées, et **un seul** est introuvable,
+le $-30$ de $1{,}6\times10^{-30}$, qui est un exposant. **Ce contrôle est beaucoup plus faible que
+le harnais** : il demande si un script quelconque imprime la valeur, pas si le script que la slide
+cite l'imprime, et un nombre rond se trouve par hasard dans un pool de 2 212 valeurs. Il ne
+certifie donc rien ; il dit seulement qu'il n'y a pas de second `[0,32 ; 0,84]` évident.
 
 ## Le point de stage avec Caroline Hillairet
 
@@ -737,6 +876,12 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
     mémoire, pas une dette. La faire disparaître serait un mauvais échange.
 
 **Faisable :**
+- **mettre le deck du 07-08 sous harnais.** Il est à **0 % de couverture**, 105 nombres, parce
+  qu'il ne cite aucun script : c'est la faille qui a laissé passer le `[0,32 ; 0,84]`. Le
+  retrofit demande une ligne « Sources : scripts… » par slide, et chaque ligne ajoutée peut
+  faire déborder un cadre d'un deck déjà présenté. Un contrôle de repli a été passé le 12 août,
+  qui ne trouve pas de second défaut évident, **mais il est beaucoup plus faible que le
+  harnais** : voir la fin de la section du 12 août ;
 - les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :
   le $z=-0{,}33$ du test de réversibilité (script 40), cinq quantités du corpus étendu
   (script 59), le multiple de capital 8,3 (script 58), le $\xi$ de Hill 1,42 (script 47).

@@ -30,7 +30,6 @@ Sortie : diagnostics + figure Z13_kpi_pilotables.png.
 
 import os
 import sys
-from itertools import combinations
 
 import numpy as np
 import matplotlib as mpl
@@ -40,99 +39,23 @@ import matplotlib.pyplot as plt
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
-import euro_cascade_model as ec                                 # noqa: E402
-from euro_cascade_model import PARAMS, var                      # noqa: E402
-from src.aggregation.lda import simulate_remediation_severity   # noqa: E402
-import scr_engine as eng                                        # noqa: E402
+# LE MOTEUR DES QUATRE CANAUX EST PARTAGE, IL N'EST PLUS DEFINI ICI. Le script 68 decompose
+# l'interaction que ce script-ci imprime en residu : les deux doivent tourner sur exactement
+# le meme moteur, les memes graines et le meme nombre d'annees, sans quoi la reconciliation
+# du 68 ne serait qu'une coincidence de tirages. Rien n'a change du calcul, et la sortie
+# versionnee sorties_verif/43.txt l'atteste ligne pour ligne.
+import canaux_conformite as cx                                  # noqa: E402
 
 WID = 82
-sp = PARAMS["OPRISK"]
-PIL = eng.PIL
-P4 = 4
-_col = {j: c for c, j in enumerate(PIL)}
-_others = [j for j in PIL if j != P4]
-NY = 40_000
-NSEED = 4
-SEED0 = 20260727
-
-# etats DORA par canal (C = cible conforme, NC = non conforme)
-LAM_C = sp["lam_ref"]
-try:
-    LAM_NC = ec.lambda_scenario("OPRISK", "S2_non_conforme")
-except Exception:
-    LAM_NC = LAM_C * 1.30                                       # facteur_recalibration config
-P_U0 = sp["p_u"]
-PU_C, PU_NC = 0.85 * P_U0, 1.20 * P_U0                          # multiplicateur detection (16/39)
-G_C, G_NC = 0.45, 0.90                                          # gain propagation (G_PROP C/NC)
-PHICS_NC = 0.68                                                 # accumulation P4 (gamma, script 38)
+scr_config = cx.scr_config
+LAM_C, LAM_NC = cx.LAM_C, cx.LAM_NC
+PU_C, PU_NC = cx.PU_C, cx.PU_NC
+G_C, G_NC = cx.G_C, cx.G_NC
+PHICS_NC = cx.PHICS_NC
 
 
 def titre(s):
     print("\n" + "=" * WID + f"\n{s}\n" + "=" * WID)
-
-
-# ------------------------------------------------------------------ tables de cascade
-def table_amorce(j, g):
-    dist = eng.cascade_set_dist(j, g)
-    sets = list(dist.keys())
-    probs = np.array([dist[s] for s in sets])
-    ind = np.zeros((len(sets), 5))
-    for r, s in enumerate(sets):
-        for p in s:
-            ind[r, _col[p]] = 1.0
-    return ind, probs / probs.sum()
-
-
-def table_p4_choc(phi_cs):
-    """P4 en choc commun : P4 + chaque autre pilier inclus indep. avec proba phi_cs."""
-    sets, probs = [], []
-    for r in range(len(_others) + 1):
-        for combo in combinations(_others, r):
-            p = 1.0
-            for k in _others:
-                p *= phi_cs if k in combo else (1.0 - phi_cs)
-            ind = np.zeros(5)
-            for x in (P4,) + combo:
-                ind[_col[x]] = 1.0
-            sets.append(ind)
-            probs.append(p)
-    return np.array(sets), np.array(probs)
-
-
-def scr_config(lam, g, p_u, phi_cs=None, nseed=NSEED, ny=NY):
-    """SCR (VaR 99,5 %) moyenne sur nseed graines. phi_cs=None -> P4 noeud de cascade."""
-    scrs = []
-    for k in range(nseed):
-        rng = np.random.default_rng(SEED0 + k)
-        r = lam / (ec.PHI - 1.0)
-        counts = rng.negative_binomial(r, r / (r + lam), size=ny)
-        T = int(counts.sum())
-        if T == 0:
-            scrs.append(0.0)
-            continue
-        year_of = np.repeat(np.arange(ny), counts)
-        w = np.array([eng.LAMBDA[j] for j in PIL], float)
-        amorce = rng.choice(5, size=T, p=w / w.sum())
-        U = rng.random(T)
-        SEV = simulate_remediation_severity(T * 5, sp["xi"], sp["sigma"], sp["u"], p_u,
-                                            sp["cap"], rng).reshape(T, 5)
-        tables = {j: table_amorce(j, g) for j in PIL}
-        if phi_cs is not None:
-            tables[P4] = table_p4_choc(phi_cs)
-        annual = np.zeros(ny)
-        for c, j in enumerate(PIL):
-            idx = np.where(amorce == c)[0]
-            if idx.size == 0:
-                continue
-            ind, probs = tables[j]
-            cdf = np.cumsum(probs)
-            cdf[-1] = 1.0
-            sel = np.searchsorted(cdf, U[idx], side="right")
-            np.clip(sel, 0, len(probs) - 1, out=sel)
-            loss = (SEV[idx] * ind[sel]).sum(axis=1)
-            annual += np.bincount(year_of[idx], weights=loss, minlength=ny)
-        scrs.append(var(annual))
-    return float(np.mean(scrs))
 
 
 # =====================================================================================

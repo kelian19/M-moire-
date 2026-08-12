@@ -108,6 +108,13 @@ def extrait(txt, latex=True):
     # LES LARGEURS DE COLONNE. Un \begin{tabular}{@{}p{4.3cm} r r r r@{}} produisait 4.3,
     # de la mise en page au meme titre qu'un \arraystretch. Meme motif pour m{} et b{}.
     t = re.sub(r"\b[pmb]\{\s*[\d.]+\s*(?:cm|mm|in|pt|em|ex|\\[a-zA-Z]+)\s*\}", " ", t)
+    # LES LARGEURS DE COLONNE EN FRACTION DE LIGNE, et la docstring les annoncait deja a tort.
+    # Un \includegraphics[width=0.96\linewidth] etait bien neutralise, son argument optionnel
+    # etant retire en bloc, mais PAS un \begin{column}{0.46\linewidth} : le 0,46 partait dans le
+    # pool a confirmer. Il ne s'y voyait pas tant que la valeur tombait par hasard sur une sortie
+    # de script (0,45 et 0,52 se confirmaient ainsi dans le deck du 14), et il ressortait en
+    # fausse alerte des qu'on choisissait une autre largeur. Meme classe que \tfrac12 et p{4.3cm}.
+    t = re.sub(r"[\d.]+\s*\\(?:line|text|column|paper)(?:width|height)\b", " ", t)
     # LA NOTATION SCIENTIFIQUE N'EST PAS DEUX NOMBRES. « p \approx 10^{-30} » ne publie ni un
     # dix ni un trente : il publie un ordre de grandeur, et le motif d'extraction en tirait un
     # « 10 » que rien ne pouvait confirmer. Meme classe que \tfrac12 et p{4.3cm} : un artefact

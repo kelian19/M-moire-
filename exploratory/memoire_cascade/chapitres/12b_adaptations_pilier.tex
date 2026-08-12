@@ -277,11 +277,82 @@ opposable à un souscripteur ou à un superviseur. Chaque KPI observable, de la 
 d'entrée au délai de notification (P2), au délai de confinement (P3) et à la concentration
 tiers (P4), est rattaché à
 un canal du moteur, et l'on mesure le \textbf{capital en jeu} derrière lui : l'écart de SCR
-entre l'état conforme (cible DORA) et l'état non conforme, canal isolé. Sur OpRisk cet écart
-total vaut $14\,139$~M\euro{} ($6\,049\to20\,188$), et il s'attribue par KPI : fréquence
-$4\,328$, accumulation P4 $1\,728$, propagation $W$ $1\,633$, détection $1\,448$~M\euro, les
-canaux n'étant pas additifs (interaction $+5\,001$~M\euro, la non-conformité simultanée
-amplifiant la somme des effets isolés).
+entre l'état conforme (cible DORA) et l'état non conforme. Sur OpRisk cet écart total vaut
+$14\,139$~M\euro{} ($6\,049\to20\,188$).
+
+\paragraph{Un canal se lit de trois façons, et elles ne sont pas interchangeables.} Mesurer
+« le capital en jeu derrière un KPI » n'est pas une opération univoque, et c'est le premier
+résultat de cette section. On peut partir de l'état conforme et n'y dégrader que ce canal
+(lecture \emph{isolée}) ; partir de l'état non conforme et n'y remédier que ce canal (marginal
+de \emph{fermeture}) ; ou moyenner sur les vingt-quatre ordres d'entrée possibles (valeur de
+\emph{Shapley}). Les trois répondent à des questions distinctes et une seule somme à l'écart
+total.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r r l@{}}
+\toprule
+\textbf{Canal} & \textbf{isolé} & \textbf{fermeture} & \textbf{Shapley} & \textbf{statut} \\
+\midrule
+Fréquence & $4\,328\pm463$ & $\mathbf{8\,775}\pm1\,004$ & $6\,546\pm457$ & calibrable \\
+Détection P2/P3 & $1\,448\pm277$ & $4\,562\pm819$ & $2\,928\pm343$ & calibrable \\
+Accumulation P4 & $1\,728\pm210$ & $3\,402\pm493$ & $2\,576\pm222$ & borné \\
+Propagation $W$ & $1\,633\pm188$ & $2\,402\pm442$ & $2\,088\pm152$ & borné \\
+\midrule
+\textbf{Somme} & $9\,138$ & $19\,141$ & $\mathbf{14\,139}$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent En M\euro ; l'incertitude est l'écart-type de simulation sur seize graines
+(script~\texttt{68}). La lecture isolée \emph{manque} $5\,001$~M\euro, soit $35\,\%$ de l'écart ;
+la lecture de fermeture le \emph{dépasse} d'autant. Le rapport entre les deux va de $1{,}5$ à
+$3{,}1$ selon le canal, et son sens est le point utile pour une direction des risques :
+\textbf{remédier un canal rapporte davantage à une entité défaillante partout qu'à une entité
+déjà conforme}, puisque ce canal ferme aussi les effets croisés qu'il portait. Seule la seconde
+lecture correspond à une entité réelle en début de remédiation. Shapley est la seule colonne
+additive, mais c'est une \emph{convention} d'attribution et non une prévision : deux des quatre
+canaux sont bornés et non calibrés, de sorte que leur part n'est pas un budget actionnable.
+
+\paragraph{L'interaction n'est plus un résidu : elle se décompose, et elle vit aux paires.} La
+somme des quatre effets isolés laissait $+5\,001$~M\euro{} sans emploi. La décomposition de
+Möbius sur le treillis des seize configurations en rend compte terme par terme : quatre effets
+principaux ($9\,138$~M\euro), six croisés de paires ($5\,345$), quatre de triplets ($-691$) et un
+croisé des quatre ($+346$). La somme des quinze termes vaut $14\,139$~M\euro{} \emph{à la
+précision machine}, ce qui n'est pas une vérification statistique mais une identité : ce qu'elle
+atteste, c'est que la table est \textbf{complète}, aucun euro de l'écart ne vivant hors de ces
+quinze termes. L'interaction est donc un phénomène de \textbf{paires} et non un effet diffus ;
+aucun des cinq termes d'ordre supérieur n'est d'ailleurs résolu individuellement, si bien que
+leur quasi-annulation ne doit pas se lire comme cinq mesures.
+
+Les trois paires porteuses passent \emph{toutes} par la fréquence et font $86\,\%$ de l'ordre~2 :
+fréquence\,$\times$\,détection $1\,739\pm708$, fréquence\,$\times$\,accumulation
+$1\,666\pm354$, fréquence\,$\times$\,propagation $1\,182\pm444$~M\euro. Le classement des deux
+premières n'est pas résolu et n'a pas à l'être : elles se tiennent à $73$~M\euro{} l'une de
+l'autre et leur ordre s'inverse lorsqu'on lit la même décomposition en perte moyenne. Le
+mécanisme, lui, est clair : le choc commun de P4 fait tomber plusieurs piliers sur le
+\emph{même} sinistre, la fréquence multiplie le nombre de sinistres exposés à ce choc, et à
+queue lourde le quantile est porté par un sinistre unique, si bien que multiplier les tirages et
+épaissir chaque tirage ne produit pas deux effets qui s'ajoutent mais un seul effet composé.
+
+\paragraph{Une seule paire est négative, et elle borne ce qu'on peut attribuer à la contagion.}
+Propagation\,$\times$\,accumulation vaut $-330\pm242$~M\euro, négative sur les seize graines
+\emph{et} sur les deux métriques. Les deux canaux sont \textbf{substituts} et non compléments :
+la cascade par $W$ et le choc commun de P4 sont deux façons de faire tomber plusieurs piliers sur
+un même sinistre, et le premier actif, il reste moins à gagner au second, un pilier déjà touché
+ne pouvant l'être deux fois. La cascade est donc super-additive prise en bloc mais
+\emph{sous}-additive entre ses deux canaux de co-occurrence : les deux canaux bornés ne
+s'empilent pas, et c'est une limite à l'amplitude qu'on peut imputer à la contagion en général.
+
+\begin{figure}[htbp]\centering
+\figover{S24_interaction_canaux.png}
+\caption{La table complète des quatre canaux. (a)~la réconciliation par ordre : les quinze termes
+de Möbius somment à l'écart, exactement. (b)~les trois lectures d'un même canal, isolée, Shapley
+et fermeture. (c)~les six croisés de paires avec leur écart-type de simulation ; une seule est
+négative. Source : script~\texttt{68}.}
+\label{fig:interaction-canaux}
+\end{figure}
 
 \begin{cle}
 \textbf{Classer par capital \emph{et} par statut.} Les KPI à fort capital et \textbf{calibrables}
@@ -304,23 +375,48 @@ script~\texttt{43}.}
 \subsection{Le retour sur investissement de la conformité}
 \label{sec:roi}
 
-Le tableau de bord se lit enfin en euros. Chaque levier libère un capital $\Delta\mathrm{SCR}$
-dont la valeur \emph{récurrente}, au coût du capital de Solvabilité~II (marge de risque,
-$6\,\%$), vaut $6\,\%\times\Delta\mathrm{SCR}$ par an. La conformité totale libère $14\,139$
-M\euro{} de SCR, soit $848$ M\euro/an, et ce capital est \textbf{concentré} : la fréquence à
-elle seule en porte près de la moitié (figure~\ref{fig:roi}). Face au coût de remédiation DORA
-(de l'ordre de $25$ à $150$ M\euro{} par grande entité selon les estimations de place),
-le retour sur le \emph{seul} portage du capital est de l'ordre de $6$ à $35$ ans. C'est un
-\textbf{plancher} conservateur : le $\Delta\mathrm{SCR}$ est majoritairement de la \emph{perte
-évitée}, non du simple portage, de sorte qu'en ajoutant la baisse de la charge moyenne le
-compte devient nettement plus favorable.
+Le tableau de bord se lit enfin en euros. Deux mots doivent y être définis avant tout calcul,
+faute de quoi le résultat se lit à l'envers.
+
+\paragraph{Le portage.} Détenir du capital n'est pas gratuit : sous Solvabilité~II le coût de
+détention se lit dans la \emph{marge de risque}, un pourcentage par an du capital immobilisé.
+Libérer du $\Delta\mathrm{SCR}$ économise donc ce pourcentage \textbf{chaque année}, et non une
+fois. Au taux de $6\,\%$ du règlement délégué, les $14\,139$~M\euro{} que libère la conformité
+totale valent $848$~M\euro/an, et ce capital est \textbf{concentré} : la fréquence à elle seule
+en porte près de la moitié (figure~\ref{fig:roi}).
+
+\paragraph{Le plancher, et il porte sur le bénéfice, non sur la durée.} Le bénéfice de la
+conformité a deux composantes et le calcul ci-dessus n'en monétise qu'une. Le portage économisé
+vaut $848$~M\euro/an ; la charge de sinistralité évitée en vaut $3\,247$, la charge annuelle
+moyenne passant de $3\,869$ à $622$~M\euro. La composante laissée de côté est donc $3{,}8$ fois
+celle qui est retenue, et c'est ce qui fait du portage seul un \textbf{plancher du bénéfice}.
+
+\paragraph{D'où le sens de la borne, qui est l'inverse de ce qu'on lit d'abord.} Face à un coût de
+remédiation de $25$ à $150$~M\euro{} par grande entité, soit $5$ à $30$~Md\euro{} pour deux cents
+entités, le retour sur le \emph{seul} portage est de $6$ à $35$ ans. Le bénéfice retenu étant
+minoré, ces durées sont des \textbf{majorants} : le compte réel est plus court, jamais plus long.
+Les deux composantes réunies donnent $4\,095$~M\euro/an, soit un retour de $1$ à $7$ ans, mais
+cette addition mêle un flux de compte de résultat à un coût du capital : c'est une convention de
+retour sur investissement, courante et défendable, et non une sortie du modèle, lequel produit les
+deux termes séparément. Le chiffre de référence reste donc le retour au portage seul, assorti du
+sens de sa borne.
+
+\paragraph{Une réserve sur le taux, déclarée plutôt que corrigée.} Le taux de $6\,\%$ est celui du
+règlement délégué~2015/35. La directive~(UE)~2025/2 le ramène à $4{,}75\,\%$, et c'est ce taux
+révisé que les calculs d'échelle d'entité emploient. Au taux révisé le portage monétisé tombe à
+$672$~M\euro/an, soit une baisse de $21\,\%$, et le majorant du retour passe de $35$ à $45$ ans. Aucune
+conclusion ne bascule, la durée demeurant un majorant et la composante dominante du bénéfice
+n'étant pas monétisée. La chaîne publiée reste au taux historique, la calibration étant gelée :
+la rejouer pour un écart qui ne renverse rien déplacerait des dizaines de nombres publiés sans
+qu'aucun déplacement soit imputable à la correction.
 
 \begin{figure}[htbp]\centering
 \figover{J6_roi_conformite.png}
 \caption{Le ROI de la conformité. (a)~le capital libéré par levier, classé, avec sa valeur
 annuelle à $6\,\%$ (bleu : calibrable, gris : borné). (b)~coût de remédiation \emph{one-off}
-contre économie \emph{récurrente} de portage du capital ; le retour sur le portage seul (plancher)
-est de $6$ à $35$ ans, les pertes évitées venant en sus. Sources : scripts~\texttt{50} et~\texttt{67}.}
+contre économie \emph{récurrente} de portage du capital ; le retour sur le portage seul est de
+$6$ à $35$ ans, et c'est un \textbf{majorant}, la perte évitée n'étant pas monétisée ici.
+Sources : scripts~\texttt{50} et~\texttt{67}.}
 \label{fig:roi}
 \end{figure}
 

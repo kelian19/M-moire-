@@ -22,7 +22,32 @@ Quand on régénère un `NN.txt` sur le Mac, rediriger stderr à part : `> NN.tx
 matplotlib y écrit des avertissements de police qui s'intercalent sinon au milieu d'une ligne
 de résultats. Le détail est dans la section « Comment construire » du `CLAUDE.md`.
 
-## État du dernier passage (6 août 2026, tous chapitres)
+## État du dernier passage (12 août 2026, tous chapitres)
+
+**1 398 nombres vérifiables, 1 363 confirmés, soit 97,5 %**, couverture inchangée : aucun nombre
+hors contrôle non déclaré. Le pool a grandi de 1 339 à 1 398 avec la table complète des quatre
+canaux (nouveau `68.txt`) et la réécriture du portage (`50.txt` régénéré).
+
+Deux entrées nouvelles ce jour-là.
+
+`68.txt` décompose l'interaction que le script 43 imprimait en résidu. Les deux scripts tournent
+désormais sur le **même moteur partagé**, `exploratory/vasicek_lab/canaux_conformite.py` : c'est
+la condition pour que la réconciliation du 68 ne soit pas une coïncidence de tirages. Après
+extraction, le script 43 reproduit `43.txt` **ligne pour ligne**, au chemin absolu près.
+
+`50.txt` gagne deux sections. Le mot « plancher » y portait sur la durée de retour alors qu'il
+qualifie le bénéfice : minorer le bénéfice **majore** la durée, donc la borne était annoncée à
+l'envers, dans le script, dans le mémoire et dans le titre de la figure J6. Les trois sont
+corrigés. La perte évitée, jusque-là affirmée « majoritaire » sans être chiffrée, vaut
+3 247 M€/an contre 848 de portage.
+
+Une correction d'instrument au passage : `verif_chiffres.py` lisait `\begin{column}{0.46\linewidth}`
+comme le nombre 0,46. Les `\includegraphics[width=...]` étaient bien neutralisés, les largeurs de
+colonne non. Le défaut ne se voyait pas tant que la largeur choisie tombait par hasard sur une
+sortie de script, ce qui était le cas de 0,45 et 0,52 dans le deck du 14 : même classe que
+`\tfrac12` et `p{4.3cm}`.
+
+## État du passage précédent (6 août 2026, tous chapitres)
 
 **983 nombres vérifiables, 981 confirmés, soit 99,8 %**, plus les exemptions, désormais
 comptées et affichées par motif au lieu d'être retirées en silence : niveaux de confiance,

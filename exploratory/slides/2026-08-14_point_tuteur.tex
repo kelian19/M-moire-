@@ -152,6 +152,35 @@ désormais publiées avec leur bruit.
 \end{frame}
 
 % =====================================================================
+% SLIDE AJOUTEE APRES LE CALL DU 7 AOUT : Hugo a demande de supprimer les conclusions tirees du
+% bootstrap de l'indice de queue, l'intervalle etant trop large pour etre interprete. Le retrait
+% a sa propre slide parce qu'il en dit plus qu'un retrait : la meme surinterpretation vivait
+% ailleurs, et la slide portait en plus une valeur qu'aucun script ne reproduit.
+\begin{frame}{Ce que j'ai retiré, sur ta demande}
+\scriptsize
+\begin{block}{L'intervalle sur l'indice de queue ne porte plus de conclusion}
+$[0{,}30\,;0{,}83]$ est trop large pour être interprété : les lectures que j'en tirais sur la
+slide de robustesse sont \textbf{supprimées}, et l'intervalle ne reste affiché que comme un
+\emph{fait}. La limite déclarée du mémoire, elle, ne bouge pas.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Deux choses trouvées en faisant ce retrait, et la seconde est pire}
+\textbf{1.} La slide portait $[0{,}32\,;0{,}84]$, valeur qu'\textbf{aucun script ne reproduit} :
+le script imprime $[0{,}320\,;0{,}871]$ par delta-méthode et $[0{,}304\,;0{,}831]$ par bootstrap,
+et la slide mélangeait la borne basse du premier avec une borne haute qui n'appartient à
+aucun.\\[3pt]
+\textbf{2.} La même surinterprétation vivait au \textbf{chapitre socle}, qui écrivait que l'indice
+\og{}se stabilise autour de $0{,}6$\fg{} quand le balayage le fait descendre à $0{,}38$ au
+percentile $95$. Le script imprimait pourtant, en clair, l'interdiction de l'écrire : je ne
+l'avais pas lue.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Ce qui reste vrai et n'a pas bougé : la \textbf{largeur} est le vrai sujet, pas le
+point. C'est un résultat sur la \emph{bande}, qui ne demande pas d'interpréter les bornes.
+Source : script~\texttt{47}.}
+\end{frame}
+
+% =====================================================================
 \begin{frame}{La mesure de queue sert à mesurer, pas à couvrir}
 \scriptsize
 Ta remarque était que la Tail-VaR ne doit pas servir de \emph{niveau de couverture}. Le mémoire
@@ -270,15 +299,117 @@ quatre leviers} pour chiffrer une remédiation partielle : c'est justement le r�
 \end{frame}
 
 % =====================================================================
+% SLIDE AJOUTEE APRES LE CALL DU 7 AOUT : demande de la table complete des leviers et de la
+% reconciliation avec le Delta global, puis de l'analyse des effets croises. Le residu de
+% +5 001 M etait imprime sans etre decompose ; il l'est desormais (script 68), et la table des
+% leviers gagne deux colonnes que le deck precedent n'avait pas.
+\begin{frame}{La table complète, et la réconciliation que tu demandais}
+\scriptsize
+Les quatre canaux ouvrent \textbf{seize} configurations, et la décomposition de Möbius sur ce
+treillis referme le résidu terme par terme.
+% LES 2 mm D'AERATION SOUS CE PARAGRAPHE ONT ETE TENTES ET REPRIS. Le cadre deborde alors de
+% 3,17 pt, et ce chiffre ne bouge d'aucun dixieme quand on retire du texte : ce sont les deux
+% tables qui fixent la hauteur, pas la prose. Un cadre qui tient vaut mieux que 2 mm de blanc.
+\vspace{-1mm}
+\begin{columns}[t]
+\begin{column}{0.46\linewidth}
+\centering
+\textbf{Par ordre d'interaction}\\[3pt]
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Ordre} & \textbf{termes} & \textbf{M\euro} \\
+\midrule
+1 : effets principaux & $4$ & $9\,138$ \\
+2 : croisés de paires & $6$ & $\mathbf{5\,345}$ \\
+3 : croisés de triplets & $4$ & $-691$ \\
+4 : croisé des quatre & $1$ & $+346$ \\
+\midrule
+\textbf{somme} & $\mathbf{15}$ & $\mathbf{14\,139}$ \\
+\bottomrule
+\end{tabular}
+\end{column}
+\begin{column}{0.51\linewidth}
+\centering
+\textbf{Trois lectures d'un canal}\\[3pt]
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Canal} & \textbf{isolé} & \textbf{ferm.} & $\boldsymbol{\varphi}$ \\
+\midrule
+Fréquence & $4\,328$ & $\mathbf{8\,775}$ & $6\,546$ \\
+Détection & $1\,448$ & $4\,562$ & $2\,928$ \\
+Accum. P4 & $1\,728$ & $3\,402$ & $2\,576$ \\
+Propag. $W$ & $1\,633$ & $2\,402$ & $2\,088$ \\
+\midrule
+\textbf{somme} & $9\,138$ & $19\,141$ & $\mathbf{14\,139}$ \\
+\bottomrule
+\end{tabular}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{block}{Ce que la réconciliation prouve, et ce qu'elle ne prouve pas}
+La somme des quinze termes vaut $14\,139$ \emph{à la précision machine}, mais c'est une
+\textbf{identité} et non une mesure : elle atteste que la table est \textbf{complète}, pas que
+chaque terme est précis. Sur seize graines, \textbf{neuf termes sur quinze} ont un signe résolu, et
+\textbf{aucun} des cinq d'ordre 3 et 4.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Et la lecture qui compte pour une entité en remédiation}
+La colonne \textbf{fermeture} (remédier ce canal, les trois autres restant défaillants) vaut
+$1{,}5$ à $3{,}1$ fois l'isolée : remédier rapporte \textbf{plus} à une entité défaillante partout,
+le canal fermant aussi ses croisés. C'est cette colonne qu'un plan de remédiation doit citer.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Source : script~\texttt{68}.}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Les effets croisés : où vivent les \texorpdfstring{$5\,345$}{5345} M\euro}
+\scriptsize
+\begin{center}
+\begin{tabular}{@{}l r@{\hskip 2em}l r@{}}
+\toprule
+Fréquence $\times$ détection & $1\,739\pm708$ & Détection $\times$ accumulation & $573\pm202$ \\
+Fréquence $\times$ accumulation & $1\,666\pm354$ & Détection $\times$ propagation & $515\pm247$ \\
+Fréquence $\times$ propagation & $1\,182\pm444$ & \textbf{Propagation $\times$ accumulation} & $\mathbf{-330\pm242}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-1mm}
+\begin{block}{Les trois paires porteuses passent toutes par la fréquence : $86\,\%$ de l'ordre 2}
+Le mécanisme est le même : le choc commun de P4 fait tomber plusieurs piliers sur le \emph{même}
+sinistre, la fréquence multiplie le nombre de sinistres exposés, et à queue lourde le quantile est
+porté par un sinistre unique. Multiplier les tirages et épaissir chaque tirage ne fait pas deux
+effets qui s'ajoutent, mais un seul effet composé.\\[3pt]
+\textbf{Pas de paire dominante, et je ne la nommerai pas.} Les deux premières se tiennent à
+$73$~M\euro{} pour des écarts-types de $708$ et $354$, et leur ordre \emph{s'inverse} quand on lit
+la même décomposition en perte moyenne. Le classement n'est pas résolu et n'a pas à l'être.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Une seule paire est négative, et c'est le résultat que je n'attendais pas}
+Propagation $\times$ accumulation vaut $-330$, négative sur les seize graines \emph{et} sur les
+deux métriques. Les deux canaux sont \textbf{substituts} : ce sont deux façons de faire tomber
+plusieurs piliers sur un même sinistre, et un pilier déjà touché ne peut pas l'être deux fois. La
+cascade est donc super-additive en bloc mais \textbf{sous-additive entre ses deux canaux de
+co-occurrence} : les deux canaux bornés ne s'empilent pas.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Source : script~\texttt{68}.}
+\end{frame}
+
+% =====================================================================
 \section*{C. L'allocation aux cinq piliers}
 
-\begin{frame}{Shapley et Euler : la suite des \texorpdfstring{$5\,001$}{5001} M\euro{} d'interaction}
+% TITRE CORRIGE. Il annoncait « la suite des 5 001 M d'interaction », ce qui invitait a lire
+% l'attribution par PILIER comme une decomposition de l'interaction entre CANAUX. Ce sont deux
+% objets distincts : +5 001 M entre les quatre canaux (script 68), +1 395 M entre les cinq
+% piliers (scripts 20 et 20b). Ils ne se somment pas, et le second n'a meme pas un signe resolu.
+\begin{frame}{Shapley et Euler : attribuer le surcoût aux cinq piliers}
 \scriptsize
-Deux questions, deux règles. \emph{Qui porte le surcoût ?} appelle une attribution par pilier
-\textbf{source}, composant avec l'interaction puisque les marginaux ne somment pas au total :
-c'est Shapley. \emph{Où loge le capital ?} appelle une allocation par pilier \textbf{touché},
-dont les parts somment au total : c'est Euler.
-\vspace{-2mm}
+\alert{Deux interactions distinctes, à ne pas additionner :} entre les quatre \textbf{canaux}
+($+5\,001$, résolu) et, ici, entre les cinq \textbf{piliers} ($+1\,395$, \emph{non} résolu).
+\emph{Qui porte le surcoût ?} appelle le pilier \textbf{source}, composant avec l'interaction :
+Shapley. \emph{Où loge le capital ?} appelle le pilier \textbf{touché}, à parts qui somment : Euler.
+\vspace{-1mm}
 \begin{center}\scriptsize
 \begin{tabular}{@{}l rrr@{}}
 \toprule
@@ -296,17 +427,17 @@ P5 partage & $665$ & $1\,048$ & $10\,\%$ \\
 \end{center}
 \vspace{-1mm}
 \begin{block}{Ce qu'il faut regarder, et la limite que j'assume}
-\textbf{Le test non trivial n'est pas le classement mais la déformation.} Le classement
-reproduit ROOT, ce qui est en partie \emph{mécanique} (les amorces sont semées
-proportionnellement à ROOT). Ce qui ne l'est pas : la part de P1 ($34\,\%$) \textbf{excède} sa
+\textbf{Le test non trivial n'est pas le classement mais la déformation.} Le classement reproduit
+ROOT, en partie \emph{mécaniquement}, les amorces y étant semées proportionnellement. Ce qui ne
+l'est pas : la part de P1 ($34\,\%$) \textbf{excède} sa
 part d'amorce ($30\,\%$), effet propre de la propagation, et les $\mathbf{+1\,395}$~M\euro{}
 redistribués sont \textbf{intégralement} un produit de la cascade.\\[3pt]
 \textbf{Côté Euler}, les parts \emph{moyennes} sont stables (P2 $23\,\%$, P4 $22\,\%$, P1
-$20\,\%$), mais à $\xi\approx0{,}6>0{,}5$ la sévérité est de \textbf{variance infinie} : le
-classement de queue bascule d'une résolution à l'autre. Je rapporte donc la queue du périmètre
-PRC et tiens celle d'OpRisk pour indicative.
+$20\,\%$), mais à $\xi\approx0{,}6$ la sévérité est de \textbf{variance infinie} et le classement
+de queue bascule d'une résolution à l'autre : je rapporte la queue PRC et tiens celle d'OpRisk
+pour indicative.
 \end{block}
-\vspace{-1mm}
+\vspace{-2mm}
 {\scriptsize Sources : scripts~\texttt{16b}, \texttt{20}, \texttt{20b}, \texttt{43}
 et~\texttt{67}.}
 \end{frame}
@@ -314,6 +445,40 @@ et~\texttt{67}.}
 % =====================================================================
 \section*{D. Ce que le capital coûte}
 
+% SLIDE AJOUTEE APRES LE CALL DU 7 AOUT : les mots « portage » et « plancher » n'ont pas ete
+% compris, et la relecture montre qu'ils etaient effectivement mal employes. Le memoire ecrivait
+% que le RETOUR (une duree) etait un plancher, alors que ce qui est minore est le BENEFICE :
+% minorer le benefice MAJORE la duree. La borne etait annoncee a l'envers, dans le memoire comme
+% sur la figure J6, et les deux sont corriges.
+\begin{frame}{Portage et plancher, et une borne que j'avais inversée}
+\scriptsize
+\begin{block}{Portage}
+Détenir du capital n'est pas gratuit : sous Solvabilité~II le coût de détention se lit dans la
+\textbf{marge de risque}, un pourcentage par an du capital immobilisé. Libérer du
+$\Delta\mathrm{SCR}$ économise donc ce pourcentage \textbf{chaque année}, et non une fois : à
+$6\,\%$, les $14\,139$~M\euro{} libérés valent $848$~M\euro/an.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Plancher, et il porte sur le bénéfice}
+Le bénéfice a \textbf{deux} composantes et je n'en monétise qu'une : le portage économisé vaut
+$848$~M\euro/an, la \textbf{sinistralité évitée} $3\,247$, la charge annuelle moyenne passant de
+$3\,869$ à $622$~M\euro. Ce que je laisse de côté vaut $\mathbf{3{,}8}$ fois ce que je retiens.
+\end{block}
+\vspace{-1mm}
+\begin{block}{D'où le sens de la borne, et je l'avais écrit à l'envers}
+Le retour de $\mathbf{6}$ à $\mathbf{35}$ ans est un \textbf{MAJORANT}, pas un minimum : le
+bénéfice retenu étant minoré, le compte réel est plus court, jamais plus long. Les deux
+composantes réunies donneraient $1$ à $7$ ans, mais cette addition mêle un flux de compte de
+résultat à un coût du capital : convention de \textsc{roi}, pas sortie de modèle.
+\end{block}
+\vspace{-1mm}
+{\scriptsize \textbf{Réserve sur le taux, déclarée et non corrigée.} La directive~(UE)~2025/2
+ramène le $6\,\%$ du délégué à $4{,}75\,\%$, taux qu'emploient déjà mes calculs d'entité : le
+portage tombe à $672$~M\euro/an et le majorant du retour passe à $45$ ans. Rien ne bascule, et la
+chaîne publiée reste au taux historique, la calibration étant gelée. Source : script~\texttt{50}.}
+\end{frame}
+
+% =====================================================================
 \begin{frame}{Détenir ou transférer}
 \scriptsize
 La dernière fois, nous valorisions le capital libéré \emph{au seul coût de portage}
@@ -489,9 +654,11 @@ et~\texttt{59}.}
 %   0,572 : la valeur FAUSSE du rayon spectral, citee ici justement parce qu'elle a ete
 %           corrigee. Aucun script ne l'imprime, et c'est le resultat voulu.
 %   30    : une CIBLE de corpus proposee, pas une mesure.
-%   104, 126, 70 : comptes de pages et recommandation de l'Institut, metadonnees du document.
+%   104, 127, 70 : comptes de pages et recommandation de l'Institut, metadonnees du document.
 % A relire si ce compte de pages bouge : le corps a gagne deux pages le 10 aout avec la table
-% des postures et les deux limites declarees au chapitre 13.
+% des postures et les deux limites declarees au chapitre 13. Le 12 aout, le total est passe de
+% 126 a 127 avec la table complete des canaux et la reecriture du portage : la page ajoutee est
+% dans l'ANNEXE C, le corps restant a 104. Compte relu sur le PDF (PyMuPDF), pas sur un index.
 \begin{frame}{L'état du document, et les points bloquants}
 \scriptsize
 \begin{block}{La relecture complète est faite : dix-neuf chapitres, quinze défauts corrigés}
@@ -516,7 +683,7 @@ pointer l'annexe de démonstrations vers le mauvais chapitre.
 \begin{itemize}\itemsep0pt
 \item Porter le corpus de $10$ à $30$ rapports : le registre d'\emph{enforcement} de la FCA
       est public et dense en entités réglementées.
-\item Vérifier le \textbf{format} : $104$ pages de corps et $126$ au total, contre les $\sim70$
+\item Vérifier le \textbf{format} : $104$ pages de corps et $127$ au total, contre les $\sim70$
       de corps recommandés par l'Institut.
 \end{itemize}
 \end{column}
