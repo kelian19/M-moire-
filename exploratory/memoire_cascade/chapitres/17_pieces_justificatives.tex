@@ -560,3 +560,112 @@ déclare déjà, elles disparaissent. C'est la seule façon honnête de représe
 c'est l'inverse du réflexe habituel qui consiste à cadrer un graphique sur ce qu'il contient.
 
 % =====================================================================
+\section{Défaillances simultanées et coût de l'additivité}
+\label{sec:ann-additivite}
+
+\noindent Chiffres de cette section : script~\texttt{74}.
+
+Cette pièce accompagne le \S\ref{sec:additivite-couts}, qui distingue les trois énoncés
+d'additivité du modèle et retient que celui portant sur les coûts d'un sinistre est le plus lourd
+des trois. On en donne ici la mesure complète.
+
+% La figure est declaree ICI, en tete de section, et non a sa place logique apres la seconde
+% table : posee en fin de section elle partait seule sur une page de flottants aux trois quarts
+% blanche, n'ayant plus aucun texte a partager.
+\begin{figure}[!tb]\centering
+\figover{S30_defaillances_simultanees.png}
+\caption{Les défaillances simultanées et l'additivité de leurs coûts. \textbf{(a)}~la loi exacte
+du nombre de piliers touchés, en échelle logarithmique pour que les cardinaux rares restent
+visibles : la défaillance multiple devient majoritaire dès que la propagation s'ouvre.
+\textbf{(b)}~le relâchement de l'additivité. L'écart parcourt $76\,\%$ de sa valeur publiée sans
+jamais changer de signe, et les deux pentes diffèrent d'un facteur $2{,}42$ parce que l'exposant ne
+mord que sur les sinistres multi-piliers, majoritaires au seul état non conforme. Source :
+script~\texttt{74}.}
+\label{fig:additivite-couts}
+\end{figure}
+
+\subsection*{La loi du nombre de piliers touchés, exacte plutôt que simulée}
+
+Un sinistre tire un \emph{ensemble} de piliers dans la loi de progéniture du noyau auto-évitant.
+Cette loi se calcule par énumération, sans aucun tirage, en pondérant les amorces par leur
+propension. Elle est donc exacte, et c'est ce qui permet de la citer sans bruit associé.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}c c c@{}}
+\toprule
+\textbf{Piliers touchés par le sinistre} & \textbf{État conforme} ($g=0{,}45$) &
+\textbf{Non conforme} ($g=0{,}90$) \\
+\midrule
+$1$ & $68{,}85\,\%$ & $37{,}69\,\%$ \\
+$2$ & $25{,}10\,\%$ & $38{,}10\,\%$ \\
+$3$ & $5{,}31\,\%$ & $18{,}29\,\%$ \\
+$4$ & $0{,}70\,\%$ & $5{,}22\,\%$ \\
+$5$ & $0{,}04\,\%$ & $0{,}69\,\%$ \\
+\midrule
+\emph{plus d'un pilier} & $\mathbf{31{,}15\,\%}$ & $\mathbf{62{,}31\,\%}$ \\
+\emph{moyenne} & $1{,}380$ & $1{,}931$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Le passage de $1{,}380$ à $1{,}931$ pilier par sinistre, soit un facteur $1{,}40$, est ce
+qui commande toute la suite : ce qui touche au coût des sinistres \emph{multi-piliers} frappe l'état
+non conforme deux fois plus que l'état conforme, donc déplace l'\emph{écart} et pas seulement le
+niveau. Source : script~\texttt{74}.
+
+\subsection*{Le relâchement de l'additivité, et la table complète des exposants}
+
+La perte d'un sinistre touchant $k$ piliers vaut $\bigl(\sum_j X_j\bigr)k^{\,\theta-1}$. La
+paramétrisation a deux propriétés qui la rendent lisible : $\theta=1$ redonne \emph{exactement} le
+modèle publié, ce qui sert de contrôle et a été vérifié au centime sur les deux états ; et
+$1^{\theta-1}=1$, donc elle laisse les sinistres mono-pilier là où ils sont et ne touche que la
+simultanéité.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}c c c c c@{}}
+\toprule
+$\boldsymbol{\theta}$ & \textbf{Conforme} & \textbf{Non conforme} &
+$\boldsymbol{\Delta_{\text{DORA}}}$ & \textbf{/ publié} \\
+\midrule
+$0{,}70$ & $5\,435$ & $15\,141$ & $9\,706$ & $0{,}687$ \\
+$0{,}85$ & $5\,732$ & $17\,536$ & $11\,804$ & $0{,}835$ \\
+$1{,}00$ & $6\,049$ & $20\,188$ & $14\,139$ & $1{,}000$ \\
+$1{,}15$ & $6\,449$ & $23\,447$ & $16\,998$ & $1{,}202$ \\
+$1{,}30$ & $6\,972$ & $27\,459$ & $20\,487$ & $1{,}449$ \\
+\midrule
+\emph{élasticité} & $0{,}39$ & $0{,}95$ & $1{,}20$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent La plage de $10\,781$~M\euro{} vaut $15$~fois le bruit de simulation de l'écart, mesuré à
+$\pm 734$~M\euro{} sur quatre graines appariées. L'effet n'est donc pas un artefact de Monte-Carlo,
+et c'est ce qui autorise à le qualifier de plus lourde des hypothèses structurelles non testées.
+Source : script~\texttt{74}.
+
+\subsection*{Pourquoi l'amplitude est posée et non estimée}
+
+Deux mécanismes mettraient l'additivité en défaut, et ils tirent en sens \emph{contraire}. La
+sous-additivité d'abord : une cellule de crise, une investigation forensique et une communication
+servent plusieurs piliers à la fois, si bien que le total serait inférieur à la somme et que le
+modèle publié \emph{sur}-estimerait. La super-additivité ensuite : plusieurs défaillances
+simultanées saturent la capacité de remédiation, les délais s'allongent, les coûts unitaires
+montent, et le modèle \emph{sous}-estimerait.
+
+Aucun des deux n'est séparable sur les sources retenues, et la raison est celle exposée au
+\S\ref{sec:ann-proxys} : le coût d'un sinistre \emph{daté} n'y est jamais observé mais reconstruit,
+la chronologie de brèches portant les dates et la conversion en montants portant les coûts. Le coût
+d'un sinistre \emph{multi-piliers} le serait moins encore, puisqu'il faudrait une ventilation par
+domaine de contrôle qu'aucune source publique ne fournit.
+
+C'est pourquoi l'amplitude $[0{,}70\,;1{,}30]$ est \textbf{posée} et non estimée, et pourquoi la
+grandeur à retenir est l'\emph{élasticité} plutôt que la plage : une élasticité vaut pour toute
+amplitude qu'un lecteur jugera plausible, une plage ne vaut que pour celle qu'on a choisie. C'est
+aussi la seule ligne du registre des écarts du \S\ref{sec:pu-coherence} dont le \emph{sens} ne se
+déclare pas, les sept autres ayant une direction connue. Source : script~\texttt{74}.
+
+% =====================================================================

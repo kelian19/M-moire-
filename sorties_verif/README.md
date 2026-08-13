@@ -22,11 +22,32 @@ Quand on régénère un `NN.txt` sur le Mac, rediriger stderr à part : `> NN.tx
 matplotlib y écrit des avertissements de police qui s'intercalent sinon au milieu d'une ligne
 de résultats. Le détail est dans la section « Comment construire » du `CLAUDE.md`.
 
-## État du dernier passage (12 août 2026, tous chapitres)
+## État du dernier passage (13 août 2026, tous chapitres)
 
-**1 398 nombres vérifiables, 1 363 confirmés, soit 97,5 %**, couverture inchangée : aucun nombre
-hors contrôle non déclaré. Le pool a grandi de 1 339 à 1 398 avec la table complète des quatre
-canaux (nouveau `68.txt`) et la réécriture du portage (`50.txt` régénéré).
+**1 686 nombres vérifiables, 1 652 confirmés, soit 98,0 %**, couverture inchangée : aucun nombre
+hors contrôle non déclaré. Le pool est passé de 1 605 à 1 686 avec `74.txt`.
+
+`74.txt` répond à la question des **défaillances simultanées** et de l'additivité de leurs coûts.
+Trois choses à en retenir pour qui reprend le dossier.
+
+La prémisse de la question était à corriger : la défaillance de plusieurs piliers n'est pas un cas
+laissé de côté, c'est la sortie du modèle, et à l'état non conforme elle est **majoritaire**
+(62,31 % des sinistres, contre 31,15 % à l'état conforme). La loi du cardinal est **exacte**,
+calculée par énumération de la progéniture, donc sans bruit associé.
+
+Le mot « additivité » recouvre **trois énoncés à trois étages** qu'il ne faut pas confondre :
+hypothèse non testée sur les coûts au sein d'un sinistre, quasi-additivité **mesurée** en fonction
+des piliers (R² = 0,9945, script 69), super-additivité **mesurée** en fonction des quatre canaux
+(+35 %, script 68). Répondre « le modèle est super-additif » serait faux.
+
+Le contrôle du script est le point θ = 1, qui doit redonner 6 049 et 20 188 au centime : il le fait.
+Deux conclusions écrites en dur avant lecture des nombres ont dû être **inversées**, et c'est le
+même travers que le 10 août. J'avais lu le 37,7 % comme la part multi-piliers alors que c'est la
+part mono-pilier, et j'en avais tiré que le facteur de cardinal n'atteignait qu'une minorité des
+tirages, donc que la sensibilité serait faible. C'est l'inverse : la plage vaut 76 % de l'écart
+publié, soit 15 fois son bruit de ± 734 M€, et l'hypothèse est **la plus lourde des hypothèses
+structurelles non testées**. Elle n'est pas non plus neutre entre les deux états, élasticités 0,95
+contre 0,39, parce que l'exposant ne mord que sur les multi-piliers.
 
 Deux entrées nouvelles ce jour-là.
 

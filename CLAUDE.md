@@ -9,13 +9,15 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 12 août 2026 : **corps de 104 pages, annexes à partir de la 105, 127 pages au total**,
-branche `exploratory`.
+État au 13 août 2026 : **corps jusqu'à la page 110, annexes à partir de la 111, 144 pages au
+total**, branche `exploratory`. La ligne « 104 pages » qui figurait ici datait du 12 août au matin
+et n'avait pas suivi le travail des deux jours suivants : lire le compte dans `main.toc` plutôt que
+dans ce fichier en cas de doute.
 
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
 déjà commité. Compter en décompressant les flux d'objets, ou lire `main.toc` après une
-compilation avec `--keep-intermediates`. Le harnais est à **97,5 % de confirmation sur 1 398
+compilation avec `--keep-intermediates`. Le harnais est à **98,0 % de confirmation sur 1 686
 nombres, pour une couverture de 100 %**.
 
 **Et vérifier dans quelle partie tombe un ajout avant de conclure qu'il grossit le corps.** Le
@@ -223,6 +225,30 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
   calibrables (fréquence, détection), deux sont bornés (propagation, accumulation) : ne pas
   promettre une remédiation là où l'on n'a qu'une borne, et **ne jamais additionner les quatre
   leviers** pour chiffrer une remédiation partielle.
+- **« Additivité » désigne trois choses à trois étages, et les confondre donne des réponses
+  opposées.** (i) **Au sein d'un sinistre**, les coûts des piliers touchés s'additionnent : c'est une
+  **hypothèse** de construction, non testée. (ii) **En fonction des piliers non conformes**, le
+  capital est presque additif : c'est une **mesure**, R² = 0,9945, script 69. (iii) **En fonction des
+  quatre canaux**, il est franchement super-additif : c'est une **mesure**, +35 %, script 68. Donc
+  répondre « le modèle est super-additif » est **faux** : il l'est sur les canaux, pas sur les
+  piliers, et l'hypothèse sur les coûts est un troisième objet. Script 74.
+- **La défaillance simultanée de plusieurs piliers n'est pas un cas non traité, c'est la sortie du
+  modèle**, et à l'état non conforme elle est **majoritaire** : 62,31 % des sinistres touchent plus
+  d'un pilier contre 31,15 % à l'état conforme, pour 1,931 pilier en moyenne contre 1,380. La loi est
+  **exacte** (énumération de la progéniture), donc citable sans bruit. C'est un piège de lecture
+  symétrique de celui de Hackmageddon : la question suppose une lacune qui n'existe pas, et la
+  réponse commence par corriger la prémisse.
+- **L'additivité des coûts est la plus lourde des hypothèses structurelles non testées, et elle
+  n'est pas neutre entre les deux états.** Relâchée par un exposant sur le nombre de piliers
+  touchés, θ dans [0,70 ; 1,30], elle déplace l'écart DORA de 9 706 à 20 487 M€, soit 76 % de
+  l'écart publié et **15 fois son bruit** de ± 734 M€. Élasticités **0,95** à l'état non conforme
+  contre **0,39** à l'état conforme, facteur 2,42, parce que l'exposant ne mord que sur les
+  multi-piliers, majoritaires au seul état non conforme : elle **interagit avec le canal de
+  propagation**. Ce qui tient : le signe et l'ordre de l'écart survivent toute la plage, comme pour
+  g. Ce qui ne se déclare pas : le **sens**, mutualisation de la remédiation et saturation de la
+  capacité tirant en sens contraire, et le coût d'un sinistre multi-piliers n'étant observé par
+  aucune source. **L'amplitude est POSÉE, pas estimée** : citer l'élasticité, qui vaut pour toute
+  amplitude, plutôt que la plage, qui ne vaut que pour celle-ci.
 
 ## Les scripts qu'il faut connaître
 
@@ -242,6 +268,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 68 | la table COMPLÈTE des quatre canaux : seize configurations, trois lectures d'un canal (isolé, fermeture, Shapley), décomposition de Möbius par ordre, six croisés de paires avec leur bruit. **C'est lui qui décompose le résidu de +5 001 M€ du script 43**, et les deux partagent `canaux_conformite.py` |
 | 50 | ROI de la conformité : portage, sinistralité évitée, sens de la borne, et l'écart entre 6 % et 4,75 % |
 | 08h | le rejet du Hawkes contre les variantes de Bessy-Roland/Boumezoued/Hillairet — **exige `Data_Breach_Chronology.xlsx`, absent du Mac, et sa sortie n'est pas versionnée** |
+| 74 | défaillances simultanées : loi EXACTE du nombre de piliers touchés par sinistre, les trois énoncés d'additivité distingués, et le coût de l'hypothèse d'additivité des coûts borné par un exposant. Son contrôle est θ = 1, qui doit redonner 6 049 et 20 188 au centime |
 | 67 | grandeurs citées et jamais imprimées (formes fermées, rapports dérivés) et, section 1bis, **le pont entre quantile unitaire et capital agrégé** |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),

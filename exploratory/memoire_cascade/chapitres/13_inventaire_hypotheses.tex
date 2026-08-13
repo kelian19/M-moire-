@@ -58,6 +58,11 @@ Le SCR est une distribution large, pas un point &
 incertitude de paramètre (bootstrap deux niveaux) &
 facteur ${\sim}2{,}5$ sur la VaR par la seule incertitude de calibration &
 \ass \\
+Le \emph{signe} de $\Delta_{\text{DORA}}$ ne dépend pas de l'additivité des coûts d'un sinistre &
+exposant $\theta\in[0{,}70\,;1{,}30]$ sur le nombre de piliers touchés &
+écart de $9\,706$ à $20\,487$~M\euro{} : signe et ordre conservés, \emph{amplitude} non
+($76\,\%$ de l'écart publié) &
+\ass \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -68,10 +73,13 @@ de grandeur de l'effet DORA, la hiérarchie des piliers, le rôle de la directio
 du Hawkes tiennent quand on change ce qui pourrait sembler arbitraire. La cinquième ligne
 n'est pas une fragilité mais le \textbf{c\oe ur du modèle} : un SCR qui ne bougerait pas avec la
 conformité serait inutile (c'est le reproche fait à la Formule Standard,
-chapitre~\ref{chap:resultats}). La dernière est la limite honnête : la queue de sévérité
-domine l'incertitude, donc toute lecture ponctuelle du SCR serait une surinterprétation.
+chapitre~\ref{chap:resultats}). Les deux dernières sont les limites honnêtes, et elles ne portent
+pas sur le même objet : la queue de sévérité domine l'incertitude sur le \emph{niveau}, donc toute
+lecture ponctuelle du SCR serait une surinterprétation ; l'additivité des coûts d'un sinistre
+multi-piliers domine celle qui pèse sur l'\emph{écart}, sans jamais en renverser le signe
+(\S\ref{sec:additivite-couts}).
 
-\noindent Sources de la table : scripts~\texttt{25} (réaction du capital au score de conformité), \texttt{29} (branchement), \texttt{47} et~\texttt{63} (calibration figée), \texttt{66} (invariance en $g$), \texttt{67} (paramètres posés) et~\texttt{08h} (variantes de noyau et logique two-phase du rejet de l'auto-excitation).
+\noindent Sources de la table : scripts~\texttt{25} (réaction du capital au score de conformité), \texttt{29} (branchement), \texttt{47} et~\texttt{63} (calibration figée), \texttt{66} (invariance en $g$), \texttt{67} (paramètres posés), \texttt{74} (additivité des coûts) et~\texttt{08h} (variantes de noyau et logique two-phase du rejet de l'auto-excitation).
 
 
 
@@ -358,6 +366,9 @@ Sur-dispersion du moteur $\varphi$ & majore & $9{,}20$ posé contre $2{,}24$ mes
 \multicolumn{3}{@{}l}{\emph{Limites de périmètre et de transposition, de sens opposés}} \\
 Attritionnel absent de la donnée & sous-estime & non chiffrable : la base est tronquée à son seuil de collecte, les petits sinistres n'y figurent pas \\
 Sévérité non plafonnée à l'échelle d'entité & majore & élasticité sévérité/taille $0{,}087$ $[0{,}026\,;0{,}148]$, presque nulle ; n'affecte que le \emph{niveau} d'entité \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Hypothèse dont le sens n'est pas déterminable}} \\
+Additivité des coûts au sein d'un sinistre multi-piliers & \textbf{indéterminé} & élasticité de l'écart $1{,}20$ ; $[9\,706\,;20\,487]$~M\euro{} pour $\theta\in[0{,}70\,;1{,}30]$, soit $76\,\%$ de l'écart publié (\S\ref{sec:additivite-couts}) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -370,7 +381,7 @@ derrière ses erreurs, il les déclare, et sa prudence vient d'ailleurs, de choi
 nomme comme tels. C'est aussi pourquoi corriger les deux premiers ne changerait aucune
 conclusion : ils sont dominés d'un ordre de grandeur par les seconds.
 
-\paragraph{Les deux dernières lignes sont d'une autre nature, et vont en sens contraire.} Ce ne
+\paragraph{Les deux lignes de périmètre sont d'une autre nature, et vont en sens contraire.} Ce ne
 sont ni des défauts d'estimation ni des choix de prudence, mais les deux bornes du périmètre, et
 il vaut mieux les nommer ensemble parce qu'elles ne se compensent pas : elles s'additionnent en
 incertitude.
@@ -401,9 +412,73 @@ de la correction d'erreur. La posture est celle déjà retenue pour $p_u$, une l
 signée plutôt qu'une reprise silencieuse du pipeline. À noter que cette ligne n'affecte que le
 \emph{niveau} d'entité, jamais les écarts entre états de conformité, qui sont des rapports.
 
+\paragraph{La dernière ligne est la seule dont le sens ne se déclare pas.} Les sept précédentes ont
+une direction connue, et c'est ce qui permet de les mettre en regard : on sait laquelle sous-estime
+et laquelle majore. L'additivité des coûts d'un sinistre multi-piliers n'a pas cette propriété, car
+les deux mécanismes qui la mettraient en défaut, la mutualisation de la remédiation et la
+saturation de la capacité de réponse, tirent en sens contraire et ne sont pas séparables sur la
+donnée disponible. Elle ne peut donc pas entrer dans le bilan des directions, seulement dans celui
+des amplitudes, et elle y est la plus grande. Le \S\ref{sec:additivite-couts} la traite pour
+elle-même.
+
 \vspace{2pt}
-\noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60}
-et~\texttt{63}.
+\noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60},
+\texttt{63} et~\texttt{74}.
+
+\section{Défaillances simultanées et additivité des coûts}
+\label{sec:additivite-couts}
+
+La cascade produit, pour chaque sinistre, un \emph{ensemble} de piliers touchés, si bien que la
+défaillance simultanée n'est pas un cas particulier resté de côté mais la sortie même du modèle. La
+loi exacte de ce nombre est donnée au \S\ref{sec:ann-additivite} : à l'état non conforme, la
+défaillance multiple est \textbf{majoritaire}, $62{,}31\,\%$ des sinistres touchant plus d'un
+pilier contre $31{,}15\,\%$ à l'état conforme. Reste alors la vraie question, celle de l'agrégation
+des coûts, et elle demande de distinguer trois énoncés que le seul mot d'additivité recouvre.
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Au sein d'un sinistre}, les coûts des piliers touchés \emph{s'additionnent} : c'est
+une hypothèse de construction, non testée, et c'est le seul des trois que la question met en cause.
+\item \textbf{En fonction des piliers non conformes}, le capital est \emph{presque additif},
+$R^2=0{,}9945$ sur les $32$ configurations : c'est une mesure, et elle explique qu'une structure de
+dépendance entre états ne déplace pas le capital espéré (\S\ref{sec:ann-dependance-etats}).
+\item \textbf{En fonction des quatre canaux}, il est \emph{franchement super-additif},
+$+5\,001$~M\euro{} d'interaction sur $14\,139$, soit $+35\,\%$ (chapitre~\ref{chap:resultats}) :
+c'est également une mesure.
+\end{enumerate}
+
+\noindent Répondre \og~le modèle est super-additif~\fg{} serait donc faux : il l'est sur les canaux,
+pas sur les piliers, et l'hypothèse sur les coûts d'un incident est un troisième objet.
+
+\paragraph{Ce que la première coûte, chiffré plutôt que supposé.} On la relâche par un exposant, la
+perte d'un sinistre touchant $k$ piliers valant $\bigl(\sum_j X_j\bigr)k^{\,\theta-1}$, de sorte que
+$\theta=1$ redonne exactement le modèle publié et que les sinistres mono-pilier restent intouchés.
+Pour $\theta$ parcourant $[0{,}70\,;1{,}30]$, l'écart entre états parcourt
+$[9\,706\,;20\,487]$~M\euro, soit $76\,\%$ de l'écart publié et $15$~fois son bruit de simulation de
+$\pm 734$~M\euro. L'effet est donc réel, et l'additivité des coûts est \textbf{la plus lourde des
+hypothèses structurelles non testées} du modèle. Deux précautions pour ne pas en tirer un classement
+qu'il n'établit pas : elle porte sur l'\emph{écart} là où la queue de sévérité domine l'incertitude
+sur le \emph{niveau} (\S\ref{sec:trois-etages}), et c'est une hypothèse de structure et non un choix
+de prudence, les trois choix posés du \S\ref{sec:pu-coherence} déplaçant davantage mais dans une
+direction connue.
+
+\paragraph{Elle n'est pas neutre entre les deux états, ce qui n'était pas attendu.} Les élasticités
+valent $0{,}95$ à l'état non conforme contre $0{,}39$ à l'état conforme, un facteur $2{,}42$, parce
+que l'exposant ne mord que sur les sinistres multi-piliers, majoritaires au seul état non conforme.
+L'hypothèse \textbf{interagit donc avec le canal de propagation} au lieu de s'ajouter à côté de lui,
+et atteint de ce fait la grandeur centrale du mémoire et non un simple niveau. Ce qui tient malgré
+tout : sur toute l'amplitude examinée l'écart garde son signe et son ordre de grandeur, jamais
+proche de zéro, si bien que la thèse ne dépend pas de l'hypothèse d'additivité et que seule son
+amplitude en dépend. C'est la structure d'argument déjà employée pour les valeurs de $g$.
+
+Le \emph{sens} de la non-additivité, lui, n'est pas déterminable : mutualisation de la remédiation
+et saturation de la capacité de réponse tirent en sens contraire, et aucune source ne les sépare. Le
+détail, la loi du nombre de piliers, la table complète des exposants et la raison pour laquelle
+l'amplitude est posée plutôt qu'estimée sont au \S\ref{sec:ann-additivite}.
+
+\vspace{2pt}
+\noindent Sources : scripts~\texttt{74} (loi du nombre de piliers, exposant et élasticités),
+\texttt{68} (interaction des canaux) et~\texttt{69} (additivité par pilier).
+
 
 \begin{cle}
 \textbf{La double lecture.} \og Insensible aux choix innocents, sensible aux leviers réels \fg :
