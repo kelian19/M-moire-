@@ -5,6 +5,13 @@
 % Hugo et celui avec Caroline Hillairet. Le reste du memoire n'est PAS traite ici, meme quand
 % il est concerne : ce document sert a trancher les suites d'un call, pas a relire le memoire.
 %
+% AJOUT DU 13 AOUT, SECONDE PASSE : l'allocation Euler/Shapley aux cinq piliers. Elle avait
+% ete annoncee au call du 07 comme le sujet suivant et traitee en section C du point du 14,
+% donc elle appartient bien au perimetre. Deux slides plutot qu'une, parce que ses DEUX
+% RESERVES sont ce qui la rend utilisable : l'interdiction d'additionner les deux interactions
+% (canaux et piliers), et l'instabilite de queue de l'allocation d'Euler a variance infinie.
+% Les points suivants sont renumerotes de H5-H8 a H6-H9.
+%
 % CE QUE CHAQUE SLIDE DOIT PORTER, ET DANS CET ORDRE : ce qui a ete demande, ce que nous avons
 % fait avec ses chiffres, puis une recommandation de GARDER ou non. La recommandation est le
 % point neuf par rapport aux notes de suivi : celles-ci disaient ce qui etait fait, pas ce
@@ -96,6 +103,7 @@ mémoire.
 \textbf{Ce qui a été écrit} & \textbf{Pages} & \textbf{Où} \\
 \midrule
 Sensibilité aux probabilités de propagation & 2 & corps, résultats \\
+Allocation aux cinq piliers, Shapley et Euler & 1 & corps, résultats \\
 Défaillances simultanées et additivité & 2 & corps, robustesse \\
 Séquences ordonnées, voie explorée et refermée & 2 & corps, identifiabilité \\
 Les trois étages de l'incertitude & 2 & corps, robustesse \\
@@ -113,7 +121,7 @@ Niveau de l'intervalle reporté & 1 & annexe \\
 \end{center}
 \vspace{1mm}
 \begin{block}{Lecture}
-\textbf{14 pages dans le corps, 14 en annexe.} Le corps est la ressource rare : c'est là que
+\textbf{15 pages dans le corps, 14 en annexe.} Le corps est la ressource rare : c'est là que
 porte l'arbitrage, et c'est pourquoi trois recommandations qui suivent proposent de déplacer
 plutôt que de retirer. \textbf{Rien de ce qui suit ne propose de supprimer une limite
 déclarée.}
@@ -234,7 +242,69 @@ désormais chiffrée.
 
 \section*{Les autres points du call avec Hugo}
 
-\begin{frame}{H5. Les scénarios par taille d'entité}
+\begin{frame}{H5. L'allocation aux cinq piliers : Shapley et Euler}
+\scriptsize
+\textbf{Annoncé au call comme le sujet suivant.} Attribuer le surcoût aux cinq piliers.
+\vspace{1mm}
+
+\textbf{Fait, et les deux méthodes répondent à deux questions différentes.} \emph{Qui porte le
+surcoût} appelle le pilier \textbf{source}, et compose avec l'interaction : c'est Shapley.
+\emph{Où loge le capital} appelle le pilier \textbf{touché}, à parts qui somment à cent : c'est
+Euler.
+\begin{center}
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Pilier} & \textbf{marginal} & $\boldsymbol{\varphi_j}$ \textbf{(Shapley)} & \textbf{part} \\
+\midrule
+P1 gouvernance & $3\,481$ & $\mathbf{3\,717}$ & $34\,\%$ \\
+P4 tiers & $2\,658$ & $2\,810$ & $26\,\%$ \\
+P2 incidents & $1\,634$ & $1\,867$ & $17\,\%$ \\
+P3 tests & $1\,094$ & $1\,484$ & $14\,\%$ \\
+P5 partage & $665$ & $1\,048$ & $10\,\%$ \\
+\midrule
+\textbf{somme} & $9\,531$ & $\mathbf{10\,927}$ & $100\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-1mm}
+\begin{block}{\garder}
+\textbf{Le test non trivial n'est pas le classement mais la déformation.} Le classement
+reproduit l'ordre des amorces, en partie mécaniquement. Ce qui ne l'est pas : la part de P1,
+$34\,\%$, \textbf{excède} sa part d'amorce, $30\,\%$, et les $+1\,395$~M\euro{} redistribués
+sont \textbf{intégralement} un produit de la cascade. Une page de corps pour une allocation
+qu'un jury attend : le meilleur rapport du lot.
+\end{block}
+\srcs{scripts~\texttt{16b}, \texttt{20}, \texttt{20b}, \texttt{43} et~\texttt{67}}
+\end{frame}
+
+\begin{frame}{H5 \emph{(suite)}. Les deux réserves qui accompagnent l'allocation}
+\scriptsize
+\begin{block}{Ne jamais additionner les deux interactions}
+Il y a celle entre les quatre \textbf{canaux}, $+5\,001$~M\euro{} de signe résolu, et celle
+entre les cinq \textbf{piliers}, $+1\,395$~M\euro{} de signe \emph{non} résolu entre graines. Ce
+sont \textbf{deux partitions du même écart}, pas deux effets qui s'ajoutent. Le titre d'une
+slide du point précédent annonçait l'allocation comme \og la suite des $5\,001$ \fg, ce qui
+invitait précisément à les additionner : il est corrigé.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{Euler est stable en moyenne, instable en queue, et il faut le dire}
+Les parts \emph{moyennes} sont stables, P2 $23\,\%$, P4 $22\,\%$, P1 $20\,\%$. Mais l'allocation
+d'Euler repose sur des espérances \textbf{conditionnelles à la queue}, or à $\xi \approx 0{,}6$
+la sévérité est de \textbf{variance infinie} : ces espérances convergent mal, et le classement
+de queue bascule d'une résolution à l'autre. Je rapporte donc la queue d'un périmètre et tiens
+l'autre pour indicative.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{\garder{} les deux réserves}
+\textbf{Ce sont elles qui rendent l'allocation utilisable.} Une allocation d'Euler publiée sans
+mention de l'instabilité de queue serait plus fausse qu'utile, et deux interactions présentées
+côte à côte sans avertissement s'additionnent dans la tête du lecteur. Aucune des deux ne coûte
+plus de trois lignes.
+\end{block}
+\srcs{scripts~\texttt{20}, \texttt{20b} et~\texttt{68}}
+\end{frame}
+
+\begin{frame}{H6. Les scénarios par taille d'entité}
 \scriptsize
 \textbf{Demandé.} Chiffrer le coût de mise en conformité pour de petites, moyennes et grandes
 entités.
@@ -258,9 +328,9 @@ en \textbf{borne supérieure d'ordre de grandeur}. Le reste est de l'illustratio
 \srcs{scripts~\texttt{60} et~\texttt{70}}
 \end{frame}
 
-\begin{frame}{H6 et H7. Ne pas se brider, et la clarification écrite}
+\begin{frame}{H7 et H8. Ne pas se brider, et la clarification écrite}
 \scriptsize
-\textbf{H6, demandé.} Ne pas se brider dans l'affichage de l'incertitude.
+\textbf{H7, demandé.} Ne pas se brider dans l'affichage de l'incertitude.
 \vspace{1mm}
 
 \textbf{Fait.} Toute grandeur simulée est désormais publiée \textbf{avec son bruit}, et les six
@@ -275,12 +345,12 @@ se construit. Réserve à tenir : sur quatre graines, l'ordre entre $\beta = 90$
 n'est \textbf{pas} résolu et n'a pas à l'être.
 \end{block}
 \vspace{-1mm}
-\textbf{H7.} La clarification écrite sur le portage vous est due. Le contenu existe et est
+\textbf{H8.} La clarification écrite sur le portage vous est due. Le contenu existe et est
 vérifié, la slide H4 en est le résumé. \atrancher{} \; il ne reste qu'à l'envoyer.
 \srcs{scripts~\texttt{46} et~\texttt{51}}
 \end{frame}
 
-\begin{frame}{H8. Quel écart entre états publier, et sous quelle définition}
+\begin{frame}{H9. Quel écart entre états publier, et sous quelle définition}
 \scriptsize
 \textbf{Soulevé au call} en filigrane de l'analyse par levier, et non tranché depuis.
 \vspace{1mm}
@@ -616,10 +686,11 @@ gel de calibration impose, et c'est celle qui se défend devant un jury.
 \begin{frame}{Ce que je propose de garder, et ce que je propose de réduire}
 \scriptsize
 \begin{block}{À garder sans discussion}
-La table complète des leviers et ses trois lectures. Le sens de la borne du retour. La CTE et
-son argument d'existence. La sensibilité qui montre que la propagation est le levier le moins
-sensible. L'invariance à la structure de dépendance, qui est \emph{démontrée} et non constatée.
-Le protocole d'élicitation préparé et non exécuté.
+La table complète des leviers et ses trois lectures. \textbf{L'allocation aux cinq piliers avec
+ses deux réserves}, qui tient en une page. Le sens de la borne du retour. La CTE et son argument
+d'existence. La sensibilité qui montre que la propagation est le levier le moins sensible.
+L'invariance à la structure de dépendance, qui est \emph{démontrée} et non constatée. Le
+protocole d'élicitation préparé et non exécuté.
 \end{block}
 \vspace{-1.5mm}
 \begin{block}{À réduire, sans rien perdre d'essentiel}
