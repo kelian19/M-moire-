@@ -144,6 +144,136 @@ d'état. Source : script~\texttt{22}.}
 \end{figure}
 
 % =====================================================================
+\section{Ce que chaque proxy capture, et ce qu'il ne capture pas}
+\label{sec:ann-proxys}
+
+% TABLE DEMANDEE COMME INDISPENSABLE AU POINT D'ETAPE DU 13 AOUT : « quel que soit le choix de
+% modelisation, il est indispensable d'expliciter ce que les proxys retenus capturent et ce qu'ils
+% ne capturent pas, et d'assumer les choix effectues ».
+%
+% ELLE EST VOLONTAIREMENT PRESQUE SANS CHIFFRES, et c'est un choix de conception. Sa valeur est
+% dans les ENONCES : chaque nombre vit deja sous le script qui le produit, et le repeter ici
+% multiplierait les occurrences sans rien ajouter, tout en gonflant le risque de confirmation
+% fortuite que le harnais documente. Les renvois font le lien.
+
+\noindent Un modèle qui manque de données procède par \emph{proxys}. Le danger n'est pas d'en
+utiliser, il est de laisser croire qu'ils mesurent ce qu'ils remplacent. Cette table les recense
+et dit, pour chacun, ce qu'il porte et ce qu'il ne porte pas. Elle se lit comme la contrepartie de
+la table des paramètres du \S\ref{sec:ann-parametres} : celle-là dit ce qui est calibré ou posé,
+celle-ci dit sur \emph{quoi}.
+
+\vspace{0.2cm}
+{\footnotesize
+\renewcommand{\arraystretch}{1.3}
+% COLONNES AU FER A GAUCHE ET NON JUSTIFIEES. Sur 3 cm, la justification ecarte les mots jusqu'a
+% produire des blancs de la largeur d'un caractere au milieu d'un terme (« Classeur   qualitatif »).
+% Defaut vu en regardant la page rendue, invisible a la compilation.
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.1cm}
+                    >{\raggedright\arraybackslash}p{5.4cm}
+                    >{\raggedright\arraybackslash}p{5.6cm}@{}}
+\toprule
+\textbf{Proxy} & \textbf{Ce qu'il capture} & \textbf{Ce qu'il ne capture pas} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Proxy} & \textbf{Ce qu'il capture} & \textbf{Ce qu'il ne capture pas} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Classeur qualitatif ($\mathrm{TRANS}$, $\mathrm{ROOT}$) &
+L'\emph{ordre} d'influence entre piliers, consigné et traçable ; il fournit la structure que
+la donnée ne donne pas &
+Aucune magnitude vérifiable, et aucune direction identifiable : c'est un jugement, non une
+mesure. Traité par identification partielle, ch.~\ref{chap:partielle} \\
+
+Chaîne de saut inter-piliers &
+La direction des transferts, et le courant qui la mesure ($\S\ref{sec:ann-martingalisation}$) &
+Ni l'extinction, ni l'épuisement des piliers déjà touchés : c'est une \emph{projection}
+markovienne d'un processus auto-évitant à $160$ états \\
+
+Corpus de post-mortems &
+L'\emph{ordre} de défaillance dans des incidents documentés, testé contre une loi nulle exacte &
+La magnitude : le corpus établit un ordre, pas une intensité. Et il est sujet au biais de
+narration, mesuré au \S\ref{sec:biais-narration} \\
+
+OpRisk Global, cyber $\times$ finance &
+La queue des pertes opérationnelles matérielles au-delà du seuil de collecte &
+L'attritionnel, absent par troncature ; et l'exposition informatique propre à une entité \\
+
+Chronologie de brèches (PRC) &
+Les comptages et les \emph{dates}, donc la structure temporelle et la concentration &
+Le coût, qui n'y figure pas : il est \emph{dérivé} par la conversion ci-dessous \\
+
+Conversion log-log de Jacobs &
+La relation moyenne entre enregistrements compromis et coût &
+Le coût d'un incident donné : le résidu vaut un facteur $2{,}4$ à $90\,\%$. Il se moyenne dans
+l'ajustement, ce qui est vérifié au \S\ref{sec:ann-jacobs}, mais ne disparaît pas \\
+
+Concentration journalière des tiers &
+La concentration \emph{en coupe} sur des prestataires partagés, une cause frappant de nombreuses
+entités le même jour &
+L'accumulation intra-annuelle \emph{d'une} entité : les victimes d'un jour sont des entités
+distinctes, non les sinistres d'une seule \\
+
+Concentration du marché de l'informatique en nuage &
+Un ordre de grandeur pour la charge systémique, ancré sur une source publique &
+La dépendance \emph{propre} de l'entité à ces fournisseurs, que seul le registre
+d'externalisation donnerait \\
+
+Enquêtes de conformité DORA &
+Une part de marché de non-conformité, pour ancrer les probabilités d'état &
+La répartition par pilier et par entité : l'ancrage est global, l'usage est par pilier \\
+
+Facteur systémique commun &
+Le co-mouvement des états de conformité par l'environnement, avec une charge forte &
+La \emph{structure} de ce co-mouvement, échangeable ici alors que le recouvrement des contrôles
+est spécifique. Effet mesuré au \S\ref{sec:dependance-etats} \\
+
+Élasticité sévérité/taille &
+La relation moyenne entre taille et sévérité sur le panel, estimée par vraisemblance tronquée &
+Un plafond à l'échelle d'entité : l'élasticité contient presque zéro, d'où la borne inférieure
+de validité et la requalification du chiffre d'entité en borne supérieure \\
+
+Bilans \textsc{sfcr} &
+La taille réelle de quatre entités, sur données réglementaires publiées &
+Leur exposition informatique, et leur état de conformité, qui est \emph{supposé} et non observé \\
+
+Hackmageddon &
+La \emph{structure} du risque par vecteur d'attaque, c'est-à-dire des parts &
+Le niveau, jamais. Et la reproductibilité : le jeu a été consulté puis non conservé, ce que le
+mémoire déclare comme citation externe non recalculable \\
+
+Marge de risque réglementaire &
+Le coût de détention du capital tel que le régime prudentiel le définit &
+Le coût du capital propre à l'entité. Et le taux a changé, ce qui est chiffré plutôt que
+corrigé au \S\ref{sec:roi} \\
+\end{longtable}
+}
+
+\vspace{0.2cm}
+\noindent Trois lectures de cette table méritent d'être dégagées, parce qu'elles ne sont visibles
+qu'une fois les proxys mis côte à côte.
+
+\textbf{La colonne de droite n'est pas une liste de regrets.} Chaque case y est soit traitée
+ailleurs, soit déclarée comme limite, et les renvois le montrent. Ce qui serait fautif ne serait
+pas d'avoir des proxys imparfaits, ce serait de ne pas savoir lesquels.
+
+\textbf{Deux proxys se relaient plutôt qu'ils ne se complètent}, et il faut le voir : la
+chronologie de brèches porte les dates mais pas les coûts, la conversion porte les coûts mais pas
+les dates. Le coût d'un incident \emph{daté} n'est donc jamais observé, il est toujours
+reconstruit. C'est la faiblesse la plus structurelle de la donnée disponible, et aucun des deux
+proxys ne la révèle seul.
+
+\textbf{Et le même mot, « concentration », désigne deux objets dans cette table.} La concentration
+journalière est en coupe, entre entités ; l'accumulation que le modèle fait porter au pilier des
+tiers est au sein d'un incident, entre piliers. Le premier calibre le second par analogie, non par
+mesure, et c'est une hypothèse à assumer plutôt qu'un ancrage.
+
+Sources de cette table : scripts~\texttt{34}, \texttt{40}, \texttt{57}, \texttt{59}, \texttt{63}
+et~\texttt{69}.
+
+% =====================================================================
 \section{La CTE au niveau agrégé, et à quel niveau elle égale la VaR réglementaire}
 \label{sec:ann-cte}
 
