@@ -144,6 +144,105 @@ d'état. Source : script~\texttt{22}.}
 \end{figure}
 
 % =====================================================================
+\section{La CTE au niveau agrégé, et à quel niveau elle égale la VaR réglementaire}
+\label{sec:ann-cte}
+
+\noindent Chiffres de cette section : script~\texttt{73}.
+
+Le chapitre~\ref{chap:resultats} établit que la mesure de queue sert à \emph{mesurer} et non à
+\emph{couvrir}. Cette pièce en donne les nombres, qui manquaient : la CTE n'était calculée que sur
+le quantile d'\emph{un} sinistre, jamais sur la charge annuelle, et son argument d'existence était
+invoqué plutôt que montré.
+
+\subsection*{La CTE agrégée, et le niveau auquel elle égale la VaR réglementaire}
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Niveau $\beta$} & \textbf{VaR} & \textbf{CTE} & \textbf{CTE\,/\,VaR} \\
+\midrule
+$95\,\%$ & $3\,055$ & $5\,734$ & $1{,}88$ \\
+$99\,\%$ & $6\,078$ & $12\,607$ & $2{,}07$ \\
+$99{,}5\,\%$ & $\mathbf{8\,374}$ & $18\,183$ & $2{,}17$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent En M\euro, périmètre OpRisk, calibration figée. Le nombre décisif n'est aucun de ceux-là
+mais celui qui permet de \emph{comparer} les deux conventions :
+\begin{equation}
+  \mathrm{CTE}_\beta(L) \;=\; \VaR_{99{,}5\%}(L) \quad\text{pour}\quad \beta = 97{,}73\,\%.
+  \label{eq:cte-equivalent}
+\end{equation}
+Une CTE à $95\,\%$ vaut donc $5\,734$~M\euro{} contre $8\,374$ : rapportée comme capital, elle
+serait \textbf{moins} prudente que l'exigence de Solvabilité~II, dans un rapport de $1{,}46$. Sans
+\eqref{eq:cte-equivalent}, « CTE à $95\,\%$ » et « VaR à $99{,}5\,\%$ » ne se comparent pas et l'on
+ne sait pas laquelle est la plus exigeante ; avec elle, l'arbitrage devient arithmétique. C'est la
+raison pour laquelle la CTE est publiée en \textbf{diagnostic} : substituer une mesure à l'autre
+déplacerait le niveau d'exigence de moitié sans que ce soit une décision.
+
+Le rapport $\mathrm{CTE}/\VaR$ agrégé vaut $2{,}17$ à $99{,}5\,\%$, sous l'asymptote
+$1/(1-\xi) = 2{,}47$ de la sévérité : l'agrégat s'en approche par le principe de la perte unique
+dominante mais reste en deçà à niveau fini. C'est le \emph{rapport} qui informe, non les deux
+montants. Source : script~\texttt{73}.
+
+\subsection*{L'existence, montrée plutôt qu'invoquée, et sur la bonne quantité}
+
+Le protocole est simple : même moteur, \emph{sans} plafond, à deux indices de queue, et l'on
+regarde la dispersion de la CTE entre six graines quand le nombre d'années croît.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}r r r r r@{}}
+\toprule
+\textbf{Années} & \textbf{CTE ($\xi=0{,}5954$)} & \textbf{Dispersion} & \textbf{CTE ($\xi=1{,}0328$)} & \textbf{Dispersion} \\
+\midrule
+$50\,000$ & $18\,084$ & $7{,}4\,\%$ & $998\,016$ & $51{,}4\,\%$ \\
+$200\,000$ & $18\,263$ & $4{,}5\,\%$ & $1\,203\,706$ & $44{,}4\,\%$ \\
+$800\,000$ & $18\,023$ & $4{,}2\,\%$ & $1\,182\,736$ & $38{,}6\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent \textbf{Ce qui tranche est le niveau de la dispersion, non sa vitesse.} À l'indice
+publié, la CTE se cite à deux chiffres ; au-delà de $1$, elle reste entre $39$ et $51\,\%$ de sa
+propre valeur, de sorte que deux échantillons de huit cent mille années en donnent des valeurs
+qui diffèrent de deux cinquièmes. Elle ne se cite alors \emph{pas}, même à un chiffre
+significatif, et le niveau atteint est sans interprétation : il mesure la taille du plus grand
+tirage de l'échantillon, non un risque.
+
+\begin{attention}
+\textbf{La vitesse, elle, ne conclut pas, et c'est un résultat du modèle plutôt qu'une limite du
+test.} Les dispersions sont multipliées par $0{,}57$ et $0{,}75$ sur seize fois plus d'années, là
+où un estimateur classique donnerait $0{,}25$. \emph{Aucune} des deux séries n'atteint cette
+référence, et c'est attendu : à $\xi = 0{,}5954$ la \textbf{variance} de la sévérité est déjà
+infinie même si son espérance existe, donc aucun estimateur de ce modèle ne converge au rythme
+classique. Cela vaut aussi pour la VaR, et c'est une raison de plus de publier les grandeurs
+simulées avec leur bruit. Source : script~\texttt{73}.
+\end{attention}
+
+\subsection*{Sur le périmètre à queue plus lourde, le plafond vide la mesure de son contenu}
+
+Le périmètre PRC porte un indice de $1{,}0328$ et un plafond de sévérité de $40$~M\euro, qui rend
+l'espérance finie artificiellement. En faisant varier ce plafond, on constate qu'il multiplie la
+CTE et la VaR du \emph{même} facteur, $1{,}67$ contre $1{,}66$ pour un plafond quadruplé : il agit
+comme une échelle sur toute la loi et ne distingue pas la CTE. L'information est donc dans le
+rapport, et il vaut $1{,}05$ sous PRC contre $2{,}17$ sur la calibration publiée. Le plafond a
+retiré la queue que la CTE est censée mesurer. Source : script~\texttt{73}.
+
+\begin{cle}
+\textbf{L'alternative qui ferme la question du niveau de couverture.} Sur un périmètre d'indice
+supérieur à $1$, \emph{ou bien} l'on ne plafonne pas et la CTE n'est pas reproductible, \emph{ou
+bien} l'on plafonne et son rapport à la VaR tombe à $1{,}05$, de sorte qu'elle n'apporte plus rien
+au-delà du quantile. Dans les deux cas elle ne peut pas porter le capital. Là où l'indice est
+inférieur à $1$, elle est parfaitement légitime, et c'est l'usage qu'en fait ce mémoire : un
+diagnostic de forme de queue, et un noyau d'allocation qui répartit un niveau déjà fixé.
+\end{cle}
+
+% =====================================================================
 \section{Le niveau de l'intervalle reporté : de 90 à 95 pour cent}
 \label{sec:ann-intervalle95}
 
