@@ -193,17 +193,18 @@ statique. Source : script~\texttt{52}.}
 \end{figure}
 
 \begin{cle}
-\textbf{Un temps de premier passage, et rien de plus.} $Z_t$ sans dérive est une martingale et
-$\tau$ un temps d'arrêt, si bien que le délai de déclenchement a une loi explicite par le
-principe de réflexion. Il faut cependant se garder d'un rapprochement trop rapide avec le
-chapitre~\ref{ch:identifiabilite} : le mot \emph{martingale} y désigne la forme de Dirichlet
-d'une chaîne de Markov, ici la propriété d'un brownien sans dérive, et le lien entre les deux
-est de \textbf{vocabulaire} et non de mathématique. Ce que les deux usages ont réellement en
-commun est plus modeste et plus important : ils vivent tous deux sous la mesure
-\textbf{physique}. \textbf{Aucun test de martingalité au sens des générateurs de scénarios
+\textbf{Un temps de premier passage, et la propriété utilisée n'est pas celle qu'on nomme.}
+$Z_t$ sans dérive est une martingale, mais le principe de réflexion ne s'appuie pas sur cette
+propriété : il repose sur la propriété de \textbf{Markov forte} et sur la \textbf{symétrie des
+accroissements}. Nommer la martingale ici était décoratif, et il faut se garder du rapprochement
+avec le chapitre~\ref{ch:identifiabilite}, où le même mot désigne la forme de Dirichlet d'une
+chaîne : le lien entre les deux usages est de \textbf{vocabulaire} et non de mathématique. Ce
+qu'ils ont réellement en commun est plus modeste et plus important, ils vivent tous deux sous la
+mesure \textbf{physique}. \textbf{Aucun test de martingalité au sens des générateurs de scénarios
 économiques n'est conduit dans ce mémoire}, aucun changement de mesure n'y intervient, et le
 seuil $z^\star$ ne se déduit d'aucun test de ce genre : il vient de la calibration du facteur
-tiers.
+tiers. Le cadre complet, avec les hypothèses effectivement requises, est au
+\S\ref{sec:ann-martingalisation}.
 
 Réserve assumée : le brownien pur atteint le niveau presque sûrement mais d'espérance de délai
 infinie ; un facteur \emph{moyen-réversif} (Ornstein-Uhlenbeck) donnerait un taux de

@@ -144,6 +144,98 @@ d'état. Source : script~\texttt{22}.}
 \end{figure}
 
 % =====================================================================
+\section{Ce que l'on martingalise, ce que l'on teste, et ce que l'on ne peut pas tester}
+\label{sec:ann-martingalisation}
+
+\noindent Chiffres de cette section : scripts~\texttt{40} (chaîne de saut, courant, hypothèses
+mesurées) et~\texttt{64} (loi nulle exacte du test d'asymétrie).
+
+Le mot \emph{martingalisation} a été employé dans les présentations orales de ce travail, et il
+appelle une mise au point : un test de martingalité suppose que l'on identifie explicitement la
+quantité testée, et cette identification n'avait pas été écrite. Cette pièce la fournit, en
+séparant trois choses que le mot recouvrait.
+
+\subsection*{La chaîne, et ses hypothèses mesurées plutôt que supposées}
+
+L'objet n'est pas $W$ mais le \textbf{noyau de saut inter-piliers} de la cascade,
+$P_{jk} = \mathrm{TRANS}_{jk} / \sum_{k}\mathrm{TRANS}_{jk}$ : la probabilité, sachant que la
+propagation quitte le pilier $j$, qu'elle aille vers $k$. Cette matrice est stochastique en
+ligne, donc c'est un authentique noyau de Markov, ce que $W$ n'est pas. Les hypothèses qui
+soutiennent tout ce qui suit sont mesurées et non postulées : la diagonale est nulle, les
+\textbf{vingt} entrées hors diagonale sont strictement positives, la chaîne est donc
+\textbf{irréductible} et \textbf{apériodique}, ce qui garantit l'existence et l'unicité de la loi
+stationnaire $\pi = (0{,}131\,;\,0{,}263\,;\,0{,}200\,;\,0{,}192\,;\,0{,}214)$. Source :
+script~\texttt{40}.
+
+\subsection*{La martingale, nommée}
+
+Pour une fonction test $f$ sur les cinq piliers, la décomposition de Dynkin
+\begin{equation}
+  M^f_r \;=\; f(X_r) - f(X_0) - \sum_{s=0}^{r-1}\bigl(Pf - f\bigr)(X_s)
+  \label{eq:dynkin}
+\end{equation}
+est une martingale \textbf{pour la filtration naturelle de la chaîne et sous la mesure
+physique}. Sa variation quadratique prévisible, en régime stationnaire, est la forme de Dirichlet
+de l'\eqref{eq:dirichlet} du chapitre~\ref{ch:identifiabilite}. \emph{Martingaliser} désigne donc ici l'opération de
+\textbf{retirer le compensateur} $\sum(Pf-f)$ pour ne garder que $M^f$, et le résultat
+d'identification est que la variation quadratique ne dépend que de la partie symétrique, le
+compensateur portant seul la direction. Source : script~\texttt{40}.
+
+\subsection*{Ce qui est effectivement testé, et ce n'est pas la martingale}
+
+Aucune hypothèse n'est testée sur $M^f$, et il n'y en a pas à tester : \eqref{eq:dynkin} est une
+\textbf{identité algébrique}, vraie pour toute chaîne de Markov. Le seul test statistique de ce
+volet porte sur un tout autre objet, la statistique d'asymétrie du corpus de post-mortems,
+confrontée à une loi nulle \textbf{exacte} de permutation dans laquelle chaque arête change de
+sens indépendamment avec probabilité $\tfrac12$. Son résultat est publié et négatif :
+l'asymétrie observée vaut $119$ contre $128 \pm 27$ sous le nul, soit $z = -0{,}33$. Ce test ne
+fait intervenir aucune martingale. Sources : scripts~\texttt{40} et~\texttt{64}.
+
+\subsection*{Pourquoi aucun test de martingalité n'est possible, et c'est la réponse de fond}
+
+Un test de martingalité exige une \textbf{trajectoire observée} de la quantité candidate : on
+vérifie que l'accroissement conditionnel est d'espérance nulle. Or les deux candidats de ce
+mémoire, le facteur systémique de conformité et le facteur tiers, sont \textbf{latents et jamais
+observés} : ils sont construits par le modèle, non mesurés. Il n'existe donc aucune série sur
+laquelle un tel test porterait. Ce n'est pas un renoncement faute de temps, c'est une
+impossibilité de principe, et elle se déclare.
+
+Il faut ajouter que le cadre risque-neutre, auquel le mot \emph{martingalité} renvoie
+habituellement, n'a pas lieu d'être ici : pas de prix, pas d'actif répliqué, pas de numéraire,
+aucune hypothèse de non-arbitrage, aucun changement de mesure. Les tests usuels portent sur des
+trajectoires actualisées au taux sans risque ; il n'y a dans ce mémoire ni actualisation ni
+mesure équivalente.
+
+\subsection*{Le déclenchement du pilier des tiers : la propriété utilisée n'est pas celle qu'on
+nommait}
+
+Au \S\ref{sec:p4-dynamique}, $Z$ est un mouvement brownien sans dérive, donc une
+martingale. Mais ce n'est \textbf{pas} la propriété qui sert. Le principe de réflexion repose sur
+la propriété de \textbf{Markov forte} et sur la \textbf{symétrie des accroissements} ; nommer la
+martingale y était décoratif. Les hypothèses réellement requises sont : accroissements gaussiens
+indépendants et stationnaires, absence de dérive, seuil $z^\star$ déterministe et fixé avant
+l'observation, horizon déterministe. La réserve déjà publiée demeure : un brownien sans dérive
+atteint le niveau presque sûrement mais avec une espérance de délai infinie, de sorte que la
+médiane est la statistique reportable et non la moyenne.
+
+\subsection*{L'hypothèse la plus lourde, et ce que la projection ne capture pas}
+
+Elle n'est pas dans le vocabulaire mais dans l'objet. La chaîne $P$ est \textbf{sans mémoire},
+alors que la cascade effectivement simulée est \textbf{auto-évitante} : un pilier déjà tombé
+éteint la propagation. Le processus réel n'est donc pas markovien sur les cinq piliers ; il l'est
+sur le couple (pilier courant, ensemble déjà tombé), soit $5 \times 32 = 160$ états. L'analyse de
+réversibilité porte par conséquent sur une \textbf{projection} markovienne du processus.
+
+Il faut dire ce que cette projection capture et ce qu'elle ne capture pas, puisque c'est l'exigence
+générale que ce travail s'est donnée. Elle capture la \emph{direction des transferts}, qui est
+l'objet du chapitre, et le courant qui la mesure vaut $0{,}0443$ au maximum. Elle ne capture ni
+l'\emph{extinction} de la cascade, ni l'\emph{épuisement} des piliers déjà touchés. Ces deux
+mécanismes sont dans le moteur de simulation, ils ne sont pas dans la chaîne servant à l'argument
+d'identification, et l'argument n'en a pas besoin : il porte sur ce que la co-occurrence peut ou
+ne peut pas révéler de la direction, indépendamment du nombre de pas effectivement parcourus.
+Source : script~\texttt{40}.
+
+% =====================================================================
 \section{La structure de la dépendance entre états, et pourquoi elle n'agit pas}
 \label{sec:ann-dependance-etats}
 

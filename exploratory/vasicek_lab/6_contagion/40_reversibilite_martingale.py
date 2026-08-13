@@ -162,6 +162,32 @@ print(f"\n  Loi stationnaire : le saut sejourne surtout en "
 print("  Lecture : pi est un profil de RECEPTACLE (ou la marche s'accumule), a ne pas")
 print("  confondre avec l'ordre des SOURCES (ROOT : P1>P4). Voir 34, l'aplatissement a u=0.")
 
+# =====================================================================================
+# LES HYPOTHESES DE LA CHAINE, VERIFIEES ET NON SUPPOSEES. Caroline Hillairet a demande, au
+# point du 13 aout, d'expliciter la quantite testee et les hypotheses sous-jacentes de la
+# demarche dite de « martingalisation ». L'existence et l'unicite de pi, sur lesquelles tout
+# repose ensuite, tiennent a l'irreductibilite et a l'aperiodicite : autant les mesurer.
+# =====================================================================================
+_hors_diag = P[~np.eye(NP_, dtype=bool)]
+_irr = bool(np.all(np.linalg.matrix_power(np.eye(NP_) + P, NP_ - 1) > 0))
+_ap2 = bool(np.all(np.diag(np.linalg.matrix_power(P, 2)) > 0))
+_ap3 = bool(np.all(np.diag(np.linalg.matrix_power(P, 3)) > 0))
+print("\n  HYPOTHESES DE LA CHAINE, mesurees :")
+print(f"    diagonale nulle (pas de boucle sur place)        : {bool(np.all(np.diag(P) == 0))}")
+print(f"    entrees hors diagonale > 0                       : "
+      f"{int((_hors_diag > 0).sum())} sur {_hors_diag.size}")
+print(f"    IRREDUCTIBLE (toutes entrees de (I+P)^4 > 0)     : {_irr}")
+print(f"    APERIODIQUE (cycles de longueur 2 et 3 presents) : {_ap2 and _ap3}")
+print("    => pi existe et est UNIQUE. Ce n'est donc pas une hypothese de commodite.")
+print(f"\n  ET L'HYPOTHESE LA PLUS LOURDE, QU'IL FAUT NOMMER : cette chaine est SANS MEMOIRE,")
+print("  alors que la cascade effectivement simulee est AUTO-EVITANTE, un pilier deja tombe")
+print("  eteignant la propagation. Le processus reel n'est donc pas markovien sur les cinq")
+print(f"  piliers : il l'est sur le couple (pilier courant, ensemble deja tombe), soit "
+      f"{NP_} x {2 ** NP_} = {NP_ * 2 ** NP_} etats.")
+print("  L'analyse de reversibilite porte donc sur une PROJECTION markovienne du processus.")
+print("  Ce qu'elle capture : la direction des transferts. Ce qu'elle ne capture pas :")
+print("  l'extinction et l'epuisement des piliers deja touches.")
+
 titre("(1) Courant, reversibilite, renversement du temps")
 rev_res = float(np.abs(J).max())
 print(f"  Courant maximal max|J_ij| = {rev_res:.4f} > 0  =>  chaine IRREVERSIBLE :")
