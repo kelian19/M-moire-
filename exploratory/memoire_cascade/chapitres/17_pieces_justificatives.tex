@@ -144,6 +144,72 @@ d'état. Source : script~\texttt{22}.}
 \end{figure}
 
 % =====================================================================
+\section{Le niveau de l'intervalle reporté : de 90 à 95 pour cent}
+\label{sec:ann-intervalle95}
+
+\noindent Chiffres de cette section : script~\texttt{72}.
+
+Le niveau de confiance de l'intervalle reporté est une \textbf{convention de report} et non un
+résultat : il se choisit, et le choix retenu est désormais $95\,\%$. Cette pièce donne le passage,
+et surtout ce qu'il ne corrige pas.
+
+\subsection*{Pourquoi aucun bootstrap n'est rejoué}
+
+Rejouer un bootstrap donnerait un nouvel échantillon, donc un intervalle à $90\,\%$ légèrement
+différent du publié : le mémoire porterait deux valeurs du même nombre, ce qui est exactement le
+défaut corrigé sur la VaR prédictive. Le passage se fait donc par la \textbf{même approximation
+normale} que celle dont le moteur se sert déjà pour propager l'incertitude de sévérité : les deux
+demi-largeurs publiées sont mises à l'échelle par $1{,}96 / 1{,}645 = 1{,}1915$, séparément, de
+sorte que l'asymétrie de l'intervalle publié est conservée. \textbf{La calibration ne bouge pas} :
+le point, $\sigma$, $u$ et le taux de dépassement sont inchangés, donc tous les capitaux publiés
+aussi. Seul le niveau change. Source : script~\texttt{72}.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l l r r@{}}
+\toprule
+\textbf{Grandeur} & \textbf{IC $90\,\%$} & \textbf{IC $95\,\%$} & \textbf{$\times$ à 90} & \textbf{$\times$ à 95} \\
+\midrule
+Indice de queue $\xi$ & $[0{,}3044\,;\,0{,}8313]$ & $[0{,}2487\,;\,0{,}8765]$ & $2{,}73$ & $3{,}52$ \\
+Quantile de sévérité (M\euro) & $[411{,}5\,;\,1\,037{,}1]$ & $[363{,}4\,;\,1\,108{,}8]$ & $2{,}52$ & $3{,}05$ \\
+Capital agrégé (M\euro) & $[3\,042\,;\,27\,152]$ & $[2\,727\,;\,34\,942]$ & $8{,}93$ & $12{,}81$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Le nombre le plus visible du changement est le facteur sur le quantile de sévérité, qui
+passe de $2{,}52$ à $3{,}05$. Et l'élargissement du capital est \textbf{très asymétrique} : sa
+borne basse ne descend que de $315$~M\euro{} quand la haute monte de $7\,790$. C'est la convexité
+du capital en $\xi$, et c'est une propriété à annoncer plutôt qu'à subir : sur une queue lourde,
+élargir un intervalle de confiance sur l'indice de queue ne l'élargit pas symétriquement sur le
+capital. Source : script~\texttt{72}.
+
+\subsection*{Ce que le changement de niveau ne corrige pas}
+
+C'est le point qui compte, et il va contre l'intuition du changement. La couverture \emph{réelle}
+des deux niveaux, mesurée à $n$ fini sur $2\,000$ échantillons de $91$ excès, vaut
+$86{,}8 \pm 0{,}8\,\%$ pour un niveau annoncé de $90$, et $91{,}8 \pm 0{,}6\,\%$ pour un niveau
+annoncé de $95$. \textbf{Le manque est le même, $-3{,}2$ points dans les deux cas.} Passer le
+nominal à $95\,\%$ ne répare donc rien : il déplace l'annonce sans corriger l'estimateur, et la
+constance du déficit en points désigne la cause, un écart-type asymptotique trop petit à
+quatre-vingt-onze excès, plutôt qu'une forme d'intervalle mal choisie.
+
+La réserve déjà publiée au \S\ref{soc:sec:validation} reste donc due, au nouveau niveau comme à
+l'ancien : annoncer $95\,\%$ sans la répéter remplacerait un défaut \emph{déclaré} par un défaut
+\emph{caché}, ce qui serait un mauvais échange. Source : script~\texttt{72}.
+
+\subsection*{Ce qui reste au niveau de 90 pour cent, et pourquoi}
+
+La configuration gelée porte les intervalles à $90\,\%$, et c'est elle qui alimente le moteur : les
+occurrences de $[0{,}30\,;0{,}83]$ et du facteur $2{,}5$ ailleurs dans ce mémoire sont donc les
+valeurs de cette configuration, citées comme telles. Les remplacer partout déplacerait des dizaines
+de nombres publiés ; la piste d'audit exige alors de dire lesquels et pourquoi, et c'est une
+décision de rédaction distincte du calcul ci-dessus. Le niveau reporté est $95\,\%$, la
+configuration reste à $90\,\%$, et le pont entre les deux est la table de cette section.
+Sources : scripts~\texttt{63} (calibration figée) et~\texttt{72}.
+
+% =====================================================================
 \section{Ce que l'on martingalise, ce que l'on teste, et ce que l'on ne peut pas tester}
 \label{sec:ann-martingalisation}
 
