@@ -58,6 +58,9 @@
 \thispagestyle{fancy}
 \vspace{-0.7cm}
 
+% HARNAIS-HORS-SECTION: le preambule est un mode d'emploi, pas un resultat. Les quelques
+% nombres qu'il contient decrivent le dispositif de verification lui-meme (combien de chiffres
+% perimes ont ete trouves de telle facon) et ne sont produits par aucun script du pipeline.
 \begin{cle}
 \textbf{Comment se servir de cette fiche.} Un bloc par résultat conservé, dans l'ordre de la
 chaîne de calcul : la sévérité, la fréquence, la cascade, l'écart entre états, le retour sur
@@ -67,8 +70,8 @@ conformité, puis les mesures de robustesse. Chaque bloc donne la \textbf{formul
 \textbf{Une règle est tenue partout et elle est le point de méthode de ce document} : aucun
 nombre n'est calculé à la main. Chacun est imprimé par un script dont la sortie est versionnée,
 et un harnais vérifie que le nombre publié se retrouve bien dans la sortie du script que la
-section cite. Un ratio calculé pendant la rédaction n'est vérifiable par personne, et trois des
-chiffres périmés trouvés cette année étaient exactement de cette nature.
+section cite. Un ratio calculé pendant la rédaction n'est vérifiable par personne, et plusieurs
+des chiffres périmés trouvés cette année étaient exactement de cette nature.
 \end{cle}
 
 % =====================================================================================
@@ -101,7 +104,7 @@ est fautive.
 
 % =====================================================================================
 \section{La fréquence des sinistres}
-\src{\texttt{08b}}
+\src{\texttt{08b}, \texttt{41}}
 
 \paragraph{Le modèle.} Le nombre annuel de sinistres suit une binomiale négative de moyenne
 $\lambda$ et d'indice de dispersion $\varphi$, paramétrée par
@@ -169,7 +172,7 @@ $5$ & $0{,}04\,\%$ & $0{,}69\,\%$ \\
 
 % =====================================================================================
 \section{L'écart de capital entre états de conformité}
-\src{\texttt{43}, \texttt{68}}
+\src{\texttt{43}, \texttt{68}, \texttt{74}}
 
 \paragraph{Les quatre canaux, et ils ne s'additionnent pas.} La non-conformité n'ajoute aucune
 pénalité au capital : elle déplace quatre paramètres de la loi de perte.
@@ -406,7 +409,7 @@ ne la plafonne pas. Substituer l'une à l'autre changerait le signe du défaut s
 \end{res}
 
 \subsection*{Les sensibilités, et la fragilité n'est pas où on l'attend}
-\src{\texttt{15}, \texttt{30}}
+\src{\texttt{15}, \texttt{30}, \texttt{43}}
 
 \begin{res}
 \textbf{Tornado} : le gain de propagation $g$ de $0{,}5$ à $1{,}0$ déplace le surcoût de
@@ -447,7 +450,7 @@ frontière d'identification.
 
 % =====================================================================================
 \section{Les défauts connus, chiffrés plutôt que corrigés}
-\src{\texttt{47}, \texttt{57}}
+\src{\texttt{08b}, \texttt{41}, \texttt{47}, \texttt{57}, \texttt{74}}
 
 \paragraph{Pourquoi ils ne sont pas corrigés.} La calibration est gelée : une correction
 déplacerait des centaines de nombres publiés sans qu'aucun déplacement soit attribuable à la
@@ -466,7 +469,7 @@ Couverture réelle de l'intervalle & sous-estime & $86{,}8\,\%$ au lieu de $90$ 
 \midrule
 \multicolumn{3}{@{}l}{\emph{Choix posés, tous prudents}} \\
 Queue de sévérité $\xi$ & majore & $0{,}90$ posé contre $0{,}5954$ estimé \\
-Charge systémique & majore & $0{,}60$ posé, au-delà de la borne haute empirique $0{,}22$ \\
+Charge systémique & majore & $0{,}60$ posé, au-delà de la borne haute empirique $0{,}223$ \\
 Sur-dispersion $\varphi$ & majore & $9{,}20$ posé contre $2{,}24$ mesuré \\
 \midrule
 \multicolumn{3}{@{}l}{\emph{Hypothèse dont le sens n'est pas déterminable}} \\
