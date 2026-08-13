@@ -1,0 +1,608 @@
+% =====================================================================================
+% ARBITRAGE DES SUITES DES DEUX DERNIERS CALLS -- 13 aout 2026.
+%
+% PERIMETRE STRICT : uniquement les points souleves lors des deux derniers calls, celui avec
+% Hugo et celui avec Caroline Hillairet. Le reste du memoire n'est PAS traite ici, meme quand
+% il est concerne : ce document sert a trancher les suites d'un call, pas a relire le memoire.
+%
+% CE QUE CHAQUE SLIDE DOIT PORTER, ET DANS CET ORDRE : ce qui a ete demande, ce que nous avons
+% fait avec ses chiffres, puis une recommandation de GARDER ou non. La recommandation est le
+% point neuf par rapport aux notes de suivi : celles-ci disaient ce qui etait fait, pas ce
+% qu'il faut en conserver.
+%
+% AUCUNE FIGURE. Deux raisons : la regle du projet interdit de reprendre une figure deja
+% servie dans un deck precedent, et un document de decision se lit mieux en tableaux qu'en
+% graphiques. Cela evite aussi les debordements de cadre des figures portrait.
+%
+% DECOUPAGE EN \section* : sans cela le harnais lit un deck comme un bloc unique, et une
+% declaration posee en tete avalerait tout le fichier. Les comptes de PAGES sont concentres
+% sur une seule slide, elle-meme declaree, parce qu'ils viennent de main.toc et qu'aucun
+% script ne les produit.
+% =====================================================================================
+\documentclass[11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamerfont{block title}{size=\small}
+
+% SANS COULEUR, ET C'EST DELIBERE. Ces macros servent surtout en TITRE DE BLOC, or un titre de
+% bloc beamer est deja du blanc sur un bandeau bleu fonce : un vert ou un orange y devient
+% illisible. Le mot lui-meme porte l'information, et il reste lisible partout, en titre comme
+% dans le corps du texte.
+\newcommand{\garder}{\textbf{GARDER}}
+\newcommand{\compresser}{\textbf{COMPRESSER}}
+\newcommand{\annexer}{\textbf{DÉPLACER EN ANNEXE}}
+\newcommand{\rien}{\textbf{RIEN À INTÉGRER}}
+\newcommand{\atrancher}{\textbf{À TRANCHER PAR VOUS}}
+\newcommand{\srcs}[1]{\vspace{0.8mm}{\tiny\textcolor{gray!50!black}{Sources : #1}}}
+
+\title[Suites des deux derniers calls]{Suites des deux derniers calls}
+\subtitle{Ce que nous avons fait sur chaque point, et ce qu'il faut en garder}
+\author[K. Kaddouri]{Kélian Kaddouri}
+\institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
+\date[13/08/2026]{13 août 2026}
+
+\begin{document}
+
+\section*{Ouverture}
+
+% HARNAIS-HORS-SECTION: page de titre et mode d'emploi. Millesimes et vocabulaire de
+% recommandation, aucun resultat de modele.
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Ce que ce point traite, et ce qu'il ne traite pas}
+\scriptsize
+Ce document ne relit pas le mémoire. Il reprend \textbf{uniquement les points soulevés lors de
+nos deux derniers calls}, un par slide, et pour chacun il dit trois choses dans cet ordre : ce
+qui a été demandé, ce que nous avons fait avec ses chiffres, et \textbf{ce qu'il faut en
+garder}.
+\vspace{1.5mm}
+\begin{block}{Le vocabulaire des recommandations}
+\garder{} : reste tel quel. \quad \compresser{} : reste, mais réduit.\\
+\annexer{} : le détail sort du corps, un paragraphe reste. \quad
+\rien{} : la réponse existe, elle n'a pas à occuper de place.\\
+\atrancher{} : le calcul est fait, la décision vous revient.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Pourquoi une recommandation, et pas seulement un état d'avancement}
+Le corps du mémoire est aujourd'hui à \textbf{110 pages} contre les \textbf{70} que recommande
+l'Institut. Répondre à une demande a donc un coût, et dire \og c'est fait \fg{} sans dire ce
+que cela occupe serait incomplet. Une règle gouverne tous les arbitrages qui suivent : une
+\textbf{limite déclarée} ne se retire jamais pour gagner une page. C'est ce qui tient ce
+mémoire.
+\end{block}
+\end{frame}
+
+\section*{Le coût en pages}
+
+% HARNAIS-HORS-SCRIPT: comptes de pages lus dans main.toc apres compilation. Aucun script du
+% pipeline ne les produit et aucun ne le devrait : ce sont des grandeurs de mise en page.
+
+\begin{frame}{Ce que les deux calls ont produit, en pages}
+\scriptsize
+\begin{center}
+\begin{tabular}{@{}l r l@{}}
+\toprule
+\textbf{Ce qui a été écrit} & \textbf{Pages} & \textbf{Où} \\
+\midrule
+Sensibilité aux probabilités de propagation & 2 & corps, résultats \\
+Défaillances simultanées et additivité & 2 & corps, robustesse \\
+Séquences ordonnées, voie explorée et refermée & 2 & corps, identifiabilité \\
+Les trois étages de l'incertitude & 2 & corps, robustesse \\
+Scénarios par taille d'entité & 6 & corps, résultats \\
+\midrule
+Tableau des proxys & 2 & annexe \\
+Martingalisation & 2 & annexe \\
+Défaillances simultanées, le détail & 2 & annexe \\
+Séquences ordonnées, le détail & 3 & annexe \\
+Protocole d'élicitation & 3 & annexe \\
+CTE agrégée & 1 & annexe \\
+Niveau de l'intervalle reporté & 1 & annexe \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{block}{Lecture}
+\textbf{14 pages dans le corps, 14 en annexe.} Le corps est la ressource rare : c'est là que
+porte l'arbitrage, et c'est pourquoi trois recommandations qui suivent proposent de déplacer
+plutôt que de retirer. \textbf{Rien de ce qui suit ne propose de supprimer une limite
+déclarée.}
+\end{block}
+\end{frame}
+
+\section*{Les quatre demandes du call avec Hugo}
+
+% HARNAIS-HORS-SCRIPT: la borne 0,84 est citee PRECISEMENT parce qu'aucun calcul du projet ne
+% la reproduit. C'est le seul cas ou publier un nombre non confirme est correct : le fait qu'il
+% soit introuvable EST l'information, et le harnais ne peut pas confirmer une absence.
+
+\begin{frame}{H1. Retirer les conclusions tirées du bootstrap de $\xi$}
+\scriptsize
+\textbf{Demandé.} L'intervalle sur l'indice de queue est trop large pour porter une conclusion.
+\vspace{1mm}
+
+\textbf{Fait.} Les conclusions sont retirées. \textbf{L'intervalle reste affiché comme un fait}
+et la limite déclarée ne bouge pas ; seule la lecture qu'on en faisait disparaît. Deux
+trouvailles en faisant ce retrait :
+\begin{itemize}\itemsep1pt
+\item la slide portait $[0{,}32\,;0{,}84]$, un couple qu'\textbf{aucun calcul ne reproduit} : le
+$0{,}32$ est la borne basse de la delta-méthode ($[0{,}320\,;0{,}871]$) et le $0{,}84$
+n'appartient à aucun des deux intervalles. Le mémoire publie le bootstrap,
+$[0{,}304\,;0{,}831]$ ;
+\item le même travers vivait dans le mémoire, qui écrivait que $\hat\xi$ \og se stabilise
+autour de $0{,}6$ \fg{} alors que le balayage le fait descendre à $0{,}38$.
+\end{itemize}
+\begin{block}{\garder}
+Le retrait est acquis et ne coûte rien. Ce qui mérite d'être conservé au-delà de la demande :
+le script imprimait en clair l'interdiction d'écrire cette phrase, et personne ne l'avait lue.
+\end{block}
+\srcs{script~\texttt{47}}
+\end{frame}
+
+\begin{frame}{H2. La table complète des leviers, et la réconciliation}
+\scriptsize
+\textbf{Demandé.} La somme des leviers pris un par un donnait $9\,138$~M\euro{} quand l'écart
+total en vaut $14\,139$. D'où vient la différence.
+\vspace{1mm}
+
+\textbf{Fait.} Les seize configurations du treillis des quatre canaux sont énumérées. La
+différence n'est pas une erreur, c'est l'\textbf{interaction}.
+\begin{center}
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Canal} & \textbf{Isolé} & \textbf{Fermeture} & \textbf{Shapley} \\
+\midrule
+Fréquence & $4\,328$ & $8\,775$ & $6\,546$ \\
+Détection & $1\,448$ & $4\,562$ & $2\,928$ \\
+Accumulation & $1\,728$ & $3\,402$ & $2\,576$ \\
+Propagation & $1\,633$ & $2\,402$ & $2\,088$ \\
+\midrule
+\textbf{somme} & $9\,138$ & $19\,141$ & $\mathbf{14\,139}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-1mm}
+\begin{block}{\garder{} les trois colonnes}
+L'interaction vaut $+5\,001$~M\euro, soit $+35\,\%$. \textbf{Les trois lectures ne sont pas
+interchangeables et n'en publier qu'une détruirait le résultat} : un plan de remédiation doit
+citer la colonne de \emph{fermeture}, parce qu'un canal fermé ferme aussi les croisés qu'il
+portait.
+\end{block}
+\srcs{scripts~\texttt{43} et~\texttt{68}}
+\end{frame}
+
+\begin{frame}{H3. Les effets croisés entre leviers}
+\scriptsize
+\textbf{Demandé.} Regarder les croisements, en particulier fréquence et accumulation.
+\vspace{1mm}
+
+\textbf{Fait.} Décomposition de Möbius, quinze termes : ordre~1 $9\,138$, ordre~2 $5\,345$,
+ordre~3 $-691$, ordre~4 $+346$, dont la somme redonne $14\,139$ à la précision machine. Les six
+paires sont publiées avec leur bruit.
+\vspace{1mm}
+
+\textbf{Deux réserves, et elles comptent autant que le résultat.}
+\begin{itemize}\itemsep1pt
+\item \textbf{Il ne faut pas nommer de paire dominante} : les deux premières se tiennent à
+$73$~M\euro{} pour des écarts-types de $708$ et $354$. Ce qui \emph{est} résolu : les trois
+paires porteuses passent toutes par la fréquence et font $86\,\%$ de l'ordre~2 ;
+\item la réconciliation est une \textbf{identité, pas une mesure}. Sur seize graines, neuf
+termes sur quinze ont un signe résolu, et \textbf{aucun} des cinq d'ordre 3 et 4.
+\end{itemize}
+\begin{block}{\garder}
+Le résultat à retenir est \emph{négatif} et c'est le plus solide : propagation $\times$
+accumulation vaut $-330$~M\euro{} sur toutes les graines. Les deux canaux de co-occurrence sont
+\textbf{substituts}, ce qui borne ce qu'on peut imputer à la contagion prise en général.
+\end{block}
+\srcs{script~\texttt{68}}
+\end{frame}
+
+\begin{frame}{H4. Le point 2 : portage, plancher, retour de 6 à 35 ans}
+\scriptsize
+\textbf{Demandé.} Les deux mots n'ont pas été compris, une clarification écrite est attendue.
+\vspace{1mm}
+
+\textbf{Fait, et la relecture a fait tomber une erreur.} Le mémoire écrivait que le
+\emph{retour} était un \og plancher \fg{} alors que ce qui est minoré est le \emph{bénéfice}.
+Or minorer le bénéfice \textbf{majore} la durée : le sens de la borne était inversé, dans le
+mémoire, dans le script et dans le titre d'une figure. Les trois sont corrigés.
+\begin{itemize}\itemsep1pt
+\item \textbf{portage} : détenir du capital coûte chaque année. Libérer l'écart économise
+$848$~M\euro/an à $6\,\%$, et $672$ au taux révisé de $4{,}75\,\%$ ;
+\item \textbf{le bénéfice a deux composantes et une seule est monétisée} : la charge annuelle
+passe de $3\,869$ à $622$~M\euro, soit une sinistralité évitée de $3\,247$~M\euro/an, qui vaut
+$\mathbf{3{,}8}$ \textbf{fois} le portage ;
+\item \textbf{d'où le sens} : le retour de $6$ à $35$ ans est un \textbf{MAJORANT}.
+\end{itemize}
+\begin{block}{\garder}
+L'incompréhension en séance ne venait pas d'un défaut de pédagogie mais d'une erreur réelle. La
+perte évitée, affirmée \og majoritaire \fg{} depuis le début sans jamais être calculée, est
+désormais chiffrée.
+\end{block}
+\srcs{script~\texttt{50}}
+\end{frame}
+
+\section*{Les autres points du call avec Hugo}
+
+\begin{frame}{H5. Les scénarios par taille d'entité}
+\scriptsize
+\textbf{Demandé.} Chiffrer le coût de mise en conformité pour de petites, moyennes et grandes
+entités.
+\vspace{1mm}
+
+\textbf{Fait, et le résultat est inconfortable.} Descendre le capital sectoriel au prorata de la
+taille suppose une \textbf{élasticité de $1$}. Les deux canaux estimés en sont loin : fréquence
+$+0{,}0744$, sévérité $0{,}087$ d'intervalle $[0{,}026\,;0{,}148]$, pour une élasticité globale
+mesurée de $\mathbf{0{,}204}$. Une petite entité reçoit $0{,}633$ contre $0{,}100$ sous
+proportionnalité, une grande $1{,}621$ contre $10{,}00$.
+\vspace{1mm}
+
+\textbf{Les deux approches se trompent en sens opposés} : la proportionnalité sous-estime une
+petite entité, le modèle la majore parce qu'il ne plafonne pas la sévérité.
+\begin{block}{\compresser}
+Six pages du corps portent ce sujet. Le résultat utile tient en une page et demie : l'élasticité
+mesurée, l'encadré des deux erreurs de sens opposés, et la requalification du chiffre d'entité
+en \textbf{borne supérieure d'ordre de grandeur}. Le reste est de l'illustration.
+\textbf{La limite déclarée, elle, reste} : c'est elle qui justifie la borne.
+\end{block}
+\srcs{scripts~\texttt{60} et~\texttt{70}}
+\end{frame}
+
+\begin{frame}{H6 et H7. Ne pas se brider, et la clarification écrite}
+\scriptsize
+\textbf{H6, demandé.} Ne pas se brider dans l'affichage de l'incertitude.
+\vspace{1mm}
+
+\textbf{Fait.} Toute grandeur simulée est désormais publiée \textbf{avec son bruit}, et les six
+postures de report sont définies et chiffrées avec le leur : prédictive $\pm 7$,
+$\beta = 90\,\%$ $\pm 13$, $\beta = 95\,\%$ $\pm 9$, $\beta = 99\,\%$ $\pm 24$. La table dit que
+\textbf{la posture la plus prudente est la moins précise}, ce qui affaiblit en apparence la plus
+rassurante.
+\begin{block}{\garder}
+Publier \og $1\,247 \pm 24$ \fg{} rend sans objet toute question sur le troisième chiffre.
+Retirer le $\pm$ pour faire plus net serait exactement la dégradation contre laquelle ce mémoire
+se construit. Réserve à tenir : sur quatre graines, l'ordre entre $\beta = 90$ et $95\,\%$
+n'est \textbf{pas} résolu et n'a pas à l'être.
+\end{block}
+\vspace{-1mm}
+\textbf{H7.} La clarification écrite sur le portage vous est due. Le contenu existe et est
+vérifié, la slide H4 en est le résumé. \atrancher{} \; il ne reste qu'à l'envoyer.
+\srcs{scripts~\texttt{46} et~\texttt{51}}
+\end{frame}
+
+\begin{frame}{H8. Quel écart entre états publier, et sous quelle définition}
+\scriptsize
+\textbf{Soulevé au call} en filigrane de l'analyse par levier, et non tranché depuis.
+\vspace{1mm}
+
+\textbf{Deux chiffres sont établis et imprimés, et ils ne mesurent pas la même chose.}
+\begin{itemize}\itemsep1pt
+\item un gain de conformité de $-53\,\%$, soit $8\,861$~M\euro{} de capital en moins, de
+$16\,847$ à $7\,987$. Il fait varier le score de conformité \textbf{en gardant le gain de
+propagation au niveau non conforme}, ce qui explique que son état \og conforme \fg{} soit à
+$7\,987$ et non à $6\,049$ ;
+\item un facteur $\mathbf{3{,}34}$ entre les deux états de référence, où \textbf{seuls les
+quatre canaux bougent}, à sévérité de base et échelle inchangées.
+\end{itemize}
+\vspace{1mm}
+Un troisième chiffre circule, de l'ordre de $-64\,\%$. \textbf{Il ne doit pas être employé en
+l'état} : la vérification faite pour ce point ne le retrouve dans aucune sortie versionnée sur
+cette grandeur.
+\begin{block}{\atrancher}
+\textbf{C'est la décision la plus urgente de ce document.} Tant qu'elle n'est pas prise, le
+mémoire peut publier deux chiffres qui semblent se contredire alors qu'ils répondent à deux
+questions différentes. Échanger l'un contre l'autre sans trancher remplacerait un chiffre mal
+défini par un autre.
+\end{block}
+\srcs{scripts~\texttt{25} et~\texttt{43}}
+\end{frame}
+
+\section*{Le call avec Caroline : ce qui ne touche pas le mémoire}
+
+\begin{frame}{C1 et C2. La dynamique de $Y_{j,t}$, et le mot \og gravité \fg}
+\scriptsize
+\textbf{C1, demandé.} Justifier la dynamique de $Y_{j,t}$, brownien pour le bruit de fond et
+sauts pour les grands chocs.
+\vspace{1mm}
+
+\textbf{Fait.} Une note autonome de six pages. Trois horloges distinguées, et les deux échelles
+sont \emph{identifiées} par la surdispersion mesurée : $1{,}19$ sur les cellules firme-année,
+$2{,}24$ sur la série annuelle détendancée, contre $1$ pour un brownien pur.
+\vspace{1mm}
+
+\textbf{C2, demandé.} Clarifier l'emploi du mot \og gravité \fg.
+\vspace{1mm}
+
+\textbf{Fait, et le balayage donne l'inverse de ce qu'on attendait.} \textbf{Le mémoire
+n'emploie nulle part \og gravité \fg{} pour le caractère systémique} : la confusion venait des
+decks de juillet, archivés. En revanche il y a une \textbf{vraie collision dans le code}, entre
+le gain de propagation et l'échelon de sévérité, dont les noms ne diffèrent que par un tiret
+bas.
+\begin{block}{\rien{} dans le mémoire}
+Les deux réponses existent et ne demandent aucune page. La note sur $Y_{j,t}$ reste une pièce de
+discussion, pas un chapitre. La collision de noms est un sujet de code, verrouillé en attendant
+par la table des notations. Le renommage touche 27 fichiers sur un pipeline gelé : \atrancher.
+\end{block}
+\srcs{script~\texttt{08b}}
+\end{frame}
+
+\section*{Le call avec Caroline : les mesures demandées}
+
+\begin{frame}{C3. Le test de martingalité}
+\scriptsize
+\textbf{Demandé.} Un test de martingalité est-il conduit, et sur quoi.
+\vspace{1mm}
+
+\textbf{Fait, et la réponse est un fait vérifié plutôt qu'un argument.} \textbf{Le mémoire n'en
+contient aucun}, et il n'y en a jamais eu. Le mot y a deux emplois, tous deux légitimes et tous
+deux sous mesure physique : la forme de Dirichlet d'une chaîne de Markov, et un brownien sans
+dérive pour un temps de premier passage. Aucun prix, aucun actif répliqué, aucun changement de
+mesure.
+\vspace{1mm}
+
+Un test \emph{est} conduit, mais il ne porte pas sur une martingale : c'est l'asymétrie du
+corpus contre une loi nulle exacte, et son résultat est publié \textbf{et négatif}, $119$ contre
+$128 \pm 27$, soit $z = -0{,}33$.
+\begin{block}{\garder{} les deux paragraphes de précaution}
+Ils coûtent quelques lignes et ferment définitivement une objection qu'un jury reposerait. Le
+lien rhétorique qui suggérait un cadre commun entre les deux emplois est corrigé :
+\textbf{ce qu'ils partagent est la mesure, pas la mathématique}.
+\end{block}
+\srcs{scripts~\texttt{40} et~\texttt{64}}
+\end{frame}
+
+\begin{frame}{C4. La sensibilité des paramètres}
+\scriptsize
+\textbf{Demandé.} Montrer la sensibilité aux paramètres, en particulier à la propagation.
+\vspace{1mm}
+
+\textbf{Fait, et le résultat va contre l'inquiétude qui motivait la demande.}
+\begin{center}
+\begin{tabular}{@{}l r@{}}
+\toprule
+\textbf{Ce qu'on fait varier} & \textbf{Déplacement du surcoût} \\
+\midrule
+Gain de propagation $g$, de $0{,}5$ à $1{,}0$ & $5\,517 \rightarrow 6\,579$~M\euro \\
+Fréquence & $4\,056 \rightarrow 8\,684$~M\euro \\
+Seuil de la loi de queue & $4\,862 \rightarrow 12\,944$~M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\textbf{La propagation est le levier le moins sensible des quatre.} La fragilité est dans
+l'ajustement de valeurs extrêmes, pas dans la contagion, ce qui est l'inverse de ce qu'on
+redoute d'un modèle de cascade.
+\begin{block}{\garder}
+\textbf{Une des meilleures lignes des deux calls} : elle retourne le reproche habituel. S'y
+ajoute le coût de l'ignorance directionnelle, $336$~M\euro{} au quart, $695$ à la moitié,
+$1\,083$ aux trois quarts, $1\,839$ à l'ignorance totale. \textbf{L'ignorance se paye
+linéairement et son coût maximal est connu d'avance}, ce qui est plus favorable qu'un
+intervalle de confiance ordinaire.
+\end{block}
+\srcs{scripts~\texttt{15} et~\texttt{30}}
+\end{frame}
+
+\begin{frame}{C5 et C6. La CTE, et le niveau de l'intervalle reporté}
+\scriptsize
+\textbf{C5, demandé.} Une CTE ou CVaR à côté de la VaR.
+\vspace{1mm}
+
+\textbf{Fait, en diagnostic et jamais comme couverture.} CTE de $5\,734$, $12\,607$ et $18\,183$
+aux niveaux $95$, $99$ et $99{,}5\,\%$. \textbf{La CTE à $95\,\%$ est moins prudente que la VaR
+réglementaire}, l'équivalence tombant à $\beta = 97{,}73\,\%$. Et l'argument décisif n'est pas
+une proportion : sous la calibration alternative $\hat\xi = 1{,}033 > 1$, l'espérance est
+infinie et \textbf{la mesure n'existe pas}.
+\vspace{1mm}
+
+\textbf{C6, demandé.} Reporter le SCR avec un intervalle à $95\,\%$.
+\vspace{1mm}
+
+\textbf{Fait sans rejouer aucun bootstrap.} L'indice de queue passerait à
+$[0{,}2487\,;0{,}8765]$, le capital à $[2\,727\,;34\,942]$~M\euro.
+\begin{block}{\garder{} la CTE, et \atrancher{} le niveau}
+Une page pour un argument d'existence qui ferme la question : le meilleur rapport des deux
+calls. Pour le niveau, deux constats : la bascule ne déplace \textbf{aucune calibration}, et
+elle \textbf{ne corrige pas} la sous-couverture, qui reste un déficit constant de $3{,}2$ points
+($86{,}8\,\%$ réels pour $90$ nominaux, $91{,}8$ pour $95$). \emph{Ma recommandation : rester à
+$90\,\%$ et publier le déficit.}
+\end{block}
+\srcs{scripts~\texttt{72} et~\texttt{73}}
+\end{frame}
+
+\begin{frame}{C7 et C8. La renormalisation par la taille, et les trois étages}
+\scriptsize
+\textbf{C7, demandé.} Renormaliser proportionnellement au SCR de marché.
+\vspace{1mm}
+
+\textbf{Testé, et la mesure conclut contre} : élasticité $0{,}204$ contre $1$ supposée. Le détail
+est en slide H5, la demande étant la même vue des deux côtés.
+\vspace{1mm}
+
+\textbf{C8, demandé.} Chiffrer les trois étages d'incertitude, puis retirer le troisième.
+\vspace{1mm}
+
+\textbf{Chiffré, et le résultat va contre l'intuition de l'arbitrage} : l'étage de modèle est le
+plus gros des trois, facteur $9{,}21$ sur l'axe de la famille de queue contre $8{,}93$ pour le
+paramètre et $1{,}27$ pour l'identification. Le retirer rétrécirait l'affichage plus que tout
+autre retrait alors que l'incertitude ne bougerait pas.
+\begin{block}{\garder{} le compromis, \compresser{} son exposé}
+L'étage de modèle \textbf{sort de la bande reportée} mais devient un axe de sensibilité déclaré,
+et reste publié deux fois. Le motif écrit est ce qui rend la décision défendable : les deux
+premiers étages sont \emph{statistiques} donc portables par un intervalle, le troisième est
+\emph{épistémique} et un choix de famille ne se moyenne pas. Ce motif tient en un paragraphe.
+\end{block}
+\srcs{scripts~\texttt{48}, \texttt{70} et~\texttt{71}}
+\end{frame}
+
+\section*{Le call avec Caroline : structure, et voies refermées}
+
+\begin{frame}{C9. La conformité aux piliers 1 et 2 protège-t-elle le 3}
+\scriptsize
+\textbf{Demandé.} Être conforme aux piliers 1 et 2 rend indirectement un peu conforme au 3.
+\vspace{1mm}
+
+\textbf{Trois choses, dans cet ordre.}
+\begin{itemize}\itemsep1pt
+\item \textbf{Répondre que la dépendance manque serait faux} : elle existe déjà, de corrélation
+$0{,}462$ entre deux piliers quelconques. Ce qui manque est sa \emph{structure}, échangeable au
+lieu d'être propre à certains triplets ;
+\item \textbf{l'omission ne coûte rien, et c'est mesuré} : en ajoutant un surcroît de
+corrélation aux seules paires concernées, admissible jusqu'à $0{,}38$, la loi des configurations
+bouge nettement mais le capital espéré ne bouge que de $2$~M\euro, soit $0{,}02\,\%$ ;
+\item \textbf{la raison est structurelle, pas numérique} : le capital des $32$ configurations
+s'ajuste par une forme \emph{additive} en indicateurs de pilier à $R^2 = 0{,}9945$, et
+l'espérance d'une fonction additive ne dépend que des \textbf{marges}.
+\end{itemize}
+\begin{block}{\garder}
+\textbf{Le meilleur résultat des deux calls.} L'invariance n'est pas constatée sur un balayage,
+elle est \emph{démontrée} : elle vaut pour \textbf{toute} structure à marges fixées, y compris
+celles qu'on n'a pas essayées. Réserve à conserver : elle porte sur l'\textbf{espérance}, et un
+quantile de la loi des configurations bougerait.
+\end{block}
+\srcs{script~\texttt{69}}
+\end{frame}
+
+\begin{frame}{C10. Les défaillances simultanées et l'additivité des coûts}
+\scriptsize
+\textbf{Demandé.} Le cas où plusieurs piliers défaillent ensemble, et l'additivité de leurs
+coûts.
+\vspace{1mm}
+
+\textbf{La prémisse est à corriger d'abord.} Ce n'est pas un cas laissé de côté, \textbf{c'est
+la sortie du modèle}, et à l'état non conforme la défaillance multiple est \emph{majoritaire} :
+$62{,}31\,\%$ des sinistres touchent plus d'un pilier, contre $31{,}15\,\%$ à l'état conforme.
+\vspace{1mm}
+
+\textbf{Ensuite, \og additivité \fg{} désigne trois choses à trois étages.} Hypothèse non testée
+sur les coûts d'un sinistre ; quasi-additivité \emph{mesurée} en fonction des piliers ;
+super-additivité \emph{mesurée} en fonction des canaux, $+35\,\%$. \textbf{Répondre \og le
+modèle est super-additif \fg{} serait donc faux.}
+\vspace{1mm}
+
+\textbf{Enfin l'hypothèse est bornée} : un exposant de $0{,}70$ à $1{,}30$ déplace l'écart de
+$9\,706$ à $20\,487$~M\euro, soit $15$ fois son bruit de $\pm 734$.
+\begin{block}{\annexer{} le détail, \garder{} un paragraphe dans le corps}
+Le corps doit garder la distinction des trois étages, qui évite une réponse fausse, et
+l'asymétrie inattendue : élasticités $0{,}95$ à l'état non conforme contre $0{,}39$ à l'état
+conforme. Le reste, la table complète des exposants et la loi du cardinal, vit très bien en
+annexe.
+\end{block}
+\srcs{script~\texttt{74}}
+\end{frame}
+
+\begin{frame}{C11 et C12. Les séquences ordonnées, et les dates d'arrivée}
+\scriptsize
+\textbf{C11, demandé.} Exploiter les probabilités conditionnelles de séquence, du type
+P1 $\rightarrow$ P2 $\rightarrow$ P3, pour reconstituer la direction.
+\vspace{1mm}
+
+\textbf{La voie a été suivie jusqu'au bout et se referme, pour trois raisons distinctes.} Les
+séquences étaient \textbf{déjà dans le corpus} : composer les arêtes donne $9$ chemins et $4$
+séquences distinctes. \textbf{La comparaison demandée a un support vide}, P2 n'émettant jamais,
+$0$ fois sur $22$. \textbf{Et le test n'a aucune puissance}, pas faute d'échantillon : il exige
+d'un même pilier qu'il soit atteint \emph{et} qu'il ait deux successeurs, et les deux manques
+sont exclusifs dans ce corpus.
+\vspace{1mm}
+
+\textbf{C12, demandé.} Le processus des dates d'arrivée, et l'effet du regroupement.
+\vspace{1mm}
+
+\textbf{Non traité, et la raison est dans la donnée} : le coût d'un sinistre \emph{daté} n'est
+jamais observé, la chronologie portant les dates et la conversion portant les coûts.
+\begin{block}{\compresser{} le corps, \garder{} l'annexe}
+Un résultat négatif se défend quand il livre un \textbf{critère de réouverture} précis, et
+celui-ci le fait : un pilier atteint avec deux successeurs, répété $158$ à $589$ fois. À
+conserver absolument : la chaîne \textbf{n'est pas sans mémoire}, l'auto-évitement gonflant la
+loi du successeur de $1{,}211$, donc les triplets ne sont pas redondants avec les paires.
+\end{block}
+\srcs{script~\texttt{75}}
+\end{frame}
+
+\begin{frame}{C13. La méthode de Cooke en annexe, et le questionnaire}
+\scriptsize
+\textbf{Demandé.} Mettre la méthode et le questionnaire en annexe, peaufiner le questionnaire.
+\vspace{1mm}
+
+\textbf{Fait, et l'annexe a changé de sens.} Elle ne présente pas un protocole à venir mais
+\textbf{un protocole préparé et non exécuté}, avec le chiffrage de la raison : un panel
+faiblement calibré déplacerait le capital de $777$~M\euro{} \emph{sans qu'aucun signal ne
+l'indique}, là où l'approche par bornes reste invariante. Le coût de l'abandon est nommé : P1 et
+P4 restent à égalité, P1 en tête dans $43{,}6\,\%$ des cas, pour un écart de regret maximal de
+$1{,}5\,\%$.
+\vspace{1mm}
+
+\textbf{Le questionnaire a été repris, et la reprise a évité un vrai dégât.} Une graine était
+\textbf{fausse} : elle annonçait un indice de queue de $0{,}90$, valeur posée du pire cas, quand
+la calibration donne $0{,}5954$. Dans la méthode de Cooke une graine fausse n'ajoute pas du
+bruit, elle \textbf{inverse} les poids. Et la convention de direction était \emph{inversée} par
+rapport au mémoire : une saisie fidèle aurait transposé la matrice.
+\begin{block}{\garder}
+Trois pages d'annexe bien employées : c'est un actif devant un jury qui demanderait pourquoi un
+modèle dont la direction n'est pas identifiable ne recourt pas au jugement d'expert. La décision
+reste \textbf{réversible sans coût de développement}.
+\end{block}
+\srcs{scripts~\texttt{26}, \texttt{30}, \texttt{31} et~\texttt{47}}
+\end{frame}
+
+\section*{Ce qui vous revient}
+
+% HARNAIS-HORS-SCRIPT: le nombre de fichiers touches par le renommage est un compte de code
+% source, pas une grandeur du modele. Aucun script ne le produit et aucun ne le devrait.
+
+\begin{frame}{Les quatre décisions que je ne peux pas prendre}
+\scriptsize
+\begin{block}{1. La définition de l'écart entre états \hfill \emph{la plus urgente}}
+$-53\,\%$ à gain de propagation figé, ou facteur $3{,}34$ à quatre canaux. Deux définitions,
+deux questions différentes. Le mémoire doit dire laquelle il publie.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{2. Le niveau de l'intervalle reporté}
+$90$ ou $95\,\%$. Aucune calibration ne bouge, toutes les bornes publiées bougent, et la
+sous-couverture n'est pas corrigée dans un cas comme dans l'autre.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{3. Les six pages des scénarios par taille}
+Le résultat utile tient en une page et demie. Ce qui doit rester quoi qu'il arrive est la limite
+qui justifie la borne supérieure.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{4. Le renommage dans le code}
+Le gain de propagation et l'échelon de sévérité portent des noms qui ne diffèrent que par un
+tiret bas. Vingt-sept fichiers, sur un pipeline gelé.
+\end{block}
+\end{frame}
+
+\begin{frame}{Ce que je propose de garder, et ce que je propose de réduire}
+\scriptsize
+\begin{block}{À garder sans discussion}
+La table complète des leviers et ses trois lectures. Le sens de la borne du retour. La CTE et
+son argument d'existence. La sensibilité qui montre que la propagation est le levier le moins
+sensible. L'invariance à la structure de dépendance, qui est \emph{démontrée} et non constatée.
+Le protocole d'élicitation préparé et non exécuté.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{À réduire, sans rien perdre d'essentiel}
+Les scénarios par taille, de six pages à une et demie. L'exposé des trois étages, dont seul le
+motif épistémique doit rester. Les défaillances simultanées, dont le détail vit en annexe. Les
+séquences ordonnées, dont le corps peut se limiter au support vide et au critère de réouverture.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{La règle qui gouverne tout le reste}
+\textbf{Aucune limite déclarée n'est proposée au retrait.} Ce mémoire tient parce qu'il publie
+ses propres réserves : la non-transitivité réfutée par son auteur, le chiffre central requalifié
+en borne supérieure, la borne inférieure de validité publiée. Gagner une page en rendant une
+réserve moins visible serait le plus mauvais échange possible.
+\end{block}
+\end{frame}
+
+\end{document}

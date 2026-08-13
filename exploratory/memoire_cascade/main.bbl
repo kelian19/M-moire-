@@ -1,0 +1,172 @@
+\begin{thebibliography}{26}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Autorites europeennes de surveillance
+  (ESAs)}(2026)]{esas2026_incidents}
+{Autorites europeennes de surveillance (ESAs)}.
+\newblock Premier rapport annuel sur les incidents lies aux tic au titre de
+  dora, 2026.
+\newblock 3383 incidents TIC majeurs en 2025 ; 29 pourcent d'origine tierce.
+
+\bibitem[Baldwin et~al.(2017)Baldwin, Gheyas, Ioannidis, Pym, and
+  Williams]{Baldwin2017}
+Adrian Baldwin, Iffat Gheyas, Christos Ioannidis, David Pym, and Julian
+  Williams.
+\newblock Contagion in cyber security attacks.
+\newblock \emph{Journal of the Operational Research Society}, 68\penalty0 (7),
+  2017.
+
+\bibitem[{Banque centrale europeenne}(2024)]{ecb2024_outsourcing}
+{Banque centrale europeenne}.
+\newblock Analyse des registres d'externalisation des etablissements
+  importants, 2024.
+\newblock Plus de 30 pourcent du budget d'externalisation sur 10 prestataires ;
+  50 pourcent du budget critique sur 30 ; 19 prestataires TIC critiques
+  designes par les ESAs (novembre 2025).
+
+\bibitem[Beirlant et~al.(2004)Beirlant, Goegebeur, Segers, and
+  Teugels]{Beirlant2004}
+Jan Beirlant, Yuri Goegebeur, Johan Segers, and Jozef Teugels.
+\newblock \emph{Statistics of Extremes: Theory and Applications}.
+\newblock Wiley, 2004.
+
+\bibitem[Bessy-Roland et~al.(2021)Bessy-Roland, Boumezoued, and
+  Hillairet]{BessyRolandBoumezouedHillairet2021}
+Yannick Bessy-Roland, Alexandre Boumezoued, and Caroline Hillairet.
+\newblock Multivariate hawkes process for cyber insurance.
+\newblock \emph{Annals of Actuarial Science}, 15\penalty0 (1):\penalty0 14--39,
+  2021.
+
+\bibitem[Biener et~al.(2015)Biener, Eling, and Wirfs]{BienerElingWirfs2015}
+Christian Biener, Martin Eling, and Jan~Hendrik Wirfs.
+\newblock Insurability of cyber risk: An empirical analysis.
+\newblock \emph{The Geneva Papers on Risk and Insurance -- Issues and
+  Practice}, 40:\penalty0 131--158, 2015.
+
+\bibitem[B\"ohme and Kataria(2006)]{BohmeKataria2006}
+Rainer B\"ohme and Gaurav Kataria.
+\newblock Models and measures for correlation in cyber-insurance.
+\newblock In \emph{Workshop on the Economics of Information Security (WEIS)},
+  2006.
+
+\bibitem[Boumezoued et~al.(2023)Boumezoued, Cherkaoui, and
+  Hillairet]{BoumezouedCherkaouiHillairet2023}
+Alexandre Boumezoued, Yousra Cherkaoui, and Caroline Hillairet.
+\newblock Cyber risk modeling using a two-phase hawkes process with external
+  excitation, 2023.
+\newblock arXiv:2311.15701.
+
+\bibitem[{Commission europeenne}(2024)]{eu2024_2956}
+{Commission europeenne}.
+\newblock Reglement d'execution (ue) 2024/2956 etablissant les modeles du
+  registre d'information des accords contractuels portant sur l'usage de
+  services tic fournis par des prestataires tiers (dora).
+\newblock Journal officiel de l'Union europeenne, 2024.
+\newblock Modeles B\_01.01 a B\_99.01 ; chaine de sous-traitance, criticite,
+  substituabilite.
+
+\bibitem[Edwards et~al.(2016)Edwards, Hutchings, and Forrest]{Edwards2016}
+Benjamin Edwards, Steven Hutchings, and Stephanie Forrest.
+\newblock Hype and heavy tails: a closer look at data breaches.
+\newblock \emph{Journal of Cybersecurity}, 2, 2016.
+
+\bibitem[Embrechts et~al.(1997)Embrechts, Kl{\"u}ppelberg, and
+  Mikosch]{Embrechts1997}
+Paul Embrechts, Claudia Kl{\"u}ppelberg, and Thomas Mikosch.
+\newblock \emph{Modelling Extremal Events for Insurance and Finance}.
+\newblock Springer, 1997.
+
+\bibitem[Farkas et~al.(2021)Farkas, Lopez, and Thomas]{FarkasLopezThomas2021}
+S{\'e}bastien Farkas, Olivier Lopez, and Maud Thomas.
+\newblock Cyber claim analysis using generalized pareto regression trees with
+  applications to insurance.
+\newblock \emph{Insurance: Mathematics and Economics}, 98:\penalty0 92--105,
+  2021.
+
+\bibitem[Herath and Herath(2011)]{HerathHerath2011}
+Hemantha Herath and Tejaswini Herath.
+\newblock Copula-based actuarial model for pricing cyber-insurance policies.
+\newblock \emph{Insurance Markets and Companies}, 2, 2011.
+
+\bibitem[Hill(1975)]{Hill1975}
+Bruce~M. Hill.
+\newblock A simple general approach to inference about the tail of a
+  distribution.
+\newblock \emph{The Annals of Statistics}, 3\penalty0 (5):\penalty0 1163--1174,
+  1975.
+
+\bibitem[Hillairet and Lopez(2021)]{HillairetLopez2021}
+Caroline Hillairet and Olivier Lopez.
+\newblock Propagation of cyber incidents in an insurance portfolio: counting
+  processes combined with compartmental epidemiological models.
+\newblock \emph{Scandinavian Actuarial Journal}, 2021.
+
+\bibitem[Hillairet et~al.(2021)Hillairet, R\'eveillac, and
+  Rosenbaum]{HillairetReveillacRosenbaum2021}
+Caroline Hillairet, Anthony R\'eveillac, and Mathieu Rosenbaum.
+\newblock An expansion formula for hawkes processes and application to
+  cyber-insurance derivatives, 2021.
+\newblock arXiv:2104.01579, Stochastic Processes and their Applications (2023).
+
+\bibitem[Hillairet et~al.(2022)Hillairet, Lopez, d'Oultremont, and
+  Spoorenberg]{HillairetLopezDOultremontSpoorenberg2022}
+Caroline Hillairet, Olivier Lopez, Louise d'Oultremont, and Brieuc Spoorenberg.
+\newblock Cyber-contagion model with network structure applied to insurance.
+\newblock \emph{Insurance: Mathematics and Economics}, 2022.
+
+\bibitem[Leontief(1936)]{Leontief1936}
+Wassily Leontief.
+\newblock Quantitative input and output relations in the economic system of the
+  united states.
+\newblock \emph{The Review of Economics and Statistics}, 18\penalty0 (3), 1936.
+
+\bibitem[Lu et~al.(2024)Lu, Zhang, and Zhu]{LuZhangZhu2024}
+Yang Lu, Yaodi Zhang, and Wenjun Zhu.
+\newblock Cyber risk modeling: a discrete multivariate count process approach.
+\newblock \emph{Scandinavian Actuarial Journal}, 2024\penalty0 (6), 2024.
+
+\bibitem[Manski(1990)]{Manski1990}
+Charles~F. Manski.
+\newblock Nonparametric bounds on treatment effects.
+\newblock \emph{American Economic Review}, 80\penalty0 (2):\penalty0 319--323,
+  1990.
+
+\bibitem[{Munich Re}(2024)]{munichre_cyber_2024}
+{Munich Re}.
+\newblock Cyber insurance: risks and trends -- global market estimates, 2024.
+\newblock Primes cyber mondiales estimées de l'ordre de 15~milliards de
+  dollars.
+
+\bibitem[Peng et~al.(2016)Peng, Xu, Xu, and Hu]{Peng2016}
+Chen Peng, Maochao Xu, Shouhuai Xu, and Taizhong Hu.
+\newblock Modeling and predicting extreme cyber attack rates via marked point
+  processes.
+\newblock \emph{Journal of Applied Statistics}, 44\penalty0 (14), 2016.
+
+\bibitem[Smith(1987)]{smith1987}
+Richard~L. Smith.
+\newblock Estimating tails of probability distributions.
+\newblock \emph{The Annals of Statistics}, 15\penalty0 (3):\penalty0
+  1174--1207, 1987.
+
+\bibitem[Tamer(2010)]{Tamer2010}
+Elie Tamer.
+\newblock Partial identification in econometrics.
+\newblock \emph{Annual Review of Economics}, 2:\penalty0 167--195, 2010.
+\newblock \doi{10.1146/annurev.economics.050708.143401}.
+
+\bibitem[Vasicek(2002)]{Vasicek2002}
+Oldrich Vasicek.
+\newblock The distribution of loan portfolio value.
+\newblock \emph{Risk}, 2002.
+
+\bibitem[Xu and Hua(2017)]{XuHua2017}
+Maochao Xu and Lei Hua.
+\newblock Cybersecurity insurance: modeling and pricing.
+\newblock \emph{North American Actuarial Journal}, 2017.
+
+\end{thebibliography}
