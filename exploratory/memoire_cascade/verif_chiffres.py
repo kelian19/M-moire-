@@ -115,6 +115,14 @@ def extrait(txt, latex=True):
     # de script (0,45 et 0,52 se confirmaient ainsi dans le deck du 14), et il ressortait en
     # fausse alerte des qu'on choisissait une autre largeur. Meme classe que \tfrac12 et p{4.3cm}.
     t = re.sub(r"[\d.]+\s*\\(?:line|text|column|paper)(?:width|height)\b", " ", t)
+    # LES CODES DE COULEUR HEXADECIMAUX. Un \definecolor{navy}{HTML}{1F3864} versait 3864 dans
+    # le pool a confirmer, la partie alphabetique etant simplement sautee par le motif
+    # d'extraction. Trouve le 13 aout sur les notes de suivi, qui definissent six couleurs
+    # chacune. Meme classe que p{4.3cm} : de la mise en page lue comme un resultat.
+    t = re.sub(r"\\definecolor\{[^}]*\}\{[^}]*\}\{[^}]*\}", " ", t)
+    # LES PENALITES DE CESURE. Un \hyphenpenalty=10000 dans une specification de colonne versait
+    # 10000 dans le pool, deux fois par table. Meme classe, meme remede.
+    t = re.sub(r"\\(?:hyphen|exhyphen|widow|club|binop|rel)penalty\s*=?\s*-?\d+", " ", t)
     # LA NOTATION SCIENTIFIQUE N'EST PAS DEUX NOMBRES. « p \approx 10^{-30} » ne publie ni un
     # dix ni un trente : il publie un ordre de grandeur, et le motif d'extraction en tirait un
     # « 10 » que rien ne pouvait confirmer. Meme classe que \tfrac12 et p{4.3cm} : un artefact

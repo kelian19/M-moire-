@@ -1,0 +1,219 @@
+% =====================================================================================
+% SUITES DU POINT AVEC HUGO -- etat point par point au 13 aout 2026.
+%
+% Meme gabarit et meme vocabulaire de statut que la note destinee a Caroline Hillairet, pour que
+% les deux se lisent de la meme facon. Le point qui structure ce document-ci est different :
+% l'essentiel des demandes d'Hugo portait sur la RECONCILIATION de l'ecart de capital, et la
+% reponse tient dans un residu qui a ete transforme en table complete.
+% =====================================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.7cm]{geometry}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+% \euro vient du preambule du memoire ; ce document est autonome et doit le charger lui-meme.
+\usepackage{eurosym}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{vert}{HTML}{D9EAD3}
+\definecolor{ambre}{HTML}{FCE5CD}
+\definecolor{gris}{HTML}{EFEFEF}
+\definecolor{rouge}{HTML}{F4CCCC}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\newcommand{\ok}{\cellcolor{vert}\footnotesize\textbf{INTÉGRÉ}}
+\newcommand{\autrement}{\cellcolor{vert}\footnotesize\textbf{INTÉGRÉ}\newline\footnotesize\textbf{AUTREMENT}}
+\newcommand{\ecarte}{\cellcolor{ambre}\footnotesize\textbf{MESURÉ PUIS}\newline\footnotesize\textbf{ÉCARTÉ}}
+\newcommand{\ouvert}{\cellcolor{ambre}\footnotesize\textbf{CHIFFRÉ,}\newline\footnotesize\textbf{À TRANCHER}}
+\newcommand{\non}{\cellcolor{rouge}\footnotesize\textbf{NON TRAITÉ}}
+\newcommand{\toi}{\cellcolor{gris}\footnotesize\textbf{HORS}\newline\footnotesize\textbf{PÉRIMÈTRE}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lfoot{\footnotesize Suites du point avec Hugo --- 13 août 2026}
+\rfoot{\footnotesize page \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries Suites du point tuteur avec Hugo\\[2pt]
+  \large Ce qui est intégré, ce qui ne l'est pas, et pourquoi}
+\author{Kélian Kaddouri}
+\date{13 août 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\vspace{-0.7cm}
+
+\begin{cle}
+\textbf{Le fil de ce point.} Quatre demandes sur cinq tournaient autour d'un même constat : la
+somme des leviers pris isolément donnait $9$~milliards quand l'écart total en vaut $14$. Ce
+n'était pas une erreur de calcul, c'est le résultat lui-même. \textbf{L'écart manquant est
+l'interaction entre les leviers}, il vaut $+5\,001$~M\euro{} soit $+35\,\%$, et il est désormais
+décomposé terme par terme plutôt que laissé en résidu. Un résidu n'est pas un résultat : c'est ce
+qui a changé depuis le point.
+\end{cle}
+
+\vspace{0.3cm}
+{\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{3.4cm} >{\raggedright\arraybackslash\hyphenpenalty=10000\exhyphenpenalty=10000}p{2.4cm} p{8.7cm} p{2.0cm}@{}}
+\toprule
+\textbf{Demande} & \textbf{Statut} & \textbf{Ce qui a été fait, et ce que cela donne} &
+\textbf{Où le voir} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Demande \emph{(suite)}} & \textbf{Statut} & \textbf{Ce qui a été fait} &
+\textbf{Où} \\
+\midrule
+\endhead
+
+Retirer les conclusions tirées du bootstrap de $\xi$ &
+\ok &
+Retirées. L'intervalle $[0{,}30\,;0{,}83]$ \textbf{reste affiché comme un fait} et la limite
+déclarée ne bouge pas ; ce qui disparaît est la lecture qu'on en faisait. Deux trouvailles en
+faisant ce retrait. La slide portait une valeur \textbf{fausse}, $[0{,}32\,;0{,}84]$, qu'aucun
+calcul ne reproduit : elle mélangeait la borne basse d'une méthode avec une borne haute
+n'appartenant à aucune. Et le même travers vivait dans le mémoire, qui écrivait que $\hat\xi$
+\og se stabilise autour de $0{,}6$ \fg{} alors que le balayage le fait descendre à $0{,}38$. &
+ch.~socle \\
+
+Tableau complet des leviers, et réconciliation avec les $14$~Md\euro &
+\ok &
+Les seize configurations du treillis des quatre canaux sont énumérées, et la réconciliation est
+\textbf{exacte à la précision machine}. Trois lectures d'un même canal en sortent, et elles ne
+sont pas interchangeables : isolé (depuis l'état conforme), fermeture (depuis l'état non
+conforme) et Shapley. La colonne isolée somme à $9\,138$, celle de fermeture à $19\,141$, Shapley
+à $14\,139$. \textbf{Conséquence de gestion} : remédier un canal rapporte davantage à une entité
+défaillante partout qu'à une entité déjà conforme, puisque le canal ferme aussi les croisés qu'il
+portait. C'est la colonne de \emph{fermeture}, non l'isolée, qu'un plan de remédiation doit
+citer. &
+ch.~résultats \\
+
+Où passent les $5$~Md\euro{} manquants &
+\ok &
+Décomposition de Möbius, quinze termes : ordre~1 $9\,138$, ordre~2 $5\,345$, ordre~3 $-691$,
+ordre~4 $+346$. \textbf{Mais la réconciliation est une identité, pas une mesure} : ce qu'elle
+atteste est que la table est \emph{complète}, pas que chaque terme est précis. Sur seize graines,
+neuf termes sur quinze ont un signe résolu, et \textbf{aucun} des cinq d'ordre 3 et 4 : leur
+quasi-annulation ne se lit donc pas comme cinq mesures. &
+ch.~résultats \\
+
+Effets croisés entre leviers &
+\autrement &
+Les six paires sont publiées avec leur bruit, et \textbf{il ne faut pas nommer de paire
+dominante} : les deux premières se tiennent à $73$~M\euro{} pour des écarts-types de $708$ et
+$354$, et leur ordre s'inverse selon la métrique. Ce qui \emph{est} résolu : les trois paires
+porteuses passent toutes par la fréquence et font $86\,\%$ de l'ordre~2. Et un résultat inattendu :
+\textbf{une seule paire est négative}, propagation $\times$ accumulation, sur les seize graines et
+les deux métriques. Les deux canaux de co-occurrence sont \emph{substituts}, un pilier déjà touché
+ne pouvant l'être deux fois : la cascade est super-additive en bloc mais sous-additive entre ses
+deux canaux de co-occurrence. &
+ch.~résultats \\
+
+Clarifier \og portage \fg{} et \og plancher \fg &
+\autrement &
+Les deux mots étaient mal employés, et la relecture a fait tomber une erreur de sens.
+\textbf{Le mémoire écrivait que le \emph{retour} était un plancher, alors que ce qui est minoré
+est le \emph{bénéfice}} : or minorer le bénéfice \emph{majore} la durée. La borne était donc
+annoncée à l'envers, dans le mémoire, dans le script et dans le titre de la figure ; les trois
+sont corrigés. Le portage vaut $848$~M\euro/an à $6\,\%$, la sinistralité évitée
+$3\,247$~M\euro/an, soit \textbf{$3{,}8$ fois} ce qui est retenu. D'où le sens de la borne : le
+retour de 6 à 35 ans est un \textbf{majorant}. &
+ch.~cas d'usage \\
+
+Scénarios par taille d'entité &
+\autrement &
+Traité, et la mesure déplace la question. La renormalisation proportionnelle au SCR de marché
+suppose une élasticité de $1$ à la taille ; \textbf{l'élasticité mesurée vaut $0{,}204$}, et les
+deux canaux estimés sont chacun d'un ordre de grandeur sous l'unité. Les deux approches se
+trompent en sens opposés, donc le scénario par taille est publié comme \emph{encadrement} et non
+comme une échelle unique. La borne inférieure de validité de la descente d'échelle reste
+déclarée, et le chiffre d'entité reste une \textbf{borne supérieure d'ordre de grandeur}. &
+ch.~résultats \\
+
+Ne pas se brider sur l'affichage de l'incertitude &
+\ok &
+Suivi, et dans les deux sens. Toute grandeur simulée est désormais publiée \textbf{avec son
+bruit}, ce qui rend sans objet les questions sur le troisième chiffre. Les six postures de
+report sont définies et chiffrées, avec leur bruit propre, et la table dit que \textbf{la posture
+la plus prudente est la moins précise} : c'est un résultat, pas une faiblesse, et le masquer
+rendrait le mémoire moins défendable. &
+ch.~robustesse \\
+
+% HARNAIS-HORS-SCRIPT: le -64 % est cite deux fois DANS LE BUT DE DIRE qu'aucune sortie
+% versionnee ne le reproduit sur cette grandeur. C'est le seul cas ou publier un nombre non
+% confirme est correct : le non-confirme EST l'information. Il ne doit pas devenir confirme.
+Quel écart entre états publier, et sous quelle définition &
+\ouvert &
+Deux chiffres sont établis et imprimés : un gain de conformité de $-53\,\%$, soit
+$8\,861$~M\euro{} de capital en moins, et un facteur $3{,}34$ entre les deux états de référence.
+\textbf{Ils ne mesurent pas la même chose}, parce qu'ils ne déplacent pas les mêmes canaux : le
+premier garde le gain de propagation au niveau \emph{non conforme} pendant qu'il fait varier le
+score de conformité, le second bouge les quatre canaux à sévérité et échelle inchangées.
+\textbf{Un troisième chiffre circule, de l'ordre de $-64\,\%$, et il ne faut pas l'employer en
+l'état} : la vérification faite pour cette note ne le retrouve dans aucune sortie versionnée
+\emph{sur cette grandeur}, ses occurrences dans le dossier appartenant au dimensionnement de la
+couverture, qui est un autre sujet. Le mémoire doit dire lequel il publie et sous quelle
+définition ; échanger l'un contre l'autre sans trancher ce point remplacerait un chiffre mal
+défini par un autre. &
+ch.~résultats \\
+
+Ancrer les valeurs de $g$ sur des sources publiques &
+\ouvert &
+Devenu \textbf{optionnel} depuis l'invariance : le capital est croissant en $g$, donc toute
+correspondance respectant l'\emph{ordre} produit l'écart quand le forfait reste plat. Seule
+l'amplitude est un scénario. L'ancrage améliorerait la présentation sans changer la thèse : à
+arbitrer selon le temps disponible. &
+ch.~robustesse \\
+
+Clarification écrite sur le portage, à envoyer &
+\toi &
+Le contenu existe et est vérifié, dans le mémoire et dans la table ci-dessus. La rédaction du
+message ne relève pas de la préparation technique. &
+--- \\
+
+Second codage en aveugle &
+\toi &
+Le kit est prêt : dix récits, grille identique au gabarit de saisie, formulaire à jour au
+13 août avec la condition d'aveuglement désormais écrite. Il attend un second codeur, environ une
+heure. &
+--- \\
+\bottomrule
+\end{longtable}
+}
+
+\vspace{0.15cm}
+% RATTACHEMENT AU HARNAIS, meme raison que pour la note destinee a Caroline Hillairet : sans
+% cette ligne le document est a 0 % de couverture, comme le deck du 7 aout.
+{\scriptsize\noindent\textbf{Sources de cette note :} scripts~\texttt{20} et~\texttt{20b}
+(interaction entre piliers), \texttt{25} (réaction du capital au score de conformité),
+\texttt{43} et~\texttt{68} (les quatre canaux, leur attribution et leurs croisés),
+\texttt{46} et~\texttt{51} (postures de report et leur bruit), \texttt{47} (bootstrap de
+l'indice de queue), \texttt{50} (portage et sinistralité évitée), \texttt{66} (invariance en
+$g$), \texttt{70} (élasticité à la taille).\par}
+
+\vspace{0.2cm}
+\begin{cle}
+\textbf{Les deux interactions à ne jamais additionner.} Un point de vocabulaire qui a failli
+produire une erreur de lecture. Il y a l'interaction entre les quatre \emph{canaux},
+$+5\,001$~M\euro{} de signe résolu, et celle entre les cinq \emph{piliers}, $+1\,395$~M\euro{} de
+signe \emph{non} résolu entre graines. Ce sont \textbf{deux partitions du même écart}, pas deux
+effets qui s'ajoutent. Le titre d'une slide invitait précisément à les additionner : il est
+corrigé.
+\end{cle}
+
+\end{document}

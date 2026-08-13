@@ -1,0 +1,275 @@
+% =====================================================================================
+% SUITES DU POINT AVEC CAROLINE HILLAIRET -- etat point par point au 13 aout 2026.
+%
+% OBJET : dire ce qui est integre, ce qui ne l'est pas, et POURQUOI dans les deux cas. Le
+% document est concu pour etre lu en dix minutes avant un point, donc une ligne par demande.
+%
+% LE VOCABULAIRE DE STATUT PORTE L'ESSENTIEL DE L'INFORMATION, et il distingue cinq cas qu'on
+% confond d'ordinaire sous « fait / pas fait » :
+%   INTEGRE                 : fait, sous la forme demandee ;
+%   INTEGRE AUTREMENT       : fait, mais la mesure a conduit ailleurs que l'intuition ;
+%   MESURE PUIS ECARTE      : le calcul a ete fait ET il dit non. C'est le statut le plus
+%                             defendable, et le plus facile a confondre avec « pas fait » ;
+%   CHIFFRE, DECISION OUVERTE : le calcul est la, l'arbitrage revient a Kelian ;
+%   NON TRAITE              : avec la raison, jamais sans.
+% =====================================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.7cm]{geometry}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+% \euro vient du preambule du memoire ; ce document est autonome et doit le charger lui-meme.
+\usepackage{eurosym}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{vert}{HTML}{D9EAD3}
+\definecolor{ambre}{HTML}{FCE5CD}
+\definecolor{gris}{HTML}{EFEFEF}
+\definecolor{rouge}{HTML}{F4CCCC}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+
+\newcommand{\ok}{\cellcolor{vert}\footnotesize\textbf{INTÉGRÉ}}
+\newcommand{\autrement}{\cellcolor{vert}\footnotesize\textbf{INTÉGRÉ}\newline\footnotesize\textbf{AUTREMENT}}
+\newcommand{\ecarte}{\cellcolor{ambre}\footnotesize\textbf{MESURÉ PUIS}\newline\footnotesize\textbf{ÉCARTÉ}}
+\newcommand{\ouvert}{\cellcolor{ambre}\footnotesize\textbf{CHIFFRÉ,}\newline\footnotesize\textbf{À TRANCHER}}
+\newcommand{\non}{\cellcolor{rouge}\footnotesize\textbf{NON TRAITÉ}}
+\newcommand{\toi}{\cellcolor{gris}\footnotesize\textbf{HORS}\newline\footnotesize\textbf{PÉRIMÈTRE}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lfoot{\footnotesize Suites du point avec Caroline Hillairet --- 13 août 2026}
+\rfoot{\footnotesize page \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries Suites du point avec Caroline Hillairet\\[2pt]
+  \large Ce qui est intégré, ce qui ne l'est pas, et pourquoi}
+\author{Kélian Kaddouri}
+\date{13 août 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\vspace{-0.7cm}
+
+\begin{cle}
+\textbf{Comment lire ce tableau.} Deux statuts méritent d'être distingués de \og pas fait \fg,
+et c'est le point principal du document. \textbf{Mesuré puis écarté} signifie que le calcul
+demandé a bien été conduit et qu'il conclut contre la proposition : c'est un résultat, pas un
+renoncement, et c'est le cas de la renormalisation par la taille. \textbf{Intégré autrement}
+signifie que la demande est traitée mais que la mesure a conduit ailleurs que l'intuition qui la
+motivait : c'est le cas de l'étage de modèle et de la sensibilité à la propagation. Les deux
+seules lignes réellement ouvertes sont signalées comme telles.
+\end{cle}
+
+\vspace{0.3cm}
+{\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{3.4cm} >{\raggedright\arraybackslash\hyphenpenalty=10000\exhyphenpenalty=10000}p{2.4cm} p{8.7cm} p{2.0cm}@{}}
+\toprule
+\textbf{Demande} & \textbf{Statut} & \textbf{Ce qui a été fait, et ce que cela donne} &
+\textbf{Où le voir} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Demande \emph{(suite)}} & \textbf{Statut} & \textbf{Ce qui a été fait} &
+\textbf{Où} \\
+\midrule
+\endhead
+
+Dynamique de $Y_{j,t}$, brownien pour le fond et sauts pour les chocs &
+\ok &
+Note de six pages écrite. Trois horloges distinguées, et les deux échelles sont
+\emph{identifiées} par la surdispersion mesurée : $1{,}19$ sur les cellules firme-année,
+$2{,}24$ sur la série annuelle détendancée, contre $1$ pour un brownien pur. La forme retenue est
+un renouvellement, avec l'hypothèse déclarée plutôt que masquée. &
+\texttt{note\_dyna\-mique\_Y} \\
+
+Clarifier l'emploi du mot \og gravité \fg &
+\autrement &
+Balayage fait, et le résultat est inattendu : \textbf{le mémoire n'emploie nulle part
+\og gravité \fg{} pour le caractère systémique}. La confusion venait des decks de juillet, qui
+sont archivés. \textbf{En revanche il y a une vraie collision dans le code}, entre \texttt{G\_BASE}
+(le gain de propagation) et \texttt{GBASE} (l'échelon de sévérité) : deux objets sans rapport dont
+les noms ne diffèrent que par un tiret bas. Le renommage touche 27 fichiers et le pipeline est
+gelé : la distinction est verrouillée dans la table des notations en attendant l'arbitrage. &
+ch.~notations \\
+
+Test de martingalité &
+\ok &
+Vérifié : \textbf{le mémoire n'en contient aucun}, et il n'y en a jamais eu. Le mot a deux
+emplois, tous deux légitimes et sous mesure physique : la forme de Dirichlet d'une chaîne de
+Markov, et un brownien sans dérive pour un temps de premier passage. Deux paragraphes de
+précaution le disent désormais explicitement, et le lien rhétorique qui suggérait un cadre
+commun est corrigé : ce que les deux usages partagent est la mesure, pas la mathématique. &
+annexe~D \\
+
+Sensibilité des paramètres &
+\autrement &
+Section écrite, et le résultat va \emph{contre} l'inquiétude qui la motivait. \textbf{La
+propagation est le levier le moins sensible des quatre} : $g$ de $0{,}5$ à $1{,}0$ déplace le
+surcoût de $5\,517$ à $6\,579$~M\euro, quand le seuil de la loi de queue le déplace de $4\,862$ à
+$12\,944$ et la fréquence de $4\,056$ à $8\,684$. La fragilité est dans l'ajustement de valeurs
+extrêmes, pas dans la contagion. &
+ch.~résultats \\
+
+Sensibilité à la direction de la contagion &
+\ok &
+Table publiée pour la première fois : l'ignorance sur la direction coûte $336$~M\euro{} de
+largeur au quart, $695$ à la moitié, $1\,083$ aux trois quarts et $1\,839$ à l'ignorance totale.
+\textbf{L'ignorance se paye linéairement et son coût maximal est connu d'avance}, ce qui est plus
+favorable qu'un intervalle de confiance ordinaire. &
+ch.~résultats \\
+
+Reporter le SCR avec un intervalle à $95\,\%$ &
+\ouvert &
+Chiffré sans rejouer aucun bootstrap, par la même approximation normale que le moteur. L'indice
+de queue passe à $[0{,}2487\,;0{,}8765]$, le capital à $[2\,727\,;34\,942]$~M\euro. Deux constats :
+le passage de 90 à $95\,\%$ ne déplace \textbf{aucune calibration}, seulement les bornes
+publiées ; et il ne corrige pas la sous-couverture, qui reste un déficit constant de
+$-3{,}2$~points ($86{,}8\,\%$ réels pour 90 nominaux, $91{,}8$ pour 95). \textbf{La bascule est un
+choix de présentation, à trancher.} &
+annexe~D \\
+
+CTE / CVaR à côté de la VaR &
+\ok &
+Calculée au niveau agrégé, en \emph{diagnostic} et jamais comme mesure de couverture.
+Résultat qui ferme la discussion : \textbf{la CTE à $95\,\%$ est moins prudente que la VaR à
+$99{,}5\,\%$}, l'équivalence tombant à $\beta = 97{,}73\,\%$. Et l'argument décisif n'est pas une
+proportion mais une existence : sous la calibration alternative $\hat\xi > 1$, l'espérance est
+infinie et \textbf{la mesure n'existe pas}. Une couverture qui cesse d'être définie selon la
+source ne peut pas porter un capital. &
+annexe~D \\
+
+Renormaliser proportionnellement au SCR de marché &
+\ecarte &
+\textbf{Testé, et la mesure conclut contre.} La proportionnalité affirme une élasticité de $1$ à
+la taille ; l'élasticité mesurée vaut $0{,}204$. Une petite entité se voit attribuer $0{,}633$
+contre $0{,}100$ sous proportionnalité, une grande $1{,}621$ contre $10{,}00$. \textbf{Les deux
+approches se trompent en sens opposés} : la proportionnalité sous-estime une petite entité, le
+modèle la majore. Substituer l'une à l'autre changerait le signe du défaut sans le déclarer, donc
+la proportionnalité reste le \emph{repère} contre lequel la méthode se distingue, pas une
+méthode. &
+ch.~résultats \\
+
+Chiffrer les trois étages, puis retirer le troisième &
+\autrement &
+Chiffré, et \textbf{le résultat va contre l'intuition de l'arbitrage} : l'étage de modèle est le
+plus gros des trois, facteur $9{,}21$ sur l'axe de la famille de queue contre $8{,}93$ pour le
+paramètre et $1{,}27$ pour l'identification. Le retirer rétrécirait donc l'affichage plus que
+tout autre retrait, alors que l'incertitude ne bougerait pas. Compromis retenu : il \textbf{sort
+de la bande reportée} mais devient un \emph{axe de sensibilité déclaré}, et reste publié deux
+fois. Motif écrit : les deux premiers étages sont statistiques donc portables par un intervalle,
+le troisième est épistémique et un choix de famille ne se moyenne pas. &
+ch.~robustesse \\
+
+Méthode de Cooke en annexe, questionnaire peaufiné &
+\ok &
+Annexe écrite. Elle ne présente pas un protocole à venir mais \textbf{un protocole préparé et non
+exécuté}, avec le chiffrage de la raison, ce qui est un actif devant un jury qui demanderait
+pourquoi ce modèle ne recourt pas au jugement d'expert. Le questionnaire a été repris le 13 août :
+une graine \textbf{fausse} en a été retirée (elle annonçait $\xi = 0{,}90$, valeur posée du pire
+cas, quand la calibration donne $0{,}5954$ ; dans la méthode de Cooke une graine fausse
+\emph{inverse} les poids), et la convention de direction, qui était inversée, est alignée. &
+annexe~E \\
+
+Conformité aux piliers 1 et 2 protégeant partiellement le 3 &
+\ok &
+Mesuré, et la réponse tient en trois temps. \textbf{Dire que la dépendance manque serait faux} :
+elle existe déjà, de corrélation $0{,}462$ entre deux piliers quelconques. Ce qui manque est sa
+\emph{structure}, échangeable au lieu d'être propre à certains triplets. \textbf{L'omission ne
+coûte rien} : en ajoutant un surcroît de corrélation aux seules paires concernées, la loi des
+configurations bouge nettement mais le capital espéré ne bouge que de $2$~M\euro, soit
+$0{,}02\,\%$. \textbf{Et la raison est structurelle}, donc l'invariance vaut pour toute structure
+à marges fixées : le capital s'ajuste par une forme additive en indicateurs de pilier à
+$R^2 = 0{,}9945$, et l'espérance d'une fonction additive ne dépend que des marges. &
+annexe~D \\
+
+Défaillances simultanées, additivité des coûts &
+\ok &
+La prémisse est à corriger d'abord : \textbf{ce n'est pas un cas laissé de côté, c'est la sortie
+du modèle}, et à l'état non conforme la défaillance multiple est \emph{majoritaire},
+$62{,}31\,\%$ des sinistres contre $31{,}15\,\%$ à l'état conforme. Ensuite, \og additivité \fg{}
+désigne \textbf{trois choses à trois étages} : hypothèse non testée sur les coûts d'un sinistre,
+quasi-additivité \emph{mesurée} sur les piliers ($R^2 = 0{,}9945$), super-additivité
+\emph{mesurée} sur les canaux ($+35\,\%$). Répondre \og le modèle est super-additif \fg{} serait
+donc faux. Enfin l'hypothèse est bornée : un exposant de $0{,}70$ à $1{,}30$ déplace l'écart de
+$9\,706$ à $20\,487$~M\euro. &
+ch.~robustesse \\
+
+Probabilités conditionnelles de séquence &
+\autrement &
+La voie a été suivie jusqu'au bout et se referme, pour trois raisons distinctes. Les séquences
+étaient \textbf{déjà dans le corpus}, implicites : composer les arêtes donne $9$ chemins et
+$4$ séquences distinctes. \textbf{La comparaison naturelle a un support vide} : P2 n'émet jamais,
+$0$ fois sur $22$ transitions. \textbf{Le test n'a aucune puissance}, et pas faute d'échantillon :
+il exige d'un même pilier qu'il soit atteint \emph{et} qu'il ait deux successeurs, et les deux
+manques sont exclusifs ici. Acquis positif : la chaîne \textbf{n'est pas sans mémoire},
+l'auto-évitement gonflant la loi du successeur de $1{,}211$ en moyenne. &
+ch.~identifiabilité \\
+
+Processus des dates d'arrivée, effet du regroupement &
+\non &
+\textbf{Non traité, et la raison est dans la donnée.} Le mécanisme manquant serait une saturation
+de la capacité de réponse. Or le tableau des proxys fait apparaître que \textbf{le coût d'un
+sinistre daté n'est jamais observé} dans les sources retenues : la chronologie de brèches porte
+les dates, la conversion en montants porte les coûts, et aucune source ne porte les deux. Un
+mécanisme de saturation ne serait donc calibrable par rien. La limite est déclarée plutôt
+qu'estimée. &
+annexe~D \\
+
+Contacter Samuel Cywie &
+\toi &
+Les trois formulaires sont prêts et à jour au 13 août. L'envoi et le contact ne relèvent pas de
+la préparation technique. &
+--- \\
+
+Lancer l'élicitation &
+\ecarte &
+\textbf{Abandonnée, sur décision assumée}, et le protocole en donne la raison chiffrée plutôt que
+le calendrier : un panel faiblement calibré déplacerait le capital de $777$~M\euro{} \emph{sans
+qu'aucun signal ne l'indique}, là où l'approche par bornes reste invariante. Une élicitation
+faible introduirait donc une incertitude \textbf{non déclarable} en échange d'une ignorance
+mesurée. Le coût de l'abandon est nommé : P1 et P4 restent à égalité, pour un regret maximal de
+$1{,}5\,\%$. La décision est \textbf{réversible sans coût de développement}. &
+annexe~E \\
+\bottomrule
+\end{longtable}
+}
+
+\vspace{0.15cm}
+% RATTACHEMENT AU HARNAIS. Sans cette ligne le document est a 0 % de couverture, exactement
+% comme le deck du 7 aout : c'est la faille qui avait laisse passer un intervalle faux. Le
+% document n'ayant pas de \section, le harnais le lit comme un bloc unique, donc la citation se
+% pose une fois, en fin de note, et porte sur l'ensemble.
+{\scriptsize\noindent\textbf{Sources de cette note :} scripts~\texttt{15} et~\texttt{30}
+(sensibilités et coût de l'ignorance directionnelle), \texttt{26} (protocole de Cooke),
+\texttt{31} (effet d'un panel biaisé), \texttt{47} et~\texttt{63} (calibration figée),
+\texttt{48} et~\texttt{71} (les trois étages), \texttt{69} (dépendance des états),
+\texttt{70} (renormalisation par la taille), \texttt{72} (intervalle à $95\,\%$),
+\texttt{73} (CTE agrégée), \texttt{74} (défaillances simultanées), \texttt{75} (séquences
+ordonnées). Les grandeurs de la note sur $Y_{j,t}$ sont celles du script~\texttt{08b}.\par}
+
+\vspace{0.2cm}
+\begin{cle}
+\textbf{Ce qui reste ouvert, et c'est court.} Deux lignes seulement appellent une décision :
+le \textbf{niveau de l'intervalle reporté}, 90 ou $95\,\%$, qui ne déplace aucune calibration
+mais change toutes les bornes publiées ; et le \textbf{renommage} \texttt{GBASE} contre
+\texttt{G\_BASE} dans le code, qui touche 27 fichiers sur un pipeline gelé. Une troisième ligne
+est non traitée et le restera faute de donnée, celle des dates d'arrivée. Tout le reste est soit
+intégré, soit mesuré et écarté avec son motif.
+\end{cle}
+
+\end{document}
