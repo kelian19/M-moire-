@@ -1,4 +1,4 @@
-Panel : 800 entites x 60 periodes x 5 piliers ; incidence moyenne 6.8%
+﻿Panel : 800 entites x 60 periodes x 5 piliers ; incidence moyenne 6.8%
 
 Recuperation de W (hors diagonale) :
   probit : correlation 0.905 | pente 1.085 | sens de l'asymetrie 100%
@@ -6,7 +6,9 @@ Recuperation de W (hors diagonale) :
   (pente ~1 = W dans ses propres unites ; 2.13 en unites logit, soit 96 % de trop)
 
 Normalisation de W (la lecon de Leontief) :
-  TRANS brut : sommes des lignes [0.8 2.3 1.6 1.5 1.7] ; rho = 1.461
+  TRANS brut, RECEPTION par pilier (ce que chacun recoit) [0.8 2.3 1.6 1.5 1.7], max 2.3
+  TRANS brut, EMISSION par pilier  (ce que chacun envoie) [2.6 1.5 1.4 1.7 0.7], max 2.6  <- le diviseur
+  rho de TRANS brut = 1.461 (invariant par transposition)
      -> ce n'est PAS une matrice de parts. (I-TRANS)^-1 aurait 21 entrees
         negatives sur 25 : erreur de categorie, pas de calibration.
   W = g * TRANS / 2.6  avec g = 0.9 ; le diviseur est l'EMISSION maximale
@@ -65,6 +67,6 @@ Tests de falsification (l'asymetrie doit disparaitre / s'inverser) :
   asymetrie en temps inverse      = 1.323
   correlation W_avant vs W_inverse = -0.694  (proche de 1 => on capte de la co-occurrence, pas de la direction)
 
-figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/K1_calibration_W.png
-figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/K2_calibration_diagnostics.png
-figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/K3_branchement_R0.png
+figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\K1_calibration_W.png
+figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\K2_calibration_diagnostics.png
+figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\K3_branchement_R0.png

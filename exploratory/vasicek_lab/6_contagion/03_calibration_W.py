@@ -260,26 +260,41 @@ print(f"  (pente ~1 = W dans ses propres unites ; {sl_l:.2f} en unites logit, so
 # --------------------------------------------------- normalisation et stabilite
 rho_W = float(max(abs(np.linalg.eigvals(W_TRUE))))
 print("Normalisation de W (la lecon de Leontief) :")
-print(f"  TRANS brut : sommes des lignes {np.round(ROWSUM, 2)} ; rho = {RHO_RAW:.3f}")
+# LES DEUX VECTEURS SONT IMPRIMES, ET ETIQUETES. La version anterieure n'en imprimait qu'un,
+# sous le nom neutre de « sommes des lignes » : comme ce script travaille sur TRANS transposee,
+# c'etait la RECEPTION, de maximum 2,3, affichee deux lignes au-dessus de l'annonce d'un diviseur
+# de 2,6 presente comme l'emission maximale. Le lecteur qui verifiait la coherence des deux
+# trouvait 2,3 contre 2,6 et concluait a une contradiction qui n'existait pas.
+print(f"  TRANS brut, RECEPTION par pilier (ce que chacun recoit) {np.round(ROWSUM, 2)}, "
+      f"max {ROWSUM.max():.1f}")
+print(f"  TRANS brut, EMISSION par pilier  (ce que chacun envoie) {np.round(EMISSION, 2)}, "
+      f"max {EMISSION.max():.1f}  <- le diviseur")
+print(f"  rho de TRANS brut = {RHO_RAW:.3f} (invariant par transposition)")
 print("     -> ce n'est PAS une matrice de parts. (I-TRANS)^-1 aurait 21 entrees")
 print("        negatives sur 25 : erreur de categorie, pas de calibration.")
 print(f"  W = g * TRANS / {DIVISEUR:.1f}  avec g = {GAIN} ; le diviseur est l'EMISSION maximale")
 print(f"     parts recues s_j = {np.round(W_TRUE.sum(1), 3)}  (<= g : asymetrie preservee)")
 print(f"     rho(W) = {rho_W:.3f} = {RHO_RAW/DIVISEUR:.3f} x g   -> stable pour tout g <= 1")
 print(f"  incidence de fond Phi(base) = {100*stats.norm.cdf(BASE[0]):.1f} %  (base = {BASE[0]})")
-# DIVISEUR DE LEONTIEF : CE SCRIPT ET LE MEMOIRE NE PRENNENT PAS LE MEME, ET IL FAUT TRANCHER.
-# Ce script transpose TRANS (ligne j = ce que j RECOIT, cf. T_RAW plus haut) et divise par la
-# RECEPTION maximale, 2,3. Le reste du pipeline suit la convention du projet, ligne = source, et
-# divise par l'EMISSION maximale, 2,60. Le rayon spectral etant invariant par transposition,
-# seul le diviseur separe les deux lectures :
-#     / 2,3   -> rapport 0,635 ; rho(W) = 0,572 ; rho(W) = 1 a g = 1,57
-#     / 2,60  -> rapport 0,562 ; rho(W) = 0,506 ; rho(W) = 1 a g = 1,78
-# Le chapitre cascade publie 0,562 / 0,506 / 1,78, donc la seconde. Mais il publie AUSSI
-# R0 = 0,062, qui est la valeur de CE script, donc la premiere : les deux conventions coexistent
-# dans la meme phrase du memoire. Ce n'est pas un desaccord de calcul, c'est un choix de
-# normalisation qui n'a pas ete fait une fois pour toutes. La conclusion ne bouge pas, les deux
-# lectures restent sous-critiques sur tout le domaine admissible g <= 1, mais les nombres
-# publies doivent venir d'une seule des deux.
+# DIVISEUR DE LEONTIEF : TRANCHE LE 7 AOUT 2026, C'EST L'EMISSION MAXIMALE (2,60). NE PAS
+# ROUVRIR. Ce bloc etait, jusqu'au 12 aout, redige au present et decrivait l'etat ANTERIEUR a
+# cette decision : il annoncait que « ce script divise par la RECEPTION maximale, 2,3 » et que la
+# question restait « a trancher ». Les deux affirmations etaient fausses depuis l'alignement,
+# comme la sortie de ce script l'imprime elle-meme quelques lignes plus bas. Un commentaire
+# perime a cet endroit est plus dangereux qu'ailleurs : c'est le seul point du projet ou une
+# confusion de convention a deja coute des jours, et un lecteur qui suit le commentaire plutot
+# que le code rouvre une decision close.
+#
+# CE QUI EST FIXE. Ce script transpose TRANS (ligne j = ce que j RECOIT, cf. T_RAW plus haut) ;
+# le reste du pipeline garde la convention du projet, la ligne emet et la colonne recoit. Le
+# rayon spectral etant invariant par transposition, seul le DIVISEUR separait les deux lectures :
+#     / 2,3   -> rapport 0,635 ; rho(W) = 0,572 ; rho(W) = 1 a g = 1,57   (ABANDONNE)
+#     / 2,60  -> rapport 0,562 ; rho(W) = 0,506 ; rho(W) = 1 a g = 1,78   (RETENU)
+# Le chapitre cascade publie 0,562 / 0,506 / 1,78, et R0 = 0,054 depuis la correction du 7 aout.
+# L'argument qui tranche n'est pas un gout de normalisation : la normalisation de Leontief existe
+# pour garantir que le pilier le plus prolifique engendre AU PLUS g descendants directs, et avec
+# le diviseur de reception il en engendrait 1,02 pour g = 0,9, donc plus que g. Il est reimprime
+# ci-dessous a chaque execution pour qu'il ne puisse plus se perdre dans un commentaire.
 print(f"\n  DIVISEUR DE NORMALISATION : l'EMISSION maximale ({DIVISEUR:.1f}), convention du projet,")
 print(f"  la ligne emet et la colonne recoit. Une version anterieure de ce script divisait par")
 print(f"  la RECEPTION maximale ({MAXROW:.1f}), ce qui donnait rho(W) = 0.572 et un g critique de")
