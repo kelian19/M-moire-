@@ -9,7 +9,7 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 13 août 2026 : **corps jusqu'à la page 110, annexes à partir de la 111, 144 pages au
+État au 13 août 2026 : **corps jusqu'à la page 111, annexes à partir de la 112, 147 pages au
 total**, branche `exploratory`. La ligne « 104 pages » qui figurait ici datait du 12 août au matin
 et n'avait pas suivi le travail des deux jours suivants : lire le compte dans `main.toc` plutôt que
 dans ce fichier en cas de doute.
@@ -17,7 +17,7 @@ dans ce fichier en cas de doute.
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
 déjà commité. Compter en décompressant les flux d'objets, ou lire `main.toc` après une
-compilation avec `--keep-intermediates`. Le harnais est à **98,0 % de confirmation sur 1 686
+compilation avec `--keep-intermediates`. Le harnais est à **98,0 % de confirmation sur 1 738
 nombres, pour une couverture de 100 %**.
 
 **Et vérifier dans quelle partie tombe un ajout avant de conclure qu'il grossit le corps.** Le
@@ -269,6 +269,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 50 | ROI de la conformité : portage, sinistralité évitée, sens de la borne, et l'écart entre 6 % et 4,75 % |
 | 08h | le rejet du Hawkes contre les variantes de Bessy-Roland/Boumezoued/Hillairet — **exige `Data_Breach_Chronology.xlsx`, absent du Mac, et sa sortie n'est pas versionnée** |
 | 74 | défaillances simultanées : loi EXACTE du nombre de piliers touchés par sinistre, les trois énoncés d'additivité distingués, et le coût de l'hypothèse d'additivité des coûts borné par un exposant. Son contrôle est θ = 1, qui doit redonner 6 049 et 20 188 au centime |
+| 75 | séquences ordonnées du corpus : les chemins composés à partir des arêtes, la loi exacte des séquences du modèle, et **pourquoi elles n'identifient rien**. À lire avant de proposer d'exploiter les triplets |
 | 67 | grandeurs citées et jamais imprimées (formes fermées, rapports dérivés) et, section 1bis, **le pont entre quantile unitaire et capital agrégé** |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
@@ -1138,6 +1139,31 @@ decks du 07, 14 et 21 août, la **convention de normalisation de $W$** (diviseur
 2,60), le **gel de la calibration**, la **convention `\VaR`/`\qsev`** (voir la section du 10
 août), et le **détecteur de contradictions inter-scripts** dans le harnais, instruit et écarté
 pour une raison, non par manque de temps.
+
+**Les séquences ordonnées sont explorées et refermées, avec un critère de réouverture précis.**
+L'idée d'exploiter les triplets (P1→P3→P2 plutôt que les seules paires) est bonne en principe et
+revient naturellement : des marges par paires ne déterminent pas une loi sur les permutations.
+Elle ne donne rien ici, script 75, et pour trois raisons distinctes. La comparaison qu'on veut
+faire a un **support vide**, P2 n'émettant jamais (0 sur 22) et P1 n'étant jamais atteint. Le test
+de dépendance au prédécesseur **n'a aucune puissance**, parce qu'il exige d'un même pilier qu'il
+soit atteint ET qu'il ait deux successeurs, et que les deux manques sont exclusifs dans ce corpus :
+P1 a trois successeurs mais n'est jamais atteint, P3, P4 et P5 sont atteints mais n'ont qu'un
+successeur. Ce n'est donc **pas** un problème de taille : le critère de réouverture est un pilier
+atteint avec deux successeurs distincts, répété de 158 à 589 fois selon la séquence visée, contre
+9 chemins au total aujourd'hui.
+
+Deux choses à ne pas perdre au passage. **La chaîne des piliers n'est PAS sans mémoire**,
+l'auto-évitement renormalisant la loi du successeur sur les piliers non visités : gonflement moyen
+1,211 et c'est une borne basse. Donc les triplets ne sont pas redondants avec les paires, ils
+portent une prédiction testable, et l'affirmation inverse est fausse. Et **l'acyclicité du graphe
+agrégé n'est pas un résultat** : elle s'obtient deux fois sur trois au hasard (42 orientations sur
+64), donc elle ne renforce pas la frontière d'identification du chapitre 09. Le nul « par
+observation », qui la rendrait écrasante, est le mauvais nul, il teste la constance du codeur.
+
+**Et une distinction de vocabulaire qui vient de là :** le corpus code le **conditionnement
+direct**, pas la **précédence**. La clôture transitive ajoute (P1,P2), impliquée par six incidents
+et codée par aucun. Le `p_12 = 0` du script 59 est correct pour W, qui est un transfert direct, et
+ne dit rien de l'ordre d'arrivée.
 
 ## Note d'honnêteté
 

@@ -518,6 +518,52 @@ l'asymétrie, elle l'inverse. \textbf{(c)}~le niveau de capital résiste, y comp
 rendue muette, et la bande d'identification se resserre à mesure que l'émission de $P_1$
 disparaît. Source : script~\texttt{64}.}{fig:biais-narration}
 
+\section{Les séquences ordonnées : une voie explorée et refermée}
+\label{sec:sequences-ordonnees}
+
+Une objection naturelle se présente ici, et elle est fondée. Les sections précédentes n'exploitent
+du corpus que des \emph{paires} ordonnées, or des marges par paires ne déterminent pas une loi sur
+les permutations : un triplet ordonné, du type P1 $\to$ P3 $\to$ P2, porte en général une
+information qu'aucune paire ne porte. La voie mérite donc d'être suivie, et elle l'a été.
+
+Les séquences se trouvaient déjà dans le corpus, implicites : chaque incident code un ensemble
+d'arêtes dirigées, et composer les arêtes d'un même incident donne des chemins. Il en sort $9$
+chemins de longueur deux pour $4$ séquences distinctes, et une chaîne de trois arêtes chez
+Equifax. Le résultat est néanmoins négatif, de trois façons qu'il faut distinguer parce qu'elles
+n'appellent pas la même suite.
+
+D'abord, \textbf{la comparaison la plus naturelle a un support vide}. Opposer P1 $\to$ P2 $\to$ P3
+à P2 $\to$ P3 $\to$ P1 exige que P2 émette, or P2 n'émet jamais, $0$ fois sur $22$ transitions, et
+P1 n'est jamais atteint. Ce n'est pas un intervalle large, c'est un ensemble vide, et cela se
+répond en corrigeant la question plutôt qu'en réclamant des données.
+
+Ensuite, \textbf{le test de dépendance au prédécesseur n'a aucune puissance, et la cause est
+structurelle}. Il exige d'un même pilier qu'il soit atteint, sans quoi il n'y a pas de prédécesseur
+sur quoi conditionner, et qu'il ait au moins deux successeurs distincts, sans quoi la loi
+conditionnelle égale la marginale par construction. Aucun pilier ne remplit les deux, et les deux
+manques sont \emph{exclusifs} : P1 a trois successeurs mais n'est jamais atteint, P3, P4 et P5 sont
+atteints mais n'ont qu'un successeur. Un corpus dix fois plus grand du même genre n'y changerait
+rien ; le critère de réouverture porte sur sa structure avant son volume.
+
+Enfin, et c'est la précaution la plus importante, \textbf{ce que les séquences apportent ne se
+convertit pas en identification}. La clôture transitive des arêtes ordonne $8$ des $10$ paires de
+piliers, et le graphe agrégé est acyclique. On serait tenté d'y lire une confirmation de l'ordre
+partiel revendiqué plus haut : ce serait une faute. L'acyclicité s'obtiendrait deux fois sur trois
+par hasard sur un graphe aussi peu contraint, et une clôture transitive n'ajoute aucune
+observation indépendante, elle déduit des mêmes arêtes. La frontière d'identification de la
+section suivante ne bouge donc pas d'un cran.
+
+Un acquis positif subsiste, et il porte sur le modèle plutôt que sur la donnée : \textbf{la chaîne
+des piliers n'est pas sans mémoire}, l'auto-évitement renormalisant la loi du successeur sur les
+piliers non encore visités. Les triplets portent par conséquent une prédiction testable, gonflée
+de $1{,}211$ en moyenne par rapport à une chaîne sans mémoire, et l'idée qu'ils seraient redondants
+avec les paires est fausse. C'est un test à faire le jour où un corpus le permettra, et le
+\S\ref{sec:ann-sequences} en donne le protocole et le volume requis, $158$ à $589$ chemins par un
+même pilier.
+
+\vspace{2pt}
+\noindent Sources de cette section : script~\texttt{75}.
+
 \section{La formalisation bayésienne, et sa prudence}
 \label{sec:bayes}
 

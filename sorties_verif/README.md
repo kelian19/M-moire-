@@ -24,8 +24,35 @@ de résultats. Le détail est dans la section « Comment construire » du `CLAUD
 
 ## État du dernier passage (13 août 2026, tous chapitres)
 
-**1 686 nombres vérifiables, 1 652 confirmés, soit 98,0 %**, couverture inchangée : aucun nombre
-hors contrôle non déclaré. Le pool est passé de 1 605 à 1 686 avec `74.txt`.
+**1 738 nombres vérifiables, 1 704 confirmés, soit 98,0 %**, couverture inchangée : aucun nombre
+hors contrôle non déclaré. Le pool est passé de 1 605 à 1 738 avec `74.txt` puis `75.txt`.
+
+`75.txt` traite les SEQUENCES ordonnées du corpus de post-mortems, et le résultat est négatif de
+trois façons qu'il faut garder distinctes.
+
+Les séquences étaient **déjà dans le corpus**, implicites : chaque incident code un ensemble
+d'arêtes, et composer celles d'un même incident donne 9 chemins de longueur deux pour 4 séquences
+distinctes. Personne ne les avait extraites.
+
+La comparaison qu'on voulait faire, P1→P2→P3 contre P2→P3→P1, a un **support vide** : P2 n'émet
+jamais, 0 fois sur 22 transitions, et P1 n'est jamais atteint. C'est un ensemble vide et non un
+intervalle large, donc cela se répond en corrigeant la question.
+
+Le test de dépendance au prédécesseur **n'a aucune puissance**, et la cause est structurelle : il
+exige d'un même pilier qu'il soit atteint ET qu'il ait deux successeurs, et les deux manques sont
+exclusifs dans ce corpus. Le critère de réouverture est donc précis, et il porte sur la structure
+avant le volume : un pilier atteint avec deux successeurs, répété 158 à 589 fois selon la séquence.
+
+**Un acquis positif quand même** : la chaîne des piliers n'est PAS sans mémoire, l'auto-évitement
+renormalisant la loi du successeur (gonflement moyen 1,211, borne basse). Les triplets portent donc
+une prédiction testable et ne sont pas redondants avec les paires, contrairement à l'intuition.
+
+**Et une prudence à ne pas perdre** : la clôture transitive ordonne 8 des 10 paires et le graphe
+agrégé est acyclique, mais cela ne renforce PAS la frontière d'identification. L'acyclicité
+s'obtient deux fois sur trois au hasard sur un graphe aussi peu contraint (42 orientations sur 64),
+et une clôture ne fournit aucune observation indépendante. Le nul « par observation », qui la
+rendrait écrasante à 0,00 %, est le mauvais nul : il teste la constance du codeur, pas l'existence
+d'une direction.
 
 `74.txt` répond à la question des **défaillances simultanées** et de l'additivité de leurs coûts.
 Trois choses à en retenir pour qui reprend le dossier.

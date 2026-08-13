@@ -265,7 +265,7 @@ les dates. Le coût d'un incident \emph{daté} n'est donc jamais observé, il es
 reconstruit. C'est la faiblesse la plus structurelle de la donnée disponible, et aucun des deux
 proxys ne la révèle seul.
 
-\textbf{Et le même mot, « concentration », désigne deux objets dans cette table.} La concentration
+\textbf{Et le même mot, \og concentration \fg{}, désigne deux objets dans cette table.} La concentration
 journalière est en coupe, entre entités ; l'accumulation que le modèle fait porter au pilier des
 tiers est au sein d'un incident, entre piliers. Le premier calibre le second par analogie, non par
 mesure, et c'est une hypothèse à assumer plutôt qu'un ancrage.
@@ -667,5 +667,158 @@ grandeur à retenir est l'\emph{élasticité} plutôt que la plage : une élasti
 amplitude qu'un lecteur jugera plausible, une plage ne vaut que pour celle qu'on a choisie. C'est
 aussi la seule ligne du registre des écarts du \S\ref{sec:pu-coherence} dont le \emph{sens} ne se
 déclare pas, les sept autres ayant une direction connue. Source : script~\texttt{74}.
+
+% =====================================================================
+\section{Les séquences ordonnées du corpus, et pourquoi elles n'identifient rien}
+\label{sec:ann-sequences}
+
+\noindent Chiffres de cette section : script~\texttt{75}.
+
+Cette pièce accompagne le \S\ref{sec:sequences-ordonnees}. L'idée examinée est légitime : des
+marges par paires ne déterminent pas une loi sur les permutations, donc un triplet ordonné porte
+en général une information qu'aucune paire ne porte. Elle ne donne pourtant rien ici, et il vaut
+mieux dire précisément pourquoi que conclure au manque de données.
+
+\subsection*{Les séquences étaient déjà dans le corpus}
+
+Chaque incident code un ensemble d'arêtes dirigées, jamais une chaîne. Composer les arêtes d'un
+même incident produit donc des séquences que personne n'avait extraites : $9$ chemins de longueur
+deux, pour $4$ séquences distinctes, plus une chaîne de trois arêtes.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l c l@{}}
+\toprule
+\textbf{Séquence} & \textbf{Occurrences} & \textbf{Incidents} \\
+\midrule
+P1 $\to$ P3 $\to$ P2 & $4$ & Microsoft, TSB, Equifax, Knight \\
+P1 $\to$ P4 $\to$ P2 & $3$ & TSB, Log4Shell, Raphaels \\
+P1 $\to$ P5 $\to$ P3 & $1$ & Equifax \\
+P5 $\to$ P3 $\to$ P2 & $1$ & Equifax \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{plus longue chaîne observée} : P1 $\to$ P5 $\to$ P3 $\to$ P2 (Equifax)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Quatre incidents sur dix n'en fournissent aucune, leurs arêtes partant toutes du même
+pilier ou se réduisant à une seule. Source : script~\texttt{75}.
+
+\subsection*{La comparaison demandée a un support vide, et c'est structurel}
+
+La question posée oppose P1 $\to$ P2 $\to$ P3 à P2 $\to$ P3 $\to$ P1. Les deux exigent que P2
+\emph{émette}, or P2 n'émet jamais : $0$ émission sur $22$ transitions, contre $10$ réceptions.
+Symétriquement P1 n'est jamais atteint, $0$ réception sur $22$. La comparaison n'est donc pas
+indécise faute d'échantillon, elle est \textbf{sans objet} : son support est vide, ce qui est un
+état différent d'un intervalle large et appelle une autre réponse.
+
+% \og/\fg et non les guillemets litteraux : dans la fonte GRASSE du titre de paragraphe, « et »
+% ne sont pas presents et sortent en « n » et « z ». En corps de texte romain ils passent.
+\paragraph{Deux relations que le mot \og ordre \fg{} confond.} Le corpus code le \emph{conditionnement
+direct}, c'est-à-dire que le rapport établit que $j$ a précédé \emph{et} conditionné $k$. Il ne
+code pas la \emph{précédence}. La clôture transitive le montre : elle ajoute deux paires,
+(P1,\,P2) impliquée par six incidents et (P5,\,P2) par un, qu'aucun rapport ne code directement.
+Pour $W$ c'est correct, $W$ étant un transfert direct ; mais lire $p_{jk}$ comme une précédence
+serait une faute, et le $p_{12}=0$ du script~\texttt{59} ne dit rien de l'ordre d'arrivée.
+Source : script~\texttt{75}.
+
+\subsection*{L'acyclicité n'est pas un résultat, et le mauvais nul la ferait croire}
+
+Les $22$ transitions se répartissent sur $6$ paires distinctes, chacune toujours codée dans le
+même sens, et le graphe agrégé est acyclique, d'ordre topologique
+$\{$P1$\} < \{$P4,\,P5$\} < \{$P3$\} < \{$P2$\}$. La clôture tranche $8$ des $10$ paires de
+piliers, seules (P3,\,P4) et (P4,\,P5) restant incomparables.
+
+Il serait tentant d'y voir une confirmation. Deux lois nulles l'interdisent, et une seule des deux
+est légitime. Sous le nul \textbf{par paire}, où chaque relation reçoit une direction au hasard,
+$42$ des $64$ orientations sont acycliques, soit $65{,}6\,\%$ : on obtiendrait l'acyclicité
+observée deux fois sur trois par hasard. Sous le nul \textbf{par observation}, où chaque
+transition change de sens indépendamment, la proportion tombe à $0{,}00\,\%$ et l'acyclicité
+paraîtrait écrasante, mais ce nul détruit la \emph{constance} du codage : une paire vue cinq fois
+pourrait recevoir cinq directions différentes. Il mesure la fiabilité du codeur, non l'existence
+d'une direction. C'est le même travers que celui déjà rencontré sur le harnais, où l'exemption
+indexée sur la valeur mesurait autre chose que ce qu'elle prétendait. Source : script~\texttt{75}.
+
+\subsection*{Le modèle prédit les séquences : il n'est pas sans mémoire}
+
+On suppose spontanément que la chaîne des piliers est sans mémoire, donc que les triplets sont
+redondants avec les paires. C'est faux pour ce modèle, et la raison n'est pas un détail
+d'implémentation : la cascade est \textbf{auto-évitante}. Conditionnellement à ce qu'elle
+continue vers un pilier neuf, la loi du successeur est renormalisée sur les piliers non encore
+visités, donc elle dépend du chemin parcouru et par là du prédécesseur.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l c c c@{}}
+\toprule
+\textbf{Triplet} & \textbf{Sans mémoire} & \textbf{Auto-évitant} & \textbf{Gonflement} \\
+\midrule
+P1 $\to$ P3 $\to$ P2 & $0{,}3571$ & $0{,}4545$ & $1{,}273$ \\
+P1 $\to$ P4 $\to$ P2 & $0{,}4706$ & $0{,}5333$ & $1{,}133$ \\
+P1 $\to$ P5 $\to$ P3 & $0{,}2857$ & $0{,}3333$ & $1{,}167$ \\
+P5 $\to$ P3 $\to$ P2 & $0{,}3571$ & $0{,}4545$ & $1{,}273$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Gonflement moyen $1{,}211$, et ce sont des \emph{bornes basses} : le calcul suppose que
+le triplet démarre la cascade, alors qu'un triplet précédé subit une exclusion plus large. Les
+triplets portent donc une prédiction testable, et la loi exacte des séquences du modèle est
+publiée pour la première fois par le script~\texttt{75}, les chemins de longueur deux pesant
+$18{,}29\,\%$ de la masse. Le rapprochement avec les comptages du corpus n'est toutefois
+\textbf{pas un test} : le corpus n'est pas un échantillon tiré au hasard mais un ensemble de
+post-mortems d'incidents notables, avec le biais de sélection que mesure le \S\ref{sec:biais-narration}.
+Tout ce qu'on peut en dire est qu'il n'y a pas de contradiction criante, les deux séquences les
+plus fréquentes du corpus occupant les rangs $6$ et $3$ du modèle sur $60$ chemins.
+
+\subsection*{Pourquoi le test n'a aucune puissance, et à quelle condition il en aurait}
+
+Un test de dépendance au prédécesseur exige deux choses \emph{du même pilier} : qu'il soit
+\textbf{atteint}, sans quoi il n'y a pas de prédécesseur sur quoi conditionner, et qu'il ait au
+moins \textbf{deux successeurs distincts}, sans quoi la loi conditionnelle égale la marginale par
+construction.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l c c c l@{}}
+\toprule
+\textbf{Pilier} & \textbf{Atteint} & \textbf{Émis} & \textbf{Cibles} & \textbf{Test possible ?} \\
+\midrule
+P1 gouvernance & $0$ & $11$ & $3$ & non, jamais atteint \\
+P2 réponse & $10$ & $0$ & $0$ & non, n'émet pas \\
+P3 détection & $6$ & $5$ & $1$ & non, loi dégénérée \\
+P4 tiers & $5$ & $5$ & $1$ & non, loi dégénérée \\
+P5 partage & $1$ & $1$ & $1$ & non, loi dégénérée \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent \textbf{Aucun pilier ne remplit les deux conditions, et les deux manques sont
+exclusifs}, ce qui est plus net qu'une simple pénurie. P1 a trois successeurs distincts mais n'est
+jamais atteint ; P3, P4 et P5 sont atteints mais leur loi de successeur est un point. La
+statistique du test est donc identiquement nulle : il n'a pas une faible puissance, il n'en a
+aucune.
+
+La conséquence pratique vaut mieux qu'un regret. Ajouter dix incidents du même genre laisserait
+les lois dégénérées, donc le critère de réouverture porte sur la \emph{structure} du corpus avant
+son volume : il faut un pilier à la fois atteint et observé avec deux successeurs distincts. Le
+volume nécessaire se chiffre ensuite, sur les écarts que le modèle prédit lui-même : de $158$ à
+$589$ chemins passant par un même pilier selon la séquence visée, pour séparer au seuil de
+$5\,\%$ avec $80\,\%$ de puissance. Le corpus en fournit $9$, tous piliers confondus. L'écart est
+d'un à deux ordres de grandeur, et il porte d'abord sur la structure. Source : script~\texttt{75}.
+
+\begin{figure}[htbp]\centering
+\figover{S31_sequences_ordonnees.png}
+\caption{Ce que les séquences ordonnées disent, et ce qu'elles ne peuvent pas dire.
+\textbf{(a)}~le graphe agrégé des $22$ transitions : épaisseur et chiffre donnent le nombre
+d'incidents, P1 est source pure et P2 puits pur, et l'ordre est presque total.
+\textbf{(b)}~les deux conditions d'un test de dépendance au prédécesseur, côte à côte. P1 a trois
+cibles mais n'est jamais atteint ; les trois autres émetteurs sont atteints mais n'ont qu'une
+cible. Les deux conditions ne se rencontrent sur aucun pilier. Source : script~\texttt{75}.}
+\label{fig:sequences-ordonnees}
+\end{figure}
 
 % =====================================================================
