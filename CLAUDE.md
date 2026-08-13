@@ -757,9 +757,65 @@ aucune calibration** (le point, les paramètres et tous les SCR restent identiqu
 déplacerait les bornes publiées et le facteur 2,5. À chiffrer avant de décider, comme elle l'a
 elle-même demandé pour l'étage de modèle.
 
+### Le point 11 traité, et c'est le seul de la liste qui touchait le modèle (script 69)
+
+Sa remarque : « être conforme aux piliers 1 et 2 permet indirectement d'être un peu conforme au
+pilier 3 ». Trois choses, dans cet ordre.
+
+**Répondre « la dépendance manque » serait faux.** Les états dérivent d'une latente de Vasicek à
+facteur commun de charge 0,68, soit une **corrélation de 0,462** entre deux piliers quelconques.
+La dépendance existe et elle est forte. Ce qui manque est sa **structure** : elle est
+*échangeable*, identique pour toutes les paires, quand le recouvrement des contrôles est propre à
+certains triplets.
+
+**L'omission ne coûte rien, et c'est mesuré.** On ajoute un surcroît de corrélation δ aux deux
+seules paires concernées, par une matrice de corrélation dont la diagonale vaut un, ce qui
+préserve les marges par construction. δ admissible jusqu'à **0,38** avant perte de positivité.
+Sur ce balayage la loi des configurations bouge nettement, P(tous NC) de 0,068 à 0,088 et
+P(tous C) de 0,291 à 0,330, et **le capital espéré ne bouge que de 2 M€, soit 0,02 %**.
+
+**La raison est structurelle, pas numérique, et c'est ce qui rend la conclusion solide.** Le
+capital des 32 configurations s'ajuste par une forme **additive** en indicateurs de pilier à
+$R^2 = 0{,}9945$, contributions 3 524 (P1), 2 863 (P4), 2 022 (P2), 1 577 (P3), 897 (P5).
+L'espérance d'une fonction additive ne dépend que des **marges**, jamais de la dépendance :
+l'invariance vaut donc pour **toute** structure à marges fixées, y compris non essayée. Et cette
+quasi-additivité est le même fait que l'interaction entre piliers déjà publiée, petite et de
+signe non résolu. L'ordre des contributions reproduit celui des marginaux, P1 > P4 > P2 > P3 > P5.
+
+**Ce que cela ne dit pas, et il faut le garder :** l'invariance porte sur l'**espérance**. Une
+conférence de conformité déplacerait un quantile de la loi des configurations ou une mesure de sa
+queue. Ne pas transformer ce résultat en « le phénomène est sans conséquence ».
+
+**Deux défauts de mon propre script, corrigés avant publication.** La première construction
+combinait la latente de P3 avec la moyenne de P1 et P2 en racine, ce qui lui faisait perdre le
+facteur commun : elle *dé*-corrélait P3 au lieu de le sur-corréler, et le balayage donnait un
+effet non monotone, signature du bug. Et la première figure traçait des écarts de 2 M€ sur un axe
+de 2 M€ de haut, ce qui les faisait paraître énormes : l'axe est désormais calé sur la largeur de
+la bande d'identification, et les barres disparaissent, ce qui est le résultat.
+
+### Le point 10 traité, en écriture seulement
+
+La renormalisation proportionnelle au SCR de marché affirme une **élasticité un** à la taille. Les
+deux canaux sont estimés et aucun n'en approche : fréquence $+0{,}0744$ (ET 0,0098, $z = 7{,}59$),
+sévérité $0{,}087$ d'intervalle $[0{,}026 ; 0{,}148]$. Chacun est d'un ordre de grandeur sous
+l'unité. Écrit au chapitre 12 avec l'encadré qui tranche : **les deux approches se trompent en
+sens opposés**, la proportionnalité sous-estimant une petite entité puisqu'elle rétrécit une
+sévérité qui ne rétrécit pas, le modèle la majorant puisqu'il ne la plafonne pas. Substituer la
+proportionnalité changerait le signe du défaut sans le déclarer.
+
+### Coût de page, et il devient sérieux
+
+**Le corps passe de 104 à 108 pages sur toute la séquence Caroline, le total de 126 à 135.** Le
+corps est donc à 38 pages au-dessus des ~70 recommandés. Quatre blocs sont compressibles et je
+les liste par ordre de ce qu'ils coûtent : la table graduée du chapitre 12, la sous-section du
+chapitre 13 sur l'étage de modèle, la sous-section du chapitre 11 sur la dépendance des états, et
+les deux paragraphes d'élasticité du chapitre 12. Harnais à **1 484 nombres, 1 450 confirmés,
+97,7 %**, 0 vbox, 0 référence indéfinie, 0 annotation hors page, 0 page tournée.
+
 ### Ce qui reste de sa liste
 
-- **la CTE à 95 %** en diagnostic à côté de la VaR 99,5 %, jamais à sa place ;
+- **la CTE à 95 %** en diagnostic à côté de la VaR 99,5 %, jamais à sa place. C'est le seul point
+  de sa liste qui n'est pas traité ;
 - **le niveau de l'intervalle reporté**, 90 ou 95 %, voir la relecture ci-dessus ;
 - **la renormalisation par taille** dans sa version à deux canaux, fréquence par le lien
   logarithmique et sévérité par l'élasticité mesurée, la proportionnalité au SCR de marché

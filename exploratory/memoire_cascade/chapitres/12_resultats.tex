@@ -744,6 +744,46 @@ $61$ à $38\,\%$. Le \emph{sens} de la conclusion est renforcé, son \emph{ampli
 dépend de l'échelle et ne doit pas être citée comme une grandeur d'entité.
 \end{attention}
 
+\paragraph{Pourquoi la mise à l'échelle n'est pas proportionnelle, et c'est mesuré.} La façon la
+plus naturelle de descendre un capital sectoriel à une entité est de le multiplier par le poids
+de cette entité dans le secteur. C'est le repère contre lequel la méthode se distingue, et il
+faut dire pourquoi elle s'en écarte plutôt que le passer sous silence. Une renormalisation
+proportionnelle affirme une chose précise : que le besoin de capital est \textbf{d'élasticité
+un} à la taille. Les deux canaux par lesquels la taille agit ont été estimés séparément, et
+aucun des deux ne s'en approche.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Canal} & \textbf{Élasticité à la taille} & \textbf{Ce que dit la mesure} \\
+\midrule
+Fréquence & $+0{,}0744$ (ET $0{,}0098$, $z=+7{,}59$) & très significative, et très loin de $1$ \\
+Sévérité & $0{,}087$, IC $[0{,}026\,;0{,}148]$ & contient presque zéro \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Chacun des deux est \emph{d'un ordre de grandeur} sous l'unité que la proportionnalité
+suppose, et le second est le plus frappant : la sévérité ne se met pratiquement pas à l'échelle
+de la taille, d'où le multiplicateur de $0{,}8545$, soit $-14{,}6\,\%$ seulement, appliqué en
+descendant de la population de calibration à l'entité cible. La méthode retenue est donc
+\textbf{à deux canaux séparés}, la fréquence par le lien logarithmique du modèle de comptage et
+la sévérité par son élasticité mesurée, et non un facteur unique.
+
+\begin{attention}
+\textbf{Les deux approches se trompent en sens opposés, et c'est ce qui rend la borne
+nécessaire.} Une descente proportionnelle \emph{sous}-estimerait le besoin d'une petite entité,
+puisqu'elle rétrécirait la sévérité alors que la donnée dit qu'elle ne rétrécit presque pas. Le
+modèle retenu fait l'inverse : en ne plafonnant pas la sévérité à l'échelle d'entité, il affirme
+qu'une entité de quelques milliards subit à peu près la sévérité d'une institution mondiale, ce
+qui \emph{majore}. C'est exactement pourquoi le chiffre d'entité est publié comme une
+\textbf{borne supérieure d'ordre de grandeur} et pourquoi la méthode déclare une borne inférieure
+de validité en taille (\S\ref{sec:entites-reelles}). Substituer la proportionnalité ne
+supprimerait pas le problème, elle en changerait le signe sans le déclarer.
+\end{attention}
+
 \figcle{J5_benchmark_externe.png}{Benchmark externe : la confrontation au réel, à deux échelles
 qu'il ne faut pas confondre. \textbf{(a)}~au niveau du \emph{sinistre unique}, nos quantiles
 (quantile de sévérité $663$~M\euro{} et moyenne de queue $1\,752$~M\euro{} à $99{,}5\,\%$, et non

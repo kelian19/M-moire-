@@ -190,6 +190,52 @@ la version globale lorsque tous les piliers partagent un état (contrôle de coh
 déduit la \textbf{décomposition} du surcoût de non-conformité par pilier, en basculant un pilier
 à la fois, dont les résultats sont au chapitre~\ref{chap:resultats}.
 
+\subsection{La dépendance entre états : ce que le modèle porte déjà, et ce qu'il omet}
+\label{sec:dependance-etats}
+
+\noindent Chiffres de cette sous-section : script~\texttt{69}.
+
+Une objection métier mérite d'être traitée explicitement, parce qu'elle est juste : le
+recouvrement des dispositifs de contrôle fait qu'être conforme aux piliers~1 et~2 confère
+indirectement une conformité partielle au pilier~3, les mêmes preuves d'audit servant aux trois.
+Le modèle ne représente pas ce mécanisme, et il faut dire à la fois ce qu'il porte déjà et ce que
+l'omission coûte.
+
+\textbf{Ce qu'il porte déjà.} Les états ne sont pas indépendants : les cinq latentes partagent le
+facteur systémique avec une charge de $0{,}68$, soit une corrélation de $0{,}462$ entre deux
+piliers quelconques. Répondre à l'objection par \og{}la dépendance manque\fg{} serait donc faux.
+Ce qui manque est sa \textbf{structure} : la dépendance est \emph{échangeable}, identique pour
+toutes les paires, alors que le recouvrement des contrôles est propre à certains triplets.
+
+\textbf{Ce que l'omission coûte, et la réponse est nulle.} On ajoute un surcroît de corrélation
+$\delta$ aux deux seules paires concernées, par une matrice de corrélation dont la diagonale
+vaut un, ce qui préserve les marges \emph{par construction} et isole donc l'effet de structure.
+Le surcroît admissible va jusqu'à $\delta = 0{,}38$ avant que la matrice cesse d'être définie
+positive. Sur ce balayage, la loi des configurations bouge nettement : la probabilité que les
+cinq piliers soient non conformes passe de $0{,}068$ à $0{,}088$ et celle qu'ils soient tous
+conformes de $0{,}291$ à $0{,}330$. Le capital espéré, lui, ne bouge que de $2$~M\euro, soit
+$0{,}02\,\%$.
+
+\textbf{Et la raison n'est pas numérique, elle est structurelle.} Le capital des $32$
+configurations s'ajuste presque exactement par une forme \emph{additive} en indicateurs de
+pilier, $R^2 = 0{,}9945$, avec des contributions de $3\,524$ (P1), $2\,863$ (P4), $2\,022$ (P2),
+$1\,577$ (P3) et $897$~M\euro{} (P5) au-dessus d'un socle tous conformes. Or l'espérance d'une
+fonction additive ne dépend que des \textbf{marges}, jamais de la dépendance : les termes croisés
+sont le seul canal par lequel une structure pourrait agir, et il n'en reste presque rien.
+L'invariance ne tient donc pas à la valeur de $\delta$ retenue, elle vaut pour \emph{toute}
+structure de dépendance à marges fixées, y compris celles qu'on n'a pas essayées. C'est ce qui
+rend la conclusion solide alors qu'aucune donnée du projet ne calibre $\delta$. Le détail et la
+figure sont au \S\ref{sec:ann-dependance-etats}.
+
+Deux remarques pour finir, et elles vont en sens opposés. Cette quasi-additivité est le même fait
+que l'interaction entre piliers déjà publiée, petite devant la somme des marginaux et de signe
+non résolu (\S\ref{sec:allocation}) : deux lectures d'un seul constat, et l'ordre des
+contributions additives reproduit celui des marginaux, $P1 > P4 > P2 > P3 > P5$. Mais
+l'invariance porte sur l'\textbf{espérance} : une conférence de conformité déplace bien la loi
+des configurations, donc elle déplacerait un quantile de cette loi ou une mesure de sa queue. Ce
+qui est établi ici est que le capital espéré n'en voit rien, non que le phénomène soit sans
+conséquence sur toute grandeur.
+
 \section{La chaîne de Markov et les séjours de type phase}
 
 À l'échelle lente, l'état de conformité suit une chaîne de Markov à temps continu
