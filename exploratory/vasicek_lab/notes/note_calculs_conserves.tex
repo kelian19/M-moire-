@@ -1,0 +1,487 @@
+% =====================================================================================
+% FICHE DE CALCULS -- tout ce que le memoire CONSERVE, avec la formule, les entrees et la
+% sortie. 13 aout 2026.
+%
+% OBJET. Les deux notes de suivi disent ce qui est integre et ce qui ne l'est pas. Celle-ci
+% dit COMMENT c'est calcule : une formule, ses entrees, sa sortie, et le script qui l'imprime.
+% Elle est faite pour etre ouverte pendant un point quand une question porte sur un chiffre.
+%
+% REGLE TENUE PARTOUT : aucun nombre de cette fiche n'est calcule a la main. Chacun est
+% imprime par un script dont la sortie est versionnee, et le harnais le verifie. Un ratio
+% calcule pendant la redaction n'est verifiable par personne.
+%
+% CHAQUE SECTION CITE SES SCRIPTS, faute de quoi le harnais la compte hors controle : c'est
+% la faille qui avait laisse passer un intervalle faux sur une slide de juillet.
+% =====================================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.9cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath, amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{eurosym}
+
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{lightblue}{HTML}{D6E0F0}
+\definecolor{softgray}{HTML}{F4F4F2}
+
+\newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+\newtcolorbox{res}[1][]{colback=softgray,colframe=black!30,boxrule=0.5pt,
+  arc=2pt,left=7pt,right=7pt,top=5pt,bottom=5pt,#1}
+
+\newcommand{\src}[1]{\hfill{\footnotesize\textsf{script~\texttt{#1}}}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lfoot{\footnotesize Fiche de calculs --- 13 août 2026}
+\rfoot{\footnotesize page \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+
+\title{\vspace{-1.3cm}\color{navy}\bfseries Fiche de calculs\\[2pt]
+  \large Tout ce que le mémoire conserve : la formule, les entrées, la sortie}
+\author{Kélian Kaddouri}
+\date{13 août 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\vspace{-0.7cm}
+
+\begin{cle}
+\textbf{Comment se servir de cette fiche.} Un bloc par résultat conservé, dans l'ordre de la
+chaîne de calcul : la sévérité, la fréquence, la cascade, l'écart entre états, le retour sur
+conformité, puis les mesures de robustesse. Chaque bloc donne la \textbf{formule}, ses
+\textbf{entrées} et sa \textbf{sortie}, avec le script qui l'imprime en marge.
+
+\textbf{Une règle est tenue partout et elle est le point de méthode de ce document} : aucun
+nombre n'est calculé à la main. Chacun est imprimé par un script dont la sortie est versionnée,
+et un harnais vérifie que le nombre publié se retrouve bien dans la sortie du script que la
+section cite. Un ratio calculé pendant la rédaction n'est vérifiable par personne, et trois des
+chiffres périmés trouvés cette année étaient exactement de cette nature.
+\end{cle}
+
+% =====================================================================================
+\section{La sévérité d'un sinistre}
+\src{\texttt{07}, \texttt{47}, \texttt{63}}
+
+\paragraph{Le modèle.} Au-delà d'un seuil $u$, les dépassements suivent une loi de Pareto
+généralisée. Le quantile de sévérité d'un \emph{sinistre} s'écrit en forme fermée
+\begin{equation}
+\mathrm{q}_{\alpha} \;=\; u \;+\; \frac{\sigma}{\xi}
+  \left[\left(\frac{1-\alpha}{p_u}\right)^{-\xi} - 1\right],
+\end{equation}
+où $p_u$ est le taux de dépassement du seuil.
+
+\begin{res}
+\textbf{Entrées (calibration gelée)} : $u = 20{,}03$~M\euro, $\xi = 0{,}5954$,
+$\sigma = 57{,}97$, $p_u = 0{,}1509$, sur $91$ excès.\\
+\textbf{Sortie} : $\mathrm{q}_{99,5\%} = 662{,}78$~M\euro, d'intervalle à $90\,\%$
+$[411{,}5\,;1\,037{,}1]$, soit un \textbf{facteur $2{,}5$} entre les deux bornes.\\
+\textbf{Adéquation} : Kolmogorov-Smirnov $D = 0{,}043$, $p = 0{,}889$ ; non rejeté à $5\,\%$.
+\end{res}
+
+\paragraph{Deux précautions qui accompagnent ce nombre.} La première est de notation :
+$662{,}78$ est un quantile \emph{par sinistre} et non un capital. Le confondre avec le capital
+agrégé fait lire une différence d'échelle comme une contradiction, ce qui est arrivé en séance.
+La seconde est que l'intervalle de $\xi$ vaut $[0{,}304\,;0{,}831]$ par bootstrap et
+$[0{,}320\,;0{,}871]$ par delta-méthode : \textbf{ce sont deux intervalles distincts}, et le
+mémoire publie le premier. Toute citation mélangeant une borne de l'un avec une borne de l'autre
+est fautive.
+
+% =====================================================================================
+\section{La fréquence des sinistres}
+\src{\texttt{08b}}
+
+\paragraph{Le modèle.} Le nombre annuel de sinistres suit une binomiale négative de moyenne
+$\lambda$ et d'indice de dispersion $\varphi$, paramétrée par
+\begin{equation}
+N \sim \mathcal{BN}(r,\,p), \qquad r = \frac{\lambda}{\varphi - 1},
+\qquad p = \frac{r}{r + \lambda}.
+\end{equation}
+
+\begin{res}
+\textbf{Entrées} : $\lambda_{\text{ref}} = 21{,}6$ sinistres par an au secteur,
+$\varphi = 9{,}20$ posé.\\
+\textbf{Mesures d'échelle} : la fréquence observée vaut $0{,}0988$ par firme et par an sur
+l'ensemble du panel, et $0{,}2102$ sur les firmes à au moins dix événements, profil plus proche
+d'une entité soumise au règlement.
+\end{res}
+
+\paragraph{L'indice de dispersion n'est pas invariant d'échelle}, et c'est ce qui réconcilie
+trois chiffres qui paraissent se contredire : $\varphi = 1 + \lambda/r$ vaut $1{,}19$ sur les
+cellules firme-année, $2{,}24$ sur la série annuelle détendancée, et $9{,}20$ au moteur où il est
+un choix de prudence. Une échelle de lecture, une agrégation, une marge.
+
+% =====================================================================================
+\section{La cascade entre piliers}
+\src{\texttt{03}, \texttt{74}}
+
+\paragraph{La matrice de propagation.} Elle se déduit de la table de transitions par une
+normalisation de Leontief
+\begin{equation}
+W(g) \;=\; g \cdot \frac{\mathrm{TRANS}}{\max_j s_j},
+\qquad s_j = \sum_k \mathrm{TRANS}_{jk},
+\end{equation}
+où $s_j$ est l'\textbf{émission} du pilier $j$, non sa réception. La convention est
+$W_{jk}$ de la source $j$ vers la cible $k$ : \emph{la ligne émet, la colonne reçoit}.
+
+\begin{res}
+\textbf{Pourquoi le diviseur est l'émission.} La normalisation existe pour garantir que le
+pilier le plus prolifique engendre \emph{au plus} $g$ descendants directs. Avec le diviseur de
+réception ($2{,}3$) on obtenait $0{,}90 \times 2{,}60 / 2{,}3 = 1{,}02$, donc plus que
+$g = 0{,}90$ : la borne que la normalisation est censée poser était franchie. Avec le diviseur
+d'émission ($2{,}60$) on a exactement $0{,}90$.\\
+\textbf{Sorties} : $\rho(W) = 0{,}506 = 0{,}562 \times g$, sous-critique ;
+$R_0 = 0{,}054$ ; $\rho(W) = 1$ à $g = 1{,}78$, hors domaine.
+\end{res}
+
+\paragraph{La loi du nombre de piliers touchés est exacte.} Elle s'obtient par énumération de la
+progéniture du noyau auto-évitant, sans simulation, en pondérant les amorces par leur propension.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}c c c@{}}
+\toprule
+\textbf{Piliers touchés} & \textbf{Conforme} ($g=0{,}45$) & \textbf{Non conforme} ($g=0{,}90$) \\
+\midrule
+$1$ & $68{,}85\,\%$ & $37{,}69\,\%$ \\
+$2$ & $25{,}10\,\%$ & $38{,}10\,\%$ \\
+$3$ & $5{,}31\,\%$ & $18{,}29\,\%$ \\
+$4$ & $0{,}70\,\%$ & $5{,}22\,\%$ \\
+$5$ & $0{,}04\,\%$ & $0{,}69\,\%$ \\
+\midrule
+\emph{plus d'un pilier} & $\mathbf{31{,}15\,\%}$ & $\mathbf{62{,}31\,\%}$ \\
+\emph{moyenne} & $1{,}380$ & $1{,}931$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% =====================================================================================
+\section{L'écart de capital entre états de conformité}
+\src{\texttt{43}, \texttt{68}}
+
+\paragraph{Les quatre canaux, et ils ne s'additionnent pas.} La non-conformité n'ajoute aucune
+pénalité au capital : elle déplace quatre paramètres de la loi de perte.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l c c l@{}}
+\toprule
+\textbf{Canal} & \textbf{Conforme} & \textbf{Non conforme} & \textbf{Statut} \\
+\midrule
+Fréquence $\lambda$ & $21{,}6$ & $53{,}6$ & calibrable \\
+Détection $p_u$ & $0{,}128$ & $0{,}181$ & calibrable \\
+Propagation $g$ & $0{,}45$ & $0{,}90$ & borné \\
+Accumulation $\varphi_{cs}$ & $0$ & $0{,}68$ & borné \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{res}
+\textbf{Sortie} : capital de $6\,049$ à $20\,188$~M\euro, soit un écart
+$\Delta_{\text{DORA}} = 14\,139$~M\euro{} et un \textbf{facteur $3{,}34$} entre les deux états.
+Bruit de simulation de l'écart, quatre graines appariées : $\pm 734$~M\euro.\\
+\textbf{Résolution} : $40\,000$ années par graine, à sévérité de base et échelle inchangées ;
+seuls les quatre canaux bougent.
+\end{res}
+
+\paragraph{Où passent les cinq milliards manquants.} Sommer les quatre canaux pris isolément
+donne $9\,138$, non $14\,139$. L'écart n'est pas une erreur, c'est l'\textbf{interaction}. On
+l'établit en énumérant les $2^4$ configurations du treillis et en prenant la transformée de
+Möbius
+\begin{equation}
+m(S) \;=\; \sum_{T \subseteq S} (-1)^{|S| - |T|}\, v(T),
+\qquad \sum_{S \neq \emptyset} m(S) \;=\; v(\{1,2,3,4\}).
+\end{equation}
+
+\begin{res}
+\textbf{Sortie par ordre} : ordre~1 $9\,138$, ordre~2 $5\,345$, ordre~3 $-691$, ordre~4 $+346$.
+La somme des quinze termes redonne $14\,139$ \textbf{à la précision machine}.\\
+\textbf{Interaction} : $14\,139 - 9\,138 = 5\,001$~M\euro, soit $+35\,\%$.
+\end{res}
+
+\paragraph{Trois lectures d'un même canal, et elles ne sont pas interchangeables.} Isolée depuis
+l'état conforme, fermeture depuis l'état non conforme, et Shapley.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Canal} & \textbf{Isolé} & \textbf{Fermeture} & \textbf{Shapley} \\
+\midrule
+Fréquence & $4\,328 \pm 463$ & $\mathbf{8\,775} \pm 1\,004$ & $6\,546 \pm 457$ \\
+Détection & $1\,448 \pm 277$ & $4\,562 \pm 819$ & $2\,928 \pm 343$ \\
+Accumulation P4 & $1\,728 \pm 210$ & $3\,402 \pm 493$ & $2\,576 \pm 222$ \\
+Propagation $W$ & $1\,633 \pm 188$ & $2\,402 \pm 442$ & $2\,088 \pm 152$ \\
+\midrule
+\textbf{somme} & $9\,138$ & $19\,141$ & $\mathbf{14\,139}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+\noindent La colonne isolée \emph{manque} $5\,001$, celle de fermeture le \emph{dépasse}
+d'autant. C'est la colonne de \textbf{fermeture} qu'un plan de remédiation doit citer : remédier
+un canal rapporte davantage à une entité défaillante partout, puisque le canal ferme aussi les
+croisés qu'il portait. Shapley est la seule colonne additive, mais c'est une \emph{convention}
+d'attribution, et deux canaux sur quatre étant bornés, leur part n'est pas un budget.
+
+\paragraph{Les six effets croisés, avec leur bruit.} freq$\times$det $1\,739 \pm 708$,
+freq$\times$accum $1\,666 \pm 354$, freq$\times$prop $1\,182 \pm 444$, det$\times$accum
+$573 \pm 202$, det$\times$prop $515 \pm 247$, prop$\times$accum $\mathbf{-330} \pm 242$.
+Deux lectures et une seule est concluante : \textbf{il n'y a pas de paire dominante}, les deux
+premières se tenant à $73$~M\euro{} pour des écarts-types de $708$ et $354$ ; mais les trois
+paires porteuses passent toutes par la fréquence et font $86\,\%$ de l'ordre~2. Et
+\textbf{prop$\times$accum est négative} sur les seize graines et les deux métriques : les deux
+canaux de co-occurrence sont \emph{substituts}, un pilier déjà touché ne pouvant l'être deux
+fois.
+
+% =====================================================================================
+\section{Le retour sur la conformité}
+\src{\texttt{50}}
+
+\paragraph{Le portage.} Détenir du capital coûte, \emph{chaque année}, un pourcentage du capital
+immobilisé au titre de la marge de risque :
+\begin{equation}
+\text{portage} \;=\; \tau \times \Delta_{\text{DORA}}.
+\end{equation}
+
+\begin{res}
+\textbf{Sortie} : à $\tau = 6\,\%$, $848$~M\euro/an ; au taux révisé $\tau = 4{,}75\,\%$,
+$672$~M\euro/an. \textbf{L'écart entre les deux taux est publié plutôt que laissé au lecteur},
+la chaîne restant au taux historique puisque la calibration est gelée.
+\end{res}
+
+\paragraph{Le bénéfice a deux composantes et une seule est monétisée.} La charge annuelle moyenne
+passe de $3\,869$ à $622$~M\euro, soit une \textbf{sinistralité évitée de $3\,247$~M\euro/an},
+qui vaut $3{,}8$~fois le portage. Ce qui est laissé de côté vaut donc près de quatre fois ce qui
+est retenu.
+
+\begin{cle}
+\textbf{Le sens de la borne, et il était annoncé à l'envers.} Le retour se calcule comme un
+capital divisé par un bénéfice annuel. Minorer le \emph{bénéfice} \textbf{majore} donc la
+\emph{durée}. Le retour de $6$ à $35$ ans au taux historique, de $7$ à $45$ ans au taux révisé,
+est un \textbf{MAJORANT} et non un plancher. Les deux composantes réunies donneraient $1$ à
+$7$ ans, mais cette addition mêle un flux de compte de résultat à un coût du capital : c'est une
+convention de retour sur investissement, pas une sortie de modèle.
+\end{cle}
+
+% =====================================================================================
+\section{Robustesse : ce que chaque hypothèse coûte}
+
+\subsection*{L'additivité des coûts au sein d'un sinistre}
+\src{\texttt{74}}
+
+\paragraph{Le relâchement.} La perte d'un sinistre touchant $k$ piliers vaut
+\begin{equation}
+L \;=\; \Bigl(\sum_{j \in \mathcal{C}} X_j\Bigr) \, k^{\,\theta - 1},
+\qquad k = |\mathcal{C}|.
+\end{equation}
+La paramétrisation a deux propriétés qui la rendent lisible : $\theta = 1$ redonne
+\emph{exactement} le modèle publié, ce qui sert de contrôle ; et $1^{\theta-1} = 1$, donc elle
+laisse les sinistres mono-pilier là où ils sont et ne touche que la simultanéité.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}c r r r c@{}}
+\toprule
+$\boldsymbol{\theta}$ & \textbf{Conforme} & \textbf{Non conf.} &
+$\boldsymbol{\Delta_{\text{DORA}}}$ & \textbf{/ publié} \\
+\midrule
+$0{,}70$ & $5\,435$ & $15\,141$ & $9\,706$ & $0{,}687$ \\
+$1{,}00$ & $6\,049$ & $20\,188$ & $14\,139$ & $1{,}000$ \\
+$1{,}30$ & $6\,972$ & $27\,459$ & $20\,487$ & $1{,}449$ \\
+\midrule
+\emph{élasticité} & $0{,}39$ & $0{,}95$ & $1{,}20$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{res}
+\textbf{Ce que cela dit} : la plage vaut $76\,\%$ de l'écart publié et \textbf{$15$~fois} son
+bruit de $\pm 734$~M\euro, donc l'effet est réel. \textbf{Et l'hypothèse n'est pas neutre entre
+les deux états} : élasticités $0{,}95$ contre $0{,}39$, facteur $2{,}42$, parce que l'exposant ne
+mord que sur les multi-piliers, majoritaires au seul état non conforme.\\
+\textbf{Ce qui tient} : sur toute la plage l'écart garde son signe et son ordre de grandeur.
+\textbf{Ce qui ne se déclare pas} : le \emph{sens}, mutualisation de la remédiation et saturation
+de la capacité tirant en sens contraire. L'amplitude est \textbf{posée}, d'où la publication de
+l'élasticité plutôt que de la plage.
+\end{res}
+
+\subsection*{La structure de la dépendance entre états}
+\src{\texttt{69}}
+
+\paragraph{Le modèle d'états.} Les états de conformité dérivent d'une latente à facteur commun
+\begin{equation}
+C^\star_j \;=\; \gamma \Theta \;+\; \sqrt{1 - \gamma^2}\, \varepsilon_j,
+\qquad \gamma = 0{,}68,
+\end{equation}
+d'où une corrélation $\gamma^2 = 0{,}462$ entre deux piliers quelconques. \textbf{La dépendance
+existe donc déjà et elle est forte} ; ce qui manque est sa \emph{structure}, échangeable au lieu
+d'être propre à certains triplets. On ajoute un surcroît $\delta$ aux seules paires concernées,
+par une matrice de corrélation dont la diagonale vaut un, ce qui préserve les marges par
+construction.
+
+\begin{res}
+\textbf{Sortie} : $\delta$ admissible jusqu'à $0{,}38$ avant perte de positivité. Sur ce
+balayage la loi des configurations bouge nettement, $P(\text{tous NC})$ de $0{,}068$ à $0{,}088$,
+et \textbf{le capital espéré ne bouge que de $2$~M\euro, soit $0{,}02\,\%$}.\\
+\textbf{Et la raison est structurelle, pas numérique} : le capital des $32$ configurations
+s'ajuste par une forme \emph{additive} en indicateurs de pilier à $R^2 = 0{,}9945$, de
+contributions $3\,524$ (P1), $2\,863$ (P4), $2\,022$ (P2), $1\,577$ (P3), $897$ (P5). L'espérance
+d'une fonction additive ne dépend que des \emph{marges}, jamais de la dépendance : l'invariance
+vaut donc pour \textbf{toute} structure à marges fixées, y compris non essayée.
+\end{res}
+
+\noindent\emph{Ce que cela ne dit pas} : l'invariance porte sur l'\textbf{espérance}. Un quantile
+de la loi des configurations bougerait.
+
+\subsection*{La mesure de queue, et son existence}
+\src{\texttt{73}}
+
+\paragraph{La CTE au niveau agrégé.} Elle est calculée en \emph{diagnostic}, jamais comme mesure
+de couverture, le capital restant partout un $\mathrm{VaR}_{99,5\%}$ de la charge annuelle.
+
+\begin{res}
+\textbf{Sortie} : CTE de $5\,734$, $12\,607$ et $18\,183$~M\euro{} aux niveaux $95$, $99$ et
+$99{,}5\,\%$. L'équivalence $\mathrm{CTE}_\beta = \mathrm{VaR}_{99,5\%}$ tombe à
+$\beta = 97{,}73\,\%$, donc \textbf{la CTE à $95\,\%$ est moins prudente} que la VaR
+réglementaire, d'un facteur $1{,}46$. Rapport $\mathrm{CTE}/\mathrm{VaR} = 2{,}17$ contre
+l'asymptote $1/(1-\xi) = 2{,}47$.
+\end{res}
+
+\begin{cle}
+\textbf{L'argument décisif est l'existence, pas la proportion.} Sous la calibration alternative
+$\hat\xi = 1{,}033 > 1$, l'espérance de la sévérité est infinie et \textbf{la mesure n'existe
+pas}. Une couverture qui cesse d'être définie selon la source de sévérité ne peut pas porter un
+capital. À utiliser plutôt que « la CTE est excessive », qui est un argument de degré.
+\end{cle}
+
+\subsection*{Le niveau de l'intervalle reporté}
+\src{\texttt{72}}
+
+\paragraph{Le passage de $90$ à $95\,\%$ ne rejoue aucun bootstrap.} Il applique le rapport des
+quantiles normaux aux deux demi-largeurs \emph{séparément}, ce qui préserve l'asymétrie :
+\begin{equation}
+[\,b_{95},\,h_{95}\,] \;=\;
+\Bigl[\, p - \tfrac{z_{95}}{z_{90}}(p - b_{90}),\;\; p + \tfrac{z_{95}}{z_{90}}(h_{90} - p) \,\Bigr],
+\qquad \frac{z_{95}}{z_{90}} = \frac{1{,}96}{1{,}645} = 1{,}1915.
+\end{equation}
+
+\begin{res}
+\textbf{Sortie} : $\xi$ passe à $[0{,}2487\,;0{,}8765]$, soit un facteur $3{,}52$ ; le capital à
+$[2\,727\,;34\,942]$~M\euro, facteur $12{,}81$.\\
+\textbf{Deux constats} : le changement de niveau ne déplace \textbf{aucune calibration}, ni le
+point ni les paramètres, seulement les bornes publiées ; et il \textbf{ne corrige pas} la
+sous-couverture, qui reste un déficit constant de $-3{,}2$~points ($86{,}8 \pm 0{,}8\,\%$ réels
+pour $90$ nominaux, $91{,}8 \pm 0{,}6\,\%$ pour $95$).
+\end{res}
+
+\subsection*{La transposition à l'échelle d'une entité}
+\src{\texttt{60}, \texttt{70}}
+
+\paragraph{Ce que la renormalisation proportionnelle suppose.} Renormaliser au prorata du capital
+de marché affirme une \textbf{élasticité un} à la taille. Les deux canaux estimés en sont loin :
+fréquence $+0{,}0744$ (écart-type $0{,}0098$, $z = 7{,}59$), sévérité $0{,}087$ d'intervalle
+$[0{,}026\,;0{,}148]$.
+
+\begin{res}
+\textbf{Sortie} : l'élasticité globale mesurée vaut $0{,}204$ contre $1{,}000$ supposée. Une
+petite entité reçoit $0{,}633$ contre $0{,}100$ sous proportionnalité, une grande $1{,}621$ contre
+$10{,}00$.\\
+\textbf{Les deux approches se trompent en sens opposés} : la proportionnalité sous-estime une
+petite entité puisqu'elle rétrécit une sévérité qui ne rétrécit pas, le modèle la majore puisqu'il
+ne la plafonne pas. Substituer l'une à l'autre changerait le signe du défaut sans le déclarer.
+\end{res}
+
+\subsection*{Les sensibilités, et la fragilité n'est pas où on l'attend}
+\src{\texttt{15}, \texttt{30}}
+
+\begin{res}
+\textbf{Tornado} : le gain de propagation $g$ de $0{,}5$ à $1{,}0$ déplace le surcoût de
+$5\,517$ à $6\,579$~M\euro, quand le \emph{seuil} de la loi de queue le déplace de $4\,862$ à
+$12\,944$ et la fréquence de $4\,056$ à $8\,684$. \textbf{La propagation est le levier le moins
+sensible des quatre} : la fragilité est dans l'ajustement de valeurs extrêmes, pas dans la
+contagion.\\
+\emph{Garde} : ces niveaux sont ceux de la base du tornado ($6\,640$~M\euro), qui n'est pas
+l'écart à quatre canaux de $14\,139$.
+\end{res}
+
+\begin{res}
+\textbf{Coût de l'ignorance directionnelle} : $336$~M\euro{} de largeur à $t = 0{,}25$, $695$ à
+$0{,}50$, $1\,083$ à $0{,}75$, $1\,839$ à $t = 1$. \textbf{L'ignorance se paye linéairement et son
+coût maximal est connu d'avance}, ce qui est plus favorable qu'un intervalle de confiance
+ordinaire. Le point d'expert ($8\,110$, soit $+53{,}7\,\%$ du socle) est un point de l'ensemble et
+non sa mesure, et la direction nulle donne déjà $+51{,}5\,\%$ : l'essentiel du surcoût vient de la
+\emph{co-occurrence}, qui est identifiée, non de la direction.
+\end{res}
+
+\subsection*{Ce que les séquences ordonnées permettent, et ce qu'elles interdisent}
+\src{\texttt{75}}
+
+\begin{res}
+\textbf{Matière disponible} : $22$ transitions codées sur $10$ incidents, réparties sur $6$ paires
+distinctes, d'où $9$ chemins de longueur deux et $4$ séquences distinctes.\\
+\textbf{Pourquoi la question d'asymétrie P1\,/\,P2 ne se tranche pas par les triplets} : P2
+n'émet \textbf{jamais}, $0$ fois sur $22$, et P1 n'est jamais atteint. Le support est vide.\\
+\textbf{Pourquoi le test n'a aucune puissance} : il exige d'un même pilier qu'il soit atteint
+\emph{et} qu'il ait deux successeurs distincts ; aucun ne remplit les deux, et les deux manques
+sont exclusifs. Il faudrait de $158$ à $589$ chemins par un même pilier qualifié.\\
+\textbf{Acquis} : la chaîne \textbf{n'est pas sans mémoire}, l'auto-évitement gonflant la loi du
+successeur d'un facteur $1{,}211$ en moyenne, et c'est une borne basse.\\
+\textbf{Précaution} : le graphe agrégé est acyclique, mais $42$ des $64$ orientations le seraient
+aussi, soit $65{,}6\,\%$. L'acyclicité n'est donc \textbf{pas} un résultat et ne renforce pas la
+frontière d'identification.
+\end{res}
+
+% =====================================================================================
+\section{Les défauts connus, chiffrés plutôt que corrigés}
+\src{\texttt{47}, \texttt{57}}
+
+\paragraph{Pourquoi ils ne sont pas corrigés.} La calibration est gelée : une correction
+déplacerait des centaines de nombres publiés sans qu'aucun déplacement soit attribuable à la
+correction, et la piste d'audit serait perdue pour un gain immatériel. Une limite chiffrée,
+signée et recalculée à chaque exécution vaut mieux qu'un nombre corrigé en silence.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{5.0cm} p{2.4cm} p{8.4cm}@{}}
+\toprule
+\textbf{Écart} & \textbf{Sens} & \textbf{Taille} \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Défauts d'estimation, tous deux anti-conservateurs}} \\
+Taux de dépassement gelé $p_u$ & sous-estime & $+2{,}4\,\%$ de quantile manquant, soit $15{,}8$~M\euro, ou $2{,}5\,\%$ de la largeur de l'intervalle de la même VaR \\
+Couverture réelle de l'intervalle & sous-estime & $86{,}8\,\%$ au lieu de $90$ ; demi-largeur à élargir d'environ $10\,\%$ \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Choix posés, tous prudents}} \\
+Queue de sévérité $\xi$ & majore & $0{,}90$ posé contre $0{,}5954$ estimé \\
+Charge systémique & majore & $0{,}60$ posé, au-delà de la borne haute empirique $0{,}22$ \\
+Sur-dispersion $\varphi$ & majore & $9{,}20$ posé contre $2{,}24$ mesuré \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Hypothèse dont le sens n'est pas déterminable}} \\
+Additivité des coûts multi-piliers & \textbf{indéterminé} & élasticité $1{,}20$ ; $[9\,706\,;20\,487]$~M\euro{} sur l'amplitude posée \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{3pt}
+\begin{cle}
+\textbf{La lecture qui compte.} Les deux seuls écarts \emph{involontaires} sous-estiment le
+capital, de quelques pour cent chacun ; les trois choix \emph{délibérés} le majorent, et de
+beaucoup plus. \textbf{Le mémoire ne se protège donc pas derrière ses erreurs} : sa prudence vient
+de choix assumés qu'il nomme comme tels, et corriger les deux premiers ne changerait aucune
+conclusion. La dernière ligne est la seule dont le \emph{sens} ne se déclare pas.
+\end{cle}
+
+\end{document}

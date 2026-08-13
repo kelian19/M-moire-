@@ -123,6 +123,13 @@ def extrait(txt, latex=True):
     # LES PENALITES DE CESURE. Un \hyphenpenalty=10000 dans une specification de colonne versait
     # 10000 dans le pool, deux fois par table. Meme classe, meme remede.
     t = re.sub(r"\\(?:hyphen|exhyphen|widow|club|binop|rel)penalty\s*=?\s*-?\d+", " ", t)
+    # LE MELANGE DE COULEURS DE xcolor. Un colframe=navy!80 versait 80 dans le pool. La syntaxe
+    # « identifiant ! entier » n'apparait pas en prose, le motif est donc sans risque.
+    t = re.sub(r"\b[A-Za-z]+!\d+\b", " ", t)
+    # LES CLES DIMENSIONNEES des options de boite et de tableau : boxrule=0.9pt, arc=2pt,
+    # left=8pt. Elles n'etaient pas couvertes par la regle sur p{4.3cm}, et un 0,9 leake dans le
+    # pool s'y confirme par hasard sans qu'on le voie jamais, ce qui est le pire des cas.
+    t = re.sub(r"\b[A-Za-z]+\s*=\s*-?[\d.]+\s*(?:pt|mm|cm|em|ex|in|bp|sp)\b", " ", t)
     # LA NOTATION SCIENTIFIQUE N'EST PAS DEUX NOMBRES. « p \approx 10^{-30} » ne publie ni un
     # dix ni un trente : il publie un ordre de grandeur, et le motif d'extraction en tirait un
     # « 10 » que rien ne pouvait confirmer. Meme classe que \tfrac12 et p{4.3cm} : un artefact
