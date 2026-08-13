@@ -559,26 +559,57 @@ reste \textbf{réversible sans coût de développement}.
 % HARNAIS-HORS-SCRIPT: le nombre de fichiers touches par le renommage est un compte de code
 % source, pas une grandeur du modele. Aucun script ne le produit et aucun ne le devrait.
 
-\begin{frame}{Les quatre décisions que je ne peux pas prendre}
+\begin{frame}{Les quatre décisions, tranchées comme je les signerais}
 \scriptsize
-\begin{block}{1. La définition de l'écart entre états \hfill \emph{la plus urgente}}
-$-53\,\%$ à gain de propagation figé, ou facteur $3{,}34$ à quatre canaux. Deux définitions,
-deux questions différentes. Le mémoire doit dire laquelle il publie.
+Ces quatre points vous reviennent, mais laisser un arbitrage ouvert n'est pas neutre non plus.
+Voici la position que je défendrais devant un comité, avec le motif professionnel qui la porte.
+Elle reste à ratifier.
+\vspace{1.5mm}
+\begin{block}{1. Publier l'écart à quatre canaux : $\Delta = 14\,139 \pm 734$~M\euro}
+Le $-53\,\%$ garde le \textbf{gain de propagation au niveau non conforme} pendant qu'il fait
+varier le score : il décrit donc une entité conforme sur le papier qui propagerait comme une
+non conforme. \textbf{Ce n'est pas un état du monde cohérent}, c'est une dérivée partielle
+présentée comme un scénario, et un scénario incohérent ne se reporte pas. L'écart à quatre
+canaux, lui, oppose deux états complets, décompose son interaction et publie son bruit.
+\emph{Le $-53\,\%$ reste, réétiqueté en sensibilité au seul score de conformité.}
 \end{block}
 \vspace{-1.5mm}
-\begin{block}{2. Le niveau de l'intervalle reporté}
-$90$ ou $95\,\%$. Aucune calibration ne bouge, toutes les bornes publiées bougent, et la
-sous-couverture n'est pas corrigée dans un cas comme dans l'autre.
+\begin{block}{2. Rester à $90\,\%$, et publier la couverture atteinte}
+La couverture atteinte manque le nominal de $-3{,}2$ points \textbf{aux deux niveaux} : passer à
+$95\,\%$ ne corrige pas ce déficit, il le rebaptise. \textbf{On n'annonce pas un niveau de confiance qu'on n'atteint
+pas}, et élargir la bande sans la rendre plus vraie donne une fausse impression de rigueur
+accrue. Le correctif propre serait d'élargir la demi-largeur d'environ $10\,\%$, mais c'est une
+recalibration que le gel interdit. \emph{Donc : $90\,\%$ annoncé, $86{,}8 \pm 0{,}8\,\%$ mesuré
+et écrit à côté.}
+\end{block}
+\srcs{scripts~\texttt{25}, \texttt{43}, \texttt{47}, \texttt{72} et~\texttt{74}}
+\end{frame}
+
+\begin{frame}{Les quatre décisions, tranchées \emph{(suite)}}
+\scriptsize
+\begin{block}{3. Comprimer l'illustration, garder la borne de validité}
+Principe de proportionnalité : \textbf{la place accordée à un résultat doit suivre sa
+fiabilité}. Le niveau d'entité est déclaré \emph{borne supérieure d'ordre de grandeur}, sous la
+borne inférieure de validité de la descente d'échelle. Lui donner quatre pages d'illustration
+invite le lecteur à s'en servir comme d'une mesure. \emph{Je comprime la partie illustrative à
+une page et demie, et je garde intégralement les deux pages qui établissent la borne inférieure
+de validité sur bilans réels : c'est une limite, et une limite ne se comprime pas.}
 \end{block}
 \vspace{-1.5mm}
-\begin{block}{3. Les six pages des scénarios par taille}
-Le résultat utile tient en une page et demie. Ce qui doit rester quoi qu'il arrive est la limite
-qui justifie la borne supérieure.
+\begin{block}{4. Ne pas renommer, mais verrouiller par un contrôle automatique}
+Une collision de noms dans un moteur de calcul est un \textbf{risque de modèle}, pas une
+question de style. Mais renommer vingt-sept fichiers sur un pipeline gelé, à quelques semaines
+du rendu, introduit un risque d'erreur supérieur au risque qu'on veut traiter. \textbf{Quand la
+remédiation coûte plus que le risque, on ne remédie pas, on contrôle.} \emph{Donc : pas de
+renommage avant la soutenance, et une assertion à l'import qui vérifie que les deux constantes
+valent ce qu'elles doivent valoir. Elle ne déplace aucun nombre et rend la confusion
+impossible.}
 \end{block}
 \vspace{-1.5mm}
-\begin{block}{4. Le renommage dans le code}
-Le gain de propagation et l'échelon de sévérité portent des noms qui ne diffèrent que par un
-tiret bas. Vingt-sept fichiers, sur un pipeline gelé.
+\begin{block}{Le fil commun des quatre}
+Aucune ne consiste à corriger le modèle. Trois consistent à \textbf{déclarer plutôt qu'à
+rebaptiser}, et la quatrième à \textbf{contrôler plutôt qu'à remédier}. C'est la posture qu'un
+gel de calibration impose, et c'est celle qui se défend devant un jury.
 \end{block}
 \end{frame}
 
