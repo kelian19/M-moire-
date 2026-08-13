@@ -144,12 +144,26 @@ deux_hi = max(s_hi, IDENT[1])
 trois_lo = min(deux_lo, DEP[0], FAM_BAS)
 trois_hi = max(deux_hi, DEP[1], s_fam)
 
-print(f"  {'lecture':<34}{'borne basse':>14}{'borne haute':>14}{'largeur':>11}{'facteur':>10}")
-for lib, lo, hi in (("parametre seul", s_lo, s_hi),
-                    ("identification seule", IDENT[0], IDENT[1]),
-                    ("DEUX etages (retenu)", deux_lo, deux_hi),
+# LES QUATRE ETAGES SUR UNE SEULE ECHELLE, AVEC LEUR FACTEUR IMPRIME. Le memoire citait un
+# facteur 5,5 pour l'axe famille et 2,5 pour le parametre, soit une comparaison entre l'AGREGE
+# et le QUANTILE UNITAIRE : deux echelles. Cette table les met tous sur la charge annuelle, et
+# imprime les facteurs pour qu'aucun ne soit recalcule a la main dans la redaction.
+print(f"  {'etage, sur la charge annuelle':<34}{'borne basse':>14}{'borne haute':>14}"
+      f"{'largeur':>11}{'facteur':>10}")
+for lib, lo, hi in (("parametre (xi sur son IC90)", s_lo, s_hi),
+                    ("identification (direction W)", IDENT[0], IDENT[1]),
+                    ("modele, axe dependance", DEP[0], DEP[1]),
+                    ("modele, axe famille de queue", FAM_BAS, s_fam)):
+    print(f"  {lib:<34}{lo:>14.0f}{hi:>14.0f}{hi-lo:>11.0f}{hi/lo:>10.2f}")
+print(f"  {'-' * 83}")
+for lib, lo, hi in (("DEUX etages (retenu)", deux_lo, deux_hi),
                     ("TROIS etages (ancienne annonce)", trois_lo, trois_hi)):
     print(f"  {lib:<34}{lo:>14.0f}{hi:>14.0f}{hi-lo:>11.0f}{hi/lo:>10.2f}")
+print("\n  LA HIERARCHIE AINSI RETABLIE N'EST PAS CELLE QU'ON ANNONCE D'ORDINAIRE : l'etage de")
+print("  modele N'ECRASE PAS les autres, il est du meme ordre que celui de parametre, et les deux")
+print("  dominent largement l'identification. Le retirer ne peut donc pas se justifier par sa")
+print("  taille, contrairement a ce que le memoire ecrivait en comparant un facteur d'agregat a")
+print("  un facteur de quantile unitaire.")
 
 gain = (trois_hi - trois_lo) - (deux_hi - deux_lo)
 print(f"\n  Le retrait de l'etage de modele retire {gain:.0f} M de largeur, soit "

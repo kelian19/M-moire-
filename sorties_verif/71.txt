@@ -41,11 +41,20 @@
 ========================================================================================
 3. La bande composee, avec et sans l'etage de modele
 ========================================================================================
-  lecture                              borne basse   borne haute    largeur   facteur
-  parametre seul                              3042         27152      24111      8.93
-  identification seule                        6858          8697       1839      1.27
+  etage, sur la charge annuelle        borne basse   borne haute    largeur   facteur
+  parametre (xi sur son IC90)                 3042         27152      24111      8.93
+  identification (direction W)                6858          8697       1839      1.27
+  modele, axe dependance                      5322          9806       4484      1.84
+  modele, axe famille de queue                4330         39901      35571      9.21
+  -----------------------------------------------------------------------------------
   DEUX etages (retenu)                        3042         27152      24111      8.93
   TROIS etages (ancienne annonce)             3042         39901      36859     13.12
+
+  LA HIERARCHIE AINSI RETABLIE N'EST PAS CELLE QU'ON ANNONCE D'ORDINAIRE : l'etage de
+  modele N'ECRASE PAS les autres, il est du meme ordre que celui de parametre, et les deux
+  dominent largement l'identification. Le retirer ne peut donc pas se justifier par sa
+  taille, contrairement a ce que le memoire ecrivait en comparant un facteur d'agregat a
+  un facteur de quantile unitaire.
 
   Le retrait de l'etage de modele retire 12748 M de largeur, soit 35 % de la bande
   a trois etages. Le facteur entre bornes tombe de 13.12 a 8.93.

@@ -119,23 +119,55 @@ en sort et pourquoi. \textbf{La bande reportée par ce mémoire ne cumule que le
 paramètre et identification. L'étage de modèle est publié, mais comme \textbf{axe de
 sensibilité déclaré} et non comme composante de la bande.
 
-\paragraph{Le motif n'est pas que cet étage serait petit : c'est le plus grand des trois.} Il
-faut le dire dans cet ordre, parce que l'argument inverse serait malhonnête. Sur son axe
-dominant, la famille de queue, il vaut un facteur $5{,}5$, contre $2{,}5$ pour le paramètre et
-une bande de $6\,858$ à $8\,697$~M\euro{} pour l'identification. Le retirer de l'intervalle
-\textbf{rétrécit donc l'affichage plus que ne le ferait aucun autre retrait}, alors que
-l'incertitude sous-jacente ne bouge pas d'un euro. C'est exactement le mouvement contre lequel
-il faut se garder, et c'est pourquoi il ne s'agit pas d'une suppression mais d'un
-\textbf{déplacement}.
+\paragraph{Les trois étages, mis sur une seule échelle avant toute comparaison.} Comparer les
+étages exige de les lire sur la \emph{même} grandeur, et c'est la première chose à faire ici :
+l'étage de paramètre est publié sur le quantile d'\emph{un sinistre} (facteur $2{,}5$) tandis que
+les deux autres vivent sur la \emph{charge annuelle agrégée}. Les rapprocher tels quels
+comparerait deux échelles, ce qui est précisément l'erreur que ce mémoire s'interdit ailleurs.
+Porté sur l'agrégat, l'intervalle bootstrap de $\xi$ donne $[3\,042\,;\,27\,152]$~M\euro, soit un
+facteur $8{,}93$ : le quantile annuel \textbf{amplifie} l'incertitude de paramètre, et le facteur
+$2{,}5$ ne mesure donc pas ce que le paramètre fait au \emph{capital} (script~\texttt{71}).
 
-\paragraph{Ce qui justifie le déplacement.} Les deux premiers étages sont de nature
-\emph{statistique} : ils mesurent ce que la donnée disponible ne permet pas de trancher, à
-modèle fixé, et un intervalle est l'objet qui convient pour les porter. Le troisième est de
-nature \emph{épistémique} : il mesure l'effet d'un choix de famille, et un choix ne se moyenne
-pas. Un intervalle qui cumule les trois mélange une incertitude d'estimation avec une
-divergence de spécification, et il devient illisible : le lecteur ne sait plus si la borne
-haute est un scénario défavorable ou une autre théorie du risque. En le sortant, on gagne un
-intervalle interprétable \emph{et} un axe de sensibilité qui se lit pour lui-même.
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l r@{}}
+\toprule
+\textbf{Étage, lu sur la charge annuelle} & \textbf{Bande} & \textbf{Facteur} \\
+\midrule
+Paramètre ($\xi$ sur son IC$_{90}$) & $[3\,042\,;\,27\,152]$ & $8{,}93$ \\
+Identification (direction de $W$) & $[6\,858\,;\,8\,697]$ & $1{,}27$ \\
+Modèle, axe dépendance & $[5\,322\,;\,9\,806]$ & $1{,}84$ \\
+Modèle, axe famille de queue & $[4\,330\,;\,39\,901]$ & $9{,}21$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent En M\euro. La hiérarchie ainsi rétablie n'est pas celle qu'on annonce d'ordinaire :
+\textbf{l'étage de modèle n'écrase pas les autres}, il est du même ordre que l'étage de paramètre,
+et les deux dominent largement l'identification. Le retirer ne peut donc pas se justifier par sa
+taille, et l'argument qui suit est d'une autre nature. Réserve à garder : ces largeurs de
+paramètre font varier $\xi$ seul, $\sigma$ restant à sa valeur publiée, alors que le bootstrap
+estime le couple conjointement ; ce sont donc des \emph{majorants}.
+
+\paragraph{Ce qui justifie le déplacement, et ce n'est pas une taille.} Les deux étages retenus
+sont de nature \emph{statistique} : ils mesurent ce que la donnée ne permet pas de trancher à
+modèle fixé, et un intervalle est l'objet qui convient pour les porter. Le troisième est
+\emph{épistémique} : il mesure l'effet d'un choix de famille, et un choix ne se moyenne pas.
+
+Le point décisif est plus précis que cette opposition générale, et il se voit sur l'axe de la
+famille de queue. Cet axe pousse $\xi$ à $0{,}90$, tandis que l'étage de paramètre le fait varier
+jusqu'à $0{,}8313$ : \textbf{c'est le même paramètre}, et une bande doit dire \emph{une seule
+fois} jusqu'où on le laisse aller. Or $0{,}8313$ est une borne \textbf{estimée}, celle de
+l'intervalle bootstrap, quand $0{,}90$ est une valeur \textbf{posée} hors de cet intervalle. Les
+placer sur la même échelle met un scénario et une borne de confiance dans le même objet, et le
+lecteur ne sait plus si la borne haute est un aléa défavorable ou une autre théorie de la queue.
+Le retrait rend la bande \textbf{homogène}, ce qui est un motif plus fort que la lisibilité.
+
+À l'inverse, la borne \emph{basse} de cet axe, la lognormale à $4\,330$~M\euro, est une autre
+famille et non un autre $\xi$ : celle-là est un apport propre, et c'est pourquoi le
+recouvrement est asymétrique. Le déplacement porte donc sur ce que la bande \emph{annonce},
+non sur ce que le mémoire publie.
 
 \paragraph{Où cet étage est publié, désormais.} Il l'est deux fois, et rien n'est caché. Sur
 l'axe de la famille de queue, la \textbf{sixième posture} de la table du
