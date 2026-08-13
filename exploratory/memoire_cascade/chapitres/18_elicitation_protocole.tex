@@ -65,23 +65,39 @@ domaine que les cibles. La \textbf{partie cible} interroge les liens dirigés en
 par un, sous la forme d'une probabilité conditionnelle : sachant que le pilier source est
 défaillant, quelle est la probabilité que le pilier cible le devienne.
 
-Le dispositif complet demande seize questions par expert, dont dix questions-graines. Ce ratio
+Le dispositif complet demande quinze questions par expert, dont neuf questions-graines. Ce ratio
 n'est pas un excès de prudence : c'est le minimum qui permette de distinguer un expert calibré
 d'un expert chanceux, et le réduire viderait la méthode de ce qui la distingue d'une moyenne
 d'opinions. Le protocole, le questionnaire et le gabarit de réponses sont versionnés dans le
 dépôt du mémoire, et deux scripts implémentent l'agrégation, l'un sur réponses fictives pour
 valider la chaîne de traitement, l'autre prêt à recevoir des réponses réelles.
 
+\paragraph{Une dixième graine a été retirée, et le dire fait partie du protocole.} La première
+version de l'étalonnage portait une question sur l'indice de queue de sévérité $\xi$, de valeur
+vraie annoncée $0{,}90$. Deux défauts s'y cumulaient. D'abord $0{,}90$ n'est pas la calibration
+mais la valeur \emph{posée} du scénario de pire cas, la calibration figée donnant
+$\hat\xi = 0{,}5954$ : or dans la méthode de Cooke une graine fausse n'ajoute pas du bruit, elle
+\textbf{inverse} les poids, en pénalisant le répondant qui vise juste. Ensuite, et c'est ce qui
+justifie le retrait plutôt que la correction, $\xi$ est une \emph{estimation} d'intervalle
+$[0{,}30\,;0{,}83]$, plus large que la valeur elle-même : une graine doit être une grandeur
+réalisée, pas un paramètre estimé. Les neuf graines restantes sont toutes reproductibles par une
+sortie de script versionnée, ce qui est la condition pour qu'une notation d'expert soit
+opposable.
+
+\vspace{2pt}
+\noindent Sources de cette section : scripts~\texttt{26} (moteur d'agrégation et liste des
+graines retenues), \texttt{47} et~\texttt{63} (calibration figée de la sévérité).
+
 \section{Pourquoi il n'a pas été exécuté}
 
 La raison est arithmétique, et elle porte sur la \emph{taille effective} du panel.
 
 \paragraph{Un panel de deux experts n'a aucun pouvoir de calibration.} Avec le calendrier du
-mémoire et un taux de réponse réaliste sur un questionnaire de seize questions quantitatives, le
+mémoire et un taux de réponse réaliste sur un questionnaire de quinze questions quantitatives, le
 nombre de réponses exploitables, c'est-à-dire complètes et passant le seuil de calibration,
 serait de l'ordre de une à deux. Or à deux experts la pondération de Cooke dégénère : soit un
 seul survit au seuil et l'on obtient un avis unique déguisé en agrégation, soit les deux
-survivent et le poids relatif est estimé sur dix graines, ce qui ne le distingue pas d'une
+survivent et le poids relatif est estimé sur neuf graines, ce qui ne le distingue pas d'une
 moyenne simple. Dans les deux cas la méthode ne fait plus ce pour quoi elle est choisie.
 
 \paragraph{Et une élicitation faible ne serait pas neutre, elle serait trompeuse.} C'est

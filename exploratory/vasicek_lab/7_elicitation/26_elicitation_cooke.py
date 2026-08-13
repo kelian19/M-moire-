@@ -136,18 +136,27 @@ def pool_target(target_quants, weights, grid=2000):
 
 
 # ============================================================ questions-graines (reponses connues)
-# valeurs MESUREES dans les chapitres empiriques (08b-08g, 05).
+# Valeurs MESUREES, chacune reproductible par une sortie versionnee : c'est la condition pour
+# qu'une graine soit defendable, un expert etant NOTE contre elle.
+#
+# UNE GRAINE A ETE RETIREE LE 13 AOUT 2026, et ce n'est pas un detail de forme. La liste portait
+# « Indice de queue de severite xi = 0,90 ». Or 0,90 est la valeur POSEE du scenario de pire cas,
+# quand la calibration figee du memoire donne xi = 0,5954 (src/utils/config.py). Noter un expert
+# contre 0,90 aurait penalise celui qui repond juste : dans la methode de Cooke une graine fausse
+# n'ajoute pas du bruit, elle INVERSE les poids. Et meme corrigee a 0,5954 la question resterait
+# invalide comme graine : xi est une ESTIMATION, d'IC90 [0,30 ; 0,83], soit un intervalle plus
+# large que la valeur elle-meme. Une graine doit avoir une valeur realisee, pas un parametre
+# estime. La question est donc retiree, et non corrigee.
 SEEDS = [
-    ("Part des sinistres financiers portes par une cause commune (tiers), %", 20.0),
-    ("Delai median survenance -> declaration, jours", 94.0),
-    ("Part des incidents declares apres 1 mois, %", 85.0),
-    ("Duree mediane de breche (containment), jours", 7.0),
-    ("Indice de queue de severite xi", 0.90),
-    ("Frequence d'incidents TIC materiels, grande entite, par an", 0.21),
-    ("Delai median de declaration d'un piratage, jours", 117.0),
-    ("Indice de Gini de la concentration journaliere des sinistres", 0.69),
-    ("Nombre max de victimes d'une cause commune en un jour (MOVEit)", 191.0),
-    ("Part des jours qui sont une cause commune, %", 1.7),
+    ("Part des sinistres financiers portes par une cause commune (tiers), %", 20.0),    # 08g
+    ("Delai median survenance -> declaration, jours", 94.0),                            # 08e
+    ("Part des incidents declares apres 1 mois, %", 85.0),                              # 08e
+    ("Duree mediane de breche (containment), jours", 7.0),                              # 08f
+    ("Frequence d'incidents TIC materiels, grande entite, par an", 0.21),               # 08b
+    ("Delai median de declaration d'un piratage, jours", 117.0),                        # 08e
+    ("Indice de Gini de la concentration journaliere des sinistres", 0.69),             # 08g
+    ("Nombre max de victimes d'une cause commune en un jour (MOVEit)", 191.0),          # 08g
+    ("Part des jours qui sont une cause commune, %", 1.7),                              # 08g
 ]
 SEED_TRUTH = np.array([v for _, v in SEEDS])
 
@@ -166,11 +175,15 @@ TARGET_POSIT = np.array([v for _, v in TARGETS])
 # profil = (biais, dispersion REELLE de l'estimation, dispersion ANNONCEE des quantiles).
 # La calibration compare l'annoncee a la reelle : bien calibre (annonce ~ reel), sur-confiant
 # (annonce << reel -> rate), vague (annonce >> reel -> peu informatif), biaise (decalage).
+# LES PROFILS SONT FICTIFS ET LEURS ETIQUETTES LE DISENT. Ils portaient jusqu'au 13 aout 2026 les
+# prenoms de collegues reels du projet, sur des profils nommes « sur-confiant » et « biaise » :
+# un jugement negatif attache a une personne identifiable, dans un document destine a circuler.
+# Remplaces par des profils anonymes decrivant le comportement, seul objet de la demonstration.
 EXPERTS = {
-    "Operationnel (Mehdi)":  dict(bias=0.00, actual=0.20, stated=0.24),   # bien calibre
-    "Litterature (Ouidad)":  dict(bias=0.03, actual=0.20, stated=0.55),   # vague
-    "ORSA (Franck)":         dict(bias=0.00, actual=0.38, stated=0.11),   # sur-confiant
-    "Conformite":            dict(bias=0.35, actual=0.20, stated=0.24),   # biaise
+    "Expert A -- bien calibre":  dict(bias=0.00, actual=0.20, stated=0.24),
+    "Expert B -- vague":         dict(bias=0.03, actual=0.20, stated=0.55),
+    "Expert C -- sur-confiant":  dict(bias=0.00, actual=0.38, stated=0.11),
+    "Expert D -- biaise":        dict(bias=0.35, actual=0.20, stated=0.24),
 }
 RNG = np.random.default_rng(20260721)
 
@@ -256,10 +269,20 @@ cols = [ACCENT if e == best else BL[1] for e in EXPERTS]
 ax1.axvline(ALPHA, color=MUTED, lw=1.2, ls="--")
 ax1.text(ALPHA * 1.1, max(ys) * 0.98, "seuil $\\alpha$", fontsize=8, color=MUTED, va="top")
 ax1.scatter(xs, ys, s=ss, c=cols, edgecolor="#fcfcfb", zorder=3, alpha=0.9)
-for e, x, y in zip(EXPERTS, xs, ys):
-    ax1.annotate(e.split(" (")[0], (x, y), fontsize=7.6, color=INK2,
-                 xytext=(4, 5), textcoords="offset points")
+for e, x, y, s in zip(EXPERTS, xs, ys, ss):
+    # L'etiquette part a GAUCHE seulement dans la zone ou elle traverserait la ligne de seuil,
+    # c'est-a-dire juste en dessous d'alpha. La caler sur « x < ALPHA » envoyait aussi celle du
+    # point a calibration nulle vers la gauche, hors du cadre. Et l'ecart vertical suit le rayon
+    # du disque, sans quoi l'etiquette du poids dominant tombe dans sa propre bulle.
+    collision = ALPHA / 8.0 < x < ALPHA
+    dy = 5 + (s ** 0.5) / 2.0
+    ax1.annotate(e, (x, y), fontsize=7.6, color=INK2,
+                 ha="right" if collision else "left",
+                 xytext=(-5 if collision else 5, dy), textcoords="offset points")
 ax1.set_xscale("symlog", linthresh=0.01)
+# marge a droite : sans elle le disque du poids dominant, dont le rayon suit le poids, est
+# rogne par le bord du cadre.
+ax1.set_xlim(-0.0025, max(xs) * 4.0)
 ax1.set_xlabel("calibration (p-value, log)", color=INK2)
 ax1.set_ylabel("information (KL moyen)", color=INK2)
 ax1.set_title("(a)  Poids de Cooke = calibration × information", fontsize=11,
@@ -276,7 +299,10 @@ posit = TARGET_POSIT[::-1]
 y = np.arange(len(names))
 ax2.hlines(y, lo, hi, color=BL[1], lw=3, zorder=2)
 ax2.scatter(med, y, s=45, color=BL[2], zorder=3, label="DM médiane (élicité)")
-ax2.scatter(posit, y, s=70, color=ACCENT, marker="D", zorder=4, label="valeur posée (16)")
+# « valeur posee du modele » et non « valeur posee (16) » : un numero de script interne dans une
+# legende n'a aucun sens pour un lecteur exterieur, et la piece circule hors du projet.
+ax2.scatter(posit, y, s=70, color=ACCENT, marker="D", zorder=4,
+            label="valeur posée du modèle")
 ax2.set_yticks(y); ax2.set_yticklabels(names, fontsize=8.5)
 ax2.set_xlim(0, 1)
 ax2.set_xlabel("force du lien dirigé (intervalle DM à 90 %)", color=INK2)

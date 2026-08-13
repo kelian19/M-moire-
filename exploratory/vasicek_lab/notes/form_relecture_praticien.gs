@@ -1,8 +1,10 @@
 /**
- * FORMULAIRE 2 sur 2 : la relecture de praticien.
- * Mémoire d'actuariat, ENSAE / Nexialog Consulting.
+ * FORMULAIRE 2 sur 3 : la relecture de praticien.
+ * Mémoire d'actuariat, ENSAE Paris / Institut des Actuaires. Version 2.0 du 13 août 2026.
  *
- * Destinataires : Hugo, Mehdi à son retour, Nathanaël, Franck, le superviseur.
+ * Destinataires : praticiens du secteur, tuteur entreprise, tutrice académique. La liste
+ * nominative de juillet a été retirée : elle était périmée (un collaborateur a quitté le
+ * projet le 27 juillet) et n'a pas à figurer dans un fichier destiné à circuler.
  * Remplace le kit papier : tout passe désormais par le formulaire.
  *
  * MODE D'EMPLOI
@@ -35,7 +37,38 @@
 var ORGANISATION = "Nexialog Consulting";
 var AUTEUR = "Kélian Kaddouri";
 var CONTACT = "kkaddouri@nexialog.com";
-var CADRE = "Mémoire d'actuariat, ENSAE / " + ORGANISATION;
+var CADRE = "Mémoire d'actuariat, ENSAE Paris / Institut des Actuaires, promotion 2026";
+var VERSION = "version 2.0 du 13 août 2026";
+
+// MENTIONS ET CONSENTEMENT, AJOUTÉS LE 13 AOÛT 2026, ET ICI L'ENJEU EST PLUS LOURD QUE POUR LE
+// FORMULAIRE 1. Celui-ci annonce en toutes lettres que « vos réponses seront citées dans mon
+// mémoire », ce qui est le bon choix éditorial : un désaccord de praticien vaut d'être publié.
+// Mais la version de juillet l'annonçait sans recueillir le moindre accord, sans dire sous
+// quelle forme la citation apparaîtrait, et sans offrir de relecture. Citer un praticien
+// identifiable sur un avis technique, sans trace de son consentement, n'est pas défendable
+// devant un jury. Le consentement est désormais explicite ET gradué : chacun choisit la forme
+// sous laquelle il accepte d'être cité.
+var MENTIONS =
+  "USAGE. Vos réponses servent uniquement à ce mémoire d'actuariat. Aucune transmission à un "
+  + "tiers, aucun autre traitement.\n\n"
+  + "CITATION, ET C'EST LE POINT À LIRE. Contrairement à un questionnaire ordinaire, vos "
+  + "réponses ont vocation à être CITÉES dans le mémoire, désaccords en premier : c'est tout "
+  + "l'intérêt de vous solliciter. Vous choisissez ci-dessous la forme sous laquelle vous "
+  + "acceptez de l'être, et ce choix est respecté sans discussion. Par défaut, si vous ne "
+  + "répondez pas à cette question, la citation est anonyme.\n\n"
+  + "RELECTURE. Vous pouvez demander à relire vos propos tels qu'ils sont cités avant toute "
+  + "diffusion, et faire retirer ou reformuler ce que vous voulez.\n\n"
+  + "RETRAIT. Vous pouvez demander le retrait complet de vos réponses jusqu'à la remise du "
+  + "mémoire, sans avoir à le motiver.\n\n"
+  + "CONSERVATION. Jusqu'à la soutenance, puis destruction.\n\n"
+  + "CONTACT. " + AUTEUR + " · " + CONTACT;
+
+var FORMES_CITATION = [
+  "Anonyme : « un praticien du secteur »",
+  "Par fonction seulement : « un directeur des risques », sans nom ni employeur",
+  "Nom et fonction",
+  "Je préfère ne pas être cité du tout"
+];
 
 var AVIS = [
   "D'accord",
@@ -104,7 +137,7 @@ var PHRASES = [
 // ---------------------------------------------------------------- textes
 
 var DESCRIPTION =
-  CADRE + "\n\n"
+  CADRE + " · " + VERSION + "\n\n"
   + "Ce qu'on vous demande, et surtout ce qu'on ne vous demande pas : PAS de lire mon "
   + "mémoire. Je vous soumets sept phrases sur lesquelles ce que vous avez vu chez des "
   + "clients vaut mieux que n'importe quel calcul, et je vous demande d'essayer de les "
@@ -146,9 +179,10 @@ var CONSIGNE_COMMENTAIRE =
 
 var CONFIRMATION =
   "Merci du temps que vous y avez passé.\n\n"
-  + "Vos réponses seront citées dans mon mémoire, et les désaccords en premier. Si vous avez "
-  + "contredit la phrase 3 ou la 4, je corrige le modèle : c'est précisément pour cela que "
-  + "je vous ai écrit.\n\n"
+  + "Vos réponses seront citées dans mon mémoire sous la forme que vous avez choisie, et les "
+  + "désaccords en premier. Si vous avez contredit la phrase 3 ou la 4, je corrige le modèle : "
+  + "c'est précisément pour cela que je vous ai écrit.\n\n"
+  + "Si vous avez demandé à relire vos propos, je vous les envoie avant toute diffusion.\n\n"
   + AUTEUR + " · " + CONTACT;
 
 // ---------------------------------------------------------------- construction
@@ -162,6 +196,24 @@ function creerFormulaire() {
   form.setConfirmationMessage(CONFIRMATION);
 
   // page d'introduction
+  form.setCollectEmail(false);          // l'anonymat par défaut doit être vrai techniquement
+  form.addSectionHeaderItem()
+      .setTitle("Usage, citation et conservation")
+      .setHelpText(MENTIONS);
+  form.addMultipleChoiceItem()
+      .setTitle("Consentement")
+      .setChoiceValues(["J'accepte que mes réponses soient utilisées dans le cadre décrit "
+                        + "ci-dessus."])
+      .setRequired(true);              // la SEULE question obligatoire du formulaire
+  form.addMultipleChoiceItem()
+      .setTitle("Sous quelle forme acceptez-vous d'être cité ?")
+      .setHelpText("Sans réponse, la citation est anonyme.")
+      .setChoiceValues(FORMES_CITATION)
+      .setRequired(false);
+  form.addMultipleChoiceItem()
+      .setTitle("Souhaitez-vous relire vos propos tels qu'ils seront cités, avant diffusion ?")
+      .setChoiceValues(["Oui", "Non"])
+      .setRequired(false);
   form.addSectionHeaderItem()
       .setTitle("De quoi il s'agit, en trois phrases")
       .setHelpText(CONTEXTE);

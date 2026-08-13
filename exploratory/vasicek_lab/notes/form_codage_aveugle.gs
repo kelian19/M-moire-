@@ -1,6 +1,6 @@
 /**
- * FORMULAIRE 1 sur 2 : le codage en aveugle (fiabilité inter-juges, chapitre 9).
- * Mémoire d'actuariat, ENSAE / Nexialog Consulting.
+ * FORMULAIRE 1 sur 3 : le codage en aveugle (fiabilité inter-juges, chapitre 9).
+ * Mémoire d'actuariat, ENSAE Paris / Institut des Actuaires. Version 2.0 du 13 août 2026.
  *
  * MODE D'EMPLOI
  *   1. script.google.com, nouveau projet.
@@ -45,7 +45,38 @@
 var ORGANISATION = "Nexialog Consulting";
 var AUTEUR = "Kélian Kaddouri";
 var CONTACT = "kkaddouri@nexialog.com";
-var CADRE = "Mémoire d'actuariat, ENSAE / " + ORGANISATION;
+var CADRE = "Mémoire d'actuariat, ENSAE Paris / Institut des Actuaires, promotion 2026";
+var VERSION = "version 2.0 du 13 août 2026";
+
+// MENTIONS ET CONSENTEMENT, AJOUTÉS LE 13 AOÛT 2026.
+// La version de juillet n'en portait aucun, alors qu'elle demande un prénom et enregistre des
+// réponses nominatives dans une feuille. C'est le premier point qu'un relecteur extérieur
+// soulève, et il a raison : un instrument qui collecte sans annoncer son usage n'est pas
+// diffusable, quelle que soit la qualité de son contenu.
+var MENTIONS =
+  "USAGE. Vos réponses servent uniquement à ce mémoire d'actuariat. Elles mesurent l'accord "
+  + "entre deux lecteurs indépendants d'un même récit, et rien d'autre. Aucune transmission à "
+  + "un tiers.\n\n"
+  + "ANONYMAT. Les réponses sont exploitées sous un identifiant anonyme. Ni votre nom ni celui "
+  + "de votre organisation n'apparaissent dans le mémoire ni dans aucune restitution ; seul le "
+  + "coefficient d'accord entre codeurs est publié.\n\n"
+  + "DONNÉES COLLECTÉES. Le prénom demandé en fin de formulaire est FACULTATIF et sert "
+  + "uniquement à vous remercier et à vous renvoyer mes propres réponses. Il est conservé "
+  + "séparément de vos réponses et n'entre dans aucun calcul.\n\n"
+  + "RETRAIT. Vous pouvez demander le retrait de vos réponses jusqu'à la remise du mémoire, "
+  + "sans avoir à le motiver.\n\n"
+  + "CONSERVATION. Jusqu'à la soutenance, puis destruction.\n\n"
+  + "CONTACT. " + AUTEUR + " · " + CONTACT;
+
+// LA CONDITION DE VALIDITÉ DE L'EXERCICE, qui n'était énoncée nulle part alors qu'elle est
+// ce qui fait qu'un accord inter-juges veut dire quelque chose.
+var AVEUGLEMENT =
+  "UNE CONDITION, ET ELLE EST LA RAISON D'ÊTRE DE L'EXERCICE. Répondez sans avoir lu mes "
+  + "propres réponses, et sans avoir pris connaissance des conclusions du mémoire sur l'ordre "
+  + "de ces domaines. Un accord entre deux lecteurs ne vaut que si le second n'a pas vu le "
+  + "premier : c'est ce qui distingue une vérification d'une confirmation.\n\n"
+  + "Si vous avez déjà vu ces conclusions, dites-le simplement plutôt que de vous abstenir. "
+  + "L'information reste utile, elle change seulement la façon dont je l'utilise.";
 
 // ---------------------------------------------------------------- protocole
 
@@ -158,7 +189,7 @@ var RECITS = [
 // ---------------------------------------------------------------- textes
 
 var DESCRIPTION =
-  CADRE + "\n\n"
+  CADRE + " · " + VERSION + "\n\n"
   + "Vous allez lire sept récits d'incidents réels, tirés de rapports d'enquête publics. "
   + "Pour chacun, on vous demande simplement, entre deux domaines qui ont tous les deux "
   + "flanché, lequel a flanché en premier et a entraîné l'autre. C'est tout.\n\n"
@@ -211,6 +242,23 @@ function creerFormulaire() {
   form.setConfirmationMessage(CONFIRMATION);
 
   // page d'introduction
+  form.setCollectEmail(false);          // l'anonymat annoncé doit être vrai techniquement
+  form.addSectionHeaderItem()
+      .setTitle("Usage, anonymat et conservation")
+      .setHelpText(MENTIONS);
+  form.addMultipleChoiceItem()
+      .setTitle("Consentement")
+      .setChoiceValues(["J'accepte que mes réponses soient utilisées, sous identifiant "
+                        + "anonyme, dans le cadre décrit ci-dessus."])
+      .setRequired(true);              // la SEULE question obligatoire du formulaire
+  form.addSectionHeaderItem()
+      .setTitle("Avant de commencer")
+      .setHelpText(AVEUGLEMENT);
+  form.addMultipleChoiceItem()
+      .setTitle("Aviez-vous déjà pris connaissance des conclusions du mémoire sur l'ordre de "
+                + "ces domaines ?")
+      .setChoiceValues(["Non", "En partie", "Oui"])
+      .setRequired(false);
   form.addSectionHeaderItem()
       .setTitle("Les cinq domaines")
       .setHelpText(DOMAINES);
@@ -243,7 +291,10 @@ function creerFormulaire() {
                 + "avez vu sur le terrain et qui ne ressemble à aucun de ces sept récits ?")
       .setRequired(false);
   form.addTextItem()
-      .setTitle("Votre prénom (facultatif, seulement pour que je puisse vous remercier)")
+      .setTitle("Votre prénom (facultatif)")
+      .setHelpText("Sert uniquement à vous remercier et à vous renvoyer mes propres réponses. "
+                   + "Conservé séparément de vos réponses, il n'entre dans aucun calcul et "
+                   + "n'apparaît nulle part dans le mémoire.")
       .setRequired(false);
 
   // feuille de réponses
