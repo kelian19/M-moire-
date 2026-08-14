@@ -1,0 +1,235 @@
+% Reponses aux questions du point tuteur du 14 aout 2026. Document court, destine a Hugo.
+% CONTRAINTES TENUES : trois pages, phrases simples, AUCUN concept nouveau. Tout ce qui est ici
+% existe deja dans le memoire ou dans les scripts, et chaque table porte le script qui l'imprime.
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=black]{hyperref}
+\usepackage{titlesec}
+\titlespacing{\section}{0pt}{10pt}{4pt}
+\titlespacing{\subsection}{0pt}{8pt}{3pt}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.15}
+
+\title{\vspace{-1.4cm}\large\textbf{Réponses aux questions du point du 14 août}}
+\author{\normalsize Kélian Kaddouri}
+\date{\normalsize 14 août 2026}
+
+\begin{document}
+% HARNAIS-HORS-SECTION: bloc de titre. Millesime et numeros de section, aucun resultat de modele.
+\maketitle
+\vspace{-0.6cm}
+
+\section*{1. Ce que la conformité déplace}
+
+La non-conformité n'ajoute aucune pénalité au capital. Elle déplace quatre paramètres de la loi
+de perte, et le capital monte parce que la loi a changé. Il n'y a donc aucun coefficient
+multiplicateur dans le calcul.
+
+\begin{center}
+\begin{tabular}{@{}l l l r@{}}
+\toprule
+\textbf{Canal} & \textbf{Ce que DORA y observe} & \textbf{Paramètre} & \textbf{Conforme $\to$ non conforme} \\
+\midrule
+Fréquence & KPI d'entrée d'incidents & $\lambda$ & $21{,}6 \to 53{,}6$ par an \\
+Détection & délai P2, confinement P3 & $p_u$ & $0{,}128 \to 0{,}181$ \\
+Propagation & canal $W$, non identifié & $g$ & $0{,}45 \to 0{,}90$ \\
+Accumulation & concentration des tiers P4 & $\varphi_{cs}$ & $0 \to 0{,}68$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Où chaque paramètre entre dans le calcul.} Une année de sinistres se construit en trois
+temps, et chaque canal agit à un temps précis.
+
+\begin{enumerate}\itemsep1pt
+\item \textbf{Combien de sinistres.} On tire le nombre annuel de sinistres avec une loi de
+moyenne $\lambda$. C'est là qu'agit la \emph{fréquence} : passer de $21{,}6$ à $53{,}6$ multiplie
+par $2{,}5$ le nombre de sinistres tirés.
+\item \textbf{Combien de piliers par sinistre.} Chaque sinistre démarre sur un pilier, puis se
+propage. La probabilité de continuer vers un pilier voisin est proportionnelle à $g$. C'est là
+qu'agit la \emph{propagation} : à $g = 0{,}45$ un sinistre touche $1{,}38$ pilier en moyenne, à
+$g = 0{,}90$ il en touche $1{,}93$. L'\emph{accumulation} agit au même endroit, mais seulement
+pour le pilier des tiers : à $\varphi_{cs} = 0{,}68$, un sinistre qui démarre sur P4 entraîne
+chaque autre pilier avec probabilité $0{,}68$.
+\item \textbf{Combien coûte chaque pilier touché.} On tire un montant pour chaque pilier touché.
+Le paramètre $p_u$ est la probabilité que ce montant dépasse le seuil de matérialité. C'est là
+qu'agit la \emph{détection} : mieux détecter réduit $p_u$, donc réduit la part des sinistres qui
+deviennent matériels.
+\end{enumerate}
+
+Le capital passe ainsi de $6\,049$ à $20\,188$~M\euro, soit un écart de $14\,139$.
+
+\textbf{Deux canaux se calibrent, deux se bornent.} Fréquence et détection s'adossent à des KPI
+mesurables : ce sont des leviers de remédiation actionnables. Propagation et accumulation ne sont
+pas identifiées : elles disent l'incertitude, et se résorbent par la donnée du registre DORA plus
+que par une action. Confondre les deux reviendrait à promettre une remédiation là où l'on n'a
+qu'une borne.
+
+\textbf{Les quatre canaux ne s'additionnent pas.} Pris un par un depuis l'état conforme, ils
+donnent $9\,138$~M\euro. L'écart réel vaut $14\,139$. La différence, $5\,001$~M\euro, vient de ce
+que les canaux se composent : multiplier le nombre de sinistres et épaissir chaque sinistre ne
+fait pas deux effets qui s'ajoutent, mais un seul effet composé. \emph{Il ne faut donc jamais
+additionner les quatre leviers pour chiffrer une remédiation partielle.}
+
+\medskip
+{\small Sources : scripts \texttt{43}, \texttt{68} et \texttt{74}.}
+
+% \og et \fg PARTOUT dans ce fichier, jamais les guillemets litteraux. Le defaut est deja
+% documente pour les fontes grasses des decks, mais ICI il frappe aussi le corps de texte romain :
+% ce document n'a pas la fonte du memoire, et les guillemets y sortent en « n » et « z ». Verifie
+% en regardant les trois pages rendues, pas seulement en compilant.
+\section*{2. Euler et Shapley, et la colonne \og part d'amorce \fg}
+
+\textbf{Les deux répondent à deux questions différentes.} Il faut choisir la question avant de
+choisir la table.
+
+\begin{itemize}\itemsep1pt
+\item \emph{Qui porte le surcoût ?} appelle le pilier \textbf{source}, c'est-à-dire celui où le
+sinistre démarre. C'est \textbf{Shapley}. On fait basculer les piliers en non-conformité dans
+tous les ordres possibles, on note ce que chaque pilier apporte à son tour d'entrée, et on
+moyenne sur les $24$ ordres. Les parts somment à l'écart total.
+\item \emph{Où loge le capital ?} appelle le pilier \textbf{touché}, c'est-à-dire celui qui subit
+la perte. C'est \textbf{Euler}. La contribution du pilier $j$ est la perte moyenne de ce pilier
+sur les années de queue :
+\[
+  \text{contribution}_j \;=\; \mathbb{E}\bigl[\,L_j \;\bigm|\; L \geq \mathrm{VaR}_{99{,}5\,\%}\,\bigr].
+\]
+\end{itemize}
+
+\textbf{Un point de définition à connaître.} Conditionner par $L \geq \mathrm{VaR}$ alloue la
+\emph{moyenne de queue} et non le quantile. Les parts que je publie sont donc celles de la moyenne
+de queue. C'est un choix, il est cohérent, mais il fallait le dire.
+
+\begin{center}
+\begin{tabular}{@{}l r r r r r@{}}
+\toprule
+\textbf{Pilier} & \textbf{part d'amorce} & \textbf{Shapley} & \textbf{part Shapley} & \textbf{part Euler} \\
+\midrule
+P1 gouvernance & $30{,}3\,\%$ & $3\,717$ & $34\,\%$ & $22{,}4\,\%$ \\
+P4 tiers       & $27{,}3\,\%$ & $2\,810$ & $26\,\%$ & $17{,}2\,\%$ \\
+P2 incidents   & $18{,}2\,\%$ & $1\,867$ & $17\,\%$ & $19{,}0\,\%$ \\
+P3 tests       & $15{,}2\,\%$ & $1\,484$ & $14\,\%$ & $22{,}0\,\%$ \\
+P5 partage     & $9{,}1\,\%$  & $1\,048$ & $10\,\%$ & $19{,}4\,\%$ \\
+\midrule
+\textbf{Somme} & $100\,\%$ & $\mathbf{10\,927}$ & $100\,\%$ & $100\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{La colonne \og part d'amorce \fg{} est celle que tu demandais}, et elle est maintenant dans le
+classeur. C'est la propension de départ de chaque pilier, c'est-à-dire la part des sinistres qui
+démarrent sur lui. Elle ne demande aucune simulation.
+
+\textbf{Ce qu'elle sert à voir, et c'est le point utile.} Le classement Shapley reproduit celui de
+la part d'amorce. Une bonne part de ce classement est donc mécanique : un pilier qui démarre plus
+de sinistres en porte plus, sans que la cascade y soit pour quelque chose. \textbf{Ce qui est un
+effet propre de la propagation n'est pas la part elle-même, c'est son écart à la part d'amorce.}
+La part de P1 vaut $34\,\%$ pour une part d'amorce de $30\,\%$ : les quatre points d'écart sont
+un effet de cascade, le reste ne l'est pas.
+
+\textbf{Une précaution sur Euler.} Les parts d'Euler tiennent toutes entre $17$ et $22\,\%$, et
+elles bougent d'une simulation à l'autre. Leur \emph{classement} n'est donc pas un résultat. Je
+cite les parts, jamais leur ordre.
+
+\medskip
+{\small Sources : scripts \texttt{20} et \texttt{82}.}
+
+\section*{3. La formule du retour, de 6 à 35 ans}
+
+\textbf{La formule est une division.} On compare un coût payé une fois à une économie annuelle :
+\[
+  T \;=\; \frac{C}{B}, \qquad
+  C = \text{coût de remédiation (une fois)}, \qquad
+  B = \text{bénéfice (chaque année)}.
+\]
+
+Les entrées, toutes affichées :
+
+\begin{center}
+\begin{tabular}{@{}l l@{}}
+\toprule
+$C$ & $200$ entités $\times$ $25$ à $150$~M\euro{} $=$ $5\,000$ à $30\,000$~M\euro \\
+$B$ (portage seul) & $6\,\% \times 14\,139 = 848$~M\euro/an \\
+$B$ (avec la perte évitée) & $848 + 3\,247 = 4\,095$~M\euro/an \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+D'où $5\,000 / 848 = 6$ ans et $30\,000 / 848 = 35$ ans au portage seul, puis $1$ an et $7$ ans
+avec les deux composantes.
+
+\textbf{Le portage, en une phrase.} Détenir du capital coûte un pourcentage par an. Libérer
+$14\,139$~M\euro{} de capital économise donc ce pourcentage \emph{chaque année}, et non une fois.
+
+\textbf{La perte évitée, en une phrase.} La charge de sinistres moyenne passe de $3\,869$ à
+$622$~M\euro/an. Ce qui est évité vaut donc $3\,247$~M\euro/an, soit $3{,}8$ fois le portage.
+
+\textbf{Le sens de la borne.} Le bénéfice retenu est minoré, donc la durée affichée est un
+\textbf{majorant}. Le compte réel est plus court, jamais plus long.
+
+\textbf{Sur le taux, et cela répond à ta demande de mise à jour.} La valeur présente d'une
+économie annuelle $B$ au taux $r$ vaut $B/r$. Comme $B = \text{taux} \times \Delta\mathrm{SCR}$,
+la valeur présente vaut
+\[
+  \frac{\text{taux} \times \Delta\mathrm{SCR}}{\text{taux}} \;=\; \Delta\mathrm{SCR}
+  \;=\; 14\,139~\text{M\euro},
+\]
+et cela \emph{quel que soit le taux}. Passer de $6\,\%$ à $4{,}75\,\%$ déplace donc le nombre
+d'années affiché, de $35$ à $45$, et ne déplace l'économie d'aucun euro. La révision du taux est
+un chiffre de communication, pas un changement de calibration.
+
+\textbf{Une conséquence à connaître.} Puisque la valeur présente plafonne à $14\,139$~M\euro, un
+coût de remédiation supérieur à ce montant ne se rembourse jamais par le seul portage, quel que
+soit l'horizon. Le haut de la fourchette de coût vaut $30\,000$. \textbf{C'est donc la perte
+évitée qui justifie la dépense, pas le portage.} Le mot \og plancher \fg{} prend ici tout son sens.
+
+\medskip
+{\small Sources : scripts \texttt{50} et \texttt{83}.}
+
+\section*{4. L'incertitude : trois sources, et elles ne se traitent pas pareil}
+
+Tu as relevé un intervalle large, $\pm 708$ sur $1\,739$. Il faut distinguer trois choses, parce
+que ce qui les réduit n'est pas le même.
+
+\begin{center}
+\begin{tabular}{@{}l r l@{}}
+\toprule
+\textbf{Source} & \textbf{Amplitude} & \textbf{Ce qui la réduit} \\
+\midrule
+Bruit de simulation & $708$~M\euro & du temps de calcul \\
+Incertitude de paramètre & $7\,569$~M\euro & de la donnée \\
+Incertitude de modèle & non chiffrée ici & un argument, rien d'autre \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Le $\pm 708$ est du calcul, pas de la donnée.} Ce n'est pas un intervalle de confiance :
+c'est l'écart entre deux simulations du même modèle avec les mêmes paramètres. Je l'ai vérifié en
+augmentant le nombre d'années simulées : il tombe de $1\,785$ à $339$~M\euro{} quand on passe de
+$10\,000$ à $160\,000$ années. Il s'achète donc en temps de machine.
+
+\textbf{L'incertitude de paramètre est dix fois plus grande.} En rejouant le même calcul aux deux
+bornes de l'intervalle de l'indice de queue, le résultat va de $429$ à $7\,998$~M\euro. C'est
+celle-là qui compte, et elle ne se réduit que par de la donnée nouvelle.
+
+\textbf{L'incertitude de modèle ne se réduit ni par l'un ni par l'autre.} C'est le choix de la
+famille de loi de queue. Aucune quantité de données ni de calcul ne le tranche : seul un argument
+le fait. C'est pourquoi je la publie à part, comme un scénario, et jamais fondue dans une barre
+d'erreur commune.
+
+\textbf{Une précision sur le $\pm 708$ lui-même.} La valeur centrale et l'écart-type ne viennent
+pas du même nombre de simulations : $1\,739$ vient de quatre tirages, $708$ de seize. Les deux
+sont justes, mais le rapport de $40\,\%$ qu'on en tire mélange deux résolutions. À nombre égal de
+tirages, la grandeur vaut $1\,389$ avec un écart de $708$ par tirage, ou $177$ sur la moyenne.
+
+\medskip
+{\small Sources : scripts \texttt{68} et \texttt{84}.}
+
+\end{document}

@@ -3,6 +3,7 @@
 1. La formule, ecrite, et les quatre nombres publies reproduits
 ========================================================================================
   T = C / B, avec C le cout ONE-OFF et B le benefice ANNUEL. Les entrees :
+    bornes de cout, en clair pour la verification : 5000 et 30000 M€.
     C   = 200 entites x 25 a 150 M€ = 5 000 a 30 000 M€
     Delta_SCR                                  = 14 139 M€
     B(portage)   = CoC x Delta_SCR = 6 % x 14 139 = 848 M€/an

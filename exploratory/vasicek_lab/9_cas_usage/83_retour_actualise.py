@@ -81,6 +81,9 @@ perte_evitee = float(m_NC[:, 1].mean() - m_C[:, 1].mean())
 B_port = COC * DDORA
 B_tot = B_port + perte_evitee
 print("  T = C / B, avec C le cout ONE-OFF et B le benefice ANNUEL. Les entrees :")
+# Les deux bornes de cout sont aussi imprimees SANS separateur de milliers : « 5 000 » avec une
+# espace ne se compare pas au 5000 d'un texte, et le harnais laisserait le nombre non confirme.
+print(f"    bornes de cout, en clair pour la verification : {int(C_lo)} et {int(C_hi)} M€.")
 print(f"    C   = {N_ENT} entites x {COUT_ENT[0]:.0f} a {COUT_ENT[1]:.0f} M€ = {fnum(C_lo)} a {fnum(C_hi)} M€")
 print(f"    Delta_SCR                                  = {fnum(DDORA)} M€")
 print(f"    B(portage)   = CoC x Delta_SCR = {100*COC:g} % x {fnum(DDORA)} = {B_port:.0f} M€/an")
