@@ -22,10 +22,56 @@ Quand on régénère un `NN.txt` sur le Mac, rediriger stderr à part : `> NN.tx
 matplotlib y écrit des avertissements de police qui s'intercalent sinon au milieu d'une ligne
 de résultats. Le détail est dans la section « Comment construire » du `CLAUDE.md`.
 
-## État du dernier passage (13 août 2026, tous chapitres)
+## État du dernier passage (14 août 2026, tous chapitres)
 
-**1 738 nombres vérifiables, 1 704 confirmés, soit 98,0 %**, couverture inchangée : aucun nombre
-hors contrôle non déclaré. Le pool est passé de 1 605 à 1 738 avec `74.txt` puis `75.txt`.
+**1 865 nombres vérifiables, 1 831 confirmés, soit 98,2 %**, et surtout **0 nombre hors contrôle
+non déclaré sur les dix-neuf chapitres**, relevé chapitre par chapitre et non sur le
+récapitulatif, qui n'imprime pas la couverture.
+
+Huit sorties nouvelles, `79.txt` à `86.txt`. Cinq répondent aux notions empruntées au préprint de
+cascade climatique, qui n'étaient jusque-là que **citées** ; trois répondent aux demandes du point
+tuteur du 14 août. Ce qu'il faut en retenir si l'on reprend le dossier :
+
+`82.txt` **répond au soupçon de double comptage dans la colonne « fermeture », et par une
+identité.** Chaque colonne somme des termes de Möbius différents : l'isolée ne prend que l'ordre 1,
+la fermeture prend chaque ordre EN ENTIER, Shapley le partage. D'où
+`1×9 138 + 2×5 345 + 3×(−691) + 4×346 = 19 141`, à la précision machine. Il n'y a donc pas de
+double comptage ; ce qui était fautif est d'imprimer une ligne « somme » sous une colonne qui ne
+s'additionne pas. La vraie propriété est l'encadrement `9 138 ≤ 14 139 ≤ 19 141`. Le même fichier
+**définit Euler** : conditionner par `L ≥ VaR` alloue la CTE et non la VaR, et les parts publiées
+jusqu'ici sont celles de la CTE.
+
+`84.txt` **tranche l'origine de la largeur des intervalles, et la réponse est « ni l'un ni
+l'autre ».** Le ±708 n'est pas un intervalle de confiance : c'est un écart-type entre graines à
+paramètres fixes, qui tombe de 1 785 à 339 M€ quand les années simulées passent de 10 000 à
+160 000 (pente −0,60 contre −0,50 attendu). Il est donc réductible **par le calcul**. L'incertitude
+qui ne l'est pas est dix fois plus grande : l'IC90 de ξ imprime 7 569 M€ sur le même croisé. Et le
+1 739 vient de **quatre** graines quand le 708 vient de **seize**, ce que le script 68 déclare et
+que le mémoire ne reportait pas.
+
+`85.txt` **remplace le rejet du Hawkes par une équivalence observationnelle**, ce qui est plus
+fort et plus honnête. Prédiction analytique : dans une cascade, la fraction d'événements qui sont
+des enfants vaut `(E[k]−1)/E[k] = 0,482`. Mesure : ajusté sur des dates engendrées par la cascade,
+**sans aucune auto-excitation**, un Hawkes trouve `n = 0,480` à la résolution du jour, contre
+`0,551` sur la chronologie réelle. Il retrouve même l'horloge, demi-vie 9,0 h pour un lag vrai de
+6,7 h. Le 0,551 ne prouve donc rien. **Attention au sens de l'effet de résolution** : dégrader la
+résolution fait MONTER le ratio (0,473 à l'heure, 0,739 au mois), parce qu'agréger fabrique du
+groupement. C'est l'opération INVERSE de celle du script 08h, qui retire les co-occurrences et
+voit le ratio tomber. Les deux encadrent le même fait par les deux côtés.
+
+`83.txt` **documente la formule du retour et règle la question du taux par une identité.**
+`T = C/B` reproduit les quatre nombres publiés. Mais escomptée au coût du capital, la valeur
+présente de l'économie de portage vaut **exactement ΔSCR, indépendamment de CoC** : passer de 6 à
+4,75 % déplace le nombre d'années de 35 à 45 et la valeur présente d'aucun euro. D'où un résultat
+que le payback simple cachait : au portage seul, le seuil de rentabilité vaut 14 139 M€ contre un
+coût haut de 30 000, donc **le projet ne se rentabilise jamais** à ce niveau de coût.
+
+`79.txt`, `80.txt`, `81.txt` et `86.txt` complètent les notions : la séparation des horloges (le
+capital est **concave** en la durée de non-conformité, un trimestre porte 33 % du surcoût annuel),
+l'échelle des quantiles (la séparation en queue **ne vaut que pour la Student**, la seule à
+dépendance de queue asymptotique), l'ablation en échelle (la brique la plus lourde est la **queue**
+à −76 %, pas la propagation à −20 %), et le couple plafond/saturation (le plafond est un
+**amortisseur**, pas un contrepoids : l'interaction change de signe à θ = 1).
 
 `75.txt` traite les SEQUENCES ordonnées du corpus de post-mortems, et le résultat est négatif de
 trois façons qu'il faut garder distinctes.

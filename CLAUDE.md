@@ -9,10 +9,13 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 13 août 2026 : **corps jusqu'à la page 115, annexes à partir de la 116, 155 pages au
+État au 14 août 2026 : **corps jusqu'à la page 115, annexes à partir de la 116, 156 pages au
 total**, branche `exploratory`. La ligne « 104 pages » qui figurait ici datait du 12 août au matin
 et n'avait pas suivi le travail des deux jours suivants : lire le compte dans `main.toc` plutôt que
-dans ce fichier en cas de doute.
+dans ce fichier en cas de doute. Harnais au 14 août : **1 865 nombres, 1 831 confirmés, 98,2 %**,
+et **0 hors contrôle non déclaré sur les dix-neuf chapitres**. Ce dernier chiffre se relève
+chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1` n'imprime PAS la couverture,
+seulement le taux de confirmation, alors que c'est la couverture qui passe en premier.
 
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
@@ -274,6 +277,14 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 78 | plafond de sévérité adossé à l'exposition, CHIFFRÉ et non implémenté. Deux surprises : la prédiction `VaR ≈ min(VaR, κE)` **ne tient qu'à plafond lâche**, plafonner détruisant la queue lourde qu'elle suppose (à κ = 0,1 % le quantile vaut le DOUBLE du plafond) ; et le plafond qui ampute le capital de moitié est **quasi invariant en euros**, 47 à 74 M€ sur des tailles variant d'un facteur 134. C'est l'élasticité de 0,087 dite dans l'unité où elle se juge. **Un plafond ne commute pas avec la mise à l'échelle du script 65** : il faut redescendre au sinistre |
 | 77 | E[VaR] contre VaR du MÉLANGE sur les 32 configurations. L'argument d'additivité du script 69 vaut pour une **espérance**, pas pour un quantile. Les deux objets diffèrent de 904 M€ (+9,3 %), et **le mémoire publie E[VaR]**. Sur le quantile, le déplacement de 334 M€ est du même ordre que le bruit (étendue 344) et non monotone : **non détecté, et non démontré nul** |
 | 67 | grandeurs citées et jamais imprimées (formes fermées, rapports dérivés) et, section 1bis, **le pont entre quantile unitaire et capital agrégé** |
+| 79 | les deux horloges du modèle. Le capital est **CONCAVE** en la durée de non-conformité : un trimestre porte déjà 33 % du surcoût annuel et remédier à mi-exercice ne rend que **44 %** du bénéfice, pas 50 %. Un plan qui prorate le gain se trompe. Le collapse de l'horloge intra-sinistre, lui, ne coûte rien au lag que la donnée soutient |
+| 80 | l'échelle des quantiles sur le protocole à marges appariées. **La séparation en queue ne vaut que pour la Student**, seule à porter une dépendance de queue asymptotique ; au-delà de 99 % ni la gaussienne ni l'indépendance ne dépassent leur bruit. Et **le +0,1 % publié est une graine** : l'écart vaut +4,8 % d'étendue 10 points sur quatre graines |
+| 81 | l'ablation en échelle, six briques et trois grandeurs. **La brique la plus lourde est la QUEUE** (−76 %), pas la propagation (−20 %) : même énoncé que le tornado du 76 par un chemin indépendant. La forme de queue est **héritée** de la sévérité, pas produite par la cascade |
+| 82 | **pas de double comptage dans la colonne fermeture**, et c'est une identité : sa somme vaut Σ\|S\|·m(S), donc chaque croisé d'ordre k y compte k fois. Ce qui était fautif est la ligne « somme » elle-même. Définit aussi **Euler** (le conditionnement par L ≥ VaR alloue la CTE, pas la VaR) et porte la **part d'amorce** |
+| 83 | la formule du retour, actualisée. **VP de l'économie de portage = ΔSCR exactement, quel que soit CoC** : la révision du taux déplace les années, pas l'économie. Et le seuil de rentabilité au portage seul (14 139) est SOUS le coût haut (30 000), donc le projet ne se rentabilise jamais à ce niveau |
+| 84 | l'origine de la largeur des intervalles. Le **±708 est du Monte-Carlo**, réductible par le calcul (pente −0,60) ; l'IC90 de ξ imprime **dix fois plus** sur la même grandeur. Et le 1 739 vient de 4 graines quand le 708 vient de 16 |
+| 85 | **équivalence observationnelle Hawkes/cascade**. Une cascade SANS auto-excitation donne n = 0,480 au jour contre 0,551 mesuré : le ratio observé ne prouve rien. Dégrader la résolution FAIT MONTER n (opération inverse de celle du 08h) |
+| 86 | plafond et saturation mesurés **conjointement**. Le plafond est un **AMORTISSEUR** et non un contrepoids : l'interaction change de signe à θ = 1. Aucune crête de compensation, les deux réserves sont hiérarchisées et non confondues |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
@@ -1167,6 +1178,60 @@ observation », qui la rendrait écrasante, est le mauvais nul, il teste la cons
 direct**, pas la **précédence**. La clôture transitive ajoute (P1,P2), impliquée par six incidents
 et codée par aucun. Le `p_12 = 0` du script 59 est correct pour W, qui est un transfert direct, et
 ne dit rien de l'ordre d'arrivée.
+
+## Ce qui a été fait le 14 août 2026, après le point tuteur
+
+**Les six demandes d'Hugo sont traitées, et deux d'entre elles ont fait bouger le mémoire.**
+
+**Le soupçon de double comptage dans la colonne « fermeture » est levé, et il portait juste sur
+un point.** Il n'y a pas de double comptage : la somme des fermetures vaut $\sum_S |S|\,m(S)$,
+donc chaque croisé d'ordre $k$ y compte $k$ fois, ce qui est la définition même de la fermeture.
+Le script 82 le vérifie à la précision machine. **Mais imprimer une ligne « somme » sous une
+colonne qui ne s'additionne pas invitait exactement cette lecture** : les deux premières sommes
+sont désormais en italique dans l'annexe C, avec l'identité et l'encadrement
+`9 138 ≤ 14 139 ≤ 19 141`, qui est la vraie propriété. **Ne pas rouvrir ce point, et ne pas
+resommer ces colonnes.**
+
+**Le ±708 est du bruit de calcul, pas de la donnée.** Il tombe en $1/\sqrt{n}$ avec les années
+**simulées** (pente −0,60), donc il s'achète en temps de machine. L'incertitude qui ne s'achète
+pas est **dix fois plus grande** : l'IC90 de $\xi$ imprime 7 569 M€ sur le même croisé. Et le
+1 739 vient de **quatre** graines quand le 708 vient de **seize** : le script 68 le déclare, le
+mémoire ne le reportait pas, il le reporte maintenant. **Trois sources à ne jamais fondre en une
+barre** : le calcul réduit la première, la donnée la deuxième, un argument la troisième.
+
+**Le taux de coût du capital ne demande pas de recalibration, et c'est une identité qui le dit.**
+Escomptée au coût du capital, la valeur présente de l'économie de portage vaut **exactement
+ΔSCR, quel que soit CoC**. Passer de 6 à 4,75 % déplace le nombre d'années de 35 à 45 et
+l'économie d'aucun euro. La révision est donc un chiffre de **communication**, compatible avec le
+gel. Conséquence plus lourde : le seuil de rentabilité au portage seul vaut 14 139 M€ contre un
+coût haut de 30 000, donc **le projet ne se rentabilise jamais** à ce niveau de coût, et le
+« 35 ans » masquait une non-existence. Ce qui le rentabilise est la perte évitée, qui cesse d'être
+une précaution de rédaction pour devenir la condition de rentabilité.
+
+**Les cinq notions empruntées au préprint de cascade climatique sont mesurées et non plus
+citées** (scripts 79 à 86). Trois résultats à connaître, parce qu'ils vont contre ce qu'on
+attendait :
+
+- **la séparation en queue ne vaut que pour la Student**, seule structure à dépendance de queue
+  asymptotique. Au-delà de 99 %, ni la gaussienne ni l'indépendance ne dépassent leur bruit. Le
+  préprint doit donc être cité sur le **protocole**, jamais sur l'ordre du résultat, qui dépend de
+  l'indice de queue. Et **le +0,1 % publié est une graine** : +4,8 % d'étendue 10 points sur quatre ;
+- **le Hawkes et la cascade ne sont pas distinguables** à la résolution disponible. Une cascade
+  sans aucune auto-excitation donne $n = 0{,}480$ au jour contre 0,551 mesuré, et retrouve même la
+  demi-vie. Le rejet du Hawkes se reformule donc en **équivalence observationnelle** suivie d'un
+  choix de parcimonie interprétative, ce qui est plus fort et plus honnête. **Attention au sens** :
+  dégrader la résolution FAIT MONTER le ratio, opération inverse de celle du script 08h ;
+- **le plafond est un amortisseur, pas un contrepoids** de la saturation : l'interaction change de
+  signe à $\theta = 1$, et à $\kappa = 0{,}5\,\%$ la sensibilité à $\theta$ est exactement nulle.
+  Il n'existe **aucune crête de compensation** : les deux réserves sont hiérarchisées, pas
+  confondues, et l'on peut discuter le plafond sans discuter $\theta$.
+
+**Une leçon de méthode, apprise cinq fois dans la même journée.** Cinq conclusions ont été écrites
+avant lecture des nombres puis démenties par eux : le sens de l'effet du 31 décembre, « convexe »
+pour concave, « l'écart se referme » pour un écart qui grossit, l'effondrement du ratio de
+branchement qui monte, et une crête de compensation qui n'était que le point de référence. **La
+figure et la table sont le détecteur ; la prose écrite d'avance est le défaut.** Écrire le
+commentaire APRÈS avoir lu la sortie, jamais en même temps que le code qui la produit.
 
 ## Note d'honnêteté
 
