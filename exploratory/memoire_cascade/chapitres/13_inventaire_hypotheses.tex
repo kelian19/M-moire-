@@ -190,6 +190,19 @@ famille. Le déplacement porte sur la façon de \emph{reporter} le niveau, pas s
 niveau bouge dans la bande, l'ordre résiste, et c'est vrai des trois étages qu'on les cumule
 ou non.
 
+\paragraph{Sur le rejet de l'auto-excitation, une corroboration extérieure.} Le choix de ne pas
+poser de couche de Hawkes est celui qui prête le plus le flanc, l'auto-excitation étant devenue
+l'outil par défaut du cyber. Il est ici adossé à un test contre les variantes de noyau de la
+littérature, et il reçoit une confirmation d'un autre côté : le préprint de cascade climatique
+cité au chapitre~\ref{chap:etat-art} \citep{ccrn2026} écarte le même outil, et \emph{pour la même
+raison de résolution temporelle}, en retenant un graphe acyclique à l'échelle de l'événement
+plutôt qu'un processus ponctuel auto-excité. Leur argument est que le Hawkes devient naturel
+lorsque les instants exacts et la rétroaction récurrente sont au c\oe ur du problème, ce qui
+n'est pas le cas quand la propagation se joue à l'intérieur d'un événement dont on n'observe pas
+la chronologie fine. C'est exactement la situation du présent travail, et cette convergence est
+d'autant plus utile qu'elle est indépendante : elle vient d'un autre péril, d'une autre équipe,
+et sans connaissance des travaux sur lesquels le rejet s'appuie ici.
+
 \begin{cle}
 \textbf{Oui, chaque brique a des alternatives.} Fréquence (Poisson, Hawkes, Cox), sévérité
 (lognormale, splicing, EVT bayésienne), dépendance (copules, réseaux, Hawkes multivarié),
@@ -411,6 +424,20 @@ l'introduire déplacerait tous les résultats d'entité, ce qui relève de la re
 de la correction d'erreur. La posture est celle déjà retenue pour $p_u$, une limite écrite et
 signée plutôt qu'une reprise silencieuse du pipeline. À noter que cette ligne n'affecte que le
 \emph{niveau} d'entité, jamais les écarts entre états de conformité, qui sont des rapports.
+
+\paragraph{Et le correctif a désormais une forme fonctionnelle publiée, ce qui change son
+statut.} Dire qu'un plafond est \og identifié \fg{} sans en donner la forme laisse le lecteur
+juge de la difficulté. Le préprint de cascade climatique cité au chapitre~\ref{chap:etat-art}
+\citep{ccrn2026} en propose une, et elle convient au besoin exprimé ici : une perte plafonnée où
+la sévérité est bornée par un paramètre d'exposition propre au n\oe ud, assortie d'un effet de
+saturation qui fait croître le coût unitaire lorsque plusieurs atteintes surviennent ensemble.
+Les deux ingrédients sont exactement ceux qui manquent, le plafond adossé à l'exposition et la
+non-linéarité de la simultanéité, cette seconde rejoignant l'hypothèse d'additivité des coûts
+discutée au \S\ref{sec:additivite-couts}. Elle n'est pas implémentée, le gel de la calibration
+l'interdisant, et \textbf{aucune valeur de ce préprint n'est reprise}, ses paramètres étant
+synthétiques. Ce qui change est le statut de la limite : elle cesse d'être une intention pour
+devenir une \textbf{piste référencée}, dont la forme est écrite et le coût d'implémentation
+connu.
 
 \paragraph{La dernière ligne est la seule dont le sens ne se déclare pas.} Les sept précédentes ont
 une direction connue, et c'est ce qui permet de les mettre en regard : on sait laquelle sous-estime

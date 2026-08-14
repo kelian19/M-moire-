@@ -29,6 +29,18 @@ mois et des années. L'état de la couche lente sert de \textbf{paramètre} à l
 C'est exactement la structure d'un modèle de risque de crédit à migration de rating, sur
 laquelle on revient en \S\ref{sec:couplage}.
 
+\paragraph{Cette séparation n'est pas une commodité de calcul, et un précédent le confirme.} On
+pourrait la lire comme un artifice permettant de simuler deux dynamiques sans les coupler. Elle
+répond en réalité à une exigence de fond : \textbf{la propagation à l'intérieur d'un sinistre et
+l'évolution de la conformité d'une année sur l'autre ne vivent pas sur la même horloge}, et les
+confondre reviendrait à laisser une tendance longue expliquer un enchaînement de quelques
+heures, ou l'inverse. Le préprint de cascade climatique cité au chapitre~\ref{chap:etat-art}
+\citep{ccrn2026} sépare de la même façon trois indices, un temps calendaire, une position
+spatiale et un pas de propagation \emph{à l'intérieur} d'un événement, en donnant explicitement
+pour motif d'empêcher que l'évolution de long terme ne soit confondue avec la propagation de
+court terme. Une équipe travaillant sur un autre péril aboutit donc à la même séparation pour la
+même raison, ce qui la déplace d'un choix de modélisation vers une contrainte de construction.
+
 \section{Le Vasicek multi-états : latente et seuils ordonnés}
 
 Chaque pilier porte une \textbf{capacité de conformité latente} $C^\star\sim\mathcal N(0,1)$,
