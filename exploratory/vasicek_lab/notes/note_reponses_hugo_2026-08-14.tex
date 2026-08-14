@@ -5,15 +5,17 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
-\usepackage[margin=2.2cm]{geometry}
+% Marges resserrees a 1,9 cm : a 2,2 cm la derniere section tombait seule sur une cinquieme page.
+% C'est de la mise en page, pas une coupe de contenu.
+\usepackage[margin=1.9cm]{geometry}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
 \usepackage{eurosym}
 \usepackage[colorlinks=true,linkcolor=black,urlcolor=black]{hyperref}
 \usepackage{titlesec}
-\titlespacing{\section}{0pt}{10pt}{4pt}
-\titlespacing{\subsection}{0pt}{8pt}{3pt}
-\setlength{\parskip}{3pt}
+\titlespacing{\section}{0pt}{9pt}{3pt}
+\titlespacing{\subsection}{0pt}{7pt}{2pt}
+\setlength{\parskip}{2.5pt}
 \setlength{\parindent}{0pt}
 \renewcommand{\arraystretch}{1.15}
 
@@ -231,5 +233,104 @@ tirages, la grandeur vaut $1\,389$ avec un écart de $708$ par tirage, ou $177$ 
 
 \medskip
 {\small Sources : scripts \texttt{68} et \texttt{84}.}
+
+\section*{5. Tes questions d'après le call}
+
+\subsection*{Y avait-il un double comptage ?}
+
+% Chaque sous-section cite SON script : le harnais ne fait pas descendre une citation de section
+% dans ses sous-sections, defaut deja rencontre sur l'annexe D du memoire.
+Non (script~\texttt{82}), et c'est une identité plutôt qu'une opinion. En notant $m(S)$ les termes
+croisés, chaque colonne somme des termes différents :
+\[
+  \textstyle\sum_i \text{isolé}(i) = \sum_{|S|=1} m(S), \qquad
+  \sum_i \text{fermeture}(i) = \sum_S |S|\,m(S), \qquad
+  \sum_i \varphi_i = \sum_S m(S) = \Delta .
+\]
+Fermer un canal lui fait porter \emph{tous} les croisés auxquels il participe. Un croisé à deux
+canaux a deux participants qui le portent chacun en entier, donc il compte deux fois dans la
+somme. Le compte tombe juste :
+$1 \times 9\,138 + 2 \times 5\,345 + 3 \times (-691) + 4 \times 346 = 19\,141$.
+
+\textbf{Mais tu as mis le doigt sur un vrai défaut} : cette somme ne mesure rien, ni un capital,
+ni un écart, ni un budget, et je l'imprimais. Elle est maintenant en italique dans le mémoire,
+avec l'identité et l'encadrement, qui est la vraie propriété :
+$9\,138 \leq 14\,139 \leq 19\,141$. Un détail sur ton calcul au passage :
+$2 \times 9\,138 = 18\,276$ contre $19\,141$, soit $4{,}5\,\%$ d'écart, et l'écart total vaut
+$14\,139$ et non $9\,138$, donc le rapport vaut $1{,}35$ et pas $2$. La coïncidence était
+fortuite, le défaut qu'elle a fait trouver ne l'est pas.
+
+\subsection*{\og Part Shapley $\approx$ part d'amorce \fg, donc l'intuition sur les $N_{ij}$ était bonne}
+
+Oui, et c'est vérifié (scripts~\texttt{20} et~\texttt{82}). Mais il faut voir ce que cela autorise
+et ce que cela interdit. Cela
+confirme que la propension de départ pilote le classement. Cela veut donc dire aussi que
+\textbf{le classement est en bonne partie mécanique} : un pilier qui démarre plus de sinistres en
+porte plus, sans que la cascade y soit pour quelque chose.
+
+Ce qui reste un effet propre de la propagation n'est donc pas la part, c'est son \textbf{écart} à
+la part d'amorce. Mesuré à propagation seule, cet écart vaut $+4{,}7$ points pour P2 et $+2{,}0$
+pour P1 ; les trois autres sont négatifs. C'est petit, et c'est honnête de le dire ainsi.
+
+\subsection*{Ta proposition : la part de fin plutôt que la part d'amorce}
+
+Testée (script~\texttt{87}). Ta direction est la bonne : la part de fin colle mieux à Euler que la
+part d'amorce. Mais ce n'est pas elle qui colle le mieux.
+
+\begin{center}
+\begin{tabular}{@{}l r r r r r r@{}}
+\toprule
+\textbf{Part} & \textbf{P1} & \textbf{P2} & \textbf{P3} & \textbf{P4} & \textbf{P5} & \textbf{écart moyen à Euler} \\
+\midrule
+Euler (mesuré)   & $23{,}3\,\%$ & $26{,}0\,\%$ & $16{,}6\,\%$ & $23{,}4\,\%$ & $10{,}8\,\%$ & --- \\
+\midrule
+de \textbf{passage} & $24{,}2\,\%$ & $21{,}4\,\%$ & $16{,}8\,\%$ & $24{,}7\,\%$ & $12{,}9\,\%$ & $\mathbf{1{,}8}$ pt \\
+de \textbf{fin}     & $18{,}8\,\%$ & $22{,}5\,\%$ & $18{,}2\,\%$ & $24{,}5\,\%$ & $16{,}0\,\%$ & $3{,}2$ pt \\
+d'\textbf{amorce}   & $30{,}3\,\%$ & $18{,}2\,\%$ & $15{,}2\,\%$ & $27{,}3\,\%$ & $9{,}1\,\%$  & $4{,}3$ pt \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{La part de passage est la probabilité qu'un pilier soit touché}, quel que soit son rang
+dans la cascade. Elle se calcule exactement, sans simulation, comme les deux autres.
+
+\textbf{Et ce n'est pas une coïncidence, c'est une identité.} Les montants sont tirés dans la même
+loi pour les cinq piliers, donc la perte moyenne d'un pilier vaut sa probabilité d'être touché
+multipliée par un montant moyen identique pour tous. En moyenne, la part d'un pilier dans la perte
+\emph{est} sa part de passage. Le petit écart qui reste vient de ce qu'Euler moyenne sur les seules
+années de queue.
+
+\textbf{Ton idée d'aller dans l'autre sens était juste, elle allait seulement un cran trop loin.}
+L'amorce compte le pilier au premier rang, la fin au dernier, le passage à tous les rangs. Euler ne
+demande ni où le sinistre commence ni où il finit : il demande qui a payé, et un pilier paie dès
+qu'il est touché. La part de fin, elle, mesure un \emph{puits} : un pilier qui n'émet jamais arrête
+toute cascade qui l'atteint, donc sa part de fin est forte même si son exposition ne l'est pas.
+C'est le cas de P2, qui n'émet jamais sur $22$ transitions du corpus. Vérifié aussi à l'état non
+conforme, où l'écart moyen vaut $1{,}7$ point et où la part de fin n'est même plus définie,
+puisqu'un choc commun touche un ensemble de piliers sans ordre.
+
+\subsection*{La vitesse de convergence : $o(\log n)$ ou $o(1/\sqrt{n})$ ?}
+
+$1/\sqrt{n}$, sans ambiguïté, et c'est bien ce que tu attendais pour du Monte-Carlo
+(script~\texttt{84}). Le plus lisible est de comparer les rapports plutôt que de discuter une
+pente. En multipliant par $16$ le nombre d'années simulées :
+
+\begin{center}
+\begin{tabular}{@{}l r@{}}
+\toprule
+Rapport d'écarts-types mesuré & $5{,}27$ \\
+Rapport prédit si l'écart-type est en $1/\sqrt{n}$ & $4{,}00$ \\
+Rapport prédit si l'écart-type est en $1/\log n$ & $1{,}30$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+L'hypothèse logarithmique prédit un écart-type qui ne tomberait presque pas. On mesure l'inverse.
+La pente vaut $-0{,}60$, d'intervalle à $90\,\%$ égal à $[-0{,}81 \,;\, -0{,}23]$ en
+rééchantillonnant les simulations : cet intervalle contient $-0{,}50$, donc l'excès apparent
+n'est pas un effet.
+
+\medskip
+{\small Sources : scripts \texttt{82}, \texttt{84} et \texttt{87}.}
 
 \end{document}

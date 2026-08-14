@@ -168,9 +168,11 @@ print("  PAS. Le test separe donc les deux hypotheses de la question, et il ne d
 print("  donnee nouvelle.")
 print(f"\n  {'annees simulees':>17}{'effet croise':>14}{'ecart-type':>12}{'rapport au precedent':>22}")
 ech = []
+brut = {}
 prev = None
 for ny in TAILLES:
     c = croise_freq_det(ny, NSEED_ECH)
+    brut[ny] = c                              # garde les valeurs PAR GRAINE : la section 2bis en a besoin
     sd = float(c.std(ddof=1))
     rap = "-" if prev is None else f"{prev / sd:.2f}"
     ech.append((ny, float(c.mean()), sd))
@@ -191,6 +193,41 @@ print(f"  lui-meme connu a environ {100/np.sqrt(2*(NSEED_ECH-1)):.0f} % pres, do
 print("  Ce que le test tranche n'est pas la valeur de la pente mais l'ALTERNATIVE : une pente")
 print("  proche de -1/2 contre une pente nulle. Les deux hypotheses sont a un ordre de grandeur")
 print("  l'une de l'autre, et c'est ce contraste-la qui resiste au bruit d'estimation.")
+# ---------------------------------------------------------------------------------------------
+# LA QUESTION EXACTE POSEE : « est-ce en o(log n) ou o(1/racine(n)) ? » On y repond en comparant
+# le rapport MESURE entre les deux extremes aux rapports PREDITS par chacune des deux hypotheses,
+# ce qui est plus lisible qu'une pente et ne demande aucun ajustement.
+r_mes = ech[0][2] / ech[-1][2]
+facteur = TAILLES[-1] / TAILLES[0]
+r_sqrt = np.sqrt(facteur)
+r_log = np.log(TAILLES[-1]) / np.log(TAILLES[0])
+# Incertitude de la pente, par reechantillonnage des GRAINES : c'est la seule facon honnete de
+# dire si -0,60 se distingue de -0,50 sur huit graines.
+rng_b = np.random.default_rng(4321)
+pentes = []
+for _ in range(600):
+    sds = []
+    for ny in TAILLES:
+        v = brut[ny]
+        sds.append(v[rng_b.integers(0, v.size, v.size)].std(ddof=1))
+    sds = np.array(sds)
+    if np.all(sds > 0):
+        pentes.append(np.polyfit(lg, np.log(sds), 1)[0])
+pentes = np.array(pentes)
+lo_p, hi_p = np.percentile(pentes, [5, 95])
+print(f"\n  LA QUESTION POSEE EST « o(log n) OU o(1/racine(n)) ? », et le plus lisible est de")
+print(f"  comparer les RAPPORTS entre les deux extremes plutot que de discuter une pente :")
+print(f"    facteur sur le nombre d'annees                    : x {facteur:.0f}")
+print(f"    rapport d'ecarts-types MESURE                     : {r_mes:.2f}")
+print(f"    rapport PREDIT si l'ecart-type est en 1/racine(n) : {r_sqrt:.2f}")
+print(f"    rapport PREDIT si l'ecart-type est en 1/log(n)    : {r_log:.2f}")
+print(f"\n  LA REPONSE EST DONC 1/RACINE(N), SANS AMBIGUITE. L'hypothese logarithmique prevoit un")
+print(f"  rapport de {r_log:.2f}, soit un ecart-type qui ne tomberait presque pas ; on en mesure {r_mes:.2f}.")
+print(f"  Les deux hypotheses sont a un facteur {r_mes/r_log:.1f} l'une de l'autre, et la mesure tranche")
+print("  franchement en faveur de la racine.")
+print(f"\n  ET LA PENTE MESUREE EST COMPATIBLE AVEC -1/2, ce qu'il faut verifier avant de le dire :")
+print(f"  par reechantillonnage des {NSEED_ECH} graines, elle vaut {pente:.2f} d'intervalle a 90 %")
+print(f"  [{lo_p:.2f} ; {hi_p:.2f}], qui contient -0,50. Le leger exces mesure n'est donc pas un effet.")
 verdict_mc = "MONTE-CARLO" if pente < -0.25 else "NON CONCLUANT"
 print(f"\n  CONCLUSION DU TEST : {verdict_mc}. Le +/- 708 est donc REDUCTIBLE PAR LE CALCUL SEUL :")
 print(f"  il tombe a {ech[-1][2]:.0f} M€ en passant de {fnum(cx.NY)} a {fnum(TAILLES[-1])} annees, sans qu'aucune")
@@ -256,6 +293,11 @@ print(f"     {100*bruit_ref/c_ref.mean():.0f} % ou {100*bruit_ref/np.sqrt(NSEED_
 print(f"  2. TEST D'ECHELLE : la pente log-log vaut {pente:.2f} contre -0,50 attendu pour du Monte-Carlo")
 print("     et 0,00 pour une incertitude de donnee. C'est donc bien du bruit de simulation, et il")
 print(f"     est REDUCTIBLE PAR LE CALCUL : {bruit_ref:.0f} M€ a {fnum(cx.NY)} annees, {ech[-1][2]:.0f} a {fnum(TAILLES[-1])}.")
+print(f"  2bis. LA VITESSE EST BIEN EN 1/RACINE(N) ET NON EN 1/LOG(N). Sur un facteur {facteur:.0f} en")
+print(f"     nombre d'annees, l'ecart-type tombe d'un facteur {r_mes:.2f} mesure, contre {r_sqrt:.2f} predit par")
+print(f"     la racine et {r_log:.2f} par le logarithme. La pente vaut {pente:.2f}, d'intervalle a 90 %")
+print(f"     [{lo_p:.2f} ; {hi_p:.2f}] par reechantillonnage des graines : elle contient -0,50, donc")
+print("     l'exces apparent n'est pas un effet.")
 print("  3. POURQUOI CET ESTIMATEUR EST SI BRUITE, et c'est structurel : un effet croise est une")
 print("     difference de differences de quatre quantiles. La soustraction annule le signal et")
 print("     additionne les bruits.")

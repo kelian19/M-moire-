@@ -63,6 +63,22 @@
   proche de -1/2 contre une pente nulle. Les deux hypotheses sont a un ordre de grandeur
   l'une de l'autre, et c'est ce contraste-la qui resiste au bruit d'estimation.
 
+  LA QUESTION POSEE EST « o(log n) OU o(1/racine(n)) ? », et le plus lisible est de
+  comparer les RAPPORTS entre les deux extremes plutot que de discuter une pente :
+    facteur sur le nombre d'annees                    : x 16
+    rapport d'ecarts-types MESURE                     : 5.27
+    rapport PREDIT si l'ecart-type est en 1/racine(n) : 4.00
+    rapport PREDIT si l'ecart-type est en 1/log(n)    : 1.30
+
+  LA REPONSE EST DONC 1/RACINE(N), SANS AMBIGUITE. L'hypothese logarithmique prevoit un
+  rapport de 1.30, soit un ecart-type qui ne tomberait presque pas ; on en mesure 5.27.
+  Les deux hypotheses sont a un facteur 4.1 l'une de l'autre, et la mesure tranche
+  franchement en faveur de la racine.
+
+  ET LA PENTE MESUREE EST COMPATIBLE AVEC -1/2, ce qu'il faut verifier avant de le dire :
+  par reechantillonnage des 8 graines, elle vaut -0.60 d'intervalle a 90 %
+  [-0.81 ; -0.23], qui contient -0,50. Le leger exces mesure n'est donc pas un effet.
+
   CONCLUSION DU TEST : MONTE-CARLO. Le +/- 708 est donc REDUCTIBLE PAR LE CALCUL SEUL :
   il tombe a 339 M€ en passant de 40 000 a 160 000 annees, sans qu'aucune
   donnee nouvelle soit necessaire et sans qu'aucun parametre bouge.
@@ -126,6 +142,11 @@ VERDICT
   2. TEST D'ECHELLE : la pente log-log vaut -0.60 contre -0,50 attendu pour du Monte-Carlo
      et 0,00 pour une incertitude de donnee. C'est donc bien du bruit de simulation, et il
      est REDUCTIBLE PAR LE CALCUL : 708 M€ a 40 000 annees, 339 a 160 000.
+  2bis. LA VITESSE EST BIEN EN 1/RACINE(N) ET NON EN 1/LOG(N). Sur un facteur 16 en
+     nombre d'annees, l'ecart-type tombe d'un facteur 5.27 mesure, contre 4.00 predit par
+     la racine et 1.30 par le logarithme. La pente vaut -0.60, d'intervalle a 90 %
+     [-0.81 ; -0.23] par reechantillonnage des graines : elle contient -0,50, donc
+     l'exces apparent n'est pas un effet.
   3. POURQUOI CET ESTIMATEUR EST SI BRUITE, et c'est structurel : un effet croise est une
      difference de differences de quatre quantiles. La soustraction annule le signal et
      additionne les bruits.
