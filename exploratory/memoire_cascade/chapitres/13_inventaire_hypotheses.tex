@@ -425,6 +425,57 @@ de la correction d'erreur. La posture est celle déjà retenue pour $p_u$, une l
 signée plutôt qu'une reprise silencieuse du pipeline. À noter que cette ligne n'affecte que le
 \emph{niveau} d'entité, jamais les écarts entre états de conformité, qui sont des rapports.
 
+\paragraph{Cette limite est désormais chiffrée, et le chiffre est plus parlant que le
+coefficient.} Dire que l'élasticité vaut $0{,}087$ énonce la faiblesse en langage de
+statisticien. On peut la dire en euros, et c'est le même fait. On plafonne la sévérité d'un
+sinistre à une fraction $\kappa$ de l'exposition de l'entité, puis on cherche le $\kappa$ qui
+ampute son besoin de moitié.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r r r@{}}
+\toprule
+\textbf{Entité} & \textbf{Exposition} & \textbf{Besoin} & $\boldsymbol{\kappa}$ \textbf{à $-50\,\%$} &
+\textbf{soit} \\
+\midrule
+assureur non-vie A & $2\,319$ & $112{,}1$ & $2{,}284\,\%$ & $53$~M\euro \\
+assureur non-vie B & $3\,234$ & $120{,}8$ & $1{,}461\,\%$ & $47$~M\euro \\
+assureur vie C & $37\,845$ & $195{,}8$ & $0{,}195\,\%$ & $74$~M\euro \\
+assureur vie D & $309\,800$ & $294{,}4$ & \multicolumn{2}{l}{\emph{aucun plafond plausible}} \\
+entité notionnelle & $19\,231$ & $169{,}0$ & $0{,}301\,\%$ & $58$~M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent \textbf{Le résultat est dans la dernière colonne.} Rapporté au bilan, le plafond
+critique varie d'un facteur $12$ entre entités. \emph{En euros}, il ne va que de $47$ à
+$74$~M\euro, un facteur $1{,}6$, sur un panel dont les tailles varient d'un facteur $134$. Le
+montant qui plafonne utilement est donc \textbf{quasiment invariant}, ce qui est exactement ce
+que l'élasticité de $0{,}087$ affirme, mais dit dans l'unité où un praticien le juge. La
+conséquence suit sans statistique : un plafond exprimé en pourcentage du bilan est serré pour une
+petite entité et lâche pour une grande.
+
+Et la comparaison qui tranche : pour la plus petite entité du panel, le besoin publié demande
+$4{,}83\,\%$ du bilan quand le plafond qui l'amputerait déjà de moitié est à $2{,}28\,\%$. Le
+chiffre publié exige donc un plafond \textbf{deux fois plus lâche} que celui qui suffirait à le
+couper en deux. Pour la plus grande, le besoin ne demande que $0{,}095\,\%$, loin sous tout
+plafond discutable. \textbf{La borne inférieure de validité se dérive donc d'une hypothèse
+économique} et non plus d'une propriété de la descente d'échelle : quelle fraction de son bilan
+un assureur peut-il perdre sur un seul sinistre informatique. La question se débat en une phrase,
+ce qui n'était pas le cas de l'argument qu'elle remplace. Source : script~\texttt{78}.
+
+\begin{attention}
+\textbf{Un mécanisme découvert en le mesurant, et qui interdit un raccourci.} On attendait que
+plafonner chaque sinistre à $\kappa E$ borne le quantile annuel au même niveau, par le principe
+de la perte unique dominante. C'est faux dès que le plafond mord : à $\kappa = 0{,}1\,\%$ le
+plafond vaut $19$~M\euro{} et le quantile simulé $38$, soit le double. La raison est que
+\textbf{plafonner détruit la queue lourde}, donc invalide le principe qui servait à prédire :
+la charge annuelle cesse d'être portée par un sinistre et redevient un \emph{cumul}. L'écart va
+dans le sens conservateur, le quantile restant au-dessus du plafond, mais un plafond ne fait pas
+tomber le capital à $\kappa E$ et il ne faut pas l'annoncer ainsi.
+\end{attention}
+
 \paragraph{Et le correctif a désormais une forme fonctionnelle publiée, ce qui change son
 statut.} Dire qu'un plafond est \og identifié \fg{} sans en donner la forme laisse le lecteur
 juge de la difficulté. Le préprint de cascade climatique cité au chapitre~\ref{chap:etat-art}
@@ -450,7 +501,7 @@ elle-même.
 
 \vspace{2pt}
 \noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60},
-\texttt{63} et~\texttt{74}.
+\texttt{63}, \texttt{65} (expositions et besoins du panel), \texttt{74} et~\texttt{78}.
 
 \section{Défaillances simultanées et additivité des coûts}
 \label{sec:additivite-couts}

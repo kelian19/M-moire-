@@ -803,6 +803,41 @@ paraîtraient considérables. Source : script~\texttt{77}.}
 \end{figure}
 
 % =====================================================================
+\section{Le plafond de sévérité, mesuré sur les quatre bilans réels}
+\label{sec:ann-plafond}
+
+\noindent Chiffres de cette section : script~\texttt{78}.
+
+Cette pièce accompagne la limite déclarée au \S\ref{sec:pu-coherence} sur l'absence de plafond de
+sévérité à l'échelle d'entité. Elle donne la figure ; le raisonnement et les nombres sont dans le
+chapitre.
+
+\begin{figure}[htbp]\centering
+\figover{S34_plafond_exposition.png}
+\caption{Le plafond de sévérité adossé à l'exposition. \textbf{(a)}~la prédiction naturelle, le
+quantile annuel borné par le plafond au titre du principe de la perte unique dominante, ne tient
+qu'à plafond \emph{lâche} : plafonner détruit la queue lourde que ce principe suppose, et la
+charge redevient un cumul. \textbf{(b)}~en gris, la fraction du bilan qu'un sinistre unique
+devrait détruire pour que le besoin publié soit atteignable ; en orange, le plafond qui ampute ce
+besoin de moitié. L'écart entre les deux barres est ce qui met la plus petite entité hors
+domaine, et l'entité la plus grande n'est amputée par aucun plafond discutable. Source :
+script~\texttt{78}.}
+\label{fig:plafond-exposition}
+\end{figure}
+
+\paragraph{Une précaution de méthode, et elle vaut d'être lue.} Ce calcul simule au niveau du
+\emph{sinistre}, alors que la chaîne d'entité du \S\ref{sec:ann-reconciliation} passe par
+l'évaluateur d'identification partielle. Les deux machineries ne coïncident pas exactement, et
+l'écart reste sous $7\,\%$ sur les cinq entités. Toutes les comparaisons de cette section sont
+donc faites \emph{à l'intérieur d'un seul moteur}, chaque entité étant rapportée à sa propre
+valeur non plafonnée, sans quoi l'effet du plafond se mélangerait à celui de la machinerie.
+
+Une raison technique explique d'ailleurs que ce calcul n'ait pas été fait plus tôt : la chaîne
+d'entité met la \emph{somme} des pertes à l'échelle par un multiplicateur de sévérité, ce qui est
+exact pour une multiplication mais \textbf{faux pour un plafond}, plafonner chaque sinistre puis
+sommer n'étant pas plafonner la somme. Il fallait redescendre au niveau du sinistre.
+
+% =====================================================================
 \section{Les séquences ordonnées du corpus, et pourquoi elles n'identifient rien}
 \label{sec:ann-sequences}
 
