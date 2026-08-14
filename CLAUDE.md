@@ -9,7 +9,7 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 13 août 2026 : **corps jusqu'à la page 111, annexes à partir de la 112, 147 pages au
+État au 13 août 2026 : **corps jusqu'à la page 112, annexes à partir de la 113, 152 pages au
 total**, branche `exploratory`. La ligne « 104 pages » qui figurait ici datait du 12 août au matin
 et n'avait pas suivi le travail des deux jours suivants : lire le compte dans `main.toc` plutôt que
 dans ce fichier en cas de doute.
@@ -17,7 +17,7 @@ dans ce fichier en cas de doute.
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
 déjà commité. Compter en décompressant les flux d'objets, ou lire `main.toc` après une
-compilation avec `--keep-intermediates`. Le harnais est à **98,0 % de confirmation sur 1 738
+compilation avec `--keep-intermediates`. Le harnais est à **98,1 % de confirmation sur 1 809
 nombres, pour une couverture de 100 %**.
 
 **Et vérifier dans quelle partie tombe un ajout avant de conclure qu'il grossit le corps.** Le
@@ -270,6 +270,8 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 08h | le rejet du Hawkes contre les variantes de Bessy-Roland/Boumezoued/Hillairet — **exige `Data_Breach_Chronology.xlsx`, absent du Mac, et sa sortie n'est pas versionnée** |
 | 74 | défaillances simultanées : loi EXACTE du nombre de piliers touchés par sinistre, les trois énoncés d'additivité distingués, et le coût de l'hypothèse d'additivité des coûts borné par un exposant. Son contrôle est θ = 1, qui doit redonner 6 049 et 20 188 au centime |
 | 75 | séquences ordonnées du corpus : les chemins composés à partir des arêtes, la loi exacte des séquences du modèle, et **pourquoi elles n'identifient rien**. À lire avant de proposer d'exploiter les triplets |
+| 76 | tornado RENORMALISÉ. Le tornado du script 15 avait deux défauts : plages d'inégale vraisemblance, et un levier « seuil » qui **réajuste ξ, σ et p_u**, donc déplace quatre paramètres quand les autres en déplacent un. Le seuil seul ne pèse que +320 M€ quand ξ seul en pèse −13 993, et les composantes **se compensent**. Lu en élasticités, la conclusion tient : propagation 0,37 contre queue 3,79 |
+| 77 | E[VaR] contre VaR du MÉLANGE sur les 32 configurations. L'argument d'additivité du script 69 vaut pour une **espérance**, pas pour un quantile. Les deux objets diffèrent de 904 M€ (+9,3 %), et **le mémoire publie E[VaR]**. Sur le quantile, le déplacement de 334 M€ est du même ordre que le bruit (étendue 344) et non monotone : **non détecté, et non démontré nul** |
 | 67 | grandeurs citées et jamais imprimées (formes fermées, rapports dérivés) et, section 1bis, **le pont entre quantile unitaire et capital agrégé** |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),

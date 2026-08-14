@@ -385,8 +385,9 @@ et~\texttt{67}.
 \section{La sensibilité aux probabilités de propagation, prise pour elle-même}
 \label{sec:sensibilite-propagation}
 
-\noindent Chiffres de cette section : scripts~\texttt{15} (tornado), \texttt{30} (bornes
-d'identification), \texttt{66} (invariance en $g$) et~\texttt{68} (bruit de la décomposition).
+\noindent Chiffres de cette section : scripts~\texttt{15} (tornado), \texttt{76} (tornado
+renormalisé en élasticités), \texttt{30} (bornes d'identification), \texttt{66} (invariance
+en $g$) et~\texttt{68} (bruit de la décomposition).
 
 Le modèle repose sur des probabilités de propagation qui ne sont pas observées, et il serait
 malhonnête de le mentionner en passant. Cette section leur consacre donc un examen séparé, en
@@ -411,6 +412,61 @@ n'est pas l'écart à quatre canaux de $14\,139$~M\euro{} du \S\ref{sec:kpi} : c
 varier un paramètre à la fois autour d'un état non conforme unique. Ce qui se lit ici est
 l'\emph{amplitude relative des leviers}, en aucun cas un niveau de capital.
 \end{attention}
+
+\paragraph{Deux défauts de ce tornado, et une renormalisation qui les corrige.} Tel qu'il vient
+d'être lu, ce tornado prête à deux objections, et toutes deux portent.
+
+La première est de \textbf{comparabilité}. Les quatre leviers sont balayés sur des plages qui
+n'ont pas la même vraisemblance : le gain va de $0{,}50$ à $1{,}00$, amplitude \emph{posée}, la
+fréquence de la moitié au triple. Un tornado compare des longueurs de barre, or une barre est
+longue parce que le paramètre bouge beaucoup ou parce qu'on l'a fait bouger beaucoup.
+
+La seconde est plus sérieuse : \textbf{le levier « seuil » n'est pas un levier}. Déplacer le
+seuil réajuste la loi de queue, si bien que $\xi$, $\sigma$ et le taux de dépassement changent
+avec lui : il déplace \emph{quatre} paramètres quand le gain en déplace un. En le décomposant, le
+seuil pris seul ne déplace que $+320$~M\euro, l'indice de queue seul en déplace $-13\,993$, et
+les composantes ne s'additionnent pas mais \textbf{se compensent}, leur somme signée valant
+$-11\,517$ pour un paquet à $-8\,081$. La barre publiée sous le nom de « seuil » est donc plus
+courte que l'effet du seul indice de queue, tout en lui étant attribuée.
+
+\paragraph{Ce qui survit à la renormalisation, et c'est l'essentiel.} La normalisation qui rend
+les leviers comparables est l'\textbf{élasticité}, sans dimension et sans plage : on applique à
+chacun la même perturbation relative de $10\,\%$, un paramètre à la fois et sans réajustement.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l l r@{}}
+\toprule
+\textbf{Levier} & \textbf{Statut} & \textbf{Élasticité} \\
+\midrule
+Indice de queue $\xi$ & estimé & $3{,}79$ \\
+Échelle $\sigma$ & estimé & $0{,}97$ \\
+Taux de dépassement $p_u$ & estimé & $0{,}82$ \\
+Fréquence $\lambda$ & estimé & $0{,}45$ \\
+Sur-dispersion $\varphi$ & posé & $-0{,}44$ \\
+\textbf{Gain de propagation} $\boldsymbol{g}$ & \textbf{posé} & $\mathbf{0{,}37}$ \\
+Seuil $u$ seul & choix de méthode & $0{,}03$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent \textbf{La conclusion tient, et elle est désormais plus forte qu'avant.} La propagation
+a l'élasticité la plus faible des leviers substantiels, $0{,}37$ contre $3{,}79$ pour l'indice de
+queue, soit un rapport de dix. Ce classement ne dépend d'aucune convention d'affichage, alors que
+l'ancienne formulation comparait des amplitudes et pouvait être retournée en changeant une plage.
+Deux précisions l'accompagnent. Le seuil \emph{pris seul} a une élasticité plus faible encore,
+$0{,}03$, ce qui confirme que tout ce qu'on lui attribuait venait de l'indice de queue qu'il
+entraîne. Et une élasticité est \emph{locale} : elle ne dit pas ce qui se passe loin du point de
+base, où la réponse est l'invariance de l'ordre en $g$ du paragraphe suivant.
+
+\paragraph{Une dernière asymétrie, qui n'est pas de calcul mais de statut.} Deux des leviers,
+$g$ et $\varphi$, sont \textbf{posés} : ils n'ont aucun intervalle d'estimation, et la plage
+qu'on leur donne est un choix d'affichage. Les autres sont estimés et ont une plage défendable :
+sur son intervalle à $90\,\%$ publié, l'indice de queue déplace le surcoût de $1\,908$ à
+$32\,666$~M\euro. Comparer la barre d'un paramètre posé à celle d'un paramètre estimé revient
+donc à comparer une convention à une incertitude, et c'est une raison de plus de lire ce tornado
+en élasticités.
 
 \paragraph{Et la thèse ne dépend pas des trois valeurs posées.} Le capital est croissant en $g$,
 et ce n'est pas supposé mais vérifié à nombres aléatoires communs (script~\texttt{66}) : toute

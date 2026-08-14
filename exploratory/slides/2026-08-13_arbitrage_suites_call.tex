@@ -436,30 +436,33 @@ lien rhétorique qui suggérait un cadre commun entre les deux emplois est corri
 \textbf{Demandé.} Montrer la sensibilité aux paramètres, en particulier à la propagation.
 \vspace{1mm}
 
-\textbf{Fait, et le résultat va contre l'inquiétude qui motivait la demande.}
+\textbf{Fait, et la conclusion a dû être refaite avant d'être défendable.} Le tornado d'origine
+comparait des \emph{longueurs de barre} sur des plages d'inégale vraisemblance, et son levier
+« seuil » n'était pas un levier : le déplacer réajuste la loi de queue, donc il bougeait quatre
+paramètres quand le gain en bougeait un. La normalisation qui rend les leviers comparables est
+l'\textbf{élasticité}, même perturbation relative pour tous, un paramètre à la fois.
 \begin{center}
-\begin{tabular}{@{}l r@{}}
+\begin{tabular}{@{}l l r@{}}
 \toprule
-\textbf{Ce qu'on fait varier} & \textbf{Déplacement du surcoût} \\
+\textbf{Levier} & \textbf{Statut} & \textbf{Élasticité} \\
 \midrule
-Gain de propagation $g$, de $0{,}5$ à $1{,}0$ & $5\,517 \rightarrow 6\,579$~M\euro \\
-Fréquence & $4\,056 \rightarrow 8\,684$~M\euro \\
-Seuil de la loi de queue & $4\,862 \rightarrow 12\,944$~M\euro \\
+Indice de queue $\xi$ & estimé & $3{,}79$ \\
+Échelle $\sigma$ & estimé & $0{,}97$ \\
+Fréquence $\lambda$ & estimé & $0{,}45$ \\
+\textbf{Gain de propagation} $\boldsymbol{g}$ & \textbf{posé} & $\mathbf{0{,}37}$ \\
+Seuil $u$ seul & choix de méthode & $0{,}03$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-\vspace{1mm}
-\textbf{La propagation est le levier le moins sensible des quatre.} La fragilité est dans
-l'ajustement de valeurs extrêmes, pas dans la contagion, ce qui est l'inverse de ce qu'on
-redoute d'un modèle de cascade.
-\begin{block}{\garder}
-\textbf{Une des meilleures lignes des deux calls} : elle retourne le reproche habituel. S'y
-ajoute le coût de l'ignorance directionnelle, $336$~M\euro{} au quart, $695$ à la moitié,
-$1\,083$ aux trois quarts, $1\,839$ à l'ignorance totale. \textbf{L'ignorance se paye
-linéairement et son coût maximal est connu d'avance}, ce qui est plus favorable qu'un
-intervalle de confiance ordinaire.
+\vspace{-1mm}
+\begin{block}{\garder, \emph{dans sa version renormalisée}}
+\textbf{La conclusion tient et elle est plus forte qu'avant} : un rapport de dix entre la queue
+et la propagation, qui ne dépend d'aucune convention d'affichage. L'ancienne formulation
+comparait des amplitudes et pouvait être retournée en changeant une plage. Le seuil \emph{seul}
+ne déplace que $+320$~M\euro{} quand l'indice de queue seul en déplace $-13\,993$ : tout ce
+qu'on attribuait au seuil venait de la queue qu'il entraîne.
 \end{block}
-\srcs{scripts~\texttt{15} et~\texttt{30}}
+\srcs{scripts~\texttt{15}, \texttt{30} et~\texttt{76}}
 \end{frame}
 
 \begin{frame}{C5 et C6. La CTE, et le niveau de l'intervalle reporté}
@@ -467,11 +470,16 @@ intervalle de confiance ordinaire.
 \textbf{C5, demandé.} Une CTE ou CVaR à côté de la VaR.
 \vspace{1mm}
 
-\textbf{Fait, en diagnostic et jamais comme couverture.} CTE de $5\,734$, $12\,607$ et $18\,183$
-aux niveaux $95$, $99$ et $99{,}5\,\%$. \textbf{La CTE à $95\,\%$ est moins prudente que la VaR
-réglementaire}, l'équivalence tombant à $\beta = 97{,}73\,\%$. Et l'argument décisif n'est pas
-une proportion : sous la calibration alternative $\hat\xi = 1{,}033 > 1$, l'espérance est
-infinie et \textbf{la mesure n'existe pas}.
+\textbf{La première réponse est réglementaire, et c'est par là qu'il faut commencer :} le régime
+applicable définit le capital comme une VaR à $99{,}5\,\%$ sur un an, quand le Test suisse de
+solvabilité retient une CTE à $99\,\%$. Se placer sous le premier régime est la raison
+principale de ne pas substituer l'une à l'autre.
+\vspace{1mm}
+
+\textbf{Les mesures viennent ensuite, et elles renforcent.} CTE de $5\,734$, $12\,607$ et
+$18\,183$ aux niveaux $95$, $99$ et $99{,}5\,\%$. \textbf{La CTE à $95\,\%$ est moins prudente
+que la VaR réglementaire}, l'équivalence tombant à $\beta = 97{,}73\,\%$. Et sous la calibration
+alternative $\hat\xi = 1{,}033 > 1$, l'espérance est infinie et \textbf{la mesure n'existe pas}.
 \vspace{1mm}
 
 \textbf{C6, demandé.} Reporter le SCR avec un intervalle à $95\,\%$.
@@ -479,12 +487,13 @@ infinie et \textbf{la mesure n'existe pas}.
 
 \textbf{Fait sans rejouer aucun bootstrap.} L'indice de queue passerait à
 $[0{,}2487\,;0{,}8765]$, le capital à $[2\,727\,;34\,942]$~M\euro.
-\begin{block}{\garder{} la CTE, et \atrancher{} le niveau}
-Une page pour un argument d'existence qui ferme la question : le meilleur rapport des deux
-calls. Pour le niveau, deux constats : la bascule ne déplace \textbf{aucune calibration}, et
-elle \textbf{ne corrige pas} la sous-couverture, qui reste un déficit constant de $3{,}2$ points
-($86{,}8\,\%$ réels pour $90$ nominaux, $91{,}8$ pour $95$). \emph{Ma recommandation : rester à
-$90\,\%$ et publier le déficit.}
+\begin{block}{\garder{} la CTE, et \garder{} le niveau à $90\,\%$}
+Une page pour un argument qui ferme la question : le meilleur rapport des deux calls. Pour le
+niveau, la décision est prise et écrite : \textbf{rester à $90\,\%$}. La bascule ne déplace
+aucune calibration et ne corrige pas la sous-couverture, qui reste de $3{,}2$ points aux deux
+niveaux. \emph{Et ce déficit ne doit pas être dramatisé} : trois points sur un intervalle de
+paramètre de forme à quatre-vingt-onze excès est l'ordre de grandeur attendu, la normalité
+asymptotique y convergeant lentement. Il se publie, il ne disqualifie pas.
 \end{block}
 \srcs{scripts~\texttt{72} et~\texttt{73}}
 \end{frame}
@@ -539,13 +548,46 @@ bouge nettement mais le capital espéré ne bouge que de $2$~M\euro, soit $0{,}0
 s'ajuste par une forme \emph{additive} en indicateurs de pilier à $R^2 = 0{,}9945$, et
 l'espérance d'une fonction additive ne dépend que des \textbf{marges}.
 \end{itemize}
-\begin{block}{\garder}
+\begin{block}{\garder, \emph{avec la réserve désormais mesurée}}
 \textbf{Le meilleur résultat des deux calls.} L'invariance n'est pas constatée sur un balayage,
 elle est \emph{démontrée} : elle vaut pour \textbf{toute} structure à marges fixées, y compris
-celles qu'on n'a pas essayées. Réserve à conserver : elle porte sur l'\textbf{espérance}, et un
-quantile de la loi des configurations bougerait.
+celles qu'on n'a pas essayées. Mais elle porte sur une \textbf{espérance}, et le capital est un
+quantile : la slide suivante mesure ce que cela change.
 \end{block}
 \srcs{script~\texttt{69}}
+\end{frame}
+
+\begin{frame}{C9 \emph{(suite)}. L'objection qui manquait, et sa mesure}
+\scriptsize
+\textbf{L'argument d'additivité vaut pour une espérance, or le capital est un quantile.} Ce que
+le calcul établissait est la \emph{moyenne des VaR conditionnelles} aux $32$ configurations. Un
+lecteur qui demande le capital d'une entité dont l'état de conformité est incertain demande le
+quantile de la loi \textbf{mélangée}, et la moyenne des quantiles n'est pas le quantile du
+mélange. Les deux ont donc été calculés.
+\vspace{1mm}
+
+\begin{center}
+\begin{tabular}{@{}l r r@{}}
+\toprule
+& \textbf{Niveau} & \textbf{Déplacement sur le balayage} \\
+\midrule
+Moyenne des VaR conditionnelles & $9\,739$~M\euro & $2$~M\euro \\
+Quantile du mélange & $10\,643$~M\euro & $334$~M\euro \\
+\midrule
+\emph{bruit de tirage seul, 8 graines} & & \emph{étendue} $344$~M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-1mm}
+\begin{block}{\garder{} la distinction, et la formuler honnêtement}
+\textbf{Deux enseignements.} Les deux objets diffèrent de $904$~M\euro, soit $9{,}3\,\%$ : le
+mémoire doit dire lequel il publie, et il le dit désormais. Et sur le quantile,
+\textbf{l'invariance n'est pas démontrée, elle est seulement non détectée} : le déplacement de
+$334$~M\euro{} est du même ordre que le bruit de tirage, et il n'est pas monotone. La conclusion
+de gestion ne bouge pas, ces $334$~M\euro{} valant $18\,\%$ de la bande d'identification ; c'est
+le \emph{statut} de la conclusion qui passe de démontré à non détecté.
+\end{block}
+\srcs{scripts~\texttt{69} et~\texttt{77}}
 \end{frame}
 
 \begin{frame}{C10. Les défaillances simultanées et l'additivité des coûts}
@@ -656,7 +698,9 @@ $95\,\%$ ne corrige pas ce déficit, il le rebaptise. \textbf{On n'annonce pas u
 pas}, et élargir la bande sans la rendre plus vraie donne une fausse impression de rigueur
 accrue. Le correctif propre serait d'élargir la demi-largeur d'environ $10\,\%$, mais c'est une
 recalibration que le gel interdit. \emph{Donc : $90\,\%$ annoncé, $86{,}8 \pm 0{,}8\,\%$ mesuré
-et écrit à côté.}
+et écrit à côté.} \textbf{Appliqué} : l'annexe portait encore \og le niveau reporté est
+$95\,\%$ \fg{} alors que le corps imprime partout les bornes à $90\,\%$, et l'incohérence est
+levée.
 \end{block}
 \srcs{scripts~\texttt{25}, \texttt{43}, \texttt{47}, \texttt{72} et~\texttt{74}}
 \end{frame}
@@ -710,6 +754,34 @@ séquences ordonnées, dont le corps peut se limiter au support vide et au crit�
 ses propres réserves : la non-transitivité réfutée par son auteur, le chiffre central requalifié
 en borne supérieure, la borne inférieure de validité publiée. Gagner une page en rendant une
 réserve moins visible serait le plus mauvais échange possible.
+\end{block}
+\end{frame}
+
+\begin{frame}{Une précaution sur le contrôle lui-même}
+\scriptsize
+Chaque chiffre de ce document est vérifié automatiquement : un harnais cherche chaque nombre
+publié dans la sortie des scripts que sa section cite. C'est ce qui permet d'affirmer qu'aucun
+nombre n'est calculé à la main. Mais il faut dire ce que ce contrôle \emph{ne} fait pas, sans
+quoi le taux qu'il produit serait surinterprété.
+\vspace{1.5mm}
+\begin{block}{Le harnais mesure une couverture, pas une exactitude}
+Il vérifie qu'un nombre publié \textbf{existe} dans la sortie du script cité. Il ne vérifie ni
+qu'il est au \textbf{bon endroit}, ni qu'il veut dire ce que la \textbf{phrase prétend}. Un
+nombre confirmé peut donc être mal commenté, et un taux élevé ne signifie pas que le mémoire est
+juste dans la même proportion.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{Ce qu'il attrape réellement, et c'est déjà beaucoup}
+Les chiffres \textbf{périmés}, ceux qu'aucun calcul actuel ne reproduit, et les grandeurs citées
+sans être imprimées par aucun script. Sur les deux calls, c'est ainsi qu'ont été trouvés une
+borne d'intervalle qui n'appartenait à aucune méthode, une graine d'étalonnage fausse dans le
+questionnaire d'expert, et deux nombres de mise en page comptés comme des résultats.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{La conséquence pratique}
+Ce que garantit le dispositif est la \textbf{traçabilité}, pas la justesse d'interprétation.
+Cette dernière ne s'obtient que par la relecture, et c'est précisément ce que ces deux calls
+apportent.
 \end{block}
 \end{frame}
 

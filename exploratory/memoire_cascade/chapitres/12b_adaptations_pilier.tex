@@ -336,6 +336,20 @@ quinze termes. L'interaction est donc un phénomène de \textbf{paires} et non u
 aucun des cinq termes d'ordre supérieur n'est d'ailleurs résolu individuellement, si bien que
 leur quasi-annulation ne doit pas se lire comme cinq mesures.
 
+\paragraph{Une objection à lever avant d'aller plus loin : ce treillis évalue des états
+incohérents.} Sur les seize configurations, quatorze mélangent des canaux conformes et non
+conformes, par exemple une fréquence de conformité avec une propagation de non-conformité.
+Aucune entité réelle ne se trouve dans un tel état, et le mémoire écarte par ailleurs un
+chiffrage concurrent pour cette raison même. La distinction qui lève l'objection est la
+suivante, et elle doit être explicite plutôt que supposée. Ici les états mixtes sont des
+\textbf{intermédiaires de calcul} : ils servent à répartir un total dont les \emph{deux
+extrémités} sont, elles, des états cohérents, et la décomposition de Möbius les fait disparaître
+par construction puisque la somme des quinze termes redonne exactement l'écart entre ces deux
+extrémités. Un chiffrage qui \emph{reporterait} un état mixte comme un scénario ferait tout
+autre chose : il présenterait comme atteignable une situation qui ne l'est pas. La règle qui en
+découle tient en une phrase : \textbf{un état mixte peut servir à décomposer, jamais à
+reporter.}
+
 Les trois paires porteuses passent \emph{toutes} par la fréquence et font $86\,\%$ de l'ordre~2 :
 fréquence\,$\times$\,détection $1\,739\pm708$, fréquence\,$\times$\,accumulation
 $1\,666\pm354$, fréquence\,$\times$\,propagation $1\,182\pm444$~M\euro. Le classement des deux
@@ -410,6 +424,16 @@ cette addition mêle un flux de compte de résultat à un coût du capital : c'e
 retour sur investissement, courante et défendable, et non une sortie du modèle, lequel produit les
 deux termes séparément. Le chiffre de référence reste donc le retour au portage seul, assorti du
 sens de sa borne.
+
+\paragraph{Et ce n'est pas un critère de décision d'investissement, ce qui mérite d'être dit.}
+Le taux employé ici est le coût du capital \emph{réglementaire} au titre de la marge de risque.
+Il rémunère l'immobilisation de fonds propres sous Solvabilité~II ; il n'est ni le coût moyen
+pondéré du capital de l'entité, ni son taux d'exigence sur un projet. Exprimer une durée de
+retour en unités de coût du capital réglementaire est donc une \textbf{grandeur de comparaison
+prudentielle}, non un test d'opportunité : une remédiation dont le retour ainsi mesuré dépasse
+l'horizon d'un plan peut parfaitement se justifier par ailleurs, et l'inverse est vrai aussi. La
+confusion entre les deux est fréquente en pratique et il vaut mieux la fermer ici que la laisser
+au lecteur.
 
 \paragraph{Une réserve sur le taux, déclarée plutôt que corrigée.} Le taux de $6\,\%$ est celui du
 règlement délégué~2015/35. La directive~(UE)~2025/2 le ramène à $4{,}75\,\%$, et c'est ce taux

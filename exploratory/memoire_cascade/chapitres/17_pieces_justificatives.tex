@@ -284,6 +284,16 @@ Le chapitre~\ref{chap:resultats} établit que la mesure de queue sert à \emph{m
 le quantile d'\emph{un} sinistre, jamais sur la charge annuelle, et son argument d'existence était
 invoqué plutôt que montré.
 
+\paragraph{La première réponse est réglementaire, et il faut la donner en premier.} Le régime
+applicable définit le capital de solvabilité requis comme une \textbf{valeur en risque à
+$99{,}5\,\%$ sur un horizon d'un an}. Un travail qui reporterait une mesure de queue à la place
+répondrait à une autre question que celle posée, indépendamment de ses mérites : le Test suisse
+de solvabilité retient une espérance conditionnelle de queue à $99\,\%$, et le débat entre les
+deux régimes est ancien, documenté et tranché différemment selon les juridictions. Ce mémoire se
+place sous le premier régime, et c'est la raison principale pour laquelle il ne substitue pas
+l'une à l'autre. Les arguments qui suivent viennent \emph{renforcer} ce choix, ils ne le
+fondent pas : les présenter dans l'ordre inverse laisserait croire qu'on ignore le cadre.
+
 \subsection*{La CTE agrégée, et le niveau auquel elle égale la VaR réglementaire}
 
 \begin{center}\footnotesize
@@ -424,6 +434,16 @@ nominal à $95\,\%$ ne répare donc rien : il déplace l'annonce sans corriger l
 constance du déficit en points désigne la cause, un écart-type asymptotique trop petit à
 quatre-vingt-onze excès, plutôt qu'une forme d'intervalle mal choisie.
 
+\paragraph{Ce déficit doit être publié, mais il ne doit pas être dramatisé.} Une sous-couverture
+de trois points sur un intervalle de paramètre de forme d'une loi de Pareto généralisée, à
+quatre-vingt-onze excès, est un ordre de grandeur \emph{attendu} : la normalité asymptotique de
+l'estimateur du maximum de vraisemblance y converge lentement, et c'est une propriété connue de
+ces intervalles à petit échantillon, non une anomalie de ce travail. La conclusion à en tirer est
+donc double et il faut tenir les deux bouts. Le déficit \textbf{se publie}, parce qu'un intervalle
+annoncé à $90\,\%$ qui en couvre $87$ engage celui qui l'annonce. Mais il \textbf{ne disqualifie
+pas} l'intervalle : le présenter comme un défaut du modèle plutôt que comme une limite connue de
+l'estimateur donnerait au lecteur une inquiétude que les nombres ne justifient pas.
+
 La réserve déjà publiée au \S\ref{soc:sec:validation} reste donc due, au nouveau niveau comme à
 l'ancien : annoncer $95\,\%$ sans la répéter remplacerait un défaut \emph{déclaré} par un défaut
 \emph{caché}, ce qui serait un mauvais échange. Source : script~\texttt{72}.
@@ -434,8 +454,16 @@ La configuration gelée porte les intervalles à $90\,\%$, et c'est elle qui ali
 occurrences de $[0{,}30\,;0{,}83]$ et du facteur $2{,}5$ ailleurs dans ce mémoire sont donc les
 valeurs de cette configuration, citées comme telles. Les remplacer partout déplacerait des dizaines
 de nombres publiés ; la piste d'audit exige alors de dire lesquels et pourquoi, et c'est une
-décision de rédaction distincte du calcul ci-dessus. Le niveau reporté est $95\,\%$, la
-configuration reste à $90\,\%$, et le pont entre les deux est la table de cette section.
+décision de rédaction distincte du calcul ci-dessus.
+
+\textbf{Le niveau reporté reste donc $90\,\%$, et cette section en donne l'alternative chiffrée
+plutôt qu'une substitution.} Trois raisons convergent. Le corps publie partout les bornes de la
+configuration gelée, si bien qu'annoncer $95\,\%$ ici et imprimer $90\,\%$ ailleurs créerait une
+incohérence pire que le défaut qu'on prétendrait corriger. Le passage à $95\,\%$ ne répare pas la
+sous-couverture, qui reste de trois points au nouveau niveau comme à l'ancien : il déplace
+l'annonce sans toucher l'estimateur. Et le correctif qui la réparerait, un élargissement de la
+demi-largeur d'environ $10\,\%$, est une recalibration que le gel interdit. Le choix retenu est
+donc celui que ce mémoire applique partout ailleurs : \emph{déclarer plutôt que rebaptiser}.
 Sources : scripts~\texttt{63} (calibration figée) et~\texttt{72}.
 
 % =====================================================================
@@ -667,6 +695,112 @@ grandeur à retenir est l'\emph{élasticité} plutôt que la plage : une élasti
 amplitude qu'un lecteur jugera plausible, une plage ne vaut que pour celle qu'on a choisie. C'est
 aussi la seule ligne du registre des écarts du \S\ref{sec:pu-coherence} dont le \emph{sens} ne se
 déclare pas, les sept autres ayant une direction connue. Source : script~\texttt{74}.
+
+% =====================================================================
+\section{Deux corrections d'instrument : le tornado et l'objet de l'invariance}
+\label{sec:ann-corrections-instrument}
+
+\noindent Chiffres de cette section : scripts~\texttt{76} et~\texttt{77}.
+
+Cette pièce documente deux corrections apportées à des résultats déjà publiés. Aucune ne
+renverse une conclusion, toutes deux en changent la portée ou le statut, et il vaut mieux les
+écrire que les laisser découvrir.
+
+\subsection*{Le tornado comparait des longueurs de barre, pas des sensibilités}
+
+Le tornado du \S\ref{sec:sensibilite-propagation} balaie quatre leviers sur des plages qui n'ont
+pas la même vraisemblance, et l'un d'eux, le seuil, n'est pas un levier : le déplacer réajuste la
+loi de queue, si bien qu'il fait bouger quatre paramètres à la fois. La décomposition le montre.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Composante} & \textbf{p80} & \textbf{p90} & \textbf{Effet signé} \\
+\midrule
+Le paquet, ce que publie le tornado & $12\,944$ & $4\,862$ & $-8\,081$ \\
+\midrule
+Seuil $u$ seul & $6\,628$ & $6\,948$ & $+320$ \\
+Indice de queue $\xi$ seul & $18\,533$ & $4\,540$ & $\mathbf{-13\,993}$ \\
+Échelle $\sigma$ seule & $4\,617$ & $9\,299$ & $+4\,682$ \\
+Taux de dépassement $p_u$ seul & $7\,339$ & $4\,814$ & $-2\,525$ \\
+\midrule
+\emph{somme des quatre} & & & $-11\,517$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Deux lectures. Le seuil \emph{pris seul} ne déplace que $+320$~M\euro{} quand l'indice
+de queue seul en déplace $-13\,993$ : la barre publiée sous le nom de « seuil » mesure en réalité
+la sensibilité à la queue. Et les composantes ne s'additionnent pas, elles \textbf{se compensent},
+leur somme signée valant $-11\,517$ pour un paquet à $-8\,081$, soit $3\,436$~M\euro{} de
+compensation entre un $\xi$ qui tire vers le bas et un $\sigma$ qui tire vers le haut. La barre du
+paquet est donc \emph{plus courte} que l'effet du seul indice de queue, tout en lui étant
+attribuée.
+
+La correction ne change pas la conclusion, elle la met à l'abri : lue en \textbf{élasticités},
+même perturbation relative pour tous et un paramètre à la fois, la propagation reste le plus
+faible des leviers substantiels, $0{,}37$ contre $3{,}79$ pour l'indice de queue. Ce rapport de
+dix ne dépend d'aucune convention d'affichage, alors que l'ancienne formulation pouvait être
+retournée en changeant une plage. Source : script~\texttt{76}.
+
+\begin{figure}[htbp]\centering
+\figover{S32_tornado_normalise.png}
+\caption{Le tornado renormalisé. \textbf{(a)}~les élasticités, sans dimension et sans plage,
+avec le statut de chaque paramètre : deux des leviers sont \emph{posés} et n'ont donc aucun
+intervalle d'estimation, si bien que leur barre d'origine était un choix d'affichage.
+\textbf{(b)}~la décomposition du levier « seuil » : l'indice de queue seul dépasse le paquet
+entier, ce qui n'est possible que si les composantes se compensent. Source : script~\texttt{76}.}
+\label{fig:tornado-normalise}
+\end{figure}
+
+\subsection*{L'invariance de la dépendance porte sur une espérance, pas sur un quantile}
+
+Le \S\ref{sec:dependance-etats} établit que la structure de la dépendance entre états ne déplace
+pas le capital, par un argument d'additivité. Cet argument vaut pour une \emph{espérance}, or le
+capital est un \emph{quantile} : la moyenne des VaR conditionnelles aux $32$ configurations n'est
+pas le quantile de la loi mélangée sur ces configurations, et la linéarité sur laquelle repose
+l'argument n'est pas disponible pour le second objet. Les deux ont donc été calculés.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Objet} & \textbf{Niveau} & \textbf{Déplacement sur le balayage} \\
+\midrule
+Moyenne des VaR conditionnelles & $9\,739$~M\euro & $2$~M\euro \\
+Quantile de la loi mélangée & $10\,643$~M\euro & $334$~M\euro \\
+\midrule
+\emph{bruit de tirage seul, huit graines} & & \emph{étendue} $344$~M\euro \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Les deux objets diffèrent de $904$~M\euro, soit $9{,}3\,\%$, et l'écart est structurel :
+à $99{,}5\,\%$ la queue du mélange est prélevée dans les composantes les plus lourdes quand la
+moyenne pondère toutes les composantes, y compris les conformes. \textbf{Le mémoire publie la
+première grandeur}, et le dire fait partie du résultat.
+
+Sur le quantile, le déplacement de $334$~M\euro{} n'est pas monotone en $\delta$ et reste du même
+ordre que le bruit de tirage. \textbf{L'invariance n'y est donc pas démontrée, elle est seulement
+non détectée}, ce qui est un énoncé strictement plus faible que sur l'espérance. Dans les deux
+lectures le déplacement reste petit devant l'incertitude déjà déclarée, ces $334$~M\euro{} valant
+$18\,\%$ de la largeur de la bande d'identification. La conclusion de gestion ne change pas ;
+c'est son statut qui change. Source : script~\texttt{77}.
+
+\begin{figure}[htbp]\centering
+\figover{S33_var_melange.png}
+\caption{Les deux objets. \textbf{(a)}~la moyenne des VaR conditionnelles et le quantile de la
+loi mélangée diffèrent de $9{,}3\,\%$, ce qui impose de dire lequel est publié.
+\textbf{(b)}~sur le balayage, l'espérance ne bouge pas et le déplacement du quantile est du même
+ordre que le bruit de tirage, sans être monotone : il n'est pas résolu. L'échelle est celle de la
+bande
+d'identification déjà publiée, faute de quoi des écarts de quelques centaines de millions
+paraîtraient considérables. Source : script~\texttt{77}.}
+\label{fig:var-melange}
+\end{figure}
 
 % =====================================================================
 \section{Les séquences ordonnées du corpus, et pourquoi elles n'identifient rien}
