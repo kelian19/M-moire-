@@ -248,7 +248,12 @@ noyau d'allocation d'abord, dans la règle d'Euler ci-dessus, où elle répartit
 fixé sans le modifier. Comme \emph{indicateur de forme de queue} ensuite : le rapport
 $\TVaR_{99{,}5\,\%}(L)/\VaR_{99{,}5\,\%}(L) \approx 2{,}1$ se compare à son asymptote théorique
 $1/(1-\xi) = 2{,}5$, et c'est ce rapport, non les deux montants, qui porte l'information (les
-deux sont imprimés par le script~\texttt{67}).
+deux sont imprimés par le script~\texttt{67}). Ce rapport \textbf{dépend de l'état} et il faut
+donc dire lequel : $2{,}10$ vaut à l'état \emph{tous non conforme}, celui de cette section, tandis
+que l'annexe~\ref{sec:ann-cte} le mesure à $2{,}17$ sur la calibration de référence
+(script~\texttt{73}). Les deux
+valeurs sont justes, elles ne portent pas sur la même loi de perte, et l'écart entre elles est
+sans signification en soi.
 
 Deux raisons de ne pas en faire un niveau de couverture, et la seconde est décisive. La
 première est de proportion : sur un risque aussi large, dont les queues sont plurielles selon la

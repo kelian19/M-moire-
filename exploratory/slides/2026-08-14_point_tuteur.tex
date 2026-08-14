@@ -73,34 +73,60 @@
 % =====================================================================
 \section*{A. Les deux questions du dernier call, tranchées}
 
-\begin{frame}{La mesure de queue sert à mesurer, pas à couvrir}
-\scriptsize
-Ta remarque était que la Tail-VaR ne doit pas servir de \emph{niveau de couverture}. Le mémoire
-y était déjà conforme, mais il ne le disait pas : c'est écrit maintenant.
-\vspace{1mm}
-\begin{block}{Ce que porte le capital, et ce que porte la CTE}
-Le besoin de capital est partout un $\mathrm{VaR}_{99{,}5\%}(L)$ \textbf{centré}, au niveau de
-Solvabilité~II. \textbf{Aucune} grandeur de couverture n'est une \textsc{tvar}. La mesure de
-queue intervient deux fois, et deux fois comme \emph{diagnostic} : noyau d'allocation d'Euler,
-qui répartit un niveau déjà fixé sans le modifier ; et \textbf{indicateur de forme de queue},
-par le rapport $\mathrm{TVaR}/\mathrm{VaR}=\mathbf{2{,}1}$ contre l'asymptote
-$1/(1-\xi)=2{,}5$. C'est le \emph{rapport} qui informe, pas les deux montants.
+% SLIDE REECRITE ET FORTEMENT SIMPLIFIEE. La version precedente etait illisible pour trois
+% raisons cumulees, et il vaut mieux les avoir en tete que de les reintroduire :
+%   1. QUATRE noms pour UN objet (Tail-VaR, CTE, TVaR, « mesure de queue »), sans jamais dire
+%      qu'il s'agissait du meme. A lui seul ce defaut suffisait a perdre le lecteur ;
+%   2. DEUX arguments empiles quand un seul tranche. L'argument de « proportion » est un argument
+%      de DEGRE, donc discutable ; l'argument d'EXISTENCE ne l'est pas. Le premier est retire ;
+%   3. du jargon non necessaire au propos (« noyau d'allocation d'Euler ») et une asymptote posee
+%      sans son usage.
+% L'argument central est desormais celui du NIVEAU EQUIVALENT (script 73, section 2), qui n'y
+% figurait pas alors qu'il est le plus simple : une CTE a 95 % est MOINS prudente que la VaR
+% reglementaire. C'est de l'arithmetique, ca ne demande aucune theorie, et ca repond exactement a
+% la question posee.
+% LE RAPPORT CTE/VaR PASSE DE 2,1 A 2,17, ET CE N'EST PAS UNE CORRECTION D'ERREUR. Les deux
+% valeurs sont justes et mesurent deux ETATS differents : le script 67 imprime 2,10 sur l'etat
+% tous non conforme (VaR 16 942), le script 73 imprime 2,17 sur la calibration publiee
+% (VaR 8 374). Le 2,1 de la version precedente etait donc confirme par le script qu'elle citait.
+% MOTIF DU CHANGEMENT : tous les autres nombres de cette slide viennent du script 73, et
+% 18 183 / 8 374 = 2,17. Afficher 2,1 a cote de 8 374 invitait le lecteur a refaire la division
+% et a ne pas retrouver le chiffre. Une slide se lit d'un seul tenant, donc d'un seul script.
+%
+% DEUX LIMITES DECLAREES ONT QUITTE CETTE SLIDE, et il faut le savoir plutot que le decouvrir :
+% l'attritionnel absent de la base (qui sous-estime) et la severite non plafonnee a l'echelle
+% d'entite (qui majore). Elles etaient en note de bas de slide, hors sujet par rapport a la
+% question posee, et la slide debordait de 50 pt. Elles restent publiees au memoire, chapitre 13
+% pour la table des ecarts et annexe D pour le plafond desormais chiffre par le script 78. Si tu
+% veux qu'elles reviennent dans le deck, elles meritent leur propre slide et non une note.
+\begin{frame}{La CTE mesure la queue, elle ne fixe pas le capital}
+\small
+Ta remarque : la \textbf{CTE} ne doit pas porter le capital. (\emph{CTE}, \emph{TVaR},
+\emph{Tail-VaR} : un seul objet, la perte moyenne des années qui dépassent un seuil.)
+\vspace{-1mm}
+\begin{block}{À niveau égal la CTE est toujours plus grande que la VaR}
+\centering
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{niveau} & \textbf{VaR} (M\euro) & \textbf{CTE} (M\euro) & \textbf{CTE / VaR} \\
+\midrule
+$95\,\%$     & $3\,055$          & $5\,734$           & $1{,}88$ \\
+$99\,\%$     & $6\,078$          & $12\,607$          & $2{,}07$ \\
+$99{,}5\,\%$ & $\mathbf{8\,374}$ & $\mathbf{18\,183}$ & $\mathbf{2{,}17}$ \\
+\bottomrule
+\end{tabular}
 \end{block}
 \vspace{-1mm}
-\begin{block}{Deux raisons de ne pas en faire un niveau, et la seconde tranche}
-La proportion d'abord : sur un risque à queues plurielles selon la catégorie d'événement, une
-moyenne de queue immobiliserait un capital sans commune mesure avec le niveau réglementaire.
-L'\textbf{existence} ensuite : sous la calibration PRC, $\hat\xi=1{,}033>1$, donc l'espérance
-est infinie et \textbf{la mesure n'existe pas}. Une couverture qui cesse d'être définie selon la
-source de sévérité ne peut pas porter un capital ; le même objet lu comme diagnostic reste
-informatif, puisque sa divergence \emph{est} l'information.
-\end{block}
-\vspace{-1mm}
-{\scriptsize Deux limites déclarées au passage, de sens opposés : l'\textbf{attritionnel} est
-absent de la base, tronquée à son seuil de collecte, ce qui \emph{sous-estime} ; et la sévérité
-n'est \textbf{pas plafonnée} à l'échelle d'entité, élasticité à la taille $0{,}087$, ce qui
-\emph{majore} le niveau d'entité. Elles ne se compensent pas.
-Sources : scripts~\texttt{51}, \texttt{60} et~\texttt{67}.}
+{\footnotesize Le capital publié est le $8\,374$ en gras, et la CTE au \emph{même} niveau vaut
+$18\,183$, soit $2{,}17$ fois plus. \textbf{Le piège est de changer de niveau et de mesure à la
+fois} : une CTE à $95\,\%$ ne vaut que $5\,734$ et tombe donc \emph{sous} la VaR réglementaire,
+d'un facteur $1{,}46$. Le niveau qui laisserait l'exigence inchangée est
+$\mathbf{97{,}73\,\%}$, que personne n'a décidé.\\[3pt]
+\textbf{Et sous la calibration PRC, la CTE n'existe pas} : $\hat\xi=1{,}033>1$, donc espérance
+infinie. Mesuré et non invoqué, la dispersion de son estimation entre graines reste de $38{,}6$ à
+$51{,}4\,\%$ sur $800\,000$ années, contre $4{,}2$ à $7{,}4\,\%$ à l'indice publié.\\[3pt]
+Seul usage conservé, \textbf{diagnostic} de forme de queue : le rapport $2{,}17$ contre son
+asymptote $1/(1-\xi)=2{,}47$. Source : script~\texttt{73}.}
 \end{frame}
 
 \begin{frame}{Le \texorpdfstring{$663$}{663} M\euro{} n'est pas un SCR, et voici le pont}
@@ -447,7 +473,7 @@ pointer l'annexe de démonstrations vers le mauvais chapitre.
 \begin{itemize}\itemsep0pt
 \item Porter le corpus de $10$ à $30$ rapports : le registre d'\emph{enforcement} de la FCA
       est public et dense en entités réglementées.
-\item Trancher le \textbf{format} : $112$ pages de corps, $152$ au total, contre $\sim70$
+\item Trancher le \textbf{format} : $115$ pages de corps, $155$ au total, contre $\sim70$
       recommandés. Quatre blocs sont compressibles sans perdre de résultat.
 \end{itemize}
 \end{column}
