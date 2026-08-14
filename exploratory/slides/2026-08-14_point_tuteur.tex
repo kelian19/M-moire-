@@ -201,6 +201,22 @@ de modèle. Sources : scripts~\texttt{25} et~\texttt{43}.
 \end{block}
 \end{frame}
 
+% REPONSE A LA QUESTION POSEE EN SEANCE SUR CETTE SLIDE, consignee ici et traitee au memoire.
+% Hugo a releve que la somme de la colonne « fermeture » (19 141) paraissait le double de celle
+% des effets isoles (9 138), donc un double comptage. VERIFIE PAR LE SCRIPT 82 : il n'y en a pas,
+% et c'est une identite. En notant m(S) les coefficients de Mobius,
+%   somme des isoles     = somme des m(S) sur |S| = 1
+%   somme des fermetures = somme de |S| x m(S)          <- chaque ordre k compte k fois
+%   somme des Shapley    = somme des m(S) = le delta
+% d'ou 1x9138 + 2x5345 + 3x(-691) + 4x346 = 19 141, a la precision machine. Fermer un canal lui
+% fait porter l'INTEGRALITE des croises auxquels il participe, et un croise d'ordre k a k
+% participants : la somme les compte donc k fois, par definition.
+% MAIS LE SOUPCON PORTAIT JUSTE SUR UN POINT : imprimer une ligne « somme » sous une colonne qui
+% ne s'additionne pas invite exactement cette lecture. Le memoire (annexe C) la met desormais en
+% italique avec l'identite et l'encadrement 9 138 <= 14 139 <= 19 141, qui est la vraie propriete.
+% LA COINCIDENCE ARITHMETIQUE EST FORTUITE : 2 x 9 138 = 18 276 contre 19 141, soit 4,5 % d'ecart,
+% et le delta vaut 14 139 et non 9 138, donc le rapport fermeture / delta vaut 1,35 et pas 2.
+% Cette slide reste telle qu'elle a ete presentee : ses trois nombres sont justes.
 \begin{frame}{La table complète, et la réconciliation que tu demandais}
 \scriptsize
 Les quatre canaux ouvrent \textbf{seize} configurations, et la décomposition de Möbius sur ce
@@ -260,6 +276,19 @@ le canal fermant aussi ses croisés. C'est cette colonne qu'un plan de remédiat
 {\scriptsize Source : script~\texttt{68}.}
 \end{frame}
 
+% SECONDE QUESTION POSEE EN SEANCE, sur les +/- de cette slide : « intervalle tres large, +/- 700
+% sur 1 700, soit 40 % : manque de donnees ou incertitude de parametre ? » REPONSE MESUREE PAR LE
+% SCRIPT 84 : ni l'un ni l'autre. Ces +/- sont des etendues de SIMULATION a parametres fixes.
+% Test d'echelle : l'ecart-type tombe de 1 785 a 339 M quand les annees simulees passent de
+% 10 000 a 160 000, pente log-log -0,60 contre -0,50 attendu pour du Monte-Carlo et 0 pour une
+% incertitude de donnee. Cette largeur s'achete donc en temps de machine.
+% L'INCERTITUDE QUI NE S'ACHETE PAS EST DIX FOIS PLUS GRANDE : rejoue aux deux bornes de l'IC90 de
+% xi, le meme croise va de 429 a 7 998 M, une plage de 7 569.
+% ET UNE PRECISION TROUVEE EN VOULANT REPRODUIRE LE CHIFFRE : le 1 739 et le 708 ne viennent pas
+% du meme nombre de graines (4 pour la valeur, celle de la chaine gelee, 16 pour l'ecart-type ; le
+% script 68 le declare, le deck ne le reportait pas). A resolution homogene sur seize graines la
+% grandeur vaut 1 389 +/- 708 par tirage, ou +/- 177 pour la moyenne. Le « 40 % » a donc trois
+% valeurs selon ce qu'on rapporte a quoi : 41 %, 51 % ou 13 %. Traite au memoire, annexe C.
 \begin{frame}{Les effets croisés : où vivent les \texorpdfstring{$5\,345$}{5345} M\euro}
 \scriptsize
 \begin{center}

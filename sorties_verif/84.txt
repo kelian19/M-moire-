@@ -51,6 +51,8 @@
              40 000          1358         839                  2.13
             160 000          1282         339                  2.48
 
+  Tailles balayees, en clair pour la verification : 10000, 40000, 160000 annees par graine.
+
   PENTE MESUREE en log-log : -0.60, contre -0.50 attendu pour du Monte-Carlo pur
   et 0.00 pour une incertitude de parametre ou de donnee.
   Rapport theorique entre deux tailles consecutives (facteur 4) : 2,00.

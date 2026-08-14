@@ -309,21 +309,51 @@ Détection P2/P3 & $1\,448\pm277$ & $4\,562\pm819$ & $2\,928\pm343$ & calibrable
 Accumulation P4 & $1\,728\pm210$ & $3\,402\pm493$ & $2\,576\pm222$ & borné \\
 Propagation $W$ & $1\,633\pm188$ & $2\,402\pm442$ & $2\,088\pm152$ & borné \\
 \midrule
-\textbf{Somme} & $9\,138$ & $19\,141$ & $\mathbf{14\,139}$ & \\
+\textbf{Somme} & \emph{$9\,138$} & \emph{$19\,141$} & $\mathbf{14\,139}$ & \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \vspace{4pt}
-\noindent En M\euro ; l'incertitude est l'écart-type de simulation sur seize graines
-(script~\texttt{68}). La lecture isolée \emph{manque} $5\,001$~M\euro, soit $35\,\%$ de l'écart ;
-la lecture de fermeture le \emph{dépasse} d'autant. Le rapport entre les deux va de $1{,}5$ à
-$3{,}1$ selon le canal, et son sens est le point utile pour une direction des risques :
-\textbf{remédier un canal rapporte davantage à une entité défaillante partout qu'à une entité
-déjà conforme}, puisque ce canal ferme aussi les effets croisés qu'il portait. Seule la seconde
-lecture correspond à une entité réelle en début de remédiation. Shapley est la seule colonne
-additive, mais c'est une \emph{convention} d'attribution et non une prévision : deux des quatre
+\noindent En M\euro ; la valeur centrale est celle de la chaîne publiée, à quatre graines, et
+l'incertitude est l'écart-type de simulation \emph{par graine} mesuré sur seize
+(script~\texttt{68}). Les deux ne viennent donc pas de la même résolution, et il faut le savoir
+pour lire les rapports : le $\pm$ est l'étendue d'un tirage, non l'incertitude de la moyenne
+affichée, qui vaut environ la moitié. La lecture isolée \emph{manque} $5\,001$~M\euro, soit
+$35\,\%$ de l'écart ; la lecture de fermeture le \emph{dépasse} d'autant. Le rapport entre les
+deux va de $1{,}5$ à $3{,}1$ selon le canal, et son sens est le point utile pour une direction
+des risques : \textbf{remédier un canal rapporte davantage à une entité défaillante partout qu'à
+une entité déjà conforme}, puisque ce canal ferme aussi les effets croisés qu'il portait. Seule
+la seconde lecture correspond à une entité réelle en début de remédiation.
+
+\begin{attention}
+\textbf{Deux des trois sommes de cette table sont en italique, et ce n'est pas une coquetterie
+typographique : elles ne mesurent rien.} La question a été posée en séance, sous la forme d'un
+soupçon de double comptage, la somme des fermetures paraissant proche du double de celle des
+effets isolés. Il n'y a pas de double comptage, et l'argument est une identité plutôt qu'une
+intuition. En notant $m(S)$ les coefficients de Möbius, chaque colonne somme des termes
+différents :
+\[
+  \sum_i \text{isolé}(i) = \!\!\sum_{|S|=1}\!\! m(S), \qquad
+  \sum_i \text{fermeture}(i) = \sum_S |S|\,m(S), \qquad
+  \sum_i \varphi_i = \sum_S m(S) = \Delta .
+\]
+Fermer un canal lui fait porter l'\emph{intégralité} des croisés auxquels il participe ; un
+croisé d'ordre $k$ ayant $k$ participants, il est compté $k$ fois quand on somme la colonne. Le
+script~\texttt{82} le vérifie terme à terme :
+$1\times 9\,138 + 2\times 5\,345 + 3\times(-691) + 4\times 346 = 19\,141$, à la précision
+machine. La somme des fermetures n'est donc ni un capital, ni un écart, ni un budget, et le
+soupçon portait juste : ce qui était fautif n'était pas le calcul mais le fait d'imprimer une
+ligne « somme » sous une colonne qui ne s'additionne pas. Elle est conservée ici parce qu'elle
+sert l'\emph{encadrement} ci-dessous, et signalée comme non additive.
+
+\textbf{Ce qui, en revanche, est une propriété et mérite d'être retenu} :
+$9\,138 \leq 14\,139 \leq 19\,141$. Les effets isolés minorent l'écart, les fermetures le
+majorent, et l'encadrement vaut dès que la fonction de capital est sur-modulaire, ce que la
+cascade est. Shapley est la seule lecture qui répartisse l'interaction sans la perdre ni la
+dupliquer, mais c'est une \emph{convention} d'attribution et non une prévision : deux des quatre
 canaux sont bornés et non calibrés, de sorte que leur part n'est pas un budget actionnable.
+\end{attention}
 
 \paragraph{L'interaction n'est plus un résidu : elle se décompose, et elle vit aux paires.} La
 somme des quatre effets isolés laissait $+5\,001$~M\euro{} sans emploi. La décomposition de
@@ -352,8 +382,17 @@ reporter.}
 
 Les trois paires porteuses passent \emph{toutes} par la fréquence et font $86\,\%$ de l'ordre~2 :
 fréquence\,$\times$\,détection $1\,739\pm708$, fréquence\,$\times$\,accumulation
-$1\,666\pm354$, fréquence\,$\times$\,propagation $1\,182\pm444$~M\euro. Le classement des deux
-premières n'est pas résolu et n'a pas à l'être : elles se tiennent à $73$~M\euro{} l'une de
+$1\,666\pm354$, fréquence\,$\times$\,propagation $1\,182\pm444$~M\euro. \textbf{Ce que ces
+$\pm$ mesurent doit être dit, sans quoi le rapport de $41\,\%$ du premier se lit comme un aveu de
+fragilité.} Ce sont des étendues de \emph{simulation} à paramètres fixés, donc ni un manque de
+données ni une incertitude de paramètre : le script~\texttt{84} le montre par une loi d'échelle,
+l'écart-type tombant de $1\,785$ à $339$~M\euro{} lorsque le nombre d'années simulées passe de
+$10\,000$ à $160\,000$, soit une pente de $-0{,}60$ contre $-0{,}50$ attendu pour du
+Monte-Carlo et $0$ pour une incertitude de donnée. Cette largeur-là s'achète donc en temps de
+machine. L'incertitude qui ne s'achète pas est ailleurs et elle est plus grande : rejoué aux deux
+bornes de l'\textsc{ic}90 de $\hat\xi$, le même croisé va de $429$ à $7\,998$~M\euro, soit
+une plage de $7\,569$, \textbf{dix fois} le bruit de simulation. Le classement des deux
+premières paires n'est pas résolu et n'a pas à l'être : elles se tiennent à $73$~M\euro{} l'une de
 l'autre et leur ordre s'inverse lorsqu'on lit la même décomposition en perte moyenne. Le
 mécanisme, lui, est clair : le choc commun de P4 fait tomber plusieurs piliers sur le
 \emph{même} sinistre, la fréquence multiplie le nombre de sinistres exposés à ce choc, et à

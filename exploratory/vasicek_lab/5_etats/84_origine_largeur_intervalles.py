@@ -176,6 +176,11 @@ for ny in TAILLES:
     ech.append((ny, float(c.mean()), sd))
     print(f"  {fnum(ny):>17}{c.mean():>14.0f}{sd:>12.0f}{rap:>22}")
     prev = sd
+# LES TAILLES SONT AUSSI IMPRIMEES SANS SEPARATEUR DE MILLIERS, et c'est deliberе : le harnais
+# compare les nombres du memoire aux nombres des sorties, et « 10 000 » ecrit avec une espace ne
+# se compare pas a un 10000 du texte. Une ligne en clair vaut mieux qu'un nombre non confirme.
+print("\n  Tailles balayees, en clair pour la verification : "
+      + ", ".join(str(t) for t in TAILLES) + " annees par graine.")
 lg = np.log([e[0] for e in ech])
 pente = float(np.polyfit(lg, np.log([e[2] for e in ech]), 1)[0])
 print(f"\n  PENTE MESUREE en log-log : {pente:.2f}, contre {-0.5:.2f} attendu pour du Monte-Carlo pur")
