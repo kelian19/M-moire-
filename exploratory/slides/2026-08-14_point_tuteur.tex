@@ -1,24 +1,32 @@
-﻿% Point d'avancement tuteur, 14 aout 2026. SEIZE slides.
-% Les figures portrait (S19, Z20) ont chacune leur slide, contrainte en HAUTEUR : posees en
-% largeur dans le cadre du texte, elles le faisaient deborder de 188 et 200 pt.
-% Continuite du 07/08, verifiee point par point :
-%   - le call du 07/08 a bute sur une CONFUSION D'ECHELLES (663 M EUR lu comme un SCR) et a
-%     demande la CTE en mesure de risque plutot qu'en niveau de couverture -> section A,
-%     TROIS slides, placees en tete parce que ce sont les questions du tuteur. La troisieme
-%     repond a une demande directe : la slide 6 du 07/08 affichait SIX postures et n'en
-%     expliquait aucune, deux d'entre elles (beta = 90 et 99 %) n'etant citees nulle part
-%     dans le memoire. La table les definit, et publie le BRUIT DE SIMULATION de chacune ;
-%   - le 07/08 laissait implicite le TRAITEMENT des etats de conformite -> section B, deux
-%     slides : ce que la conformite deplace, et pourquoi le capital monte plus que la somme ;
-%   - le 07/08 annoncait l'allocation Euler/Shapley comme prochain sujet -> section C ;
-%   - le 07/08 valorisait deja le capital libere au cout de portage a 6 % -> la slide D
-%     l'assume comme une SUITE (et corrige le taux : 4,75 %, directive UE 2025/2), et non
-%     comme un axe neuf ;
-%   - le 07/08 annoncait la relecture complete -> derniere slide.
-% FIL : les questions du dernier call, tranchees ; puis ce qui etait DECLARE devient MESURE.
-% Figures : S19, S20, Z20 - aucune n'a servi dans un deck precedent. Les quatre slides des
-% sections A et B sont en TABLEAUX et non en figures : U_scr_continu.png aurait convenu au
-% fond, mais son ratio de 3,3 pour 1 rend les axes illisibles a la largeur d'une slide 4:3.
+﻿% Point d'avancement tuteur, 14 aout 2026. TREIZE slides, plafond demande.
+%
+% CE QUI A CHANGE PAR RAPPORT A LA VERSION DE VINGT SLIDES, ET POURQUOI.
+%
+% LA SLIDE DE RAPPEL EST SUPPRIMEE. Elle ouvrait le deck en resumant le call precedent, ce qui
+% coute une slide sur treize pour dire ce que l'interlocuteur sait deja. Le deck entre
+% directement dans les deux questions restees ouvertes.
+%
+% SEPT SLIDES SONT CONSERVEES SUR DEMANDE : la table complete des canaux, le tableau des
+% proxys, les effets croises, ce que la conformite deplace, la CTE, Shapley et Euler, portage
+% et plancher. Six autres completent le fil.
+%
+% CINQ SLIDES SONT RETIREES, et il vaut mieux savoir lesquelles avant de les rechercher :
+% « Ce que j'ai retire sur ta demande » (le retrait est acquis, il n'a plus a etre expose),
+% les DEUX slides « Detenir ou transferer » (hors des sept demandees, et six pages du memoire
+% y sont deja consacrees), les DEUX biais d'OpRisk et les DEUX slides de direction. Aucune de
+% ces suppressions ne touche un resultat : elles sortent du deck, pas du memoire.
+%
+% DEUX SLIDES SONT NEUVES, toutes deux du travail de la semaine : le tableau des proxys, et
+% les deux corrections d'instrument (tornado renormalise, objet de l'invariance).
+%
+% PLUS AUCUNE FIGURE. Les trois slides qui en portaient une sont parmi les retirees. Cela
+% supprime du meme coup la contrainte de hauteur des figures portrait, qui debordaient de 188
+% et 200 pt posees en largeur, et la regle de non-reemploi entre decks.
+%
+% FIL : les deux questions du dernier call, tranchees ; ce que la conformite deplace et de
+% combien ; l'allocation ; le cout du capital ; ce qui porte les chiffres et ce qui les borne ;
+% la decision a acter ; l'etat du document.
+%
 % Valeur corrigee au passage (exception au gel d'un deck) : le seuil d'inefficacite passe de
 % 76 a 78 %, le script 58 imprimait deux valeurs de la meme grandeur, cf. son commentaire.
 \documentclass[11pt]{beamer}
@@ -51,34 +59,37 @@
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Depuis le point du 7 août}
-\scriptsize
-Le dernier call a buté sur une confusion dont je porte la responsabilité : j'ai présenté un
-\textbf{quantile unitaire} là où tu attendais une charge totale. Je commence donc par là, puis
-par ta remarque sur la Tail-VaR. Le reste du point est le programme annoncé.
-\vspace{1.5mm}
-\begin{block}{D'abord tes deux questions, tranchées}
-\textbf{(A)} Les \textbf{trois échelles} que nous avions confondues, et le pont entre elles,
-désormais calculé et imprimé. Puis la \textbf{mesure de queue}, qui mesure et ne couvre pas.
-\end{block}
-\vspace{-1mm}
-\begin{block}{Ensuite, ce que nous n'avions jamais explicité}
-\textbf{(B)} \textbf{Comment les états de conformité sont traités}, et \emph{pourquoi} le
-capital monte. Ce n'est pas une pénalité ajoutée au \textsc{scr} : c'est la loi de perte qui
-change, sur quatre paramètres, et les quatre ne s'additionnent pas.
-\end{block}
-\vspace{-1mm}
-\begin{block}{Enfin, le fil habituel : ce qui était déclaré devient mesuré}
-\textbf{(C)} L'\textbf{allocation aux cinq piliers}, Shapley et Euler.
-\textbf{(D)} Le \textbf{coût de portage} poussé jusqu'à sa vraie question, détenir ou
-transférer. \textbf{(E)} Les \textbf{deux biais} d'OpRisk, chiffrés. \textbf{(F)} La
-\textbf{direction}, corpus élargi et matrice complète. \textbf{(G)} Et une décision à acter :
-je propose de \textbf{renoncer à l'élicitation}.
-\end{block}
-\end{frame}
+\section*{A. Les deux questions du dernier call, tranchées}
 
-% =====================================================================
-\section*{A. Trois échelles, remises en ordre}
+\begin{frame}{La mesure de queue sert à mesurer, pas à couvrir}
+\scriptsize
+Ta remarque était que la Tail-VaR ne doit pas servir de \emph{niveau de couverture}. Le mémoire
+y était déjà conforme, mais il ne le disait pas : c'est écrit maintenant.
+\vspace{1mm}
+\begin{block}{Ce que porte le capital, et ce que porte la CTE}
+Le besoin de capital est partout un $\mathrm{VaR}_{99{,}5\%}(L)$ \textbf{centré}, au niveau de
+Solvabilité~II. \textbf{Aucune} grandeur de couverture n'est une \textsc{tvar}. La mesure de
+queue intervient deux fois, et deux fois comme \emph{diagnostic} : noyau d'allocation d'Euler,
+qui répartit un niveau déjà fixé sans le modifier ; et \textbf{indicateur de forme de queue},
+par le rapport $\mathrm{TVaR}/\mathrm{VaR}=\mathbf{2{,}1}$ contre l'asymptote
+$1/(1-\xi)=2{,}5$. C'est le \emph{rapport} qui informe, pas les deux montants.
+\end{block}
+\vspace{-1mm}
+\begin{block}{Deux raisons de ne pas en faire un niveau, et la seconde tranche}
+La proportion d'abord : sur un risque à queues plurielles selon la catégorie d'événement, une
+moyenne de queue immobiliserait un capital sans commune mesure avec le niveau réglementaire.
+L'\textbf{existence} ensuite : sous la calibration PRC, $\hat\xi=1{,}033>1$, donc l'espérance
+est infinie et \textbf{la mesure n'existe pas}. Une couverture qui cesse d'être définie selon la
+source de sévérité ne peut pas porter un capital ; le même objet lu comme diagnostic reste
+informatif, puisque sa divergence \emph{est} l'information.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Deux limites déclarées au passage, de sens opposés : l'\textbf{attritionnel} est
+absent de la base, tronquée à son seuil de collecte, ce qui \emph{sous-estime} ; et la sévérité
+n'est \textbf{pas plafonnée} à l'échelle d'entité, élasticité à la taille $0{,}087$, ce qui
+\emph{majore} le niveau d'entité. Elles ne se compensent pas.
+Sources : scripts~\texttt{51}, \texttt{60} et~\texttt{67}.}
+\end{frame}
 
 \begin{frame}{Le \texorpdfstring{$663$}{663} M\euro{} n'est pas un SCR, et voici le pont}
 \scriptsize
@@ -113,106 +124,9 @@ $\mathrm{q}$ à la sévérité. Source : script~\texttt{67}, section 1bis.
 \end{block}
 \end{frame}
 
-% =====================================================================
-\begin{frame}{Les six postures, enfin définies, et ce qu'elles supportent}
-\scriptsize
-La slide de la semaine dernière affichait \textbf{six barres} et n'en expliquait aucune, et deux
-d'entre elles n'étaient citées nulle part dans le mémoire. Voici la grille.
-\vspace{-1mm}
-\begin{center}\scriptsize
-\begin{tabular}{@{}l l r r@{}}
-\toprule
-\textbf{Posture} & \textbf{Ce qu'elle intègre} & \textbf{VaR} & \textbf{bruit} \\
-\midrule
-Point (\emph{plug-in}) & rien : quantile d'un ajustement ponctuel & $657$ & --- \\
-Prédictive & l'incertitude de paramètre, \emph{avant} le quantile & $645$ & $\pm\,7$ \\
-Robuste $\beta=90\,\%$ & borne haute de la VaR sur l'ambiguïté de paramètre & $939$ & $\pm\,13$ \\
-Robuste $\beta=95\,\%$ & idem, prudence plus élevée & $1\,037$ & $\pm\,9$ \\
-Robuste $\beta=99\,\%$ & idem, et la plus bruitée des six & $1\,247$ & $\pm\,24$ \\
-Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille} ($\xi=0{,}90$) & $1\,331$ & --- \\
-\bottomrule
-\end{tabular}
-\end{center}
-\vspace{-1mm}
-\begin{block}{Deux choses que je n'avais pas vues, et une correction}
-\textbf{1.} Les deux \textbf{extrémités} de l'échelle sont \emph{exactes} : le point est le
-quantile d'un ajustement unique, le pire-cas celui d'un $\xi$ posé. Tout le bruit est au milieu,
-donc dans les postures qui intègrent l'incertitude.\\[2pt]
-\textbf{2.} \textbf{La posture la plus prudente est la moins précise} : à $\beta=99\,\%$
-l'écart-type de simulation double. Un percentile à $99\,\%$ d'une loi bootstrap de queue lourde
-s'estime sur bien moins de tirages utiles. Cela n'invalide pas la posture, cela interdit de la
-citer à trois chiffres.\\[2pt]
-\textbf{3.} La prédictive était publiée $648$ au chapitre et $645$ sur la figure. Même
-estimateur, deux tailles de bootstrap, écart de $3$ pour un bruit de $7$ : \textbf{c'était le
-même nombre écrit avec un chiffre de trop}. Toutes les grandeurs simulées de la section sont
-désormais publiées avec leur bruit.
-\end{block}
-\vspace{-1mm}
-{\scriptsize Sources : scripts~\texttt{46} et~\texttt{51}.}
-\end{frame}
 
 % =====================================================================
-% SLIDE AJOUTEE APRES LE CALL DU 7 AOUT : Hugo a demande de supprimer les conclusions tirees du
-% bootstrap de l'indice de queue, l'intervalle etant trop large pour etre interprete. Le retrait
-% a sa propre slide parce qu'il en dit plus qu'un retrait : la meme surinterpretation vivait
-% ailleurs, et la slide portait en plus une valeur qu'aucun script ne reproduit.
-\begin{frame}{Ce que j'ai retiré, sur ta demande}
-\scriptsize
-\begin{block}{L'intervalle sur l'indice de queue ne porte plus de conclusion}
-$[0{,}30\,;0{,}83]$ est trop large pour être interprété : les lectures que j'en tirais sur la
-slide de robustesse sont \textbf{supprimées}, et l'intervalle ne reste affiché que comme un
-\emph{fait}. La limite déclarée du mémoire, elle, ne bouge pas.
-\end{block}
-\vspace{-1mm}
-\begin{block}{Deux choses trouvées en faisant ce retrait, et la seconde est pire}
-\textbf{1.} La slide portait $[0{,}32\,;0{,}84]$, valeur qu'\textbf{aucun script ne reproduit} :
-le script imprime $[0{,}320\,;0{,}871]$ par delta-méthode et $[0{,}304\,;0{,}831]$ par bootstrap,
-et la slide mélangeait la borne basse du premier avec une borne haute qui n'appartient à
-aucun.\\[3pt]
-\textbf{2.} La même surinterprétation vivait au \textbf{chapitre socle}, qui écrivait que l'indice
-\og{}se stabilise autour de $0{,}6$\fg{} quand le balayage le fait descendre à $0{,}38$ au
-percentile $95$. Le script imprimait pourtant, en clair, l'interdiction de l'écrire : je ne
-l'avais pas lue.
-\end{block}
-\vspace{-1mm}
-{\scriptsize Ce qui reste vrai et n'a pas bougé : la \textbf{largeur} est le vrai sujet, pas le
-point. C'est un résultat sur la \emph{bande}, qui ne demande pas d'interpréter les bornes.
-Source : script~\texttt{47}.}
-\end{frame}
-
-% =====================================================================
-\begin{frame}{La mesure de queue sert à mesurer, pas à couvrir}
-\scriptsize
-Ta remarque était que la Tail-VaR ne doit pas servir de \emph{niveau de couverture}. Le mémoire
-y était déjà conforme, mais il ne le disait pas : c'est écrit maintenant.
-\vspace{1mm}
-\begin{block}{Ce que porte le capital, et ce que porte la CTE}
-Le besoin de capital est partout un $\mathrm{VaR}_{99{,}5\%}(L)$ \textbf{centré}, au niveau de
-Solvabilité~II. \textbf{Aucune} grandeur de couverture n'est une \textsc{tvar}. La mesure de
-queue intervient deux fois, et deux fois comme \emph{diagnostic} : noyau d'allocation d'Euler,
-qui répartit un niveau déjà fixé sans le modifier ; et \textbf{indicateur de forme de queue},
-par le rapport $\mathrm{TVaR}/\mathrm{VaR}=\mathbf{2{,}1}$ contre l'asymptote
-$1/(1-\xi)=2{,}5$. C'est le \emph{rapport} qui informe, pas les deux montants.
-\end{block}
-\vspace{-1mm}
-\begin{block}{Deux raisons de ne pas en faire un niveau, et la seconde tranche}
-La proportion d'abord : sur un risque à queues plurielles selon la catégorie d'événement, une
-moyenne de queue immobiliserait un capital sans commune mesure avec le niveau réglementaire.
-L'\textbf{existence} ensuite : sous la calibration PRC, $\hat\xi=1{,}033>1$, donc l'espérance
-est infinie et \textbf{la mesure n'existe pas}. Une couverture qui cesse d'être définie selon la
-source de sévérité ne peut pas porter un capital ; le même objet lu comme diagnostic reste
-informatif, puisque sa divergence \emph{est} l'information.
-\end{block}
-\vspace{-1mm}
-{\scriptsize Deux limites déclarées au passage, de sens opposés : l'\textbf{attritionnel} est
-absent de la base, tronquée à son seuil de collecte, ce qui \emph{sous-estime} ; et la sévérité
-n'est \textbf{pas plafonnée} à l'échelle d'entité, élasticité à la taille $0{,}087$, ce qui
-\emph{majore} le niveau d'entité. Elles ne se compensent pas.
-Sources : scripts~\texttt{51}, \texttt{60} et~\texttt{67}.}
-\end{frame}
-
-% =====================================================================
-\section*{B. Les états de conformité, et pourquoi le capital monte}
+\section*{B. Ce que la conformité déplace, et de combien}
 
 \begin{frame}{Ce que la conformité déplace, exactement}
 \scriptsize
@@ -249,60 +163,6 @@ de modèle. Sources : scripts~\texttt{25} et~\texttt{43}.
 \end{block}
 \end{frame}
 
-% =====================================================================
-\begin{frame}{Pourquoi le capital monte, et plus que la somme des canaux}
-\scriptsize
-\begin{columns}[t]
-\begin{column}{0.45\linewidth}
-\centering
-\textbf{Les deux repères}\\[3pt]
-\begin{tabular}{@{}l r@{}}
-\toprule
-\textbf{État} & \textbf{SCR} \\
-\midrule
-Conforme (cible DORA) & $6\,049$ \\
-Non conforme & $\mathbf{20\,188}$ \\
-\midrule
-$\Delta_{\text{DORA}}$ & $\mathbf{14\,139}$ \\
-\bottomrule
-\end{tabular}\\[4pt]
-{\scriptsize Soit un facteur $\mathbf{3{,}3}$, à sévérité de base et à échelle inchangées.}
-\end{column}
-\begin{column}{0.52\linewidth}
-\centering
-\textbf{Un canal à la fois}\\[3pt]
-\begin{tabular}{@{}l r r@{}}
-\toprule
-\textbf{Canal} & \textbf{$\Delta$SCR} & \textbf{statut} \\
-\midrule
-Fréquence & $\mathbf{4\,328}$ & calibrable \\
-Accumulation P4 & $1\,728$ & borne \\
-Propagation $W$ & $1\,633$ & borne \\
-Détection P2/P3 & $1\,448$ & calibrable \\
-\midrule
-\textbf{somme} & $9\,138$ & \\
-\bottomrule
-\end{tabular}
-\end{column}
-\end{columns}
-\vspace{1mm}
-\begin{block}{L'écart entre $9\,138$ et $14\,139$ est le résultat, pas un résidu}
-\textbf{$+5\,001$~M\euro{} d'interaction, soit $+35\,\%$} : la cascade est
-\textbf{super-additive}, et c'est mécanique. À queue lourde le quantile est porté par un
-sinistre unique, si bien que relever à la fois la fréquence, la probabilité de franchir le seuil
-et la force de propagation ne produit pas quatre effets qui s'ajoutent mais un effet
-\emph{composé} ; et la contagion transforme des défaillances isolées en choc commun.\\[3pt]
-D'où ce qu'on peut dire et ce qu'on ne peut pas. \textbf{Un forfait plat ne peut pas
-représenter ce mécanisme}, faute d'un canal où l'inscrire. Et \textbf{on n'additionne pas les
-quatre leviers} pour chiffrer une remédiation partielle : c'est justement le résultat.
-\end{block}
-\end{frame}
-
-% =====================================================================
-% SLIDE AJOUTEE APRES LE CALL DU 7 AOUT : demande de la table complete des leviers et de la
-% reconciliation avec le Delta global, puis de l'analyse des effets croises. Le residu de
-% +5 001 M etait imprime sans etre decompose ; il l'est desormais (script 68), et la table des
-% leviers gagne deux colonnes que le deck precedent n'avait pas.
 \begin{frame}{La table complète, et la réconciliation que tu demandais}
 \scriptsize
 Les quatre canaux ouvrent \textbf{seize} configurations, et la décomposition de Möbius sur ce
@@ -362,7 +222,6 @@ le canal fermant aussi ses croisés. C'est cette colonne qu'un plan de remédiat
 {\scriptsize Source : script~\texttt{68}.}
 \end{frame}
 
-% =====================================================================
 \begin{frame}{Les effets croisés : où vivent les \texorpdfstring{$5\,345$}{5345} M\euro}
 \scriptsize
 \begin{center}
@@ -396,13 +255,10 @@ co-occurrence} : les deux canaux bornés ne s'empilent pas.
 {\scriptsize Source : script~\texttt{68}.}
 \end{frame}
 
+
 % =====================================================================
 \section*{C. L'allocation aux cinq piliers}
 
-% TITRE CORRIGE. Il annoncait « la suite des 5 001 M d'interaction », ce qui invitait a lire
-% l'attribution par PILIER comme une decomposition de l'interaction entre CANAUX. Ce sont deux
-% objets distincts : +5 001 M entre les quatre canaux (script 68), +1 395 M entre les cinq
-% piliers (scripts 20 et 20b). Ils ne se somment pas, et le second n'a meme pas un signe resolu.
 \begin{frame}{Shapley et Euler : attribuer le surcoût aux cinq piliers}
 \scriptsize
 \alert{Deux interactions distinctes, à ne pas additionner :} entre les quatre \textbf{canaux}
@@ -442,14 +298,10 @@ pour indicative.
 et~\texttt{67}.}
 \end{frame}
 
+
 % =====================================================================
 \section*{D. Ce que le capital coûte}
 
-% SLIDE AJOUTEE APRES LE CALL DU 7 AOUT : les mots « portage » et « plancher » n'ont pas ete
-% compris, et la relecture montre qu'ils etaient effectivement mal employes. Le memoire ecrivait
-% que le RETOUR (une duree) etait un plancher, alors que ce qui est minore est le BENEFICE :
-% minorer le benefice MAJORE la duree. La borne etait annoncee a l'envers, dans le memoire comme
-% sur la figure J6, et les deux sont corriges.
 \begin{frame}{Portage et plancher, et une borne que j'avais inversée}
 \scriptsize
 \begin{block}{Portage}
@@ -478,133 +330,108 @@ portage tombe à $672$~M\euro/an et le majorant du retour passe à $45$ ans. Rie
 chaîne publiée reste au taux historique, la calibration étant gelée. Source : script~\texttt{50}.}
 \end{frame}
 
-% =====================================================================
-\begin{frame}{Détenir ou transférer}
-\scriptsize
-La dernière fois, nous valorisions le capital libéré \emph{au seul coût de portage}
-($848$~M\euro/an) au taux de $6\,\%$. Le taux est désormais $\mathbf{4{,}75\,\%}$ (directive
-(UE)~2025/2), et le portage se retourne en une \emph{question} : si détenir coûte, vaut-il
-mieux \textbf{transférer} ?
 
-\alert{\textbf{Le SCR d'entité a changé : $488 \to 169$~M\euro.}} Nous lisions la fréquence
-sur les firmes OpRisk à au moins dix événements, dont les actifs médians valent \textbf{dix-neuf
-fois} notre entité, et ce seau est en plus défini par un filtre sur la grandeur qu'on estime.
-$\lambda$ est maintenant estimé comme une \emph{fonction} de la taille et lu à la bonne taille
-($0{,}092$), et la correction de sévérité déjà mesurée est enfin composée. À assumer : la
-coïncidence avec la Formule Standard ($450$) \textbf{ne survit pas}, elle venait du seuil.
-\vspace{2mm}
-\begin{block}{Trois chiffres, et une borne}
-À l'échelle d'entité, détenir coûte $\mathbf{8{,}0}$~M\euro/an contre $3{,}6$ de sinistralité
-attendue, soit $\mathbf{2{,}2}$ fois. Multiple de capital $\mathbf{47}$ à l'entité contre
-$8{,}3$ au secteur. Le traité optimal ($L^\star=\mathrm{SCR}=169$) ramène le coût à $2{,}9$,
-soit $\mathbf{-64\,\%}$. \textbf{Borne supérieure} : il faudrait $\mathbf{78\,\%}$
-d'inefficacité, capacité et contrepartie comprises, pour renverser la conclusion.
+% =====================================================================
+\section*{E. Ce qui porte les chiffres, et ce qui les borne}
+
+\begin{frame}{Ce que chaque proxy capture, et ce qu'il ne capture pas}
+\scriptsize
+Aucune source ne mesure directement ce que le modèle veut : chaque brique repose sur un
+\textbf{proxy}. Le tableau complet est en annexe, quatorze lignes en trois colonnes. Trois
+lectures en sortent, et elles n'apparaissent qu'une fois les proxys mis côte à côte.
+\vspace{1.5mm}
+\begin{block}{1. La colonne de droite n'est pas une liste de regrets}
+Chaque case y est soit traitée ailleurs, soit déclarée comme limite. Ce qui serait fautif n'est
+pas d'avoir des proxys imparfaits, c'est de ne pas savoir lesquels.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{2. Deux proxys se relaient au lieu de se compléter}
+La chronologie de brèches porte les \textbf{dates} mais pas les coûts ; la conversion en montants
+porte les \textbf{coûts} mais pas les dates. Donc \textbf{le coût d'un sinistre daté n'est jamais
+observé, il est toujours reconstruit}. C'est la faiblesse la plus structurelle de la donnée
+disponible, et elle ferme d'un coup toute une classe de questions, dont celle de l'effet du
+regroupement temporel des sinistres.
+\end{block}
+\vspace{-1.5mm}
+% \og/\fg et non les guillemets litteraux : un titre de bloc beamer est en GRAS, fonte ou « et »
+% n'existent pas et sortent en « n » et « z ». Le meme defaut est documente dans le deck du
+% 10 aout. En corps de texte romain ils passent, d'ou les occurrences conservees ailleurs.
+\begin{block}{3. Le mot \og concentration \fg{} désigne deux objets}
+La concentration journalière est \textbf{en coupe}, entre entités. L'accumulation que le modèle
+fait porter au pilier des tiers est \textbf{au sein} d'un incident, entre piliers. Le premier
+calibre le second par \emph{analogie}, non par mesure : c'est une hypothèse à assumer, pas un
+ancrage.
 \end{block}
 \vspace{-1mm}
-{\scriptsize Sources : scripts~\texttt{50}, \texttt{58} et~\texttt{60}.}
+{\scriptsize Sources : scripts~\texttt{08g}, \texttt{53}, \texttt{59} et~\texttt{63}.}
 \end{frame}
 
-% =====================================================================
-% LA FIGURE A SA PROPRE SLIDE, ET ELLE EST CONTRAINTE PAR LA HAUTEUR. S19 est un portrait
-% de ratio 1,29 : posee a 0,60 de la LARGEUR elle mesurait 85 mm de haut pour 74 mm utiles,
-% et le cadre debordait de 188 pt, soit 6,6 cm hors de la slide. Sur un format 4:3 une
-% figure portrait ne peut se dimensionner qu'en hauteur.
-\begin{frame}{Détenir ou transférer, en image}
-\begin{center}
-\includegraphics[height=0.80\textheight]{S19_detenir_ou_transferer.png}
-\end{center}
-\end{frame}
-
-% =====================================================================
-\section*{E. Deux biais enfin chiffrés}
-
-\begin{frame}{Les deux biais que nous déclarions}
+\begin{frame}{Les six postures, enfin définies, et ce qu'elles supportent}
 \scriptsize
-Déclarer un biais ne coûte rien, le mesurer engage. Les deux qu'on nous oppose le plus se
-mesurent \textbf{avec la base elle-même} : elle porte les actifs de la firme sinistrée, et la
-date de saisie en plus de l'année de survenance.
-\begin{center}
-\includegraphics[width=0.83\linewidth]{S20_biais_taille_troncature.png}
-\end{center}
-\vspace{-2mm}
-\begin{block}{Taille : un septième, pas un facteur dix}
-Élasticité brute $0{,}042$ ($R^2=0{,}005$), \emph{aplatie} par le seuil de collecte, une petite
-firme n'entrant qu'avec une perte anormale. Corrigée par maximum de vraisemblance tronqué :
-$\mathbf{0{,}087}$ $[0{,}026;0{,}148]$, soit une sévérité transposée $\times 0{,}86$.
-\end{block}
+La slide de la semaine dernière affichait \textbf{six barres} et n'en expliquait aucune, et deux
+d'entre elles n'étaient citées nulle part dans le mémoire. Voici la grille.
 \vspace{-1mm}
-\begin{block}{Troncature : la baisse après 2022 n'existe pas}
-Délai médian de remontée \textbf{trois ans}. Au chain-ladder, les $97$ événements de
-2023--2025 deviennent $\mathbf{255}$, soit $\mathbf{+163\,\%}$, \emph{au-dessus} de la moyenne
-historique. \emph{Sources : scripts~\texttt{08} et~\texttt{57}.}
-\end{block}
-\end{frame}
-
-% =====================================================================
-\begin{frame}{Le résultat que je n'attendais pas}
-\small
-Les deux corrections vont en sens opposés. Sur la \textbf{perte moyenne}, elles se
-\textbf{compensent presque exactement} :
-\[
-  0{,}861 \times 1{,}147 \;=\; 0{,}987 ,
-\]
-soit un effet net de $1{,}3\,\%$, inférieur à l'incertitude d'estimation de chacune prise
-isolément.
-\vspace{2mm}
-\begin{block}{Sur le capital, elles ne se compensent pas}
-À queue lourde, la VaR $99{,}5\,\%$ obéit au \textbf{principe du grand saut unique} : elle
-répond à la \emph{sévérité} bien plus qu'à la \emph{fréquence}. La correction de taille agit
-sur la sévérité et se transmet donc au quantile ; celle de troncature agit sur la fréquence et
-s'y transmet mal.
-\end{block}
-\vspace{1mm}
-\begin{block}{Ce qu'il faut en retenir}
-\textbf{Deux biais qui s'annulent sur l'espérance peuvent ne pas s'annuler sur le quantile, et
-c'est le quantile qui fait le SCR.} Une compensation constatée en moyenne n'autorise donc pas
-à ignorer les deux biais. \emph{Sources : scripts~\texttt{57} et~\texttt{60}.}
-\end{block}
-\end{frame}
-
-% =====================================================================
-\section*{F. La direction, sur la matrice complète}
-
-\begin{frame}{Corpus élargi, et matrice ordonnée}
-\scriptsize
-Deux objections restaient. Le signal tenait-il au \emph{choix} des sept incidents ? Et le
-codage ne comparait que le \emph{sens} dans une paire, sans rien dire de l'\textbf{amplitude}.
-En déclarant aussi les piliers défaillants \emph{sans} propagation, on obtient le dénominateur
-qui manquait : $p_{jk}\sim\mathrm{Beta}(1+m_{jk},\,1+N_j-m_{jk})$.
-\vspace{-1mm}
-\begin{center}
-\begin{tabular}{@{}l r@{\hskip 1.4em}l r@{}}
+\begin{center}\scriptsize
+\begin{tabular}{@{}l l r r@{}}
 \toprule
-Corpus initial ($7$) & $z=+3{,}93$ & Sources \emph{primaires} seules & $z=+4{,}08$ \\
-\textbf{Étendu} ($10$, $22$ trans.) & $\mathbf{z=+5{,}12}$ & Perspective \emph{entité} seule & $z=+3{,}62$ \\
+\textbf{Posture} & \textbf{Ce qu'elle intègre} & \textbf{VaR} & \textbf{bruit} \\
+\midrule
+Point (\emph{plug-in}) & rien : quantile d'un ajustement ponctuel & $657$ & --- \\
+Prédictive & l'incertitude de paramètre, \emph{avant} le quantile & $645$ & $\pm\,7$ \\
+Robuste $\beta=90\,\%$ & borne haute de la VaR sur l'ambiguïté de paramètre & $939$ & $\pm\,13$ \\
+Robuste $\beta=95\,\%$ & idem, prudence plus élevée & $1\,037$ & $\pm\,9$ \\
+Robuste $\beta=99\,\%$ & idem, et la plus bruitée des six & $1\,247$ & $\pm\,24$ \\
+Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille} ($\xi=0{,}90$) & $1\,331$ & --- \\
 \bottomrule
 \end{tabular}
 \end{center}
-\vspace{1mm}
-\begin{block}{Le résultat est asymétrique, et je le présente comme tel}
-$\mathbf{12}$ liens sur $20$ ont un crédible entièrement \emph{sous} $0{,}5$, \textbf{aucun}
-au-dessus. J'établis très bien \emph{où la contagion ne va pas}, pas où elle va fort. La
-corrélation avec le classeur n'est pas significative ($\rho=+0{,}31$, $p=0{,}19$).
-\textbf{Le corpus établit un ordre, pas une magnitude.}
+\vspace{-1mm}
+\begin{block}{Deux choses que je n'avais pas vues, et une correction}
+\textbf{1.} Les deux \textbf{extrémités} de l'échelle sont \emph{exactes} : le point est le
+quantile d'un ajustement unique, le pire-cas celui d'un $\xi$ posé. Tout le bruit est au milieu,
+donc dans les postures qui intègrent l'incertitude.\\[2pt]
+\textbf{2.} \textbf{La posture la plus prudente est la moins précise} : à $\beta=99\,\%$
+l'écart-type de simulation double. Un percentile à $99\,\%$ d'une loi bootstrap de queue lourde
+s'estime sur bien moins de tirages utiles. Cela n'invalide pas la posture, cela interdit de la
+citer à trois chiffres.\\[2pt]
+\textbf{3.} La prédictive était publiée $648$ au chapitre et $645$ sur la figure. Même
+estimateur, deux tailles de bootstrap, écart de $3$ pour un bruit de $7$ : \textbf{c'était le
+même nombre écrit avec un chiffre de trop}. Toutes les grandeurs simulées de la section sont
+désormais publiées avec leur bruit.
 \end{block}
 \vspace{-1mm}
-{\scriptsize Sources : scripts~\texttt{53}, \texttt{59} et~\texttt{64}.}
+{\scriptsize Sources : scripts~\texttt{46} et~\texttt{51}.}
+\end{frame}
+
+
+% =====================================================================
+\begin{frame}{Deux corrections d'instrument, sur des résultats déjà publiés}
+\scriptsize
+Ni l'une ni l'autre ne renverse une conclusion. Toutes deux en changent la portée, et il vaut
+mieux les dire que les laisser découvrir.
+\vspace{1.5mm}
+\begin{block}{Le tornado comparait des longueurs de barre, pas des sensibilités}
+Son levier \og seuil \fg{} \textbf{n'est pas un levier} : le déplacer réajuste la loi de queue, donc il
+bouge quatre paramètres quand le gain en bouge un. Le seuil \emph{seul} ne pèse que $+320$~M\euro{}
+quand l'indice de queue seul en pèse $-13\,993$, et les composantes \textbf{se compensent}. Lu en
+\textbf{élasticités}, même perturbation relative pour tous, la conclusion tient et devient plus
+forte : propagation $0{,}37$ contre $3{,}79$ pour la queue, un rapport de dix qui ne dépend
+d'aucune convention d'affichage.
+\end{block}
+\vspace{-1.5mm}
+\begin{block}{L'invariance de la dépendance porte sur une espérance, pas sur un quantile}
+La moyenne des VaR conditionnelles vaut $9\,739$~M\euro, le quantile de la loi mélangée
+$10\,643$ : $9{,}3\,\%$ d'écart, et le mémoire dit désormais qu'il publie la première. Sur le
+quantile, le déplacement de $334$~M\euro{} est du même ordre que le bruit de tirage, étendue
+$344$ sur huit graines, et n'est pas monotone. \textbf{L'invariance y est non détectée, pas
+démontrée} : énoncé plus faible, écrit comme tel.
+\end{block}
+\vspace{-1mm}
+{\scriptsize Sources : scripts~\texttt{76} et~\texttt{77}.}
 \end{frame}
 
 % =====================================================================
-% MEME CAUSE, MEME REMEDE QUE POUR S19. Z20 est un portrait de ratio 1,03 : a 0,85 de la
-% largeur elle mesurait 94 mm de haut, et le cadre debordait de 200 pt.
-\begin{frame}{La matrice ordonnée, en image}
-\begin{center}
-\includegraphics[height=0.80\textheight]{Z20_corpus_etendu_pij.png}
-\end{center}
-\end{frame}
-
-% =====================================================================
-\section*{G. La décision sur l'élicitation}
+\section*{F. La décision à acter}
 
 \begin{frame}{Je propose de renoncer à l'élicitation}
 \scriptsize
@@ -648,17 +475,10 @@ $25\,\%$, et les \textbf{ancrages réglementaires} (ESA, BCE) déjà utilisés.
 et~\texttt{59}.}
 \end{frame}
 
-% =====================================================================
-% CINQ NOMBRES DE CETTE SLIDE SONT HORS SCRIPT, ET CHACUN POUR UNE RAISON PROPRE. Le harnais
-% les remonte comme non confirmes, ce qui est correct : ils ne viennent d'aucun calcul.
-%   0,572 : la valeur FAUSSE du rayon spectral, citee ici justement parce qu'elle a ete
-%           corrigee. Aucun script ne l'imprime, et c'est le resultat voulu.
-%   30    : une CIBLE de corpus proposee, pas une mesure.
-%   104, 127, 70 : comptes de pages et recommandation de l'Institut, metadonnees du document.
-% A relire si ce compte de pages bouge : le corps a gagne deux pages le 10 aout avec la table
-% des postures et les deux limites declarees au chapitre 13. Le 12 aout, le total est passe de
-% 126 a 127 avec la table complete des canaux et la reecriture du portage : la page ajoutee est
-% dans l'ANNEXE C, le corps restant a 104. Compte relu sur le PDF (PyMuPDF), pas sur un index.
+% HARNAIS-HORS-SCRIPT: le 0,572 est cite PRECISEMENT parce qu'il est faux, comme la valeur
+% superseded du rayon spectral avant l'alignement du diviseur. Le harnais ne peut pas confirmer
+% une valeur qu'aucun script ne produit plus, et c'est exactement l'information voulue. Le
+% « 30 rapports » est une cible de collecte, et les comptes de pages viennent de main.toc.
 \begin{frame}{L'état du document, et les points bloquants}
 \scriptsize
 \begin{block}{La relecture complète est faite : dix-neuf chapitres, quinze défauts corrigés}
@@ -683,8 +503,8 @@ pointer l'annexe de démonstrations vers le mauvais chapitre.
 \begin{itemize}\itemsep0pt
 \item Porter le corpus de $10$ à $30$ rapports : le registre d'\emph{enforcement} de la FCA
       est public et dense en entités réglementées.
-\item Vérifier le \textbf{format} : $104$ pages de corps et $127$ au total, contre les $\sim70$
-      de corps recommandés par l'Institut.
+\item Trancher le \textbf{format} : $112$ pages de corps, $152$ au total, contre $\sim70$
+      recommandés. Quatre blocs sont compressibles sans perdre de résultat.
 \end{itemize}
 \end{column}
 \end{columns}
