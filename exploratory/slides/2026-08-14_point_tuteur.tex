@@ -406,17 +406,21 @@ ancrage.
 
 \begin{frame}{Les six postures, enfin définies, et ce qu'elles supportent}
 \scriptsize
-La slide de la semaine dernière affichait \textbf{six barres} et n'en expliquait aucune, et deux
-d'entre elles n'étaient citées nulle part dans le mémoire. Voici la grille.
+\textbf{Deux niveaux se superposent}, et c'est tout ce que $\beta$ demande d'expliquer. Le
+$99{,}5\,\%$ porte sur la \emph{perte}, et il est fixé par Solvabilité~II. Le $\beta$ porte sur
+mon \emph{ignorance du paramètre} : on rééchantillonne les excès $3\,000$ fois, chaque tirage
+donne sa propre VaR, et $\beta$ est le quantile de cette loi de la VaR. Donc $\beta=90\,\%$ dit
+\og je couvre le risque d'\textbf{estimation} neuf fois sur dix \fg{} : un choix de politique,
+aucun calcul ne le fournit.
 \vspace{-1mm}
 \begin{center}\scriptsize
 \begin{tabular}{@{}l l r r@{}}
 \toprule
-\textbf{Posture} & \textbf{Ce qu'elle intègre} & \textbf{VaR} & \textbf{bruit} \\
+\textbf{Posture} & \textbf{Ce qu'elle intègre} & \textbf{VaR} (M\euro) & \textbf{bruit} \\
 \midrule
 Point (\emph{plug-in}) & rien : quantile d'un ajustement ponctuel & $657$ & --- \\
 Prédictive & l'incertitude de paramètre, \emph{avant} le quantile & $645$ & $\pm\,7$ \\
-Robuste $\beta=90\,\%$ & borne haute de la VaR sur l'ambiguïté de paramètre & $939$ & $\pm\,13$ \\
+Robuste $\beta=90\,\%$ & borne haute sur l'ambiguïté de paramètre & $939$ & $\pm\,13$ \\
 Robuste $\beta=95\,\%$ & idem, prudence plus élevée & $1\,037$ & $\pm\,9$ \\
 Robuste $\beta=99\,\%$ & idem, et la plus bruitée des six & $1\,247$ & $\pm\,24$ \\
 Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille} ($\xi=0{,}90$) & $1\,331$ & --- \\
@@ -424,18 +428,13 @@ Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille} ($\xi=0{,}90$) &
 \end{tabular}
 \end{center}
 \vspace{-1mm}
-\begin{block}{Deux choses que je n'avais pas vues, et une correction}
+\begin{block}{Deux choses que je n'avais pas vues}
 \textbf{1.} Les deux \textbf{extrémités} de l'échelle sont \emph{exactes} : le point est le
 quantile d'un ajustement unique, le pire-cas celui d'un $\xi$ posé. Tout le bruit est au milieu,
 donc dans les postures qui intègrent l'incertitude.\\[2pt]
 \textbf{2.} \textbf{La posture la plus prudente est la moins précise} : à $\beta=99\,\%$
-l'écart-type de simulation double. Un percentile à $99\,\%$ d'une loi bootstrap de queue lourde
-s'estime sur bien moins de tirages utiles. Cela n'invalide pas la posture, cela interdit de la
-citer à trois chiffres.\\[2pt]
-\textbf{3.} La prédictive était publiée $648$ au chapitre et $645$ sur la figure. Même
-estimateur, deux tailles de bootstrap, écart de $3$ pour un bruit de $7$ : \textbf{c'était le
-même nombre écrit avec un chiffre de trop}. Toutes les grandeurs simulées de la section sont
-désormais publiées avec leur bruit.
+l'écart-type de simulation double, un percentile à $99\,\%$ d'une loi bootstrap de queue lourde
+s'estimant sur bien moins de tirages utiles. Cela interdit de la citer à trois chiffres.
 \end{block}
 \vspace{-1mm}
 {\scriptsize Sources : scripts~\texttt{46} et~\texttt{51}.}
