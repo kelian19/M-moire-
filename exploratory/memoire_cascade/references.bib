@@ -456,15 +456,25 @@
 }
 
 % ---------------------------------------------------------------------------------------
-% A COMPLETER AVANT REMISE : auteurs, titre exact et identifiant arXiv de ce prepublie.
-% Le PDF a ete lu et analyse (aout 2026) mais n'est pas verse au depot, et fabriquer des
-% metadonnees de memoire serait exactement la faute que le reste de ce fichier evite.
+% Metadonnees relevees sur le PDF lui-meme le 17 aout 2026 : bandeau arXiv de la premiere
+% page (arXiv:2608.09456v1 [q-fin.RM] 10 Aug 2026), page de titre et affiliations. Les
+% auteurs n'y figurent qu'en INITIALES, elles sont reprises telles quelles plutot que
+% completees au jugement. Le PDF n'est pas verse au depot (il n'est pas a nous).
 % Tout ce qui est affirme dans le texte porte sur l'ARCHITECTURE du papier, jamais sur ses
 % valeurs : il est entierement synthetique et ses auteurs le declarent.
 % ---------------------------------------------------------------------------------------
+% NB : le style bibliographique est plainnat (natbib + bibtex), qui IGNORE les champs
+% eprint / archivePrefix / primaryClass. L'identifiant arXiv doit donc passer par
+% howpublished pour etre imprime. Les trois champs sont conserves pour une eventuelle
+% migration vers biblatex, ils ne sortent pas aujourd'hui.
 @misc{ccrn2026,
-  author = {{REFERENCE A COMPLETER}},
-  title  = {Climate Cascade Risk Network},
-  year   = {2026},
-  note   = {prepublication arXiv, identifiant a completer}
+  author       = {Karimi, N. and Salavati, E. and Shokrollahi, F.},
+  title        = {Climate-Conditioned Cascade Modeling for Multi-Peril Reinsurance:
+                  Analysis and Controlled Numerical Applications},
+  year         = {2026},
+  howpublished = {Pr{\'e}publication arXiv:2608.09456v1 [q-fin.RM]},
+  note         = {D{\'e}pos{\'e}e le 10 ao{\^u}t 2026},
+  eprint       = {2608.09456},
+  archivePrefix= {arXiv},
+  primaryClass = {q-fin.RM}
 }
