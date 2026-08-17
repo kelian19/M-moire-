@@ -23,8 +23,8 @@ Tout cela est fait depuis. Ce document repart de l'état mesuré, pas de l'état
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
-Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. **A1, A3, B, D et E sont fermés
-depuis le 17 août au soir** ; A2 attend les réponses des collègues et rien d'autre ne le
+Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. **A1, A3, B, C, D et E sont
+fermés depuis le 17 août au soir** ; A2 attend les réponses des collègues et rien d'autre ne le
 débloque.
 
 ---
@@ -93,7 +93,7 @@ pas.** C'est le meilleur rapport valeur sur effort du projet : une section, aucu
 
 </details>
 
-### A2. Le second codage en aveugle — **OUVERT, en attente des collègues**
+### A2. Le second codage en aveugle — **OUVERT, formulaire envoyé, en attente de réponse**
 
 Le seul endroit où le mémoire **annonce une mesure qui n'existe pas encore**. Le kit est prêt,
 dix récits, une heure de travail, et le formulaire est en état d'être envoyé depuis aujourd'hui.
@@ -102,7 +102,7 @@ Le script 54 attend son CSV et ne fabrique rien sans.
 Tant qu'il manque, la direction de W repose sur un codeur unique, ce qui est exactement
 l'objection qu'un jury formulera en premier sur la partie la plus originale du mémoire.
 
-**Délai externe, donc à lancer avant tout le reste.**
+**Délai externe, et il est lancé.** La chaîne à dérouler quand le CSV arrive est en section C.
 
 ### A3. Trancher le chiffre de tête — **FERMÉ**
 
@@ -214,28 +214,39 @@ garantit pas (une part de Shapley n\'est pas une contribution marginale, et pas 
 remédiation puisque deux canaux sont bornés). Et pourquoi aucun échantillonnage n\'est
 nécessaire à cinq piliers.
 
-## C. Envois et relances, à lancer maintenant
+## C. Envois et relances — **FAIT le 17 août 2026**
 
-Rien de ceci ne dépend de moi une fois parti, donc tout passe avant les chantiers de rédaction.
+Les deux formulaires sont créés et diffusés, le mail est parti, le message Teams est posté.
+**Le formulaire Cooke n\'est pas parti**, conformément à la décision : l\'élicitation est
+abandonnée depuis le 12 août, la calibration est gelée, et des réponses ne pourraient pas être
+exploitées. Il reste en annexe comme pièce justificative, ce qu\'il est déjà.
 
-| Quoi | État | Reste |
-| --- | --- | --- |
-| Formulaire **codage en aveugle** | prêt, corrigé le 17 août | créer dans Apps Script, habillage 3 clics |
-| Formulaire **sept phrases** | prêt, corrigé le 17 août | idem, réglages identiques |
-| Formulaire **Cooke** | prêt, **NE PAS ENVOYER** | rien, voir ci-dessous |
-| Mail Benoît Bénéteau et Samuel Cywie | rédigé | vérifier l'orthographe des noms, coller les liens, décider les copies |
-| Message Teams squad cyber | rédigé | poster |
+**Défaut rattrapé juste avant l\'envoi**, et il valait le détour : le formulaire des sept phrases
+posait la question du consentement à citation **deux fois**, avec des jeux d\'options différents,
+quatre choix gradués en tête et trois en fin. Un répondant pouvait donc se contredire sur le seul
+point où il doit être protégé, sans qu\'aucune des deux réponses ne fasse foi. La seconde est
+retirée.
 
-**Le formulaire Cooke ne part pas.** L'élicitation est abandonnée depuis le 12 août, le mémoire
-porte une annexe qui explique pourquoi elle n'a pas été lancée, et la calibration est gelée : des
-réponses ne pourraient pas être exploitées. Faire travailler des actuaires une demi-heure pour
-rien coûte plus cher que ça ne rapporte. Il reste en annexe comme pièce justificative, ce qu'il
-est déjà.
+### Ce que cet envoi change au calendrier
 
-**Défaut corrigé avant envoi.** Le formulaire des sept phrases posait la question du consentement
-à citation **deux fois**, avec des jeux d'options différents (quatre choix gradués en tête, trois
-en fin). Un répondant pouvait se contredire sur le seul point où il doit être protégé. La seconde
-est retirée.
+**L\'horloge n\'est plus la mienne.** Tout ce qui restait sous mon contrôle est fermé (A1, A3, B,
+D, E) ; ce qui reste attend des gens. La conséquence pratique est qu\'il faut prévoir la relance
+plutôt que l\'espérer : sur ce genre de sollicitation, une partie des destinataires ne répondra
+pas, et **il ne faut qu\'un seul second codeur** pour débloquer A2.
+
+### Quand les réponses arrivent, la chaîne à dérouler
+
+À écrire ici parce que c\'est le moment où l\'on oublie une étape.
+
+1. **Codage en aveugle** : verser le CSV au format du gabarit gabarit_second_codeur.csv, lancer
+   le script 54, qui ne fabrique rien sans donnée. Il rend le coefficient d\'accord inter-juges.
+2. Porter ce coefficient au chapitre d\'identifiabilité, **avec son intervalle**, et rattacher la
+   section au script 54. C\'est ce qui ferme A2 : la direction de W cesse de reposer sur un
+   codeur unique.
+3. **Sept phrases** : les désaccords se citent en premier, sous la forme que chaque répondant a
+   choisie. Si la phrase 3 ou la 4 est contredite par une expérience de terrain, c\'est le modèle
+   qui bouge, pas la citation qu\'on aménage.
+4. Repasser le harnais sur le chapitre touché, et vérifier la couverture avant le taux.
 
 ---
 
