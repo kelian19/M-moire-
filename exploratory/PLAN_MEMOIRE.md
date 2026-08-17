@@ -12,19 +12,19 @@ Tout cela est fait depuis. Ce document repart de l'état mesuré, pas de l'état
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **119 p.** | première page d'annexe moins une, dans `main.toc` |
-| Document complet | **165 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **121 p.** | première page d'annexe moins une, dans `main.toc` |
+| Document complet | **167 p.** | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
 | Scripts de calcul | 98 | `vasicek_lab/*/*.py` |
 | Sorties versionnées | 95 | `sorties_verif/NN.txt` |
 | Scripts cités par le mémoire | **82** | le reste est du travail deja porte autrement |
-| Nombres publiés sous contrôle | 1 961 | harnais, tous chapitres |
-| Confirmation | 98,7 % | 1 935 confirmés |
+| Nombres publiés sous contrôle | 1 964 | harnais, tous chapitres |
+| Confirmation | 99,9 % | 1 963 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
-Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. **A1, A3 et toute la section B sont
-fermés depuis le 17 août au soir** ; A2 attend les réponses des collègues et rien d'autre ne le
+Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. **A1, A3, B, D et E sont fermés
+depuis le 17 août au soir** ; A2 attend les réponses des collègues et rien d'autre ne le
 débloque.
 
 ---
@@ -256,10 +256,90 @@ est retirée.
 
 ---
 
-## E. Décisions en attente
+## E. Les cinq décisions, tranchées le 17 août 2026
 
-| Décision | Qui tranche | Note |
-| --- | --- | --- |
+Prises en jugement de modélisation, chacune avec son motif écrit dans le mémoire et son critère
+de réouverture. Aucune ne déplace une calibration.
+
+### E1. Posture reportée : le **plug-in avec sa bande**
+
+La robuste reste publiée comme axe prudentiel déclaré. Trois raisons, de natures différentes.
+
+1. **Réglementaire, et elle vient en premier.** Le régime définit le SCR comme une VaR à 99,5 %
+   de la variation des fonds propres. Une borne haute sur un ensemble d\'ambiguïté est un
+   *supremum sur une famille de lois*, pas un quantile de la loi de perte : la substituer répond
+   à une autre question. Le risque d\'estimation se traite par la validation et le récit ORSA,
+   non en gonflant le quantile, sinon la même logique appliquée à chaque module empilerait des
+   marges dont le niveau de confiance global ne serait plus énonçable.
+2. **Une mesure, et c\'est elle qui rend le choix confortable.** La prédictive, théoriquement
+   préférable, vaut 645 contre 657 pour le plug-in, soit deux fois le bruit. **La bonne réponse
+   ne déplace pas le point.** La reporter échangerait un nombre publié partout contre un nombre
+   indiscernable, au prix de la piste d\'audit. L\'écart passe à +4 % à 99,9 % : c\'est en
+   profondeur de queue, non au niveau réglementaire, que la posture compterait.
+3. **La précision, et elle va contre l\'intuition.** Les postures robustes sont les moins
+   reproductibles des six (± 13, ± 9, ± 24) quand les deux extrémités n\'ont aucun bruit.
+   Reporter la valeur la moins précise contredirait la convention du mémoire.
+
+**Ce que la décision ne dit pas.** La robuste est le bon nombre pour un *autre* usage :
+dimensionner une couverture est une décision sous ambiguïté, où l\'on veut la borne haute.
+**Réouverture** si l\'écart prédictive / plug-in dépassait durablement quelques unités de bruit
+au niveau réglementaire, ou si l\'objet passait du capital reporté à une décision sous ambiguïté.
+
+Écrit au chapitre 13, sous-section « La posture retenue ».
+
+### E2. Niveau de l\'intervalle : **90 % reste le niveau reporté**
+
+Et c\'est une correction, pas seulement une décision : l\'annexe **se contredisait**. Son
+ouverture annonçait « le choix retenu est désormais 95 % » quand sa conclusion, deux pages plus
+bas, gardait 90 % avec trois motifs. L\'ouverture est corrigée.
+
+**L\'argument décisif est mesuré et il tue l\'idée de relever le nominal.** La couverture réelle
+vaut 86,8 ± 0,8 % pour un niveau annoncé de 90, et 91,8 ± 0,6 % pour un niveau annoncé de 95 :
+**le manque est le même, −3,2 points dans les deux cas.** Passer à 95 % ne répare rien, cela
+déplace l\'annonce sans corriger l\'estimateur. Et la constance du déficit en points désigne la
+cause, un écart-type asymptotique trop petit à 91 excès, propriété connue des intervalles GPD à
+petit échantillon.
+
+Le 95 % reste publié comme alternative chiffrée, avec le fait que l\'élargissement du capital est
+**très asymétrique** : la borne basse ne descend que de 315 M€ quand la haute monte de 7 790.
+
+### E3. La CTE en diagnostic : **déjà fait**, la liste de Caroline est vidée
+
+Le plan la donnait comme le seul point non traité. C\'est faux : l\'annexe D porte la table
+complète (CTE à 95, 99 et 99,5 %) et surtout le nombre qui rend les deux conventions
+comparables, **CTE_β = VaR 99,5 % pour β = 97,73 %**. Une CTE à 95 % vaut 5 734 M€ contre 8 374 :
+rapportée comme capital elle serait **moins** prudente que l\'exigence, dans un rapport de 1,46.
+La réserve d\'existence tient, la mesure n\'étant pas définie sous PRC.
+
+### E4. GBASE / G_BASE : **on ne renomme pas**, on rend la confusion impossible à commettre
+
+Vingt-sept fichiers sur un pipeline gelé, pour un problème de nommage : mauvais rapport risque
+sur gain. Et surtout **une substitution sémantiquement fausse mais numériquement valide ne serait
+rattrapée par aucun contrôle**, le harnais vérifiant que les nombres sortent des scripts et non
+qu\'ils veulent dire ce qu\'on croit.
+
+Ce qui remplace le renommage, dans le script 63 : les deux constantes imprimées côte à côte avec
+leur nature, leur unité et leur module, plus **deux assertions** garantissant que le gain reste un
+scalaire, l\'échelon une table par pilier, et que le premier ne prend aucune valeur de la seconde.
+C\'est le seul point où la substitution pouvait passer inaperçue. Même pattern que pour p_u :
+déclarer et garder plutôt que déplacer.
+
+### E5. Ancrage des valeurs de g sur ACPR ou EIOPA : **non, et c\'est une décision**
+
+Le motif n\'est pas la disponibilité mais la **nature** de ce que ces sources publient : des
+attentes prudentielles et des échelles de maturité, jamais des probabilités de propagation entre
+domaines de contrôle. Passer des unes aux autres demanderait une **seconde correspondance posée**,
+et le résultat serait pire que la valeur posée d\'aujourd\'hui : il aurait l\'apparence d\'un
+calibrage sans en être un.
+
+**Et l\'invariance rend l\'ancrage sans objet.** Le capital étant croissant en g, un ancrage
+n\'achèterait que l\'amplitude, soit exactement la part déjà déclarée comme un scénario. Même
+arbitrage que celui qui a écarté l\'élicitation : une source faiblement calibrée introduit une
+incertitude **non déclarable** en échange d\'une ignorance mesurée.
+
+**Le format est tranché en faveur de Kélian.** Hugo a dit de ne pas se contraindre.
+
+--- | --- | --- |
 | Posture reportée : plug-in, prédictive ou robuste | Kélian avec Caroline | la grille existe, table des six postures avec leur bruit. Le robuste 95 % multiplierait le capital par 1,6 |
 | Niveau de l'intervalle reporté, 90 ou 95 % | Kélian | ne déplacerait aucune calibration, seulement les bornes publiées et le facteur 2,5. À chiffrer avant de décider |
 | CTE à 95 % en diagnostic à côté de la VaR | Kélian | **seul point de la liste de Caroline non traité** |

@@ -143,6 +143,67 @@ print("  versionne dans data/raw/ : ces valeurs sont une citation enregistree, p
 print("  sortie recalculable (cf. script 62). Elles ne servent qu'a fixer les parts de")
 print("  repartition par vecteur, et ne portent aucun niveau de capital.")
 
+titre("Deux constantes homonymes, et le garde-fou qui remplace un renommage")
+# DECISION DU 17 AOUT 2026 : ON NE RENOMME PAS, ON REND LA CONFUSION IMPOSSIBLE A COMMETTRE.
+# Le projet porte deux constantes dont les noms ne differ ent que par un tiret bas et qui
+# n'ont AUCUN rapport :
+#   G_BASE  = gain de propagation g, sans dimension, 0,90 en cas de base (scr_engine,
+#             euro_cascade_model). Il mesure une CRITICITE de propagation.
+#   GBASE   = echelon de severite par pilier, ordinal, chaque echelon doublant la mediane
+#             (cascade_model, severite_model). Il indexe une ECHELLE, jamais un montant.
+# Le second est documente avec le mot « gravite », ce qui est le terme consacre de l'AMDEC
+# mais rend la collision d'autant plus facile a commettre.
+#
+# POURQUOI PAS DE RENOMMAGE. Il touche vingt-sept fichiers sur un pipeline GELE. Une
+# substitution semantiquement fausse mais numeriquement valide ne serait rattrapee par aucun
+# controle : le harnais verifie que les nombres publies sortent des scripts, pas qu'ils
+# veulent dire ce qu'on croit. Le rapport risque sur gain est donc mauvais, et c'est
+# exactement la situation ou le projet a deja choisi de DECLARER plutot que de corriger,
+# comme pour p_u.
+#
+# CE QUI REMPLACE LE RENOMMAGE. Les deux constantes sont imprimees ICI, cote a cote, avec
+# leur nature, leur unite et leur module, a chaque execution. Une assertion garantit qu'elles
+# ne peuvent pas devenir egales par accident, ce qui est le seul cas ou une substitution
+# passerait inapercue. La distinction est en outre verrouillee dans la table des notations du
+# memoire, l'entree g portant « mesure une criticite, jamais un montant ».
+_HOMONYMES = []
+try:
+    import importlib
+    _lab = os.path.join(REPO, "exploratory", "vasicek_lab")
+    _qual = os.path.join(REPO, "exploratory", "cascade_qualitative")
+    for _p in (_lab, _qual):
+        if _p not in sys.path:
+            sys.path.insert(0, _p)
+    _eng = importlib.import_module("scr_engine")
+    _cas = importlib.import_module("cascade_model")
+    _HOMONYMES = [
+        ("G_BASE", _eng.G_BASE, "sans dimension", "gain de propagation g, cas de base",
+         "scr_engine, euro_cascade_model"),
+        ("GBASE", _cas.GBASE, "ordinal", "echelon de severite par pilier",
+         "cascade_model, severite_model"),
+    ]
+except Exception as _exc:                                     # pragma: no cover
+    print(f"  Modules indisponibles depuis ce poste ({_exc.__class__.__name__}) :")
+    print("  le garde-fou est saute, la declaration ci-dessus reste valable.")
+
+if _HOMONYMES:
+    print(f"  {'nom':<10}{'valeur':>26}{'unite':>18}  {'ce que c est'}")
+    for _nom, _val, _unite, _sens, _mod in _HOMONYMES:
+        _aff = _val if not isinstance(_val, dict) else \
+            "{" + ", ".join(f"P{k}:{v}" for k, v in sorted(_val.items())) + "}"
+        print(f"  {_nom:<10}{str(_aff):>26}{_unite:>18}  {_sens}")
+        print(f"  {'':<10}{'':>26}{'':>18}  defini dans {_mod}")
+    _g = _HOMONYMES[0][1]
+    _ech = _HOMONYMES[1][1]
+    assert isinstance(_g, float) and isinstance(_ech, dict), \
+        "G_BASE doit rester un scalaire et GBASE une table par pilier"
+    assert _g not in set(_ech.values()), \
+        "COLLISION : le gain de propagation a pris une valeur d'echelon de severite"
+    print("\n  CONTROLE : le gain est un scalaire, l'echelon une table par pilier, et le")
+    print("  premier ne prend aucune des valeurs de la seconde. Une substitution de l'un par")
+    print("  l'autre serait donc detectee ici, ce qui est le seul point ou elle pouvait passer.")
+    print("  Ce garde-fou ne remplace pas un renommage, il rend son absence sans consequence.")
+
 titre("ENISA Threat Landscape : CITATION EXTERNE, non recalculable")
 # TROISIEME SOURCE AU MEME STATUT QUE HACKMAGEDDON. Le chapitre donnees confronte les parts par
 # vecteur de Hackmageddon a une source independante, le rapport de l'agence europeenne, et cite

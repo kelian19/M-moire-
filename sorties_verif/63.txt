@@ -99,6 +99,20 @@ Hackmageddon : CITATION EXTERNE, non recalculable
   repartition par vecteur, et ne portent aucun niveau de capital.
 
 ====================================================================================
+Deux constantes homonymes, et le garde-fou qui remplace un renommage
+====================================================================================
+  nom                           valeur             unite  ce que c est
+  G_BASE                           0.9    sans dimension  gain de propagation g, cas de base
+                                                          defini dans scr_engine, euro_cascade_model
+  GBASE     {P1:6, P2:4, P3:3, P4:7, P5:1}           ordinal  echelon de severite par pilier
+                                                          defini dans cascade_model, severite_model
+
+  CONTROLE : le gain est un scalaire, l'echelon une table par pilier, et le
+  premier ne prend aucune des valeurs de la seconde. Une substitution de l'un par
+  l'autre serait donc detectee ici, ce qui est le seul point ou elle pouvait passer.
+  Ce garde-fou ne remplace pas un renommage, il rend son absence sans consequence.
+
+====================================================================================
 ENISA Threat Landscape : CITATION EXTERNE, non recalculable
 ====================================================================================
   source    : ENISA Threat Landscape 2025, Agence de l'Union europeenne pour la cybersecurite

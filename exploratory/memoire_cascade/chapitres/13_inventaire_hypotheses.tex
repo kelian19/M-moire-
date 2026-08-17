@@ -372,6 +372,56 @@ prudentielle, non du calcul. L'essentiel est de ne jamais reporter le seul \emph
 SCR se cite avec sa bande, ou par un point qui assume l'incertitude, jamais nu.
 \end{cle}
 
+\subsection*{La posture retenue, et les trois raisons de ce choix}
+\label{sec:posture-retenue}
+
+\noindent Chiffres de cette sous-section : scripts~\texttt{46} (VaR prédictive et sa précision)
+et~\texttt{51} (échelle des six postures et bruit de simulation de chacune).
+
+Le paragraphe qui précède donne la grille ; il faut maintenant trancher, sans quoi le mémoire
+laisserait son résultat central sans convention de report. \textbf{La posture retenue est le
+\emph{plug-in} accompagné de sa bande}, la robuste restant publiée comme axe prudentiel déclaré.
+Trois raisons convergent, et elles ne sont pas de même nature.
+
+\textbf{La première est réglementaire, et elle vient en premier.} Le régime applicable définit le
+capital de solvabilité requis comme une valeur en risque à $99{,}5\,\%$ de la variation des fonds
+propres à un an. Une borne haute prise sur un ensemble d'ambiguïté n'est pas un quantile de la loi
+de perte : c'est un supremum sur une famille de lois. La substituer répondrait à une autre question
+que celle posée. Le risque d'estimation se traite dans le régime par la validation du modèle et par
+le récit de l'ORSA, non en gonflant le quantile, et pour une raison de cohérence d'ensemble :
+appliquée à chaque module, la même logique empilerait des marges dont le niveau de confiance global
+ne serait plus énonçable.
+
+\textbf{La deuxième est une mesure, et c'est elle qui rend le choix confortable.} La prédictive,
+qui est la réponse théoriquement préférable puisqu'elle intègre l'incertitude \emph{avant} le
+quantile, vaut $645$~M\euro{} contre $657$ pour le \emph{plug-in}, soit un écart de deux fois le
+bruit de simulation. \textbf{La bonne réponse ne déplace donc pas le point.} Reporter la
+prédictive remplacerait un nombre publié partout par un nombre indiscernable, au prix de la piste
+d'audit et contre le gel de la calibration : le gain serait nul et le coût réel. Cette
+coïncidence n'est pas générale et il faut dire où elle cesse, l'écart passant à $+4\,\%$ à
+$99{,}9\,\%$ : c'est en profondeur de queue, non au niveau réglementaire, que le choix de posture
+commencerait à compter.
+
+\textbf{La troisième est une question de précision, et elle va contre l'intuition.} Les postures
+robustes sont les moins reproductibles des six, avec des écarts-types de simulation de $13$, $9$
+et $24$~M\euro{} quand les deux extrémités de l'échelle n'en portent aucun. Reporter comme chiffre
+de tête la valeur la moins précise contredirait la convention que ce mémoire s'impose par ailleurs,
+à savoir que toute grandeur simulée se publie avec son bruit.
+
+\begin{attention}
+\textbf{Ce que cette décision ne dit pas.} La robuste n'est pas écartée : elle reste publiée, et
+elle est le bon nombre pour un \emph{autre} usage. Dimensionner une couverture ou fixer une limite
+de rétention est une décision sous ambiguïté, où l'on veut précisément la borne haute et non le
+quantile central ; le \S\ref{sec:detenir-transferer} en est l'exemple. Une même grandeur peut donc
+être reportée sous une convention et utilisée sous une autre, à condition de dire laquelle et
+pourquoi, ce qui est fait ici.
+
+\textbf{Et ce qui ferait rouvrir la décision}, énoncé d'avance pour qu'elle ne dépende pas d'une
+préférence : un écart prédictive contre \emph{plug-in} qui dépasserait durablement quelques unités
+de bruit au niveau réglementaire, ou un déplacement de l'objet du travail, du capital
+\emph{reporté} vers une décision sous ambiguïté. Aucun des deux n'est le cas aujourd'hui.
+\end{attention}
+
 \section{Un défaut de calibration, chiffré plutôt que corrigé}
 \label{sec:pu-coherence}
 
