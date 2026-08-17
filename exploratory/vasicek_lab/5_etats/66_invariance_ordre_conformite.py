@@ -255,16 +255,21 @@ print("   avant l'invariance d'ordre, qui est le resultat solide.")
 # =====================================================================================
 titre("Figure")
 # =====================================================================================
+# CHARTE NEXIALOG, 17 AOUT 2026. Les couleurs ne sont plus codees en dur ici : elles
+# viennent de style_nexialog, source unique du projet. Trois series -> les TROIS slots
+# categoriels valides du module, ni plus (un quatrieme echoue le plancher de vision
+# normale) ni recycles. La famille de police reste celle du script, voir l'en-tete du
+# module : elle garantit la parite a l'octet entre le PC et le Mac.
+import style_nexialog as nx                                       # noqa: E402
+
+nx.appliquer(taille=10.5)
 mpl.rcParams.update({
-    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10.5,
-    "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"],
+    "axes.grid": False,                    # choix propre a ce script, conserve
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
-LEG = dict(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5)
+INK, INK2, MUTED = nx.ENCRE, nx.ENCRE_2, nx.ENCRE_3
+ACCENT, BLUE, GREEN = nx.CATEGORIEL[0], nx.CATEGORIEL[2], nx.CATEGORIEL[1]
+LEG = dict(frameon=True, facecolor=nx.FOND, edgecolor="none", framealpha=0.88, fontsize=8.5)
 
 fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 10.4))
 
