@@ -12,19 +12,20 @@ Tout cela est fait depuis. Ce document repart de l'état mesuré, pas de l'état
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **118 p.** | première page d'annexe moins une, dans `main.toc` |
-| Document complet | **163 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **119 p.** | première page d'annexe moins une, dans `main.toc` |
+| Document complet | **165 p.** | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
-| Scripts de calcul | 97 | `vasicek_lab/*/*.py` |
-| Sorties versionnées | 93 | `sorties_verif/NN.txt` |
-| Scripts cités par le mémoire | **79** | le reste est du travail non publié, voir A1 |
-| Nombres publiés sous contrôle | 1 950 | harnais, tous chapitres |
-| Confirmation | 98,3 % | 1 916 confirmés |
+| Scripts de calcul | 98 | `vasicek_lab/*/*.py` |
+| Sorties versionnées | 95 | `sorties_verif/NN.txt` |
+| Scripts cités par le mémoire | **82** | le reste est du travail deja porte autrement |
+| Nombres publiés sous contrôle | 1 961 | harnais, tous chapitres |
+| Confirmation | 98,7 % | 1 935 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
-Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. **A1 et A3 sont fermés
-depuis le 17 août au soir** ; A2 attend les réponses des collègues et rien d'autre ne le débloque.
+Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. **A1, A3 et toute la section B sont
+fermés depuis le 17 août au soir** ; A2 attend les réponses des collègues et rien d'autre ne le
+débloque.
 
 ---
 
@@ -148,65 +149,70 @@ définition. **Ne pas remplacer un de ces chiffres par un autre sans avoir tranc
 
 ---
 
-## B. Nouvelles tâches, sorties de cette semaine
+## B. Nouvelles tâches de la semaine — **TOUTES FERMÉES le 17 août 2026 au soir**
 
-### B1. Le désaccord avec le préprint climatique, non écrit
+### B1. Le désaccord avec le préprint climatique — FERMÉ
 
-Le mémoire cite ce préprint **quatre fois, toujours comme convergent**, et jamais sur le point
-où les deux travaux s'opposent. Leur ablation donne la propagation dirigée comme brique la plus
-lourde (VaR de 3,767 à 1,738 milliards) ; la nôtre donne la queue à −76 % et la propagation à
-−20 %. Leur tornado met la probabilité d'arête en tête ; le nôtre met l'indice de queue dix fois
-devant la propagation.
+Écrit au chapitre 12, dans la section de sensibilité, avec sa table de comparaison et son
+explication. Leur brique la plus lourde est la propagation dirigée (VaR de 3,767 à 1,738
+milliards, soit −53,9 %), la nôtre est la queue (−76 %) ; leur tornado met la probabilité
+d\'arête en tête, le nôtre l\'indice de queue dix fois devant la propagation.
 
-**La cause est identifiable et elle joue en notre faveur** : leur sévérité est bornée (réponse
-bornée, perte plafonnée, multiplicateurs lognormaux d'écart-type logarithmique 0,10 et 0,15),
-la nôtre est une GPD à variance infinie. Une queue bornée ne peut pas dominer. Donc le préprint
-se cite sur le **protocole**, jamais sur l'**ordre du résultat**, qui est gouverné par l'indice
-de queue. C'est déjà écrit pour l'échelle des quantiles, il faut l'étendre aux leviers.
+**La cause est identifiable dans leur propre texte** : leur sévérité est bornée, donc elle
+n\'a pas d\'indice de queue, et leur ablation ne contient aucune brique de queue. Les deux
+classements sont corrects chacun dans son modèle. Conséquence de citation : le préprint se
+cite sur le **protocole**, jamais sur l\'**ordre** d\'un résultat en queue.
 
-Un lecteur qui trouve la divergence tout seul en conclut qu'on a retenu ce qui arrangeait.
+Leurs chiffres sont enregistrés sous le statut de **citation externe, non recalculable** et
+imprimés par le script 63, au même titre que Hackmageddon. Le fichier config.py n\'a pas été
+touché.
 
-### B2. Le théorème du coin supérieur, non repris (optionnel)
+### B2. Le théorème du coin supérieur — FERMÉ, et il ne transporte qu\'à moitié
 
-C'est la moitié analytique de leur papier et elle est absente : sous statique comparative
-monotone et à aléas communs, le maximum sur un **pavé** de stress est atteint **au coin
-supérieur**, trajectoire par trajectoire. Nous avons déjà l'ingrédient, le script 66 démontrant
-que le capital est croissant en g. Cela transformerait l'état non conforme d'un scénario posé en
-un coin supérieur démontré. Leurs remarques 2.7 et 2.8 fournissent les garde-fous, dont un
-contre-exemple où le coin est infaisable.
+Nouveau **script 88**. Trois résultats, et le deuxième n\'était pas prévu.
 
-Chantier plus lourd que les autres, à décider séparément. Aucun conflit avec le gel.
+1. **Le coin supérieur est démontré au sens du quantile.** Sur les 65 paires emboîtées des
+   seize configurations, relâcher un canal de plus ne fait **jamais** baisser le capital,
+   graine par graine. L\'état non conforme est donc le maximum du pavé, et un test de
+   résistance sur les quatre canaux se réduit à une seule évaluation. Contrôle exact aux deux
+   coins : 6 049 et 20 188.
+2. **La version trajectorielle du préprint ne transporte pas**, et le motif diffère selon le
+   canal. À aléas communs, la perte d\'une année baisse dans 16,2 % des cas quand on relâche la
+   propagation et dans **30,7 %** quand on relâche la détection. Pour la propagation, la table
+   des sous-ensembles n\'est pas ordonnée par inclusion ; pour la détection, qui viole le plus,
+   p_u entre dans la **transformation de sévérité** et non dans une table, ce qui n\'a rien à
+   voir avec la cascade. L\'obtenir demanderait un couplage monotone, donc d\'autres tirages :
+   recalibration, le gel l\'interdit, et le gain serait un renforcement d\'énoncé sans
+   déplacement de conclusion.
+3. **Un coin peut être infaisable**, et c\'est le garde-fou qui compte. Deux canaux sur quatre
+   sont des bornes posées : rien ne garantit qu\'une entité présente les quatre au maximum
+   simultanément. Le coin est donc un **majorant sur un pavé déclaré**, pas la description
+   d\'une entité, ce qui est exactement le statut déjà donné à l\'état non conforme.
 
-### B3. Le contrôle « 0 référence indéfinie » ne teste rien
+Écrit à l\'annexe C, après l\'identité de Möbius.
 
-**Découvert le 17 août, et ce n'est pas anecdotique.** Le contrôle se lit en cherchant le mot
-dans la sortie de tectonic, or **tectonic n'émet aucun avertissement** pour une référence non
-résolue avec cette invocation. Le contrôle passait à vide, probablement depuis le début.
+### B3. Le contrôle « 0 référence indéfinie » — FERMÉ
 
-Il avait laissé passer cinq `\ref{chap:etat-art}` pointant vers un label inexistant, soit
-« cité au chapitre ?? » cinq fois dans le PDF, pages 50, 73, 88, 104 et 110. Corrigé.
+Remplacé dans CLAUDE.md par le comptage des ?? dans le PDF produit, avec l\'explication
+(tectonic n\'émet aucun avertissement, le grep passait à vide). Les cinq renvois cassés qu\'il
+avait laissés passer sont corrigés. Une note sur les **ligatures** est ajoutée au passage :
+chercher « vérification » dans le texte du PDF échoue parce que le i sort en U+FB01.
 
-**À faire : remplacer le contrôle par le comptage des `??` dans le PDF produit**, et l'inscrire
-dans `CLAUDE.md` à la place de l'ancien.
+### B4. La sortie du script 35 — FERMÉ
 
-### B4. Versionner la sortie du script 35
+Relancée sur ce PC, où Data_Breach_Chronology.xlsx est présent, et versionnée. **Le chapitre
+09 passe de 95,5 à 100 % de confirmation** : les huit nombres de l\'étude d\'événement MOVEit
+étaient les seuls non confirmés. La phrase du mémoire qui annonçait que sa sortie n\'était pas
+versionnée est corrigée, et la section cite désormais le script.
 
-Le mémoire cite le script 35 (étude d'événement MOVEit, chapitre identifiabilité) et **sa sortie
-n'est pas versionnée** : c'est le seul script cité sans sortie. Ses huit nombres sont donc non
-confirmés.
+### B5. La preuve d\'efficience de Shapley — FERMÉ
 
-Le fichier qu'il exige, `Data_Breach_Chronology.xlsx`, **est présent sur ce PC** (107 Mo, dans
-`data/raw`, gitignoré). C'est donc faisable tout de suite, contrairement à ce que note encore
-`CLAUDE.md`, qui décrit la situation du Mac.
-
-### B5. La preuve d'efficience de Shapley en annexe (optionnel)
-
-Le mémoire **affirme** la propriété d'efficience sans la démontrer. Elle tient en deux pages à
-partir de la réécriture du poids `(1/n) x C(n-1,s)^(-1) = (n-s-1)! s! / n!`. Les six références
-sont désormais dans la bibliographie. L'arbitrage de format étant tranché en notre faveur, rien
-ne s'y oppose.
-
----
+Écrite à l\'annexe des démonstrations de la cascade, par la réécriture du poids et l\'argument
+télescopique sur les permutations. Avec deux paragraphes de portée : ce que l\'efficience
+garantit (une partition exacte, quel que soit le signe de l\'interaction) et ce qu\'elle ne
+garantit pas (une part de Shapley n\'est pas une contribution marginale, et pas un budget de
+remédiation puisque deux canaux sont bornés). Et pourquoi aucun échantillonnage n\'est
+nécessaire à cinq piliers.
 
 ## C. Envois et relances, à lancer maintenant
 

@@ -9,10 +9,10 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au **17 août 2026** : **corps jusqu'à la page 118, annexes à partir de la 119, 163 pages au
+État au **17 août 2026** : **corps jusqu'à la page 119, annexes à partir de la 120, 165 pages au
 total**, branche `exploratory`. Les comptes de ce fichier se périment en deux jours : lire
-`main.toc` plutôt que cette ligne en cas de doute. Harnais au 17 août : **1 950 nombres,
-1 916 confirmés, 98,3 %**, et **0 hors contrôle non déclaré sur les dix-neuf chapitres**. Ce
+`main.toc` plutôt que cette ligne en cas de doute. Harnais au 17 août : **1 961 nombres,
+1 935 confirmés, 98,7 %**, et **0 hors contrôle non déclaré sur les dix-neuf chapitres**. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
 passe en premier.
@@ -297,6 +297,8 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 84 | l'origine de la largeur des intervalles. Le **±708 est du Monte-Carlo**, réductible par le calcul (pente −0,60) ; l'IC90 de ξ imprime **dix fois plus** sur la même grandeur. Et le 1 739 vient de 4 graines quand le 708 vient de 16 |
 | 85 | **équivalence observationnelle Hawkes/cascade**. Une cascade SANS auto-excitation donne n = 0,480 au jour contre 0,551 mesuré : le ratio observé ne prouve rien. Dégrader la résolution FAIT MONTER n (opération inverse de celle du 08h) |
 | 86 | plafond et saturation mesurés **conjointement**. Le plafond est un **AMORTISSEUR** et non un contrepoids : l'interaction change de signe à θ = 1. Aucune crête de compensation, les deux réserves sont hiérarchisées et non confondues |
+| 88 | le **coin supérieur** du pavé des quatre canaux. Sur les 65 paires emboîtées, relâcher un canal ne fait **jamais** baisser le capital, graine par graine : l'état non conforme est le maximum, donc un test de résistance se réduit à une évaluation. **Mais la version TRAJECTORIELLE du préprint ne transporte pas** : à aléas communs la perte d'une année baisse dans 16,2 % des cas sur la propagation et **30,7 % sur la détection**, qui viole le plus pour une raison étrangère à la cascade (p_u entre dans la transformation de sévérité, pas dans une table). Et le garde-fou qui compte : **un coin peut être infaisable**, deux canaux sur quatre étant des bornes posées |
+| 35 | étude d'événement MOVEit, différence de différences, placebo et bootstrap. **Sa sortie est versionnée depuis le 17 août** : elle exige `Data_Breach_Chronology.xlsx`, présent sur le PC et absent du Mac. Le chapitre 09 est passé de 95,5 à 100 % grâce à elle |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59

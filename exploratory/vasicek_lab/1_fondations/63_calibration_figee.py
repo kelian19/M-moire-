@@ -143,6 +143,75 @@ print("  versionne dans data/raw/ : ces valeurs sont une citation enregistree, p
 print("  sortie recalculable (cf. script 62). Elles ne servent qu'a fixer les parts de")
 print("  repartition par vecteur, et ne portent aucun niveau de capital.")
 
+titre("Preprint de cascade climatique : CITATION EXTERNE, non recalculable")
+# MEME STATUT QUE HACKMAGEDDON, ET POUR LA MEME RAISON. Le memoire compare desormais son
+# CLASSEMENT DES LEVIERS a celui de ce prepublie, et cette comparaison exige de citer ses
+# nombres. Ils ne sont reproductibles par aucun script du projet : le papier tourne sur son
+# propre moteur, ses parametres sont synthetiques et ses auteurs le declarent. Les enregistrer
+# ici les rend VERIFIABLES CONTRE LA SOURCE, ce qui est tout ce qu'on peut garantir, et les
+# sort de la zone ou un chiffre recopie a la main n'est controle par personne.
+#
+# CES VALEURS NE SERVENT QU'A UNE COMPARAISON DE CLASSEMENT. Aucune n'entre dans un calcul du
+# memoire, aucune ne porte un niveau de capital, et le papier n'est pas cite comme repere
+# empirique : il est SYNTHETIQUE.
+CCRN = {
+    "source": "Karimi, Salavati, Shokrollahi, arXiv:2608.09456v1 [q-fin.RM], 10 aout 2026",
+    "statut": "prepublication, etude numerique entierement SYNTHETIQUE (declare par les auteurs)",
+    # Table 11 du papier : ablation structurelle, VaR 99,5 % de la charge annuelle brute,
+    # en milliards de dollars.
+    "ablation_var995_mdUSD": {
+        "CCRN complet": 3.767,
+        "sans propagation dirigee": 1.738,
+        "sans interaction coulee de debris": 3.699,
+        "sans demand surge": 3.720,
+        "approximation mono-evenement": 3.503,
+    },
+    # Table 12 du papier : sensibilite un-a-la-fois de la prime pure, en % du cas de base.
+    "tornado_prime_pct": {
+        "probabilite d'arete combustible->incendie": (-25.0, 26.6),
+        "frequence annuelle d'evenements": (-21.0, 20.7),
+        "coefficient climatique de l'arete": (-11.9, 14.1),
+        "raideur de la reponse en severite": (-13.5, 7.3),
+        "intensite du demand surge": (-1.8, 1.7),
+    },
+    # Ce qui explique le desaccord de classement, et c'est une propriete de leur MODELE :
+    # leur severite est BORNEE, donc elle n'a pas d'indice de queue.
+    "severite_bornee": True,
+    "multiplicateurs_lognormaux_sd_log": (0.10, 0.15),
+}
+
+print(f"  source : {CCRN['source']}")
+print(f"  statut : {CCRN['statut']}")
+
+abl = CCRN["ablation_var995_mdUSD"]
+ref = abl["CCRN complet"]
+print("\n  ablation structurelle, VaR 99,5 % de la charge annuelle (Md USD, leur table 11) :")
+for k, v in abl.items():
+    ecart = "" if k == "CCRN complet" else f"{100*(v/ref-1):>+8.1f} %"
+    print(f"    {k:<38}{v:>8.3f}{ecart:>12}")
+print(f"    -> leur brique la plus lourde est la PROPAGATION DIRIGEE, a "
+      f"{100*(abl['sans propagation dirigee']/ref-1):+.1f} %.")
+
+print("\n  tornado un-a-la-fois de la prime pure (% du cas de base, leur table 12) :")
+for k, (bas, haut) in CCRN["tornado_prime_pct"].items():
+    print(f"    {k:<44}{bas:>8.1f} %{haut:>9.1f} %")
+print("    -> leur tete de tornado est la probabilite d'arete, puis la frequence.")
+
+print("\n  POURQUOI LEUR CLASSEMENT N'EST PAS LE NOTRE, ET CE N'EST PAS UN DESACCORD DE MESURE.")
+print("  Leur severite est BORNEE : reponse bornee, perte plafonnee par une transformation a")
+print(f"  capacite, multiplicateurs lognormaux de moyenne un et d'ecart-type logarithmique")
+print(f"  {CCRN['multiplicateurs_lognormaux_sd_log'][0]} et "
+      f"{CCRN['multiplicateurs_lognormaux_sd_log'][1]}. Elle N'A DONC PAS D'INDICE DE QUEUE, et")
+print("  leur ablation ne contient aucune brique « queue » : on ne retire pas ce qui n'est pas la.")
+print("  Le plus proche qu'ils font varier est la RAIDEUR DE LA REPONSE EN SEVERITE, qui sort")
+print("  derriere la propagation. Notre severite est une GPD de variance infinie, et la queue y")
+print("  domine tout. Les deux classements sont donc chacun corrects DANS LEUR MODELE, et ce qui")
+print("  les separe est l'indice de queue, non l'architecture.")
+print("\n  CONSEQUENCE DE CITATION, ET ELLE VAUT POUR TOUT LE MEMOIRE : ce preprint se cite sur")
+print("  le PROTOCOLE (marges appariees, ablation, separation des echelles), JAMAIS sur l'ordre")
+print("  d'un resultat en queue. C'est la meme regle que celle deja posee pour l'echelle des")
+print("  quantiles au script 80, etendue aux leviers.")
+
 titre("Verdict")
 print("Cette sortie rend citables les constantes de calibration dans les chapitres donnees")
 print("et socle. Elle atteste la CONFORMITE A LA CONFIGURATION, non l'exactitude empirique :")

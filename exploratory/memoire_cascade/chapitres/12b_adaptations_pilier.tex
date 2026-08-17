@@ -365,6 +365,42 @@ un \emph{écart de capital}. C'est la même valeur de Shapley appliquée à deux
 et l'argument se transpose, pas le résultat.
 \end{attention}
 
+\paragraph{L'état non conforme est le \emph{coin supérieur} du pavé, et ce n'est pas une évidence
+mais une propriété testée.} Le treillis autorise une question plus utile que l'attribution :
+suffit-il d'évaluer un seul point pour majorer le capital sur toutes les configurations
+intermédiaires ? La réponse est oui, et elle est vérifiée plutôt que supposée. Sur les
+\textbf{soixante-cinq} paires emboîtées des seize configurations, relâcher un canal de plus ne
+fait jamais baisser le capital, \textbf{graine par graine} et non seulement en moyenne
+(script~\texttt{88}). Le maximum est donc atteint au coin haut, et un test de résistance sur le
+pavé des quatre canaux se réduit à une seule évaluation. C'est la forme que prend ici le résultat
+de statique comparative monotone du préprint cité au chapitre~\ref{ch:positionnement}
+\citep{ccrn2026}, dont c'est la contribution analytique principale.
+
+\begin{attention}
+\textbf{Deux réserves, et la seconde est celle qui commande la lecture du chiffre de tête.}
+
+\emph{La borne vaut au sens du quantile, pas trajectoire par trajectoire.} Le préprint démontre
+son résultat à aléas communs et \emph{pour chaque tirage}, énoncé strictement plus fort. Il ne
+transporte pas en l'état : à uniformes communs, la perte d'une année donnée baisse dans
+$16{,}2\,\%$ des cas quand on relâche la propagation et dans $30{,}7\,\%$ quand on relâche la
+détection. Le motif n'est pas une propriété du modèle mais son échantillonneur, et il diffère
+selon le canal, ce qui n'était pas attendu : pour la propagation, l'ensemble atteint est tiré par
+inversion sur une table dont les sous-ensembles ne sont pas ordonnés par inclusion ; pour la
+détection, qui viole le plus, le taux de dépassement entre dans la \emph{transformation} de
+sévérité et non dans une table, de sorte qu'une sévérité individuelle peut baisser quand la loi
+monte. Obtenir la version trajectorielle demanderait un couplage monotone sur les deux mécanismes,
+donc d'autres tirages et d'autres nombres publiés : c'est une recalibration, le gel l'interdit, et
+le gain serait un renforcement d'énoncé sans déplacement de conclusion.
+
+\emph{Un coin peut être infaisable, et la borne est alors trompeusement large.} C'est la mise en
+garde que les auteurs joignent à leur théorème, et elle vaut ici. Deux des quatre canaux sont
+\textbf{bornés et non calibrés}, la propagation et l'accumulation tiers : leur niveau non conforme
+est une borne posée, pas une valeur observée. Rien ne garantit qu'une entité réelle présente les
+quatre canaux à leur maximum simultanément. La lecture correcte du coin est donc \textbf{un
+majorant du capital sur le pavé déclaré}, non la description d'une entité, et c'est exactement le
+statut que le \S\ref{sec:chiffre-de-tete} donne déjà à l'état non conforme.
+\end{attention}
+
 \paragraph{L'interaction n'est plus un résidu : elle se décompose, et elle vit aux paires.} La
 somme des quatre effets isolés laissait $+5\,001$~M\euro{} sans emploi. La décomposition de
 Möbius sur le treillis des seize configurations en rend compte terme par terme : quatre effets

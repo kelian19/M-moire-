@@ -1,4 +1,4 @@
-
+﻿
 ====================================================================================
 Severite OpRisk Global (montants reels, source de reference en euros)
 ====================================================================================
@@ -97,6 +97,43 @@ Hackmageddon : CITATION EXTERNE, non recalculable
   versionne dans data/raw/ : ces valeurs sont une citation enregistree, pas une
   sortie recalculable (cf. script 62). Elles ne servent qu'a fixer les parts de
   repartition par vecteur, et ne portent aucun niveau de capital.
+
+====================================================================================
+Preprint de cascade climatique : CITATION EXTERNE, non recalculable
+====================================================================================
+  source : Karimi, Salavati, Shokrollahi, arXiv:2608.09456v1 [q-fin.RM], 10 aout 2026
+  statut : prepublication, etude numerique entierement SYNTHETIQUE (declare par les auteurs)
+
+  ablation structurelle, VaR 99,5 % de la charge annuelle (Md USD, leur table 11) :
+    CCRN complet                             3.767            
+    sans propagation dirigee                 1.738     -53.9 %
+    sans interaction coulee de debris        3.699      -1.8 %
+    sans demand surge                        3.720      -1.2 %
+    approximation mono-evenement             3.503      -7.0 %
+    -> leur brique la plus lourde est la PROPAGATION DIRIGEE, a -53.9 %.
+
+  tornado un-a-la-fois de la prime pure (% du cas de base, leur table 12) :
+    probabilite d'arete combustible->incendie      -25.0 %     26.6 %
+    frequence annuelle d'evenements                -21.0 %     20.7 %
+    coefficient climatique de l'arete              -11.9 %     14.1 %
+    raideur de la reponse en severite              -13.5 %      7.3 %
+    intensite du demand surge                       -1.8 %      1.7 %
+    -> leur tete de tornado est la probabilite d'arete, puis la frequence.
+
+  POURQUOI LEUR CLASSEMENT N'EST PAS LE NOTRE, ET CE N'EST PAS UN DESACCORD DE MESURE.
+  Leur severite est BORNEE : reponse bornee, perte plafonnee par une transformation a
+  capacite, multiplicateurs lognormaux de moyenne un et d'ecart-type logarithmique
+  0.1 et 0.15. Elle N'A DONC PAS D'INDICE DE QUEUE, et
+  leur ablation ne contient aucune brique « queue » : on ne retire pas ce qui n'est pas la.
+  Le plus proche qu'ils font varier est la RAIDEUR DE LA REPONSE EN SEVERITE, qui sort
+  derriere la propagation. Notre severite est une GPD de variance infinie, et la queue y
+  domine tout. Les deux classements sont donc chacun corrects DANS LEUR MODELE, et ce qui
+  les separe est l'indice de queue, non l'architecture.
+
+  CONSEQUENCE DE CITATION, ET ELLE VAUT POUR TOUT LE MEMOIRE : ce preprint se cite sur
+  le PROTOCOLE (marges appariees, ablation, separation des echelles), JAMAIS sur l'ordre
+  d'un resultat en queue. C'est la meme regle que celle deja posee pour l'echelle des
+  quantiles au script 80, etendue aux leviers.
 
 ====================================================================================
 Verdict
