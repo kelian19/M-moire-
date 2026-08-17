@@ -186,6 +186,13 @@ moyenne la contribution de $j$ sur tous les ordres d'arrivée. Par efficience,
 $\sum_j \varphi_j = v(\text{tous}) = \Delta_{\text{DORA}}$ \emph{exactement} : la règle
 redistribue l'interaction que les marginaux isolés laissent de côté, quel que soit son signe.
 
+La construction est celle de \citet{Shapley1953}, dont l'efficience est la propriété
+axiomatique, et son usage actuariel en allocation de capital sous Solvabilité~II est déjà
+documenté \citep{Decupere2011}. Les cinq piliers autorisent l'énumération exacte des $5!$
+ordres d'arrivée ; les algorithmes par échantillonnage des permutations
+\citep{CastroGomezTejada2009, SongNelsonStaum2016}, indispensables en grande dimension, ne
+sont donc pas nécessaires ici, et aucune approximation n'entre dans le tableau qui suit.
+
 \begin{table}[htbp]\centering\small
 \renewcommand{\arraystretch}{1.25}
 \begin{tabular}{@{}l rrr c rrr@{}}
@@ -399,6 +406,25 @@ malhonnête de le mentionner en passant. Cette section leur consacre donc un exa
 distinguant deux questions que l'on confond volontiers : la sensibilité au \emph{niveau} de la
 propagation, qui est un facteur d'échelle posé, et la sensibilité à sa \emph{direction}, qui
 n'est pas identifiable. La première se stresse, la seconde se borne.
+
+\paragraph{Pourquoi cette sensibilité n'est pas conduite par indices de Sobol.} L'outil
+standard de l'analyse de sensibilité globale décompose la \emph{variance} de la sortie et
+attribue à chaque entrée la part qu'elle en explique \citep{Owen2014, IoossPrieur2019}. Cet
+outil n'est pas disponible ici, et le motif n'est pas une question de moyens : \textbf{la
+variance de la charge annuelle n'existe pas}. L'indice de queue de la sévérité publié au
+chapitre~\ref{chap:socle} excède un demi, seuil au-delà duquel le moment d'ordre deux d'une
+loi de Pareto généralisée diverge, et une somme aléatoire de telles sévérités hérite de cette
+divergence. La variance empirique d'une simulation reste finie, mais elle ne converge vers
+rien : elle croît avec le nombre d'années tirées. Un indice défini comme un rapport de deux
+quantités infinies n'a donc pas de valeur à estimer. C'est le même argument d'\emph{existence}
+que celui qui écarte la TVaR comme mesure de couverture au \S\ref{sec:allocation}, sous la
+calibration PRC : un ordre de moment plus haut, et la même conclusion.
+
+La sensibilité de ce mémoire est par conséquent conduite par des grandeurs qui ne réclament
+aucun moment d'ordre deux : élasticités du tornado renormalisé, ablations en échelle, et
+décomposition de Möbius d'un écart de quantiles. \textbf{Cela ne concerne pas la valeur de
+Shapley du \S\ref{sec:allocation}}, dont la fonction caractéristique est un écart de capital et
+non une variance conditionnelle : elle est définie sans hypothèse de moment.
 
 \paragraph{Le niveau de propagation est le levier le \emph{moins} sensible des quatre.} Le
 tornado déplace chaque entrée du modèle vers le bas et vers le haut, à structure fixée. Le gain

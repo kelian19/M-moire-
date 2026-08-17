@@ -385,6 +385,77 @@
 }
 
 % ---------------------------------------------------------------------------------------
+% Valeur de Shapley : origine, transposition a l'analyse de sensibilite, calcul.
+% Le memoire l'utilise sur deux partitions (piliers, canaux) sans que sa source ait ete
+% citee jusqu'ici. La fonction caracteristique retenue ici est un ECART DE CAPITAL, pas la
+% variance conditionnelle d'Owen : les trois dernieres references documentent le cadre de
+% sensibilite, elles ne decrivent pas le jeu du chapitre 12.
+% ---------------------------------------------------------------------------------------
+@incollection{Shapley1953,
+  author    = {Shapley, Lloyd S.},
+  title     = {A Value for $n$-Person Games},
+  booktitle = {Contributions to the Theory of Games, Volume II},
+  editor    = {Kuhn, Harold W. and Tucker, Albert W.},
+  series    = {Annals of Mathematics Studies},
+  number    = {28},
+  pages     = {307--317},
+  publisher = {Princeton University Press},
+  year      = {1953}
+}
+
+@article{Owen2014,
+  author  = {Owen, Art B.},
+  title   = {Sobol' Indices and {S}hapley Value},
+  journal = {SIAM/ASA Journal on Uncertainty Quantification},
+  volume  = {2},
+  number  = {1},
+  pages   = {245--251},
+  year    = {2014},
+  doi     = {10.1137/130936233}
+}
+
+@article{SongNelsonStaum2016,
+  author  = {Song, Eunhye and Nelson, Barry L. and Staum, Jeremy},
+  title   = {{S}hapley Effects for Global Sensitivity Analysis: Theory and Computation},
+  journal = {SIAM/ASA Journal on Uncertainty Quantification},
+  volume  = {4},
+  number  = {1},
+  pages   = {1060--1083},
+  year    = {2016},
+  doi     = {10.1137/15M1048070}
+}
+
+@article{CastroGomezTejada2009,
+  author  = {Castro, Javier and G{\'o}mez, Daniel and Tejada, Juan},
+  title   = {Polynomial Calculation of the {S}hapley Value Based on Sampling},
+  journal = {Computers \& Operations Research},
+  volume  = {36},
+  number  = {5},
+  pages   = {1726--1730},
+  year    = {2009},
+  doi     = {10.1016/j.cor.2008.04.004}
+}
+
+@article{IoossPrieur2019,
+  author  = {Iooss, Bertrand and Prieur, Cl{\'e}mentine},
+  title   = {{S}hapley Effects for Sensitivity Analysis with Correlated Inputs:
+             Comparisons with {S}obol' Indices, Numerical Estimation and Applications},
+  journal = {International Journal for Uncertainty Quantification},
+  volume  = {9},
+  number  = {5},
+  pages   = {493--514},
+  year    = {2019},
+  doi     = {10.1615/Int.J.UncertaintyQuantification.2019028372}
+}
+
+@misc{Decupere2011,
+  author = {Decup{\`e}re, S{\'e}bastien},
+  title  = {Agr{\'e}gation des risques et allocation de capital sous {S}olvabilit{\'e} II},
+  year   = {2011},
+  note   = {M{\'e}moire d'actuariat, ENSAE}
+}
+
+% ---------------------------------------------------------------------------------------
 % A COMPLETER AVANT REMISE : auteurs, titre exact et identifiant arXiv de ce prepublie.
 % Le PDF a ete lu et analyse (aout 2026) mais n'est pas verse au depot, et fabriquer des
 % metadonnees de memoire serait exactement la faute que le reste de ce fichier evite.

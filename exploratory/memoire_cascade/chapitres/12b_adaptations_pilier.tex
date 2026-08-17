@@ -353,6 +353,16 @@ majorent, et l'encadrement vaut dès que la fonction de capital est sur-modulair
 cascade est. Shapley est la seule lecture qui répartisse l'interaction sans la perdre ni la
 dupliquer, mais c'est une \emph{convention} d'attribution et non une prévision : deux des quatre
 canaux sont bornés et non calibrés, de sorte que leur part n'est pas un budget actionnable.
+
+Le défaut de la première colonne n'est d'ailleurs pas propre à ce modèle. C'est celui que
+l'analyse de sensibilité rencontre dès que les entrées cessent d'être indépendantes : les
+indices de Sobol, qui sont des effets isolés, ne somment alors plus au total et perdent leur
+interprétation, tandis que la valeur de Shapley y somme par construction
+\citep{Owen2014, IoossPrieur2019}. Le remède retenu ici est donc le remède usuel, et non un
+arrangement de circonstance. \textbf{Avec une réserve qu'il faut poser} : ces travaux
+décomposent une \emph{variance} de sortie, quand la fonction caractéristique de ce mémoire est
+un \emph{écart de capital}. C'est la même valeur de Shapley appliquée à deux jeux différents,
+et l'argument se transpose, pas le résultat.
 \end{attention}
 
 \paragraph{L'interaction n'est plus un résidu : elle se décompose, et elle vit aux paires.} La
