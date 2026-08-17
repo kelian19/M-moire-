@@ -188,8 +188,14 @@ var RECITS = [
 
 // ---------------------------------------------------------------- textes
 
+// AJOUT DU 17 AOUT 2026 : la premiere ligne dit QUI demande et DEPUIS OU. Le formulaire part
+// desormais a des actuaires qui n'ont aucun contexte sur ce travail, et pour qui « memoire
+// d'actuariat » sans affiliation ni sujet ne suffit pas a decider d'y passer une heure.
 var DESCRIPTION =
   CADRE + " · " + VERSION + "\n\n"
+  + AUTEUR + ", élève actuaire à l'ENSAE Paris, mémoire réalisé chez " + ORGANISATION
+  + ". Sujet : le capital réglementaire qu'un assureur devrait immobiliser au titre d'une "
+  + "mauvaise application du règlement européen DORA sur la résilience informatique.\n\n"
   + "Vous allez lire sept récits d'incidents réels, tirés de rapports d'enquête publics. "
   + "Pour chacun, on vous demande simplement, entre deux domaines qui ont tous les deux "
   + "flanché, lequel a flanché en premier et a entraîné l'autre. C'est tout.\n\n"

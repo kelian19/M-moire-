@@ -136,8 +136,13 @@ var PHRASES = [
 
 // ---------------------------------------------------------------- textes
 
+// AJOUT DU 17 AOUT 2026 : voir la note identique du formulaire 1. Les destinataires n'ont
+// aucun contexte sur ce travail.
 var DESCRIPTION =
   CADRE + " · " + VERSION + "\n\n"
+  + AUTEUR + ", élève actuaire à l'ENSAE Paris, mémoire réalisé chez " + ORGANISATION
+  + ". Sujet : le capital réglementaire qu'un assureur devrait immobiliser au titre d'une "
+  + "mauvaise application du règlement européen DORA sur la résilience informatique.\n\n"
   + "Ce qu'on vous demande, et surtout ce qu'on ne vous demande pas : PAS de lire mon "
   + "mémoire. Je vous soumets sept phrases sur lesquelles ce que vous avez vu chez des "
   + "clients vaut mieux que n'importe quel calcul, et je vous demande d'essayer de les "
@@ -246,9 +251,20 @@ function creerFormulaire() {
   }
 
   // page finale
+  // LA QUESTION DE CITATION N'EST PAS REPOSEE ICI, ET C'EST UNE CORRECTION DU 17 AOUT 2026.
+  // Cette page en portait une seconde (« Acceptez-vous d'etre cite par votre nom ? », trois
+  // choix) alors que la page d'introduction pose deja la meme question avec quatre choix
+  // gradues. Deux questions de consentement au meme formulaire, aux options differentes,
+  // autorisent des reponses CONTRADICTOIRES sur le seul point ou le repondant doit etre
+  // protege : impossible de savoir laquelle fait foi, et impossible de citer sans arbitrer a
+  // sa place. La question d'introduction est conservee, celle-ci est retiree. Le role, le
+  // secteur et l'anciennete restent demandes : ils decrivent le panel et servent a la
+  // citation « par fonction ».
   form.addPageBreakItem()
       .setTitle("La question la plus précieuse, pour finir")
-      .setHelpText("Puis quelques éléments sur vous, pour savoir comment vous citer.");
+      .setHelpText("Puis trois éléments sur vous, pour décrire le panel dans le mémoire. La "
+                   + "forme sous laquelle vous acceptez d'être cité est celle que vous avez "
+                   + "choisie au début, elle n'est pas redemandée.");
   form.addParagraphTextItem()
       .setTitle("Qu'est-ce qui manque ? Quelle phrase aurait dû figurer dans cette liste, ou "
                 + "quel enchaînement voyez-vous régulièrement sur le terrain et dont je ne "
@@ -262,14 +278,6 @@ function creerFormulaire() {
       .setRequired(false);
   form.addTextItem()
       .setTitle("Depuis combien de temps exercez-vous ?")
-      .setRequired(false);
-  form.addMultipleChoiceItem()
-      .setTitle("Acceptez-vous d'être cité par votre nom ?")
-      .setChoiceValues([
-        "Oui, citez-moi par mon nom",
-        "Non, citez-moi de façon anonyme (rôle et secteur seulement)",
-        "Ne me citez pas du tout"
-      ])
       .setRequired(false);
 
   // feuille de réponses
