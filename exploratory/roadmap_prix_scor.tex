@@ -4,12 +4,13 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[french]{babel}
-\usepackage[margin=2.0cm]{geometry}
+\usepackage[margin=1.9cm]{geometry}
 \usepackage{microtype}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage[table]{xcolor}
 \usepackage{enumitem}
+\usepackage{eurosym}
 \usepackage[most]{tcolorbox}
 
 \definecolor{navy}{HTML}{1F3864}
@@ -18,88 +19,242 @@
 \definecolor{accent}{HTML}{C0491F}
 \definecolor{softgreen}{HTML}{E2EFDA}
 \definecolor{softamber}{HTML}{FCE4D6}
+\definecolor{softred}{HTML}{F8D7DA}
 
 \newtcolorbox{cle}[1][]{colback=lightblue!40,colframe=navy,boxrule=0.6pt,
+  arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
+\newtcolorbox{alerte}[1][]{colback=softamber!55,colframe=accent,boxrule=0.6pt,
   arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,#1}
 
 \newcommand{\fait}{\cellcolor{softgreen}\textbf{fait}}
 \newcommand{\partiel}{\cellcolor{softamber}partiel}
+\newcommand{\trou}{\cellcolor{softred}\textbf{trou}}
 \newcommand{\afaire}{à faire}
 
-\title{\vspace{-1.3cm}\color{navy}\bfseries Feuille de route du mémoire\\[2pt]
-  \large Objectif Prix SCOR : de la cascade au capital, sans sur-vendre $W$}
+\setlength{\parskip}{3pt}
+
+\title{\vspace{-1.4cm}\color{navy}\bfseries Feuille de route du mémoire\\[3pt]
+  \large Objectif Prix SCOR : ce qui est fait, ce qui est fait mais invisible,
+  et les trois trous}
 \author{Kélian Kaddouri}
-\date{\today}
+\date{État au 17 août 2026}
 
 \begin{document}
 \maketitle
-\vspace{-0.7cm}
+\vspace{-0.8cm}
 
 \begin{cle}
-\textbf{Thèse du mémoire (après pivot).} Un modèle \textbf{normatif} de risque de cascade
-cyber entre les piliers DORA, et sa traduction en \textbf{capital} (SCR). La contribution
-n'est pas de \emph{mesurer} la contagion, la donnée ne le permet pas, mais : (i)~un
-mécanisme original de dépendance \textbf{à l'ordre} entre piliers ; (ii)~un ancrage
-empirique là où la donnée existe (fréquence, accumulation, sévérité) ; (iii)~une
-démonstration explicite de la \textbf{frontière d'identifiabilité}, muée en spécification
-de donnée. \textbf{L'honnêteté sur les limites est un résultat}, pas un aveu.
+\textbf{Où en est le mémoire, en une phrase.} Le modèle est construit, calibré, gelé et
+vérifié ; la rédaction couvre dix-neuf chapitres et cent cinquante-neuf pages. Ce qui reste
+n'est donc plus de \emph{produire} mais de \textbf{rendre visible} ce qui est déjà mesuré, et de
+fermer trois trous précis. La version de juillet de ce document est périmée : sa phase~3,
+l'élicitation, présentée alors comme le principal apport restant, est \textbf{abandonnée} depuis
+le 12~août, et la décision est documentée en annexe avec son chiffrage.
 \end{cle}
 
-\section*{Puisque $W$ n'est pas calibrable : cinq leviers}
-
-\begin{enumerate}[leftmargin=1.5em,itemsep=2pt,topsep=2pt]
-\item \textbf{$W$ reste normatif, borné par la sensibilité.} Non estimé, mais son rôle est
-      encadré (le knockout montre que l'asymétrie porte le résultat, robuste sur 3\,000
-      tirages) et sa stabilité garantie par construction (Leontief, $\rho(W)<1$).
-\item \textbf{Élicitation structurée} (protocole de Cooke) plutôt que dire d'expert brut :
-      plusieurs experts, questions-graines, agrégation traçable. Aucun besoin de donnée
-      d'incident.
-\item \textbf{Identification partielle} : distinguer ce que la donnée fixe (fréquence
-      marginale, accumulation, queue $\xi$) de ce qu'elle ne fixe pas (direction
-      hors-diagonale). La frontière devient explicite.
-\item \textbf{Le SCR comme fonction de $W$}, pas $W$ comme point : montrer comment le
-      capital bouge sur toute la région admissible. Un stress de l'hypothèse de contagion.
-\item \textbf{La donnée manquante comme livrable} : la spécification d'un registre
-      horodaté et taxonomisé (issue du script 05) devient une recommandation de reporting
-      DORA.
-\end{enumerate}
-
-\section*{La feuille de route}
+\section*{1. L'état, mesuré plutôt que déclaré}
 
 \begin{center}\footnotesize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabular}{@{}p{0.5cm} p{4.2cm} p{8.3cm} p{1.6cm}@{}}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{5.4cm} r p{7.6cm}@{}}
 \toprule
-\textbf{Ph.} & \textbf{Objectif} & \textbf{Livrables clés} & \textbf{Statut} \\
+\textbf{Grandeur} & \textbf{Valeur} & \textbf{Comment elle se relit} \\
 \midrule
-0 & Cadrage et thèse & Fil directeur post-pivot ; architecture des chapitres ; ce document. & \fait \\
-1 & Ancrage empirique de la fréquence & Calibration d'entrée (08b), rejet argumenté du Hawkes (08c), Poisson composé / accumulation (08d), cas d'usage P2/P3/P4 (08e--g). & \fait \\
-2 & Sévérité en euros & Moteur \texttt{euro\_cascade\_model} : sévérité OpRisk en euros ($\xi\approx0{,}90$) agrégée par la cascade. & \fait \\
-3 & Élicitation structurée de $W$ & Moteur Cooke (26) $+$ \textbf{questionnaire aveugle prêt} et ingestion des vraies réponses (26b, CSV). Reste : \textbf{mener les sessions} (Mehdi avant le 27/07, puis Ouïdad/Franck/conformité). & \partiel \\
-4 & SCR comme fonction de $W$ & SCR\_DORA en distribution $+$ Delta\_DORA (24) ; SCR continu conformité/contagion, borné sur $W$ (25) ; benchmark copule (23) et Formule Standard (27) : effet DORA exprimé $0/62/100\,\%$. & \fait \\
-5 & Chapitre identifiabilité & \textbf{Rédigé} (chapitre\_identifiabilite) : deux échecs opposés (source 1 : 71 transitions, 52,7\,\% UNKN ; source 2 : 4329 transitions mais placebo $z=-0{,}33$), identification partielle ($\xi\approx0{,}90$ ancré, direction non), spécification du registre DORA. & \fait \\
-6 & Cas d'usage approfondi (sous-process) & Test VCDB (28) : sous-piliers P2/P3 calibrables sur open data, P4 s'effondre (56 en finance). Reste : sous-process P4 sur les données clients de Mehdi. & \partiel \\
-7 & Rédaction et positionnement & Revue de littérature (Hillairet--Lopez, cascades / contagion) ; résumé ; narratif de soutenance ; relecture anti-jargon. & \afaire \\
+Corps du mémoire & 117 p. & première page d'annexe moins une, dans \texttt{main.toc} \\
+Document complet & 159 p. & compte des pages du PDF, jamais un index \\
+Chapitres rédigés & 19 & dont 6 annexes \\
+Scripts de calcul & 97 & \texttt{vasicek\_lab/*/*.py} \\
+Sorties versionnées & 93 & \texttt{sorties\_verif/NN.txt} \\
+Scripts cités par le mémoire & 74 & le reste est du travail non publié, voir la section 3 \\
+Nombres publiés sous contrôle & 1\,865 & harnais, tous chapitres \\
+Confirmation & 98,2 \% & 1\,831 confirmés, 34 dépouillés un par un \\
+\textbf{Couverture} & \textbf{100 \%} & 0 nombre hors contrôle non déclaré, et c'est le
+chiffre qui passe en premier \\
+Contrôles du document & 0 / 0 / 0 / 0 & référence indéfinie, Overfull \verb|\vbox|,
+annotation hors page, page tournée \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\noindent\footnotesize\textbf{Chemin critique.} Les phases 2, 4 et 5 sont à \emph{consolider}
-(la machine existe), pas à réinventer : c'est du temps de rédaction et de mise en cohérence,
-pas de code. La phase 3 (élicitation) est le principal apport méthodologique restant et ne
-dépend que de la disponibilité des experts. La phase 6 dépend des données de Mehdi et ne doit
-pas bloquer le reste. \textbf{Dates à caler sur la soutenance} (non fixée ici).
+\section*{2. Ce qu'un jury de prix récompense, et où l'on se situe}
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{4.3cm} c p{9.4cm}@{}}
+\toprule
+\textbf{Critère} & \textbf{État} & \textbf{Constat} \\
+\midrule
+Originalité maîtrisée & \fait &
+La dépendance \emph{à l'ordre} entre piliers, absente de l'AMDEC comme des matrices de risque,
+traduite en capital. Le mécanisme est neuf et il est borné, pas survendu. \\
+
+Honnêteté méthodologique & \fait &
+\textbf{C'est l'atout numéro un.} La non-transitivité qui donnait son titre au mémoire a été
+réfutée par son propre auteur ; le chiffre central a été requalifié en borne supérieure ; la
+borne inférieure de validité de la méthode est publiée ; les grandeurs simulées sortent avec
+leur bruit. Peu de mémoires font cela. \\
+
+Rigueur statistique & \fait &
+Identification partielle ancrée (Manski, Tamer), valeur de Shapley ancrée depuis le 17~août
+(Shapley, Owen, Song et al., Castro et al., Iooss et Prieur, Decupère), allocation d'Euler
+ancrée (Tasche). \\
+
+Pertinence réglementaire & \fait &
+DORA, et la donnée manquante muée en spécification de registre. Directement opposable. \\
+
+Reproductibilité & \partiel &
+93 sorties versionnées, parité vérifiée entre deux machines, harnais de vérification de chaque
+nombre publié. \textbf{Et le mémoire ne le dit nulle part}, voir la section 3. \\
+
+Fiabilité inter-juges & \trou &
+Le chapitre d'identifiabilité annonce une mesure d'accord entre deux codeurs indépendants. Le
+second codage n'a pas eu lieu, le script~54 attend son CSV. \\
+
+Ancrage sur entités réelles & \partiel &
+Quatre bilans SFCR exploités, mais deux SCR sur quatre sont déduits d'un taux de couverture et
+n'ont pas été relus dans les rapports. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{3. Les trois trous, par ordre de ce qu'ils coûtent}
+
+\begin{alerte}
+\textbf{Trou n\textsuperscript{o}1, et de loin le plus rentable : du travail fait et invisible.}
+Vingt sorties versionnées ne sont citées par aucun chapitre, dont \textbf{les sept plus récentes}
+(79, 80, 81, 83, 85, 86, 87). Les cinq notions empruntées au préprint de cascade climatique ont
+été \emph{mesurées} et leurs résultats ne figurent dans aucun chapitre : ni la concavité du
+capital en durée de non-conformité, ni l'équivalence observationnelle entre Hawkes et cascade,
+ni le plafond lu comme amortisseur. Elles vivent dans les scripts et dans un deck, pas dans le
+mémoire.
+
+\textbf{Et le harnais lui-même n'est décrit nulle part.} Le mot n'apparaît qu'une fois dans le
+corps, en passant, comme si le lecteur savait déjà de quoi il s'agit. Un dispositif qui vérifie
+1\,865 nombres publiés contre les sorties des scripts qui les produisent, avec une couverture de
+100~\%, est un \emph{résultat de méthode} et pas une coulisse. Aucun jury ne peut le créditer
+s'il ne le lit pas.
+\end{alerte}
+
+\begin{alerte}
+\textbf{Trou n\textsuperscript{o}2 : le second codage en aveugle.} C'est le seul endroit où le
+mémoire annonce une mesure qui n'existe pas encore. Le kit est prêt, dix récits, une heure de
+travail, et le formulaire est en état d'être envoyé depuis le 17~août. Tant qu'il manque, la
+direction de $W$ repose sur un codeur unique, ce qui est précisément l'objection qu'un jury
+formulera en premier sur la partie la plus originale du mémoire.
+\end{alerte}
+
+\begin{alerte}
+\textbf{Trou n\textsuperscript{o}3 : le chiffre de tête n'est pas défini.} Trois valeurs
+circulent pour \og l'écart entre conforme et non conforme\fg{} : $-53\,\%$ (script~25, à $g$ maintenu
+au niveau non conforme), un facteur $3{,}34$ (script~43, quatre canaux) et $-64\,\%$
+(script~20, sous OpRisk). Elles ne mesurent pas la même chose parce qu'elles ne déplacent pas
+les mêmes paramètres. À une question de soutenance sur le résultat principal, il faut
+\textbf{une} réponse et sa définition. Ne pas remplacer un de ces chiffres par un autre sans
+avoir tranché : ce serait échanger un chiffre mal défini contre un autre.
+\end{alerte}
+
+\section*{4. La feuille de route}
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{0.4cm} p{3.9cm} p{8.8cm} p{1.5cm}@{}}
+\toprule
+\textbf{Ph.} & \textbf{Objectif} & \textbf{Livrables} & \textbf{Statut} \\
+\midrule
+0 & Cadrage et thèse & Pivot vers la cascade dirigée ; architecture en cinq parties ;
+plan Institut des Actuaires. & \fait \\
+
+1 & Ancrage empirique & Fréquence (08b), sévérité POT gelée (07), accumulation et cas d'usage
+(08e--08g), rejet argumenté du Hawkes contre les noyaux de la littérature (08h). & \fait \\
+
+2 & Cascade et capital & Moteur \texttt{euro\_cascade\_model} ; SCR par état ; les quatre canaux
+et leur interaction super-additive ; table complète des seize configurations (43, 68). & \fait \\
+
+3 & Identifiabilité & Frontière explicite : la donnée fixe la co-occurrence, pas la direction.
+Identification partielle sur les $2^{10}$ sommets. Biais de narration mesuré (64), séquences
+ordonnées explorées et refermées avec critère de réouverture (75). & \fait \\
+
+4 & Gel et vérification & Calibration gelée au 7~août. Harnais de vérification, couverture
+portée de 74,7 à 100~\%. 93 sorties versionnées. Parité deux machines. & \fait \\
+
+5 & Élicitation & \textbf{Abandonnée} le 12~août. Le protocole préparé et non exécuté devient
+une annexe, avec le chiffrage de la raison : un panel mal calibré déplacerait le SCR de
+777~M\euro{} sans qu'aucun signal ne l'indique. & \fait \\
+
+6 & Robustesse et limites & Trois étages d'incertitude ; six postures avec leur bruit ; table à
+deux colonnes des écarts involontaires et des choix prudents ; additivité des coûts bornée par
+un exposant. & \fait \\
+
+7 & Réponses au tutorat & Six demandes d'Hugo traitées (82, 83, 84) ; retours de Caroline
+appliqués ; note de quatre pages. & \fait \\
+
+8 & \textbf{Publier le travail mesuré} & Porter au mémoire les cinq notions (79--81, 85, 86), le
+désaccord assumé avec le préprint sur le classement des leviers, et \textbf{une section
+décrivant le dispositif de vérification}. & \trou \\
+
+9 & \textbf{Fermer la fiabilité inter-juges} & Envoyer le formulaire, obtenir un second codage,
+lancer le script~54, publier le coefficient d'accord. & \trou \\
+
+10 & \textbf{Trancher le chiffre de tête} & Choisir la définition publiée de l'écart entre états
+et l'imposer partout, decks compris. & \trou \\
+
+11 & Consolidation finale & Vérifier les quatre jeux SFCR contre les rapports ; versionner la
+sortie du script~35 ; choisir la posture reportée avec Caroline ; registre de sous-traitance. &
+\partiel \\
+
+12 & Soutenance & Narratif, anticipation des questions, banque de réponses (six entrées
+aujourd'hui), relecture anti-jargon. & \afaire \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{5. Chemin critique}
+
+\textbf{Ce qui ne dépend que de moi, par ordre de rendement.} La phase~8 est la plus rentable du
+tableau : le travail est fait, mesuré et versionné, il ne reste qu'à l'écrire, et elle
+transforme sept scripts muets en autant de résultats lisibles. La section sur le dispositif de
+vérification est le meilleur rapport valeur sur effort de tout le projet, parce qu'elle rend
+créditable tout le reste. La phase~10 est une décision, pas un calcul, et elle se prend en une
+heure.
+
+\textbf{Ce qui dépend des autres, donc à lancer en premier.} Le second codage (phase~9) est le
+seul élément à délai externe. Tout le reste peut attendre, celui-là non : il faut envoyer,
+relancer, et prévoir qu'une partie des sollicités ne répondra pas. Le formulaire est prêt depuis
+le 17~août, le mail aux contacts de l'Institut et le message à la squad cyber sont rédigés.
+
+\textbf{Ce qui est clos et ne doit pas se rouvrir.} Le gel de la calibration, la convention de
+normalisation de $W$ par l'émission maximale, le statut de citation de Hackmageddon, le rejet du
+Hawkes, la non-transitivité, l'élicitation, la convention qui sépare la VaR de la charge annuelle
+du quantile de sévérité d'un sinistre, et le détecteur de contradictions entre scripts, instruit
+puis écarté pour une raison.
+
+\vspace{0.25cm}
+\begin{cle}
+\textbf{Le piège de juillet a été évité, il en reste deux.} L'avertissement de la version
+précédente était de ne pas survendre $W$ comme calibré : il a été tenu, et au-delà, puisque la
+frontière d'identifiabilité est devenue une contribution à part entière.
+
+\textbf{Premier piège restant : diluer le registre d'honnêteté.} Ce qui tient ce mémoire est
+qu'il publie ses propres limites. Toute reformulation qui rendrait une réserve moins visible le
+dégrade, même si elle le fait paraître plus assuré. Retirer un $\pm$ pour faire net, effacer que
+la posture la plus prudente est la moins précise, taire un désaccord avec une source citée par
+ailleurs comme convergente : trois façons de perdre ce qui distingue le travail.
+
+\textbf{Second piège, et c'est celui du moment : laisser du travail mesuré hors du document.}
+Un résultat qui n'est pas dans le mémoire n'existe pas pour le jury. Sept scripts et un
+dispositif de vérification complet sont aujourd'hui dans ce cas.
+\end{cle}
 
 \vspace{0.2cm}
-\begin{cle}
-\textbf{Ce qui fait un mémoire primé.} Un jury d'actuaires récompense l'originalité
-\emph{maîtrisée} et l'honnêteté méthodologique. Trois atouts ici : (1)~un mécanisme neuf, la
-dépendance à l'ordre, absent de l'AMDEC comme des matrices de risque ; (2)~une démonstration
-que la contagion cyber n'est pas identifiable sur données publiques, chose rare et courageuse ;
-(3)~une pertinence réglementaire directe (DORA, spécification de reporting). \textbf{Le seul
-piège à éviter : sur-vendre $W$ comme calibré.} Le présenter comme \og ce qu'il faudrait
-mesurer, et ce que cela coûterait de l'ignorer \fg{} est à la fois plus solide et plus
-marquant.
-\end{cle}
+\noindent\footnotesize\textbf{Note de calendrier.} Aucune date de remise ni de soutenance ne
+figure dans le dépôt : ce document est donc ordonné par \emph{rendement}, pas par échéance. Les
+phases 8 à 10 sont à traiter avant la phase 12, et la phase 9 est à lancer aujourd'hui puisque
+son délai n'est pas le mien.
+
+\vspace{0.15cm}
+\noindent\footnotesize\textbf{Source des chiffres du \S1.} Comptes relevés le 17 août 2026 sur
+le PDF compilé, sur \texttt{main.toc}, sur l'arborescence de \texttt{vasicek\_lab} et sur la
+sortie de \texttt{verif\_tous\_chapitres.ps1}. Aucun n'est recopié d'une version antérieure de
+ce document, la précédente ayant précisément péri de cela.
 
 \end{document}
