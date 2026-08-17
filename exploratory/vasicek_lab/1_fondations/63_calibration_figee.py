@@ -143,6 +143,48 @@ print("  versionne dans data/raw/ : ces valeurs sont une citation enregistree, p
 print("  sortie recalculable (cf. script 62). Elles ne servent qu'a fixer les parts de")
 print("  repartition par vecteur, et ne portent aucun niveau de capital.")
 
+titre("ENISA Threat Landscape : CITATION EXTERNE, non recalculable")
+# TROISIEME SOURCE AU MEME STATUT QUE HACKMAGEDDON. Le chapitre donnees confronte les parts par
+# vecteur de Hackmageddon a une source independante, le rapport de l'agence europeenne, et cite
+# trois de ses nombres. Aucun n'est reproductible ici : le rapport n'est pas verse dans
+# data/raw/ et sa methodologie de collecte n'est pas la notre. Ils etaient donc HORS CONTROLE,
+# recopies a la main dans le texte et verifiables par personne. Les enregistrer les rend
+# verifiables CONTRE LA SOURCE, ce qui est la seule garantie disponible pour une citation.
+#
+# CE QUE CES VALEURS FONT DANS LE MEMOIRE, ET CE QU'ELLES NE FONT PAS. Elles servent a UNE
+# confrontation qualitative : l'asymetrie entre deux taux de conversion, mesuree par un
+# organisme reglementaire sur un perimetre independant, corrobore un classement que le seul
+# volume d'incidents ne peut pas reveler. Aucune n'entre dans un calcul, aucune ne porte un
+# niveau de capital.
+ENISA = {
+    "source": "ENISA Threat Landscape 2025, Agence de l'Union europeenne pour la cybersecurite",
+    "n_incidents": 4875,
+    "perimetre": "incidents de perimetre europeen, collecte propre a l'agence",
+    "conversion": {
+        "exploitation de vulnerabilite exposee": 0.70,
+        "phishing et ingenierie sociale": 0.27,
+    },
+}
+print(f"  source    : {ENISA['source']}")
+print(f"  perimetre : {ENISA['perimetre']}")
+print(f"  incidents retenus par le rapport         : {ENISA['n_incidents']}")
+print("\n  taux de conversion tentative -> intrusion :")
+for k, v in ENISA["conversion"].items():
+    print(f"    {k:<44}{v:.2f}   soit {100*v:.0f} %")
+rap = (ENISA["conversion"]["exploitation de vulnerabilite exposee"]
+       / ENISA["conversion"]["phishing et ingenierie sociale"])
+print(f"  rapport entre les deux taux              : {rap:.2f}")
+print("\n  A QUOI SERT CETTE ASYMETRIE. Le phishing est le vecteur le plus FREQUENT et l'un des")
+print("  moins CONVERTISSANTS ; l'exploitation de vulnerabilite est l'inverse. Un modele calibre")
+print("  sur le seul volume d'incidents surponderait donc le phishing, et c'est le motif pour")
+print("  lequel le memoire retient de Hackmageddon la STRUCTURE par vecteur et jamais le niveau.")
+print("  Le rapport ci-dessus est imprime plutot que laisse au lecteur, pour la meme raison que")
+print("  les autres rapports derives : un rapport calcule a la redaction n'est verifiable par")
+print("  personne.")
+print("\n  AVERTISSEMENT, identique a celui de Hackmageddon. Ce rapport n'est PAS versionne dans")
+print("  data/raw/ : ces trois valeurs sont une citation enregistree, pas une sortie")
+print("  recalculable. Elles ne portent aucun niveau de capital.")
+
 titre("Preprint de cascade climatique : CITATION EXTERNE, non recalculable")
 # MEME STATUT QUE HACKMAGEDDON, ET POUR LA MEME RAISON. Le memoire compare desormais son
 # CLASSEMENT DES LEVIERS a celui de ce prepublie, et cette comparaison exige de citer ses

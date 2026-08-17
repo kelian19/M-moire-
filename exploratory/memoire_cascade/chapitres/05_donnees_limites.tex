@@ -165,7 +165,9 @@ d'alternative comparable pour la fréquence : aucune des deux autres sources
 mobilisées (Hackmageddon, OpRisk Global) ne permet, seule, d'ancrer un niveau
 annuel de sinistralité directement transposable à un portefeuille assurantiel.
 
-\noindent Sources : scripts~\texttt{57} (biais de troncature et de taille) et~\texttt{62}.
+\noindent Sources : scripts~\texttt{57} (biais de troncature et de taille), \texttt{62}
+et~\texttt{63} (coefficients de la conversion Jacobs et indice de queue PRC avec son
+intervalle, qui sont des constantes de la calibration figée).
 
 \section{Les trois fréquences, et le seuil de collecte qui les sépare}
 
@@ -581,7 +583,8 @@ rôles qu'exige une architecture fréquence-sévérité-structure, et leurs biai
 respectifs (sélection, déclaration, survie, visibilité, instabilité
 taxonomique) sont documentés plutôt que dissimulés (chapitre~\ref{chap:donnees}).
 
-\noindent Source : script~\texttt{05}, qui teste la faisabilité de l'identification.
+\noindent Sources : scripts~\texttt{05}, qui teste la faisabilité de l'identification,
+et~\texttt{63} pour les constantes de la calibration figée qui y sont rappelées.
 
 \section{Pourquoi ne pas multiplier les sources}
 
@@ -657,4 +660,6 @@ n'est pas une faiblesse du dispositif de données, c'est un résultat qu'il prod
 
 % =====================================================================
 
-\noindent Sources : scripts~\texttt{05} et~\texttt{62}.
+\noindent Sources : scripts~\texttt{05}, \texttt{62} et~\texttt{63}, ce dernier enregistrant
+sous le statut de \emph{citation externe non recalculable} les trois valeurs empruntées au
+rapport de l'agence européenne, ainsi que les parts par vecteur de la source médiatique.

@@ -13,6 +13,10 @@ Socle identifie, point d'expert, et ce que la contagion ajoute
 ==============================================================================
 Bornes de capital sur l'ensemble admissible, en fonction de l'ignorance t
 ==============================================================================
+  degres de liberte de la direction : 10 paires hors diagonale, donc 2^10 = 1024 sommets
+  (une paire non ordonnee par couple de piliers distincts ; chaque sommet fixe le sens
+  de chacune, ce qui rend l'enumeration exhaustive et le resultat deterministe.)
+
   t = 0.25 : SCR dans [    7837 ;     8174] M   largeur     336 M   (  6.4 % du socle)   [1024/1024 sommets admissibles]
   t = 0.50 : SCR dans [    7605 ;     8300] M   largeur     695 M   ( 13.2 % du socle)   [1024/1024 sommets admissibles]
   t = 0.75 : SCR dans [    7348 ;     8431] M   largeur    1083 M   ( 20.5 % du socle)   [1024/1024 sommets admissibles]

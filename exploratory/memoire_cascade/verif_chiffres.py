@@ -143,6 +143,13 @@ def extrait(txt, latex=True):
     # controle pendant des semaines.
     t = re.sub(r"\b(?:art\.?|articles?)\s*~?\s*\d+(?:\s*(?:,|et|à|a|--?|–)\s*\d+)*", " ", t,
                flags=re.IGNORECASE)
+    # UN NUMERO DE REGLEMENT N'EST PAS UN RESULTAT NON PLUS, meme exemption de CONTEXTE. Le
+    # resume ecrit « le reglement DORA (UE 2022/2554) » et le harnais y lisait 2022 puis 2554 :
+    # le millesime etait exempte par motif, le numero d'ordre non, et il ressortait comme un
+    # nombre du memoire a confirmer. Aucune sortie de script ne l'imprime, et aucune ne le
+    # devrait. Le motif ne retire que la forme ANNEE/NUMERO, jamais la valeur 2554 ailleurs :
+    # c'est la meme discipline que pour les articles, on exempte l'occurrence et pas le nombre.
+    t = re.sub(r"\b(?:19|20)\d{2}\s*/\s*\d{1,5}\b", " ", t)
     t = t.replace("\\,", "").replace("~", " ").replace("{,}", ".")
     t = re.sub(r"\\[a-zA-Z]+", " ", t)          # commandes LaTeX restantes
     if not latex:

@@ -99,6 +99,30 @@ Hackmageddon : CITATION EXTERNE, non recalculable
   repartition par vecteur, et ne portent aucun niveau de capital.
 
 ====================================================================================
+ENISA Threat Landscape : CITATION EXTERNE, non recalculable
+====================================================================================
+  source    : ENISA Threat Landscape 2025, Agence de l'Union europeenne pour la cybersecurite
+  perimetre : incidents de perimetre europeen, collecte propre a l'agence
+  incidents retenus par le rapport         : 4875
+
+  taux de conversion tentative -> intrusion :
+    exploitation de vulnerabilite exposee       0.70   soit 70 %
+    phishing et ingenierie sociale              0.27   soit 27 %
+  rapport entre les deux taux              : 2.59
+
+  A QUOI SERT CETTE ASYMETRIE. Le phishing est le vecteur le plus FREQUENT et l'un des
+  moins CONVERTISSANTS ; l'exploitation de vulnerabilite est l'inverse. Un modele calibre
+  sur le seul volume d'incidents surponderait donc le phishing, et c'est le motif pour
+  lequel le memoire retient de Hackmageddon la STRUCTURE par vecteur et jamais le niveau.
+  Le rapport ci-dessus est imprime plutot que laisse au lecteur, pour la meme raison que
+  les autres rapports derives : un rapport calcule a la redaction n'est verifiable par
+  personne.
+
+  AVERTISSEMENT, identique a celui de Hackmageddon. Ce rapport n'est PAS versionne dans
+  data/raw/ : ces trois valeurs sont une citation enregistree, pas une sortie
+  recalculable. Elles ne portent aucun niveau de capital.
+
+====================================================================================
 Preprint de cascade climatique : CITATION EXTERNE, non recalculable
 ====================================================================================
   source : Karimi, Salavati, Shokrollahi, arXiv:2608.09456v1 [q-fin.RM], 10 aout 2026

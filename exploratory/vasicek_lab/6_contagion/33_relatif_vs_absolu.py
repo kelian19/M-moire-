@@ -98,7 +98,31 @@ soc = np.array([res[n]['socle'] for n, _ in CONFIGS])
 hau = np.array([res[n]['hi'] for n, _ in CONFIGS])
 print(f"\n  Amplitude du socle       : facteur {soc.max()/soc.min():.2f} entre configurations")
 print(f"  Amplitude de la borne haute : facteur {hau.max()/hau.min():.2f}")
-print("  Le NIVEAU depend donc massivement de la source de severite et de la frequence,")
+
+# LES DEUX FACTEURS DU RESUME, DECOMPOSES. Le resume du memoire ecrit « un facteur 22 avec la
+# seule source de severite et jusqu'a 41 en y ajoutant l'echelle de frequence ». Ces deux
+# nombres se deduisaient du tableau ci-dessus, mais AUCUN n'etait imprime : ils etaient
+# calcules pendant la redaction, donc verifiables par personne. C'est la quatrieme classe du
+# residu du harnais, la seule qui soit un defaut. Les tracer ici les rend citables et empeche
+# qu'ils se desynchronisent du tableau, ce qui est deja arrive ailleurs dans ce projet.
+i_ref = [n for n, _ in CONFIGS].index("A. référence")
+i_prc = [n for n, _ in CONFIGS].index("B. sévérité PRC")
+i_frq = [n for n, _ in CONFIGS].index("C. fréquence x3")
+print("\n  LES DEUX FACTEURS QUE LE RESUME CITE, tires du meme tableau :")
+print(f"    severite SEULE, sur le socle        : facteur "
+      f"{soc[i_ref]/soc[i_prc]:.2f}   (A / B)")
+print(f"    severite SEULE, sur la borne haute  : facteur "
+      f"{hau[i_ref]/hau[i_prc]:.2f}")
+print(f"    en ajoutant l'echelle de frequence  : facteur "
+      f"{hau[i_frq]/hau[i_prc]:.2f}   (C / B, borne haute)")
+print(f"    idem sur le socle                   : facteur "
+      f"{soc[i_frq]/soc[i_prc]:.2f}")
+print("    Le resume arrondit le premier a 22 et le troisieme a 41. Les deux autres sont")
+print("    imprimes pour que le choix de la grandeur de reference soit visible : selon qu'on")
+print("    lit le socle ou la borne haute, l'amplitude n'est pas la meme, et annoncer un")
+print("    facteur sans dire sur quoi il porte serait un raccourci.")
+
+print("\n  Le NIVEAU depend donc massivement de la source de severite et de la frequence,")
 print("  qui sont precisement les deux briques les moins transposables (pertes")
 print("  americaines de grandes institutions, perimetre de collecte). Presenter ce")
 print("  niveau comme une mesure serait indefendable.")

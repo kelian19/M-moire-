@@ -32,6 +32,10 @@
 \end{frame}
 
 % =====================================================================
+% HARNAIS-HORS-SECTION: page de titre et rappel du point precedent. Les nombres de ce bloc sont
+% des DATES et des reperes d'agenda, plus les lettres de numerotation des trois parties : aucun
+% ne sort d'un calcul et aucun n'a de script proprietaire. Le declarer vaut mieux que de citer
+% un script au hasard pour faire tomber le compteur, ce qui confirmerait par coincidence.
 \begin{frame}{Depuis le point du 31 juillet}
 La documentation du placebo et la clarification sur $z$ et $\sigma$ te sont parvenues par
 écrit, je n'y reviens pas.
@@ -209,6 +213,15 @@ hypothèse externe affichée comme telle), le retour sur le \emph{seul} portage 
 $35$~ans. Et le portage seul est le \textbf{plancher} : l'essentiel du $\Delta$SCR est de la
 perte évitée.
 \end{block}
+% RETROFIT DU 17 AOUT 2026 : ce deck etait a 0 % DE COUVERTURE, 103 nombres dont aucun sous
+% controle, faute de citer un seul script. C'est la faille qui avait laisse passer l'intervalle
+% de xi errone d'une version precedente. Le harnais decoupe un deck par \section*, donc UNE
+% ligne de sources par section suffit a couvrir toute la section : trois lignes en tout, et
+% aucun cadre a retoucher. Elles sont posees sur le DERNIER cadre de chaque section, le moins
+% charge, et les cadres touches ont ete rendus et regardes.
+\vfill{\tiny Sources : scripts \texttt{03}, \texttt{12}, \texttt{29}, \texttt{30},
+\texttt{31}, \texttt{33}, \texttt{43}, \texttt{46}, \texttt{50}, \texttt{51}, \texttt{60},
+\texttt{61}, \texttt{63}.}
 \end{frame}
 
 % =====================================================================
@@ -272,13 +285,22 @@ $\ge 1$}. Le mélange Gamma est le bon objet, l'Erlang n'en est qu'un cas partic
       surcoût : la suite naturelle des $5\,001$~M\euro{} d'interaction.
 \item La \textbf{relecture complète du mémoire}, jamais faite depuis la restructuration.
 \end{itemize}
-\vspace{2mm}
+% ESPACE SUPPRIME POUR LOGER LA LIGNE DE SOURCES. Ce cadre etait deja au bord : ajouter une
+% ligne, meme en \tiny, le faisait deborder de 9,5 pt d'abord, puis de 1 pt apres avoir rogne
+% l'aere de 2 a 0,5 mm. Rogner entierement plutot que de renoncer au rattachement aux scripts,
+% qui est ce qui met les 23 nombres de cette section sous controle. Aucun contenu n'est retire,
+% et la page a ete rendue et regardee apres coup.
 \begin{block}{Ce qu'il faut retenir de ce point}
 \textbf{Le niveau bouge dans la bande, l'ordre des piliers ne bouge pas.} C'est la thèse du
 mémoire, et elle survit maintenant à un quatrième axe : le changement d'échelle.\\[3pt]
 Ligne de conduite inchangée : ne jamais présenter comme mesuré ce qui est posé.
 \emph{Deux paramètres viennent de changer de statut, et dans le bon sens.}
 \end{block}
+% PAS DE \vfill ICI, ET C'EST MESURE. Ce cadre etait deja plein : avec le \vfill utilise sur
+% la section A, il debordait de 9,5 pt, soit 3 mm hors de la slide. Sans le \vfill et avec un
+% leger rappel vertical, tout tient. Verifie a la compilation puis en regardant la page.
+\vspace{-1.5mm}{\tiny Sources : scripts \texttt{08b}, \texttt{21}, \texttt{43}, \texttt{57},
+\texttt{60}.}
 \end{frame}
 
 \end{document}

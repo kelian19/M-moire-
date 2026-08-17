@@ -78,6 +78,18 @@ print("  defendable. Tout ce qui est au-dessus est de la contagion, donc a borne
 # =====================================================================================
 titre("Bornes de capital sur l'ensemble admissible, en fonction de l'ignorance t")
 # =====================================================================================
+# LA DIMENSION DU PAVE, IMPRIMEE PLUTOT QUE SOUS-ENTENDUE. Le memoire ecrit « les 2^10 = 1 024
+# sommets », et seul le 1 024 etait trace : l'exposant, qui est le nombre d'entrees hors
+# diagonale libres, ne l'etait pas. Un exposant est un vrai nombre quand il compte quelque
+# chose, et celui-ci compte les degres de liberte de la direction. Il vaut donc mieux
+# l'imprimer que de laisser le lecteur le reconstituer.
+_n_pil = len(pid.PILIERS) if hasattr(pid, "PILIERS") else 5
+_n_libres = _n_pil * (_n_pil - 1) // 2
+print(f"  degres de liberte de la direction : {_n_libres} paires hors diagonale, "
+      f"donc 2^{_n_libres} = {2**_n_libres} sommets")
+print("  (une paire non ordonnee par couple de piliers distincts ; chaque sommet fixe le sens")
+print("  de chacune, ce qui rend l'enumeration exhaustive et le resultat deterministe.)\n")
+
 bounds, means_b = {}, {}
 for t in T_GRID:
     if t == 0.0:
