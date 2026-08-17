@@ -9,13 +9,25 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au 14 août 2026 : **corps jusqu'à la page 115, annexes à partir de la 116, 156 pages au
-total**, branche `exploratory`. La ligne « 104 pages » qui figurait ici datait du 12 août au matin
-et n'avait pas suivi le travail des deux jours suivants : lire le compte dans `main.toc` plutôt que
-dans ce fichier en cas de doute. Harnais au 14 août : **1 865 nombres, 1 831 confirmés, 98,2 %**,
-et **0 hors contrôle non déclaré sur les dix-neuf chapitres**. Ce dernier chiffre se relève
-chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1` n'imprime PAS la couverture,
-seulement le taux de confirmation, alors que c'est la couverture qui passe en premier.
+État au **17 août 2026** : **corps jusqu'à la page 118, annexes à partir de la 119, 163 pages au
+total**, branche `exploratory`. Les comptes de ce fichier se périment en deux jours : lire
+`main.toc` plutôt que cette ligne en cas de doute. Harnais au 17 août : **1 950 nombres,
+1 916 confirmés, 98,3 %**, et **0 hors contrôle non déclaré sur les dix-neuf chapitres**. Ce
+dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
+n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
+passe en premier.
+
+**Le chiffre de tête est TRANCHÉ depuis le 17 août : la lecture à QUATRE CANAUX**, soit
+`SCR 6 049 → 20 188 M€`, facteur **3,34**, écart **14 139 M€**. Quatre protocoles chiffraient
+« l'écart entre conforme et non conforme » et donnaient quatre résultats, de −53 % à 3,34, parce
+qu'ils ne relâchent pas le même nombre de canaux. Le motif du choix est qu'elle est la **seule où
+l'état conforme est conforme sur tous les canaux du modèle** : ailleurs l'entité dite conforme
+propage encore, ou sa détection ou son accumulation tiers restent au niveau non conforme. Les
+trois autres lectures **restent publiées comme des remédiations partielles**, et leur emboîtement
+est un résultat. Table et motifs au chapitre 12, `sec:chiffre-de-tete` ; rapports imprimés par la
+**section 3bis du script 67**. Les trajectoires et la priorisation restent en lecture B, par choix
+d'objet et non par indécision. **Ne pas rouvrir, et ne pas remplacer un de ces chiffres par un
+autre.**
 
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
@@ -376,10 +388,32 @@ avec son bruit. Un lecteur qui voit ± 7 ne pose plus la question du troisième 
 ## Contrôles à passer avant de dire que c'est fini
 
 ```
-0 référence indéfinie · 0 « Annotation out of page boundary » · 0 Overfull \vbox
+0 « ?? » dans le PDF · 0 « Annotation out of page boundary » · 0 Overfull \vbox
 0 page tournée (/Rotate absent) · git status propre
 COUVERTURE = 100 % (aucun nombre hors contrôle non déclaré) · confirmation ≥ 97 %
 ```
+
+**Le contrôle « 0 référence indéfinie » ne se lit PAS dans la sortie de tectonic, et l'y
+chercher a été une erreur pendant des semaines.** Tectonic **n'émet aucun avertissement** pour
+une référence non résolue avec cette invocation : un grep sur `undefined` renvoie zéro quoi qu'il
+arrive, donc le contrôle passait à vide. Il avait laissé passer cinq `\ref{chap:etat-art}`
+pointant vers un label inexistant, soit « cité au chapitre ?? » cinq fois dans le PDF publié.
+Le test fiable est le **comptage des `??` dans le PDF produit** :
+
+```powershell
+& $py -c "import fitz,re; d=fitz.open('main.pdf'); print(sum(len(re.findall(r'\?\?', p.get_text())) for p in d))"
+```
+
+**Et le texte du PDF porte des LIGATURES.** Chercher « vérification » dans `page.get_text()`
+échoue parce que le `fi` sort en `ﬁ` (U+FB01). Normaliser en NFKD avant toute recherche, sans
+quoi on conclut à tort qu'une section est absente.
+
+**La couverture se relève chapitre par chapitre, et le bon indicateur est « hors contrôle non
+déclaré = 0 », pas « couverture = 100 % ».** Un chapitre qui déclare légitimement des nombres
+hors script (démonstrations, état de l'art, réglementaire, section du dispositif de vérification)
+affiche une couverture inférieure à 100 % sans que rien n'aille mal. Le calcul est
+`publiés − sous contrôle − déclarés`, et c'est lui qui doit valoir zéro sur les dix-neuf
+chapitres. Vérifié à zéro partout le 17 août 2026.
 
 La couverture passe **avant** le taux, et dans cet ordre. Un taux de confirmation se règle en
 retirant une citation ; la couverture, non. Le harnais imprime les deux, et distingue trois

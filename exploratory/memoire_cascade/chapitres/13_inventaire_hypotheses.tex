@@ -215,6 +215,45 @@ déplace ce parti d'une préférence vers une contrainte d'observation, et c'est
 peut en tirer. Le rejet lui-même ne repose que sur le test du présent travail.
 \end{attention}
 
+\paragraph{Ce que ce test établit réellement : une équivalence observationnelle, et c'est plus
+fort qu'un rejet.} Le mot \og rejet \fg{} suppose que la donnée départage les deux modèles. Elle
+ne les départage pas, et le mesurer valait mieux que de l'espérer (script~\texttt{85}).
+
+L'argument se pose d'abord \emph{sans} rien simuler. Si chaque pilier touché est un événement
+enregistrable, la fraction d'événements qui sont des \emph{enfants} vaut
+$(\mathbb{E}[k]-1)/\mathbb{E}[k]$, où $\mathbb{E}[k]$ est le nombre moyen de piliers touchés par
+sinistre : c'est exactement ce qu'un ajustement de Hawkes appelle son ratio de branchement. Avec
+$\mathbb{E}[k]=1{,}931$ à l'état non conforme, une cascade \textbf{sans aucune auto-excitation}
+prédit $n=0{,}482$, à comparer au $0{,}551$ mesuré sur la chronologie réelle.
+
+Le test le confirme. On engendre soixante années de dates avec le moteur de cascade, dont la
+seule structure temporelle est la durée des pas de propagation \emph{à l'intérieur} d'un sinistre,
+puis on lui ajuste un Hawkes exponentiel comme on le ferait sur une chronologie réelle. À la
+résolution de la donnée disponible, le jour, l'ajustement trouve $n=0{,}480$, soit la prédiction
+analytique à trois millièmes. Il retrouve même l'horloge interne : la demi-vie estimée du noyau
+vaut $9{,}0$~h pour un lag de propagation vrai de $6{,}7$~h, et il l'appelle \og décroissance de
+l'excitation \fg{}. L'estimateur a été validé au préalable sur un Poisson pur, où il rend
+$0{,}004$, et sur trois processus de Hawkes simulés de ratios connus, qu'il retrouve.
+
+\begin{cle}
+\textbf{Conséquence, à assumer telle quelle.} Un ratio de branchement de l'ordre de $0{,}5$
+mesuré sur des dates réelles \textbf{ne prouve pas l'auto-excitation} : une cascade qui n'en
+contient aucune le produit. Les deux modèles sont \emph{observationnellement équivalents} à la
+résolution disponible. L'énoncé juste n'est donc pas \og le Hawkes est rejeté \fg{} mais \og le
+Hawkes n'est pas distinguable de la cascade, et la cascade est retenue par parcimonie
+interprétative \fg{} : elle rend compte du même regroupement temporel par un mécanisme qui porte
+en outre la structure inter-piliers et se traduit en capital. C'est une conclusion plus faible en
+apparence et plus solide en fait, puisqu'elle cesse de s'appuyer sur un départage que la donnée
+ne permet pas.
+
+\textbf{Attention au sens de l'effet de résolution.} Dégrader la résolution \textbf{fait monter}
+le ratio estimé, de $0{,}473$ à l'heure jusqu'à $0{,}739$ au mois, parce qu'agréger fabrique du
+regroupement apparent. C'est l'opération \emph{inverse} de celle conduite plus haut, qui fait
+tomber l'endogénéité en reclassant les co-occurrences du même jour en exogène. Les deux
+expériences ne se contredisent pas, elles déplacent deux choses différentes, et les confondre
+donnerait une conclusion opposée.
+\end{cle}
+
 \begin{cle}
 \textbf{Oui, chaque brique a des alternatives.} Fréquence (Poisson, Hawkes, Cox), sévérité
 (lognormale, splicing, EVT bayésienne), dépendance (copules, réseaux, Hawkes multivarié),

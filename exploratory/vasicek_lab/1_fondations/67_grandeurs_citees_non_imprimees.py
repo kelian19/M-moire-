@@ -254,6 +254,78 @@ print(f"  P1 ou P4 en tete, cumule                   : {P1_TETE+P4_TETE:.1f} %")
 
 
 # =====================================================================================
+titre("3bis. L'echelle des lectures de l'ecart entre etats, et laquelle le memoire publie")
+# =====================================================================================
+# POURQUOI CETTE SECTION EXISTE. Quatre protocoles du projet chiffrent « l'ecart entre l'etat
+# conforme et l'etat non conforme » et donnent quatre resultats, de -53 % a un facteur 3,34.
+# Aucun n'est faux : ils ne RELACHENT PAS LE MEME NOMBRE DE CANAUX. Tant que le rapport
+# n'etait imprime nulle part, le lecteur voyait quatre chiffres sans regle pour choisir, et
+# le memoire lui-meme declarait la question ouverte dans un encadre du chapitre resultats.
+#
+# Les niveaux ci-dessous sont tous lus dans une sortie versionnee ; seuls les RAPPORTS sont
+# calcules ici, et c'est precisement ce qui manquait.
+#
+# ATTENTION A NE PAS SUR-LIRE LA COLONNE « conforme ». Elle n'est pas monotone (6 664, puis
+# 5 932, puis 6 049) parce que relacher un canal deplace AUSSI l'etat conforme, et parce que
+# les protocoles n'ont ni la meme graine ni la meme base. Les trois valeurs basses tiennent
+# dans 2,6 % l'une de l'autre, soit l'ordre du bruit de simulation. Ce qui se compare d'un
+# protocole a l'autre est le FACTEUR, pas le niveau.
+
+LECTURES = [
+    # (libelle, canaux relaches, SCR conforme, SCR non conforme, source versionnee)
+    ("score de conformite seul, g fige au niveau NC", 1, 7987.0, 16847.0, "25"),
+    ("frequence + propagation (lecture B)",           2, 6664.0, 15074.0, "16"),
+    ("+ detection (lecture C)",                       3, 5932.0, 16595.0, "16"),
+    ("+ accumulation P4 (les quatre canaux)",         4, 6049.0, 20188.0, "43"),
+]
+
+print("Quatre protocoles chiffrent le meme enonce et donnent quatre resultats. Ils different")
+print("par le NOMBRE DE CANAUX qu'ils relachent entre les deux etats, et par rien d'autre.\n")
+print(f"  {'lecture':<48}{'can.':>5}{'conforme':>11}{'non conf.':>11}{'facteur':>10}{'ecart':>10}  src")
+for lib, k, c, nc, src in LECTURES:
+    print(f"  {lib:<48}{k:>5}{c:>11.0f}{nc:>11.0f}{nc/c:>10.2f}{nc-c:>10.0f}   {src}")
+
+facteurs = [nc / c for _, _, c, nc, _ in LECTURES]
+croissant = all(facteurs[i] < facteurs[i + 1] for i in range(len(facteurs) - 1))
+print(f"\n  le facteur croit-il avec le nombre de canaux relaches ? {croissant}")
+print(f"  amplitude du facteur, d'un canal a quatre  : {facteurs[0]:.2f} -> {facteurs[-1]:.2f}")
+print(f"  soit un ecart de                           : {facteurs[-1]-facteurs[0]:+.2f}")
+
+ecarts = [nc - c for _, _, c, nc, _ in LECTURES]
+ec_croissant = all(ecarts[i] < ecarts[i + 1] for i in range(len(ecarts) - 1))
+print(f"\n  et la colonne ECART en euros, croit-elle ? {ec_croissant}")
+print("  Non, et il faut le dire plutot que de laisser le lecteur le remarquer seul : elle")
+print("  passe de 8 860 a 8 410 entre la premiere et la deuxieme lecture. La raison n'est pas")
+print("  un effet de modele mais un changement de BASE, l'etat conforme passant de 7 987 a")
+print("  6 664 d'un protocole a l'autre. Un ecart en euros n'est comparable qu'a base egale ;")
+print("  le rapport, lui, est sans dimension et se compare. C'est le meme motif qui fait")
+print("  publier les elasticites plutot que les plages dans le tornado renormalise.")
+
+print("\nCE QUE LA MONOTONIE DIT, ET CE QU'ELLE NE DIT PAS. Elle est coherente avec la")
+print("super-additivite mesuree sur une autre partition (les seize configurations du script 68,")
+print("+5 001 M EUR d'interaction) : relacher un canal de plus ajoute son effet propre ET les")
+print("croises qu'il porte. Mais les quatre lignes ne sont PAS une experience controlee, leurs")
+print("protocoles differant aussi par la graine et par la base. La monotonie s'observe, elle ne")
+print("se teste pas ici ; le test, lui, est dans le script 68, ou les seize configurations")
+print("partagent le meme moteur et les memes graines.")
+
+print("\nCE QUE LE MEMOIRE PUBLIE, ET POURQUOI. La lecture retenue est celle des QUATRE CANAUX.")
+print("Motif principal : c'est la seule ou l'etat conforme est conforme sur TOUS les canaux que")
+print("le modele possede. Dans la premiere lecture, l'entite dite conforme propage encore comme")
+print("une entite defaillante ; dans les deux suivantes, sa detection ou son accumulation tiers")
+print("restent au niveau non conforme. Une entite conforme sur un canal et non conforme sur")
+print("trois autres n'est pas un etat conforme, c'est une remediation partielle, et la nommer")
+print("« conforme » sous-estime l'ecart par construction.")
+print("Motif secondaire : c'est deja la lecture dont depend tout l'aval, la table des quatre")
+print("canaux, la decomposition de Mobius, les colonnes de fermeture et de Shapley, et le")
+print("calcul de portage. Publier un autre chiffre en tete obligerait a rejouer cet aval.")
+
+print("\nLES TROIS AUTRES LECTURES NE SONT PAS RETIREES. Elles restent publiees comme des")
+print("remediations PARTIELLES, ce qu'elles sont, et leur emboitement est un resultat : il")
+print("chiffre ce que coute de ne fermer qu'une partie des canaux.")
+
+
+# =====================================================================================
 titre("4. Statistiques de severite de la population EFFECTIVEMENT utilisee")
 # =====================================================================================
 # VALEURS EN POINT DECIMAL. Ces six nombres sont ceux que le chapitre donnees CITE dans son

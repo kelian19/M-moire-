@@ -1,4 +1,4 @@
-
+﻿
 ========================================================================================
 1. Quantile de severite et moyenne de queue, par les formes fermees de la GPD
 ========================================================================================
@@ -125,6 +125,53 @@ qu'une valeur amont bouge sans que le rapport suive, ce qui est arrive une fois.
   P1 en tete de priorite (script 30)         : 43.6 %
   P4 en tete                                 : 37.7 %
   P1 ou P4 en tete, cumule                   : 81.3 %
+
+========================================================================================
+3bis. L'echelle des lectures de l'ecart entre etats, et laquelle le memoire publie
+========================================================================================
+Quatre protocoles chiffrent le meme enonce et donnent quatre resultats. Ils different
+par le NOMBRE DE CANAUX qu'ils relachent entre les deux etats, et par rien d'autre.
+
+  lecture                                          can.   conforme  non conf.   facteur     ecart  src
+  score de conformite seul, g fige au niveau NC       1       7987      16847      2.11      8860   25
+  frequence + propagation (lecture B)                 2       6664      15074      2.26      8410   16
+  + detection (lecture C)                             3       5932      16595      2.80     10663   16
+  + accumulation P4 (les quatre canaux)               4       6049      20188      3.34     14139   43
+
+  le facteur croit-il avec le nombre de canaux relaches ? True
+  amplitude du facteur, d'un canal a quatre  : 2.11 -> 3.34
+  soit un ecart de                           : +1.23
+
+  et la colonne ECART en euros, croit-elle ? False
+  Non, et il faut le dire plutot que de laisser le lecteur le remarquer seul : elle
+  passe de 8 860 a 8 410 entre la premiere et la deuxieme lecture. La raison n'est pas
+  un effet de modele mais un changement de BASE, l'etat conforme passant de 7 987 a
+  6 664 d'un protocole a l'autre. Un ecart en euros n'est comparable qu'a base egale ;
+  le rapport, lui, est sans dimension et se compare. C'est le meme motif qui fait
+  publier les elasticites plutot que les plages dans le tornado renormalise.
+
+CE QUE LA MONOTONIE DIT, ET CE QU'ELLE NE DIT PAS. Elle est coherente avec la
+super-additivite mesuree sur une autre partition (les seize configurations du script 68,
++5 001 M EUR d'interaction) : relacher un canal de plus ajoute son effet propre ET les
+croises qu'il porte. Mais les quatre lignes ne sont PAS une experience controlee, leurs
+protocoles differant aussi par la graine et par la base. La monotonie s'observe, elle ne
+se teste pas ici ; le test, lui, est dans le script 68, ou les seize configurations
+partagent le meme moteur et les memes graines.
+
+CE QUE LE MEMOIRE PUBLIE, ET POURQUOI. La lecture retenue est celle des QUATRE CANAUX.
+Motif principal : c'est la seule ou l'etat conforme est conforme sur TOUS les canaux que
+le modele possede. Dans la premiere lecture, l'entite dite conforme propage encore comme
+une entite defaillante ; dans les deux suivantes, sa detection ou son accumulation tiers
+restent au niveau non conforme. Une entite conforme sur un canal et non conforme sur
+trois autres n'est pas un etat conforme, c'est une remediation partielle, et la nommer
+« conforme » sous-estime l'ecart par construction.
+Motif secondaire : c'est deja la lecture dont depend tout l'aval, la table des quatre
+canaux, la decomposition de Mobius, les colonnes de fermeture et de Shapley, et le
+calcul de portage. Publier un autre chiffre en tete obligerait a rejouer cet aval.
+
+LES TROIS AUTRES LECTURES NE SONT PAS RETIREES. Elles restent publiees comme des
+remediations PARTIELLES, ce qu'elles sont, et leur emboitement est un resultat : il
+chiffre ce que coute de ne fermer qu'une partie des canaux.
 
 ========================================================================================
 4. Statistiques de severite de la population EFFECTIVEMENT utilisee

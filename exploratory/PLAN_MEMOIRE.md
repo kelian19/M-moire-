@@ -12,25 +12,60 @@ Tout cela est fait depuis. Ce document repart de l'état mesuré, pas de l'état
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **117 p.** | première page d'annexe moins une, dans `main.toc` |
-| Document complet | **159 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **118 p.** | première page d'annexe moins une, dans `main.toc` |
+| Document complet | **163 p.** | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
 | Scripts de calcul | 97 | `vasicek_lab/*/*.py` |
 | Sorties versionnées | 93 | `sorties_verif/NN.txt` |
-| Scripts cités par le mémoire | **74** | le reste est du travail non publié, voir A1 |
-| Nombres publiés sous contrôle | 1 865 | harnais, tous chapitres |
-| Confirmation | 98,2 % | 1 831 confirmés |
+| Scripts cités par le mémoire | **79** | le reste est du travail non publié, voir A1 |
+| Nombres publiés sous contrôle | 1 950 | harnais, tous chapitres |
+| Confirmation | 98,3 % | 1 916 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
-| Contrôles du document | 0 / 0 / 0 / 0 | référence indéfinie, Overfull vbox, annotation hors page, page tournée |
+| Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
-Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. Ce qui reste n'est plus
-de produire mais de **rendre visible** ce qui est déjà mesuré, et de fermer trois trous.
+Le modèle est construit, calibré, **gelé depuis le 7 août** et vérifié. **A1 et A3 sont fermés
+depuis le 17 août au soir** ; A2 attend les réponses des collègues et rien d'autre ne le débloque.
 
 ---
 
 ## A. Les trois trous du mémoire, par ordre de rendement
 
-### A1. Du travail fait, mesuré, versionné, et invisible pour le jury
+> **A1 et A3 sont fermés depuis le 17 août 2026 au soir.** Ce qui suit décrit ce qu'ils étaient
+> et ce qui a été fait. **A2 reste ouvert** et attend les réponses des collègues.
+
+### A1. Du travail fait, mesuré, versionné, et invisible pour le jury — **FERMÉ**
+
+**Ce qui a été porté au mémoire :**
+
+- **le dispositif de vérification est désormais décrit**, section D.1 de l'annexe des pièces
+  justificatives : le principe, la formule de tolérance, les trois lignes rendues, pourquoi la
+  couverture passe avant le taux, les trois états, **ce que le harnais ne fait pas**, les quatre
+  classes de résidu et les trois erreurs réelles qu'il a trouvées. Plus un paragraphe dans la
+  conclusion, section « Ce qui est établi », qui le compte comme un acquis de méthode. La section
+  est déclarée hors script avec le motif de **circularité** : la faire vérifier par le harnais
+  reviendrait à lui faire confirmer le nombre qui compte ce qu'il confirme ;
+- **le +0,1 % du benchmark copule est requalifié** (script 80) : c'est **une graine**, l'écart
+  valant +4,8 % d'étendue 10 points sur quatre. L'énoncé publié devient le seul qui tienne, à
+  savoir que l'écart ne dépasse pas son propre bruit. Et **la séparation en queue ne vaut que pour
+  la Student**, seule structure à dépendance de queue asymptotique ;
+- **l'équivalence observationnelle Hawkes / cascade est écrite** (script 85), chapitre 13 : une
+  cascade sans auto-excitation prédit n = 0,482 analytiquement et l'ajustement en trouve 0,480 au
+  jour, contre 0,551 mesuré. Le rejet se reformule en équivalence suivie d'un choix de parcimonie
+  interprétative, avec la mise en garde sur le sens de l'effet de résolution ;
+- **l'ablation en échelle est publiée** (script 81), chapitre 12 : la queue à −76 % contre la
+  propagation à −20 %, facteur 3,7, même conclusion que le tornado par un chemin indépendant. Avec
+  le résultat qui ne s'attendait pas, la **forme de queue est héritée de la sévérité et non
+  produite par la cascade** (CTE/VaR passe de 2,075 à 2,061 quand on retire la propagation) ;
+- **les deux horloges** (script 79) et **le plafond avec la saturation** (script 86) ont chacun
+  leur section d'annexe : le capital **concave** en durée de non-conformité, un trimestre portant
+  33 % du surcoût annuel et une remédiation à mi-exercice n'en rendant que 44 % ; et le plafond
+  comme **amortisseur** et non contrepoids, sans aucune crête de compensation.
+
+Reste hors mémoire, et sans dommage : les scripts 83 et 87, dont les résultats sont déjà portés
+autrement (la formule du retour au chapitre 12, la part d'amorce à l'annexe C).
+
+<details>
+<summary>Ce que le trou était</summary>
 
 **Le plus rentable de toute la liste, et de loin.** Vingt sorties versionnées ne sont citées par
 aucun chapitre, dont **les sept plus récentes : 79, 80, 81, 83, 85, 86, 87**.
@@ -55,7 +90,9 @@ nombres publiés contre les sorties des scripts qui les produisent, avec une cou
 est un résultat de méthode et pas une coulisse. **Aucun jury ne peut le créditer s'il ne le lit
 pas.** C'est le meilleur rapport valeur sur effort du projet : une section, aucun calcul.
 
-### A2. Le second codage en aveugle
+</details>
+
+### A2. Le second codage en aveugle — **OUVERT, en attente des collègues**
 
 Le seul endroit où le mémoire **annonce une mesure qui n'existe pas encore**. Le kit est prêt,
 dix récits, une heure de travail, et le formulaire est en état d'être envoyé depuis aujourd'hui.
@@ -66,16 +103,44 @@ l'objection qu'un jury formulera en premier sur la partie la plus originale du m
 
 **Délai externe, donc à lancer avant tout le reste.**
 
-### A3. Trancher le chiffre de tête
+### A3. Trancher le chiffre de tête — **FERMÉ**
 
-Trois valeurs circulent pour « l'écart entre conforme et non conforme » et elles ne mesurent pas
-la même chose, parce qu'elles ne déplacent pas les mêmes paramètres :
+**Le mémoire publie la lecture à quatre canaux : SCR 6 049 vers 20 188 M€, facteur 3,34, écart
+14 139 M€.**
 
-| Valeur | Source | Ce qu'elle fait |
-| --- | --- | --- |
-| −53 % | script 25 | balaie q de 0 à 1 en gardant **g au niveau non conforme** |
-| facteur 3,34 | script 43 | les quatre canaux, sévérité et échelle inchangées |
-| −64 % (OpRisk), −75 % (PRC) | script 20 | par état, sur les 32 configurations |
+Il y avait non pas trois mais **quatre** protocoles en circulation, et ils diffèrent par le
+**nombre de canaux relâchés** entre les deux états, par rien d'autre :
+
+| Lecture | canaux | conforme | non conf. | facteur | source |
+| --- | --- | --- | --- | --- | --- |
+| score de conformité seul, g figé au niveau NC | 1 | 7 987 | 16 847 | 2,11 | script 25 |
+| fréquence + propagation (lecture B) | 2 | 6 664 | 15 074 | 2,26 | script 16 |
+| + détection (lecture C) | 3 | 5 932 | 16 595 | 2,80 | script 16 |
+| **+ accumulation P4 (les quatre canaux)** | **4** | **6 049** | **20 188** | **3,34** | script 43 |
+
+Le pire de la situation n'était pas la multiplicité : c'est que **le corps du mémoire publiait la
+lecture B et que le chiffre à quatre canaux vivait en annexe**, sans qu'aucun texte ne dise qu'ils
+diffèrent. Un encadré du chapitre 12 déclarait même la question « à trancher ».
+
+**Motif du choix.** C'est la seule lecture où l'état conforme est conforme **sur tous les canaux
+que le modèle possède**. Ailleurs, l'entité dite conforme propage encore comme une défaillante, ou
+sa détection ou son accumulation tiers restent au niveau non conforme : ce n'est pas un état
+conforme, c'est une remédiation partielle, et la nommer conforme sous-estime l'écart par
+construction. Motif secondaire, tout l'aval en dépend déjà, la table des quatre canaux, Möbius,
+les colonnes de fermeture et de Shapley, le portage.
+
+**Ce qui a permis de trancher maintenant :** l'encadré excluait la détection tant que son ampleur
+n'était pas validée. Elle l'est, le script 68 la chiffre à 2 928 ± 343 en Shapley, signe résolu
+sur seize graines. La réserve a expiré.
+
+**Les trois autres lectures ne sont pas retirées**, ce sont des remédiations partielles et leur
+emboîtement chiffre ce que coûte de ne fermer qu'une partie des canaux. Deux précautions écrites :
+le **facteur** se compare d'une lecture à l'autre mais l'**écart en euros non**, les bases
+différant ; et la monotonie du facteur s'observe sans se tester ici, les protocoles ne partageant
+ni graine ni base. Les rapports sont imprimés par la **section 3bis du script 67**.
+
+Les trajectoires et la priorisation restent en lecture B, par choix d'objet (elles portent sur
+l'ordre, invariant) et parce que les rejouer relèverait de la recalibration.
 
 À une question de soutenance sur le résultat principal, il faut **une** réponse et sa
 définition. **Ne pas remplacer un de ces chiffres par un autre sans avoir tranché** : ce serait

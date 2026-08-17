@@ -9,10 +9,124 @@
 \label{ann:pieces}
 
 Cette annexe rassemble ce qui rend le mémoire \emph{vérifiable} sans être nécessaire à sa
-lecture : la réconciliation des chiffres entre chapitres, deux contrôles de la brique de
-sévérité, l'inventaire complet des paramètres et les sensibilités qui ne figurent pas au
-tornado. Aucun chiffre du corps n'y est établi pour la première fois, et aucune conclusion
-n'en dépend ; l'objet est qu'aucun chiffre du mémoire ne soit sans origine déclarée.
+lecture : le dispositif qui contrôle chaque nombre publié, la réconciliation des chiffres entre
+chapitres, deux contrôles de la brique de sévérité, l'inventaire complet des paramètres et les
+sensibilités qui ne figurent pas au tornado. Aucun chiffre du corps n'y est établi pour la
+première fois, et aucune conclusion n'en dépend ; l'objet est qu'aucun chiffre du mémoire ne soit
+sans origine déclarée.
+
+\section{Le dispositif de vérification des nombres publiés}
+\label{sec:ann-harnais}
+% HARNAIS-HORS-SECTION: tous les nombres de cette section decrivent l'INSTRUMENT et non le
+% modele : bornes de tolerance, taux du harnais, compteurs de son execution. Les faire verifier
+% par lui serait circulaire, il confirmerait le nombre qui compte ce qu'il confirme. Les valeurs
+% sont celles d'une execution datee, rejouable par la commande donnee dans le texte.
+% DEUX PRECAUTIONS DE REDACTION EN DECOULENT, et il ne faut pas les defaire.
+%   1. Cette declaration est DANS la section et non avant son titre. Posee avant le \section,
+%      elle tomberait dans le bloc precedent, le preambule du chapitre, et exempterait celui-ci
+%      au lieu de celle-ci. Le piege est documente, il a deja morde une fois.
+%   2. La section ne cite AUCUN script en \texttt{}, et c'est necessaire : le harnais n'honore
+%      une declaration que si la section est par ailleurs sans source (voir le test
+%      « m_sec and not cites »), faute de quoi une declaration pourrait faire taire une section
+%      qui a pourtant de quoi etre verifiee. C'est un bon garde-fou, il faut donc s'y plier :
+%      aucun resultat de modele ne doit entrer ici. Les deux valeurs de l'estimateur de Hill
+%      ont ete retirees du texte pour cette raison, elles vivent au chapitre qui les corrige.
+
+Un mémoire de cette taille publie plusieurs milliers de nombres, et le risque n'est pas qu'un
+calcul soit faux : c'est qu'un nombre juste au moment où il a été écrit cesse de l'être quand la
+valeur amont bouge, sans que personne ne s'en aperçoive. Ce mémoire s'est donc doté d'un
+\textbf{harnais de vérification}, et il en rend compte ici parce que la portée des résultats
+dépend de ce que ce dispositif garantit et, tout autant, de ce qu'il ne garantit pas.
+
+\paragraph{Le principe, et il tient en une phrase.} Pour chaque section, le harnais relève les
+scripts qu'elle cite, puis cherche chacun des nombres qu'elle publie dans les \emph{sorties
+versionnées} de ces seuls scripts. Un nombre est confirmé s'il y figure à la tolérance d'arrondi
+près, définie comme
+\[
+  \max\bigl(0{,}6\,\% \;;\; \text{demi-unité du dernier chiffre écrit}\bigr),
+\]
+c'est-à-dire la borne de l'arrondi d'écriture : $0{,}05$ pour un nombre écrit \og $2{,}1$ \fg{},
+$0{,}5$ pour \og $122$ \fg{}. Le second terme est ce qui donne sa dureté au contrôle. Une
+tolérance à plancher absolu, telle qu'elle existait d'abord, faisait confirmer $0{,}9$ par un
+$0{,}99$ sans rapport ; la remplacer a fait tomber le taux affiché de $98{,}8$ à $95{,}7\,\%$ sans
+qu'aucun chiffre n'ait changé. Ce n'était pas une régression, c'était la même vérification faite
+honnêtement.
+
+\paragraph{Il rend trois lignes, et pas une.} Vérifiés, exemptés \emph{par motif}, non confirmés.
+Une exemption n'est jamais silencieuse, faute de quoi le taux se mesurerait lui-même : le
+dénominateur ne serait plus \og les nombres publiés \fg{} mais \og les nombres publiés moins une
+liste \fg{}, et le rapport ne dirait pas laquelle. Les exemptions subsistantes sont les niveaux de
+confiance, les entiers d'énumération et les millésimes, et elles sont comptées et affichées par
+motif.
+
+Une exemption se juge d'ailleurs sur le \textbf{contexte}, jamais sur la valeur. C'est en
+indexant sur la valeur que le facteur $2{,}5$, qui est un résultat central et l'objet même d'un
+arbitrage, avait été retiré du contrôle : le harnais ne pouvait pas trancher la question, il ne
+la regardait pas.
+
+\paragraph{La couverture passe avant le taux, et c'est le point le moins intuitif.} Une section
+qui ne cite aucun script est \emph{hors contrôle} : ses nombres ne sont ni confirmés ni infirmés,
+et cela ne se voit pas dans un taux de confirmation. C'est la faille structurelle du dispositif,
+et elle est plus dangereuse qu'un non confirmé. La raison tient en une phrase : \textbf{un taux
+de confirmation se règle en retirant une citation, une couverture non}. Le contrôle de fin de
+travail est donc, dans cet ordre, couverture égale à $100\,\%$ puis confirmation au moins égale à
+$97\,\%$.
+
+Le fait qui a imposé cet ordre est empirique. Le périmètre a d'abord été de $74{,}7\,\%$ des
+nombres publiés, et les cinq valeurs périmées retrouvées lors de son extension venaient
+\emph{toutes} de la zone non couverte ou d'une exemption silencieuse, \textbf{jamais} d'un non
+confirmé. Le chapitre qui porte la contribution centrale n'était alors vérifié par rien.
+
+\paragraph{Trois états, et un seul doit valoir zéro.} Sous contrôle ; \textbf{déclaré hors
+script}, par un commentaire portant son motif dans le fichier même ; hors contrôle. Sont déclarés
+les chapitres de démonstrations, l'état de l'art, le cadre réglementaire, la section des théorèmes
+du chapitre socle, et la présente section, dont le motif est écrit plus bas.
+
+\paragraph{Ce que le harnais ne fait pas, et il faut le dire aussi nettement.} Il \textbf{ne
+vérifie pas} qu'un nombre est au bon endroit, ni qu'il veut dire ce que la phrase prétend. Un
+nombre parfaitement confirmé peut être mal commenté, et cela s'est produit. Il ne détecte pas non
+plus les contradictions entre scripts : l'idée a été instruite puis écartée, non par manque de
+temps mais parce qu'un détecteur de quasi-collision sur les valeurs retomberait dans le travers
+décrit ci-dessus. Ce qui la remplace est une convention de rédaction, et elle est plus efficace :
+\textbf{toute grandeur simulée se publie avec son bruit}, ce qui rend la question du troisième
+chiffre sans objet.
+
+\paragraph{Le résidu se répartit en quatre classes, et une seule est un défaut.} Séparateur de
+milliers, écart d'unité entre un pourcentage et une fraction, valeur légitimement hors script
+(seuil posé, constante réglementaire, source externe), et \textbf{grandeur citée mais jamais
+imprimée}. Seule la dernière est fautive, et c'est elle qui a motivé un script dédié, dont l'objet
+est de faire imprimer par le pipeline ce que la rédaction calculait à la main. La règle qui en
+découle vaut pour tout le mémoire : \textbf{tout rapport cité doit être imprimé par un script}. Un
+rapport écrit pendant la rédaction n'est vérifiable par personne, et trois des valeurs périmées
+retrouvées étaient exactement de cette nature.
+
+\textbf{La classification automatique de ce résidu ne fonctionne pas}, et l'avoir essayé est
+instructif : dans un pool de plusieurs milliers de valeurs, les correspondances à un facteur cent
+près sur des nombres ronds sont fortuites et il s'en produit toujours. Les nombres restants se
+lisent un par un.
+
+\paragraph{Ce que le dispositif a effectivement trouvé.} Trois erreurs réelles, qu'aucune
+relecture n'avait vues : l'intervalle de l'indice de queue publié avec une borne basse arrondie
+dans le mauvais sens, sur deux chapitres ; un estimateur de Hill publié à une valeur qu'aucune
+population du pipeline ne reproduit, corrigée depuis au chapitre~\ref{chap:socle} ; et un seuil
+d'inefficacité publié simultanément à deux valeurs distinctes, à vingt-cinq lignes d'écart.
+Aucune n'est un défaut de modèle, et c'est bien pourquoi seul un contrôle systématique pouvait les
+révéler : chacune est une valeur juste au moment où elle a été écrite, devenue fausse quand la
+valeur amont a bougé.
+
+\begin{cle}
+\textbf{État du contrôle au 17 août 2026}, tous chapitres : \textbf{1\,865} nombres publiés,
+\textbf{1\,831} confirmés, soit \textbf{$98{,}2\,\%$}, pour une \textbf{couverture de
+$100\,\%$} : aucun nombre du mémoire n'est hors contrôle sans déclaration motivée. Les
+trente-quatre non confirmés ont été dépouillés un par un et relèvent des trois classes non
+fautives. Le dispositif s'appuie sur \textbf{93 sorties de scripts versionnées}, et il tourne
+aussi sur les supports de présentation, où il a déjà rattrapé une valeur fausse.
+
+\textbf{Pourquoi cette section échappe au contrôle qu'elle décrit.} La faire vérifier par le
+harnais serait circulaire : il confirmerait le nombre qui compte ce qu'il confirme. Elle est donc
+déclarée hors script, avec ce motif, ce qui est précisément la discipline décrite plus haut. Les
+valeurs ci-dessus sont celles d'une exécution datée, rejouable en une commande sur le dépôt.
+\end{cle}
 
 \section{Réconciliation du socle et de l'état conforme}
 \label{sec:ann-reconciliation}
@@ -76,12 +190,28 @@ chapitre~\ref{ch:identifiabilite}), et \textbf{semi-ancré} sur un proxy externe
 spécifique au périmètre.
 
 \vspace{0.25cm}
-\begin{center}\footnotesize
+% PASSEE DE tabular A longtable LE 17 AOUT 2026. Cette table tenait sur une page tant que rien
+% ne la precedait dans le chapitre ; l'ajout de la section sur le dispositif de verification l'a
+% decalee et elle a debordé de 102 pt, avec l'annotation hyperref hors page qui accompagne
+% toujours ce debordement. Un tabular NE PEUT PAS se couper entre deux pages : le piege est
+% documente et il vient de mordre. longtable le peut, et l'en-tete se repete.
+{\footnotesize
 \renewcommand{\arraystretch}{1.28}
-\begin{tabular}{@{}p{2.7cm} p{2.6cm} p{1.7cm} p{4.0cm} p{3.6cm}@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{2.7cm}
+                    >{\raggedright\arraybackslash}p{2.6cm}
+                    >{\raggedright\arraybackslash}p{1.7cm}
+                    >{\raggedright\arraybackslash}p{4.0cm}
+                    >{\raggedright\arraybackslash}p{3.6cm}@{}}
 \toprule
 \textbf{Paramètre} & \textbf{Valeur} & \textbf{Nature} & \textbf{Justification} & \textbf{Sensibilité du SCR} \\
 \midrule
+\endfirsthead
+\toprule
+\textbf{Paramètre} & \textbf{Valeur} & \textbf{Nature} & \textbf{Justification} & \textbf{Sensibilité du SCR} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
 Queue de sévérité $\xi$ & $0{,}90$ (OpRisk $0{,}60$, PRC $1{,}03$) & calibré, incertain & GPD sur pertes réelles ; hétérogène par catégorie ($0{,}87$--$1{,}37$) & \textbf{forte} : de $0{,}60$ à $0{,}38$ quand le seuil monte au-dessus de celui retenu, dans l'IC90 $[0{,}30\,;0{,}83]$ ; pilote la queue \\
 Échelle GPD $\sigma$, seuil $u$, $p_u$ & $57{,}97$ M\euro{} ; $20{,}03$ M\euro{} ; $0{,}15$ & calibré & POT au percentile $84{,}4$ ; $p_u$ gelé et en écart de $+3{,}6\,\%$ avec ce seuil, effet chiffré au \S\ref{sec:pu-coherence} & modérée (via la queue) \\
 Fréquence $\lambda$ & ${\sim}21{,}6$/an (OpRisk) & calibré & incidents TIC matériels / 27 ans & linéaire sur le niveau \\
@@ -98,9 +228,8 @@ Copule de dépendance $\theta$ & Gumbel $1{,}8$ & \textbf{posé} & queue supéri
 Excès de source $u_{ij}$ & $\operatorname{logit}p_{ij}=\operatorname{logit}p_j+u_{ij}$ & \textbf{non identifié} & la direction elle-même ; normalisation $\sum_i u_{ij}=0$ (repérage, non information) & mesurée par l'échelle de repli (ch.~\ref{chap:partielle}) : rang~$1$ capte $74\,\%$ et resserre les bornes de $25\,\%$ ; à $u=0$ P1 et P4 deviennent indiscernables \\
 Élasticité sévérité/taille $b$ & $0{,}087$ $[0{,}026\,;0{,}148]$ & calibré, tronqué & EMV lognormale tronquée au seuil de collecte (ch.~\ref{chap:donnees}) & faible : $\times 0{,}86$ sur la sévérité transposée \\
 Plafond de sévérité & $40$ M\euro{} & \textbf{posé} & capacité de réassurance ($\xi\ge 1$) & borne la queue extrême \\
-\bottomrule
-\end{tabular}
-\end{center}
+\end{longtable}
+}
 
 \vspace{4pt}
 \textbf{Sources.} Scripts~\texttt{08b}, \texttt{22}, \texttt{34}, \texttt{47}, \texttt{60}
@@ -836,6 +965,105 @@ Une raison technique explique d'ailleurs que ce calcul n'ait pas été fait plus
 d'entité met la \emph{somme} des pertes à l'échelle par un multiplicateur de sévérité, ce qui est
 exact pour une multiplication mais \textbf{faux pour un plafond}, plafonner chaque sinistre puis
 sommer n'étant pas plafonner la somme. Il fallait redescendre au niveau du sinistre.
+
+% =====================================================================
+\section{Les deux horloges du modèle, et ce que leur séparation coûte}
+\label{sec:ann-horloges}
+
+\noindent Chiffres de cette section : script~\texttt{79}.
+
+Le modèle sépare une horloge \emph{lente}, l'année qui porte la fréquence et sur laquelle le
+capital se mesure, d'une horloge \emph{rapide}, la propagation à l'intérieur d'un sinistre. Deux
+approximations en découlent et elles ne vont pas dans le même sens : la cascade est traitée comme
+\textbf{instantanée}, et l'état de conformité comme \textbf{figé sur toute l'année}. Cette section
+les mesure séparément, car un lecteur est en droit de demander ce que la commodité coûte.
+
+\paragraph{La cascade instantanée : une approximation neutre, et non prudente.} On donne une
+durée à la cascade et l'on regarde ce que devient l'écart de capital, à \emph{nombres communs} :
+à état et graine fixés, deux valeurs de délai partagent exactement les mêmes tirages, jusqu'aux
+uniformes des délais. La différence entre deux lignes est donc du signal et non du bruit
+d'échantillonnage. Au délai que la donnée soutient, $6{,}7$~h par pas, l'écart vaut
+$14\,139$~M\euro{} contre $14\,139$ pour la cascade instantanée, soit un déplacement nul sur les
+quatre graines. \textbf{Ce zéro est mesuré, non masqué par le bruit} : une cascade de quelques
+heures ne rencontre pratiquement jamais le 31 décembre. À vingt-quatre heures par pas le
+déplacement devient positif ou nul sur les quatre graines, et reste sous le demi-pour-cent ; au
+delà, il \emph{change de signe} d'une graine à l'autre. On aurait pu raconter que couper une
+cascade au 31 décembre rabote la queue, on aurait pu raconter l'inverse : les deux mécanismes
+existent et quatre graines ne les séparent pas. Le seul énoncé que la mesure porte est donc que
+le collapse est \textbf{neutre}, et surtout pas prudent.
+
+\paragraph{L'état figé sur l'année : le capital est \emph{concave} en la durée de
+non-conformité.} On fait varier la part $\tau$ de l'année passée en non-conformité. La courbe
+passe \textbf{au-dessus} de la droite qui joindrait ses deux extrémités, de $897$~M\euro{} à
+mi-année, soit $2{,}2$ fois le bruit de simulation. La signature est celle d'une queue portée par
+un sinistre unique : il suffit d'une \emph{fenêtre} de non-conformité pour qu'un tel sinistre s'y
+produise, et allonger la fenêtre au-delà n'ajoute plus grand-chose.
+
+\begin{cle}
+\textbf{Deux lectures de gestion, et aucune n'est celle que l'intuition suggère.} Un
+\textbf{trimestre} de non-conformité porte déjà $33\,\%$ du surcoût de l'année entière : une
+fenêtre courte n'est pas une petite exposition. Symétriquement, remédier à mi-exercice ne capture
+que $44\,\%$ du bénéfice annuel et non la moitié : \textbf{un plan qui proratise le gain se
+trompe, et se trompe du côté optimiste}.
+
+\textbf{Ce que cela valide de la séparation, et ce que cela lui coûte.} Le collapse de l'horloge
+lente est \emph{légitime} pour ce que le mémoire en fait, conditionner à un état et publier un
+capital par état. Il devient \emph{fautif} dès qu'on veut en lire un calendrier de remédiation.
+La limite est donc d'usage et non de construction, et elle est ici bornée plutôt qu'évoquée.
+\end{cle}
+
+\paragraph{Un lien qui manquait avec l'additivité des coûts.} Au délai mesuré, $8{,}0\,\%$ des
+sinistres non conformes en recouvrent un autre, contre $1{,}7\,\%$ à l'état conforme, soit un
+facteur $4{,}8$. Ce facteur monte par \emph{deux} canaux composés, la non-conformité multipliant
+le nombre de sinistres \emph{et} allongeant chaque cascade : en ne regardant que la fréquence on
+aurait sous-estimé l'effet. Or l'exposant $\theta$ du \S\ref{sec:additivite-couts} ne fait jouer
+la non-additivité qu'\emph{au sein} d'un sinistre. Il s'applique donc à moins d'événements que la
+réalité n'en contient, et la plage publiée en \textbf{sous-estime l'amplitude}. Deux précautions
+sur cet énoncé, car il serait facile d'en dire trop : il porte sur l'amplitude et non sur le
+\emph{sens}, la concomitance amplifiant la mutualisation autant que la saturation, donc elle
+élargit la plage des deux côtés sans la déplacer ; en revanche l'asymétrie entre états, elle, est
+bien renforcée et dans le sens du mémoire, ce qui montre que les élasticités de $0{,}95$ contre
+$0{,}39$ ne sont pas un artefact de $\theta$.
+
+% =====================================================================
+\section{Le plafond et la saturation, mesurés conjointement}
+\label{sec:ann-plafond-saturation}
+
+\noindent Chiffres de cette section : script~\texttt{86}.
+
+Deux réserves du mémoire déplacent le capital en sens contraire : le \textbf{plafond} de sévérité
+adossé à l'exposition le fait baisser, et la \textbf{saturation} des coûts, relâchée par
+l'exposant $\theta$ sur le nombre de piliers touchés (\S\ref{sec:additivite-couts}), le fait
+monter. Les lire séparément laisse ouverte une question de gouvernance : se compensent-elles, de
+sorte que l'une dispenserait de discuter l'autre ? Cette section les mesure sur le même moteur.
+
+Le contrôle passe d'abord : sans plafond et sans saturation, la VaR de l'entité notionnelle vaut
+$179{,}1$~M\euro, du même ordre que les $177{,}1$ publiés par le script~\texttt{78} et que les
+$169$ de l'évaluateur d'identification partielle. Tout ce qui suit est rapporté à cette valeur,
+dans ce seul moteur.
+
+Les deux bandes marginales confirment les sens annoncés. La saturation seule fait passer la VaR
+de $144{,}2$ à $225{,}7$~M\euro{} quand $\theta$ va de $0{,}70$ à $1{,}30$, soit une bande de
+$81{,}5$~M\euro. Le plafond seul la fait tomber de $179{,}1$ à $56{,}9$~M\euro{} quand $\kappa$
+descend à $0{,}2\,\%$, soit $122{,}2$~M\euro. Leurs extrêmes défavorables ne sont donc pas au même
+coin du rectangle.
+
+\begin{cle}
+\textbf{Le plafond est un amortisseur, non un contrepoids, et la distinction commande la
+lecture.} La bande conjointe sur le rectangle vaut $177{,}8$~M\euro{} contre $203{,}7$ pour la
+somme des deux bandes marginales, soit un rapport de $0{,}87$ : les additionner surestimerait
+l'incertitude. Mais la raison n'est pas que les deux réserves se neutralisent. Le terme
+d'interaction \textbf{change de signe} à $\theta = 1$, et à $\kappa = 0{,}5\,\%$ la sensibilité à
+$\theta$ est \emph{exactement nulle} : le plafond mord alors si fort qu'il absorbe entièrement la
+saturation. Ce qu'il fait est donc atténuer l'effet de $\theta$, non l'annuler par un effet de
+sens contraire.
+
+\textbf{Conséquence pratique, et c'est ce qui était demandé.} Il n'existe \textbf{aucune crête de
+compensation} non triviale : aucun couple $(\kappa,\theta)$ ne restaure la valeur libre autrement
+qu'en désactivant le plafond. Les deux réserves sont donc \emph{hiérarchisées} et non confondues,
+et l'on peut discuter le plafond sans discuter $\theta$, ce qui est le contraire de ce qu'on
+craignait.
+\end{cle}
 
 % =====================================================================
 \section{Les séquences ordonnées du corpus, et pourquoi elles n'identifient rien}

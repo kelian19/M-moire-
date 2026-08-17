@@ -63,14 +63,80 @@ abaisse l'état conforme et relève le non conforme), l'état partiel n'étant p
 \label{tab:scretat}
 \end{table}
 
+\subsection*{Le chiffre de tête : quatre lectures emboîtées, et celle que le mémoire publie}
+\label{sec:chiffre-de-tete}
+
+Le tableau qui précède n'est pas le seul protocole du mémoire à chiffrer \og l'écart entre l'état
+conforme et l'état non conforme \fg{}. Quatre le font, et ils donnent quatre résultats. Aucun
+n'est faux : ils \textbf{ne relâchent pas le même nombre de canaux} entre les deux états, et rien
+d'autre ne les sépare. Les publier sans le dire serait laisser le lecteur choisir à notre place.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l c r r r l@{}}
+\toprule
+\textbf{Lecture} & \textbf{canaux} & \textbf{conforme} & \textbf{non conf.} & \textbf{facteur}
+& \textbf{source} \\
+\midrule
+Score de conformité seul, $g$ figé au niveau NC & 1 & 7987 & 16\,847 & $2{,}11$ & script~\texttt{25} \\
+Fréquence $+$ propagation (lecture~B) & 2 & 6664 & 15\,074 & $2{,}26$ & script~\texttt{16} \\
+$+$ détection (lecture~C) & 3 & 5932 & 16\,595 & $2{,}80$ & script~\texttt{16} \\
+\textbf{$+$ accumulation P4 (les quatre canaux)} & \textbf{4} & \textbf{6049} & \textbf{20\,188}
+& $\mathbf{3{,}34}$ & script~\texttt{43} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent En M\euro, périmètre OpRisk. Les niveaux sont ceux des sorties versionnées ; les
+\emph{rapports}, eux, sont imprimés par la section~3\emph{bis} du script~\texttt{67} plutôt que
+calculés à la lecture, faute de quoi un niveau amont pourrait bouger sans que le facteur suive.
+
 \begin{cle}
-\textbf{Deux lectures à trancher pour le chiffre de tête.} Le canal détection porte le SCR non
-conforme (OpRisk) de $15\,074$ (lecture~B) à $16\,595$~M\euro{} (lecture~C), soit $+10\,\%$. Ce
-canal se compose avec la fréquence et pourrait sur-estimer l'effet ; il est présenté ici
-\emph{séparément} et exclu des trajectoires du \S\ref{sec:res-traj} et de la priorisation du
-\S\ref{sec:res-prio}, tant que son ampleur n'est pas validée. Le reste des résultats est
-présenté en lecture~B (fréquence $+$ propagation), la plus prudente sur le chiffre de tête.
+\textbf{Le mémoire publie la lecture à quatre canaux : $6\,049 \to 20\,188$~M\euro, soit un
+facteur $3{,}34$ et un écart de $14\,139$~M\euro.} Le motif n'est pas qu'elle donne le chiffre
+le plus grand, c'est qu'elle est \textbf{la seule où l'état conforme est conforme sur tous les
+canaux que le modèle possède}. Dans la première lecture, l'entité dite conforme propage encore
+comme une entité défaillante ; dans les deux suivantes, sa détection ou son accumulation tiers
+restent au niveau non conforme. Une entité conforme sur un canal et non conforme sur trois autres
+n'est pas un état conforme, c'est une \emph{remédiation partielle}, et la nommer conforme
+sous-estime l'écart par construction.
+
+\textbf{Ce qui a changé depuis, et qui permet de trancher.} La version précédente de cet encadré
+excluait le canal détection tant que son ampleur n'était pas validée. Elle l'est : le
+script~\texttt{68} le chiffre à $2\,928 \pm 343$~M\euro{} en valeur de Shapley et à
+$4\,562 \pm 819$ en marginal de fermeture, signe résolu sur seize graines. La réserve qui
+justifiait l'attente a donc expiré.
+
+\textbf{Les trois autres lectures ne sont pas retirées}, et c'est délibéré : ce sont des
+remédiations \emph{partielles}, ce qui est un objet utile en soi, et leur emboîtement chiffre ce
+que coûte de ne fermer qu'une partie des canaux.
 \end{cle}
+
+\begin{attention}
+\textbf{Le facteur se compare d'une lecture à l'autre, l'écart en euros non}, et il faut le dire
+plutôt que de laisser le lecteur le remarquer seul : l'écart passe de $8\,860$ à $8\,410$~M\euro{}
+entre les deux premières lignes alors que le facteur monte. La cause n'est pas un effet de modèle
+mais un changement de \textbf{base}, l'état conforme passant de $7\,987$ à $6\,664$~M\euro{} d'un
+protocole à l'autre. Un écart en euros ne se compare qu'à base égale ; un rapport est sans
+dimension. C'est le même motif qui fait publier des élasticités plutôt que des plages au
+\S\ref{sec:sensibilite-propagation}.
+
+\textbf{Et la monotonie du facteur s'observe, elle ne se teste pas ici.} Les quatre lignes ne
+forment pas une expérience contrôlée, leurs protocoles différant aussi par la graine et par la
+base. Elle est \emph{cohérente} avec la super-additivité mesurée sur une autre partition, où
+relâcher un canal de plus ajoute son effet propre et les croisés qu'il porte, mais le test de
+cette super-additivité est ailleurs : dans les seize configurations du script~\texttt{68}, qui
+partagent le même moteur et les mêmes graines.
+\end{attention}
+
+\noindent\textbf{Où chaque lecture continue de servir.} Les trajectoires du
+\S\ref{sec:res-traj} et la priorisation du \S\ref{sec:res-prio} restent conduites en
+\textbf{lecture~B}. Ce n'est pas une indécision résiduelle mais un choix d'objet : elles portent
+sur l'\emph{ordre} de remédiation, dont le chapitre~\ref{ch:robustesse} montre qu'il est
+invariant aux leviers testés, de sorte que le canal ajouté déplacerait leurs niveaux sans
+déplacer leur conclusion. Les rejouer relèverait par ailleurs de la recalibration, que le gel
+interdit.
 
 \begin{figure}[htbp]\centering
 \figover{S10_scr_multi_etats.png}
@@ -546,6 +612,34 @@ interaction est une différence de différences, l'estimateur le plus fragile du
 les termes d'ordre trois et quatre figurent dans la table parce que la réconciliation l'exige,
 non parce qu'ils sont mesurés.
 
+\paragraph{La même conclusion par un chemin indépendant : l'ablation en échelle.} Un tornado
+\emph{perturbe} un paramètre ; une ablation \emph{retire} une brique du mécanisme. Les deux
+protocoles n'ont en commun ni la question posée ni la métrique, de sorte qu'ils peuvent
+diverger. Ils ne divergent pas (script~\texttt{81}). Retirer la propagation, en posant $g=0$,
+fait tomber la VaR de $20\,188$ à $16\,086$~M\euro, soit $-20\,\%$ ; retirer la queue lourde en
+la ramenant à une loi légère la fait tomber de $76\,\%$. \textbf{La brique la plus lourde du
+modèle est la queue de sévérité, pas la contagion}, et le facteur entre les deux vaut $3{,}7$.
+C'est mot pour mot la conclusion du tornado renormalisé, obtenue sans le renormaliser.
+
+Deux précisions que ce protocole impose, et la seconde n'était pas attendue. Le contrôle est
+exact : le moteur ventilé par pilier reproduit l'état de référence à $0{,}0000$~M\euro{} près,
+donc les colonnes se somment bien à la charge agrégée. Et \textbf{la forme de queue est héritée,
+non produite} : le rapport $\mathrm{CTE}/\mathrm{VaR}$ vaut $2{,}075$ à la référence et ne bouge
+pratiquement pas quand on retire la propagation ($2{,}061$). La cascade déplace donc le
+\emph{niveau} du capital sans façonner la \emph{forme} de sa queue, qu'elle reçoit de la
+sévérité. Une lecture qui attribuerait la lourdeur de queue au mécanisme de contagion serait
+fausse, et c'est une lecture naturelle.
+
+\begin{attention}
+\textbf{Deux ordres de piliers sortent de cette ablation, et un seul est un signal.} L'ordre par
+pilier \emph{d'amorce}, $P4 > P1 > P2 > P3 > P5$, est stable entre graines. L'ordre par pilier
+\emph{touché} ne l'est pas, et il ne peut pas l'être : les parts touchées tiennent toutes entre
+$17$ et $23\,\%$, écart bien inférieur au bruit d'un quantile porté par une sévérité de variance
+infinie. Le second est reporté pour mémoire et n'autorise aucune conclusion. C'est la même
+limite que celle déjà déclarée sur l'allocation d'Euler au \S\ref{sec:allocation}, retrouvée ici
+par un autre chemin.
+\end{attention}
+
 \begin{cle}
 \textbf{Ce que cette section établit.} La sensibilité aux probabilités de propagation est
 \emph{bornée par construction} et non estimée : c'est la différence entre un modèle qui pose une
@@ -585,6 +679,25 @@ pratiquement indiscernables et ne voit la séparation apparaître qu'en \emph{qu
 protocole, même conclusion, sur un autre péril et par une autre équipe. Ce n'est donc pas un
 artefact du réglage retenu ici, mais une propriété du principe de la perte unique dominante,
 qui rend le niveau central aveugle à la structure de dépendance.
+
+\begin{attention}
+\textbf{Le $+0{,}1\,\%$ est une graine, et la coïncidence est plus fragile que le nombre ne le
+laisse croire.} La reprise du protocole sur quatre graines et un échantillon assez grand pour
+qu'un quantile à $99{,}95\,\%$ ait un sens (script~\texttt{80}) donne, au même niveau
+$99{,}5\,\%$, un écart moyen de $+4{,}8\,\%$ d'étendue $10$ points entre graines. Le
+$+0{,}1\,\%$ publié n'est donc pas faux, il est \emph{un tirage} : la conclusion à retenir n'est
+pas que la gaussienne retombe exactement sur la cascade, c'est que \textbf{leur écart ne dépasse
+pas son propre bruit}. L'énoncé faible est le seul qui tienne, et il suffit à l'argument.
+
+\textbf{Et la séparation en queue ne vaut que pour la Student.} Le même protocole, décliné sur
+huit niveaux de quantile de $50$ à $99{,}95\,\%$, marque d'une étoile les seules cases où l'écart
+dépasse l'étendue entre graines. Au-delà de $99\,\%$, \textbf{seule la Student} sort de son
+bruit, à $+20{,}4$, $+29{,}8$ puis $+31{,}2\,\%$ ; ni la gaussienne ni l'indépendance n'y
+parviennent, leurs étendues atteignant $13$ et $31$ points. La raison est structurelle : la
+Student est la seule des trois à porter une dépendance de queue \emph{asymptotique}. Le préprint
+doit donc être cité sur le \textbf{protocole}, jamais sur l'ordre du résultat en queue, qui
+dépend de l'indice de queue de la sévérité et non de l'architecture du modèle.
+\end{attention}
 
 \textbf{L'intervention.} Basculer un pilier en non-conformité est une intervention, pas un
 conditionnement. Le jumeau LDA-copule exprime les canaux fréquence et détection (les marges
