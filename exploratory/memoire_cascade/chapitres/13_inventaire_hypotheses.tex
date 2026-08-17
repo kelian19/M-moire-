@@ -375,8 +375,19 @@ SCR se cite avec sa bande, ou par un point qui assume l'incertitude, jamais nu.
 \subsection*{La posture retenue, et les trois raisons de ce choix}
 \label{sec:posture-retenue}
 
-\noindent Chiffres de cette sous-section : scripts~\texttt{46} (VaR prédictive et sa précision)
-et~\texttt{51} (échelle des six postures et bruit de simulation de chacune).
+\noindent Chiffres de cette sous-section : scripts~\texttt{46} (VaR prédictive et sa précision),
+\texttt{51} (échelle des six postures et bruit de simulation de chacune) et~\texttt{63}
+(intervalle publié de la calibration figée).
+
+\paragraph{Un fait qui rend le choix moins tranché qu'il n'y paraît : la robuste à
+$\beta=95\,\%$ \emph{est} la borne haute de l'intervalle déjà publié.} La robuste au niveau
+$\beta$ est le quantile $\beta$ de la loi bootstrap de la VaR ; l'intervalle publié à $90\,\%$ est
+délimité par les quantiles $5$ et $95$ de cette même loi. Les deux valent donc $1\,037$~M\euro{},
+et ce n'est pas une coïncidence numérique mais la même quantité sous deux noms. \textbf{Reporter le
+\emph{plug-in} avec sa bande publie donc déjà le chiffre robuste}, comme une \emph{borne} et non
+comme un point. Le désaccord entre les deux postures ne porte pas sur l'information mise à
+disposition du lecteur, il porte sur ce qu'on appelle \og le \fg{} capital, et c'est précisément
+pour cela que la question se tranche par la définition réglementaire plutôt que par la prudence.
 
 Le paragraphe qui précède donne la grille ; il faut maintenant trancher, sans quoi le mémoire
 laisserait son résultat central sans convention de report. \textbf{La posture retenue est le
