@@ -413,12 +413,12 @@ print("  (bande), mais les FORMES de loi posees sont soutenues par la donnee.")
 mpl.rcParams.update({
     "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10.5,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 fig, axs = plt.subplots(2, 3, figsize=(16.5, 9.2))
 
@@ -480,7 +480,7 @@ pp = poisson.pmf(xs, mu_p); pp[kmax] = 1 - poisson.cdf(kmax - 1, mu_p)
 pnb = r_nb / (r_nb + mu_nb)
 nb = nbinom.pmf(xs, r_nb, pnb); nb[kmax] = 1 - nbinom.cdf(kmax - 1, r_nb, pnb)
 wd = 0.27
-axs[1, 2].bar(xs - wd, obs, width=wd, color="#184f95", label="observé", edgecolor="#fcfcfb")
+axs[1, 2].bar(xs - wd, obs, width=wd, color="#204993", label="observé", edgecolor="#fcfcfb")
 axs[1, 2].bar(xs, pp, width=wd, color=MUTED, label="Poisson", edgecolor="#fcfcfb")
 axs[1, 2].bar(xs + wd, nb, width=wd, color=ACCENT, label=f"NB (r={r_nb:.2f})", edgecolor="#fcfcfb")
 axs[1, 2].set_yscale("log")

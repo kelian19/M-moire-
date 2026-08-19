@@ -210,8 +210,8 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2 = "#0b0b0b", "#52514e"
-ACCENT, BLUE, GREEN, GREY = "#eb6834", "#2E5496", "#2E6B4F", "#a9a79e"
+INK, INK2 = "#1b1e30", "#223e55"
+ACCENT, BLUE, GREEN, GREY = "#a6002e", "#3661ac", "#008d87", "#7d7d7d"
 
 fig, (axA, axB) = plt.subplots(1, 2, figsize=(13.4, 5.3))
 

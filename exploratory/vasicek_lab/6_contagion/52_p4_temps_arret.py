@@ -108,12 +108,12 @@ print("     recurrent fini ; le brownien est le cas propre qui porte le lien the
 mpl.rcParams.update({
     "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10.5,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.5, 4.9))
 
@@ -138,7 +138,7 @@ ax1.set_title("(a)  Le facteur tiers, martingale ;\nle déclenchement = 1er pass
 
 # (b) densite du temps de premier passage (Levy) + P(tau<=1 an)
 tt = np.linspace(0.02, 8, 400)
-for rho, c in zip((0.25, 0.50, 0.75), ["#9dc3e6", BLUE, "#184f95"]):
+for rho, c in zip((0.25, 0.50, 0.75), ["#9dc3e6", BLUE, "#204993"]):
     ax2.plot(tt, fpt_density(tt, rho), color=c, lw=2, label=f"ρ={rho:.2f}")
 ax2.axvline(1.0, color=ACCENT, ls="--", lw=1.3)
 ax2.text(1.05, ax2.get_ylim()[1] * 0.8, "1 an", fontsize=8.5, color=ACCENT)

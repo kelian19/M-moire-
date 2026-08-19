@@ -206,12 +206,12 @@ print("     l'affiche, on ne le cache pas. C'est l'exact complement de la lectur
 mpl.rcParams.update({
     "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10.5,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15.0, 5.2))
 
@@ -243,7 +243,7 @@ ax1.set_title("(a)  La VaR est elle-même incertaine :\nle robuste en prend la b
 labs = ["point", "prédictive", "robuste\n90 %", "robuste\n95 %", "robuste\n99 %", "pire-cas\nmodèle"]
 vals = [var_point, var_pred, rob[0.90], rob[0.95], rob[0.99], var_heavy]
 errs = [0.0, _sd["predictive"], _sd["rob90"], _sd["rob95"], _sd["rob99"], 0.0]
-cols = [INK, GREEN, "#9dc3e6", BLUE, "#184f95", ACCENT]
+cols = [INK, GREEN, "#9dc3e6", BLUE, "#204993", ACCENT]
 xp = np.arange(len(labs))
 ax2.bar(xp, vals, color=cols, alpha=0.9,
         yerr=errs, ecolor=INK2, capsize=4, error_kw={"lw": 1.1})

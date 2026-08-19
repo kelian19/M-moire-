@@ -307,12 +307,12 @@ print("     l'estimateur est le plus fragile et que l'effet cherche s'efface.")
 mpl.rcParams.update({
     "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 11,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 fig, ax = plt.subplots(figsize=(11.6, 5.6))
 # abscisse : periode de retour, plus lisible qu'un alpha ecrase pres de 1

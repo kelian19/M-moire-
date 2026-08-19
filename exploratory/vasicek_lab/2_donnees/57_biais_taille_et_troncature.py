@@ -347,13 +347,13 @@ if np.isfinite(mean_ult):
 mpl.rcParams.update({
     "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 11,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT = "#eb6834"
-BL = ["#b7d3f6", "#3987e5", "#184f95"]
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+ACCENT = "#a6002e"
+BL = ["#7baafd", "#4c79c7", "#204993"]
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15.4, 4.8),
                                     gridspec_kw={"width_ratios": [1.1, 1, 1.05]})

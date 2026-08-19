@@ -223,9 +223,9 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2, MUTED, GRID = "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
-ACCENT = "#eb6834"
-BL = ["#cde2fb", "#86b6ef", "#3987e5", "#256abf", "#184f95", "#0d366b"]
+INK, INK2, MUTED, GRID = "#1b1e30", "#223e55", "#595959", "#f2f2f2"
+ACCENT = "#a6002e"
+BL = ["#cde2fb", "#6491e1", "#4c79c7", "#2b559f", "#204993", "#09327a"]
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15.2, 4.6),
                                     gridspec_kw={"width_ratios": [1.35, 1, 1]})

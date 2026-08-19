@@ -214,12 +214,12 @@ print("     avoir LA methode, on borne l'effet du choix et on le lit en bande, c
 mpl.rcParams.update({
     "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10.5,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.5, 5.0),
                                     gridspec_kw={"width_ratios": [1.15, 1, 1]})
@@ -239,7 +239,7 @@ ax1.set_title("(a)  Axe dépendance\n(marges fixées)", fontsize=11, color=INK, 
 # (b) axe severite
 names2 = list(sev.keys()); vals2 = list(sev.values())
 yp2 = np.arange(len(names2))[::-1]
-cols2 = ["#b7d3f6", "#3987e5", "#184f95"]        # gradient : queue de plus en plus lourde
+cols2 = ["#7baafd", "#4c79c7", "#204993"]        # gradient : queue de plus en plus lourde
 ax2.barh(yp2, vals2, color=cols2, alpha=0.9)
 for y_, v in zip(yp2, vals2):
     ax2.text(v, y_, f" {v:.0f}", va="center", fontsize=8.5, color=INK2)

@@ -152,12 +152,12 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2, MUTED, GRID = "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
-ACCENT = "#eb6834"
-BLUES = ["#cde2fb", "#86b6ef", "#3987e5", "#256abf", "#184f95", "#0d366b"]
+INK, INK2, MUTED, GRID = "#1b1e30", "#223e55", "#595959", "#f2f2f2"
+ACCENT = "#a6002e"
+BLUES = ["#cde2fb", "#6491e1", "#4c79c7", "#2b559f", "#204993", "#09327a"]
 SEQ = mpl.colors.LinearSegmentedColormap.from_list("b", BLUES)
 DIV = mpl.colors.LinearSegmentedColormap.from_list(
-    "d", ["#a83c12", "#eb6834", "#fcfcfb", "#3987e5", "#0d366b"])
+    "d", ["#a83c12", "#a6002e", "#fcfcfb", "#4c79c7", "#09327a"])
 labels = [PILIERS[i] for i in IDX]
 
 fig, axes = plt.subplots(1, 3, figsize=(13.6, 4.5))

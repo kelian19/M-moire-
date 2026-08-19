@@ -368,12 +368,12 @@ print("     pas (script 20b). Deux objets distincts, a ne jamais additionner.")
 mpl.rcParams.update({
     "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 11,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
-    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#c3c2b7",
-    "axes.linewidth": 0.8, "text.color": "#0b0b0b", "axes.labelcolor": "#52514e",
-    "xtick.color": "#898781", "ytick.color": "#898781", "axes.grid": False,
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-ACCENT, BLUE, GREEN = "#eb6834", "#256abf", "#3d8361"
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.2, 5.4),
                                     gridspec_kw={"width_ratios": [1.05, 1.0, 1.15]})
@@ -421,7 +421,7 @@ ax2.set_yticklabels([f"{AFFICHE[i]}\n({CANAUX[i][2]})" for i in range(N)], fonts
 ax2.set_xlabel("capital en jeu (M€)", color=INK2)
 ax2.set_xlim(0, max(ferm) * 1.30)
 ax2.legend(fontsize=7.4, loc="lower right", frameon=True, framealpha=0.92,
-           edgecolor="#c3c2b7")
+           edgecolor="#dcdcdc")
 ax2.set_title("(b)  Trois lectures d'un même canal,\net elles ne sont pas interchangeables",
               fontsize=10.5, color=INK, pad=8)
 

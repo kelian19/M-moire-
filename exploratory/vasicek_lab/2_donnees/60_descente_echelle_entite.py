@@ -385,7 +385,7 @@ titre("Figure")
 # =====================================================================================
 mpl.rcParams.update({"font.size": 10, "axes.grid": True, "grid.alpha": 0.25,
                      "axes.spines.top": False, "axes.spines.right": False})
-NAVY, BLUE, ACC, GRN = "#1F3864", "#2E5496", "#C0491F", "#2E6B4F"
+NAVY, BLUE, ACC, GRN = "#1F3864", "#3661ac", "#C0491F", "#008d87"
 fig, axes = plt.subplots(1, 3, figsize=(15.4, 4.7))
 
 # (a) lambda en fonction de la taille

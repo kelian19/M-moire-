@@ -112,8 +112,8 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2 = "#0b0b0b", "#52514e"
-ACCENT, BLUE, GREEN = "#eb6834", "#2E5496", "#2E6B4F"
+INK, INK2 = "#1b1e30", "#223e55"
+ACCENT, BLUE, GREEN = "#a6002e", "#3661ac", "#008d87"
 
 fig, (axA, axB) = plt.subplots(1, 2, figsize=(13.2, 5.2))
 
@@ -133,7 +133,7 @@ axA.grid(alpha=0.25, lw=0.5)
 # panneau B : contributions par pilier
 js = [r[0] for r in rows]
 cs = [r[3] for r in rows]
-PCOL = {1: "#184f95", 2: "#3987e5", 3: "#86b6ef", 4: "#eb6834", 5: "#a9a79e"}
+PCOL = {1: "#204993", 2: "#4c79c7", 3: "#6491e1", 4: "#a6002e", 5: "#7d7d7d"}
 axB.bar([f"P{j}" for j in js], cs, color=[PCOL[j] for j in js])
 for i, (j, lam, esev, c) in enumerate(rows):
     axB.text(i, c, f"{100*c/tot:.0f} %", ha="center", va="bottom",

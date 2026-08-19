@@ -127,7 +127,7 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2, BLUE, ACCENT = "#0b0b0b", "#52514e", "#2E5496", "#eb6834"
+INK, INK2, BLUE, ACCENT = "#1b1e30", "#223e55", "#3661ac", "#a6002e"
 
 # trier par amplitude (tornado)
 order = sorted(params, key=lambda p: swing[p][1] - swing[p][0])

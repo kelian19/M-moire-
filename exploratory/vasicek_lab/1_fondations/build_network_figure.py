@@ -23,9 +23,9 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2, MUTED, GRID = "#0b0b0b", "#52514e", "#898781", "#e1e0d9"
-ACCENT = "#eb6834"
-PCOL = {1: "#184f95", 2: "#3987e5", 3: "#86b6ef", 4: "#eb6834", 5: "#a9a79e"}
+INK, INK2, MUTED, GRID = "#1b1e30", "#223e55", "#595959", "#f2f2f2"
+ACCENT = "#a6002e"
+PCOL = {1: "#204993", 2: "#4c79c7", 3: "#6491e1", 4: "#a6002e", 5: "#7d7d7d"}
 
 TRANS = {
     1: {2: 0.80, 3: 0.70, 4: 0.70, 5: 0.40},

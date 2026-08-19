@@ -99,8 +99,8 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2, MUTED = "#0b0b0b", "#52514e", "#898781"
-PCOL = {1: "#184f95", 2: "#3987e5", 3: "#86b6ef", 4: "#eb6834", 5: "#a9a79e"}
+INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
+PCOL = {1: "#204993", 2: "#4c79c7", 3: "#6491e1", 4: "#a6002e", 5: "#7d7d7d"}
 
 fig, (axA, axB) = plt.subplots(1, 2, figsize=(13.2, 5.2))
 
@@ -128,9 +128,9 @@ for S, col, lab in [([1], PCOL[1], "{P1}"),
     q = [np.quantile(draw_cascade_severity(S, 200_000, RNG, xi=xi), 0.995)
          for xi in xis]
     axB.plot(xis, q, "-o", color=col, lw=1.8, ms=3.5, label=lab)
-axB.axvspan(0.9, 0.95, color="#eb6834", alpha=0.10)
+axB.axvspan(0.9, 0.95, color="#a6002e", alpha=0.10)
 axB.text(0.925, axB.get_ylim()[1], "zone instable", ha="center", va="top",
-         fontsize=8, color="#eb6834", rotation=90)
+         fontsize=8, color="#a6002e", rotation=90)
 axB.set_xlabel("indice de queue commun  xi", fontsize=9.5, color=INK2)
 axB.set_ylabel("quantile 99,5 % de X(S)", fontsize=9.5, color=INK2)
 axB.set_title("(B)  La queue commande : q99,5 % vs xi",
