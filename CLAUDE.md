@@ -91,6 +91,33 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 | Deck tutrice de stage | `exploratory/slides/2026-08-10_point_caroline.tex` |
 | Aide-mémoire de call | `exploratory/slides/aide_memoire_call_AAAA-MM-JJ.tex` |
 | Données brutes | `data/raw/` — **gitignoré, sous licence, ne jamais committer** |
+| **Palette et style de figures** | `exploratory/vasicek_lab/style_nexialog.py` — **source unique des couleurs** |
+
+**Les couleurs des figures ne se codent plus en dur.** Les 92 scripts qui le faisaient sont
+passés à la charte Nexialog le 17 août 2026, et `style_nexialog.py` est la source unique : on
+importe des **rôles** (`ENCRE`, `FOND`, `CATEGORIEL`, `ORDINAL_5`, `SEQUENTIEL_6`, `DIVERGENT`,
+`ETAT`), jamais un hexadécimal. Le module rejoue ses propres contrôles quand on l'exécute.
+Trois choses à savoir avant d'y toucher :
+
+- **la charte porte TROIS slots catégoriels, pas quatre**, et c'est mesuré : un quatrième
+  échoue le plancher de vision normale à 14,1 contre 15 exigés, et ce plancher ne se rachète
+  pas par un encodage secondaire. Une quatrième série se replie en « autres », se facette, ou
+  tire son identité de la position. `rampe()` **lève une erreur au lieu de boucler** ;
+- **les cinq piliers ne sont pas un cas catégoriel** : ils se présentent ordonnés par
+  contribution, donc rampe à une seule teinte (`ORDINAL_5`) ;
+- **la déclaration de police reste `["DejaVu Sans", "Segoe UI", "sans-serif"]`, dans cet
+  ordre**, et c'est un écart assumé à la charte. DejaVu est fournie par matplotlib, donc
+  identique sur les deux postes : c'est ce qui rend une figure rejouée identique à l'octet.
+  Mettre Segoe UI en premier la ferait choisir sur le PC et casserait la parité avec le Mac.
+
+**Et les deux postes ne portent pas le même format de la chronologie PRC, ce qui rend deux
+scripts complémentaires et non redondants.** Le PC a `Data_Breach_Chronology.xlsx` et pas le
+`.csv` ; le Mac a le `.csv` et pas le `.xlsx`. Donc **le script 35 ne tourne que sur le PC** et
+**le script 05 ne tourne que sur le Mac**. Ne pas fabriquer l'un depuis l'autre : un csv
+reconstruit depuis le xlsx peut différer par l'encodage ou la citation, et ferait dériver une
+sortie versionnée sans qu'on sache pourquoi. La figure `M_faisabilite.png` du script 05 est la
+**seule** des cinquante figures du mémoire qui reste à l'ancienne palette, faute de pouvoir
+être rejouée ici.
 
 Le dossier `exploratory/memoire_cascade/a_integrer/` est **mort** : aucun `\input` ne le
 lit, et son `STATUT.md` le dit. Ne pas y puiser.
