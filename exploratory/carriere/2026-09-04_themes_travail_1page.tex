@@ -1,0 +1,136 @@
+% =====================================================================================
+% VERSION UNE PAGE de la note de themes, pour Hugo Rapior avant le point RH du 4 septembre.
+% La version longue (2026-09-04_themes_travail.tex) garde les motifs detailles, le bloc sur
+% ce que les themes ouvrent pour le cabinet, et l'emplacement des missions Nexialog.
+%
+% CE QUE CETTE VERSION DOIT FAIRE : se lire en deux minutes et tenir sur UNE page. Trois
+% rubriques, dans l'ordre demande : developper, porter, staffable. Rien d'autre.
+%
+% DEUX CONTRAINTES DE FORME, VOLONTAIRES :
+%   - aucun tiret cadratin. Le babel francais en met un en puce d'itemize par defaut, d'ou
+%     le label redefini plus bas. A verifier sur le PDF, jamais sur la source ;
+%   - aucun chiffre qui ne se releve sur le depot du memoire.
+% =====================================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[top=1.6cm,bottom=1.5cm,left=1.9cm,right=1.9cm]{geometry}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+% Charte Nexialog : memes roles que style_nexialog.py, aucun hexadecimal ailleurs qu'ici.
+\definecolor{encre}{HTML}{1B1E30}
+\definecolor{accent}{HTML}{A6002E}
+\definecolor{bleu}{HTML}{204993}
+\definecolor{grisclair}{HTML}{F2F2F2}
+
+\color{encre}
+\titleformat{\section}{\normalfont\bfseries\color{bleu}}{}{0pt}{}
+\titlespacing{\section}{0pt}{10pt}{3pt}
+% Puce explicite : le babel francais mettrait un tiret cadratin.
+\setlist[itemize]{label=\textcolor{accent}{\textbullet},itemsep=2pt,topsep=2pt,
+                  leftmargin=1.1em,parsep=0pt}
+
+\pagestyle{empty}
+
+\begin{document}
+\small
+
+{\Large\bfseries\color{bleu} Thèmes de travail souhaités}\\[3pt]
+{\color{accent}\rule{\textwidth}{1.1pt}}\\[3pt]
+{\footnotesize Kélian Kaddouri \hfill Pour Hugo Rapior, avant le point RH du 4 septembre
+2026}
+
+\vspace{5pt}
+
+\noindent\textbf{En une phrase.} Devenir le référent quantitatif du cabinet sur le risque
+cyber, en restant capable de tenir les sujets non-vie classiques, provisionnement et capital,
+sans temps de montée en charge. C'est chez Nexialog que je veux construire cette trajectoire.
+
+\section{Ce que je veux développer}
+
+\begin{itemize}
+\item \textbf{R\&D cyber, et nommément le Lab Cyber.} Sujet jeune, donnée rare, aucune
+      méthode de référence établie, et une obligation réglementaire depuis janvier 2025 sans
+      qu'aucun module de formule standard ne la couvre : la demande existe avant la méthode.
+      C'est le périmètre annoncé du Lab, quantification du risque cyber en lien avec DORA,
+      NIS2 et Solvabilité II, et c'est exactement ce sur quoi j'ai travaillé un an.
+      \textit{Ce que j'apporte} : un mémoire qui quantifie un besoin de capital en pilier~2
+      au titre de DORA par une cascade dirigée entre les cinq piliers, fréquence et sévérité,
+      Monte-Carlo, calibration valeurs extrêmes, identification partielle de la matrice de
+      propagation, et chaque nombre publié rattaché au script qui le calcule.
+\item \textbf{Non-vie.} La branche où vivent les outils que je maîtrise, fréquence et
+      sévérité, queues lourdes, charge annuelle agrégée. Le cyber en est une composante, pas
+      une exception, et c'est ce qui rend le profil plaçable en dehors de sa spécialité.
+      \textit{Ce que j'apporte} : fréquence et sévérité modélisées séparément, tests
+      d'adéquation, surdispersion, mesures de risque sur charge agrégée et allocation par
+      Euler.
+\item \textbf{Réassurance et accumulation.} Le prolongement direct de mon sujet : dès qu'on
+      parle accumulation et cause commune, la question devient une question de structure de
+      traité, par risque ou par événement, et la cession est le premier levier qu'un client
+      actionne avant le capital. Y compris lorsque cela se traite comme un programme de
+      cession à l'intérieur d'un dossier non-vie, sans mandat de réassurance dédié.
+      \textit{Ce que j'apporte} : accumulation par cause commune, dépendance de queue,
+      principe du grand saut unique, et le pont entre quantile d'un sinistre et quantile de
+      la charge annuelle.
+\end{itemize}
+
+\section{Ce que je veux porter}
+
+\noindent Sans en faire un axe, et sans réserve sur l'engagement.
+
+\begin{itemize}
+\item \textbf{Data science appliquée à la fraude.} Données déséquilibrées, arbitrage entre
+      pouvoir prédictif et explicabilité. Le rapprochement avec le cyber est technique :
+      événement rare, donnée censurée par la détection, et ce qui n'est pas vu compte autant
+      que ce qui est vu.
+\item \textbf{Provisionnement.} Technique et normé, et c'est le sujet qui donne accès aux
+      directions techniques.
+\item \textbf{Modélisation du capital.} Formule standard, SCR par module, et le pilier~2 des
+      deux côtés, ORSA en assurance comme ICAAP en banque. C'est déjà le terrain de mon
+      mémoire.
+\item \textbf{Gestion des risques.} Cartographie, criticité, appétit au risque, articulation
+      avec l'ORSA. C'est d'où vient mon sujet : la cascade entre les cinq piliers a été une
+      cartographie qualitative avant d'être un modèle stochastique.
+\item \textbf{IA générative.} Je l'utilise au quotidien pour produire et pour relire, et
+      l'angle qui m'intéresse est de l'encadrer comme un risque de modèle, avec la même
+      exigence de traçabilité que pour un modèle de capital. Je ne la revendique pas comme
+      une expertise, je la porte volontiers.
+\end{itemize}
+
+\section{Staffable sans montée en charge}
+
+\begin{itemize}
+\item \textbf{Solvabilité II} : SCR par module, besoin de capital en ORSA, allocation par
+      entité, et la calibration des lois de perte qui va avec, sur données incomplètes.
+\item \textbf{Industrialisation en Python} : une chaîne de plus de quatre-vingt-dix scripts
+      versionnés, modules partagés, sorties reproductibles à l'octet entre deux postes.
+\end{itemize}
+
+% =====================================================================================
+% BLOC A REMPLIR, ET C'EST CE QUI PESERA LE PLUS. Hugo a demande en seance que les
+% descriptions disent le CONTEXTE et le GAIN (exemple cite : le gain sur l'Ains Index).
+% Modele par ligne, dans cet ordre : secteur ou client (anonymise si besoin) ; ce qui etait
+% demande ; ce que J'AI fait ; le resultat CHIFFRE ou la decision permise.
+%
+% POUR TENIR SUR UNE PAGE en le decommentant, retirer l'encadre « Note en seance »
+% ci-dessus : son argument est deja porte par la version deux pages.
+%
+% \section{Ce que j'ai livré chez Nexialog}
+% \begin{itemize}
+% \item \textbf{[Secteur, type de mission].} [Demande.] [Ce que j'ai fait.] [Resultat chiffre.]
+% \item \textbf{[Secteur, type de mission].} [...]
+% \end{itemize}
+% =====================================================================================
+
+\vspace{6pt}
+\noindent{\color{accent}\rule{\textwidth}{0.6pt}}\\[1pt]
+{\footnotesize\itshape Liste à valider avant le point RH du 4 septembre, pour transmission à
+Axelle et Ali. Version détaillée disponible : motifs, apport pour le cabinet, et missions.}
+
+\end{document}

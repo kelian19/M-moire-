@@ -1,0 +1,221 @@
+% =====================================================================================
+% Note de themes de travail, demandee au point du 13 aout 2026 (bilan de carriere).
+% Destinataire : Hugo Rapior. A transmettre avant le point RH du 4 septembre, la liste
+% devant ensuite etre communiquee a Axel et Ali.
+%
+% OBJECTIF DE CETTE VERSION : la note ne dit plus seulement ce que je veux faire, elle dit
+% ce que le cabinet y gagne. Un bilan de carriere se decide sur la lisibilite du profil et
+% sur l'actif qu'il laisse derriere lui, pas sur une liste de preferences.
+%
+% TROIS CONTRAINTES DE FORME, VOLONTAIRES :
+%   - deux pages au maximum, et rien de decoratif ;
+%   - AUCUN tiret cadratin. Le babel francais en met un en puce d'itemize par defaut, d'ou
+%     le label redefini plus bas. A verifier sur le PDF, jamais sur la source ;
+%   - aucun chiffre qui ne soit verifiable. Tous ceux de la section « preuves » se relevent
+%     sur le depot du memoire.
+%
+% BLOC A COMPLETER PAR KELIAN : la section « Missions Nexialog », laissee en commentaire
+% plus bas. C'est le seul endroit ou la note manque de matiere, et c'est le plus important
+% aux yeux d'un manager. Le modele et la consigne y sont ecrits.
+% =====================================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[top=1.7cm,bottom=1.6cm,left=1.9cm,right=1.9cm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+% Charte Nexialog : les memes roles que style_nexialog.py, et aucun hexadecimal en clair
+% ailleurs que dans ces quatre definitions.
+\definecolor{encre}{HTML}{1B1E30}
+\definecolor{accent}{HTML}{A6002E}
+\definecolor{bleu}{HTML}{204993}
+\definecolor{grisclair}{HTML}{F2F2F2}
+
+\color{encre}
+\titleformat{\section}{\normalfont\bfseries\color{bleu}}{}{0pt}{}
+\titlespacing{\section}{0pt}{10pt}{3pt}
+% Puce explicite : le babel francais mettrait un tiret cadratin.
+\setlist[itemize]{label=\textcolor{accent}{\textbullet},itemsep=1.5pt,topsep=2pt,
+                  leftmargin=1.1em,parsep=0pt}
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newcommand{\encadre}[2]{%
+  \vspace{3pt}\noindent\colorbox{grisclair}{%
+  \begin{minipage}{\dimexpr\textwidth-2\fboxsep}
+  \footnotesize\textbf{#1} #2
+  \end{minipage}}\vspace{3pt}}
+
+\pagestyle{empty}
+
+\begin{document}
+\small
+
+{\Large\bfseries\color{bleu} Thèmes de travail souhaités}\\[3pt]
+{\color{accent}\rule{\textwidth}{1.1pt}}\\[3pt]
+{\footnotesize Kélian Kaddouri \hfill Pour Hugo Rapior, avant le point RH du 4 septembre
+2026}
+
+\vspace{5pt}
+
+\noindent Suite du bilan de carrière. La liste sépare ce que je veux \textbf{développer} de
+ce que je suis prêt à \textbf{porter}, selon la distinction posée en séance. J'ai ajouté ce
+que chaque thème ouvre pour le cabinet, parce que c'est le critère qui compte davantage que
+ma préférence.
+
+\vspace{3pt}
+\noindent\textbf{En une phrase.} Devenir le référent quantitatif du cabinet sur le risque
+cyber, en restant capable de tenir les sujets non-vie classiques, provisionnement et
+capital, sans temps de montée en charge. C'est chez Nexialog que je veux construire cette
+trajectoire.
+
+\section{Ce que je veux développer}
+
+\begin{center}\footnotesize
+\begin{tabular}{@{}L{2.5cm} L{6.1cm} L{7.6cm}@{}}
+\toprule
+\textbf{Thème} & \textbf{Pourquoi celui-là} & \textbf{Ce que j'y apporte déjà} \\
+\midrule
+\textbf{R\&D cyber}
+& Sujet jeune, donnée rare et mal partagée, aucune méthode de référence établie. C'est là
+  qu'un travail de recherche a le plus de valeur marginale, et l'obligation est
+  réglementaire depuis janvier 2025 sans qu'aucun module de formule standard n'existe.
+& Mémoire de quantification d'un besoin de capital ORSA au titre de DORA par une cascade
+  dirigée entre les cinq piliers : calibration valeurs extrêmes, identification partielle
+  de la matrice de propagation, et un dispositif qui vérifie chaque nombre publié contre le
+  script qui le produit. \\
+\addlinespace
+\textbf{Non-vie}
+& La branche où vivent les outils que je maîtrise, fréquence et sévérité, queues lourdes,
+  charge annuelle agrégée. Le cyber en est une composante, pas une exception : c'est ce qui
+  rend le profil staffable en dehors de sa spécialité.
+& Fréquence et sévérité modélisées séparément, tests d'adéquation, surdispersion, mesures
+  de risque sur charge agrégée et allocation par Euler. \\
+\addlinespace
+\textbf{Réassurance et accumulation}
+& Le prolongement direct de mon sujet : dès qu'on parle accumulation et cause commune, la
+  question devient une question de structure de traité, par risque ou par événement. Et la
+  cession est le premier levier qu'un client actionne avant le capital, y compris quand elle
+  se traite dans un dossier non-vie sans mandat de réassurance dédié.
+& Accumulation par cause commune, dépendance de queue, principe du grand saut unique, et le
+  pont entre quantile d'un sinistre et quantile de la charge annuelle. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+\noindent\textbf{Ce que ces trois thèmes ouvrent pour le cabinet.}
+\begin{itemize}
+\item \textbf{Une offre outillée là où il n'y a pas de méthode de référence.} DORA
+      s'applique depuis janvier 2025, aucun module ne le couvre en formule standard, et les
+      assureurs doivent malgré tout le traiter en ORSA. La demande existe avant la méthode,
+      ce qui est la situation la plus favorable pour un cabinet de conseil.
+\item \textbf{Un actif réutilisable, pas un livrable unique.} Ce qui sort du mémoire n'est
+      pas un chiffre mais une chaîne de calcul : un client la rejoue sur son propre bilan.
+      Je peux la transformer en note méthodologique interne et en démonstration sur un
+      bilan anonymisé, à un coût faible puisque le code existe.
+\item \textbf{De la traçabilité, qui est un argument commercial et pas une coquetterie.}
+      Chaque nombre est rattaché au script qui le calcule. Devant un régulateur ou un
+      auditeur, c'est ce qui distingue un modèle défendable d'un tableur.
+\item \textbf{De la visibilité.} Le rapport à venir de la direction générale du Trésor sur
+      le cyber et les travaux de l'Institut des Actuaires sont deux points d'entrée, et des
+      échanges sont déjà engagés de ce côté.
+\end{itemize}
+
+\section{Ce que je suis prêt à porter}
+
+\noindent Sans en faire un axe, et sans réserve sur l'engagement.
+
+\begin{itemize}
+\item \textbf{Data science appliquée à la fraude.} Données déséquilibrées, arbitrage entre
+      pouvoir prédictif et explicabilité. Le rapprochement avec le cyber est technique et
+      non cosmétique : dans les deux cas l'événement est rare, la donnée est censurée par
+      la détection, et ce qui n'est pas vu compte autant que ce qui est vu.
+\item \textbf{Provisionnement.} Technique et normé, utile à connaître de l'intérieur pour
+      ne pas rester cantonné au capital, et c'est le sujet qui donne accès aux directions
+      techniques.
+\item \textbf{Modélisation du capital.} Formule standard, ORSA, SCR par module. C'est déjà
+      le terrain de mon mémoire, et c'est le langage commun avec les mêmes interlocuteurs.
+\item \textbf{Gestion des risques.} Cartographie, criticité, appétit au risque, et
+      l'articulation avec l'ORSA. C'est d'où vient mon sujet : la cascade entre les cinq
+      piliers a été une cartographie qualitative avant d'être un modèle stochastique, et
+      j'ai gardé les deux lectures. Le prolongement naturel est le dispositif et la fonction
+      gestion des risques, pas seulement le chiffre qui en sort.
+\item \textbf{IA générative.} Je l'utilise au quotidien pour produire et pour relire, et
+      l'angle qui m'intéresse professionnellement est de l'encadrer comme un risque de
+      modèle, avec la même exigence de traçabilité que pour un modèle de capital : savoir ce
+      qui a été produit par quoi, et pouvoir le rejouer. Je ne le revendique pas comme une
+      expertise, je le porte volontiers.
+\end{itemize}
+
+\encadre{Sur le point soulevé en séance.}{J'ai bien noté qu'une partie des sujets se
+prennent sans passion, parce qu'ils financent la R\&D et légitiment le reste. Je n'ai pas de
+difficulté avec cela et je ne cherche pas à choisir mes missions. Ce à quoi je tiens est
+plus modeste : qu'une part identifiée de mon temps reste sur le cyber, pour que la
+compétence continue de se construire au lieu de s'arrêter avec le mémoire. En échange, ce
+temps produit quelque chose que le cabinet garde, et pas seulement un mémoire soutenu.}
+
+\section{Ce sur quoi je suis staffable sans montée en charge}
+
+\noindent Le risque d'un profil de recherche est de n'être plaçable que sur son sujet. Ce
+qui suit est immédiatement mobilisable.
+
+\begin{itemize}
+\item \textbf{Solvabilité II} : SCR par module, besoin de capital en ORSA, allocation par
+      entité, et la calibration des lois de perte qui va avec, sur données incomplètes.
+\item \textbf{Industrialisation en Python} : une chaîne de plus de quatre-vingt-dix scripts
+      versionnés, modules partagés, sorties reproductibles à l'octet entre deux postes.
+      Habitude du versionnement et de la revue.
+\item \textbf{Restitution} : rédaction technique en \LaTeX{}, une cinquantaine de figures
+      produites sous charte graphique, et l'habitude de présenter un résultat toutes les
+      semaines à un interlocuteur qui le remet en cause.
+\end{itemize}
+
+% =====================================================================================
+% A COMPLETER, ET C'EST LE POINT LE PLUS IMPORTANT DE LA NOTE.
+% Hugo a explicitement demande en seance que les descriptions disent le CONTEXTE et le
+% GAIN, en citant l'exemple du « gain sur l'Ains Index ». Cette note est plus credible avec
+% deux ou trois missions Nexialog qu'avec dix lignes sur le memoire.
+% Modele a suivre pour chaque ligne, dans cet ordre :
+%   client ou secteur (anonymise si besoin) ; ce qui etait demande ; ce que J'AI fait ;
+%   le resultat CHIFFRE ou la decision que cela a permis de prendre.
+% Decommenter le bloc ci-dessous et remplir. Retirer les crochets.
+%
+% \section{Ce que j'ai livre chez Nexialog}
+% \begin{itemize}
+% \item \textbf{[Secteur, type de mission].} [Ce qui etait demande.] [Ce que j'ai fait.]
+%       [Resultat chiffre : gain, delai tenu, decision permise.]
+% \item \textbf{[Secteur, type de mission].} [...]
+% \item \textbf{[Secteur, type de mission].} [...]
+% \end{itemize}
+% =====================================================================================
+
+\section{Les CV, et une question de format}
+
+\noindent Les trois versions sont en préparation pour début septembre : le \textbf{complet}
+(toutes expériences et projets académiques, autant de pages que nécessaire), qui sert de
+référence, alimente les deux autres et part dans l'outil de Knowledge Management sur Dust ;
+le \textbf{one-pager généraliste} ; et les \textbf{CV par thème}, un cyber, data et fraude,
+un actuariat, chaque projet rangé là où il est le plus pertinent.
+
+\vspace{2pt}
+\noindent Deux points relevés en séance et pris en compte : les descriptions diront le
+\textbf{contexte} et le gain obtenu, pas seulement la technique employée, et je demande à
+Noemi un exemple du format PowerPoint attendu avant de mettre en forme, pour éviter de
+refaire trois documents. Puisque les CV alimentent un outil qui extrait les compétences par
+modèle de langage, je veillerai à ce que les mots-clés de chacun des thèmes ci-dessus y
+figurent en clair plutôt que sous-entendus.
+
+\vspace{6pt}
+\noindent{\color{accent}\rule{\textwidth}{0.6pt}}\\[1pt]
+{\footnotesize\itshape Liste à valider avant le point RH du 4 septembre, pour transmission
+à Axelle et Ali.}
+
+\end{document}
