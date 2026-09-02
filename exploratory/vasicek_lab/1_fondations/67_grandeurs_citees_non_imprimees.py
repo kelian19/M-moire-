@@ -326,6 +326,78 @@ print("chiffre ce que coute de ne fermer qu'une partie des canaux.")
 
 
 # =====================================================================================
+titre("3ter. Le rapport detention / transfert, et pourquoi il resiste mieux que le NIVEAU")
+# =====================================================================================
+# POURQUOI CETTE SECTION EXISTE. La conclusion du memoire affirmait que le RAPPORT entre cout
+# annuel de detention et prix de transfert « resiste » a la descente d'echelle, contrairement au
+# NIVEAU. Ni le rapport ni sa stabilite n'etaient imprimes nulle part : c'etait le DERNIER
+# nombre non confirme du harnais sur les dix-neuf chapitres. Et la phrase disait l'inverse de son
+# propre argument, en annoncant que le rapport tombait « a moins de 11 % de sa valeur » alors que
+# « resister » veut dire en garder la quasi-totalite. Le 11 % n'est reproduit par aucun calcul du
+# projet. Cette section remplace une affirmation par une identite et une borne.
+#
+# ENTREES, toutes deja publiees par le script 58 a l'echelle d'entite (SCR = 169 M EUR,
+# portee optimale L* = 170 M EUR). La prime ne depend pas du CoC, le cout de detention si.
+COUT_TOTAL_XL = 2.89        # M EUR/an, cout total avec traite en exces de perte au L* optimal
+SCR_ENTITE = 169.0          # M EUR
+L_OPT = 170.0               # M EUR, portee optimale
+COCS = [("regime actuel", 0.0600), ("directive (UE) 2025/2", 0.0475)]
+
+print("Definitions, echelle d'entite, script 58 :")
+print(f"  cout annuel de DETENTION = CoC x SCR, avec SCR = {SCR_ENTITE:.0f} M EUR")
+print(f"  prix de TRANSFERT        = cout total du traite au L* optimal "
+      f"= {COUT_TOTAL_XL:.2f} M EUR/an")
+print(f"  portee optimale L*       = {L_OPT:.0f} M EUR, soit L* / SCR = {L_OPT/SCR_ENTITE:.3f}")
+print()
+print(f"  {'CoC':<32}{'detention':>12}{'transfert':>12}{'rapport':>10}{'taux moyen':>13}")
+print("  " + "-" * 79)
+for nom, coc in COCS:
+    det = coc * SCR_ENTITE
+    print(f"  {nom + f' ({100*coc:.2f} %)':<32}{det:>12.2f}{COUT_TOTAL_XL:>12.2f}"
+          f"{det/COUT_TOTAL_XL:>10.2f}{COUT_TOTAL_XL/L_OPT:>13.4f}")
+
+print("\nPOURQUOI CE RAPPORT EST PLUS ROBUSTE QUE LE NIVEAU, ET C'EST UNE IDENTITE.")
+print("  rapport = (CoC x SCR) / (taux moyen x L*),  et a l'optimum L* = SCR")
+print("         => rapport = CoC / taux moyen,  le SCR se SIMPLIFIE.")
+print("  Le niveau, lui, traverse les deux elasticites estimees de la descente d'echelle")
+print("  (frequence 0,0744 et severite 0,087) : c'est la qu'il devient illustratif. Le")
+print("  rapport n'en herite pas au premier ordre, parce que ses deux termes sont")
+print(f"  proportionnels au MEME SCR. L'optimum L* = SCR est verifie ici a "
+      f"{100*abs(L_OPT/SCR_ENTITE - 1):.1f} % pres.")
+
+print("\nCE QUI RESTE, ET QU'IL NE FAUT PAS ANNONCER COMME NUL. La simplification vaut pour un")
+print("changement d'echelle PUR. Or la descente d'echelle ne rescale pas la loi de perte : elle")
+print("deplace la frequence et la severite separement, donc elle change la FORME. L'effet de")
+print("forme, lui, n'est pas nul, et le seul balayage disponible le borne par le haut.")
+# Table de remediation du script 58 : lambda reduit, donc SCR reduit ET forme deplacee.
+# Ce n'est PAS un test d'echelle pur, et c'est pour cela qu'elle borne PAR LE HAUT.
+REMED = [(0.092, 169.0, 2.89), (0.064, 97.0, 1.39), (0.046, 43.0, 0.54)]
+COC_REF = 0.0475
+print(f"\n  balayage du script 58 a CoC = {100*COC_REF:.2f} % (lambda reduit) :")
+print(f"  {'lambda':>8}{'SCR':>8}{'detention':>12}{'transfert':>12}{'rapport':>10}")
+print("  " + "-" * 50)
+rapports = []
+for lam, scr, tot in REMED:
+    det = COC_REF * scr
+    rapports.append(det / tot)
+    print(f"  {lam:>8.3f}{scr:>8.0f}{det:>12.2f}{tot:>12.2f}{det/tot:>10.2f}")
+lo, hi = min(rapports), max(rapports)
+fac_scr = REMED[0][1] / REMED[-1][1]
+print(f"\n  le rapport va de {lo:.2f} a {hi:.2f}, soit +{100*(hi/lo - 1):.0f} %, quand le SCR")
+print(f"  varie d'un facteur {fac_scr:.1f}. C'est une BORNE SUPERIEURE de l'effet de forme :")
+print("  ce balayage deplace la frequence, donc il cumule l'effet d'echelle et celui de forme.")
+print("\n  L'ENONCE PUBLIABLE est donc : le rapport est invariant a un changement d'echelle pur,")
+print("  par simplification du SCR, et l'effet de forme residuel est borne par +36 % sur une")
+print("  plage de SCR d'un facteur quatre. PAS « il garde plus de 89 % de sa valeur », qui")
+print("  n'est reproduit par aucun calcul, et pas « il tombe a 11 % », qui dit le contraire de")
+print("  ce que la phrase soutenait.")
+print("\n  NON MESURE, et a ne pas combler par un chiffre : le deplacement de ce rapport ENTRE")
+print("  le secteur et l'entite. Le traite en exces de perte n'est optimise qu'a l'echelle")
+print("  d'entite ; aucun script ne calcule son equivalent sectoriel. La comparaison des deux")
+print("  echelles sur ce rapport n'existe pas, et l'identite ci-dessus est ce qui la remplace.")
+
+
+# =====================================================================================
 titre("4. Statistiques de severite de la population EFFECTIVEMENT utilisee")
 # =====================================================================================
 # VALEURS EN POINT DECIMAL. Ces six nombres sont ceux que le chapitre donnees CITE dans son

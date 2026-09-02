@@ -174,6 +174,54 @@ remediations PARTIELLES, ce qu'elles sont, et leur emboitement est un resultat :
 chiffre ce que coute de ne fermer qu'une partie des canaux.
 
 ========================================================================================
+3ter. Le rapport detention / transfert, et pourquoi il resiste mieux que le NIVEAU
+========================================================================================
+Definitions, echelle d'entite, script 58 :
+  cout annuel de DETENTION = CoC x SCR, avec SCR = 169 M EUR
+  prix de TRANSFERT        = cout total du traite au L* optimal = 2.89 M EUR/an
+  portee optimale L*       = 170 M EUR, soit L* / SCR = 1.006
+
+  CoC                                detention   transfert   rapport   taux moyen
+  -------------------------------------------------------------------------------
+  regime actuel (6.00 %)                 10.14        2.89      3.51       0.0170
+  directive (UE) 2025/2 (4.75 %)          8.03        2.89      2.78       0.0170
+
+POURQUOI CE RAPPORT EST PLUS ROBUSTE QUE LE NIVEAU, ET C'EST UNE IDENTITE.
+  rapport = (CoC x SCR) / (taux moyen x L*),  et a l'optimum L* = SCR
+         => rapport = CoC / taux moyen,  le SCR se SIMPLIFIE.
+  Le niveau, lui, traverse les deux elasticites estimees de la descente d'echelle
+  (frequence 0,0744 et severite 0,087) : c'est la qu'il devient illustratif. Le
+  rapport n'en herite pas au premier ordre, parce que ses deux termes sont
+  proportionnels au MEME SCR. L'optimum L* = SCR est verifie ici a 0.6 % pres.
+
+CE QUI RESTE, ET QU'IL NE FAUT PAS ANNONCER COMME NUL. La simplification vaut pour un
+changement d'echelle PUR. Or la descente d'echelle ne rescale pas la loi de perte : elle
+deplace la frequence et la severite separement, donc elle change la FORME. L'effet de
+forme, lui, n'est pas nul, et le seul balayage disponible le borne par le haut.
+
+  balayage du script 58 a CoC = 4.75 % (lambda reduit) :
+    lambda     SCR   detention   transfert   rapport
+  --------------------------------------------------
+     0.092     169        8.03        2.89      2.78
+     0.064      97        4.61        1.39      3.31
+     0.046      43        2.04        0.54      3.78
+
+  le rapport va de 2.78 a 3.78, soit +36 %, quand le SCR
+  varie d'un facteur 3.9. C'est une BORNE SUPERIEURE de l'effet de forme :
+  ce balayage deplace la frequence, donc il cumule l'effet d'echelle et celui de forme.
+
+  L'ENONCE PUBLIABLE est donc : le rapport est invariant a un changement d'echelle pur,
+  par simplification du SCR, et l'effet de forme residuel est borne par +36 % sur une
+  plage de SCR d'un facteur quatre. PAS « il garde plus de 89 % de sa valeur », qui
+  n'est reproduit par aucun calcul, et pas « il tombe a 11 % », qui dit le contraire de
+  ce que la phrase soutenait.
+
+  NON MESURE, et a ne pas combler par un chiffre : le deplacement de ce rapport ENTRE
+  le secteur et l'entite. Le traite en exces de perte n'est optimise qu'a l'echelle
+  d'entite ; aucun script ne calcule son equivalent sectoriel. La comparaison des deux
+  echelles sur ce rapport n'existe pas, et l'identite ci-dessus est ce qui la remplace.
+
+========================================================================================
 4. Statistiques de severite de la population EFFECTIVEMENT utilisee
 ========================================================================================
 POURQUOI CETTE SECTION EXISTE, ET CE QU'ELLE A TROUVE. Le chapitre donnees publie une

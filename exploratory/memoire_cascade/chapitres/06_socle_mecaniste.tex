@@ -303,7 +303,101 @@ la queue de fréquence, non une calibration}, à assumer comme tel. La conclusio
 est la seule chose que dix-huit points autorisent à affirmer. La dispersion mesurée sur les cellules firme-année vient du script~\texttt{47}~;
 la dispersion résiduelle annuelle et son
 intervalle sont produits par le script~\texttt{08b}, les parts par vecteur d'attaque par le
-script~\texttt{67}, qui les imprime en pourcentage autant qu'en fraction.
+script~\texttt{67}, qui les imprime en pourcentage autant qu'en fraction. Le quantile du
+nombre annuel sous les trois lois de mélange et la charge systémique équivalente sont produits
+par le script~\texttt{41}.
+
+\subsection{La dynamique du facteur systémique, et pourquoi il faut deux échelles d'aléa}
+\label{sec:dynamique-Y}
+
+Le facteur commun $Y_{j,t}$ a été posé centré et réduit sans que sa \emph{dynamique} soit
+écrite. La lacune n'est pas cosmétique : la loi de $Y_{j,t}$ ne change aucune probabilité
+marginale de défaillance, mais elle gouverne entièrement la façon dont plusieurs piliers
+tombent \emph{ensemble}, ce qui est l'objet même de ce mémoire.
+
+\paragraph{Deux échelles, et un argument empirique qui interdit de n'en garder qu'une.}
+Un système d'information subit en permanence un grand nombre de petites atteintes dont aucune
+ne déplace seule un état de conformité : la somme normalisée de ces contributions converge, par
+le théorème central limite sous la condition de Lindeberg, vers une gaussienne, et son
+accumulation en temps continu est donc un \textbf{mouvement brownien}. Ce n'est pas un choix de
+commodité, c'est la limite imposée par la structure de l'aléa. À l'autre extrémité se trouvent
+les campagnes qui touchent simultanément de nombreuses entités par une vulnérabilité partagée,
+et la condition de Lindeberg y échoue précisément parce qu'\textbf{un seul événement domine la
+somme de l'année} : un brownien ne peut pas les représenter, ses accroissements étant sans
+atome. Elles demandent une composante de \textbf{sauts}. On pourrait objecter qu'une gaussienne
+de variance suffisante engloberait les deux régimes ; la donnée l'interdit de façon mesurable,
+puisqu'un facteur purement brownien impose un indice de dispersion égal à $1$ quand on mesure
+$1{,}19$ sur les cellules firme-année (script~\texttt{47}) et $2{,}24$ sur la série annuelle
+détendancée (script~\texttt{08b}). La seconde
+échelle n'est donc pas ajoutée pour enrichir le modèle, elle est \textbf{identifiée par la
+surdispersion}.
+
+\paragraph{L'écriture, et le paramètre interprétable qu'elle fait apparaître.}
+Pour chaque pilier,
+\begin{equation}
+  \mathrm{d}Z_j(t) \;=\; -\kappa_j\,Z_j(t)\,\mathrm{d}t \;+\; \sigma_j\,\mathrm{d}B_j(t)
+  \;+\; \mathrm{d}\!\Bigl(\textstyle\sum_{n\ge 1}\zeta^{(j)}_n\mathbf 1\{\tau_n\le t\}\Bigr)
+  \;-\; \nu_j\mu_j\,\mathrm{d}t,
+  \label{eq:sde-Y}
+\end{equation}
+où $(B_1,\dots,B_5)$ est un brownien à cinq composantes de corrélation instantanée portant la
+co-occurrence \emph{ordinaire}, $(\tau_n)$ les dates d'un processus ponctuel d'intensité $\nu_j$
+et d'amplitudes $\zeta^{(j)}_n$ pour les campagnes, le dernier terme étant le compensateur qui
+garantit $\E[Z_j(t)]=0$. Le facteur qui entre dans la latente est l'état normalisé
+$Y_{j,t}=Z_j(t)/\varsigma_j$ avec
+\begin{equation}
+  \varsigma_j^2 \;=\; \frac{\sigma_j^2}{2\kappa_j} \;+\;
+  \frac{\nu_j\,\E\bigl[(\zeta^{(j)})^2\bigr]}{2\kappa_j},
+  \qquad
+  \pi_j \;=\; \frac{\nu_j\,\E\bigl[(\zeta^{(j)})^2\bigr]}
+                   {\sigma_j^2+\nu_j\,\E\bigl[(\zeta^{(j)})^2\bigr]} \;\in\; [0,1],
+  \label{eq:norm-Y}
+\end{equation}
+la variance stationnaire se lisant composante par composante, les deux sources étant
+indépendantes. La part $\pi_j$ de variance systémique portée par les sauts est la grandeur
+interprétable de cette écriture : nulle, le pilier ne subit que du bruit de fond ; égale à un,
+il ne subit que des campagnes.
+
+\begin{cle}
+\textbf{Ce que cette écriture change, et ce qu'elle ne change pas.} Elle ne déplace
+\textbf{aucune probabilité marginale, donc aucun capital publié} : le probit ne voit
+$Y_{j,t}$ qu'à travers sa loi centrée réduite, et la normalisation \eqref{eq:norm-Y} impose
+$\E[Y_{j,t}]=0$ et $\Var[Y_{j,t}]=1$ par construction, de sorte que l'incidence de fond reste
+$\Phi(-1{,}7)$, valeur imprimée par le script~\texttt{03}. Elle change la \textbf{dépendance de
+queue}, et c'est tout son objet : le
+coefficient de dépendance de queue supérieure d'une gaussienne de corrélation $r<1$ est
+\emph{nul}, celui d'un mélange à choc commun est strictement positif. Et elle ne dégrade pas le
+résultat d'identification partielle, la composante de sauts se manifestant par de la
+co-occurrence, donc dans la partie symétrique de la matrice de propagation, et non dans sa
+partie antisymétrique qui reste bornée.
+\end{cle}
+
+\paragraph{L'hypothèse retenue, déclarée plutôt que supposée.} On publie la \textbf{forme à
+renouvellement}, $\kappa_j\to\infty$, où le facteur est l'accroissement normalisé de la période
+sans mémoire d'un exercice à l'autre. Cela revient à poser $\theta_j=\kappa_j\times$ (durée
+d'une grappe) $=\infty$, donc à supposer que le regroupement intra-annuel n'a aucun effet, et
+cette hypothèse doit être écrite plutôt que laissée au lecteur. Trois motifs la soutiennent, et
+ils ne se valent pas. Le premier est de fond : le regroupement est du second ordre sur le
+quantile annuel par le principe du grand saut unique, la charge agrégée à queue régulièrement
+variable étant portée par \emph{un} sinistre, et du premier ordre sur la co-occurrence entre
+piliers, laquelle est déjà portée par la cascade et le choc commun du pilier des tiers. Le
+mécanisme n'est donc pas ignoré, il est logé dans la coupe plutôt que dans le temps. Le
+deuxième est d'identifiabilité, $\kappa_j$ n'étant pas estimable sur la profondeur d'historique
+disponible. Le troisième est le gel de la calibration, et c'est le plus faible : il dit quand le
+faire, pas s'il faut le faire.
+
+\begin{attention}
+\textbf{Le regroupement est réel, mesuré, et il ne mesure pas ce qu'on croit.} La charge
+journalière du secteur financier a un indice de Gini de $0{,}69$ et une vague de mai 2023 porte
+$191$ victimes en cinq jours (script~\texttt{08g}) ; l'excitation lue sur les dates au jour est
+intra-journalière, avec un pic à $3{,}3$~heures (script~\texttt{08h}). Mais ces $191$ victimes
+sont $191$ \emph{entités distinctes} atteintes par une cause commune, non une entité subissant
+$191$ sinistres : ce que le Gini mesure est de la dépendance \textbf{en coupe}, pas une
+accumulation intra-annuelle pour une entité donnée. Or le besoin de capital calculé est celui
+d'une entité, et à cette échelle la question est presque vide puisque la quasi-totalité des
+années y sont sans aucun incident matériel. Le regroupement observé est un phénomène de
+\emph{marché}, et c'est à ce titre qu'il entre dans le modèle.
+\end{attention}
 
 \begin{figure}[htbp]\centering
 \figover{N2_simulation_nb.png}
