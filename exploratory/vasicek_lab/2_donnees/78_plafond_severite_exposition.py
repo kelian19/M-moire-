@@ -326,8 +326,13 @@ ys = np.arange(len(noms))
 brut = [100 * r for _, _, _, r, _, _ in ratios]
 mes = [(100 * k if k else np.nan) for *_, k in ratios]
 h = 0.34
-ax2.barh(ys + h / 2, brut, color=MUTED, alpha=0.75, height=h, )
-ax2.barh(ys - h / 2, mes, color=ACCENT, alpha=0.9, height=h)
+# Les deux series portent un LABEL et la figure une legende : le titre nommait les couleurs
+# (« gris » et « orange »), ce qui a cesse d'etre vrai au passage a la charte. Une legende dit
+# la meme chose sans se perimer quand la palette change.
+ax2.barh(ys + h / 2, brut, color=MUTED, alpha=0.75, height=h,
+         label="ce que le chiffre publié suppose")
+ax2.barh(ys - h / 2, mes, color=ACCENT, alpha=0.9, height=h,
+         label="plafond qui l'amputerait de moitié")
 for y, v in zip(ys, brut):
     ax2.text(v * 1.10, y + h / 2, f"{v:.3f}".replace(".", ",") + " %", va="center",
              fontsize=8.5, color=INK2)
@@ -336,7 +341,8 @@ for y, v in zip(ys, mes):
         ax2.text(v * 1.10, y - h / 2, f"{v:.3f}".replace(".", ",") + " %", va="center",
                  fontsize=8.5, color=ACCENT)
 ax2.axvline(0.5, color=INK2, lw=1.2, ls="--")
-ax2.text(0.53, -0.72, "0,5 % du bilan,\nseuil déjà généreux", fontsize=8.5, color=INK,
+# Annotation remontee DANS le cadre : a y = -0,72 elle chevauchait l'etiquette 10^0 de l'axe.
+ax2.text(0.53, 0.45, "0,5 % du bilan,\nseuil déjà généreux", fontsize=8.5, color=INK,
          va="center")
 for y, v in zip(ys, mes):
     if np.isnan(v):
@@ -346,8 +352,16 @@ ax2.set_xscale("log")
 ax2.set_yticks(ys)
 ax2.set_yticklabels(noms, fontsize=9)
 ax2.set_xlabel("fraction du bilan qu'un sinistre unique devrait détruire (%, log)", color=INK2)
-ax2.set_title("(b)  Ce que le chiffre publié suppose (gris) contre le plafond\nqui l'ampute de moitié (orange)",
+# Le titre annoncait « orange » : les barres sont ACCENT depuis le passage a la charte
+# Nexialog. Une legende qui nomme une couleur que la figure ne porte pas est un defaut du
+# meme genre que celui de S15, et il se corrige en ne nommant plus la couleur du tout.
+ax2.set_title("(b)  Quelle fraction du bilan un sinistre unique devrait détruire\npour que le plafond morde",
               fontsize=10.5, color=INK, pad=8)
+# En bas a droite la legende recouvrait les barres de l'assureur non-vie A et leurs etiquettes ;
+# en haut a droite sans marge elle touchait l'etiquette de la premiere ligne. On DEGAGE donc de
+# la hauteur au-dessus de la premiere barre, et la legende s'y loge sans rien recouvrir.
+ax2.set_ylim(-0.75, len(noms) + 0.25)
+ax2.legend(loc="upper right", fontsize=8.5, frameon=False)
 
 for ax in (ax1, ax2):
     for s in ("top", "right"):
