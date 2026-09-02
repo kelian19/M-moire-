@@ -65,9 +65,15 @@ TAUX_USD = 1.04
 # Entites du panel SFCR, expositions et besoins PUBLIES par le script 65. Les valeurs sont
 # recopiees et non recalculees : ce script mesure l'effet d'un plafond, il ne refait pas la
 # descente d'echelle. Le controle ci-dessous verifie qu'on parle bien des memes entites.
+#
+# MISE A JOUR DU 2 SEPTEMBRE 2026. La lecture des quatre rapports SFCR a corrige une erreur de
+# champ sur l'assureur non-vie B : son total d'actif vaut 5 305 M EUR et non 3 234, lequel est
+# le montant de ses fonds propres eligibles. Le besoin passe donc de 120,8 a 135,5. C'est le
+# defaut d'une valeur RECOPIEE plutot que lue : elle ne se met pas a jour toute seule quand la
+# source change, et c'est le prix assume de ne pas refaire la descente d'echelle ici.
 ENTITES = [
     ("assureur non-vie A", 2_319.0, 112.1),
-    ("assureur non-vie B", 3_234.0, 120.8),
+    ("assureur non-vie B", 5_305.0, 135.5),
     ("assureur vie C", 37_845.0, 195.8),
     ("assureur vie D", 309_800.0, 294.4),
     ("entite notionnelle", 20_000.0 / TAUX_USD, 169.0),

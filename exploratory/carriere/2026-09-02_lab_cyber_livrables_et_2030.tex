@@ -1,0 +1,329 @@
+% =====================================================================================
+% Note pour Hugo Rapior : relevé des livrables publics du Lab Cyber et trajectoire 2030.
+% Etabli le 2 septembre 2026, uniquement sur SOURCES PUBLIQUES.
+%
+% PRECAUTION DE TON, ET ELLE COMMANDE TOUT LE DOCUMENT. Hugo cosigne les deux rapports LUCY
+% et anime l'atelier du 24 novembre : il connait son Lab mieux que moi. Ce document ne lui
+% apprend donc pas ce que fait le Lab, il lui dit CE QU'UN TIERS EN VOIT, ce qui est une
+% information differente et qu'il n'a aucune raison d'avoir. D'ou le cadrage annonce des la
+% premiere phrase, et le refus de donner des conseils de staffing sous forme d'affirmations.
+%
+% DEUX CONTRAINTES DE FORME :
+%   - aucun tiret cadratin. Le babel francais en met un en puce d'itemize par defaut ;
+%   - tout ce qui n'est pas corrobore par une source publique est signale comme tel, au meme
+%     titre que le memoire le fait pour Hackmageddon et que sa note interne le fait pour PANAME.
+% =====================================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[top=1.5cm,bottom=1.4cm,left=1.85cm,right=1.85cm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{eurosym}          % \euro : absent du codage T1, il faut le paquet
+\usepackage{titlesec}
+
+% Charte Nexialog : memes roles que style_nexialog.py, aucun hexadecimal ailleurs qu'ici.
+\definecolor{encre}{HTML}{1B1E30}
+\definecolor{accent}{HTML}{A6002E}
+\definecolor{bleu}{HTML}{204993}
+\definecolor{teal}{HTML}{007D78}
+\definecolor{grisclair}{HTML}{F2F2F2}
+
+\color{encre}
+\titleformat{\section}{\normalfont\large\bfseries\color{bleu}}{\thesection.\ }{0.4em}{}
+\titlespacing{\section}{0pt}{9pt}{3pt}
+\titleformat{\subsection}{\normalfont\bfseries}{}{0pt}{}
+\titlespacing{\subsection}{0pt}{9pt}{2pt}
+% Puce explicite : le babel francais mettrait un tiret cadratin.
+\setlist[itemize]{label=\textcolor{accent}{\textbullet},itemsep=2.5pt,topsep=3pt,
+                  leftmargin=1.15em,parsep=0pt}
+\renewcommand{\arraystretch}{1.22}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newcommand{\etat}[2]{\textcolor{#1}{\textbf{\footnotesize #2}}}
+\newcommand{\encadre}[2]{%
+  \vspace{3pt}\noindent\colorbox{grisclair}{%
+  \begin{minipage}{\dimexpr\textwidth-2\fboxsep}
+  \small\textbf{#1} #2
+  \end{minipage}}\vspace{4pt}}
+
+\pagestyle{plain}
+
+\begin{document}
+\small
+
+{\Large\bfseries\color{bleu} Lab Cyber : les livrables visibles, et une trajectoire 2030}\\[3pt]
+{\color{accent}\rule{\textwidth}{1.1pt}}\\[3pt]
+{\footnotesize Kélian Kaddouri \hfill Pour Hugo Rapior \textbullet{} 2 septembre 2026}
+
+\vspace{6pt}
+
+\noindent\textbf{Ce que ce document est, et ce qu'il n'est pas.} Tu connais le Lab mieux que
+moi, tu cosignes les deux rapports LUCY et tu animes l'atelier de novembre. Ce relevé ne te dit
+donc pas ce que fait le Lab : il te dit \textbf{ce qu'un tiers en voit} quand il ne dispose que
+des sources publiques, ce qui est une information différente. Je l'ai fait pour savoir où mon
+mémoire se branche, et il en est sorti un constat qui me semble valoir le détour. Tout ce qui
+n'est pas corroboré par une source publique est signalé comme tel.
+
+\section{Les cinq axes annoncés, et les livrables qui les portent}
+
+La page du pôle R\&D énumère cinq axes pour le Lab Cyber. Confrontés aux publications
+réellement en ligne, trois sont portés par un livrable, trois ne le sont pas.
+
+\begin{small}
+\begin{longtable}{@{}L{5.2cm} L{8.6cm} l@{}}
+\toprule
+\textbf{Axe annoncé} & \textbf{Livrable public qui le porte} & \textbf{État} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Axe annoncé} & \textbf{Livrable public} & \textbf{État} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Modélisation actuarielle du risque cyber
+& Atelier \og{}Scénarios stochastiques, données textuelles et IA pour une meilleure
+  quantification du risque cyber\fg{}, journée 100 \% Actuaires, 24 novembre 2025
+& \etat{teal}{porté} \\
+\addlinespace
+Marché de la cyberassurance, hors liste des cinq axes mais c'est le livrable cyber le plus
+  visible
+& Rapports LUCY 2025 et LUCY 2026, analyse du marché français
+& \etat{teal}{porté} \\
+\addlinespace
+Audit de confidentialité des modèles d'IA
+& Livre blanc \og{}Fondations et gouvernance pour une IA de confiance\fg{} avec Finance
+  Innovation, et l'article du 10 juillet 2025 sur le GPAI Code of Practice
+& \etat{teal}{porté} \\
+\addlinespace
+Conformité DORA et NIS2 : cartographie ICT, KPI et KRI
+& Aucune publication dédiée trouvée. DORA n'apparaît que mentionnée, dans LUCY, comme
+  réglementation applicable aux petites structures
+& \etat{accent}{non porté} \\
+\addlinespace
+Qualification et scoring des tiers ICT critiques
+& Aucune publication trouvée
+& \etat{accent}{non porté} \\
+\addlinespace
+\textbf{Calcul du SCR cyber (assurance) et RWA cyber (banque)}
+& \textbf{Aucune publication.} LUCY 2025 ne mentionne pas le SCR une seule fois, et l'atelier
+  de novembre ne mentionne ni DORA ni SCR
+& \etat{accent}{non porté} \\
+\end{longtable}
+\end{small}
+
+\encadre{Le constat, en une phrase.}{Le Lab annonce le calcul du SCR cyber et du RWA cyber, et
+c'est le seul de ses axes qui ne soit porté par aucune publication. C'est aussi, à la virgule
+près, le sujet de mon mémoire.}
+
+\subsection{Le détail des trois livrables, puisque c'est ce qui fait foi}
+
+\begin{itemize}
+\item \textbf{Les rapports LUCY.} Signés Hugo Rapior et Franck Osée Dountio Zaboue, assis sur
+      14\,124 polices et 448 sinistres déclarés auprès d'Aon, Marsh et WTW. Ce qu'ils
+      établissent : un ratio de sinistralité de 17 \% en 2024 contre 12 \% en 2023, un nombre de
+      sinistres en baisse de 27 \% mais des montants indemnisés en hausse de 43 \%, le retour des
+      sinistres XXL avec 21 M\euro{} sur les incidents majeurs, des tarifs en baisse de 19,8 \%
+      sur les grandes entreprises et de 8,7 \% sur les ETI, des capacités en hausse de 23 \%, et
+      des franchises en baisse de 15 \% pour les grands comptes contre une hausse de 231 \% pour
+      les PME. C'est un livrable de \textbf{marché}.
+\item \textbf{L'atelier du 24 novembre 2025.} Avec Franck Dountio, Chadi Hanna pour Dattak et
+      Caroline Hillairet. Trois méthodes annoncées : générateurs de scénarios stochastiques face
+      aux pandémies cyber, processus de Poisson \textbf{auto-excités} intégrant contagion et
+      divulgation de vulnérabilités, et exploitation de données textuelles par NLP et grands
+      modèles de langage jusqu'aux transformeurs pour la sévérité. C'est un livrable de
+      \textbf{méthode}.
+\item \textbf{Le livre blanc IA de confiance}, avec Finance Innovation, porté par l'équipe FCC :
+      qualité de la donnée, dispositifs de gouvernance et de contrôle, cas d'usage sur les trois
+      lignes de défense, et un parangonnage des solutions d'IA déployées en banque et en
+      assurance dont la fraude et la cybersécurité. Complété par l'article sur le GPAI Code of
+      Practice, adossé à l'article 53 de l'IA Act.
+\end{itemize}
+
+\section{Trois lignes que les sources publiques ne corroborent pas}
+
+Ce n'est pas un reproche, et il faut le dire d'emblée : une intervention orale, une veille ou
+une contribution informelle ne laissent pas de trace publique. C'est une information sur la
+\textbf{visibilité externe} du Lab, et elle est utile parce qu'un interlocuteur qui vérifie
+trouvera exactement ce que j'ai trouvé.
+
+\begin{itemize}
+\item \textbf{PANAME.} Projet public piloté par l'ANSSI, la CNIL, le PEReN et Inria. Le Lab a
+      bien l'axe \og{}audit de confidentialité des modèles d'IA\fg{}, mais aucune publication ne
+      permet d'attribuer un livrable Nexialog sous ce label. La note interne le signale déjà,
+      et je le confirme.
+\item \textbf{La présentation au European Congress of Actuaries.} Le congrès a lieu à Paris les
+      18 et 19 juin 2026 et son appel à intervenants comportait bien \og{}Role of actuaries in
+      modelling Cyber Risk\fg{} en risques émergents. Aucune intervention Nexialog n'apparaît
+      dans les sources consultées.
+\item \textbf{Le risque géopolitique.} Il figure dans la présentation générale du cabinet parmi
+      les risques transverses sur lesquels il innove, mais aucune publication dédiée n'est en
+      ligne.
+\end{itemize}
+
+\section{Où mon mémoire se branche, et le point qu'il faut que je te dise}
+
+La méthode publiée du Lab repose sur des processus de Poisson \textbf{auto-excités}, donc un
+Hawkes. Mon mémoire l'écarte au profit d'une cascade dirigée entre les cinq piliers. Présenté
+ainsi c'est un désaccord, et ce serait une mauvaise façon d'arriver.
+
+\encadre{Ce qui réconcilie les deux, et c'est un résultat plutôt qu'un arrangement.}{Une cascade
+\emph{sans aucune} auto-excitation reproduit un ratio de branchement de 0,480 au pas journalier
+contre 0,551 mesuré, et retrouve même la demi-vie. Les deux familles sont donc
+\textbf{observationnellement équivalentes} à la résolution disponible : le rejet du Hawkes se
+reformule en équivalence suivie d'un choix de parcimonie interprétative. Ce résultat ne
+contredit pas la ligne du Lab, il la \textbf{borne}, et il coupe dans les deux sens puisqu'il
+interdit aussi de revendiquer qu'une des deux paramétrisations est la bonne \emph{parce que} la
+donnée le dirait. Ce qui se défend est la traçabilité et la déclaration des limites, pas la
+supériorité du modèle.}
+
+La complémentarité est nette sur les objets. Le Lab publie le \textbf{marché} (LUCY) et la
+\textbf{méthode} (générateurs, NLP). Mon mémoire publie le \textbf{capital} : besoin en pilier 2
+au titre de la non-conformité DORA, de 6\,049 à 20\,188 M\euro{} selon l'état de conformité, soit
+un facteur 3,34, avec 1\,980 nombres publiés dont chacun est rattaché au script qui le calcule.
+Trois briques différentes de la même offre, et la troisième est celle qui n'a pas encore de
+livrable.
+
+\section{La trajectoire 2026-2030, telle que le calendrier la contraint}
+
+\begin{small}
+\begin{longtable}{@{}L{2.5cm} L{11.4cm}@{}}
+\toprule
+\textbf{Échéance} & \textbf{Ce que le jalon crée comme demande} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Échéance} & \textbf{Ce que le jalon crée comme demande} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+30 avril 2026
+& Registre d'information, date de référence au 31 décembre 2025. À l'exercice à blanc de 2024,
+  \textbf{6,5 \% seulement} des près de mille entités testées passaient les 116 contrôles
+  qualité. C'est ce chiffre qui fabrique du mandat aujourd'hui, et c'est autant de la qualité de
+  donnée que de la conformité. \\
+\addlinespace
+2 août 2026
+& Obligations de l'IA Act sur les systèmes à haut risque. Les modèles de scoring, de détection
+  de fraude et les agents conversationnels deviennent des actifs à cartographier et à auditer :
+  l'axe gouvernance de l'IA cesse d'être une veille. \\
+\addlinespace
+2026-2027
+& Premier cycle de supervision directe des \textbf{19 prestataires TIC critiques} désignés le
+  18 novembre 2025, dont AWS, Azure, Google Cloud, Bloomberg, LSEG, IBM, TCS et Orange.
+  \textbf{C'est le jalon le plus exploitable du lot} : une liste nominative de dix-neuf points de
+  concentration transforme l'accumulation par cause commune en exercice mesurable sur des tiers
+  identifiés, au lieu d'un facteur posé. \\
+\addlinespace
+17 janvier 2027
+& DORA pleinement applicable aux petites entités. Élargissement de l'assiette vers des acteurs
+  sans direction des risques constituée : le besoin bascule vers de l'outillage et du modèle
+  standardisé plutôt que du sur-mesure. \\
+\addlinespace
+17 janvier 2028
+& Rapport de réexamen de DORA par la Commission, avec proposition législative possible.
+  \textbf{C'est la seule fenêtre où une méthode publiée peut peser sur le cadre} plutôt que le
+  subir, et elle se prépare deux ans à l'avance. \\
+\addlinespace
+2026-2030
+& Stratégie nationale de cybersécurité. Le directeur général de l'ANSSI a fixé 2030 comme
+  horizon d'une possible guerre cyber de haute intensité, avec risque de saturation des capacités
+  de défense. Une menace corrélée et massive est le régime où un modèle de cascade et
+  d'accumulation cesse d'être un raffinement. \\
+\end{longtable}
+\end{small}
+
+\section{L'offre qui en découle, en quatre briques}
+
+\begin{itemize}
+\item \textbf{Conformité outillée, aujourd'hui.} Registre d'information, cartographie ICT, KPI et
+      KRI, scoring des tiers critiques. Le mandat existe et le taux de 6,5 \% le prouve. Mais
+      c'est la brique qui se \textbf{banalise le plus vite} : dès que l'exercice se répète, il
+      passe à l'outil et le prix baisse. Elle finance le reste, elle ne fait pas l'identité du
+      Lab.
+\item \textbf{Quantification du capital, 2026-2027.} SCR cyber, RWA cyber, besoin en pilier 2 au
+      titre de la non-conformité. C'est l'axe annoncé et non publié, celui qui distingue un
+      cabinet d'actuariat d'un cabinet de cybersécurité, et celui qu'aucun outil ne remplace
+      parce qu'il exige un modèle défendable devant un régulateur.
+\item \textbf{Accumulation et transfert, 2027-2028.} La suite naturelle de LUCY et des dix-neuf
+      prestataires critiques : accumulation par cause commune, dépendance de queue, structuration
+      de la cession. Le pont entre le livrable de marché déjà publié et le modèle de capital, et
+      le premier levier qu'un client actionne avant le capital.
+\item \textbf{Audit de modèles, cyber et IA confondus, 2028-2030.} Les modèles d'IA deviennent
+      des actifs TIC au sens du pilier 1 et l'ANSSI construit des schémas de certification. La
+      compétence qui se vend alors n'est ni le cyber ni l'IA, c'est la \textbf{validation de
+      seconde ligne} appliquée aux deux, avec la traçabilité comme livrable.
+\end{itemize}
+
+\encadre{Le fil qui relie les quatre.}{De 2026 à 2030, la demande passe de la
+\textbf{documentation} à la \textbf{preuve} : registres vérifiés, tests pilotés par la menace,
+audits de modèles effectifs. Savoir produire une chaîne de calcul dont chaque nombre se rattache
+au script qui le produit, c'est vendre exactement cela.}
+
+\section{Le risque qui peut faire échouer la brique 2, et il porte sur mon propre travail}
+
+Toute la quantification repose sur une demande qui n'est pas \emph{exigée} : il n'existe aucun
+module DORA en formule standard, donc le besoin de capital cyber reste un exercice d'ORSA, c'est
+à dire un récit que l'entité choisit de produire. Si le réexamen de janvier 2028 ne crée pas
+d'exigence chiffrée, la quantification restera une prestation de conviction et non de
+conformité, avec un marché plus petit et des cycles de vente plus longs. C'est la limite que mon
+mémoire publie lui-même, et c'est aussi la raison pour laquelle le jalon de 2028 mérite d'être
+préparé plutôt qu'attendu.
+
+Deux réserves secondaires, du même ordre. La \textbf{donnée} reste le facteur limitant : rien
+dans le calendrier ne crée de base publique codant l'ordre des défaillances entre domaines de
+contrôle, et le seul chemin identifié est la notification d'incident majeur sous DORA, qui est
+exactement la recommandation de reporting que mon mémoire formule. Et la
+\textbf{différenciation méthodologique} est difficile à défendre, pour la raison d'équivalence
+observationnelle donnée plus haut.
+
+\section{Trois observations sur l'équipe, sous forme de questions}
+
+Je les pose plutôt que je ne les affirme : tu vois le carnet de commandes et le plan de charge
+que ce relevé ne voit pas.
+
+\begin{itemize}
+\item Ce que les traces publiques laissent voir du Lab est \textbf{mince} : un responsable de
+      programme, des stagiaires ENSAE de fin d'études, et un recrutement en cours de consultant
+      leader R\&D cyber. Est-ce que la brique 2 attend ce recrutement, ou est-ce qu'elle peut
+      démarrer avant ?
+\item Le canal de recrutement visible est \textbf{unique}, l'ENSAE et le master SFA. C'est
+      efficace, et c'est fragile.
+\item Le pôle mène des \textbf{thèses CIFRE} avec Dauphine et le LEO sur la finance durable et
+      le climat, et \textbf{aucune sur le cyber} alors que c'est l'un des trois labs. Une CIFRE
+      cyber achèterait trois ans de recherche financée et un titre publiable, ce qu'aucune
+      mission ne produit. Est-ce que le sujet a déjà été instruit ?
+\end{itemize}
+
+\section{Ce que je propose}
+
+\begin{itemize}
+\item \textbf{Publier la brique 2.} J'ai la chaîne de calcul, sa traçabilité et ses limites
+      déclarées. La question n'est pas de savoir si je peux contribuer au Lab, c'est de savoir
+      sous quelle forme on publie : note méthodologique interne réutilisable en avant-vente,
+      article, ou les deux. La seconde forme est celle qui achète la légitimité externe qui
+      manque à cet axe.
+\item \textbf{Prendre les dix-neuf prestataires critiques comme prolongement.} C'est le
+      prolongement le plus direct de mon pilier 4, et il tombe dans la fenêtre de supervision
+      2026-2027.
+\item \textbf{Préparer le réexamen de 2028} avec l'Institut des Actuaires, ce qui ne se fait pas
+      seul et se prépare tôt.
+\end{itemize}
+
+\vspace{8pt}
+\noindent{\color{accent}\rule{\textwidth}{0.6pt}}\\[2pt]
+{\footnotesize\itshape Relevé du 2 septembre 2026 sur sources publiques : pages Nexialog (pôle
+R\&D, publications, LUCY 2025 et 2026, atelier 100 \% Actuaires, livre blanc IA de confiance,
+GPAI Code of Practice), ESA, cyber.gouv.fr, EUR-Lex, Actuarial Association of Europe. Les
+chiffres du mémoire sont ceux du dépôt au 2 septembre 2026. Les ordres de grandeur d'équipe et
+l'ordonnancement des briques sont une hypothèse de lecture, pas un plan.}
+
+\end{document}

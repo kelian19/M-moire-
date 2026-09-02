@@ -1,11 +1,11 @@
-
+﻿
 ============================================================================================
 0. Les entites, leurs chiffres publies, et la provenance de chaque champ
 ============================================================================================
 entite                      perimetre            actifs  provisions       SCR   couv.
                                                   M EUR       M EUR     M EUR        
-BPCE Assurances IARD        solo, non-vie          2319        1804       426    121%
-MACSF Assurances (non-vie)  solo, non-vie          3234        2071       292    398%
+BPCE Assurances IARD        solo, non-vie          2319        1804       425    121%
+MACSF Assurances (non-vie)  solo, non-vie          5305        2071       812    398%
 MACSF Epargne Retraite      solo, vie             37845       33484      1587    275%
 CNP Assurances SA           solo, vie            309800      275000     14800    235%
 Entite notionnelle (ch. 12) fictive               19231       15000         -       -
@@ -22,13 +22,13 @@ PROVENANCE DE CHAQUE CHAMP, a ne pas confondre a la lecture :
   BPCE Assurances IARD
       actifs  : deduit (provisions + fonds propres, borne inferieure)
       of      : publie
-      scr     : deduit (fonds propres / couverture 1.21)
-      source  : SFCR 2024, BPCE Assurances IARD : provisions techniques 1 804 M EUR (+14,8 %), fonds propres eligibles 515 M EUR, couverture du SCR 121 %
+      scr     : publie
+      source  : SFCR 2024, BPCE Assurances IARD : provisions techniques 1 804 M EUR (+14,8 %), fonds propres eligibles 515 M EUR (T1 425 + T2 90), couverture du SCR 121 %, SCR 425 M EUR et risque operationnel 59 M EUR lus dans l'etat S.25.01 (p. 79 du rapport)
   MACSF Assurances (non-vie)
       actifs  : publie
-      of      : deduit (actif - passifs)
-      scr     : deduit (fonds propres / couverture 3.98)
-      source  : SFCR 2024, groupe MACSF : total actif Solvabilite II 3 234 M EUR, provisions techniques et autres passifs 2 071 M EUR, couverture 398 %
+      of      : publie
+      scr     : publie
+      source  : SFCR 2024, MACSF Assurances : total actif Solvabilite II 5 305 M EUR, provisions techniques et autres passifs 2 071 M EUR, fonds propres eligibles 3 234 M EUR, couverture 398 % (synthese p. 5) ; SCR 812,5 M EUR et risque operationnel 39,7 M EUR (section E.2, p. 57)
   MACSF Epargne Retraite
       actifs  : deduit (provisions + fonds propres, borne inferieure)
       of      : publie
@@ -38,7 +38,7 @@ PROVENANCE DE CHAQUE CHAMP, a ne pas confondre a la lecture :
       actifs  : deduit (provisions + fonds propres, borne inferieure)
       of      : publie
       scr     : publie
-      source  : SFCR solo 2024, CNP Assurances : provisions techniques brutes de reassurance 275 Md EUR, fonds propres eligibles 34,8 Md EUR, SCR 14,8 Md EUR (formule standard)
+      source  : SFCR solo 2024, CNP Assurances : provisions techniques brutes de reassurance 275 Md EUR, fonds propres eligibles 34,8 Md EUR, SCR 14,8 Md EUR (formule standard), couverture solo publiee 236 %
 
 DEUX RESERVES A ECRIRE TELLES QUELLES.
   (1) Aucune de ces entites ne publie son etat de conformite DORA. On mesure une
@@ -78,7 +78,7 @@ Sensibilite au cours de change retenu (1.04 USD par EUR) :
 ============================================================================================
 entite                        actifs M USD    lambda        bande lambda  x severite
 BPCE Assurances IARD                  2412    0.0783   [0.0745 ; 0.0824]      0.7109
-MACSF Assurances (non-vie)            3363    0.0803   [0.0768 ; 0.0839]      0.7317
+MACSF Assurances (non-vie)            5517    0.0833   [0.0805 ; 0.0862]      0.7639
 MACSF Epargne Retraite               39359    0.0964   [0.0961 ; 0.0967]      0.9063
 CNP Assurances SA                   322192    0.1128   [0.1079 ; 0.1178]      1.0882
 Entite notionnelle (ch. 12)          20000    0.0917   [0.0908 ; 0.0926]      0.8545
@@ -100,7 +100,7 @@ sommets admissibles : 1024 / 1024
 
 entite                           point  bande basse  bande haute    socle     E[X]
 BPCE Assurances IARD             112.1         88.0        122.2     49.0     2.46
-MACSF Assurances (non-vie)       120.8         94.4        132.2     54.0     2.62
+MACSF Assurances (non-vie)       135.5        103.8        145.8     57.4     2.89
 MACSF Epargne Retraite           195.8        148.7        212.5     89.0     3.79
 CNP Assurances SA                294.4        232.6        316.0    139.9     5.78
 Entite notionnelle (ch. 12)      169.0        131.5        183.3     78.1     3.64
@@ -117,8 +117,8 @@ TOTAL publie de l'entite : il dit quelle part du capital reglementaire la
 non-conformite DORA representerait si elle etait chargee.
 
 entite                           ORSA  forfait 3%  ORSA/forfait  SCR publie / SCR pub.
-BPCE Assurances IARD            112.1        54.1          2.07         426     26.3%
-MACSF Assurances (non-vie)      120.8        62.1          1.94         292     41.3%
+BPCE Assurances IARD            112.1        54.1          2.07         425     26.4%
+MACSF Assurances (non-vie)      135.5        62.1          2.18         812     16.7%
 MACSF Epargne Retraite          195.8      1004.5          0.19        1587     12.3%
 CNP Assurances SA               294.4      8250.0          0.04       14800      2.0%
 Entite notionnelle (ch. 12)     169.0       450.0          0.38           -         -
@@ -127,21 +127,29 @@ en M EUR. Le rapport DORA / forfait de l'entite notionnelle vaut 0,38, chiffre
 deja publie : les entites reelles s'en ecartent parce que leur ratio provisions
 sur actifs n'est pas celui pose au chapitre 12.
 
-STRESS DES SCR DEDUITS (10 %) : ce que devient la part du SCR publie
-entite                         statut du SCR     part  part si -10%  part si +10%
-BPCE Assurances IARD                  deduit   26.3%        29.3%         23.9%
-MACSF Assurances (non-vie)            deduit   41.3%        45.9%         37.6%
-MACSF Epargne Retraite                publie   12.3%            -             -
-CNP Assurances SA                     publie    2.0%            -             -
+STATUT DU DENOMINATEUR, apres lecture des quatre rapports :
+  BPCE Assurances IARD        publie                  26.4% du SCR publie
+  MACSF Assurances (non-vie)  publie                  16.7% du SCR publie
+  MACSF Epargne Retraite      publie                  12.3% du SCR publie
+  CNP Assurances SA           publie                   2.0% du SCR publie
 
-Lecture : les deux parts deduites bougent de trois a cinq points sous un stress de
-dix pour cent, et restent du meme ordre. La conclusion de la section 5, la charge
-DORA pese une fraction MATERIELLE du capital d'une petite entite non-vie et une
-fraction marginale de celui d'un grand assureur vie, ne depend donc pas de la
-reconstitution. Ce qui en depend, c'est le troisieme chiffre significatif, que le
-memoire ne publie pas.
-CE QUE CE STRESS NE REMPLACE PAS : la lecture des quatre rapports SFCR eux-memes.
-Il borne l'erreur, il ne la mesure pas. La verification piece par piece reste due.
+  AUCUN SCR N'EST PLUS DEDUIT. La reserve qui accompagnait cette colonne, et la
+  borne sous stress qui la compensait, sont sans objet : les quatre denominateurs
+  sont des chiffres publies. C'est un gain net sur la version precedente, et il
+  vient de la lecture des rapports, pas d'un calcul.
+
+LE REPERE FORFAITAIRE CONFRONTE AU MODULE PUBLIE (etats S.25.01) :
+entite                        forfait 3%  module publie  ecart du forfait
+BPCE Assurances IARD                54.1           59.0              -8%
+MACSF Assurances (non-vie)          62.1           39.7              56%
+
+en M EUR. LE FORFAIT N'EST PAS UNE BORNE : il se trompe DANS LES DEUX SENS, de
+-8% sur une entite et de +56% sur l'autre. Il faut donc
+le citer comme un ORDRE DE GRANDEUR de comparaison, jamais comme un majorant ni
+comme un minorant de la charge operationnelle reglementaire. Deux entites ne
+determinent pas un biais, elles suffisent a refuter la monotonie.
+Releve sur les deux entites NON-VIE seulement : les deux entites vie ne sont pas
+comparables sur ce repere, leur assiette de provisions etant d'une autre nature.
 
 ============================================================================================
 5. Ou la transposition cesse d'etre credible, et pourquoi
@@ -149,8 +157,8 @@ Il borne l'erreur, il ne la mesure pas. La verification piece par piece reste du
 C'est le resultat que ce script n'avait pas ete ecrit pour trouver, et c'est le
 plus utile. La part du SCR publie attribuee a la non-conformite DORA est :
 
-  BPCE Assurances IARD         actifs      2319 M EUR  ->   26.3% du SCR publie
-  MACSF Assurances (non-vie)   actifs      3234 M EUR  ->   41.3% du SCR publie
+  BPCE Assurances IARD         actifs      2319 M EUR  ->   26.4% du SCR publie
+  MACSF Assurances (non-vie)   actifs      5305 M EUR  ->   16.7% du SCR publie
   MACSF Epargne Retraite       actifs     37845 M EUR  ->   12.3% du SCR publie
   CNP Assurances SA            actifs    309800 M EUR  ->    2.0% du SCR publie
 
@@ -171,22 +179,27 @@ risques confondus (marche, souscription, credit, operationnel). Le seuil de 10 %
 un jugement d'ordre de grandeur, et il est explicite pour pouvoir etre contredit.
 
   entite                        actifs M EUR  SCR/actifs / SCR pub.   verdict
-  BPCE Assurances IARD                  2319       18.4%     26.3%   HORS DOMAINE
-  MACSF Assurances (non-vie)            3234        9.0%     41.3%   HORS DOMAINE
+  BPCE Assurances IARD                  2319       18.3%     26.4%   HORS DOMAINE
+  MACSF Assurances (non-vie)            5305       15.3%     16.7%   HORS DOMAINE
   MACSF Epargne Retraite               37845        4.2%     12.3%   HORS DOMAINE
   CNP Assurances SA                   309800        4.8%      2.0%   credible
 
   La bascule se situe entre 37845 et 309800 M EUR d'actifs. Ce n'est pas un
   seuil fin : quatre entites ne le determinent pas, et le rapport depend aussi du
-  levier propre de l'entite (colonne SCR/actifs, qui va de 4.2% a 18.4%).
+  levier propre de l'entite (colonne SCR/actifs, qui va de 4.2% a 18.3%).
   C'est un ordre de grandeur, et il doit etre presente comme tel.
 
   ET LE CHIFFRE CENTRAL DU MEMOIRE, DANS TOUT CELA. L'entite notionnelle du
   chapitre 12 pese 19231 M EUR d'actifs, donc elle tombe DANS la zone
   hors domaine. Elle ne publie pas de SCR, mais on peut lui en imputer un au levier
-  MEDIAN des quatre entites reelles (6.9%) : 1328 M EUR. La charge de
-  169.0 M EUR en representerait alors 13%, c'est-a-dire le meme ordre
-  de grandeur invraisemblable que les petites entites de la table.
+  MEDIAN des quatre entites reelles (10.0%) : 1932 M EUR. La charge de
+  169.0 M EUR en representerait alors 9%.
+  C'est SOUS le critere de 10 %, donc ce test ne condamne PAS l'entite notionnelle.
+  Il est devenu NEUTRE apres la correction des chiffres MACSF, et il ne faut pas
+  continuer a le citer comme accablant. La requalification du 169 en borne
+  superieure repose desormais sur le SEUL argument de TAILLE, qui tient par
+  lui-meme : 19 231 M EUR se situe sous la bascule, laquelle est entre 37 845 et
+  309 800 M EUR d'actifs. Un argument sur deux, et on le dit.
 
   IL FAUT DONC LE DIRE AU CHAPITRE 12. Le chiffre de 169 M EUR n'est pas une
   charge plausible pour une entite de cette taille : c'est une BORNE SUPERIEURE
@@ -211,7 +224,7 @@ donc un PLANCHER. Le forfait, lui, est identique aux trois etats par constructio
 
 entite                         conforme   partiel  non conf.    ecart       %   forfait
 BPCE Assurances IARD               77.2      93.6      112.1     34.9   +45.3      54.1
-MACSF Assurances (non-vie)         83.9     102.5      120.8     36.9   +44.0      62.1
+MACSF Assurances (non-vie)         91.1     113.0      135.5     44.4   +48.7      62.1
 MACSF Epargne Retraite            133.1     162.1      195.8     62.7   +47.1    1004.5
 CNP Assurances SA                 208.4     250.4      294.4     86.0   +41.3    8250.0
 Entite notionnelle (ch. 12)       116.4     143.2      169.0     52.6   +45.2     450.0
@@ -248,4 +261,4 @@ VERDICT
 Figure
 ============================================================================================
 
-figure ecrite : /Users/larbi/M-moire-/exploratory/vasicek_lab/figures/S22_entites_reelles.png
+figure ecrite : C:\Users\KélianKADDOURI\Projects\M-moire-\exploratory\vasicek_lab\figures\S22_entites_reelles.png

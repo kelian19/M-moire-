@@ -1,0 +1,227 @@
+% =====================================================================================
+% Contribution au document du Lab Cyber envoye par Hugo Rapior le 2 septembre 2026 a 10h48.
+% Deux sections : « Rayonnement et credibilite », completee, et « Vision 2030 », ecrite.
+% CONTRAINTE : deux pages au maximum.
+%
+% VERSION 2, DU MEME JOUR. La premiere version reprenait deux dates de la note interne qui ne
+% resistent pas a la verification, et sourcait le reste sur des resumes de recherche. Cinq pages
+% sources ont ete lues depuis. Ce qui a change :
+%   - « 2 aout 2026, obligations haut risque de l'IA Act » est FAUX : l'annexe III est reportee
+%     au 2 decembre 2027. Ce qui reste au 2 aout 2026 est la transparence (art. 50) et la
+%     litteratie (art. 4) ;
+%   - « 17 janvier 2027, DORA aux petites entites » ne correspond a AUCUNE echeance documentee.
+%     Remplace par les deux jalons reels du CRA ;
+%   - le nombre de prestataires critiques et leurs noms ne sont PAS dans le communique des ESA :
+%     ils sont donnes avec leur statut de preuve, pas comme un fait etabli ;
+%   - l'article 58 est cite au verbatim, sans la mention de proposition legislative qui venait
+%     d'un resume et non du texte ;
+%   - la strategie nationale est attribuee au SGDSN et non a l'ANSSI, et la citation sur la
+%     « guerre de haute intensite » est retiree faute de source.
+%
+% CE QUE « COMPLETER » VEUT DIRE ICI. La liste est celle d'Hugo, dans SON document : il sait ce
+% qui s'est passe. On ne la corrige pas, on l'AUGMENTE de ce qu'elle omet.
+%
+% Aucun tiret cadratin : le babel francais en met un en puce d'itemize par defaut.
+% =====================================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[top=1.4cm,bottom=1.3cm,left=1.8cm,right=1.8cm]{geometry}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{eurosym}
+\usepackage{titlesec}
+
+\definecolor{encre}{HTML}{1B1E30}
+\definecolor{accent}{HTML}{A6002E}
+\definecolor{bleu}{HTML}{204993}
+\definecolor{grisclair}{HTML}{F2F2F2}
+
+\color{encre}
+\titleformat{\section}{\normalfont\large\bfseries\color{bleu}}{}{0pt}{}
+\titlespacing{\section}{0pt}{9pt}{3pt}
+\titleformat{\subsection}{\normalfont\bfseries}{}{0pt}{}
+\titlespacing{\subsection}{0pt}{7pt}{1pt}
+\setlist[itemize]{label=\textcolor{accent}{\textbullet},itemsep=2pt,topsep=2pt,
+                  leftmargin=1.1em,parsep=0pt}
+\newcommand{\src}[1]{{\footnotesize\itshape\textcolor{bleu}{Source : #1}}}
+\newcommand{\encadre}[2]{%
+  \vspace{2pt}\noindent\colorbox{grisclair}{%
+  \begin{minipage}{\dimexpr\textwidth-2\fboxsep}
+  \footnotesize\textbf{#1} #2
+  \end{minipage}}\vspace{3pt}}
+
+\pagestyle{plain}
+
+\begin{document}
+\small
+
+{\Large\bfseries\color{bleu} Lab Cyber : rayonnement et vision 2030}\\[3pt]
+{\color{accent}\rule{\textwidth}{1.1pt}}\\[3pt]
+{\footnotesize Contribution de Kélian Kaddouri \hfill Pour Hugo Rapior \textbullet{} 2 septembre 2026}
+
+\vspace{4pt}
+
+\section{Rayonnement et crédibilité}
+
+\noindent Ta liste est reprise telle quelle, avec la précision factuelle là où elle rend la
+ligne plus solide, puis trois livrables qui n'y figuraient pas.
+
+\begin{itemize}
+\item une vidéo de présentation publiée sur LinkedIn ;
+\item la participation au livre blanc FCC $\times$ Finance Innovation, \emph{Fondations et
+      gouvernance pour une IA de confiance} : qualité de la donnée, dispositifs de gouvernance
+      et de contrôle, cas d'usage sur les trois lignes de défense, parangonnage des solutions
+      d'IA déployées en banque et en assurance dont la fraude et la cybersécurité ;
+\item les interventions dans des formations actuarielles ;
+\item la présentation au European Congress of Actuaries, qui se tient à Paris les 18 et 19 juin
+      2026 et dont l'appel à intervenants comportait \og{}Role of actuaries in modelling Cyber
+      Risk\fg{} au titre des risques émergents ;
+\item les articles et publications sur l'IA Act, les risques géopolitiques, le risque cyber et
+      l'IA de confiance, dont l'article du 10 juillet 2025 sur le \emph{GPAI Code of Practice},
+      adossé à l'article 53 du règlement sur l'IA et à ses annexes XI et XII ;
+\item les travaux ANSSI et PANAME sur l'audit des modèles d'IA. PANAME a été lancé en juin 2025
+      par l'ANSSI, la CNIL, le PEReN et le projet IPoP du PEPR Cybersécurité piloté par Inria,
+      et son appel à manifestation d'intérêt s'est tenu du 26 février au 28 mars 2026.
+\end{itemize}
+
+\subsection{Trois livrables à ajouter, et le premier est le plus visible de tous}
+
+\begin{itemize}
+\item \textbf{Les rapports LUCY 2025 et LUCY 2026}, analyse du marché de la cyberassurance en
+      France. Assis sur 14\,124 polices et 448 sinistres déclarés auprès d'Aon, Marsh et WTW :
+      ratio de sinistralité de 17 \% en 2024 contre 12 \% en 2023, nombre de sinistres en baisse
+      de 27 \% pour des montants indemnisés en hausse de 43 \%, retour des sinistres XXL avec
+      21 M\euro{} sur les incidents majeurs, tarifs en repli de 19,8 \% sur les grandes
+      entreprises et de 8,7 \% sur les ETI, capacités en hausse de 23 \%, franchises en baisse
+      de 15 \% pour les grands comptes contre une hausse de 231 \% pour les PME.
+      \textbf{C'est le livrable cyber du Lab le plus cité à l'extérieur}, et il ne figurait pas
+      dans la liste.
+\item \textbf{L'atelier du 24 novembre 2025} à la journée 100 \% Actuaires, 100 \% Data Science
+      \& Durabilité : \og{}Scénarios stochastiques, données textuelles et IA pour une meilleure
+      quantification du risque cyber\fg{}. Sa valeur de rayonnement tient autant à son contenu
+      qu'à sa \emph{composition} : une co-intervention avec un assureur cyber et une direction de
+      master académique. C'est une caution externe, pas une prise de parole isolée.
+\item \textbf{Un mémoire d'actuariat en cours sur la quantification du besoin de capital au
+      titre de DORA}, soutenance 2026. Il alimente l'axe SCR cyber et RWA cyber, aujourd'hui le
+      seul des axes annoncés du Lab qui n'ait pas encore de publication.
+\end{itemize}
+
+\noindent Le projet de podcast consacré au rapport LUCY peut constituer un support
+supplémentaire de valorisation et de prospection. Sa force propre est qu'il porte sur le
+livrable le plus reconnu du Lab plutôt que sur un sujet neuf : il capitalise au lieu d'ouvrir un
+front.
+
+\encadre{Une suggestion de présentation, et non une réserve sur les faits.}{Devant un client, il
+vaut mieux distinguer dans cette liste ce qui laisse une \textbf{trace publique vérifiable} (le
+livre blanc, les articles, les rapports LUCY) de ce qui relève d'une \textbf{intervention ou
+d'une contribution} (formations, congrès, travaux de veille). Ce n'est pas une hiérarchie de
+valeur mais d'usage : la première catégorie se vérifie en un clic, la seconde gagne à être
+attribuée précisément. J'ai fait le relevé sur sources publiques, et c'est ce que trouve un
+interlocuteur qui vérifie.}
+
+\section{Vision 2030 : du document à la preuve}
+
+\noindent \textbf{Un seul mouvement commande la décennie.} La demande passe de la documentation
+à la preuve : registres vérifiés, tests pilotés par la menace, audits de modèles effectifs
+plutôt que procédures écrites. L'écart entre l'exigence et la maturité réelle est mesuré. À
+l'exercice à blanc de 2024 sur le registre d'information, \textbf{6,5 \%} des registres
+analysés ont passé la totalité des \textbf{116} contrôles qualité, sur près de \textbf{mille}
+entités financières de l'Union. \\
+\src{ESA (EBA, EIOPA, ESMA), communiqué du 17 décembre 2024. Précision d'usage : les ESA
+qualifient cette qualité de \og{}in line with the ESAs' expectations\fg{} vu le caractère
+volontaire de l'exercice, et jugeaient l'objectif de 2025 \og{}not out of reach, subject to some
+additional efforts from the industry\fg{}. Le 6,5 \% mesure un point de départ, pas un naufrage.}
+
+\subsection{2 août 2026 : IA Act, transparence et littératie}
+Les obligations de transparence de l'article 50 et le devoir de littératie en IA de l'article 4
+s'appliquent, et restent sur leur calendrier d'origine. \\
+\src{règlement (UE) 2024/1689, articles 4, 50 et 113. Le commentaire de l'accord de report
+souligne que \og{}2 August 2026 remains an active compliance date\fg{}.}
+
+\subsection{11 septembre 2026 : Cyber Resilience Act, notification des vulnérabilités}
+Les fabricants de produits connectés doivent notifier les vulnérabilités activement exploitées
+et les incidents de sécurité. \\
+\src{Commission européenne, page officielle du CRA, entré en vigueur le 10 décembre 2024.}
+
+\subsection{2026-2027 : supervision directe des prestataires TIC critiques}
+Les autorités européennes ont désigné les premiers prestataires TIC critiques le
+\textbf{18 novembre 2025}, qui passent sous supervision directe : \og{}through direct oversight
+engagement, the ESAs will assess whether CTPPs have appropriate risk management and governance
+frameworks in place\fg{}. \textbf{C'est le jalon le plus exploitable pour le Lab} : une liste
+nominative de points de concentration transforme l'accumulation par cause commune en exercice
+mesurable sur des tiers identifiés, là où elle est aujourd'hui un facteur posé. \\
+\src{communiqué conjoint EBA, EIOPA et ESMA du 18 novembre 2025. \textbf{Réserve} : le
+communiqué ne donne ni le nombre ni les noms, la liste figurant dans une annexe distincte. Les
+commentaires publiés avancent dix-neuf prestataires et ne concordent pas sur les entreprises :
+relever la liste sur l'annexe des ESA avant de nommer qui que ce soit.}
+
+\subsection{2 décembre 2027 : IA Act, obligations haut risque de l'annexe III}
+Reportées du 2 août 2026, et au 2 août 2028 pour l'IA embarquée dans les produits réglementés de
+l'annexe I. Les deux points qui concernent la finance sont l'annexe III 5(b), évaluation de
+solvabilité et scoring de crédit, et 5(c), évaluation du risque et tarification en assurance vie
+et santé. \\
+\src{accord politique provisoire des colégislateurs du 6 mai 2026, confirmé par les États
+membres le 13 mai. \textbf{Réserve} : les nouvelles dates ne lient qu'après publication au
+Journal officiel, attendue avant le 2 août 2026 et \textbf{que je n'ai pas vérifiée}. À
+confirmer au Journal officiel avant de présenter le report comme définitif.}
+
+\subsection{11 décembre 2027 : Cyber Resilience Act, obligations principales}
+Exigences essentielles de l'annexe I, évaluation de conformité, documentation technique,
+déclaration UE de conformité et marquage CE. \\
+\src{Commission européenne, page officielle du CRA.}
+
+\subsection{17 janvier 2028 : réexamen de DORA, et c'est le jalon qui nous concerne le plus}
+\og{}Au plus tard le 17 janvier 2028, la Commission, après avoir consulté les AES et le CERS,
+selon le cas, procède à un réexamen et remet au Parlement européen et au Conseil un rapport\fg{}.
+Deux des cinq objets du réexamen sont directement notre terrain : les \textbf{critères de
+désignation des prestataires tiers critiques} et le \textbf{caractère volontaire de la
+notification des cybermenaces importantes} de l'article 19. Autrement dit, le texte a déjà
+inscrit à son ordre du jour la question du caractère obligatoire de la notification : une
+recommandation de reporting sur ce point ne vise pas un hypothétique. C'est la seule fenêtre où
+une méthode publiée peut peser sur le cadre plutôt que le subir, et elle se prépare deux ans à
+l'avance. \\
+\src{règlement (UE) 2022/2554, article 58, clause de réexamen, cité au verbatim.}
+
+\subsection{2026-2030 : stratégie nationale de cybersécurité}
+Publiée le \textbf{29 janvier 2026}, élaborée \textbf{sous l'égide du SGDSN} à la demande du
+Président de la République, avec l'ensemble des ministères et un panel d'experts industriels,
+scientifiques et académiques. Elle prolonge la Revue nationale stratégique. \\
+\src{SGDSN, Stratégie nationale de cybersécurité 2026-2030. \textbf{Attention à l'attribution} :
+la stratégie est pilotée par le SGDSN, l'ANSSI en étant un opérateur et non l'auteur.}
+
+\subsection{Ce que cela dessine comme offre, et le risque à porter ouvertement}
+
+\begin{itemize}
+\item \textbf{Quatre briques, dans cet ordre de maturité} : conformité outillée aujourd'hui
+      (registre, cartographie, KPI et KRI, scoring des tiers), quantification du capital en
+      2026-2027 (SCR cyber, RWA cyber, pilier 2), accumulation et transfert en 2027-2028 dans le
+      prolongement de LUCY, puis audit de modèles cyber et IA confondus vers 2030. La première
+      finance le reste mais se banalise le plus vite : dès que l'exercice se répète, il passe à
+      l'outil.
+\item \textbf{Un levier non utilisé.} Le pôle mène des thèses CIFRE sur la finance durable et le
+      climat, et aucune sur le cyber alors que c'est l'un des trois labs. Une CIFRE cyber
+      achèterait trois ans de recherche financée et un titre publiable, ce qu'aucune mission ne
+      produit.
+\item \textbf{Le risque principal, et il vaut mieux l'énoncer.} Il n'existe aucun module DORA en
+      formule standard : le besoin de capital cyber reste un exercice d'ORSA, donc un récit que
+      l'entité \emph{choisit} de produire. Si le réexamen de 2028 ne crée pas d'exigence
+      chiffrée, la quantification restera une prestation de conviction plutôt que de conformité.
+      C'est la raison de préparer ce jalon plutôt que de l'attendre.
+\end{itemize}
+
+\vspace{4pt}
+\noindent{\color{accent}\rule{\textwidth}{0.6pt}}\\[2pt]
+{\footnotesize\itshape Sources lues directement : communiqués EBA du 17 décembre 2024 et EIOPA
+du 18 novembre 2025, page officielle du CRA de la Commission, article 58 du règlement (UE)
+2022/2554, page du SGDSN. Éléments Nexialog relevés sur les pages publiques du cabinet. Trois
+points à confirmer avant diffusion externe : la publication au Journal officiel du report de
+l'annexe III, le nombre et les noms des prestataires critiques dans l'annexe des ESA, et la
+mention d'une proposition législative à l'article 58, absente du verbatim obtenu.
+L'ordonnancement des briques est une hypothèse de lecture, à confronter au carnet de commandes.}
+
+\end{document}

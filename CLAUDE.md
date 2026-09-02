@@ -9,10 +9,10 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au **17 août 2026** : **corps jusqu'à la page 119, annexes à partir de la 120, 165 pages au
-total**, branche `exploratory`. Les comptes de ce fichier se périment en deux jours : lire
-`main.toc` plutôt que cette ligne en cas de doute. Harnais au 17 août : **1 961 nombres,
-1 935 confirmés, 98,7 %**, et **0 hors contrôle non déclaré sur les dix-neuf chapitres**. Ce
+État au **2 septembre 2026** : **169 pages au total**, branche `exploratory`. Les comptes de ce
+fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
+Harnais au 2 septembre : **1 979 nombres, 1 979 confirmés, 100 %**, une première, et **0 hors
+contrôle non déclaré sur les dix-neuf chapitres**. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
 passe en premier.
@@ -960,12 +960,17 @@ possible puisque c'est le point qui la concerne le plus directement.
 ## Ce qui est ouvert
 
 **Ne dépend pas de l'assistant :**
-- le **second codage en aveugle** (kit prêt, dix récits, une heure ; script 54 attend le CSV) ;
+- le **second codage en aveugle** : Hugo Rapior s'en charge, annoncé pour la fin de la semaine
+  du 2 septembre. **La réception est prête et testée** : le script `54b_reception_formulaire.py`
+  convertit l'export du formulaire Google vers le format long du script 54, et deux commandes
+  suffisent. Le 54 ne fabrique rien sans donnée ;
 - l'**élicitation** et les autres documents ;
-- **vérifier les quatre jeux de chiffres SFCR** contre les PDF (tableau en tête du script 65,
-  deux SCR sur quatre sont déduits d'un taux de couverture) ;
-- l'arbitrage de **format** : le corps est à 104 pages pour 126 au total, contre les ~70 de corps
-  recommandés par l'Institut, et il a gagné trois pages les 9 et 10 août ;
+- ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
+  rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
+  déclarée supprimée, un résultat gagné sur le forfait ;
+- l'arbitrage de **format** : le corps est à ~121 pages pour 169 au total, contre les ~70 de
+  corps recommandés par l'Institut. **Tranché en faveur de Kélian**, Hugo ayant dit de ne pas se
+  contraindre ;
 - **le choix de la posture à reporter**, plug-in avec sa bande, prédictive ou robuste, à trancher
   avec Caroline. La grille pour le faire existe désormais : table des six postures au chapitre 13,
   avec le bruit de chacune. Passer au robuste 95 % multiplierait le capital par 1,6 ;
@@ -1149,12 +1154,36 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
    plus. Le mémoire ne se protège pas derrière ses erreurs : sa prudence vient de choix
    assumés, et corriger les deux premiers ne changerait aucune conclusion.
 
-10. **Les deux SCR déduits du panel SFCR sont bornés.** Deux entités sur quatre ne publient
-    pas leur SCR : il se déduit des fonds propres divisés par le taux de couverture, et ce
-    sont justement celles dont la part attribuée à DORA est la plus frappante, 26,3 et
-    41,3 %. Sous un stress de ±10 %, borne large, les parts deviennent [23,9 ; 29,3] et
-    [37,6 ; 45,9] : les ordres de grandeur tiennent. **Cette borne ne remplace pas la lecture
-    des quatre rapports SFCR, qui reste due** et qui ne dépend pas de l'assistant.
+10. **LES QUATRE RAPPORTS SFCR ONT ÉTÉ LUS le 2 septembre 2026, et cela a corrigé une erreur.**
+    La vérification due depuis des semaines est faite, sur les rapports 2024 eux-mêmes.
+    **Une erreur de champ sur MACSF Assurances** : le 3 234 M€ avait été saisi comme total
+    d'actif alors que la synthèse du rapport le donne comme **fonds propres éligibles**. Le
+    total d'actif vaut 5 305, et l'identité comptable le confirme (5 305 − 2 071 = 3 234). Le
+    SCR déduit valait donc 292 quand le rapport **publie 812,5**, et la part attribuée à DORA
+    pour cette entité passe de **41,3 % à 16,7 %**. Le besoin ORSA monte de 120,8 à 135,5, les
+    actifs ayant augmenté.
+    **Trois gains, qui viennent de la même lecture :**
+    - **les quatre SCR sont publiés** (BPCE 425 dans son état S.25.01, MACSF Assurances 812,5
+      en section E.2, les deux entités vie en synthèse). La réserve « deux SCR sur quatre sont
+      déduits » et la borne sous stress de ±10 % **n'ont plus d'objet** : c'est une limite
+      déclarée qui disparaît. Seuls les totaux d'actif de trois entités restent déduits par
+      identité comptable, et l'approximation y est conservatrice ;
+    - **le forfait de 3 % n'est pas une borne, et c'est mesuré.** Les états S.25.01 publient le
+      module de risque opérationnel : 54,1 de forfait contre **59** publié chez BPCE, 62,1
+      contre **39,7** chez MACSF. Le forfait se trompe **dans les deux sens**, −8 % et +56 %. À
+      citer comme ordre de grandeur, jamais comme majorant ni minorant ;
+    - **le test du levier a changé de sens et il ne faut plus l'invoquer.** Le levier médian
+      passe de 6,9 à 10,0 %, donc le SCR imputé à l'entité notionnelle de 1 328 à 1 932, et la
+      part de 13 % à **9 %**, soit **sous** le critère de 10 %. Ce test ne condamne donc plus
+      l'entité notionnelle : la requalification du 169 M€ en borne supérieure repose désormais
+      sur le **seul** argument de taille, qui tient par lui-même. Le mémoire le dit ainsi.
+    **La figure S22 signalait l'anomalie avant qu'on la trouve** : son panneau (c) montrait une
+    part qui MONTAIT avec la taille entre les deux petites entités, ce qui contredisait
+    l'argument même de la section. Elle est maintenant monotone. La leçon du 14 août se
+    confirme une fois de plus : la figure est le détecteur.
+    Propagation à surveiller : le script 78 **recopie** les expositions du 65 au lieu de les
+    lire, donc il a fallu l'aligner à la main (5 305 et 135,5), et le plafond critique en euros
+    passe de « 47 à 74 » à « 53 à 74 M€ », facteur 1,4 au lieu de 1,6.
 
 11. **La convention de normalisation de $W$ est tranchée, et le script 03 est aligné.**
     Ce n'est pas un arbitrage de goût. La normalisation de Leontief existe pour garantir que le

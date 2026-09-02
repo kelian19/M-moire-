@@ -57,15 +57,15 @@
 
   entite                  exposition  B publie    B / E  VaR libre ici  kappa a -50 %  soit en M€
   assureur non-vie A           2 319     112.1   4.834 %          111.7        2.284 %          53
-  assureur non-vie B           3 234     120.8   3.735 %          113.4        1.461 %          47
+  assureur non-vie B           5 305     135.5   2.554 %          131.1        1.056 %          56
   assureur vie C              37 845     195.8   0.517 %          204.1        0.195 %          74
   assureur vie D             309 800     294.4   0.095 %          289.7    hors grille           -
   entite notionnelle          19 231     169.0   0.879 %          172.6        0.301 %          58
 
   LE RESULTAT EST DANS LA DERNIERE COLONNE, ET IL N'ETAIT PAS ATTENDU LA.
   Le plafond qui retire la moitie du capital vaut de 0.195 % a 2.284 % du bilan,
-  un facteur 12 entre entites. Mais EN EUROS il va de 47 a 74 M€ seulement,
-  soit un facteur 1.6, sur un panel dont les tailles varient d'un facteur
+  un facteur 12 entre entites. Mais EN EUROS il va de 53 a 74 M€ seulement,
+  soit un facteur 1.4, sur un panel dont les tailles varient d'un facteur
   134. Le plafond critique est donc quasiment INVARIANT en montant absolu.
 
   C'EST LA LIMITE DECLAREE DU MEMOIRE, ENFIN MESUREE. Elle dit que le modele fait subir a
@@ -90,13 +90,13 @@
   le besoin publie reste atteignable. Celles pour qui il ne l'est pas sortent du domaine.
 
    plafond de politique              A           B           C           D notionnelle
-  VaR libre (ce moteur)          111.7       113.4       204.1       289.7       172.6
+  VaR libre (ce moteur)          111.7       131.1       204.1       289.7       172.6
   ---------------------   ------------------------------------------------------------
-                   0.1 %             4 %          6 %         35 %        100 %         22 %
-                   0.2 %             8 %         11 %         51 %        100 %         39 %
-                   0.5 %            21 %         28 %         93 %        100 %         63 %
-                   1.0 %            34 %         41 %        100 %        100 %        100 %
-                   2.0 %            42 %         57 %        100 %        100 %        100 %
+                   0.1 %             4 %          8 %         35 %        100 %         22 %
+                   0.2 %             8 %         16 %         51 %        100 %         39 %
+                   0.5 %            21 %         34 %         93 %        100 %         63 %
+                   1.0 %            34 %         47 %        100 %        100 %        100 %
+                   2.0 %            42 %         81 %        100 %        100 %        100 %
 
   Lecture : chaque case donne la PART DU CAPITAL QUI SURVIT au plafond indique, en
   pourcentage de la VaR non plafonnee de la MEME entite dans le MEME moteur. Aucune
@@ -149,7 +149,7 @@ VERDICT
      dominante sur lequel la prediction reposait. A plafond serre la charge redevient un
      CUMUL, et la VaR depasse le plafond, jusqu'au double a kappa = 0,1 %.
   2. LE PLAFOND CRITIQUE EST QUASI INVARIANT EN EUROS, et c'est le resultat central. Celui
-     qui retire la moitie du capital va de 47 a 74 M€ sur un panel dont les tailles
+     qui retire la moitie du capital va de 53 a 74 M€ sur un panel dont les tailles
      varient d'un facteur 134. Rapporte au bilan il va donc de 0.195 a 2.284 %,
      enorme pour une petite entite et negligeable pour une grande. C'est la limite
      declaree du memoire, l'elasticite severite/taille de 0,087, rendue visible en euros.

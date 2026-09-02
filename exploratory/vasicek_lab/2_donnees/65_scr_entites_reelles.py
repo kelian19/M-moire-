@@ -36,6 +36,27 @@ dans le rapport, « deduit » quand il resulte d'une identite comptable ou d'un 
 Le script imprime cette provenance a chaque execution : un chiffre deduit ne doit pas etre
 cite au meme rang qu'un chiffre publie.
 
+CORRECTION DU 2 SEPTEMBRE 2026, APRES LECTURE DES QUATRE RAPPORTS. La verification due
+depuis des semaines a ete faite, et elle a trouve une ERREUR DE CHAMP sur MACSF Assurances :
+le 3 234 M EUR avait ete saisi comme TOTAL D'ACTIF alors que la synthese du rapport le donne
+comme FONDS PROPRES ELIGIBLES. Le total d'actif vaut 5 305, et l'identite comptable le
+confirme (5 305 - 2 071 = 3 234 exactement). Consequence : les fonds propres deduits valaient
+1 163 au lieu de 3 234, et le SCR deduit 292 au lieu des 812,5 que le rapport PUBLIE. La part
+du SCR attribuee a DORA pour cette entite passe donc d'environ 41 % a environ 15 %.
+
+DEUX GAINS QUI VIENNENT DE LA MEME LECTURE, et le premier supprime une limite declaree.
+  (1) LES QUATRE SCR SONT PUBLIES. BPCE le donne dans son etat S.25.01 a 425 M EUR, MACSF
+      Assurances a 812,5 M EUR dans sa section E.2. Plus aucun SCR n'est deduit d'un taux de
+      couverture, donc la reserve « deux SCR sur quatre sont deduits » et la borne sous stress
+      de plus ou moins 10 % qui la compensait n'ont plus d'objet. Le stress reste imprime comme
+      un controle de robustesse, il n'est plus une necessite.
+  (2) LE FORFAIT DE 3 % PEUT ETRE CONFRONTE AU MODULE PUBLIE. Les etats S.25 donnent le
+      risque operationnel de formule standard : 59 M EUR pour BPCE contre 54,1 pour le forfait,
+      et 39,7 pour MACSF Assurances contre 62,1. Le forfait n'est donc PAS une borne, il se
+      trompe DANS LES DEUX SENS. C'est un resultat, et il renforce la prudence deja affichee
+      sur ce repere. Le module n'est releve que pour les deux entites non-vie : pour les deux
+      entites vie, le champ vaut None et la comparaison n'est pas imprimee.
+
 CE QUE L'ETAT DE CONFORMITE N'EST PAS. Aucune de ces entites ne publie son etat de
 conformite DORA. Le calcul mesure donc l'EXPOSITION d'une entite reelle sous un etat de
 conformite SUPPOSE, et non sa non-conformite constatee. Les trois etats sont donc donnes
@@ -99,25 +120,29 @@ ENTITES = [
         nom="BPCE Assurances IARD",
         anonyme="Assureur non-vie A",
         perimetre="solo, non-vie",
-        pt=1_804.0, of=515.0, scr=None, couverture=1.21, actifs=None,
+        pt=1_804.0, of=515.0, scr=425.0, couverture=1.21, actifs=None, scr_op=59.0,
         pt_inclut_autres_passifs=False,
         source="SFCR 2024, BPCE Assurances IARD : provisions techniques 1 804 M EUR "
-               "(+14,8 %), fonds propres eligibles 515 M EUR, couverture du SCR 121 %",
+               "(+14,8 %), fonds propres eligibles 515 M EUR (T1 425 + T2 90), couverture "
+               "du SCR 121 %, SCR 425 M EUR et risque operationnel 59 M EUR lus dans "
+               "l'etat S.25.01 (p. 79 du rapport)",
     ),
     dict(
         nom="MACSF Assurances (non-vie)",
         anonyme="Assureur non-vie B",
         perimetre="solo, non-vie",
-        pt=2_071.0, of=None, scr=None, couverture=3.98, actifs=3_234.0,
+        pt=2_071.0, of=3_234.0, scr=812.5, couverture=3.98, actifs=5_305.0, scr_op=39.7,
         pt_inclut_autres_passifs=True,
-        source="SFCR 2024, groupe MACSF : total actif Solvabilite II 3 234 M EUR, "
-               "provisions techniques et autres passifs 2 071 M EUR, couverture 398 %",
+        source="SFCR 2024, MACSF Assurances : total actif Solvabilite II 5 305 M EUR, "
+               "provisions techniques et autres passifs 2 071 M EUR, fonds propres "
+               "eligibles 3 234 M EUR, couverture 398 % (synthese p. 5) ; SCR 812,5 M EUR "
+               "et risque operationnel 39,7 M EUR (section E.2, p. 57)",
     ),
     dict(
         nom="MACSF Epargne Retraite",
         anonyme="Assureur vie C",
         perimetre="solo, vie",
-        pt=33_484.0, of=4_361.0, scr=1_587.0, couverture=2.75, actifs=None,
+        pt=33_484.0, of=4_361.0, scr=1_587.0, couverture=2.75, actifs=None, scr_op=None,
         pt_inclut_autres_passifs=True,
         source="SFCR 2024, MACSF Epargne Retraite : provisions techniques et autres "
                "passifs 33 484 M EUR, fonds propres eligibles 4 361 M EUR, SCR 1 587 M EUR",
@@ -126,11 +151,11 @@ ENTITES = [
         nom="CNP Assurances SA",
         anonyme="Assureur vie D",
         perimetre="solo, vie",
-        pt=275_000.0, of=34_800.0, scr=14_800.0, couverture=None, actifs=None,
+        pt=275_000.0, of=34_800.0, scr=14_800.0, couverture=None, actifs=None, scr_op=None,
         pt_inclut_autres_passifs=False,
         source="SFCR solo 2024, CNP Assurances : provisions techniques brutes de "
                "reassurance 275 Md EUR, fonds propres eligibles 34,8 Md EUR, "
-               "SCR 14,8 Md EUR (formule standard)",
+               "SCR 14,8 Md EUR (formule standard), couverture solo publiee 236 %",
     ),
 ]
 
@@ -326,40 +351,59 @@ print("deja publie : les entites reelles s'en ecartent parce que leur ratio prov
 print("sur actifs n'est pas celui pose au chapitre 12.")
 
 # -------------------------------------------------------------------------------------
-# CE QUE VAUT LA COLONNE « / SCR PUB. » QUAND LE DENOMINATEUR EST DEDUIT
+# LA VERIFICATION PIECE PAR PIECE A ETE FAITE, ET ELLE CHANGE CE BLOC
 # -------------------------------------------------------------------------------------
-# LE POINT FAIBLE, ET IL FAUT LE BORNER PLUTOT QUE LE MENTIONNER. Deux des quatre SCR ne
-# sont pas publies tels quels : ils sont reconstitues en divisant les fonds propres
-# eligibles par le taux de couverture. Or ce sont justement les deux entites dont la part
-# du SCR attribuee a DORA est la plus SPECTACULAIRE, 26 % et 41 %. Une reserve qualitative
-# (« ces deux chiffres sont deduits ») ne vaut rien ici : ce qu'un lecteur veut savoir,
-# c'est de combien la conclusion bouge si la reconstitution est fausse.
+# CE QUE CE BLOC DISAIT AVANT LE 2 SEPTEMBRE 2026. Deux des quatre SCR n'etaient pas
+# publies mais reconstitues en divisant les fonds propres par le taux de couverture, et
+# c'etaient justement les deux entites dont la part attribuee a DORA etait la plus
+# spectaculaire. Un stress de +-10 % bornait l'erreur, et le bloc se terminait par la
+# phrase « ce que ce stress ne remplace pas : la lecture des quatre rapports SFCR
+# eux-memes ». Cette lecture a ete faite.
 #
-# DEUX SOURCES D'ERREUR SUR UN SCR DEDUIT. Le taux de couverture est publie arrondi au
-# point de pourcentage, ce qui vaut moins de 0,5 % sur le SCR ; et la definition des fonds
-# propres retenue au numerateur du taux publie peut differer des « fonds propres eligibles »
-# lus dans le rapport, ce qui pese bien davantage. On stresse donc le SCR deduit de +-10 %,
-# une borne large au regard de ces deux effets.
+# CE QU'ELLE A TROUVE. Les QUATRE SCR sont publies : BPCE dans son etat S.25.01 a 425,
+# MACSF Assurances dans sa section E.2 a 812,5, et les deux entites vie les publiaient
+# deja. Aucun SCR n'est donc plus deduit, et le stress n'a plus d'objet : il est conserve
+# ci-dessous comme controle de coherence, non comme une borne dont la conclusion depend.
+# Elle a aussi trouve une ERREUR DE CHAMP sur MACSF, voir l'en-tete du script.
 STRESS = 0.10
-print(f"\nSTRESS DES SCR DEDUITS ({100*STRESS:.0f} %) : ce que devient la part du SCR publie")
-print(f"{'entite':<28}{'statut du SCR':>16}{'part':>9}{'part si -10%':>14}"
-      f"{'part si +10%':>14}")
+deduits = [e for e in ENTITES if "deduit" in e["prov"]["scr"]]
+print(f"\nSTATUT DU DENOMINATEUR, apres lecture des quatre rapports :")
 for e in ENTITES:
-    deduit = "deduit" in e["prov"]["scr"]
-    if deduit:
+    print(f"  {e['nom']:<28}{e['prov']['scr']:<22}{e['part_scr']:>7.1%} du SCR publie")
+if deduits:
+    print(f"\n  Stress {100*STRESS:.0f} % sur les SCR encore deduits :")
+    for e in deduits:
         bas = e["scr_dora"] / (e["scr"] * (1 - STRESS))
         haut = e["scr_dora"] / (e["scr"] * (1 + STRESS))
-        print(f"{e['nom']:<28}{'deduit':>16}{e['part_scr']:>8.1%}{bas:>13.1%}{haut:>14.1%}")
-    else:
-        print(f"{e['nom']:<28}{'publie':>16}{e['part_scr']:>8.1%}{'-':>13}{'-':>14}")
-print("\nLecture : les deux parts deduites bougent de trois a cinq points sous un stress de")
-print("dix pour cent, et restent du meme ordre. La conclusion de la section 5, la charge")
-print("DORA pese une fraction MATERIELLE du capital d'une petite entite non-vie et une")
-print("fraction marginale de celui d'un grand assureur vie, ne depend donc pas de la")
-print("reconstitution. Ce qui en depend, c'est le troisieme chiffre significatif, que le")
-print("memoire ne publie pas.")
-print("CE QUE CE STRESS NE REMPLACE PAS : la lecture des quatre rapports SFCR eux-memes.")
-print("Il borne l'erreur, il ne la mesure pas. La verification piece par piece reste due.")
+        print(f"    {e['nom']:<28}{e['part_scr']:>7.1%}  ->  [{haut:.1%} ; {bas:.1%}]")
+else:
+    print("\n  AUCUN SCR N'EST PLUS DEDUIT. La reserve qui accompagnait cette colonne, et la")
+    print("  borne sous stress qui la compensait, sont sans objet : les quatre denominateurs")
+    print("  sont des chiffres publies. C'est un gain net sur la version precedente, et il")
+    print("  vient de la lecture des rapports, pas d'un calcul.")
+
+# -------------------------------------------------------------------------------------
+# LE FORFAIT DE 3 % CONFRONTE AU MODULE OPERATIONNEL PUBLIE
+# -------------------------------------------------------------------------------------
+# POURQUOI CETTE COMPARAISON EXISTE MAINTENANT. Les etats S.25.01 des deux entites non-vie
+# donnent le module de risque OPERATIONNEL de formule standard. Le forfait de 3 % des
+# provisions etait jusqu'ici un repere POSE, et le voici mesurable sur deux cas.
+op = [e for e in ENTITES if e.get("scr_op") is not None]
+if op:
+    print(f"\nLE REPERE FORFAITAIRE CONFRONTE AU MODULE PUBLIE (etats S.25.01) :")
+    print(f"{'entite':<28}{'forfait 3%':>12}{'module publie':>15}{'ecart du forfait':>18}")
+    for e in op:
+        sf = SF_TAUX * e["pt"]
+        print(f"{e['nom']:<28}{sf:>12.1f}{e['scr_op']:>15.1f}"
+              f"{(sf / e['scr_op'] - 1):>17.0%}")
+    print("\nen M EUR. LE FORFAIT N'EST PAS UNE BORNE : il se trompe DANS LES DEUX SENS, de")
+    print(f"{min(SF_TAUX*e['pt']/e['scr_op'] - 1 for e in op):+.0%} sur une entite et de "
+          f"{max(SF_TAUX*e['pt']/e['scr_op'] - 1 for e in op):+.0%} sur l'autre. Il faut donc")
+    print("le citer comme un ORDRE DE GRANDEUR de comparaison, jamais comme un majorant ni")
+    print("comme un minorant de la charge operationnelle reglementaire. Deux entites ne")
+    print("determinent pas un biais, elles suffisent a refuter la monotonie.")
+    print("Releve sur les deux entites NON-VIE seulement : les deux entites vie ne sont pas")
+    print("comparables sur ce repere, leur assiette de provisions etant d'une autre nature.")
 
 
 # =====================================================================================
@@ -412,10 +456,25 @@ scr_implicite = lev_med * actifs_notio_eur
 print(f"\n  ET LE CHIFFRE CENTRAL DU MEMOIRE, DANS TOUT CELA. L'entite notionnelle du")
 print(f"  chapitre 12 pese {actifs_notio_eur:.0f} M EUR d'actifs, donc elle tombe DANS la zone")
 print(f"  hors domaine. Elle ne publie pas de SCR, mais on peut lui en imputer un au levier")
+part_notio = NOTIONNELLE["scr_dora"] / scr_implicite
 print(f"  MEDIAN des quatre entites reelles ({lev_med:.1%}) : {scr_implicite:.0f} M EUR. La charge de")
-print(f"  {NOTIONNELLE['scr_dora']:.1f} M EUR en representerait alors "
-      f"{NOTIONNELLE['scr_dora']/scr_implicite:.0%}, c'est-a-dire le meme ordre")
-print(f"  de grandeur invraisemblable que les petites entites de la table.")
+print(f"  {NOTIONNELLE['scr_dora']:.1f} M EUR en representerait alors {part_notio:.0%}.")
+# LECTURE DE CE TEST APRES LA CORRECTION DU 2 SEPTEMBRE 2026, ET ELLE A CHANGE DE SENS.
+# Avant correction, le levier median valait 6,9 % et la part imputee 13 %, donc AU-DESSUS du
+# critere : le test condamnait l'entite notionnelle et corroborait la requalification. Avec le
+# levier median corrige, la part imputee tombe SOUS le critere. Le test est donc devenu NEUTRE
+# et il ne faut pas continuer a le presenter comme accablant : ce serait garder une conclusion
+# apres que son support a bouge, exactement le defaut que ce projet traque.
+if part_notio > 0.10:
+    print(f"  C'est-a-dire le meme ordre de grandeur invraisemblable que les petites entites")
+    print(f"  de la table : ce test CONFIRME la requalification.")
+else:
+    print(f"  C'est SOUS le critere de 10 %, donc ce test ne condamne PAS l'entite notionnelle.")
+    print(f"  Il est devenu NEUTRE apres la correction des chiffres MACSF, et il ne faut pas")
+    print(f"  continuer a le citer comme accablant. La requalification du 169 en borne")
+    print(f"  superieure repose desormais sur le SEUL argument de TAILLE, qui tient par")
+    print(f"  lui-meme : 19 231 M EUR se situe sous la bascule, laquelle est entre 37 845 et")
+    print(f"  309 800 M EUR d'actifs. Un argument sur deux, et on le dit.")
 print(f"\n  IL FAUT DONC LE DIRE AU CHAPITRE 12. Le chiffre de {NOTIONNELLE['scr_dora']:.0f} M EUR n'est pas une")
 print("  charge plausible pour une entite de cette taille : c'est une BORNE SUPERIEURE")
 print("  d'ordre de grandeur, heritee d'une severite calibree sur de grandes institutions")

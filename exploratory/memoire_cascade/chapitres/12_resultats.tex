@@ -1111,8 +1111,8 @@ le script~\texttt{65}, qui imprime la table de correspondance à chaque exécuti
 \textbf{Bande} & \textbf{Rapport} \\
  & M\euro & M\euro & M\euro & M\euro & \\
 \midrule
-Assureur non-vie A & $2\,319$ & $426$ & $112$ & $[88\,;122]$ & $26{,}3\,\%$ \\
-Assureur non-vie B & $3\,234$ & $292$ & $121$ & $[94\,;132]$ & $41{,}3\,\%$ \\
+Assureur non-vie A & $2\,319$ & $425$ & $112$ & $[88\,;122]$ & $26{,}4\,\%$ \\
+Assureur non-vie B & $5\,305$ & $812$ & $136$ & $[104\,;146]$ & $16{,}7\,\%$ \\
 Assureur vie C & $37\,845$ & $1\,587$ & $196$ & $[149\,;213]$ & $12{,}3\,\%$ \\
 \textbf{Assureur vie D} & $\mathbf{309\,800}$ & $\mathbf{14\,800}$ & $\mathbf{294}$ &
 $\mathbf{[233\,;316]}$ & $\mathbf{2{,}0\,\%}$ \\
@@ -1123,38 +1123,45 @@ $\mathbf{[233\,;316]}$ & $\mathbf{2{,}0\,\%}$ \\
 \end{center}
 
 \vspace{2pt}
-\noindent \textbf{Deux des quatre \textsc{scr} sont reconstitués, et il faut borner ce que cela
-coûte.} Deux entités ne publient pas leur \textsc{scr} tel quel : il se déduit des fonds propres
-éligibles divisés par le taux de couverture publié. Ce sont précisément les deux dont la part
-attribuée à \textsc{dora} est la plus frappante, $26{,}3$ et $41{,}3\,\%$, si bien qu'une simple
-mention de la déduction ne suffirait pas. Deux sources d'erreur pèsent sur un tel
-\textsc{scr} : l'arrondi du taux de couverture au point de pourcentage, qui vaut moins de
-$0{,}5\,\%$, et un éventuel écart de définition entre les fonds propres du numérateur publié et
-ceux lus dans le rapport, qui pèse davantage. En stressant ces deux \textsc{scr} de
-$\pm 10\,\%$, borne large au regard de ces effets, la part passe de $26{,}3$ à $[23{,}9\,;29{,}3]$
-et de $41{,}3$ à $[37{,}6\,;45{,}9]$. Les deux ordres de grandeur tiennent, et la conclusion qui
-suit ne dépend donc pas de la reconstitution ; ce qui en dépend est le troisième chiffre
-significatif, que le mémoire ne publie pas. Cette borne ne remplace pas la lecture pièce par
-pièce des quatre rapports, qui reste due. Source : script~\texttt{65}.
+\noindent \textbf{Les quatre \textsc{scr} du dénominateur sont publiés, et cela a été vérifié
+pièce par pièce.} Les deux assureurs vie donnent leur \textsc{scr} en synthèse ; les deux
+assureurs non-vie le donnent dans leur état quantitatif \textsc{s.25.01}, à $425$ et
+$812{,}5$~M\euro. Aucun n'est reconstitué à partir d'un taux de couverture, si bien que la
+colonne des rapports repose entièrement sur des grandeurs lues. Ce qui reste \emph{déduit} est
+le total d'actif de trois entités, obtenu par l'identité comptable provisions plus fonds
+propres, et l'approximation y est \textbf{conservatrice} : les autres passifs manquants
+minorent l'actif, donc $\lambda$, donc le capital. Sur la quatrième entité, où le total d'actif
+est publié, l'identité se vérifie au million près.
+
+\vspace{2pt}
+\noindent \textbf{Un résultat en sort, sur le repère forfaitaire lui-même.} Les deux états
+\textsc{s.25.01} publient le module de risque \emph{opérationnel} de Formule Standard, ce qui
+rend le forfait de $3\,\%$ des provisions confrontable pour la première fois : il vaut $54{,}1$
+contre un module publié de $59$ sur la première entité non-vie, et $62{,}1$ contre $39{,}7$ sur
+la seconde. \textbf{Le forfait n'est donc pas une borne : il se trompe dans les deux sens}, de
+$-8\,\%$ d'un côté et de $+56\,\%$ de l'autre. Il doit être cité comme un ordre de grandeur de
+comparaison, jamais comme un majorant ni comme un minorant de la charge opérationnelle
+réglementaire. Deux entités ne déterminent pas un biais, elles suffisent à réfuter la monotonie.
+Source : script~\texttt{65}.
 
 \vspace{4pt}
 La première lecture est celle qu'on attendait. Sur la plus grande entité du panel, un assureur
 vie de $310$~Md\euro{} d'actifs, le besoin de capital associé à la non-conformité vaut
 $294$~M\euro{} en point et $[233\,;316]$ en bande, soit $2{,}0\,\%$ de son \textsc{scr} publié :
 un ordre de grandeur défendable, obtenu sans aucune donnée interne. Et l'écart entre états de
-conformité subsiste à toutes les tailles, de $+41\,\%$ à $+47\,\%$, face à une charge forfaitaire
+conformité subsiste à toutes les tailles, de $+41\,\%$ à $+49\,\%$, face à une charge forfaitaire
 qui n'en distingue aucune. La thèse ne dépendait donc pas de l'entité fictive.
 
 \begin{attention}
 \textbf{La seconde lecture n'était pas attendue, et elle contraint le mémoire.} La charge décroît
 beaucoup moins vite que la taille : un facteur $134$ sur les actifs ne divise la sévérité que par
 $1{,}53$ et la fréquence que par $1{,}44$. Rapportée au \textsc{scr} publié, la charge passe donc
-de $2{,}0\,\%$ pour une grande entité à $41{,}3\,\%$ pour une petite. En posant qu'un seul risque
+de $2{,}0\,\%$ pour une grande entité à $26{,}4\,\%$ pour une petite. En posant qu'un seul risque
 de non-conformité réglementaire ne peut raisonnablement peser plus de $10\,\%$ du \textsc{scr}
 total d'une entité, tous risques confondus, \textbf{la bascule se situe entre $37\,845$ et
 $309\,800$~M\euro{} d'actifs}. Ce n'est pas un seuil fin, quatre entités ne le déterminent pas,
 et il dépend aussi du levier propre de l'entité, dont le rapport \textsc{scr} sur actifs va ici
-de $4{,}2$ à $18{,}4\,\%$. C'est un ordre de grandeur, et la cause est celle que le
+de $4{,}2$ à $18{,}3\,\%$. C'est un ordre de grandeur, et la cause est celle que le
 \S\ref{sec:ancrage} nommait sans la chiffrer : l'élasticité corrige l'\emph{échelle} de la
 sévérité, jamais sa \emph{forme}, et la forme est celle de grandes institutions financières.
 \end{attention}
@@ -1162,10 +1169,13 @@ sévérité, jamais sa \emph{forme}, et la forme est celle de grandes institutio
 \begin{cle}
 \textbf{Conséquence directe sur le chiffre central, qu'il faut assumer.} L'entité notionnelle
 pèse $19\,231$~M\euro{} d'actifs et se trouve donc \emph{dans} la zone que la ligne précédente
-déclare hors domaine. Elle ne publie pas de \textsc{scr}, mais en lui imputant le levier médian
-des quatre entités réelles ($6{,}9\,\%$), soit $1\,328$~M\euro, la charge de $169$~M\euro{} en
-représenterait $13\,\%$. Le $169$~M\euro{} doit donc être lu comme une \textbf{borne supérieure
-d'ordre de grandeur}, non comme une charge plausible. Ce que le mémoire établit n'en est pas
+déclare hors domaine, ce qui suffit à en tirer la conséquence : le $169$~M\euro{} doit être lu
+comme une \textbf{borne supérieure d'ordre de grandeur}, non comme une charge plausible. Un
+second test, celui du levier, ne l'accable pas : en imputant à cette entité le levier médian des
+quatre entités réelles ($10{,}0\,\%$), soit $1\,932$~M\euro{} de \textsc{scr}, la charge en
+représenterait $9\,\%$, donc juste \emph{sous} le critère de $10\,\%$. La requalification repose
+ainsi sur le seul argument de taille, et il faut le dire plutôt que d'invoquer deux appuis quand
+il n'y en a qu'un. Ce que le mémoire établit n'en est pas
 affaibli, parce que sa thèse porte sur l'\emph{écart} entre états de conformité face à un
 forfait insensible, et qu'un écart est un rapport : il survit à une erreur de niveau commune aux
 trois états. Mais le \emph{niveau}, lui, cesse ici d'être présenté comme une mesure. Le lever
