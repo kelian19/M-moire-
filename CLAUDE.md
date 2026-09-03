@@ -32,12 +32,12 @@ autre.**
 **Le compte de pages ne se lit pas avec `mdls`**, dont l'index Spotlight se périme sans
 prévenir : il a annoncé 121 pages sur un PDF qui en faisait 123, y compris sur un fichier
 déjà commité. Compter en décompressant les flux d'objets, ou lire `main.toc` après une
-compilation avec `--keep-intermediates`. Le harnais est à **98,2 % de confirmation sur 1 844
-nombres, pour une couverture de 100 %**.
+compilation avec `--keep-intermediates`.
 
 **Et vérifier dans quelle partie tombe un ajout avant de conclure qu'il grossit le corps.** Le
 chapitre `12b_adaptations_pilier.tex` est l'**annexe C**, pas un chapitre du corps : la page
-gagnée le 12 août y est allée, le corps restant à 104. Le nom du fichier ne dit pas la partie.
+gagnée le 12 août y est allée, le corps restant à 104 ce jour-là. Le nom du fichier ne dit pas
+la partie.
 
 **Le corps a gagné trois pages les 9 et 10 août** (101 → 104), au titre de la table des
 postures, des deux limites déclarées du chapitre 13 et du cadrage de la CTE. L'arbitrage de
@@ -45,10 +45,11 @@ format reste ouvert et ces ajouts vont contre lui : à trancher par Kélian, pas
 puisque ce qui a été ajouté est exactement ce qui fait la valeur du mémoire selon la note
 d'honnêteté en bas de ce fichier.
 
-**Lire les deux chiffres ensemble, jamais l'un sans l'autre.** Le mémoire a commencé la
-journée à 99,6 % sur 904 nombres, mais ces 904 ne représentaient que **74,7 %** des nombres
-publiés : 332 vivaient dans des sections qui ne citaient aucun script, donc sans être ni
-confirmés ni infirmés. Un taux de confirmation se règle en retirant une citation ; la
+**Lire les deux chiffres ensemble, jamais l'un sans l'autre.** Le récit qui suit est celui du
+**6 août 2026** et ses comptes sont ceux de ce jour-là : le chiffre courant est en tête de
+fichier. Le mémoire avait commencé la journée à 99,6 % sur 904 nombres, mais ces 904 ne
+représentaient que **74,7 %** des nombres publiés : 332 vivaient dans des sections qui ne
+citaient aucun script, donc sans être ni confirmés ni infirmés. Un taux de confirmation se règle en retirant une citation ; la
 couverture, non. Les cinq chiffres périmés trouvés cette semaine venaient tous de la zone
 non couverte ou d'une exemption silencieuse, **jamais d'un non confirmé**. Le contrôle de
 fin de tâche est donc désormais **couverture = 100 % et confirmation ≥ 97 %**, dans cet
@@ -309,7 +310,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 43 | KPI DORA en leviers de capital : les quatre canaux, leur attribution, l'interaction, le facteur 3,34 entre états |
 | 68 | la table COMPLÈTE des quatre canaux : seize configurations, trois lectures d'un canal (isolé, fermeture, Shapley), décomposition de Möbius par ordre, six croisés de paires avec leur bruit. **C'est lui qui décompose le résidu de +5 001 M€ du script 43**, et les deux partagent `canaux_conformite.py` |
 | 50 | ROI de la conformité : portage, sinistralité évitée, sens de la borne, et l'écart entre 6 % et 4,75 % |
-| 08h | le rejet du Hawkes contre les variantes de Bessy-Roland/Boumezoued/Hillairet — **exige `Data_Breach_Chronology.xlsx`, absent du Mac, et sa sortie n'est pas versionnée** |
+| 08h | le rejet du Hawkes contre les variantes de Bessy-Roland/Boumezoued/Hillairet. **Sa sortie est versionnée depuis le 12 août**, mais il exige `Data_Breach_Chronology.xlsx` : il ne se relance que sur le PC. À lire avec le 85, qui montre que le Hawkes et la cascade ne sont pas distinguables à cette résolution |
 | 74 | défaillances simultanées : loi EXACTE du nombre de piliers touchés par sinistre, les trois énoncés d'additivité distingués, et le coût de l'hypothèse d'additivité des coûts borné par un exposant. Son contrôle est θ = 1, qui doit redonner 6 049 et 20 188 au centime |
 | 75 | séquences ordonnées du corpus : les chemins composés à partir des arêtes, la loi exacte des séquences du modèle, et **pourquoi elles n'identifient rien**. À lire avant de proposer d'exploiter les triplets |
 | 76 | tornado RENORMALISÉ. Le tornado du script 15 avait deux défauts : plages d'inégale vraisemblance, et un levier « seuil » qui **réajuste ξ, σ et p_u**, donc déplace quatre paramètres quand les autres en déplacent un. Le seuil seul ne pèse que +320 M€ quand ξ seul en pèse −13 993, et les composantes **se compensent**. Lu en élasticités, la conclusion tient : propagation 0,37 contre queue 3,79 |
@@ -951,11 +952,16 @@ trois choses l'engagent personnellement, et un deck avec elle doit partir de là
 **Le choix de posture à reporter est le seul arbitrage qui lui revient**, et c'est la seule slide
 du deck qui appelle une décision. Le mémoire publie aujourd'hui le plug-in avec sa bande.
 
-**Réserve à connaître avant ce call, et elle est sérieuse :** la sortie du script 08h **n'est pas
-versionnée**, ce script exigeant `Data_Breach_Chronology.xlsx`, absent du Mac qui n'a que le
-`.csv`. Les chiffres de la slide Hawkes sont donc lus sur la figure O2. **À relancer sur le PC et
-à versionner**, c'est le seul endroit du deck hors contrôle et c'est le plus mauvais endroit
-possible puisque c'est le point qui la concerne le plus directement.
+~~Réserve : la sortie du script 08h n'est pas versionnée~~ : **levée le 12 août**,
+`sorties_verif/08h.txt` existe et les deux nombres de la table du chapitre 13 sont confirmés.
+Le « pic à 3 h » n'est plus lu sur une figure. Ce script exige `Data_Breach_Chronology.xlsx`,
+donc il **ne se relance que sur le PC** : ne pas conclure à une régression si le Mac ne le
+reproduit pas.
+
+**Ce qu'il faut savoir en revanche, et c'est plus fort que la réserve levée :** depuis le
+17 août, le script 85 montre que le Hawkes et la cascade **ne sont pas distinguables** à la
+résolution disponible. Le rejet se reformule en équivalence observationnelle suivie d'un choix
+de parcimonie interprétative, ce qui est plus honnête et se présente mieux devant elle.
 
 ## Ce qui est ouvert
 
@@ -968,15 +974,16 @@ possible puisque c'est le point qui la concerne le plus directement.
 - ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
   rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
   déclarée supprimée, un résultat gagné sur le forfait ;
-- l'arbitrage de **format** : le corps est à ~121 pages pour 169 au total, contre les ~70 de
+- l'arbitrage de **format** : le corps est à **123 pages pour 169 au total** (annexes en 124),
+  contre les ~70 de
   corps recommandés par l'Institut. **Tranché en faveur de Kélian**, Hugo ayant dit de ne pas se
   contraindre ;
-- **le choix de la posture à reporter**, plug-in avec sa bande, prédictive ou robuste, à trancher
-  avec Caroline. La grille pour le faire existe désormais : table des six postures au chapitre 13,
-  avec le bruit de chacune. Passer au robuste 95 % multiplierait le capital par 1,6 ;
-- **relancer le script 08h sur le PC et versionner sa sortie** (il exige
-  `Data_Breach_Chronology.xlsx`, absent du Mac). C'est ce qui met les chiffres du rejet du Hawkes
-  sous contrôle, et ils sont adossés aux travaux de Caroline : à faire avant le point avec elle ;
+- **le choix de la posture à reporter** : **tranché le 17 août** en faveur du plug-in avec sa
+  bande, avec son motif écrit et son critère de réouverture (décision E1, voir la section du
+  21 août). Ce qui reste est la **validation par Caroline**, pas l'arbitrage. Et l'argument à
+  connaître avant d'en rediscuter : la robuste à 95 % **est** la borne haute de l'IC90 déjà
+  publié, donc reporter le plug-in avec sa bande publie déjà le chiffre robuste ;
+- ~~relancer le script 08h et versionner sa sortie~~ : **FAIT le 12 août** ;
 - le registre de sous-traitance.
 
 **Deux arbitrages, trouvés et tranchés le 6 août 2026 en dépouillant les 36 non confirmés.**
@@ -1119,7 +1126,9 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
    déclarés : les chapitres démonstrations, état de l'art et cadre réglementaire, et la
    section des théorèmes du chapitre socle.
 
-   **Trente-cinq non confirmés restent**, et ce sont de vraies pistes, pas du bruit : les huit
+   **Trente-cinq non confirmés restaient AU SOIR DU 6 AOÛT** (tous traités depuis, le harnais
+   étant à 100 % ; la liste est conservée parce qu'elle dit de quoi un résidu est fait), et ce
+   n'était pas du bruit mais de vraies pistes : les huit
    du choc MOVEit (script 35, qui exige `Data_Breach_Chronology.xlsx`, absent du Mac qui n'a
    que le `.csv` : **à relancer sur le PC**), les 8 301 / 2 589 / 5 900 / 5 275 / 2 554 des
    préambules résultats et résumé, le 3 000 du knockout, le $-0{,}8$ et le $-63{,}9$ du biais
@@ -1220,26 +1229,25 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
     mémoire, pas une dette. La faire disparaître serait un mauvais échange.
 
 **Faisable :**
-- **mettre le deck du 07-08 sous harnais.** Il est à **0 % de couverture**, 105 nombres, parce
-  qu'il ne cite aucun script : c'est la faille qui a laissé passer le `[0,32 ; 0,84]`. Le
-  retrofit demande une ligne « Sources : scripts… » par slide, et chaque ligne ajoutée peut
-  faire déborder un cadre d'un deck déjà présenté. Un contrôle de repli a été passé le 12 août,
-  qui ne trouve pas de second défaut évident, **mais il est beaucoup plus faible que le
-  harnais** : voir la fin de la section du 12 août ;
-- les **14 grandeurs dérivées** encore non imprimées, sorties par la tolérance resserrée :
-  le $z=-0{,}33$ du test de réversibilité (script 40), cinq quantités du corpus étendu
-  (script 59), le multiple de capital 8,3 (script 58), le $\xi$ de Hill 1,42 (script 47).
-  Même traitement que les six déjà traitées : les faire imprimer par le script qui les
-  possède. Le reste du résidu, 25 nombres, est légitimement hors script : 9 entrées posées
-  du modèle, 13 constantes statistiques ou réglementaires, 3 sources externes ;
-- l'**ancrage des valeurs de g** sur des sources publiques (ACPR, EIOPA), devenu optionnel
-  depuis l'invariance — en attente de la décision d'Hugo ;
+- ~~mettre le deck du 07-08 sous harnais~~ : **FAIT le 17 août**, de 0 à 100 % sous contrôle ou
+  déclaré. La crainte qui bloquait le retrofit était infondée, deux lignes de sources ayant
+  suffi à couvrir la quasi-totalité des nombres, et un seul cadre a débordé. **Le résidu qui
+  reste à savoir** : le 8 553 M€ du contrôle croisé en marche aléatoire n'est reproduit par
+  aucun des treize scripts cités, et sa seule correspondance dans tout le pool est un autre
+  objet. C'est le motif du `[0,32 ; 0,84]` : à vérifier avant de réutiliser ce chiffre ;
+- ~~les 14 grandeurs dérivées non imprimées~~ : **traitées**, le harnais étant à 100 % de
+  confirmation sur les dix-neuf chapitres ;
+- ~~l'ancrage des valeurs de g sur des sources publiques (ACPR, EIOPA)~~ : **tranché le 17 août,
+  c'est non**, et le motif n'est pas la disponibilité mais la nature de ce que ces sources
+  publient. Voir la décision E5 dans la section du 21 août. Ne pas rouvrir ;
 - les **7 % de blanc résiduels** sous trois titres de figures : cosmétique, refusé deux fois,
   le corriger imposerait de changer de moteur de mise en page sur sept scripts déjà validés.
 
 **Clos, à ne pas rouvrir :** le **statut de citation** de Hackmageddon (la source reste
-utilisée, voir plus haut), le **Hawkes** (celui-là est bien rejeté, et le rejet est documenté et
-positionné par rapport à Boumezoued et Hillairet), la **non-transitivité** (réfutée par son
+utilisée, voir plus haut), le **Hawkes** (l'outil est bien écarté et le choix est documenté et
+positionné par rapport à Boumezoued et Hillairet, **mais depuis le 17 août il s'énonce en
+équivalence observationnelle suivie d'un choix de parcimonie, pas en rejet** : script 85, et ne
+pas revenir à la formulation forte), la **non-transitivité** (réfutée par son
 auteur, remplacée par la dépendance à l'ordre), le périmètre, l'anonymisation des entités, les
 decks du 07, 14 et 21 août, la **convention de normalisation de $W$** (diviseur d'émission,
 2,60), le **gel de la calibration**, la **convention `\VaR`/`\qsev`** (voir la section du 10
@@ -1324,6 +1332,147 @@ pour concave, « l'écart se referme » pour un écart qui grossit, l'effondreme
 branchement qui monte, et une crête de compensation qui n'était que le point de référence. **La
 figure et la table sont le détecteur ; la prose écrite d'avance est le défaut.** Écrire le
 commentaire APRÈS avoir lu la sortie, jamais en même temps que le code qui la produit.
+
+## Ce qui a été fait la semaine du 21 août 2026
+
+Le travail des 17 et 19 août, qui n'avait pas de section ici alors qu'il porte **la plus grosse
+décision du projet**. Cette semaine n'a presque rien mesuré de neuf : elle a tranché.
+
+### 1. Le chiffre de tête, et ce qui était grave n'était pas la multiplicité
+
+Quatre protocoles chiffraient « l'écart entre conforme et non conforme ». Le défaut n'était pas
+qu'ils donnent quatre résultats, c'est que **le corps publiait la lecture B pendant que le
+chiffre à quatre canaux vivait en annexe**, sans qu'aucun texte ne dise qu'ils diffèrent, et
+qu'un encadré du chapitre 12 déclarait même la question « à trancher ». Le mémoire publie
+désormais la lecture à quatre canaux, `6 049 → 20 188 M€`, facteur 3,34, écart 14 139. Le détail
+et les motifs sont en tête de ce fichier, et ils **ne se rouvrent pas**.
+
+Ce qui a permis de trancher à cette date et pas avant : la réserve portait sur le canal
+détection tant que son ampleur n'était pas validée, et le script 68 la chiffre à
+**2 928 ± 343 M€** en Shapley et **4 562 ± 819** en marginal de fermeture, signe résolu sur
+seize graines.
+
+**Les rapports sont imprimés, pas calculés à la lecture** : nouvelle **section 3bis du script
+67**, qui sort la table complète des quatre lectures avec sa colonne d'écart (8 860 / 8 410 /
+10 663 / 14 139) et qui teste elle-même la monotonie du facteur. Sans cela un niveau amont
+pourrait bouger sans que le facteur suive.
+
+### 2. Le théorème du coin supérieur, testé au lieu d'être emprunté (script 88)
+
+C'est la notion du préprint qui promettait le plus : si l'état le plus dégradé majore la perte
+sur tout le pavé, un test de résistance sur les quatre canaux se réduit à **une seule
+évaluation**. Résultat en trois temps, et il ne transporte qu'à moitié.
+
+- **Au sens du quantile il est démontré.** Sur les seize configurations et les 65 paires
+  emboîtées, relâcher un canal de plus ne fait jamais baisser le capital, **graine par graine**,
+  ce qui est plus exigeant que sur la moyenne. Contrôle exact aux deux coins, qui reproduisent
+  6 049 et 20 188 : sans ce contrôle on démontrerait une propriété d'un autre modèle.
+- **La version TRAJECTORIELLE, qui est la leur, ne transporte pas.** À aléas communs la perte
+  d'une année baisse dans **16,18 %** des cas sur la propagation, **30,69 %** sur la détection
+  et 1,02 % sur l'accumulation. Et le motif diffère selon le canal, ce qui n'était pas attendu :
+  la détection viole le plus **pour une raison étrangère à la cascade**, le taux de dépassement
+  entrant dans la *transformation* de sévérité et non dans une table de sous-ensembles.
+  Attribuer le tout à l'ordre des tables aurait été une erreur de lecture, et c'est ce qui avait
+  été écrit avant de lire les taux.
+- **Le garde-fou qui compte : un coin peut être INFAISABLE.** Leur contre-exemple reproduit
+  numériquement donne 2,0 au coin de l'enveloppe contre 1,2 sur l'ensemble faisable. Deux des
+  quatre canaux du modèle sont des **bornes posées** : le coin est un majorant **sur un pavé
+  déclaré**, jamais la description d'une entité.
+
+### 3. Le désaccord avec le préprint est écrit, et une citation trop généreuse retirée
+
+Il était cité **quatre fois comme convergent** et jamais là où les deux travaux s'opposent :
+leur brique la plus lourde est la propagation dirigée à −53,9 %, la nôtre est la **queue** à
+−76,2 %. La cause est dans leur propre texte et elle joue en notre faveur : **leur sévérité est
+bornée**, donc sans indice de queue, et leur ablation ne contient aucune brique de queue. On ne
+retire pas ce qui n'est pas là. Les deux classements sont corrects chacun dans son modèle, et ce
+qui les sépare est l'indice de queue, non l'architecture. **À citer sur le protocole, jamais sur
+l'ordre du résultat.** Leurs chiffres sont enregistrés sous le statut « citation externe, non
+recalculable » et imprimés par le script 63, même traitement que Hackmageddon.
+
+**Et le rejet du Hawkes n'est pas corroboré par eux.** Le chapitre 13 annonçait une
+« corroboration extérieure ». Vérification faite dans leur texte : ils ne testent rien, ils
+**posent** le graphe acyclique, et l'auto-excitation ne figure qu'en une ligne d'un tableau de
+positionnement. Réécrit en **convergence de choix**, avec ce que la convergence vaut et ce
+qu'elle ne vaut pas. Le rejet ne repose que sur le test du présent travail. C'est le point le
+plus exposé du mémoire : il ne doit pas s'appuyer sur une lecture généreuse d'une source.
+
+### 4. Cinq décisions de modélisation, dont deux ont fait tomber une trouvaille
+
+- **Posture reportée : le plug-in avec sa bande**, la robuste restant un axe prudentiel déclaré.
+  Motif réglementaire d'abord, et il n'est pas d'opportunité : une borne haute sur un ensemble
+  d'ambiguïté est un **suprémum sur une famille de lois**, pas un quantile de la loi de perte,
+  donc la substituer répond à une autre question.
+  **Et la trouvaille : la robuste à 95 % EST la borne haute de l'IC90 déjà publié.** Même loi
+  bootstrap, la robuste en étant le quantile 95 et l'intervalle à 90 % étant délimité par ses
+  quantiles 5 et 95 : les deux valent **1 037 M€**, et ce n'est pas une coïncidence numérique.
+  Reporter le plug-in *avec sa bande* publie donc déjà le chiffre robuste, comme une borne et
+  non comme un point. Le désaccord entre les deux postures ne porte pas sur l'information mise à
+  disposition du lecteur, il porte sur ce qu'on appelle « le » capital.
+- **Niveau de l'intervalle : 90 % reste le niveau reporté**, et c'est autant une correction
+  qu'une décision, car **l'annexe se contredisait** : son ouverture annonçait 95 % quand sa
+  conclusion, deux pages plus bas, gardait 90 % avec trois motifs. L'argument décisif y était
+  déjà mesuré : la couverture réelle vaut **86,8 %** pour un nominal de 90 et **91,8 %** pour un
+  nominal de 95, donc le manque est **le même, −3,2 points**. Relever le nominal déplace
+  l'annonce sans corriger l'estimateur. Script 72.
+- **La CTE en diagnostic était déjà faite**, et le plan avait tort de la donner comme le seul
+  point non traité de la liste de Caroline. L'annexe porte la table complète et surtout le nombre
+  qui rend les deux conventions comparables, `CTE_beta = VaR 99,5 %` pour **beta = 97,73 %**. Une
+  CTE à 95 % vaut 5 734 contre 8 374 : rapportée comme capital elle serait **moins** prudente que
+  l'exigence. Script 73. **Sa liste est donc vide.**
+- **`GBASE` / `G_BASE` : on ne renomme pas**, on rend la confusion impossible à commettre.
+  Vingt-sept fichiers sur un pipeline gelé, et surtout **une substitution sémantiquement fausse
+  mais numériquement valide ne serait rattrapée par aucun contrôle**, le harnais vérifiant que
+  les nombres sortent des scripts et non qu'ils veulent dire ce qu'on croit. Le script 63
+  imprime les deux constantes côte à côte avec leur nature, leur unité et leur module, et porte
+  deux assertions. Même traitement que `p_u`.
+- **Ancrage de g sur l'ACPR ou l'EIOPA : non.** Le motif n'est pas la disponibilité mais la
+  **nature** de ce que ces sources publient, des attentes prudentielles et des échelles de
+  maturité, jamais des probabilités de propagation entre domaines de contrôle. Il faudrait une
+  seconde correspondance posée, et le résultat aurait **l'apparence d'un calibrage sans en être
+  un**, ce qui est pire que la valeur posée. Même arbitrage que celui qui a écarté l'élicitation.
+
+### 5. L'instrument, et la surprise n'était pas où on l'attendait
+
+Le harnais est passé de **26 nombres refusés à un seul**, et le résidu n'était pas un problème
+de calcul : **dix-neuf des vingt-six étaient déjà imprimés par un script que leur section ne
+citait pas.** Un défaut de **citation**, donc, exactement la faille que le dispositif existe
+pour révéler. Discipline tenue et elle compte : une citation n'a été ajoutée que là où le script
+possède *vraiment* le nombre, citer un script qui imprime la même valeur pour un autre objet
+aurait confirmé par coïncidence.
+
+**Un contrôle passait à vide depuis des semaines**, et c'est le plus mauvais défaut possible
+puisqu'il rassurait : voir la section « Contrôles à passer », qui fait foi. Cinq renvois cassés
+imprimaient « cité au chapitre ?? » sur cinq pages du PDF publié.
+
+Deux périmètres sont entrés sous contrôle : le **deck du 7 août**, qui était à 0 % de couverture
+faute de citer un script (deux lignes de sources ont suffi à couvrir la quasi-totalité de ses
+nombres, et la crainte de faire déborder des cadres était infondée), et la **sortie du script
+35**, versionnée sur le PC, ce qui a fait passer le chapitre 09 de 95,5 à 100 %.
+
+Le **dispositif de vérification est décrit** dans le mémoire, section D.1, ce qui n'était nulle
+part le cas. Elle est déclarée hors script pour **circularité** : faire vérifier par un script le
+nombre qui compte ce que les scripts confirment n'aurait aucun sens.
+
+### 6. La charte Nexialog, le 19 août
+
+Les 92 scripts qui codaient leurs couleurs en dur passent par une source unique, et **49 des 50
+figures** du mémoire y sont, contrôle sur les pixels et non déduit des scripts lancés. Le détail
+de la palette, des trois emplacements catégoriels et de la police est dans « Où sont les
+choses », qui fait foi. La cinquantième est `M_faisabilite.png`, et c'est ce balayage qui a fait
+découvrir que **les deux postes ne portent pas le même format de la chronologie PRC**.
+
+### État à la fin de la semaine, et ce qu'il faut en retenir
+
+Corps 121 pages pour 167 au total, harnais à **1 965 nombres, 1 964 confirmés, 99,9 %**, hors
+contrôle non déclaré à zéro sur les dix-neuf chapitres. Le deck `2026-08-21_point_tuteur.tex`
+porte tout cela en douze pages, à 100 % de confirmation et hors contrôle non déclaré à zéro.
+
+**Une leçon d'archivage, apprise ici.** La version précédente de ce deck avait été écrite le
+**5 août**, donc avant les points du 7 et du 14, et présentait du travail *antérieur* au deck du
+14 tout en annonçant en première slide qu'elle le suivait. Elle portait en outre deux valeurs
+devenues fausses depuis, les champs MACSF et l'argument du levier. **Un deck daté d'avance se
+périme sans que personne le relise** : écrire le deck après le travail, jamais avant.
 
 ## Note d'honnêteté
 

@@ -22,15 +22,33 @@ Quand on régénère un `NN.txt` sur le Mac, rediriger stderr à part : `> NN.tx
 matplotlib y écrit des avertissements de police qui s'intercalent sinon au milieu d'une ligne
 de résultats. Le détail est dans la section « Comment construire » du `CLAUDE.md`.
 
-## État du dernier passage (14 août 2026, tous chapitres)
+## État du dernier passage (3 septembre 2026, tous chapitres)
 
-**1 865 nombres vérifiables, 1 831 confirmés, soit 98,2 %**, et surtout **0 nombre hors contrôle
+**1 979 nombres publiés, 1 979 confirmés, soit 100 %**, une première, et **0 nombre hors contrôle
 non déclaré sur les dix-neuf chapitres**, relevé chapitre par chapitre et non sur le
 récapitulatif, qui n'imprime pas la couverture.
 
-Huit sorties nouvelles, `79.txt` à `86.txt`. Cinq répondent aux notions empruntées au préprint de
-cascade climatique, qui n'étaient jusque-là que **citées** ; trois répondent aux demandes du point
-tuteur du 14 août. Ce qu'il faut en retenir si l'on reprend le dossier :
+### Ce qui s'est ajouté depuis le 14 août
+
+- `88.txt` **teste le théorème du coin supérieur** au lieu de l'emprunter. Au sens du quantile il
+  tient, zéro violation sur les 65 paires emboîtées graine par graine ; la version
+  **trajectorielle** du préprint ne transporte pas, 16,18 % d'années en baisse sur la propagation
+  et 30,69 % sur la détection, qui viole le plus **pour une raison étrangère à la cascade** ; et
+  le garde-fou qui compte est qu'**un coin peut être infaisable**, deux canaux sur quatre étant
+  des bornes posées.
+- `35.txt` **existe enfin** : l'étude d'événement MOVEit exige `Data_Breach_Chronology.xlsx`, qui
+  est sur le PC et pas sur le Mac. Le chapitre 09 passe de 95,5 à 100 % grâce à elle. Ne pas
+  chercher à la régénérer sur le Mac, et ne pas conclure à une régression si elle échoue là-bas.
+- `08h.txt` de même, même fichier requis. À lire avec `85.txt`, qui montre que le Hawkes et la
+  cascade **ne sont pas distinguables** à cette résolution : le rejet s'énonce en équivalence
+  observationnelle, pas en rejet.
+- `87.txt` porte la **part d'amorce** du classeur.
+- `43.txt` et `67.txt` sont **reversionnées**. Le 67 gagne deux sections : la **3bis**, qui sort
+  la table des quatre lectures de l'écart entre états avec sa colonne d'écart et qui teste
+  elle-même la monotonie du facteur, et la **3ter**, qui imprime le rapport détention / transfert
+  comme une identité au lieu d'un nombre calculé à la rédaction.
+
+### Ce qu'il faut retenir des sorties du 14 août, si l'on reprend le dossier
 
 `82.txt` **répond au soupçon de double comptage dans la colonne « fermeture », et par une
 identité.** Chaque colonne somme des termes de Möbius différents : l'isolée ne prend que l'ordre 1,

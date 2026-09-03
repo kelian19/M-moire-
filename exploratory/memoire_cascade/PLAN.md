@@ -1,5 +1,13 @@
 # Le mémoire : état réel et ce qui reste
 
+> **CE FICHIER EST PÉRIMÉ ET CONSERVÉ COMME ARCHIVE DU 4 AOÛT 2026.** Il décrit la compression
+> du corps de 103 à 88 pages faite ce jour-là, et cette section garde sa valeur : c'est le
+> compte rendu de la seule compression jamais réussie, avec les leviers qui ont marché.
+> **Tout le reste est faux aujourd'hui.** L'état courant et ce qui reste à faire sont dans
+> `exploratory/PLAN_MEMOIRE.md`, et les règles dans le `CLAUDE.md` de la racine. Au
+> 3 septembre 2026 : corps **123 pages** pour **169** au total, six annexes A à F, harnais à
+> 1 979 nombres et 100 % de confirmation. **Ne pas reprendre les comptes de ce fichier.**
+
 Dernière mise à jour : 2026-08-04. **Le document est `main.tex`.** Corps 88 pages
 (parties I à V), annexes A à E ensuite. Le corps a été ramené de 103 à 88 pages le 04/08 :
 voir la section « Format » plus bas.

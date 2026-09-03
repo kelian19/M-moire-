@@ -1,6 +1,11 @@
 # memoire_cascade : organisation
 
-Le mémoire. 51 pages, compile en un passage.
+Le mémoire. **169 pages au 3 septembre 2026**, dont 123 de corps, et il compile en un passage.
+Ce compte se périme : le relever dans `main.toc` ou sur le PDF, jamais sur un index Spotlight.
+
+La commande ci-dessous écrit dans `build/`, qui est ignoré par git, donc elle **ne met pas à jour
+le `main.pdf` versionné**. Pour une compilation qui le met à jour, et pour les contrôles à passer
+ensuite, la référence est la section « Comment construire » du `CLAUDE.md` à la racine.
 
 ```powershell
 cd exploratory\memoire_cascade
@@ -15,8 +20,8 @@ New-Item -ItemType Directory -Force -Path build | Out-Null
 | `main.tex` | **chef d'orchestre uniquement** : la classe, le préambule, l'ordre de lecture. 30 lignes, aucun contenu rédactionnel. |
 | `preambule.tex` | paquets, palette, encadrés (`cle`, `attention`, `migration`), macros de tableaux, environnements de théorème, notations |
 | `chapitres/` | **un fichier par chapitre**, autoportant : il contient son propre `\chapter` et tout son contenu |
-| `annexes/` | vide pour l'instant, les annexes actuelles sont des chapitres de fin |
-| `a_integrer/` | ce qui n'est **pas** intégré : plans de rédaction en commentaire, `macros_requises.tex` (référence), `version_autonome/` (fiches compilables séparément) |
+| `annexes/` | vide, et le rester : les six annexes sont des fichiers de `chapitres/`, nommés par leur numéro d'ordre et non par leur lettre. **Le nom du fichier ne dit pas la partie** : `12b_adaptations_pilier.tex` est l'annexe C, pas un chapitre du corps |
+| `a_integrer/` | **MORT**, aucun `\input` ne le lit et son `STATUT.md` le dit. Ne pas y puiser |
 | `references.bib` | bibliographie (natbib) |
 | `build/` | sortie, ignoré par git |
 
