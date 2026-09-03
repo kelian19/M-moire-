@@ -116,21 +116,34 @@ $\mathbf{3{,}34}$ & $\mathbf{14\,139}$ \\
 
 \begin{frame}{Le coin supérieur : testé, pas emprunté}
 \small
-Le préprint garantit que l'état non conforme majore la perte sur tout le pavé. Si c'est vrai chez
-moi, un test de résistance sur les quatre canaux devient \textbf{une seule évaluation}.
+Si l'état non conforme majore la perte sur tout le pavé, un test de résistance sur les quatre
+canaux devient \textbf{une seule évaluation}. Je l'ai testé.
 \vspace{4mm}
 
+\begin{columns}[t]
+\begin{column}{0.47\textwidth}
+\begin{block}{Ce qui tient : le quantile}
+\small
+$16$ configurations, $65$ paires \\
+\textbf{zéro violation}, graine par graine \\
+les deux coins redonnent $6\,049$ et $20\,188$
+\end{block}
+\end{column}
+\begin{column}{0.47\textwidth}
+\begin{block}{Ce qui ne tient pas : la trajectoire}
+\small
+années en baisse à aléas communs : \\
+propagation \quad $16{,}18\,\%$ \\
+\textbf{détection} \quad\; $\mathbf{30{,}69\,\%}$
+\end{block}
+\end{column}
+\end{columns}
+\vspace{5mm}
+
 \begin{itemize}\itemsep6pt
-  \item \textbf{Ce qui tient} : seize configurations, $65$ paires emboîtées, \textbf{zéro
-        violation} graine par graine et pas sur la moyenne. Les deux coins redonnent $6\,049$ et
-        $20\,188$
-  \item \textbf{Ce qui ne tient pas} : leur théorème est \emph{trajectoriel}. À aléas communs la
-        perte d'une année baisse dans $16{,}18\,\%$ des cas sur la propagation et
-        $\mathbf{30{,}69\,\%}$ sur la détection
-  \item La détection viole le plus, et \alert{pas à cause de la cascade} : $p_u$ agit sur la
+  \item La détection viole le plus, \alert{pas à cause de la cascade} : $p_u$ agit sur la
         transformation de sévérité, pas sur une table
-  \item \textbf{Un coin peut être infaisable} : deux canaux sur quatre sont des bornes posées,
-        donc c'est un majorant sur un pavé déclaré, pas une entité
+  \item Un coin peut être \textbf{infaisable} : deux canaux sur quatre sont des bornes posées
 \end{itemize}
 \vspace{2mm}
 {\scriptsize Sources : script~\texttt{88}.}
@@ -144,19 +157,27 @@ moi, un test de résistance sur les quatre canaux devient \textbf{une seule éva
 J'enlève les briques une par une et je regarde ce qu'il reste du capital.
 \vspace{3mm}
 
-\begin{itemize}\itemsep5pt
-  \item Retirer la \textbf{queue lourde} : $-76{,}2\,\%$
-  \item Retirer la \textbf{propagation} : $-20{,}3\,\%$
-  \item \alert{Facteur $3{,}7$, même conclusion que le tornado par un chemin indépendant}
-  \item La forme de queue est \textbf{héritée de la sévérité} : $\mathrm{CTE}/\mathrm{VaR}$ passe
-        de $2{,}075$ à $2{,}061$ seulement
-\end{itemize}
+\begin{center}\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Brique retirée} & \textbf{capital restant} & \textbf{écart} \\
+\midrule
+aucune, état non conforme & $20\,188$ & \\
+propagation & $16\,086$ & $-20{,}3\,\%$ \\
+\textbf{queue lourde} & $\mathbf{4\,811}$ & $\mathbf{-76{,}2\,\%}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
 \vspace{4mm}
-\begin{block}{Le préprint conclut l'inverse, et la cause est dans son texte}
-Leur brique la plus lourde est la propagation, $-53{,}9\,\%$. Mais leur sévérité est
-\textbf{bornée}, donc sans indice de queue, et leur ablation ne contient aucune brique de queue.
-Les deux classements sont corrects chacun dans son modèle.
-\end{block}
+
+\begin{itemize}\itemsep6pt
+  \item \alert{Facteur $3{,}7$, et c'est la même conclusion que le tornado par un chemin
+        indépendant}
+  \item La forme de queue est \textbf{héritée de la sévérité} : $\mathrm{CTE}/\mathrm{VaR}$ ne
+        passe que de $2{,}075$ à $2{,}061$
+  \item Le préprint conclut l'inverse, propagation à $-53{,}9\,\%$, parce que sa sévérité est
+        \textbf{bornée} : son ablation ne contient aucune brique de queue
+\end{itemize}
 \vspace{2mm}
 {\scriptsize Sources : scripts~\texttt{63} et~\texttt{81}.}
 \end{frame}
