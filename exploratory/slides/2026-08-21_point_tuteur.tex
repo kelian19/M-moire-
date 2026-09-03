@@ -1,45 +1,51 @@
 % Point d'avancement tuteur, 21 aout 2026. DOUZE pages : titre, rappel, et dix slides de fond.
 %
-% CONTROLES PASSES : 0 Overfull vbox, 0 Overfull hbox, 0 tiret cadratin releve SUR LE PDF (le
-% babel francais en met un en puce d'itemize, d'ou l'absence d'itemize dans ce fichier).
-% Harnais : 46 nombres verifiables, 46 confirmes, 100 %, et HORS CONTROLE NON DECLARE = 0
-% (46 sous controle plus 18 declares font les 64 nombres publies).
-% TROIS « ?? » SUBSISTENT DANS LE PDF ET C'EST VOULU : ce sont les trois citations litterales
-% du defaut de renvois de la slide E, entre guillemets. Le controle « 0 ?? » du memoire ne se
-% transpose donc pas tel quel a ce deck ; verifier le CONTEXTE avant de conclure.
-%
 % CE FICHIER REMPLACE UNE VERSION ECRITE LE 5 AOUT, donc AVANT les points du 7 et du 14. Cette
 % version-la presentait le biais de narration, les quatre bilans reels et l'invariance de g,
 % c'est-a-dire du travail ANTERIEUR au deck du 14, tout en annoncant en premiere slide qu'elle
 % le suivait. Elle portait en outre les valeurs MACSF corrigees depuis (3 234 d'actifs, 292 de
-% SCR, 41,3 % de part) et l'argument du levier a 13 % qui a change de sens et vaut 9 %. Le
-% remplacement est donc a la fois une mise en ordre chronologique et la correction de valeurs
-% qu'on sait fausses, seule exception au gel d'un deck.
+% SCR, 41,3 % de part) et l'argument du levier a 13 % qui vaut 9 %. Le remplacement est donc a
+% la fois une mise en ordre chronologique et la correction de valeurs qu'on sait fausses, seule
+% exception au gel d'un deck.
 %
 % CONTINUITE DU 14/08, VERIFIEE POINT PAR POINT :
 %   - le 14/08 publiait la table complete des quatre canaux -> la section A tranche LEQUEL des
 %     quatre protocoles porte le chiffre de tete, question que le deck precedent laissait
 %     ouverte sans le dire ;
-%   - le 14/08 empruntait cinq notions au prepublie de cascade climatique -> la section B TESTE
+%   - le 14/08 empruntait cinq notions au preprint de cascade climatique -> la section B TESTE
 %     celle qui promettait le plus (le coin superieur) et la section C ecrit le desaccord ;
 %   - le 14/08 laissait la posture reportee en attente -> la section D la tranche, avec quatre
 %     autres decisions.
 % FIL : cette semaine n'a presque rien mesure de neuf, elle a TRANCHE.
+%
+% REGLE DE DENSITE, ET C'EST LA CONSIGNE DE KELIAN : le deck est un SUPPORT DE PAROLE, pas un
+% document. Une slide porte le titre qui enonce le resultat, trois a cinq lignes courtes, et les
+% chiffres. Le raisonnement passe a l'oral. La premiere redaction faisait des paragraphes de
+% quinze lignes par bloc : elle debordait sur huit slides et elle se lisait au lieu de s'ecouter.
+% NE PAS LA REDENSIFIER. Si une idee ne tient pas en une ligne, elle est deja dans le memoire.
+%
+% VOCABULAIRE : point tuteur, donc tutoiement et raccourcis du projet employes sans les definir
+% (lecture a quatre canaux, marginal de fermeture, Shapley, graine, pave, IC90, plug-in). Hugo
+% les connait, les expliquer sur une slide coute une slide.
 %
 % AUCUNE FIGURE, comme le deck du 14 aout. Motif : la semaine a produit des decisions et des
 % tables, pas de nouvelles courbes, et les trois figures de la version remplacee (Z22, S22, S23)
 % portent du travail qui n'est pas celui de cette semaine. Si une figure est souhaitee, S10
 % (SCR par etat) et S24 (interaction des canaux) n'ont jamais servi dans un deck.
 %
-% HARNAIS : chaque section porte sa ligne de sources, la page de titre est declaree hors
-% section, et la section E l'est entierement (metadonnees du document et du dispositif). Une
-% declaration n'est honoree que si la section ne cite AUCUN script : c'est pourquoi les comptes
-% de pages et les taux du harnais sont regroupes en fin de deck et non disperses.
+% PUCES : le template beamer est force en cercle. Le babel francais met un tiret cadratin en
+% puce d'itemize par defaut, et les tirets cadratins sont proscrits dans les livrables. Le
+% controle se fait SUR LE PDF, jamais sur la source.
 %
-% MISE EN PAGE : la premiere redaction debordait verticalement sur HUIT slides, jusqu'a 51 pt.
-% Les blocs sont donc tenus a trois ou quatre lignes et il y en a au plus deux par slide. Les
-% avertissements « nullfont » de tectonic sont preexistants (78 aussi sur le deck du 14 aout,
-% qui passait ses controles a 0 vbox) : ils viennent du theme et ne concernent pas le contenu.
+% HARNAIS : chaque section porte sa ligne de sources, la page de titre et la slide de rappel
+% sont declarees, et la section E l'est entierement (metadonnees du document et du dispositif).
+% Une declaration n'est honoree que si la section ne cite AUCUN script, et elle doit etre posee
+% APRES le \section* : posee avant, elle tombe dans le bloc precedent. Vu ici meme.
+%
+% CONTROLES PASSES : 0 Overfull vbox, 0 Overfull hbox, 0 tiret cadratin releve sur le PDF.
+% Harnais : 100 % de confirmation, HORS CONTROLE NON DECLARE = 0.
+% Les « ?? » de la slide E sont des citations LITTERALES du defaut de renvois : le controle
+% « 0 ?? » du memoire ne se transpose pas tel quel a ce deck, verifier le contexte.
 \documentclass[11pt]{beamer}
 \usetheme{Madrid}
 \usecolortheme{seahorse}
@@ -52,6 +58,7 @@
 \graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}{../vasicek_lab/notes/}}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamertemplate{itemize items}[circle]
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
@@ -69,117 +76,103 @@
 
 % =====================================================================
 \section*{Rappel : le point précédent}
-% HARNAIS-HORS-SECTION: slide de rappel. Le seul nombre de la section est la DATE du point
-% precedent, et les lettres de section du fil. Aucun resultat n'y est cite : les grandeurs
-% rappelees le sont par leur nom, precisement pour que ce rappel n'ait pas a etre reverifie.
+% HARNAIS-HORS-SECTION: slide de rappel. Le seul nombre est la DATE du point precedent. Les
+% grandeurs rappelees le sont par leur NOM, precisement pour que ce rappel n'ait pas a etre
+% reverifie : elles ont ete confirmees dans le deck du 14.
 
 \begin{frame}{Depuis le point du 14 août}
-\small
-Le dernier point portait tes six demandes et les \textbf{cinq notions} empruntées au prépublié
-de cascade climatique, mesurées au lieu d'être citées. Ce qui en est resté au mémoire : la
-\textsc{cte} qui mesure la queue sans fixer le capital, le pont entre quantile unitaire et
-capital agrégé, la table complète des quatre canaux avec ses effets de paires, Shapley et
-Euler, portage et plancher, et les six postures avec leur bruit.
-\vspace{2mm}
-\begin{block}{Cette semaine n'a presque rien mesuré de neuf, elle a tranché}
-\textbf{(A)} Quatre protocoles chiffraient le même écart. Le mémoire dit maintenant
-\textbf{lequel il publie}. \\[2pt]
-\textbf{(B)} Le théorème que j'empruntais au prépublié, \textbf{testé} : il ne transporte qu'à
-moitié. \\[2pt]
-\textbf{(C)} Le point où ce papier et moi \textbf{divergeons}, écrit. \\[2pt]
-\textbf{(D)} \textbf{Cinq décisions} de modélisation, dont deux ont fait tomber une trouvaille.
-\\[2pt]
-\textbf{(E)} L'instrument de vérification, et ce qu'il a rattrapé.
-\end{block}
+\large
+Le 14 : les quatre canaux, Shapley et Euler, portage et plancher, les six postures.
+\vspace{4mm}
+
+\normalsize
+\textbf{Cette semaine, presque rien de neuf mesuré. Cinq choses tranchées.}
+\vspace{3mm}
+\begin{itemize}\itemsep4pt
+  \item[\textbf{A}] Quatre protocoles, un seul chiffre de tête
+  \item[\textbf{B}] Le théorème du coin supérieur, testé
+  \item[\textbf{C}] Le désaccord avec le préprint, écrit
+  \item[\textbf{D}] Cinq décisions de modélisation
+  \item[\textbf{E}] L'instrument, et ce qu'il a rattrapé
+\end{itemize}
 \end{frame}
 
 % =====================================================================
-\section*{A. Le chiffre de tête, tranché}
+\section*{A. Le chiffre de tête}
 
 \begin{frame}{Quatre protocoles chiffraient le même écart}
-\small
-Ce n'est pas la multiplicité qui était grave. C'est que le \textbf{corps} publiait la lecture à
-deux canaux pendant que le chiffre à quatre canaux vivait en \textbf{annexe}, sans qu'aucun
-texte ne dise qu'ils diffèrent. Aucun des quatre n'est faux : ils \textbf{ne relâchent pas le
-même nombre de canaux} entre les deux états, et rien d'autre ne les sépare.
-\vspace{-1mm}
-\begin{center}\scriptsize
+\begin{center}\small
 \begin{tabular}{@{}l c r r r r@{}}
 \toprule
 \textbf{Lecture} & \textbf{can.} & \textbf{conf.} & \textbf{non conf.} & \textbf{fact.} &
 \textbf{écart} \\
 \midrule
-Score de conformité seul, $g$ figé NC & $1$ & $7\,987$ & $16\,847$ & $2{,}11$ & $8\,860$ \\
+Score seul, $g$ figé NC & $1$ & $7\,987$ & $16\,847$ & $2{,}11$ & $8\,860$ \\
 Fréquence $+$ propagation (B) & $2$ & $6\,664$ & $15\,074$ & $2{,}26$ & $8\,410$ \\
 $+$ détection (C) & $3$ & $5\,932$ & $16\,595$ & $2{,}80$ & $10\,663$ \\
-\textbf{$+$ accumulation P4 (quatre canaux)} & $\mathbf{4}$ & $\mathbf{6\,049}$ &
-$\mathbf{20\,188}$ & $\mathbf{3{,}34}$ & $\mathbf{14\,139}$ \\
+\textbf{$+$ accumulation P4} & $\mathbf{4}$ & $\mathbf{6\,049}$ & $\mathbf{20\,188}$ &
+$\mathbf{3{,}34}$ & $\mathbf{14\,139}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-\vspace{1mm}
-{\scriptsize En M\euro, périmètre OpRisk. Les \emph{rapports} sont imprimés par une nouvelle
-section du script~\texttt{67} plutôt que calculés à la lecture, faute de quoi un niveau amont
-pourrait bouger sans que le facteur suive.\par}
-\vspace{1mm}
+\vspace{4mm}
+\begin{itemize}\itemsep4pt
+  \item Aucun n'est faux : ils ne relâchent pas le même nombre de canaux
+  \item \alert{Le corps publiait la ligne 2, l'annexe la ligne 4, et aucun texte ne le disait}
+  \item Les rapports sont désormais imprimés, pas calculés à la lecture
+\end{itemize}
+\vspace{2mm}
 {\scriptsize Sources : scripts~\texttt{16}, \texttt{25}, \texttt{43} et~\texttt{67}.}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Celle que je publie, et ce que deviennent les trois autres}
-\small
-\begin{block}{La lecture à quatre canaux : $6\,049 \to 20\,188$~M\euro, facteur $3{,}34$}
-Le motif n'est pas qu'elle donne le plus grand chiffre : c'est la \textbf{seule où l'état
-conforme est conforme sur tous les canaux du modèle}. Ailleurs l'entité dite conforme propage
-encore, ou sa détection ou son accumulation tiers restent au niveau non conforme. Ce n'est pas
-un état conforme, c'est une \emph{remédiation partielle}, et la nommer conforme sous-estime
-l'écart par construction.
-\end{block}
-\begin{block}{Ce qui permet de trancher maintenant}
-La réserve portait sur le canal détection, tant que son ampleur n'était pas validée. Elle
-l'est : $2\,928 \pm 343$~M\euro{} en Shapley, $4\,562 \pm 819$ en marginal de fermeture,
-\textbf{signe résolu sur seize graines}.
-\end{block}
-\vspace{-1mm}
-\alert{\textbf{Et les trois autres restent publiées}} comme remédiations partielles : leur
-emboîtement chiffre ce que coûte de ne fermer qu'une partie des canaux. Attention à ne comparer
-que le \emph{facteur} : l'écart en euros descend de $8\,860$ à $8\,410$ quand le facteur monte,
-la \emph{base} changeant.
-\par\vspace{1mm}
+\begin{frame}{Je publie la lecture à quatre canaux}
+\vspace{3mm}
+\begin{center}
+{\Large\alert{$\mathbf{6\,049 \to 20\,188}$~\textbf{M\euro}}}\\[4pt]
+{\large facteur $3{,}34$ \quad écart $14\,139$~M\euro}
+\end{center}
+\vspace{4mm}
+\begin{itemize}\itemsep5pt
+  \item Seule lecture où l'état conforme est conforme sur \textbf{tous} les canaux
+  \item Ailleurs, c'est une remédiation partielle qu'on appelle conformité
+  \item Ce qui débloque : détection validée à $2\,928 \pm 343$ en Shapley, signe résolu sur
+        seize graines
+  \item Les trois autres restent publiées, comme remédiations partielles
+  \item \alert{Comparer le facteur, pas l'écart en euros : la base change}
+\end{itemize}
+\vspace{2mm}
 {\scriptsize Sources : scripts~\texttt{43}, \texttt{67} et~\texttt{68}.}
 \end{frame}
 
 % =====================================================================
 \section*{B. Le théorème emprunté, testé}
 
-\begin{frame}{Au sens du quantile, le coin supérieur tient}
-\small
-Le prépublié garantit que l'état le plus dégradé majore la perte sur tout le pavé des stress. Si
-c'est vrai chez moi, un test de résistance sur les quatre canaux se réduit à \textbf{une seule
-évaluation}. Je l'ai testé au lieu de l'emprunter.
-\vspace{2mm}
-\begin{block}{Seize configurations, $65$ paires emboîtées, zéro violation}
-Je teste $\mathrm{SCR}(S) \le \mathrm{SCR}(T)$ pour toute paire emboîtée \textbf{graine par
-graine}, ce qui est plus exigeant que sur la moyenne : une inversion masquée par la moyenne
-resterait une violation. Zéro sur la moyenne, zéro paire présentant même une seule graine en
-violation, et le maximum des seize configurations \emph{est} le coin haut.
-\end{block}
-\begin{block}{Le contrôle qui rend la démonstration recevable}
-Les deux extrémités du pavé reproduisent les nombres publiés, $6\,049$ et $20\,188$~M\euro{}
-pour un écart de $14\,139$. Sans lui, j'aurais démontré une propriété d'un \emph{autre} modèle.
-\end{block}
-\vspace{-1mm}
+\begin{frame}{Le coin supérieur : ce qui tient}
+\large
+Si l'état non conforme majore la perte sur tout le pavé, un test de résistance sur les quatre
+canaux devient \textbf{une seule évaluation}.
+\vspace{5mm}
+
+\normalsize
+\begin{itemize}\itemsep5pt
+  \item Seize configurations, $65$ paires emboîtées
+  \item \textbf{Zéro violation}, graine par graine et pas sur la moyenne
+  \item Les deux coins redonnent $6\,049$ et $20\,188$, sinon je démontrais autre chose
+\end{itemize}
+\vspace{4mm}
+\alert{\textbf{Au sens du quantile, c'est démontré.}}
+\vspace{3mm}
+
 {\scriptsize Sources : script~\texttt{88}.}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Mais la version trajectorielle ne transporte pas}
+\begin{frame}{Le coin supérieur : ce qui ne tient pas}
 \small
-Leur théorème est \textbf{trajectoriel}, et le tester demande des aléas communs. À fréquence
-fixée, en ne faisant varier qu'un canal, la perte d'une année \emph{baisse} dans une part des
-cas trop grande pour être du détail.
+Leur théorème est \textbf{trajectoriel}. À aléas communs, la perte d'une année baisse :
 \vspace{-1mm}
-\begin{center}\scriptsize
+\begin{center}\small
 \begin{tabular}{@{}l r r@{}}
 \toprule
 \textbf{Canal relâché seul} & \textbf{années en baisse} & \textbf{part} \\
@@ -190,90 +183,89 @@ Accumulation tiers & $408$ & $1{,}02\,\%$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-\vspace{1mm}
-\begin{block}{Le motif diffère selon le canal, ce que je n'avais pas prévu}
-La détection viole \textbf{deux fois plus} que la propagation, pour une raison \textbf{étrangère
-à la cascade} : le taux de dépassement entre dans la \emph{transformation} de sévérité, non dans
-une table de sous-ensembles. J'avais écrit l'explication par l'ordre des tables avant de lire
-les taux ; elle ne vaut que pour deux canaux sur trois.
-\end{block}
-\vspace{-1mm}
-\alert{\textbf{Et un coin peut être infaisable.}} Leur contre-exemple donne $2{,}0$ au coin
-contre $1{,}2$ sur l'ensemble faisable. Deux de mes quatre canaux sont des \textbf{bornes
-posées} : le coin majore sur un pavé \emph{déclaré}, il ne décrit aucune entité.
-\par
+\vspace{3mm}
+\begin{itemize}\itemsep5pt
+  \item La détection viole le plus, et \textbf{pas à cause de la cascade} : $p_u$ agit sur la
+        transformation de sévérité, pas sur une table
+  \item \alert{Un coin peut être infaisable} : $2{,}0$ contre $1{,}2$ sur leur contre-exemple
+  \item Deux canaux sur quatre sont des bornes posées, donc c'est un majorant sur un pavé
+        déclaré, pas une entité
+\end{itemize}
+\vspace{2mm}
 {\scriptsize Sources : script~\texttt{88}.}
 \end{frame}
 
 % =====================================================================
-\section*{C. Là où ce papier et moi divergeons}
+\section*{C. Le désaccord avec le préprint}
 
-\begin{frame}{Le désaccord est écrit, et une citation trop généreuse retirée}
+\begin{frame}{Le préprint : là où nous divergeons}
 \small
-Le prépublié était cité \textbf{quatre fois comme convergent} et jamais là où les deux travaux
-s'opposent. C'est le genre de lecture qu'un jury retourne.
+Il était cité \textbf{quatre fois comme convergent}, et jamais là où nous nous opposons.
+\vspace{4mm}
+
+\begin{itemize}\itemsep5pt
+  \item Leur brique la plus lourde : la propagation, $-53{,}9\,\%$
+  \item La mienne : \textbf{la queue}, $-76{,}2\,\%$
+  \item La cause est dans leur texte : leur sévérité est \textbf{bornée}, donc pas d'indice de
+        queue, donc aucune brique de queue dans leur ablation
+  \item Les deux classements sont corrects, chacun dans son modèle
+  \item \alert{Donc les citer sur le protocole, jamais sur l'ordre du résultat}
+\end{itemize}
+\vspace{4mm}
+Et leur \og{}corroboration\fg{} du rejet du Hawkes n'existe pas : ils \textbf{posent} le graphe
+acyclique, ils ne testent rien. Réécrit en convergence de choix.
 \vspace{2mm}
-\begin{block}{Nos classements de briques sont inverses, et la cause est dans leur texte}
-Leur brique la plus lourde est la propagation dirigée, à $-53{,}9\,\%$ ; la mienne est la
-\textbf{queue}, à $-76{,}2\,\%$. Leur sévérité est \textbf{bornée}, donc sans indice de queue,
-et leur ablation ne contient \emph{aucune} brique de queue : on ne retire pas ce qui n'est pas
-là. Les deux classements sont corrects chacun dans son modèle. À citer sur le \textbf{protocole},
-jamais sur l'ordre du résultat.
-\end{block}
-\begin{block}{Et le rejet du Hawkes n'est pas corroboré par eux}
-Le chapitre 13 annonçait une \og{}corroboration extérieure\fg{}. Ils ne testent rien : ils
-\textbf{posent} le graphe acyclique, et l'auto-excitation ne figure qu'en une ligne d'un tableau
-de positionnement. Réécrit en \textbf{convergence de choix}. Le rejet ne repose que sur mon
-propre test, et c'est le point le plus exposé du mémoire.
-\end{block}
-\vspace{-1mm}
+
 {\scriptsize Sources : scripts~\texttt{63} et~\texttt{81}.}
 \end{frame}
 
 % =====================================================================
-\section*{D. Cinq décisions de modélisation}
+\section*{D. Cinq décisions}
 
-\begin{frame}{La posture reportée, et une identité trouvée en chemin}
-\small
-\begin{block}{Décision : le plug-in avec sa bande, la robuste restant un axe déclaré}
-Trois raisons, et l'ordre compte. \textbf{(i) Réglementaire} : le régime définit le \textsc{scr}
-comme une VaR à $99{,}5\,\%$, or une borne haute sur un ensemble d'ambiguïté est un
-\emph{suprémum sur une famille de lois} et non un quantile de la loi de perte.
-\textbf{(ii) Une mesure} : la prédictive, théoriquement préférable, ne déplace pas le point au
-niveau réglementaire. \textbf{(iii) La précision} : les postures robustes sont les moins
-reproductibles des six.
+\begin{frame}{Posture reportée : le plug-in avec sa bande}
+\begin{itemize}\itemsep5pt
+  \item Motif réglementaire d'abord : le \textsc{scr} est une VaR à $99{,}5\,\%$, pas un
+        suprémum sur une famille de lois
+  \item La prédictive ne déplace pas le point au niveau réglementaire
+  \item Les postures robustes sont les moins reproductibles des six
+\end{itemize}
+\vspace{4mm}
+\begin{block}{Et l'identité que j'ai trouvée en répondant}
+La \textbf{robuste à $95\,\%$ est la borne haute de l'IC$90$} que je publie déjà. Même loi
+bootstrap, $1\,037$~M\euro{} des deux côtés.
 \end{block}
-\begin{block}{Trouvé en répondant à la question, et cela la simplifie}
-\textbf{La robuste à $95\,\%$ EST la borne haute de l'IC$90$ que je publie déjà}, même loi
-bootstrap : $1\,037$~M\euro{} des deux côtés, et ce n'est pas une coïncidence numérique.
-Reporter le plug-in \emph{avec sa bande} publie donc déjà le chiffre robuste, comme une borne et
-non comme un point. Le désaccord ne porte pas sur l'information donnée au lecteur mais sur ce
-qu'on appelle \og{}le\fg{} capital, d'où le motif réglementaire plutôt qu'un arbitrage de
-prudence.
-\end{block}
-\vspace{-1mm}
+\vspace{2mm}
+\begin{itemize}\itemsep4pt
+  \item Donc publier le plug-in \emph{avec sa bande} publie déjà le chiffre robuste
+  \item \alert{Le débat porte sur le nom du capital, pas sur l'information donnée au lecteur}
+\end{itemize}
+\vspace{2mm}
 {\scriptsize Sources : scripts~\texttt{46} et~\texttt{47}.}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Les quatre autres, dont une annexe qui se contredisait}
-\small
-\begin{block}{Le niveau de l'intervalle reste $90\,\%$, et c'est aussi une correction}
-L'annexe \textbf{se contredisait} : son ouverture annonçait $95\,\%$ quand sa conclusion, deux
-pages plus bas, gardait $90\,\%$. L'argument décisif y était déjà mesuré : la couverture réelle
-vaut $86{,}8\,\%$ pour un nominal de $90$ et $91{,}8\,\%$ pour un nominal de $95$, donc le
-manque est \textbf{le même}, $-3{,}2$ points. Relever le nominal déplace l'annonce sans corriger
-l'estimateur.
-\end{block}
-\begin{block}{La \textsc{cte} en diagnostic était déjà faite, et deux refus motivés}
-$\mathrm{CTE}_\beta$ égale la VaR réglementaire à $\beta = 97{,}73\,\%$ ; une \textsc{cte} à
-$95\,\%$ vaut $5\,734$ contre $8\,374$, donc \textbf{moins} prudente que l'exigence. Pas de
-renommage de la collision de constantes : une substitution fausse mais numériquement valide ne
-serait rattrapée par \emph{aucun} contrôle, donc les deux sont imprimées côte à côte avec deux
-assertions. Et pas d'ancrage de $g$ sur l'\textsc{acpr} ou l'\textsc{eiopa} : ces sources
-publient des attentes prudentielles, jamais des probabilités de propagation.
-\end{block}
-\vspace{-1mm}
+\begin{frame}{Les quatre autres}
+\begin{center}\small
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Point} & \textbf{Décision} & \textbf{Motif} \\
+\midrule
+Niveau de l'IC & $90\,\%$ & le manque est le même à $95$ \\
+\textsc{cte} en diagnostic & déjà fait & annexe, avec l'équivalence \\
+Renommage des constantes & non & pipeline gelé, et rien ne l'attraperait \\
+Ancrage de $g$ (\textsc{acpr}, \textsc{eiopa}) & non & ces sources ne publient pas ça \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{4mm}
+\begin{itemize}\itemsep5pt
+  \item L'annexe du niveau \textbf{se contredisait} : ouverture à $95\,\%$, conclusion à $90$
+  \item Couverture réelle $86{,}8\,\%$ pour un nominal de $90$, $91{,}8\,\%$ pour $95$ :
+        \alert{le manque est $-3{,}2$ points dans les deux cas}
+  \item $\mathrm{CTE}_\beta$ égale la VaR réglementaire à $\beta = 97{,}73\,\%$ ; à $95\,\%$ elle
+        vaut $5\,734$ contre $8\,374$, donc moins prudente que l'exigence
+\end{itemize}
+\vspace{2mm}
 {\scriptsize Sources : scripts~\texttt{72} et~\texttt{73}.}
 \end{frame}
 
@@ -281,72 +273,56 @@ publient des attentes prudentielles, jamais des probabilités de propagation.
 \section*{E. L'instrument, et l'état du document}
 % HARNAIS-HORS-SECTION: metadonnees du document et du dispositif de verification (comptes de
 % pages, taux de confirmation, nombre de scripts et de figures, effectifs de defauts). Faire
-% verifier par un script le nombre qui compte ce que les scripts confirment serait circulaire,
-% et cette section ne cite donc aucun script, condition pour que la declaration soit honoree.
-% LA DECLARATION EST POSEE APRES LE \section*, ET C'EST OBLIGATOIRE : posee avant, elle tombe
-% dans le bloc PRECEDENT, qui cite des scripts, et n'est alors pas honoree. Vu ici meme.
+% verifier par un script le nombre qui compte ce que les scripts confirment serait circulaire.
+% Cette section ne cite donc aucun script, condition pour que la declaration soit honoree, et
+% la declaration est posee APRES le \section*, sans quoi elle tombe dans le bloc precedent.
 
-\begin{frame}{Vingt-six nombres refusés, et la surprise n'est pas où je l'attendais}
-\small
-\begin{block}{Dix-neuf sur vingt-six étaient un défaut de \emph{citation}, pas d'exactitude}
-Le harnais cherche chaque nombre publié dans la sortie du script que sa section cite. Sur les
-vingt-six refusés, \textbf{dix-neuf étaient déjà imprimés par un script que leur section ne
-citait pas}. Je n'ai ajouté une citation que là où le script possède \emph{vraiment} le nombre :
-en citer un qui imprime la même valeur pour un autre objet aurait confirmé par coïncidence.
+\begin{frame}{Vingt-six nombres refusés par le harnais}
+\begin{itemize}\itemsep6pt
+  \item Il en reste \textbf{un}
+  \item \alert{Dix-neuf sur vingt-six : un défaut de citation, pas d'exactitude}
+  \item Ils étaient imprimés par un script que leur section ne citait pas
+  \item Citation ajoutée seulement là où le script possède vraiment le nombre
+\end{itemize}
+\vspace{5mm}
+\begin{block}{Et un contrôle passait à vide depuis des semaines}
+Le moteur \LaTeX{} n'émet \textbf{aucun} avertissement pour une référence non résolue. Cinq
+renvois cassés imprimaient \og{}cité au chapitre~??\fg{} dans le \textsc{pdf} publié. Je compte
+maintenant les \og{}??\fg{} dans le \textsc{pdf}.
 \end{block}
-\begin{block}{Un contrôle passait à vide depuis des semaines}
-Je vérifiais \og{}zéro référence indéfinie\fg{} en cherchant le mot dans la sortie du moteur.
-Or il n'émet \textbf{aucun} avertissement pour une référence non résolue : le contrôle renvoyait
-zéro quoi qu'il arrive, et cinq renvois cassés imprimaient \og{}cité au chapitre~??\fg{} sur
-cinq pages du \textsc{pdf} publié. Remplacé par le comptage des \og{}??\fg{} dans le
-\textsc{pdf} produit.
-\end{block}
-\vspace{-1mm}
-\alert{\textbf{Deux périmètres entrent sous contrôle}} : le deck du 7 août, et l'étude
-d'événement qui fait passer le chapitre 9 de $95{,}5$ à $100\,\%$.
+\vspace{3mm}
+Deux périmètres entrent sous contrôle : le deck du 7 août, et le chapitre 9 qui passe de
+$95{,}5$ à $100\,\%$.
 \end{frame}
 
 % =====================================================================
-\begin{frame}{La charte Nexialog, et une palette mesurée plutôt que choisie}
-\small
-Les $92$ scripts qui codaient leurs couleurs en dur passent par une \textbf{source unique}, et
-$49$ des $50$ figures du mémoire y sont. Le contrôle porte sur les \emph{pixels} des figures,
-pas sur les scripts relancés.
-\vspace{2mm}
-\begin{block}{Deux choses mesurées, dont une qui contraint la mise en forme}
-La charte porte \textbf{trois} emplacements catégoriels et pas quatre : un quatrième échoue le
-plancher de contraste en vision normale, $14{,}1$ contre $15$ exigés, et ce plancher ne se
-rachète pas par un encodage secondaire. Et les cinq piliers ne sont \emph{pas} un cas
-catégoriel : ils se présentent ordonnés par contribution, donc en rampe à une seule teinte.
-\end{block}
-\begin{block}{La figure restante, et pourquoi je ne la force pas}
-Une seule garde l'ancienne palette. Elle exige un fichier que ce poste n'a pas, l'autre poste
-portant un format différent de la même source. Je n'ai pas fabriqué le fichier manquant depuis
-celui que j'ai : un fichier reconstitué peut différer par l'encodage, et ferait dériver une
-sortie versionnée sans qu'on sache pourquoi.
-\end{block}
+\begin{frame}{La charte Nexialog}
+\begin{itemize}\itemsep6pt
+  \item $92$ scripts passent par une \textbf{source unique} de couleurs
+  \item $49$ des $50$ figures du mémoire y sont, contrôle sur les pixels
+  \item \alert{Trois emplacements catégoriels, pas quatre} : un quatrième échoue le plancher de
+        contraste, $14{,}1$ contre $15$ exigés
+  \item Les cinq piliers ne sont pas catégoriels : rampe ordonnée par contribution
+  \item La cinquantième exige un fichier que ce poste n'a pas, et je ne le fabrique pas
+\end{itemize}
 \end{frame}
 
 % =====================================================================
 \begin{frame}{L'état du document, et ce que je te demande}
-\small
-\begin{block}{Mesuré, pas estimé}
-Corps $121$ pages, total $167$. Harnais : $1\,965$ nombres publiés, $1\,964$ confirmés, soit
-$99{,}9\,\%$, et surtout \textbf{zéro nombre hors contrôle non déclaré} sur les dix-neuf
-chapitres, relevé chapitre par chapitre. Zéro \og{}??\fg{}, zéro débordement vertical, zéro
-annotation hors page, zéro page tournée.
+\begin{itemize}\itemsep5pt
+  \item Corps $121$ pages, total $167$
+  \item $1\,965$ nombres publiés, $1\,964$ confirmés
+  \item \alert{Zéro nombre hors contrôle non déclaré} sur les dix-neuf chapitres
+  \item Zéro \og{}??\fg{}, zéro débordement, zéro annotation hors page
+\end{itemize}
+\vspace{5mm}
+\begin{block}{Ma demande, une seule : un second codeur en aveugle}
+Dix récits anonymisés, une heure de lecture, cent cases. Toi ou un praticien hors du projet. Le
+coefficient d'accord sort ensuite, et le script ne fabrique rien sans donnée.
 \end{block}
-\begin{block}{Une demande, une seule : le second codeur en aveugle}
-C'est le dernier point vraiment attaquable du dossier de direction, et il ne dépend plus que de
-trouver quelqu'un. Le kit est prêt et testé : dix récits anonymisés, réduits aux faits établis
-par les rapports, sans aucune de mes flèches. Une heure de lecture, cent cases. Toi, ou un
-praticien hors du projet. Le coefficient d'accord sort ensuite, et le script ne fabrique rien
-en l'absence de second jeu.
-\end{block}
-\vspace{-1mm}
-{\footnotesize Deux défauts de lisibilité restent en réserve, trouvés en \emph{regardant} les
-pages : une légende qui annonce une couleur fausse pour quatre lignes sur cinq, et une
-annotation barrée par une flèche. Aucun ne touche un chiffre.}
+\vspace{3mm}
+{\footnotesize En réserve : deux défauts de lisibilité trouvés en regardant les pages. Aucun ne
+touche un chiffre.}
 \end{frame}
 
 \end{document}
