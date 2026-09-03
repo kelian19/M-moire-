@@ -1,50 +1,49 @@
 % Point d'avancement tuteur, 21 aout 2026. CINQ pages : titre et quatre slides de fond.
 %
-% FORMAT COURT, ET C'EST UN CHOIX ASSUME. Kelian revient de vacances : le point est court parce
-% que la periode l'a ete. Quatre resultats, aucun remplissage. Un deck de dix slides sur une
-% quinzaine sans travail se voit immediatement, et un deck de cinq slides qui tiennent vaut mieux
-% qu'un deck de dix dont la moitie est du rappel.
+% POURQUOI CE DECK EST COURT, ET POURQUOI IL PARLE DE CA. Retour de vacances, donc peu de
+% travail neuf a montrer. Le deck ne raconte donc pas une semaine : il prend QUATRE RESULTATS
+% DEJA MESURES ET JAMAIS PRESENTES, et il les explique. C'est un choix assume, et c'est le bon
+% usage d'un point tuteur quand il n'y a pas de production a exposer.
 %
-% CE FICHIER REMPLACE UNE VERSION ECRITE LE 5 AOUT, donc AVANT les points du 7 et du 14. Cette
-% version-la presentait le biais de narration, les quatre bilans reels et l'invariance de g,
-% c'est-a-dire du travail ANTERIEUR au deck du 14, tout en annoncant en premiere slide qu'elle
-% le suivait. Elle portait en outre les valeurs MACSF corrigees depuis (3 234 d'actifs, 292 de
-% SCR, 41,3 % de part) et l'argument du levier a 13 % qui vaut 9 %.
+% CHOIX DES SUJETS, ET IL A ETE VERIFIE PAR GREP SUR TOUS LES DECKS.
+%   Retenus, aucun jamais montre : les defaillances simultanees (62,31 %), les trois enonces
+%   d'additivite (R2 = 0,9945), le cout de l'hypothese d'additivite des couts (theta), et la
+%   concavite du capital en duree de non-conformite (33 % et 44 %).
+%   ECARTES PARCE QUE DEJA PRESENTES : les colonnes isole / fermeture / Shapley et leurs sommes
+%   9 138 et 19 141 etaient sur le deck du 14 aout. Un deck ne se recharge pas avec ce qui a
+%   deja ete montre : c'est la meme regle que celle qui interdit de reutiliser une figure.
+%   ECARTES SUR CONSIGNE : la charte graphique et TOUT ce qui releve de l'ecriture du memoire
+%   (comptes de pages, taux du harnais, defauts de citation, couverture de deck). Ce travail
+%   est trace dans CLAUDE.md et PLAN_MEMOIRE.md. NE PAS LE REMETTRE.
 %
-% CE QUI A ETE ECARTE, ET OU LE RETROUVER SI HUGO POSE LA QUESTION.
-%   1. LA SLIDE DE RAPPEL DU 14/08. Repliee en une ligne en tete de la premiere slide de fond.
-%      Une slide entiere de rappel sur cinq coute 20 % du deck pour dire ce que l'interlocuteur
-%      sait deja. Le deck du 14 avait supprime la sienne pour le meme motif.
-%   2. LES QUATRE DECISIONS DE MODELISATION (posture reportee, niveau de l'intervalle, CTE en
-%      diagnostic, ancrage de g). Toutes tranchees le 17 aout, toutes ecrites au memoire avec
-%      leur motif et leur critere de reouverture. La plus interessante a l'oral est que la
-%      ROBUSTE A 95 % EST la borne haute de l'IC90 deja publie, 1 037 M EUR des deux cotes,
-%      meme loi bootstrap : publier le plug-in avec sa bande publie donc deja le chiffre
-%      robuste. A ressortir si la question de la posture vient. Sources : scripts 46, 47, 72, 73.
-%   3. LA CHARTE GRAPHIQUE et TOUT CE QUI RELEVE DE L'ECRITURE DU MEMOIRE (comptes de pages,
-%      taux du harnais, defauts de citation, renvois casses, couverture de deck). Sur decision
-%      de Kelian : cela decrit la FABRICATION du document et non ses resultats. NE PAS REMETTRE.
-%      Trace dans CLAUDE.md et PLAN_MEMOIRE.md.
-%   4. L'EQUIVALENCE OBSERVATIONNELLE HAWKES / CASCADE (script 85). Resultat de la meme semaine
-%      et solide, mais il concerne surtout Caroline : sa place est au point de stage.
+% VERSIONS ANTERIEURES DE CE FICHIER, pour memoire. La premiere datait du 5 aout, donc d'AVANT
+% les points du 7 et du 14, et presentait du travail anterieur au deck du 14 tout en annoncant
+% qu'elle le suivait ; elle portait en outre les valeurs MACSF corrigees depuis et l'argument
+% du levier a 13 % qui vaut 9 %. Une deuxieme portait le travail des 17 et 19 aout en douze
+% pages. Celle-ci change de sujet sur demande.
 %
-% REGLE DE DENSITE : le deck est un SUPPORT DE PAROLE. Titre qui enonce le resultat, quatre a
-% cinq lignes courtes, les chiffres. Le raisonnement passe a l'oral. Une redaction anterieure
-% faisait des paragraphes de quinze lignes par bloc : elle debordait sur huit slides et se lisait
-% au lieu de s'ecouter. NE PAS LA REDENSIFIER.
+% LE FIL, ET IL COMPTE PLUS QUE LES SLIDES PRISES UNE A UNE.
+%   1. La defaillance de plusieurs piliers est MAJORITAIRE a l'etat non conforme. Ce n'est pas
+%      un cas limite du modele, c'est sa sortie, et la loi est EXACTE.
+%   2. Donc l'hypothese la plus lourde du modele est l'additivite des COUTS, pas la propagation :
+%      elle ne mord que sur les multi-piliers, donc elle n'est pas neutre entre les deux etats.
+%   3. Et « additif » designe trois choses a trois etages : les confondre donne des reponses
+%      opposees, dont un « le modele est super-additif » qui serait faux.
+%   4. Enfin un resultat de calendrier : le capital est CONCAVE en la duree de non-conformite,
+%      donc un plan qui prorate le gain se trompe, et du cote optimiste.
 %
-% VOCABULAIRE : point tuteur, donc tutoiement et raccourcis du projet employes sans les definir
-% (lecture a quatre canaux, marginal de fermeture, Shapley, graine, pave). Hugo les connait.
+% REGLE DE DENSITE : support de parole, pas document. Titre qui enonce le resultat, une table
+% ou trois a cinq lignes courtes, et les chiffres. Le raisonnement passe a l'oral. Les tables
+% marchent mieux que les puces des que la slide compare deux etats ou trois etages : deux
+% redactions en puces ont ete refaites en tables pour cette raison. NE PAS REDENSIFIER.
 %
-% AUCUNE FIGURE, comme le deck du 14 aout. Si une figure est souhaitee, S10 (SCR par etat) et
-% S24 (interaction des canaux) n'ont jamais servi dans un deck.
+% VOCABULAIRE : point tuteur, donc tutoiement et raccourcis du projet employes sans les definir.
+%
+% AUCUNE FIGURE, comme le deck du 14 aout. S10 (SCR par etat) et S24 (interaction des canaux)
+% restent disponibles, aucune n'ayant jamais servi dans un deck.
 %
 % PUCES : template beamer force en cercle. Le babel francais met un tiret cadratin en puce
 % d'itemize par defaut, et les tirets cadratins sont proscrits. Controle SUR LE PDF.
-%
-% HARNAIS : chaque section porte sa ligne de sources, la page de titre est declaree hors section.
-% Une declaration n'est honoree que si la section ne cite AUCUN script, et elle doit etre posee
-% APRES le \section* : posee avant, elle tombe dans le bloc precedent.
 %
 % CONTROLES PASSES : 0 Overfull vbox, 0 Overfull hbox, 0 tiret cadratin sur le PDF, 0 « ?? ».
 % Harnais : 100 % de confirmation, HORS CONTROLE NON DECLARE = 0.
@@ -64,7 +63,7 @@
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
-\subtitle{Point court : trois résultats et une limite}
+\subtitle{Ce que le modèle dit quand plusieurs piliers tombent ensemble}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[21/08/2026]{21 août 2026}
@@ -77,134 +76,128 @@
 \end{frame}
 
 % =====================================================================
-\section*{A. Le chiffre de tête}
+\section*{A. Les défaillances simultanées}
 
-\begin{frame}{Quatre protocoles chiffraient le même écart}
-\footnotesize
-Au dernier point : les quatre canaux, Shapley et Euler, portage, les six postures.
-\vspace{2mm}
-\begin{center}\small
-\begin{tabular}{@{}l c r r r r@{}}
-\toprule
-\textbf{Lecture} & \textbf{can.} & \textbf{conf.} & \textbf{non conf.} & \textbf{fact.} &
-\textbf{écart} \\
-\midrule
-Score seul, $g$ figé NC & $1$ & $7\,987$ & $16\,847$ & $2{,}11$ & $8\,860$ \\
-Fréquence $+$ propagation (B) & $2$ & $6\,664$ & $15\,074$ & $2{,}26$ & $8\,410$ \\
-$+$ détection (C) & $3$ & $5\,932$ & $16\,595$ & $2{,}80$ & $10\,663$ \\
-\textbf{$+$ accumulation P4} & $\mathbf{4}$ & $\mathbf{6\,049}$ & $\mathbf{20\,188}$ &
-$\mathbf{3{,}34}$ & $\mathbf{14\,139}$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-\vspace{3mm}
+\begin{frame}{La défaillance de plusieurs piliers est la sortie du modèle}
 \small
-\begin{itemize}\itemsep5pt
-  \item Aucun n'est faux : ils ne relâchent pas le même nombre de canaux
-  \item \alert{Je publie la lecture à quatre canaux}, seule où l'état conforme est conforme sur
-        \textbf{tous} les canaux. Ailleurs, c'est une remédiation partielle qu'on appelle
-        conformité
-  \item Les trois autres restent publiées, comme remédiations partielles
-  \item Comparer le facteur, pas l'écart en euros : la base change
-\end{itemize}
-\vspace{2mm}
-{\scriptsize Sources : scripts~\texttt{16}, \texttt{25}, \texttt{43} et~\texttt{67}.}
-\end{frame}
-
-% =====================================================================
-\section*{B. Le coin supérieur}
-
-\begin{frame}{Le coin supérieur : testé, pas emprunté}
-\small
-Si l'état non conforme majore la perte sur tout le pavé, un test de résistance sur les quatre
-canaux devient \textbf{une seule évaluation}. Je l'ai testé.
-\vspace{4mm}
-
-\begin{columns}[t]
-\begin{column}{0.47\textwidth}
-\begin{block}{Ce qui tient : le quantile}
-\small
-$16$ configurations, $65$ paires \\
-\textbf{zéro violation}, graine par graine \\
-les deux coins redonnent $6\,049$ et $20\,188$
-\end{block}
-\end{column}
-\begin{column}{0.47\textwidth}
-\begin{block}{Ce qui ne tient pas : la trajectoire}
-\small
-années en baisse à aléas communs : \\
-propagation \quad $16{,}18\,\%$ \\
-\textbf{détection} \quad\; $\mathbf{30{,}69\,\%}$
-\end{block}
-\end{column}
-\end{columns}
-\vspace{5mm}
-
-\begin{itemize}\itemsep6pt
-  \item La détection viole le plus, \alert{pas à cause de la cascade} : $p_u$ agit sur la
-        transformation de sévérité, pas sur une table
-  \item Un coin peut être \textbf{infaisable} : deux canaux sur quatre sont des bornes posées
-\end{itemize}
-\vspace{2mm}
-{\scriptsize Sources : script~\texttt{88}.}
-\end{frame}
-
-% =====================================================================
-\section*{C. La brique la plus lourde}
-
-\begin{frame}{Ce qui porte le capital, c'est la queue, pas la cascade}
-\small
-J'enlève les briques une par une et je regarde ce qu'il reste du capital.
+On me demande souvent ce que devient le modèle quand plusieurs piliers tombent ensemble. La
+question suppose une lacune : c'est exactement ce que la cascade produit.
 \vspace{3mm}
 
 \begin{center}\small
 \begin{tabular}{@{}l r r@{}}
 \toprule
-\textbf{Brique retirée} & \textbf{capital restant} & \textbf{écart} \\
+\textbf{Par sinistre} & \textbf{état conforme} & \textbf{état non conforme} \\
 \midrule
-aucune, état non conforme & $20\,188$ & \\
-propagation & $16\,086$ & $-20{,}3\,\%$ \\
-\textbf{queue lourde} & $\mathbf{4\,811}$ & $\mathbf{-76{,}2\,\%}$ \\
+Un seul pilier touché & $68{,}85\,\%$ & $37{,}69\,\%$ \\
+\textbf{Plus d'un pilier} & $\mathbf{31{,}15\,\%}$ & $\mathbf{62{,}31\,\%}$ \\
+\midrule
+Nombre moyen de piliers & $1{,}38$ & $1{,}93$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 \vspace{4mm}
 
 \begin{itemize}\itemsep6pt
-  \item \alert{Facteur $3{,}7$, et c'est la même conclusion que le tornado par un chemin
-        indépendant}
-  \item La forme de queue est \textbf{héritée de la sévérité} : $\mathrm{CTE}/\mathrm{VaR}$ ne
-        passe que de $2{,}075$ à $2{,}061$
-  \item Le préprint conclut l'inverse, propagation à $-53{,}9\,\%$, parce que sa sévérité est
-        \textbf{bornée} : son ablation ne contient aucune brique de queue
+  \item \alert{À l'état non conforme, la défaillance multiple est majoritaire}
+  \item La loi est \textbf{exacte}, obtenue par énumération de la progéniture, donc citable
+        sans bruit de simulation
+  \item C'est la signature de la cascade : sans elle, un sinistre resterait dans son pilier
 \end{itemize}
 \vspace{2mm}
-{\scriptsize Sources : scripts~\texttt{63} et~\texttt{81}.}
+{\scriptsize Sources : script~\texttt{74}.}
 \end{frame}
 
 % =====================================================================
-\section*{D. La direction de W}
+\section*{B. L'hypothèse la plus lourde}
 
-\begin{frame}{Le seul point non mesuré : la direction de \texorpdfstring{$W$}{W}}
+\begin{frame}{L'hypothèse la plus lourde n'est pas la propagation}
 \small
-La co-occurrence est identifiée par la donnée. La \textbf{direction}, non : je la code moi-même
-sur les post-mortems, donc elle repose sur \textbf{un seul codeur}.
+Quand un sinistre touche trois piliers, j'additionne les trois coûts. C'est une
+\textbf{hypothèse de construction}, et elle n'est pas testée. Je la relâche par un exposant
+$\theta$ sur le nombre de piliers touchés.
+\vspace{3mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+$\theta$ & \textbf{conforme} & \textbf{non conforme} & \textbf{écart DORA} \\
+\midrule
+$0{,}70$ (mutualisation) & $5\,435$ & $15\,141$ & $9\,706$ \\
+$1{,}00$ (publié) & $6\,049$ & $20\,188$ & $14\,139$ \\
+$1{,}30$ (saturation) & $6\,972$ & $27\,459$ & $20\,487$ \\
+\bottomrule
+\end{tabular}
+\end{center}
 \vspace{3mm}
 
 \begin{itemize}\itemsep5pt
-  \item Le kit est prêt : dix récits anonymisés, sans aucune de mes flèches
-  \item Une heure de lecture, cent cases. Toi, ou un praticien hors du projet
-  \item Le script ne fabrique rien sans donnée
+  \item Le bruit de simulation de l'écart n'est que de $\pm 734$~M\euro
+  \item \alert{Et elle n'est pas neutre entre les deux états} : élasticité $0{,}95$ en non
+        conforme contre $0{,}39$ en conforme, facteur $2{,}42$
+  \item La raison est la slide précédente : l'exposant ne mord que sur les multi-piliers
+  \item Ce qui survit toute la plage : le \textbf{signe} et l'\textbf{ordre} de l'écart
 \end{itemize}
+\vspace{2mm}
+{\scriptsize Sources : script~\texttt{74}.}
+\end{frame}
+
+% =====================================================================
+\section*{C. Trois additivités}
+
+\begin{frame}{\og{}Le modèle est-il additif ?\fg{} a trois réponses}
+\small
+Trois questions différentes portent le même mot, et les confondre donne des réponses opposées.
+\vspace{3mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Additif en quoi} & \textbf{Réponse} & \textbf{Statut} \\
+\midrule
+Coûts des piliers d'un sinistre & oui, par construction & \textbf{hypothèse} \\
+Piliers non conformes & presque, $R^2 = 0{,}9945$ & \textbf{mesure} \\
+Les quatre canaux & non, super-additif $+35\,\%$ & \textbf{mesure} \\
+\bottomrule
+\end{tabular}
+\end{center}
 \vspace{4mm}
-\begin{block}{Ce que je peux déjà dire si personne ne code}
-Je borne l'objection par l'adverse. En rendant $P_1$ muette, le capital d'entité bouge de
-$41{,}9$~M\euro, soit \textbf{$0{,}81$ fois} la bande d'identification que je publie déjà.
-\alert{Accorder au critique toute son objection coûte moins que l'ignorance directionnelle que
-j'assume.} Ce qui bouge, en revanche, c'est le pilier à remédier en premier.
+
+\begin{itemize}\itemsep6pt
+  \item \alert{Donc répondre \og{}le modèle est super-additif\fg{} serait faux} : il l'est sur
+        les canaux, pas sur les piliers
+  \item Les $+35\,\%$ sont $5\,001$~M\euro{} d'interaction sur un écart de $14\,139$
+  \item Un modèle peut être additif à un étage et super-additif à un autre, sans se contredire
+\end{itemize}
+\vspace{2mm}
+{\scriptsize Sources : scripts~\texttt{68} et~\texttt{74}.}
+\end{frame}
+
+% =====================================================================
+\section*{D. Le calendrier}
+
+\begin{frame}{Le capital est concave en la durée de non-conformité}
+\small
+Un plan de remédiation suppose implicitement que le gain est proportionnel au temps passé en
+conformité. Il ne l'est pas.
+\vspace{3mm}
+
+\begin{itemize}\itemsep6pt
+  \item Un \textbf{trimestre} de non-conformité porte déjà $33\,\%$ du surcoût de l'année
+        entière
+  \item Symétriquement, remédier à \textbf{mi-exercice} ne capture que $44\,\%$ du bénéfice
+        annuel, et non la moitié
+  \item \alert{Un plan qui prorate le gain se trompe, et du côté optimiste}
+\end{itemize}
+\vspace{5mm}
+\begin{block}{Le mécanisme, et il est propre à une queue lourde}
+Le capital monte vite puis s'aplatit : signature d'une queue portée par un \textbf{sinistre
+unique}. Il suffit d'une \emph{fenêtre} de non-conformité pour qu'un tel sinistre s'y produise,
+et l'allonger n'ajoute plus grand-chose. Écart à la droite à mi-année : $+897$~M\euro, soit
+$2{,}2$ fois le bruit.
 \end{block}
 \vspace{2mm}
-{\scriptsize Sources : scripts~\texttt{59} et~\texttt{64}.}
+{\scriptsize Sources : script~\texttt{79}.}
 \end{frame}
 
 \end{document}
