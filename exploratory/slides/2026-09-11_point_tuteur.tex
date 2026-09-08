@@ -1,42 +1,39 @@
-% Point d'avancement tuteur, vendredi 11 septembre 2026. CINQ pages : titre et quatre slides.
+% Point d'avancement tuteur, vendredi 11 septembre 2026. DIX pages : titre et neuf resultats.
 %
-% CE QUE CE DECK PORTE, ET IL A ETE VERIFIE PAR GREP SUR TOUS LES DECKS ANTERIEURS. Aucun des
-% chiffres de ces quatre slides n'a jamais ete montre : ni le chiffre de tete (6 049, 20 188,
-% facteur 3,34), ni la lecture des rapports SFCR (5 305, 812, 16,7 %), ni la dynamique du
-% facteur systemique. Le dernier point PRESENTE est celui du 14 aout ; le deck du 21 aout porte
-% d'autres sujets (defaillances simultanees, additivites, concavite en duree).
-%
-% LE FIL : deux semaines d'absence, donc le deck ne raconte pas une production de semaine. Il
-% porte le chiffre de tete, qui n'avait jamais ete expose, et les trois resultats de fond de la
-% descente d'echelle et du facteur. C'est un deck de CONSOLIDATION, et il faut l'annoncer ainsi.
-%
-% TRAME REPRISE DU DECK DU 21 AOUT, ET C'EST UNE CONSIGNE. Une slide = UN RESULTAT enonce dans
+% TRAME, ET C'EST UNE CONSIGNE : celle du deck du 21 aout. Une slide = UN RESULTAT enonce dans
 % son titre, deux lignes d'amorce, UNE table compacte, trois puces courtes, la ligne de sources.
-% Rien d'autre. Une premiere redaction de ce deck racontait la CORRECTION des chiffres SFCR
-% (table avant / apres, identite comptable, erreur de champ, test du levier retourne) : c'etait
-% du detail de fabrication, et le tuteur n'a pas besoin du chemin, il a besoin du resultat. Ce
-% qui a remplace : la part du SCR DECROIT avec la taille, le forfait SE TROMPE DANS LES DEUX
-% SENS, le facteur N'A PAS DE TRAJECTOIRE et la donnee impose des sauts. Les trois sont des
-% enonces defendables de bout en bout. NE PAS REVENIR AU RECIT DE LA CORRECTION.
+% Rien d'autre. Le raisonnement passe a l'oral, le detail est dans le memoire.
+%   UNE VERSION ANTERIEURE DE CE DECK RACONTAIT LA FABRICATION : table avant / apres des chiffres
+%   SFCR, identite comptable, erreur de champ, test du levier retourne, formule de l'indice de
+%   dispersion en note de bas de slide. C'etait du detail de chantier. NE PAS Y REVENIR : le
+%   tuteur n'a pas besoin du chemin, il a besoin du resultat et de pouvoir le discuter.
 %
 % HORS SUJET SUR CONSIGNE, NE PAS REMETTRE : la charte graphique, et tout ce qui releve de la
-% FABRICATION du document (comptes de pages, taux du harnais, defauts de citation, couverture
-% de deck). Ce travail est trace dans CLAUDE.md et PLAN_MEMOIRE.md.
+% FABRICATION du document (comptes de pages, taux du harnais, defauts de citation, couverture de
+% deck). Ce travail est trace dans CLAUDE.md et PLAN_MEMOIRE.md.
 %
-% REGLE DE DENSITE : support de parole, pas document. Titre qui enonce le resultat, une table ou
-% trois a cinq lignes courtes, les chiffres. Le raisonnement passe a l'oral. Les tables valent
-% mieux que les puces des que la slide compare deux etats. NE PAS REDENSIFIER.
+% PROVENANCE DES NEUF RESULTATS, VERIFIEE PAR GREP SUR TOUS LES DECKS.
+%   Jamais montres nulle part : le chiffre de tete (A), les quatre bilans reels (F), le forfait
+%   (G), le facteur systemique (H), l'equivalence Hawkes / cascade (I).
+%   Portes par le deck du 21 aout : les defaillances simultanees (B), l'hypothese d'additivite
+%   des couts (C), l'ablation en echelle (D), le coin superieur (E).
+%   SI LE DECK DU 21 AOUT A ETE PRESENTE, retirer B a E et le deck retombe a six pages. S'il ne
+%   l'a pas ete, ce deck le remplace et il faut retirer le 21 aout du dossier pour ne pas
+%   presenter deux fois les memes slides.
 %
-% AUCUNE FIGURE. La semaine a produit des verifications et une section de modele, pas de
-% nouvelles courbes. S10 (SCR par etat) et S24 (interaction des canaux) restent disponibles,
-% aucune n'ayant jamais servi dans un deck.
+% LE FIL : le chiffre, le mecanisme qui le produit, l'hypothese qui le porte, ce qui le porte
+% vraiment, la garantie de test de resistance, la descente a l'entite, le repere externe, la
+% dynamique du facteur, et le choix de modele. Il va du resultat vers ses fondations, ce qui est
+% l'ordre dans lequel un jury pose ses questions.
+%
+% AUCUNE FIGURE. S10 (SCR par etat), S24 (interaction des canaux) et Z22 (biais de narration)
+% restent disponibles, aucune n'ayant servi dans un deck non presente.
 %
 % PUCES : template beamer force en cercle. Le babel francais met un tiret cadratin en puce
 % d'itemize par defaut, et les tirets cadratins sont proscrits. Controle SUR LE PDF.
 %
 % HARNAIS : chaque section porte sa ligne de sources, la page de titre est declaree hors
-% section. Une declaration n'est honoree que si la section ne cite aucun script, et elle doit
-% etre posee APRES le \section*.
+% section, et la declaration est posee APRES le \section*.
 \documentclass[11pt]{beamer}
 \usetheme{Madrid}
 \usecolortheme{seahorse}
@@ -53,7 +50,7 @@
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
-\subtitle{Le chiffre de tête, les quatre bilans réels et le facteur systémique}
+\subtitle{Neuf résultats, du chiffre publié jusqu'à ses fondations}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[11/09/2026]{11 septembre 2026}
@@ -70,9 +67,9 @@
 
 \begin{frame}{Quatre protocoles chiffraient l'écart. Un seul est publié}
 \small
-Quatre protocoles du mémoire chiffrent \og{}l'écart entre l'état conforme et l'état non
-conforme\fg{}. Aucun n'est faux : ils ne relâchent pas le même nombre de canaux.
-\vspace{3mm}
+Quatre protocoles chiffrent \og{}l'écart entre l'état conforme et l'état non conforme\fg{}.
+Aucun n'est faux : ils ne relâchent pas le même nombre de canaux.
+\vspace{1mm}
 
 \begin{center}\small
 \begin{tabular}{@{}l c r r r@{}}
@@ -91,22 +88,155 @@ $\mathbf{3{,}34}$ \\
 
 \begin{itemize}\itemsep4pt
   \item \alert{La quatrième est la seule où l'état conforme est conforme sur tous les canaux}
-  \item Ailleurs, c'est une remédiation partielle appelée conformité, ce qui sous-estime
-        l'écart par construction
+  \item Ailleurs, c'est une remédiation partielle appelée conformité, ce qui sous-estime l'écart
   \item Les trois autres restent publiées, comme remédiations partielles
 \end{itemize}
-\vspace{2mm}
+\vspace{1mm}
 {\scriptsize En M\euro, périmètre OpRisk. Sources : scripts~\texttt{16}, \texttt{25},
 \texttt{43} et~\texttt{67}.}
 \end{frame}
 
 % =====================================================================
-\section*{B. Les quatre bilans réels}
+\section*{B. Le mécanisme}
+
+\begin{frame}{La défaillance de plusieurs piliers est la sortie du modèle}
+\small
+La question revient souvent sous forme de reproche : que devient le modèle quand plusieurs
+piliers tombent ensemble ? C'est exactement ce que la cascade produit.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Par sinistre} & \textbf{état conforme} & \textbf{état non conforme} \\
+\midrule
+Un seul pilier touché & $68{,}85\,\%$ & $37{,}69\,\%$ \\
+\textbf{Plus d'un pilier} & $\mathbf{31{,}15\,\%}$ & $\mathbf{62{,}31\,\%}$ \\
+\midrule
+Nombre moyen de piliers & $1{,}38$ & $1{,}93$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item \alert{À l'état non conforme, la défaillance multiple est majoritaire}
+  \item La loi est \textbf{exacte}, par énumération de la progéniture, donc sans bruit
+  \item C'est la signature de la cascade : sans elle, un sinistre resterait dans son pilier
+\end{itemize}
+\vspace{1mm}
+{\scriptsize Sources : script~\texttt{74}.}
+\end{frame}
+
+% =====================================================================
+\section*{C. L'hypothèse la plus lourde}
+
+\begin{frame}{L'hypothèse la plus lourde n'est pas la propagation}
+\small
+Quand un sinistre touche trois piliers, les trois coûts s'additionnent. C'est une
+\textbf{hypothèse de construction}, non testée, relâchée ici par un exposant $\theta$.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+$\theta$ & \textbf{conforme} & \textbf{non conforme} & \textbf{écart DORA} \\
+\midrule
+$0{,}70$ (mutualisation) & $5\,435$ & $15\,141$ & $9\,706$ \\
+$1{,}00$ (publié) & $6\,049$ & $20\,188$ & $14\,139$ \\
+$1{,}30$ (saturation) & $6\,972$ & $27\,459$ & $20\,487$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item Le bruit de simulation de l'écart n'est que de $\pm 734$~M\euro
+  \item \alert{Et elle n'est pas neutre entre les états} : élasticité $0{,}95$ en non conforme
+        contre $0{,}39$ en conforme, facteur $2{,}42$
+  \item La raison est la slide précédente : l'exposant ne mord que sur les multi-piliers
+\end{itemize}
+\vspace{1mm}
+{\scriptsize En M\euro. Sources : script~\texttt{74}.}
+\end{frame}
+
+% =====================================================================
+\section*{D. Ce qui porte le capital}
+
+\begin{frame}{Ce qui porte le capital, c'est la queue, pas la cascade}
+\small
+Les briques du modèle sont retirées une par une, et le capital restant est mesuré.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Brique retirée} & \textbf{capital restant} & \textbf{écart} \\
+\midrule
+aucune, état non conforme & $20\,188$ & \\
+propagation & $16\,086$ & $-20{,}3\,\%$ \\
+\textbf{queue lourde} & $\mathbf{4\,811}$ & $\mathbf{-76{,}2\,\%}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item \alert{Facteur $3{,}7$, même conclusion que le tornado par un chemin indépendant}
+  \item La forme de queue est \textbf{héritée de la sévérité} : $\mathrm{CTE}/\mathrm{VaR}$ ne
+        passe que de $2{,}075$ à $2{,}061$
+  \item Le préprint conclut l'inverse, propagation à $-53{,}9\,\%$, parce que sa sévérité est
+        \textbf{bornée} : son ablation ne contient aucune brique de queue
+\end{itemize}
+\vspace{1mm}
+{\scriptsize En M\euro. Sources : scripts~\texttt{63} et~\texttt{81}.}
+\end{frame}
+
+% =====================================================================
+\section*{E. Le test de résistance}
+
+\begin{frame}{Un test de résistance sur les quatre canaux se réduit à une évaluation}
+\small
+Si l'état non conforme majore la perte sur tout le pavé des stress, il suffit de l'évaluer lui.
+La propriété a été testée plutôt qu'empruntée.
+\vspace{2mm}
+
+\begin{columns}[t]
+\begin{column}{0.47\textwidth}
+\begin{block}{Ce qui tient : le quantile}
+\small
+$16$ configurations, $65$ paires \\
+\textbf{zéro violation}, graine par graine \\
+les deux coins redonnent $6\,049$ et $20\,188$
+\end{block}
+\end{column}
+\begin{column}{0.47\textwidth}
+\begin{block}{Ce qui ne tient pas : la trajectoire}
+\small
+années en baisse à aléas communs : \\
+propagation \quad $16{,}18\,\%$ \\
+\textbf{détection} \quad\; $\mathbf{30{,}69\,\%}$
+\end{block}
+\end{column}
+\end{columns}
+\vspace{3mm}
+
+\begin{itemize}\itemsep4pt
+  \item La détection viole le plus, \alert{pas à cause de la cascade} : le taux de dépassement
+        agit sur la transformation de sévérité, pas sur une table
+  \item Un coin peut être \textbf{infaisable} : deux canaux sur quatre sont des bornes posées
+\end{itemize}
+\vspace{1mm}
+{\scriptsize Sources : script~\texttt{88}.}
+\end{frame}
+
+% =====================================================================
+\section*{F. À l'échelle de l'entité}
 
 \begin{frame}{Le besoin de capital décroît avec la taille de l'entité}
 \small
 Le modèle est descendu sur quatre bilans réels, tirés des rapports de solvabilité 2024.
-\vspace{3mm}
+\vspace{1mm}
 
 \begin{center}\small
 \begin{tabular}{@{}l r r r r@{}}
@@ -130,13 +260,15 @@ $\mathbf{2{,}0\,\%}$ \\
   \item La cause est l'élasticité de sévérité, $0{,}087$ : un facteur $134$ sur les actifs ne
         divise la sévérité que par $1{,}53$
   \item Les quatre \textsc{scr} du dénominateur sont \textbf{publiés}, donc plus aucun n'est
-        reconstitué et la réserve qui l'accompagnait n'a plus d'objet
+        reconstitué
 \end{itemize}
-\vspace{2mm}
+\vspace{1mm}
 {\scriptsize En M\euro. Sources : script~\texttt{65}.}
 \end{frame}
 
 % =====================================================================
+\section*{G. Le repère externe}
+
 \begin{frame}{Le forfait de Formule Standard se trompe dans les deux sens}
 \small
 Le repère habituel est la charge opérationnelle forfaitaire, $3\,\%$ des provisions. Les états
@@ -157,16 +289,16 @@ Assureur non-vie B & $62{,}1$ & $39{,}7$ & $\mathbf{+56\,\%}$ \\
 
 \begin{itemize}\itemsep4pt
   \item \alert{Le forfait n'est donc ni un majorant ni un minorant} : il se cite comme un ordre
-        de grandeur de comparaison, jamais comme une borne
+        de grandeur, jamais comme une borne
   \item Deux entités ne déterminent pas un biais, mais elles suffisent à réfuter la monotonie
   \item Les deux entités vie ne sont pas comparables ici, leur assiette étant d'une autre nature
 \end{itemize}
-\vspace{2mm}
+\vspace{1mm}
 {\scriptsize En M\euro. Sources : script~\texttt{65}.}
 \end{frame}
 
 % =====================================================================
-\section*{C. La dynamique du facteur}
+\section*{H. La dynamique du facteur}
 
 \begin{frame}{Le facteur systémique n'a pas de trajectoire, et la donnée impose des sauts}
 \small
@@ -193,10 +325,44 @@ Moteur du modèle & $9{,}20$ & marge posée \\
         \textbf{l'incrément brownien normalisé} du modèle de crédit, au pas comptable
   \item \alert{Un brownien pur imposerait $1$, la donnée en mesure davantage} : elle identifie
         donc une composante de \textbf{saut}
-  \item La dépendance entre piliers existe et elle est forte : corrélation de $0{,}462$
+  \item La dépendance entre piliers est forte : corrélation de $0{,}462$
 \end{itemize}
-\vspace{2mm}
+\vspace{1mm}
 {\scriptsize Sources : scripts~\texttt{08b}, \texttt{41} et~\texttt{69}.}
+\end{frame}
+
+% =====================================================================
+\section*{I. Le choix de modèle}
+
+\begin{frame}{Le Hawkes et la cascade ne sont pas distinguables à cette résolution}
+\small
+Le mémoire écarte l'auto-excitation au profit de la cascade. Cet écart méritait d'être testé et
+non affirmé, puisque c'est le point le plus exposé du travail.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r l@{}}
+\toprule
+\textbf{Ratio de branchement} & \textbf{valeur} & \textbf{origine} \\
+\midrule
+Prédiction analytique de la cascade & $0{,}482$ & forme fermée \\
+Hawkes ajusté sur une cascade \textbf{sans} auto-excitation & $0{,}480$ & simulation \\
+Hawkes ajusté sur la chronologie réelle & $0{,}551$ & mesure \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item \alert{Les trois sont du même ordre, donc le $0{,}551$ observé ne prouve rien} : une
+        cascade pure produit la même signature d'auto-excitation
+  \item L'ajustement retrouve même l'horloge, demi-vie de $9{,}0$~h pour un lag vrai de
+        $6{,}7$~h
+  \item Le rejet se reformule donc en \textbf{équivalence observationnelle} suivie d'un choix
+        de parcimonie, ce qui est plus honnête et plus solide devant un jury
+\end{itemize}
+\vspace{1mm}
+{\scriptsize Sources : script~\texttt{85}.}
 \end{frame}
 
 \end{document}
