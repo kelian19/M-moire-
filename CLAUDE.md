@@ -9,9 +9,10 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au **2 septembre 2026** : **169 pages au total**, branche `exploratory`. Les comptes de ce
+État au **8 septembre 2026** : **171 pages au total, dont 125 de corps** (annexes en 126),
+branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 2 septembre : **1 979 nombres, 1 979 confirmés, 100 %**, une première, et **0 hors
+Harnais au 8 septembre : **2 034 nombres, 2 034 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
@@ -327,7 +328,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 86 | plafond et saturation mesurés **conjointement**. Le plafond est un **AMORTISSEUR** et non un contrepoids : l'interaction change de signe à θ = 1. Aucune crête de compensation, les deux réserves sont hiérarchisées et non confondues |
 | 88 | le **coin supérieur** du pavé des quatre canaux. Sur les 65 paires emboîtées, relâcher un canal ne fait **jamais** baisser le capital, graine par graine : l'état non conforme est le maximum, donc un test de résistance se réduit à une évaluation. **Mais la version TRAJECTORIELLE du préprint ne transporte pas** : à aléas communs la perte d'une année baisse dans 16,2 % des cas sur la propagation et **30,7 % sur la détection**, qui viole le plus pour une raison étrangère à la cascade (p_u entre dans la transformation de sévérité, pas dans une table). Et le garde-fou qui compte : **un coin peut être infaisable**, deux canaux sur quatre étant des bornes posées |
 | 35 | étude d'événement MOVEit, différence de différences, placebo et bootstrap. **Sa sortie est versionnée depuis le 17 août** : elle exige `Data_Breach_Chronology.xlsx`, présent sur le PC et absent du Mac. Le chapitre 09 est passé de 95,5 à 100 % grâce à elle |
-| 89 | **backtest hors échantillon**, origine glissante sur 2004-2025, le premier du projet. Trois résultats de sens opposés : la **binomiale négative est validée** (couverture 91,7 % contre 75 % pour Poisson, et elle gagne au log-score), la **forme de la queue survit** au test PIT, et les **quantiles de sévérité sont dépassés trois fois trop souvent**. Le motif est mesuré et ce n'est pas la queue : le **taux de dépassement dérive**, 15,1 % en apprentissage contre 27,1 % hors échantillon, et la médiane annuelle monte de 13 % par an. C'est un défaut de **stationnarité**, pas de famille. Il exige `SAS_OpRisk_Global_Data_June_2026.xlsx` |
+| 89 | **backtest hors échantillon**, origine glissante sur 2004-2025, le premier du projet. Trois résultats de sens opposés : la **binomiale négative est validée** (couverture 91,7 % contre 75 % pour Poisson, et elle gagne au log-score), la **forme de la queue survit** au test PIT, et les **quantiles de sévérité sont dépassés trois fois trop souvent**. Le motif est mesuré et ce n'est pas la queue : le **taux de dépassement dérive**, 15,1 % en apprentissage contre 27,1 % hors échantillon, et la médiane annuelle monte de 13 % par an. C'est un défaut de **stationnarité**, pas de famille. **Sa section 1ter chiffre ce que la dérive coûte, et elle MODÈRE la 1bis** : la queue ne dérive que de 4,00 % par an quand le corps dérive de 13,0 %, facteur 3,2, donc l'effet à déclarer est de +24,7 % sur le quantile de sévérité (borne basse) et non un quintuplement. Deux garde-fous à connaître : indexer la queue à la tendance du corps fait passer l'indice de queue **au-dessus de un**, donc détruit l'espérance de la sévérité, et modéliser la dérive fait **tomber** ξ de 0,5979 à 0,5273, l'ajustement stationnaire attribuant à la forme une part de ce qui est de la dérive. Il exige `SAS_OpRisk_Global_Data_June_2026.xlsx` |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
@@ -975,7 +976,7 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
   rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
   déclarée supprimée, un résultat gagné sur le forfait ;
-- l'arbitrage de **format** : le corps est à **123 pages pour 169 au total** (annexes en 124),
+- l'arbitrage de **format** : le corps est à **125 pages pour 171 au total** (annexes en 126),
   contre les ~70 de
   corps recommandés par l'Institut. **Tranché en faveur de Kélian**, Hugo ayant dit de ne pas se
   contraindre ;
@@ -1243,16 +1244,9 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
   publient. Voir la décision E5 dans la section du 21 août. Ne pas rouvrir ;
 - les **7 % de blanc résiduels** sous trois titres de figures : cosmétique, refusé deux fois,
   le corriger imposerait de changer de moteur de mise en page sur sept scripts déjà validés ;
-- **la non-stationnarité de l'échelle de sévérité, mesurée le 8 septembre et NON déclarée dans
-  le mémoire.** Le backtest du script 89 la chiffre : le taux de dépassement du seuil vaut
-  15,1 % en apprentissage contre **27,1 %** hors échantillon, rapport 1,80 et p = 2,4·10⁻⁷, et
-  la médiane annuelle des pertes monte de **13 % par an** en log (p = 0,0003). Le sens est
-  **anti-conservateur** : un capital de sévérité estimé sur l'historique complet sous-estime
-  celui d'une année récente. Elle a exactement le statut du `p_u` gelé, donc le traitement
-  cohérent avec le gel est de la **déclarer chiffrée au chapitre 13**, pas de recalibrer sur
-  une fenêtre glissante, ce qui déplacerait tous les niveaux publiés. **La décision revient à
-  Kélian.** Ne pas en conclure que le modèle est faux : la forme de la queue est validée et la
-  loi de fréquence est confirmée par le même backtest.
+- ~~la non-stationnarité de l'échelle de sévérité, mesurée le 8 septembre et non déclarée~~ :
+  **DÉCLARÉE le 8 septembre 2026**, voir la section « Le backtest hors échantillon » plus bas.
+  Le chapitre 13 porte la ligne, chiffrée, et le chapitre 06 porte la section qui la produit.
 
 **Clos, à ne pas rouvrir :** le **statut de citation** de Hackmageddon (la source reste
 utilisée, voir plus haut), le **Hawkes** (l'outil est bien écarté et le choix est documenté et
@@ -1484,6 +1478,75 @@ porte tout cela en douze pages, à 100 % de confirmation et hors contrôle non d
 14 tout en annonçant en première slide qu'elle le suivait. Elle portait en outre deux valeurs
 devenues fausses depuis, les champs MACSF et l'argument du levier. **Un deck daté d'avance se
 périme sans que personne le relise** : écrire le deck après le travail, jamais avant.
+
+## Le backtest hors échantillon, le 8 septembre 2026
+
+**Le premier backtest du projet, et il change le statut de la validation.** Jusqu'ici tout ce
+que le mémoire validait, il le validait **dans** l'échantillon : Anderson-Darling,
+Kolmogorov-Smirnov, balayage de seuil, bootstrap de ξ, Hill simulé. Aucun de ces tests ne
+demande au modèle de prédire une période qu'il n'a pas vue, et c'est la première question qu'un
+jury d'actuaires pose à un modèle de capital. Script 89, origine glissante sur 2004-2025, douze
+années notées.
+
+**Deux précautions de protocole, et la première aurait invalidé le test.** La fenêtre est
+choisie **sur la donnée** : avant 2004 la base porte un à neuf incidents par an contre treize à
+trente-neuf ensuite, et 2026 n'en porte que cinq. Ce ne sont pas des années calmes, c'est une
+collecte qui ne les couvre pas ; une fenêtre plus large fabriquerait un faux régime calme au
+début et un faux effondrement à la fin. Et le seuil est **ré-estimé** sur chaque échantillon
+d'apprentissage par la règle du percentile 85, jamais lu dans `config.py` : un seuil calculé sur
+toute la période ferait fuiter l'information de test dans l'apprentissage.
+
+**Trois résultats de sens opposés, et le solde est favorable.** Détail chiffré dans la table des
+scripts, ligne 89. En bref : la loi de fréquence est **validée** sur deux critères dont le
+log-score, que la largeur n'achète pas ; la **forme** de la queue survit au PIT ; le **niveau**
+de sévérité ne tient pas, Kupiec rejetant aux deux niveaux.
+
+**Ce qui a été intégré au mémoire le jour même :**
+
+- **nouvelle section du chapitre 06**, `soc:sec:backtest`, à la suite de la section de validation
+  qui portait les trois tests dans l'échantillon. Le résultat est présenté comme une
+  **validation**, avec ses deux succès d'abord et la dérive ensuite, et non comme une limite.
+  C'est un choix de rédaction et il compte : mise en tête d'un inventaire de limites, la dérive
+  deviendrait *le* résultat du backtest ;
+- **une ligne au chapitre 13**, dans la table à deux colonnes, du côté des écarts
+  **involontaires**, aux côtés du `p_u` gelé et de la couverture de l'IC. Le texte de lecture
+  passe de « les deux seuls écarts involontaires » à trois, et un paragraphe dit pourquoi la
+  troisième ligne est d'une autre taille (un quart contre quelques pour cent) tout en recevant le
+  même traitement ;
+- **deux lignes à la table de synthèse de robustesse** du chapitre 13, une `\rob` pour les deux
+  lois validées et une `\ass` pour le niveau. La table annonce être *la* synthèse de robustesse :
+  y omettre le seul test hors échantillon aurait été un trou visible ;
+- **la slide J du deck du 11 septembre**, seule slide de travail neuf de ce deck.
+
+**Ce qui n'a PAS été fait, et le motif :** aucune recalibration sur fenêtre glissante. L'écart
+est déclaré chiffré, exactement comme le `p_u`. Corriger supposerait de déplacer tous les niveaux
+publiés à onze semaines du dépôt sans qu'aucun déplacement soit attribuable à la correction.
+
+**Le piège de lecture de cette section, et il est symétrique de celui de Hackmageddon.** La
+section 1bis mesure une dérive de 13,0 % par an sur la médiane, ce qui invite à conclure que le
+capital dérive d'autant. **C'est faux d'un facteur trois** : la section 1ter mesure la dérive dans
+la queue elle-même, et elle ne vaut que 4,00 % par an. La dérive **n'est pas homogène le long de
+la distribution**, et c'est le résultat principal de 1ter. Supposer l'homogénéité, en indexant
+toutes les pertes à la tendance du corps, donne un quantile 6,5 fois la référence et un indice de
+queue de 1,27 à la borne haute, donc **au-dessus de un** : l'espérance de la sévérité cesserait
+d'exister. Le rejet de cette variante est un **argument d'existence**, du même type que celui qui
+écarte la source PRC comme support d'une mesure de couverture, et il vaut mieux qu'un argument de
+degré.
+
+**Et une conséquence à ne pas perdre : les deux écarts du modèle publié sont de sens
+contraires.** Modéliser la dérive fait **tomber** ξ de 0,5979 à 0,5273, parce que regrouper des
+excès d'années à échelles différentes fabrique un mélange, et qu'un mélange de lois à échelles
+inégales paraît plus lourd de queue qu'aucune de ses composantes. L'ajustement stationnaire
+attribue donc à la **forme** une part de ce qui relève de la **dérive**. Le ξ publié est ainsi
+légèrement prudent quand l'échelle est anti-conservatrice, et les deux ne se compensent pas
+puisqu'ils ne portent pas sur la même grandeur.
+
+**Coût et contrôles.** Corps 123 → **125 pages**, total 169 → **171**. Harnais **2 034 nombres,
+2 034 confirmés, 100 %**, hors contrôle non déclaré à zéro sur les dix-neuf chapitres. Chapitre 06
+à 100 % sur 227 nombres dont 49 dans la nouvelle section, chapitre 13 à 100 % sur 202. Deck du
+11 septembre à 100 % sur 90 nombres, 0 vbox. 0 `??` compté dans le PDF, 0 annotation hors page,
+0 Overfull \vbox, 0 page tournée, et aucun Overfull \hbox nouveau (les deux du chapitre 06 sont
+antérieurs, vérifié par `git stash`).
 
 ## Note d'honnêteté
 

@@ -1,4 +1,4 @@
-% Point d'avancement tuteur, vendredi 11 septembre 2026. DIX pages : titre et neuf resultats.
+% Point d'avancement tuteur, vendredi 11 septembre 2026. ONZE pages : titre et dix resultats.
 %
 % TRAME, ET C'EST UNE CONSIGNE : celle du deck du 21 aout. Une slide = UN RESULTAT enonce dans
 % son titre, deux lignes d'amorce, UNE table compacte, trois puces courtes, la ligne de sources.
@@ -12,19 +12,22 @@
 % FABRICATION du document (comptes de pages, taux du harnais, defauts de citation, couverture de
 % deck). Ce travail est trace dans CLAUDE.md et PLAN_MEMOIRE.md.
 %
-% PROVENANCE DES NEUF RESULTATS, VERIFIEE PAR GREP SUR TOUS LES DECKS.
+% PROVENANCE DES DIX RESULTATS, VERIFIEE PAR GREP SUR TOUS LES DECKS.
 %   Jamais montres nulle part : le chiffre de tete (A), les quatre bilans reels (F), le forfait
-%   (G), le facteur systemique (H), l'equivalence Hawkes / cascade (I).
+%   (G), le facteur systemique (H), l'equivalence Hawkes / cascade (I), le backtest (J).
 %   Portes par le deck du 21 aout : les defaillances simultanees (B), l'hypothese d'additivite
 %   des couts (C), l'ablation en echelle (D), le coin superieur (E).
-%   SI LE DECK DU 21 AOUT A ETE PRESENTE, retirer B a E et le deck retombe a six pages. S'il ne
+%   SI LE DECK DU 21 AOUT A ETE PRESENTE, retirer B a E et le deck retombe a sept pages. S'il ne
 %   l'a pas ete, ce deck le remplace et il faut retirer le 21 aout du dossier pour ne pas
 %   presenter deux fois les memes slides.
+%   J EST LE TRAVAIL DE LA SEMAINE, le seul de ce deck : c'est la slide a garder en toute
+%   hypothese, et celle sur laquelle le tuteur aura le plus a dire.
 %
 % LE FIL : le chiffre, le mecanisme qui le produit, l'hypothese qui le porte, ce qui le porte
 % vraiment, la garantie de test de resistance, la descente a l'entite, le repere externe, la
-% dynamique du facteur, et le choix de modele. Il va du resultat vers ses fondations, ce qui est
-% l'ordre dans lequel un jury pose ses questions.
+% dynamique du facteur, le choix de modele, et pour finir la question la plus profonde, celle de
+% savoir si les deux lois du socle predisent une periode qu'elles n'ont pas vue. Il va du
+% resultat vers ses fondations, ce qui est l'ordre dans lequel un jury pose ses questions.
 %
 % AUCUNE FIGURE. S10 (SCR par etat), S24 (interaction des canaux) et Z22 (biais de narration)
 % restent disponibles, aucune n'ayant servi dans un deck non presente.
@@ -50,7 +53,7 @@
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
-\subtitle{Neuf résultats, du chiffre publié jusqu'à ses fondations}
+\subtitle{Dix résultats, du chiffre publié jusqu'à ses fondations}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[11/09/2026]{11 septembre 2026}
@@ -363,6 +366,40 @@ Hawkes ajusté sur la chronologie réelle & $0{,}551$ & mesure \\
 \end{itemize}
 \vspace{1mm}
 {\scriptsize Sources : script~\texttt{85}.}
+\end{frame}
+
+% =====================================================================
+\section*{J. La validation hors échantillon}
+
+\begin{frame}{Le socle passe le test hors échantillon, sauf sur le niveau de sévérité}
+\small
+Les validations du mémoire portaient sur les données qui ont produit l'ajustement. Ce backtest
+note douze années que le modèle n'a pas vues.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Ce qui est testé} & \textbf{résultat} & \textbf{verdict} \\
+\midrule
+Loi de fréquence, couverture & $91{,}7\,\%$ contre $75{,}0\,\%$ & \textbf{validée} \\
+Forme de la queue & $p = 0{,}4087$, non rejeté & \textbf{validée} \\
+Quantile de sévérité & $8$ dépassements pour $2{,}8$ & \alert{rejeté} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item \alert{Le motif est mesuré et ce n'est pas la queue} : l'échelle dérive de
+        $4{,}00\,\%$ par an, soit au moins $+24{,}7\,\%$ sur le quantile publié
+  \item Le corps dérive trois fois plus vite, $13{,}0\,\%$ par an : y lire une dérive du
+        capital serait une erreur d'un facteur trois
+  \item Écart \textbf{déclaré chiffré, non corrigé} : la thèse porte sur un rapport, où une
+        dérive commune aux deux états se simplifie
+\end{itemize}
+\vspace{1mm}
+{\scriptsize Sources : script~\texttt{89}.}
 \end{frame}
 
 \end{document}

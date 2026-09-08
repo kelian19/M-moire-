@@ -13,14 +13,14 @@ Tout cela est fait. Ce document repart de l'état mesuré, pas de l'état décla
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **123 p.** | première page d'annexe moins une (annexes en 124) |
-| Document complet | **169 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **125 p.** | première page d'annexe moins une (annexes en 126) |
+| Document complet | **171 p.** | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
-| Scripts de calcul | 100 | `vasicek_lab/*/*.py` |
-| Sorties versionnées | 95 | `sorties_verif/NN.txt` |
-| Scripts cités par le mémoire | **82** | le reste est du travail deja porte autrement |
-| Nombres publiés | 1 979 | harnais, tous chapitres |
-| Confirmation | **100 %** | 1 979 confirmés, une première |
+| Scripts de calcul | 101 | `vasicek_lab/*/*.py` |
+| Sorties versionnées | 96 | `sorties_verif/NN.txt` |
+| Scripts cités par le mémoire | **83** | le reste est du travail deja porte autrement |
+| Nombres publiés | 2 034 | harnais, tous chapitres |
+| Confirmation | **100 %** | 2 034 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
@@ -299,7 +299,7 @@ trois mois devant, viser **trois codeurs** plutôt qu'un change la nature du ré
   savoir** : le 8 553 M€ du contrôle croisé en marche aléatoire n'est reproduit par aucun des
   scripts cités, à vérifier avant réutilisation.
 - ~~14 grandeurs dérivées non imprimées~~ : **traitées**, le harnais étant à 100 % de
-  confirmation sur 1 979 nombres.
+  confirmation sur 2 034 nombres.
 - **Registre de sous-traitance** : le seul point restant, et il ne dépend pas de nous.
 
 ---
@@ -391,7 +391,7 @@ retirée. Ce qui reste n'est pas un arbitrage mais une **validation** : le choix
 présenter à Caroline, pas à reprendre.
 
 **Le format est tranché en faveur de Kélian.** Hugo a dit de ne pas se contraindre. Le corps est
-à 123 pages contre les ~70 recommandés de l'Institut.
+à 125 pages contre les ~70 recommandés de l'Institut.
 
 **Ce qui change avec la remise fin novembre, et c'est le seul point rouvert par le calendrier.**
 Une compression du corps était écartée faute de temps ; trois mois la rendent possible, et c'est
@@ -416,7 +416,7 @@ de grandeur de l'enjeu est qu'un jury note ce qu'il trouve en vingt minutes de l
   2,24 et 9,20 selon l'échelle, ce qui **identifie une composante de saut**. La section publie
   donc la forme à sauts avec sa normalisation, et déclare l'hypothèse de renouvellement retenue.
   La brique ne déplace aucune probabilité marginale, donc **aucun capital publié**.
-- **Le harnais atteint 100 % pour la première fois**, 1 979 sur 1 979. Le dernier nombre non
+- **Le harnais atteint 100 % pour la première fois**, 1 979 sur 1 979 ce jour-là. Le dernier nombre non
   confirmé cachait un défaut réel : la conclusion écrivait que le rapport détention / transfert
   « résiste » **et** qu'il tombe « à moins de 11 % de sa valeur », ce qui se contredit, et le
   11 % n'était reproduit par aucun script. Remplacé par une **identité** imprimée par la
@@ -452,11 +452,35 @@ la médiane annuelle des pertes monte de **13 % par an** en log (p = 0,0003). Un
 d'apprentissage qui s'étend garde les petites pertes anciennes, donc elle retarde sur la dérive.
 C'est un défaut de **stationnarité**, pas de famille.
 
-**Une décision de Kélian, et elle est du même type que celle du `p_u`.** La non-stationnarité de
-l'échelle n'est pas dans l'inventaire du chapitre 13. Son sens est **anti-conservateur**, donc
-elle se déclare et ne se couvre pas par un argument de prudence. Le traitement cohérent avec le
-gel est de la **déclarer chiffrée**, non de recalibrer sur une fenêtre glissante, ce qui
-déplacerait tous les niveaux publiés.
+**LA DÉRIVE N'EST PAS HOMOGÈNE, ET C'EST LE GARDE-FOU À CONNAÎTRE.** Le point ci-dessus invite à
+une erreur d'un facteur trois, et la **section 1ter** du script, écrite le même jour, la corrige.
+La dérive de 13,0 % par an est celle du **corps** (la médiane) ; dans la **queue** elle ne vaut
+que **4,00 % par an** (écart-type 1,84, rapport de vraisemblance p = 0,0386), soit un facteur
+**3,2**. L'effet à déclarer sur la grandeur publiée est donc de **+24,7 %**, ou **+162 M€** sur le
+quantile de sévérité à 99,5 %, et c'est une **borne basse** puisque le taux de dépassement est
+tenu commun aux deux branches.
+
+**Deux résultats de la 1ter qui valent d'être connus.** Supposer que la queue dérive comme le
+corps, en indexant toutes les pertes à la tendance de la médiane, donne un quantile de 4 291 M€,
+soit 6,5 fois la référence, et un indice de queue de **1,27** à la borne haute de l'intervalle de
+la tendance : **au-dessus de un, l'espérance de la sévérité cesse d'exister**. La variante se
+rejette donc par un **argument d'existence**, du même type que celui qui écarte la source PRC
+comme support d'une mesure de couverture. Et modéliser la dérive fait **tomber** ξ de 0,5979 à
+0,5273, parce qu'un mélange de lois à échelles inégales paraît plus lourd de queue qu'aucune de
+ses composantes : l'ajustement stationnaire attribue à la **forme** une part de ce qui relève de
+la **dérive**. Les deux écarts du modèle publié sont donc de sens contraires.
+
+**Décision prise le 8 septembre : déclarée, non corrigée**, du même type que celle du `p_u`.
+
+- **Chapitre 06**, nouvelle section `soc:sec:backtest` : le résultat est présenté comme une
+  **validation**, deux succès d'abord et la dérive ensuite. 49 nombres, tous confirmés.
+- **Chapitre 13** : une ligne à la table à deux colonnes, du côté des écarts **involontaires**,
+  et deux lignes à la table de synthèse de robustesse, une `\rob` et une `\ass`. Le texte de
+  lecture passe de deux écarts involontaires à trois.
+- **Aucune recalibration.** Corriger supposerait de déplacer tous les niveaux publiés à onze
+  semaines du dépôt sans qu'aucun déplacement soit attribuable à la correction.
+- **Slide J** du deck du 11 septembre, seule slide de travail neuf de ce deck.
+- Coût : corps 123 → **125 pages**, total 169 → **171**. Harnais 1 979 → **2 034**, à 100 %.
 
 **Deux pièges évités en chemin, et le premier aurait invalidé le backtest.** Le périmètre couvre
 1979-2026, mais avant 2004 la collecte porte un à neuf incidents par an contre treize à

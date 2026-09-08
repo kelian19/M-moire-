@@ -640,9 +640,10 @@ $86\,\%$. Le mot juste n'est pas \og{}proche du nominal\fg{} : un intervalle ann
 $90\,\%$ qui n'en couvre que $86$ est \textbf{trop étroit}, donc l'incertitude reportée sur
 $\xi$ est sous-estimée et non l'inverse. Sous l'approximation normale, atteindre le nominal
 demanderait d'élargir la demi-largeur d'environ $10\,\%$. L'écart est petit, mais son sens
-compte, et il rejoint celui du taux de dépassement gelé au \S\ref{sec:pu-coherence} : les deux
-seuls défauts d'estimation du mémoire vont du même côté, celui de la sous-estimation, quand
-tous ses choix \emph{posés} vont du côté prudent. C'est aussi ce qui justifie de rapporter les
+compte, et il rejoint celui du taux de dépassement gelé au \S\ref{sec:pu-coherence} ainsi que
+celui de la dérive d'échelle mesurée au \S\ref{soc:sec:backtest} : les trois seuls défauts
+d'estimation du mémoire vont du même côté, celui de la sous-estimation, quand tous ses choix
+\emph{posés} vont du côté prudent. C'est aussi ce qui justifie de rapporter les
 intervalles bootstrap plutôt que les asymptotiques.
 
 \textbf{Fréquence.} Sur les $14\,944$ cellules firme-année du panel financier, la binomiale
@@ -666,6 +667,114 @@ la NB colle aux comptes firme-année, le Poisson rate la queue. Source : script~
 NB sont les bons objets, mais laissent entière l'incertitude sur $\xi$ et donc sur la VaR (la
 bande du chapitre~\ref{chap:resultats}). Adéquation n'est pas certitude : c'est précisément
 pourquoi le SCR se lit en intervalle, jamais en point.
+\end{cle}
+
+%--------------------------------------------------------------
+
+\section{Le socle hors échantillon : un backtest à origine glissante}
+\label{soc:sec:backtest}
+
+Les diagnostics qui précèdent partagent une limite, et elle est de principe plutôt que de
+degré : ils interrogent l'ajustement sur les données mêmes qui l'ont produit. Un test
+d'adéquation demande si une loi décrit son échantillon, jamais si elle prédit une période
+qu'elle n'a pas vue. C'est pourtant la seconde question qu'un lecteur adresse à un modèle de
+capital, et cette section y répond.
+
+Le protocole est celui de l'origine glissante. Pour chaque année d'origine, les deux lois sont
+ajustées sur les seules observations antérieures, la seule année suivante est notée, puis
+l'origine avance d'un an. La fenêtre retenue va de $2004$ à $2025$, soit $539$ incidents, ce qui
+donne douze années notées hors échantillon. Deux précautions en conditionnent la lecture. La
+fenêtre est choisie sur la donnée et non par commodité : avant $2004$ la base porte de un à neuf
+incidents par an contre treize à trente-neuf ensuite, et l'année $2026$ n'en porte que cinq, si
+bien qu'une fenêtre plus large fabriquerait un faux régime calme au début et un faux
+effondrement à la fin. Et le seuil est \textbf{ré-estimé} sur chaque échantillon d'apprentissage
+par la règle du percentile $85$, plutôt que lu dans la calibration figée : un seuil calculé sur
+toute la période ferait passer l'information de test dans l'apprentissage, et le test cesserait
+de mesurer quoi que ce soit.
+
+\paragraph{La loi de fréquence est validée, et c'est le résultat le plus net.} Les comptes
+annuels du périmètre ont pour moyenne $24{,}50$ et pour variance $58{,}55$, soit un indice de
+dispersion de $2{,}39$, sans tendance significative ($-0{,}092$ incident par an, $p=0{,}7297$) :
+une loi sans mémoire n'est donc pas mal spécifiée sur ce point. Sur les douze années notées, un
+intervalle de prévision annoncé à $90\,\%$ en couvre $91{,}7\,\%$ sous la binomiale négative
+contre $75{,}0\,\%$ sous le Poisson. La couverture ne suffit pourtant pas à trancher, un
+intervalle inutilement large pouvant couvrir sans rien valoir. Le \textbf{log-score prédictif}
+cumulé, qui pénalise la largeur autant que l'étroitesse, désigne le même gagnant :
+$-41{,}334$ contre $-44{,}388$, soit $3{,}054$ nats sur douze années. Le paramètre
+supplémentaire de la binomiale négative est donc gagné hors échantillon, et la surdispersion
+cesse d'être une précaution de modélisation pour devenir une propriété mesurée deux fois, dans
+l'échantillon par le rapport de vraisemblance et hors échantillon par la prévision.
+
+\paragraph{La forme de la queue survit, et ce n'était pas acquis.} Chaque ajustement d'origine ne
+dispose que de vingt à quatre-vingt-dix excès. La transformée de probabilité intégrale des excès
+de test, qui doit être uniforme si la loi ajustée est la bonne, a pour moyenne $0{,}532$ et n'est
+pas rejetée par le test de Kolmogorov-Smirnov ($D=0{,}100$, $p=0{,}4087$). L'écart de cette
+moyenne à $0{,}500$ va dans le sens de pertes tombant plus haut dans la queue ajustée que prévu,
+mais il n'est \emph{pas} significatif, et l'énoncer autrement serait surinterpréter un test qui
+ne rejette pas. Ce qui est établi est plus modeste et suffit : la GPD n'est pas la mauvaise
+famille.
+
+\paragraph{Les quantiles, en revanche, sont dépassés trois fois trop souvent.} Sur les $280$
+pertes notées, le quantile de sévérité que l'apprentissage annonçait à $99\,\%$ est franchi huit
+fois pour $2{,}8$ attendues ($p=0{,}0078$), et celui à $99{,}5\,\%$ cinq fois pour $1{,}4$
+($p=0{,}0140$). Le test de dépassement rejette donc aux deux niveaux là où le test de forme ne
+rejetait pas. Les deux constats semblent s'opposer et ils ne portent pas sur le même objet : la
+transformée intégrale ne regarde que les excès au-dessus du seuil, donc la queue
+\emph{conditionnelle}, quand un quantile combine la forme, le seuil \emph{et} le taux de
+dépassement. Si la forme tient et le quantile non, c'est le taux qui dérive, et il dérive :
+$15{,}1\,\%$ en apprentissage par construction de la règle, $27{,}1\,\%$ hors échantillon, un
+rapport de $1{,}80$ que le test binomial situe à $p=2{,}35\cdot 10^{-7}$. La dérive se lit
+d'ailleurs directement sur le seuil, qui est un quantile de l'apprentissage et passe de
+$8{,}56$ à $18{,}20$~M\euro{} en onze ans, ainsi que sur la médiane annuelle des pertes, qui
+monte de $13{,}0\,\%$ par an en logarithme ($p=0{,}0003$). Le défaut est donc un défaut de
+\textbf{stationnarité de l'échelle}, non un défaut de famille.
+
+\paragraph{Ce que cette dérive coûte, chiffré plutôt que corrigé.} Mesurer une dérive ne dit pas
+ce qu'elle déplace sur le nombre publié. Le calcul porte sur la donnée complète de la chaîne
+publiée, $582$ incidents dont $91$ excès au-dessus du seuil de $20{,}03$~M\euro. Un ajustement
+stationnaire y donne un quantile de sévérité à $99{,}5\,\%$ de $657{,}16$~M\euro, à comparer aux
+$662{,}78$ publiés : l'écart entre ces deux valeurs est le défaut de taux de dépassement déjà
+déclaré au \S\ref{sec:pu-coherence}, et les variantes qui suivent sont donc rapportées à la
+première plutôt qu'à la seconde, sans quoi deux écarts se mélangeraient dans un seul nombre.
+L'échelle est ensuite rendue non stationnaire, $\sigma_t = \sigma\,e^{\,b\,(t-t_{\mathrm{ref}})}$
+à indice de queue constant, et estimée par maximum de vraisemblance sur les mêmes excès. La
+dérive de la queue vaut alors $4{,}00\,\%$ par an, d'écart-type $1{,}84\,\%$, et le rapport de
+vraisemblance la déclare significative ($4{,}28$, $p=0{,}0386$). Le quantile évalué en fin de
+période passe à $819{,}40$~M\euro, soit $162$~M\euro{} et $24{,}7\,\%$ de plus. Cet écart est une
+borne \textbf{basse} : le taux de dépassement est tenu commun aux deux branches, alors qu'une
+échelle qui monte fait aussi monter le nombre d'excès au-dessus d'un seuil fixe.
+
+\paragraph{Mais la dérive n'est pas la même selon l'endroit de la distribution, ce qui modère le
+paragraphe précédent.} Le corps dérive de $13{,}0\,\%$ par an quand la queue ne dérive que de
+$4{,}00\,\%$, un facteur $3{,}2$. Lire la dérive du corps comme une dérive du capital serait donc
+une erreur d'un facteur trois, et c'est précisément la lecture qu'invite le paragraphe précédent
+pris seul. La contre-épreuve le confirme par l'absurde : indexer toutes les pertes à la tendance
+de la médiane, puis rejouer la chaîne à percentile de seuil constant, donne un quantile de
+$4\,291$~M\euro, soit $6{,}5$ fois la référence, et surtout un indice de queue de $1{,}27$ à la
+borne haute de l'intervalle de la tendance. Au-delà de l'unité l'espérance de la sévérité cesse
+d'exister, et une hypothèse qui détruit l'objet qu'elle prétend corriger ne se retient pas.
+C'est le même argument d'existence que celui qui écarte la source PRC comme support d'une mesure
+de couverture, et il vaut mieux qu'un argument de degré.
+
+\paragraph{Une conséquence sur l'indice de queue publié, et elle va en sens contraire.}
+Modéliser la dérive fait \emph{tomber} l'indice de queue, de $0{,}5979$ à $0{,}5273$. Le
+mécanisme n'a rien de subtil : regrouper des excès d'années dont les échelles diffèrent fabrique
+un mélange, et un mélange de lois à échelles inégales paraît plus lourd de queue qu'aucune de ses
+composantes. L'ajustement stationnaire attribue donc à la \emph{forme} une part de ce qui relève
+de la \emph{dérive}. Les deux écarts du modèle publié sont ainsi de sens contraires, l'indice de
+queue étant légèrement prudent quand l'échelle est anti-conservatrice, et ils ne se compensent
+pas puisqu'ils ne portent pas sur la même grandeur.
+
+\begin{cle}
+\textbf{Ce que le backtest établit, en trois résultats de sens différents.} La loi de fréquence
+est validée hors échantillon, sur deux critères dont un que la largeur n'achète pas. La forme de
+la queue survit au test de probabilité intégrale. Et l'échelle de la sévérité dérive, de
+$4{,}00\,\%$ par an dans la queue, ce qui rend le quantile publié anti-conservateur d'au moins
+$24{,}7\,\%$. La valeur reste gelée et l'écart est inscrit au registre des limites
+(\S\ref{sec:pu-coherence}), du même traitement que le taux de dépassement. Ce que ce résultat ne
+touche pas est la \textbf{thèse}, qui porte sur un rapport entre états de conformité à sévérité
+de base commune : une dérive commune aux deux états se simplifie dans un rapport.
+Source : script~\texttt{89}.
 \end{cle}
 
 %--------------------------------------------------------------

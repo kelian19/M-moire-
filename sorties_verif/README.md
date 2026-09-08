@@ -22,9 +22,9 @@ Quand on régénère un `NN.txt` sur le Mac, rediriger stderr à part : `> NN.tx
 matplotlib y écrit des avertissements de police qui s'intercalent sinon au milieu d'une ligne
 de résultats. Le détail est dans la section « Comment construire » du `CLAUDE.md`.
 
-## État du dernier passage (3 septembre 2026, tous chapitres)
+## État du dernier passage (8 septembre 2026, tous chapitres)
 
-**1 979 nombres publiés, 1 979 confirmés, soit 100 %**, une première, et **0 nombre hors contrôle
+**2 034 nombres publiés, 2 034 confirmés, soit 100 %**, et **0 nombre hors contrôle
 non déclaré sur les dix-neuf chapitres**, relevé chapitre par chapitre et non sur le
 récapitulatif, qui n'imprime pas la couverture.
 
@@ -38,6 +38,13 @@ récapitulatif, qui n'imprime pas la couverture.
   15,1 % en apprentissage à 27,1 % hors échantillon. Sortie **déterministe**, deux lancements
   donnent le même fichier. Exige `SAS_OpRisk_Global_Data_June_2026.xlsx`, donc ne se relance
   que là où ce fichier est présent.
+  **Sa section 1ter, ajoutée le 8 septembre, chiffre ce que la dérive coûte et modère la 1bis** :
+  la queue ne dérive que de 4,00 % par an quand le corps dérive de 13,0 %, donc l'effet à
+  déclarer est de +24,7 % sur le quantile de sévérité et non un quintuplement. Elle imprime
+  aussi le rejet de la variante homogène, dont l'indice de queue passe au-dessus de un.
+  **Ne pas citer la 1bis sans la 1ter** : prise seule, la 1bis invite à une erreur d'un
+  facteur trois. C'est la source de la ligne du chapitre 13 et de la nouvelle section du
+  chapitre 06.
 
 - `88.txt` **teste le théorème du coin supérieur** au lieu de l'emprunter. Au sens du quantile il
   tient, zéro violation sur les 65 paires emboîtées graine par graine ; la version

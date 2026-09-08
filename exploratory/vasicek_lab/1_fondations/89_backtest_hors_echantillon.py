@@ -30,6 +30,14 @@ Le perimetre cyber x finance couvre 1979 a 2026, mais :
 Retenir 1979-2026 sans le voir produirait un faux effondrement de frequence en
 fin de periode et un faux regime calme au debut. La fenetre est donc 2004-2025.
 
+CE QUE LA SECTION 1ter AJOUTE, ET POURQUOI ELLE N'EST PAS UNE RECALIBRATION.
+Mesurer une derive ne dit pas ce qu'elle coute sur le nombre publie. La section
+1ter le chiffre, par un ajustement a echelle non stationnaire sur les MEMES exces,
+et imprime l'ecart. Aucun parametre publie ne bouge : c'est le traitement du p_u
+gele, un ecart chiffre plutot qu'une correction silencieuse. Elle repond aussi a
+la lecture naive que la section 1bis invite a faire, et la refute : la derive du
+corps ne se transporte pas a la queue.
+
 Sortie : diagnostics seulement, aucune figure. Un backtest se lit en nombres.
 """
 
@@ -73,6 +81,7 @@ d = filter_finance(filter_cyber(load_clean(
 d = d.dropna(subset=["year"]).copy()
 d["year"] = d["year"].astype(int)
 d["loss_eur"] = d["loss"] * USD_EUR
+d_all = d.copy()          # perimetre complet, celui de la chaine publiee (section 1ter)
 d = d[(d.year >= AN_DEBUT) & (d.year <= AN_FIN)].copy()
 
 titre("0. PERIMETRE ET FENETRE")
@@ -205,7 +214,7 @@ print(f"  seuil a l'origine {lignes[0][0]} : {lignes[0][2]:.2f} M EUR")
 print(f"  seuil a l'origine {lignes[-1][0]} : {lignes[-1][2]:.2f} M EUR"
       f"   soit x{lignes[-1][2] / lignes[0][2]:.2f} en {lignes[-1][0] - lignes[0][0]} ans")
 med = d.groupby("year")["loss_eur"].median()
-sl_m, _, _, pv_m, _ = stats.linregress(med.index.values, np.log(med.values))
+sl_m, _, _, pv_m, se_m = stats.linregress(med.index.values, np.log(med.values))
 print(f"  mediane annuelle des pertes : tendance de {100*sl_m:+.1f} % par an en log, "
       f"p = {pv_m:.4f}")
 print()
@@ -230,8 +239,145 @@ print("    etats se simplifie dans un rapport.")
 
 
 # ---------------------------------------------------------------------------
-# 2. Frequence : origine glissante, et la binomiale negative gagne-t-elle sa place ?
+# 1ter. Ce que la derive couterait sur la grandeur publiee
 # ---------------------------------------------------------------------------
+
+titre("1ter. CE QUE LA DERIVE COUTERAIT SUR LA GRANDEUR PUBLIEE")
+print("La section 1bis mesure la derive ; elle ne dit pas ce qu'elle coute sur le nombre")
+print("que le memoire publie. C'est l'objet de cette section, et le traitement est celui")
+print("du p_u gele : le chiffre publie ne bouge pas, l'ecart est imprime.")
+print()
+
+u_pub = float(OPRISK["seuil_u_eur"])
+AN_REF = AN_FIN
+x_all = d_all["loss_eur"].values
+an_all = d_all["year"].values.astype(float)
+m_exc = x_all > u_pub
+exc_p = x_all[m_exc] - u_pub
+an_p = an_all[m_exc]
+p_u_cpt = float(m_exc.mean())
+
+print(f"Perimetre : la donnee complete de la chaine publiee, {len(x_all)} incidents,")
+print(f"dont {len(exc_p)} exces au-dessus du seuil publie de {u_pub} M EUR.")
+print()
+
+
+def q_pot(q, xi, sig, pu):
+    """Quantile de severite par la formule POT, taux de depassement pu."""
+    return u_pub + (sig / xi) * (((1.0 - q) / pu) ** (-xi) - 1.0)
+
+
+# (a) reference stationnaire, calculee par la MEME regle que les variantes
+xi_s, _, sig_s = genpareto.fit(exc_p, floc=0.0)
+q995_s = q_pot(0.995, xi_s, sig_s, p_u_cpt)
+print("(a) REFERENCE STATIONNAIRE, ajustement libre sur tout l'historique :")
+print(f"    xi {xi_s:.4f}   sigma {sig_s:.2f}   p_u compte {p_u_cpt:.4f}")
+print(f"    quantile de severite 99,5 % : {q995_s:.2f} M EUR")
+print(f"    pour memoire, le memoire publie {OPRISK['var_995']} M EUR avec "
+      f"p_u pose a {OPRISK['p_u']}.")
+print("    L'ecart entre ces deux lignes est le defaut de p_u DEJA declare au chapitre 13,")
+print("    et non un resultat de cette section. Les variantes ci-dessous sont donc")
+print("    comparees a (a) et jamais au chiffre publie, sans quoi deux ecarts se")
+print("    melangeraient dans un seul nombre.")
+print()
+
+# (b) echelle de la queue rendue non stationnaire, sigma_t = exp(ls + b (t - 2025))
+def nll_ns(par, b_fixe=None):
+    xi, ls = par[0], par[1]
+    b = par[2] if b_fixe is None else b_fixe
+    sig_t = np.exp(ls + b * (an_p - AN_REF))
+    if xi <= -0.5:
+        return 1e12
+    z = 1.0 + xi * exc_p / sig_t
+    if np.any(z <= 0.0):
+        return 1e12
+    return float(np.sum(np.log(sig_t) + (1.0 + 1.0 / xi) * np.log(z)))
+
+
+res_ns = optimize.minimize(nll_ns, [xi_s, np.log(sig_s), 0.0], method="BFGS")
+xi_ns, ls_ns, b_ns = res_ns.x
+se_b = float(np.sqrt(np.diag(res_ns.hess_inv))[2])
+res_st = optimize.minimize(lambda p: nll_ns(np.append(p, 0.0), b_fixe=0.0),
+                           [xi_s, np.log(sig_s)], method="Nelder-Mead")
+lr = 2.0 * (res_st.fun - res_ns.fun)
+p_lr = float(stats.chi2.sf(max(lr, 0.0), 1))
+sig_ref = float(np.exp(ls_ns))
+q995_ns = q_pot(0.995, xi_ns, sig_ref, p_u_cpt)
+
+print("(b) ECHELLE DE LA QUEUE RENDUE NON STATIONNAIRE. On ajuste sigma_t = exp(ls + b (t - "
+      f"{AN_REF:.0f}))")
+print("    par maximum de vraisemblance sur les MEMES exces, xi constant. C'est la derive")
+print("    mesuree dans la queue elle-meme, et non dans le corps de la distribution.")
+print(f"    b = {100*b_ns:+.2f} % par an   (ecart-type {100*se_b:.2f} %)")
+print(f"    rapport de vraisemblance contre b = 0 : {lr:.2f}, p = {p_lr:.4f} "
+      f"({'derive SIGNIFICATIVE' if p_lr < 0.05 else 'derive non significative dans la queue'})")
+print(f"    xi {xi_ns:.4f}   sigma a {AN_REF:.0f} : {sig_ref:.2f}")
+print(f"    quantile de severite 99,5 % evalue a {AN_REF:.0f} : {q995_ns:.2f} M EUR")
+print(f"    ecart a (a) : {q995_ns - q995_s:+.2f} M EUR, soit "
+      f"{100*(q995_ns / q995_s - 1.0):+.1f} %")
+print()
+
+# (c) contre-epreuve : et si l'on indexait TOUTE la distribution a la tendance du corps ?
+p_seuil_pub = float((x_all <= u_pub).mean())
+print("(c) CONTRE-EPREUVE, ET C'EST UNE VARIANTE A REJETER. On suppose que la queue derive")
+print("    comme le CORPS, en ramenant chaque perte en unites de severite "
+      f"{AN_REF:.0f} par un")
+print(f"    facteur exp(g (t_ref - t)) avec g la tendance de la mediane, puis en rejouant la")
+print(f"    chaine a percentile de seuil constant ({100*p_seuil_pub:.1f}).")
+print("    g       seuil   xi      sigma   p_u     q 99,5 %    ecart a (a)")
+cc = {}
+for etiq, g in (("IC90 bas", sl_m - 1.645 * se_m),
+                ("tendance mesuree", sl_m),
+                ("IC90 haut", sl_m + 1.645 * se_m)):
+    x_idx = x_all * np.exp(g * (AN_REF - an_all))
+    u_i = float(np.quantile(x_idx, p_seuil_pub))
+    e_i = x_idx[x_idx > u_i] - u_i
+    pu_i = float((x_idx > u_i).mean())
+    xi_i, _, sig_i = genpareto.fit(e_i, floc=0.0)
+    q_i = u_i + (sig_i / xi_i) * (((1.0 - 0.995) / pu_i) ** (-xi_i) - 1.0)
+    cc[etiq] = (xi_i, q_i)
+    print(f"    {100*g:+5.1f} % {u_i:7.2f} {xi_i:7.4f} {sig_i:7.2f} {pu_i:7.4f} "
+          f"{q_i:10.2f}   {100*(q_i / q995_s - 1.0):+7.1f} %   {etiq}")
+
+print()
+print("LECTURE, ET ELLE MODERE LA SECTION 1bis AU LIEU DE L'AMPLIFIER. Ecrite apres lecture")
+print("des trois blocs ci-dessus.")
+print()
+print(f"  1. LA DERIVE N'EST PAS HOMOGENE LE LONG DE LA DISTRIBUTION, et c'est le resultat")
+print(f"     principal de cette section. Le CORPS derive de {100*sl_m:+.1f} % par an "
+      f"(mediane, section 1bis),")
+print(f"     la QUEUE de {100*b_ns:+.2f} % seulement, soit un facteur "
+      f"{sl_m / b_ns:.1f}. Lire la derive du corps comme")
+print("     une derive du capital serait donc une erreur d'un facteur trois, et c'est la")
+print("     lecture que la seule section 1bis invitait a faire.")
+print()
+print(f"  2. LE COUT SUR LA GRANDEUR PUBLIEE EST CELUI DE (b) : {q995_ns - q995_s:+.0f} M EUR "
+      f"sur le quantile de")
+print(f"     severite 99,5 %, soit {100*(q995_ns / q995_s - 1.0):+.1f} %. C'est le chiffre a "
+      "declarer. Sa reserve est de sens")
+print("     unique : le taux de depassement est garde commun aux deux branches, alors qu'une")
+print("     echelle qui monte fait aussi monter le nombre d'exces au-dessus d'un seuil fixe,")
+print("     donc cet ecart est une borne BASSE.")
+print()
+print("  3. LA VARIANTE (c) EST REJETEE, ET SON REJET EST UN ARGUMENT. Supposer que la queue")
+print(f"     derive comme le corps donne un quantile de {cc['tendance mesuree'][1]:.0f} M EUR, "
+      f"soit "
+      f"{cc['tendance mesuree'][1] / q995_s:.1f} fois (a), et")
+print(f"     surtout un indice de queue de {cc['IC90 haut'][0]:.2f} a la borne haute de l'IC90 "
+      "de la tendance,")
+print("     donc SUPERIEUR A UN : l'esperance de la severite cesserait d'exister. C'est le")
+print("     meme argument d'existence que celui qui ecarte la calibration PRC comme support")
+print("     d'une mesure de couverture. Une hypothese qui detruit l'objet qu'elle corrige ne")
+print("     se retient pas, et cela vaut mieux qu'un argument de degre.")
+print()
+print("  4. ET UNE CONSEQUENCE SUR LE XI PUBLIE, DE SENS OPPOSE A LA DERIVE. Modeliser la")
+print(f"     derive fait TOMBER l'indice de queue de {xi_s:.4f} a {xi_ns:.4f}. Regrouper des exces")
+print("     d'annees a echelles differentes fabrique un melange, et un melange de lois a")
+print("     echelles inegales parait plus lourd de queue qu'aucune de ses composantes.")
+print("     L'ajustement stationnaire attribue donc a la FORME une part de ce qui est de la")
+print("     DERIVE. Les deux ecarts du modele publie sont ainsi de sens contraires, le xi")
+print("     etant legerement prudent quand l'echelle est anti-conservatrice, et ils ne se")
+print("     compensent pas puisqu'ils ne portent pas sur la meme grandeur.")
 
 titre("2. FREQUENCE : ORIGINE GLISSANTE, ET POISSON CONTRE BINOMIALE NEGATIVE")
 cnt = d.groupby("year").size().reindex(range(AN_DEBUT, AN_FIN + 1), fill_value=0)
@@ -327,13 +473,23 @@ print("   n'est pas celui qu'on attendrait : ce n'est pas la queue qui est mal a
 print("   c'est l'echelle de la loi de severite qui DERIVE dans le temps. Une fenetre")
 print("   d'apprentissage qui s'etend retarde sur cette derive.")
 print()
+print("4. ET LA DERIVE COUTE MOINS QUE LA SECTION 1bis NE LE LAISSE CROIRE, parce qu'elle")
+print(f"   N'EST PAS HOMOGENE : le corps derive de {100*sl_m:+.1f} % par an, la queue de "
+      f"{100*b_ns:+.2f} %")
+print(f"   seulement, facteur {sl_m / b_ns:.1f}. L'effet a declarer est donc celui de la queue, "
+      f"{100*(q995_ns / q995_s - 1.0):+.1f} %")
+print(f"   sur le quantile de severite 99,5 %, soit {q995_ns - q995_s:+.0f} M EUR, et non un "
+      "quintuplement.")
+print("   Supposer que la queue derive comme le corps ferait passer l'indice de queue")
+print("   au-dessus de un, donc detruirait l'esperance de la severite : section 1ter (c).")
+print()
 print("CE QUE LE MEMOIRE DOIT EN FAIRE, ET C'EST UNE DECISION DE KELIAN, PAS DU SCRIPT.")
 print("La non-stationnarite de l'echelle de severite n'est pas dans l'inventaire des")
 print("hypotheses du chapitre 13. Elle a exactement le statut du p_u gele : un ecart")
 print("mesure, de sens anti-conservateur, immateriel pour la these mais materiel pour le")
 print("niveau. Le traitement coherent avec le gel du 7 aout est donc de la DECLARER")
 print("chiffree, non de recalibrer sur une fenetre glissante, ce qui deplacerait tous")
-print("les niveaux publies.")
+print("les niveaux publies. La section 1ter donne le chiffre a declarer.")
 print()
 print("CE QU'IL NE FAUT PAS EN CONCLURE. Ni que le modele est faux, la forme etant")
 print("validee et la loi de frequence confirmee. Ni que la these est touchee, puisqu'elle")

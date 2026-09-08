@@ -50,6 +50,11 @@ noyau exponentiel puis à retard, logique two-phase &
 excitation intra-journalière (pic $3{,}3$ h) ; endogénéité de $0{,}551$ à ${\sim}0$ si les
 co-occurrences du jour passent en exogène &
 \rob \\
+Les deux lois du socle prédisent une période qu'elles n'ont pas vue &
+origine glissante, douze années notées hors échantillon &
+fréquence : couverture $91{,}7\,\%$ pour la NB contre $75{,}0\,\%$ pour le Poisson, log-score en
+sa faveur ; forme de queue non rejetée ($p=0{,}4087$) &
+\rob \\
 Le SCR \emph{réagit} à la conformité et à la contagion &
 score de conformité $q\in[0,1]$, gain $g\in[0{,}05\,;0{,}90]$ &
 $-53\,\%$ de NC à C ; $\times 1{,}6$ sur la plage de $g$ &
@@ -57,6 +62,11 @@ $-53\,\%$ de NC à C ; $\times 1{,}6$ sur la plage de $g$ &
 Le SCR est une distribution large, pas un point &
 incertitude de paramètre (bootstrap deux niveaux) &
 facteur ${\sim}2{,}5$ sur la VaR par la seule incertitude de calibration &
+\ass \\
+Le \emph{niveau} de sévérité ne tient pas hors échantillon &
+notation d'une seule année à la fois, seuil ré-estimé sur l'apprentissage &
+quantiles dépassés trois fois trop souvent ; l'échelle de queue dérive de $4{,}00\,\%$ par an,
+soit au moins $+24{,}7\,\%$ sur le quantile &
 \ass \\
 Le \emph{signe} de $\Delta_{\text{DORA}}$ ne dépend pas de l'additivité des coûts d'un sinistre &
 exposant $\theta\in[0{,}70\,;1{,}30]$ sur le nombre de piliers touchés &
@@ -68,18 +78,21 @@ exposant $\theta\in[0{,}70\,;1{,}30]$ sur le nombre de piliers touchés &
 \end{center}
 
 \vspace{4pt}
-\textbf{Lecture.} Les quatre premières lignes sont l'\textbf{ossature} : le signe et l'ordre
-de grandeur de l'effet DORA, la hiérarchie des piliers, le rôle de la direction et le rejet
-du Hawkes tiennent quand on change ce qui pourrait sembler arbitraire. La cinquième ligne
+\textbf{Lecture.} Les cinq premières lignes sont l'\textbf{ossature} : le signe et l'ordre
+de grandeur de l'effet DORA, la hiérarchie des piliers, le rôle de la direction, le statut de
+l'auto-excitation et le comportement prédictif des deux lois du socle tiennent quand on change ce
+qui pourrait sembler arbitraire. La sixième ligne
 n'est pas une fragilité mais le \textbf{c\oe ur du modèle} : un SCR qui ne bougerait pas avec la
 conformité serait inutile (c'est le reproche fait à la Formule Standard,
-chapitre~\ref{chap:resultats}). Les deux dernières sont les limites honnêtes, et elles ne portent
+chapitre~\ref{chap:resultats}). Les trois dernières sont les limites honnêtes, et elles ne portent
 pas sur le même objet : la queue de sévérité domine l'incertitude sur le \emph{niveau}, donc toute
-lecture ponctuelle du SCR serait une surinterprétation ; l'additivité des coûts d'un sinistre
+lecture ponctuelle du SCR serait une surinterprétation ; la dérive de l'échelle de sévérité, seule
+limite du mémoire découverte hors échantillon, déplace ce même niveau dans un sens connu et d'une
+taille bornée (\S\ref{soc:sec:backtest}) ; l'additivité des coûts d'un sinistre
 multi-piliers domine celle qui pèse sur l'\emph{écart}, sans jamais en renverser le signe
 (\S\ref{sec:additivite-couts}).
 
-\noindent Sources de la table : scripts~\texttt{25} (réaction du capital au score de conformité), \texttt{29} (branchement), \texttt{47} et~\texttt{63} (calibration figée), \texttt{61} (points intérieurs du pavé, dont le nombre de tirages du knockout), \texttt{66} (invariance en $g$), \texttt{67} (paramètres posés), \texttt{74} (additivité des coûts) et~\texttt{08h} (variantes de noyau et logique two-phase du rejet de l'auto-excitation).
+\noindent Sources de la table : scripts~\texttt{25} (réaction du capital au score de conformité), \texttt{29} (branchement), \texttt{47} et~\texttt{63} (calibration figée), \texttt{61} (points intérieurs du pavé, dont le nombre de tirages du knockout), \texttt{66} (invariance en $g$), \texttt{67} (paramètres posés), \texttt{74} (additivité des coûts), \texttt{08h} (variantes de noyau et logique two-phase du rejet de l'auto-excitation) et~\texttt{89} (backtest à origine glissante).
 
 
 
@@ -479,9 +492,10 @@ en regard une fois pour toutes, plutôt que de laisser le lecteur les rassembler
 \toprule
 \textbf{Écart} & \textbf{Sens} & \textbf{Taille} \\
 \midrule
-\multicolumn{3}{@{}l}{\emph{Défauts d'estimation, tous deux anti-conservateurs}} \\
+\multicolumn{3}{@{}l}{\emph{Défauts d'estimation, tous trois anti-conservateurs}} \\
 Taux de dépassement gelé ($p_u$) & sous-estime & $+2{,}4\,\%$ de VaR manquante \\
 Couverture réelle de l'IC$_{90}$ de $\xi$ & sous-estime & $86\,\%$ au lieu de $90\,\%$ ; demi-largeur à élargir d'environ $10\,\%$ \\
+Échelle de sévérité non stationnaire & sous-estime & dérive de $4{,}00\,\%$ par an dans la queue ($p=0{,}0386$) ; au moins $+24{,}7\,\%$ sur le quantile, borne basse (\S\ref{soc:sec:backtest}) \\
 \midrule
 \multicolumn{3}{@{}l}{\emph{Choix posés, tous prudents}} \\
 Queue de sévérité de base $\xi$ & majore & $0{,}90$ posé contre $0{,}60$ estimé sur OpRisk \\
@@ -499,12 +513,27 @@ Additivité des coûts au sein d'un sinistre multi-piliers & \textbf{indétermin
 \end{center}
 
 \vspace{4pt}
-\noindent La lecture est nette sur les cinq premières lignes. Les deux seuls écarts
-\emph{involontaires} d'estimation sous-estiment le capital, de quelques pour cent chacun ; les
-trois choix \emph{délibérés} le majorent, et de beaucoup plus. Le mémoire ne se protège donc pas
+\noindent La lecture est nette sur les six premières lignes. Les trois écarts
+\emph{involontaires} d'estimation sous-estiment tous le capital ; les trois choix
+\emph{délibérés} le majorent tous, et de beaucoup plus. Le mémoire ne se protège donc pas
 derrière ses erreurs, il les déclare, et sa prudence vient d'ailleurs, de choix assumés qu'il
-nomme comme tels. C'est aussi pourquoi corriger les deux premiers ne changerait aucune
-conclusion : ils sont dominés d'un ordre de grandeur par les seconds.
+nomme comme tels. C'est aussi pourquoi corriger les trois premiers ne renverserait aucune
+conclusion : ils restent dominés par les seconds.
+
+\vspace{2pt}
+\noindent \textbf{Un mot sur la troisième ligne, qui est nouvelle et d'une autre taille.} Les deux
+premiers défauts pèsent quelques pour cent ; la dérive d'échelle en pèse un quart, soit un ordre
+de grandeur de plus, et elle est la seule des trois à avoir été trouvée par un test
+\emph{hors échantillon} plutôt que par un contrôle de cohérence interne. Son traitement est
+néanmoins le même, et pour le même motif : la corriger supposerait de recalibrer la sévérité sur
+une fenêtre glissante, ce qui déplacerait tous les niveaux publiés sans qu'aucun déplacement soit
+attribuable à la correction. Deux atténuations la bornent sans l'effacer. La dérive de la queue
+vaut le tiers de celle du corps, si bien qu'une lecture rapide de la tendance des pertes
+\emph{surestimerait} l'effet d'un facteur trois. Et elle ne touche que le \emph{niveau} : la thèse
+porte sur un rapport entre états à sévérité de base commune, et une dérive commune aux deux états
+s'y simplifie. Le même backtest valide par ailleurs la loi de fréquence et la forme de la queue,
+de sorte que cette ligne est le prix d'un test dont le solde est favorable
+(\S\ref{soc:sec:backtest}).
 
 \paragraph{Les deux lignes de périmètre sont d'une autre nature, et vont en sens contraire.} Ce ne
 sont ni des défauts d'estimation ni des choix de prudence, mais les deux bornes du périmètre, et
@@ -613,7 +642,8 @@ elle-même.
 
 \vspace{2pt}
 \noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60},
-\texttt{63}, \texttt{65} (expositions et besoins du panel), \texttt{74} et~\texttt{78}.
+\texttt{63}, \texttt{65} (expositions et besoins du panel), \texttt{74}, \texttt{78}
+et~\texttt{89} (backtest hors échantillon et dérive d'échelle).
 
 \section{Défaillances simultanées et additivité des coûts}
 \label{sec:additivite-couts}
