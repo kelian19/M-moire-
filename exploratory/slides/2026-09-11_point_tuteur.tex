@@ -1,4 +1,4 @@
-% Point d'avancement tuteur, vendredi 11 septembre 2026. ONZE pages : titre et dix resultats.
+% Point d'avancement tuteur, vendredi 11 septembre 2026. DOUZE pages : titre et onze resultats.
 %
 % TRAME, ET C'EST UNE CONSIGNE : celle du deck du 21 aout. Une slide = UN RESULTAT enonce dans
 % son titre, deux lignes d'amorce, UNE table compacte, trois puces courtes, la ligne de sources.
@@ -12,16 +12,18 @@
 % FABRICATION du document (comptes de pages, taux du harnais, defauts de citation, couverture de
 % deck). Ce travail est trace dans CLAUDE.md et PLAN_MEMOIRE.md.
 %
-% PROVENANCE DES DIX RESULTATS, VERIFIEE PAR GREP SUR TOUS LES DECKS.
+% PROVENANCE DES ONZE RESULTATS, VERIFIEE PAR GREP SUR TOUS LES DECKS.
 %   Jamais montres nulle part : le chiffre de tete (A), les quatre bilans reels (F), le forfait
-%   (G), le facteur systemique (H), l'equivalence Hawkes / cascade (I), le backtest (J).
+%   (G), le facteur systemique (H), l'equivalence Hawkes / cascade (I), le backtest (J), la
+%   charge agregee (K).
 %   Portes par le deck du 21 aout : les defaillances simultanees (B), l'hypothese d'additivite
 %   des couts (C), l'ablation en echelle (D), le coin superieur (E).
-%   SI LE DECK DU 21 AOUT A ETE PRESENTE, retirer B a E et le deck retombe a sept pages. S'il ne
+%   SI LE DECK DU 21 AOUT A ETE PRESENTE, retirer B a E et le deck retombe a huit pages. S'il ne
 %   l'a pas ete, ce deck le remplace et il faut retirer le 21 aout du dossier pour ne pas
 %   presenter deux fois les memes slides.
-%   J EST LE TRAVAIL DE LA SEMAINE, le seul de ce deck : c'est la slide a garder en toute
-%   hypothese, et celle sur laquelle le tuteur aura le plus a dire.
+%   J ET K SONT LE TRAVAIL DE LA SEMAINE, les seuls de ce deck : ce sont les slides a garder en
+%   toute hypothese, et celles sur lesquelles le tuteur aura le plus a dire. K porte le resultat
+%   le plus parlant, deux marginales validees et un agregat rejete pour la meme cause.
 %
 % LE FIL : le chiffre, le mecanisme qui le produit, l'hypothese qui le porte, ce qui le porte
 % vraiment, la garantie de test de resistance, la descente a l'entite, le repere externe, la
@@ -53,7 +55,7 @@
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
-\subtitle{Dix résultats, du chiffre publié jusqu'à ses fondations}
+\subtitle{Onze résultats, du chiffre publié jusqu'à ses fondations}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[11/09/2026]{11 septembre 2026}
@@ -400,6 +402,40 @@ Quantile de sévérité & $8$ dépassements pour $2{,}8$ & \alert{rejeté} \\
 \end{itemize}
 \vspace{1mm}
 {\scriptsize Sources : scripts~\texttt{89} et~\texttt{90}.}
+\end{frame}
+
+% =====================================================================
+\section*{K. L'agrégat}
+
+\begin{frame}{L'agrégat est rejeté là où les deux marginales passaient}
+\small
+Le capital n'est ni la fréquence ni la sévérité : c'est le quantile de la charge annuelle. Un
+modèle composé peut avoir deux marginales justes et un agrégat faux.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Années notées} & \textbf{six premières} & \textbf{six dernières} \\
+\midrule
+Transformée intégrale ($0{,}500$ attendu) & $0{,}611$ & $\mathbf{0{,}857}$ \\
+Charge observée, moyenne & $363$ & $\mathbf{1\,255}$ \\
+Médiane prédictive & $183$ & $248$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item Couverture $75{,}0\,\%$ pour $90\,\%$ annoncés, test rejeté à $p = 0{,}0042$.
+        \alert{Mais le motif est la même dérive, pas la structure}
+  \item L'indépendance fréquence contre sévérité \textbf{tient} sur les excès : la pente y vaut
+        $0{,}14$ de sa valeur et $p = 0{,}84$
+  \item Et ce qu'un backtest ne peut pas faire : \textbf{$1\,811$ années} seraient nécessaires
+        pour tester le quantile à $99{,}5\,\%$
+\end{itemize}
+\vspace{1mm}
+{\scriptsize En M\euro. Sources : script~\texttt{91}.}
 \end{frame}
 
 \end{document}

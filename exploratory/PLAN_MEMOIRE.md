@@ -13,14 +13,14 @@ Tout cela est fait. Ce document repart de l'état mesuré, pas de l'état décla
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **126 p.** | première page d'annexe moins une (annexes en 127) |
-| Document complet | **172 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **127 p.** | première page d'annexe moins une (annexes en 128) |
+| Document complet | **173 p.** | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
-| Scripts de calcul | 102 | `vasicek_lab/*/*.py` |
-| Sorties versionnées | 97 | `sorties_verif/NN.txt` |
-| Scripts cités par le mémoire | **84** | le reste est du travail deja porte autrement |
-| Nombres publiés | 2 059 | harnais, tous chapitres |
-| Confirmation | **100 %** | 2 059 confirmés |
+| Scripts de calcul | 103 | `vasicek_lab/*/*.py` |
+| Sorties versionnées | 98 | `sorties_verif/NN.txt` |
+| Scripts cités par le mémoire | **85** | le reste est du travail deja porte autrement |
+| Nombres publiés | 2 086 | harnais, tous chapitres |
+| Confirmation | **100 %** | 2 086 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
@@ -391,7 +391,7 @@ retirée. Ce qui reste n'est pas un arbitrage mais une **validation** : le choix
 présenter à Caroline, pas à reprendre.
 
 **Le format est tranché en faveur de Kélian.** Hugo a dit de ne pas se contraindre. Le corps est
-à 126 pages contre les ~70 recommandés de l'Institut.
+à 127 pages contre les ~70 recommandés de l'Institut.
 
 **Ce qui change avec la remise fin novembre, et c'est le seul point rouvert par le calendrier.**
 Une compression du corps était écartée faute de temps ; trois mois la rendent possible, et c'est
@@ -520,8 +520,45 @@ canaux avec un paramètre changé : recopie de `pertes_annuelles` dans le même 
 puis **contrôle** que l'appel aux valeurs publiées reproduit le module tirage pour tirage (écart
 maximal 0,00e+00) et que la branche publiée redonne 6 049 et 20 188.
 
-- Coût de la journée : corps 123 → **126 pages**, total 169 → **172**. Harnais 1 979 →
-  **2 059**, à 100 %, hors contrôle non déclaré à zéro.
+### Et la charge agrégée, script 91 : l'agrégat est rejeté
+
+**Le manque que les deux scripts précédents laissaient** : ils valident ou chiffrent des
+**marginales**, quand le capital est le quantile de la **charge annuelle**. Un modèle composé peut
+avoir deux marginales correctes et un agrégat faux.
+
+**L'agrégat est rejeté** : transformée intégrale 0,734 pour 0,500 attendu, Kolmogorov-Smirnov
+p = 0,0042, couverture 75,0 % pour 90 % annoncés, trois dépassements de la borne haute concentrés
+dans les quatre dernières années notées.
+
+**Mais le rejet n'est pas structurel**, et la signature de dérive est mesurée : PIT 0,611 sur les
+six premières années notées contre 0,857 sur les six dernières (Mann-Whitney p = 0,0130), la charge
+observée passant de 363 à 1 255 M€ en moyenne quand la médiane prédictive ne va que de 183 à 248.
+C'est le retard d'une fenêtre qui s'étend sur une échelle qui dérive. **Aucune limite nouvelle
+n'entre donc à l'inventaire** : un seul mécanisme est en défaut, l'échelle, et il produit
+désormais trois symptômes.
+
+**Trois autres résultats, dont deux favorables :**
+
+- **la binomiale négative cesse d'être un déterminant du capital.** Décisive sur les comptes
+  (3,054 nats, couverture 91,7 contre 75,0 %), elle ne gagne que **0,3 %** sur la charge, celle-ci
+  étant portée par un sinistre unique. Elle reste le bon choix, mais ne pas la présenter comme ce
+  qui porte le niveau ;
+- **l'indépendance fréquence / sévérité TIENT**, et cette hypothèse de construction n'était testée
+  nulle part dans le projet. Une pente négative significative apparaît sur toute la distribution
+  (−0,02397, p = 0,0419 avec contrôle d'année), elle **disparaît sur les excès** (−0,00331,
+  p = 0,84, soit 0,14 de sa valeur), qui sont la population que le modèle tire : c'est un artefact
+  de profondeur de collecte, non une propriété du risque ;
+- **la puissance du backtest est chiffrée en années, et c'est le paragraphe qui vaut le plus devant
+  un jury.** Détecter un taux de dépassement double du nominal à 80 % de puissance demanderait
+  **1 811 années** à 99,5 %, 905 à 99 %, 78 même à 90 %. Le quantile qui porte le capital n'est
+  backtestable sur **aucun** historique de risque opérationnel existant. Ne jamais présenter ce
+  backtest comme une validation du quantile.
+
+**Deck** : slide K ajoutée, le deck du 11 septembre passe à douze pages. J et K sont les deux
+seules slides de travail neuf de ce deck.
+
+- Coût de la journée : corps 123 → **127 pages**, total 169 → **173**. Harnais 1 979 →
+  **2 086**, à 100 %, hors contrôle non déclaré à zéro.
 
 **Deux pièges évités en chemin, et le premier aurait invalidé le backtest.** Le périmètre couvre
 1979-2026, mais avant 2004 la collecte porte un à neuf incidents par an contre treize à

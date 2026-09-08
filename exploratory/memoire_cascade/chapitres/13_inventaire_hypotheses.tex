@@ -547,6 +547,18 @@ facteur de $-6{,}1\,\%$, et la dérive mesurée en contient un. La formule juste
 l'\textbf{invariance d'échelle}, qui vaut pour toute amplitude, et non l'invariance à la dérive,
 qui ne vaut pas. Source : script~\texttt{90}.
 
+\vspace{2pt}
+\noindent \textbf{Une limite du dispositif de validation, distincte des limites du modèle.} La
+même dérive fait rejeter la charge annuelle \emph{agrégée} hors échantillon, ce qui est plus
+sévère que sur les marginales puisque l'agrégat cumule la dérive de l'échelle et celle du taux de
+dépassement. Aucune limite nouvelle n'entre pour autant à la table, le mécanisme étant le même.
+Mais l'exercice révèle une borne de l'instrument qu'il faut déclarer : détecter un taux de
+dépassement double du nominal avec une puissance de $80\,\%$ demanderait $1\,811$ années au
+niveau de $99{,}5\,\%$. \textbf{Le quantile qui porte le capital n'est donc backtestable sur aucun
+historique de risque opérationnel existant}, et ce que le backtest valide est le centre et le
+corps de la loi. Le niveau reste adossé à l'ajustement paramétrique et borné par l'intervalle de
+$\xi$. Source : script~\texttt{91} (\S\ref{soc:sec:backtest}).
+
 \paragraph{Les deux lignes de périmètre sont d'une autre nature, et vont en sens contraire.} Ce ne
 sont ni des défauts d'estimation ni des choix de prudence, mais les deux bornes du périmètre, et
 il vaut mieux les nommer ensemble parce qu'elles ne se compensent pas : elles s'additionnent en
@@ -655,8 +667,8 @@ elle-même.
 \vspace{2pt}
 \noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60},
 \texttt{63}, \texttt{65} (expositions et besoins du panel), \texttt{74}, \texttt{78},
-\texttt{89} (backtest hors échantillon et dérive d'échelle) et~\texttt{90} (effet de la dérive
-sur l'écart entre états).
+\texttt{89} (backtest hors échantillon et dérive d'échelle), \texttt{90} (effet de la dérive
+sur l'écart entre états) et~\texttt{91} (charge agrégée et puissance du backtest).
 
 \section{Défaillances simultanées et additivité des coûts}
 \label{sec:additivite-couts}

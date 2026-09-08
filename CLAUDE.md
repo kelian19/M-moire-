@@ -9,10 +9,10 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au **8 septembre 2026** : **172 pages au total, dont 126 de corps** (annexes en 127),
+État au **8 septembre 2026** : **173 pages au total, dont 127 de corps** (annexes en 128),
 branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 8 septembre : **2 059 nombres, 2 059 confirmés, 100 %**, et **0 hors
+Harnais au 8 septembre : **2 086 nombres, 2 086 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
@@ -330,6 +330,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 35 | étude d'événement MOVEit, différence de différences, placebo et bootstrap. **Sa sortie est versionnée depuis le 17 août** : elle exige `Data_Breach_Chronology.xlsx`, présent sur le PC et absent du Mac. Le chapitre 09 est passé de 95,5 à 100 % grâce à elle |
 | 89 | **backtest hors échantillon**, origine glissante sur 2004-2025, le premier du projet. Trois résultats de sens opposés : la **binomiale négative est validée** (couverture 91,7 % contre 75 % pour Poisson, et elle gagne au log-score), la **forme de la queue survit** au test PIT, et les **quantiles de sévérité sont dépassés trois fois trop souvent**. Le motif est mesuré et ce n'est pas la queue : le **taux de dépassement dérive**, 15,1 % en apprentissage contre 27,1 % hors échantillon, et la médiane annuelle monte de 13 % par an. C'est un défaut de **stationnarité**, pas de famille. **Sa section 1ter chiffre ce que la dérive coûte, et elle MODÈRE la 1bis** : la queue ne dérive que de 4,00 % par an quand le corps dérive de 13,0 %, facteur 3,2, donc l'effet à déclarer est de +24,7 % sur le quantile de sévérité (borne basse) et non un quintuplement. Deux garde-fous à connaître : indexer la queue à la tendance du corps fait passer l'indice de queue **au-dessus de un**, donc détruit l'espérance de la sévérité, et modéliser la dérive fait **tomber** ξ de 0,5979 à 0,5273, l'ajustement stationnaire attribuant à la forme une part de ce qui est de la dérive. Il exige `SAS_OpRisk_Global_Data_June_2026.xlsx` |
 | 90 | **la dérive de sévérité est-elle neutre sur l'écart entre états ?** Il ferme une affirmation du mémoire au lieu d'en ouvrir une. **L'argument est juste mais il porte sur l'ÉCHELLE et sur elle seule** : une variation de la seule échelle multiplie les deux états par le même facteur, 1,4556 et 1,4532, rapport **0,9984**, alors que les niveaux montent de 46 %. La dérive mesurée, elle, n'est pas un pur changement d'échelle : la modéliser fait tomber ξ, et **le facteur entre états passe de 3,344 à 3,124**, −6,6 %, résolu à 4,43 écarts-types, **entièrement porté par la composante de FORME** (−6,1 %, 4,09 σ ; l'échelle seule ne pèse que −0,2 %, non résolu). L'écart en euros ne bouge que de −1,9 %, **mais par COMPENSATION** : forme seule 9 393, échelle seule 20 041. **Ne jamais annoncer l'écart comme robuste à la sévérité**, et citer l'invariance d'échelle, jamais l'invariance à la dérive |
+| 91 | **backtest de la CHARGE ANNUELLE AGRÉGÉE**, plus les deux hypothèses que le 89 ne testait pas. **L'agrégat est REJETÉ là où les deux marginales passaient** : PIT 0,734 pour 0,500 attendu, Kolmogorov-Smirnov p = 0,0042, couverture 75,0 % pour 90 % annoncés. **Mais le rejet n'est pas structurel**, c'est la dérive du 89 vue sur l'objet qui porte le capital, et la signature est mesurée : PIT 0,611 sur les six premières années notées contre 0,857 sur les six dernières (Mann-Whitney p = 0,0130), charge observée 363 → 1 255 M€ quand la médiane prédictive ne va que de 183 à 248. **Aucune limite nouvelle** n'entre donc à l'inventaire. Trois autres résultats : la loi de comptage est décisive sur les comptes et **immatérielle sur la charge** (0,3 % au CRPS contre 3,054 nats sur les comptes), la charge étant portée par un sinistre unique ; **l'indépendance fréquence / sévérité TIENT** sur les excès, la pente y valant 0,14 de sa valeur et p = 0,84, l'effet visible sur toute la distribution étant un artefact de profondeur de collecte ; et **le quantile à 99,5 % n'est testable sur aucun historique existant**, 1 811 années étant nécessaires pour détecter un taux double du nominal à 80 % de puissance (905 à 99 %, 78 à 90 %) |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
@@ -987,7 +988,7 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
   rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
   déclarée supprimée, un résultat gagné sur le forfait ;
-- l'arbitrage de **format** : le corps est à **126 pages pour 172 au total** (annexes en 127),
+- l'arbitrage de **format** : le corps est à **127 pages pour 173 au total** (annexes en 128),
   contre les ~70 de
   corps recommandés par l'Institut. **Tranché en faveur de Kélian**, Hugo ayant dit de ne pas se
   contraindre ;
@@ -1262,13 +1263,9 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
   été **corrigé** au passage : il ne vaut que pour l'échelle ;
 - **les trois manques de test identifiés le 8 septembre, par ordre de valeur.** Aucun ne dépend
   d'une recalibration, tous sont des diagnostics compatibles avec le gel.
-  1. **backtester la charge annuelle AGRÉGÉE**, et non les deux lois marginales séparément. Le
-     script 89 valide la fréquence et la forme de la sévérité chacune de son côté ; le capital
-     n'est ni l'une ni l'autre, c'est le quantile de la charge annuelle. Un modèle peut avoir
-     deux marginales correctes et un agrégat faux. **C'est là aussi que se testerait
-     l'indépendance entre fréquence et sévérité**, hypothèse de construction de tout modèle
-     composé, que rien ne teste dans le projet (vérifié par grep) et que le résultat du 89 rend
-     précisément intéressante, la sévérité dérivant quand la fréquence ne dérive pas ;
+  1. ~~backtester la charge annuelle agrégée et tester l'indépendance fréquence / sévérité~~ :
+     **FAIT le 8 septembre, script 91**, voir sa ligne dans la table des scripts. Le pari était
+     bon : l'agrégat est rejeté là où les deux marginales passaient, et le motif est mesuré ;
   2. **le test de résistance INVERSÉ.** Le mémoire répond à « que coûte la non-conformité » ;
      l'ORSA demande aussi « quel état du monde produit une perte de tel montant ». Le pavé des
      quatre canaux est énuméré et le script 88 a établi que le coin supérieur majore : le test
@@ -1608,14 +1605,63 @@ séparation forme / échelle est une **reparamétrisation**, non deux mécanisme
 indépendants, donc elle dit d'où vient le déplacement dans le modèle et non que la queue s'est
 allégée dans le monde réel.
 
-**Coût et contrôles, pour la journée entière.** Corps 123 → **126 pages**, total 169 → **172**.
-Harnais **2 059 nombres, 2 059 confirmés, 100 %**, hors contrôle non déclaré à zéro sur les
-dix-neuf chapitres. Chapitre 06 à 100 % sur 247 nombres dont 69 dans la nouvelle section,
-chapitre 13 à 100 % sur 207. Deck du 11 septembre à 100 % sur 92 nombres, 0 vbox. 0 `??` compté
-dans le PDF, 0 annotation hors page, 0 Overfull \vbox, 0 page tournée, et aucun Overfull \hbox
-nouveau (les trois signalés sont antérieurs, vérifié par `git stash`). Sorties 89 et 90
-déterministes, deux lancements donnant le même fichier, et le refactor de la section 1ter du 89
-vers le module partagé reproduit `sorties_verif/89.txt` **à l'octet**.
+### Puis la charge agrégée, et l'agrégat est rejeté (script 91)
+
+**Le manque que les deux scripts précédents laissaient.** 89 et 90 valident ou chiffrent des
+**marginales** : la loi de comptage, la forme de la queue, l'échelle. Or le capital n'est ni l'une
+ni l'autre, c'est le quantile de la **charge annuelle**. Un modèle composé peut avoir deux
+marginales correctes et un agrégat faux, et c'est le reproche standard fait à cette classe de
+modèles. Détail chiffré dans la table des scripts, ligne 91.
+
+**L'objet noté est la charge de QUEUE, et ce choix est imposé par le modèle.** La chaîne publiée
+donne une sévérité **nulle** aux incidents sous le seuil (`simulate_remediation_severity`), donc
+sa charge annuelle est la somme des seuls sinistres dépassant le seuil. L'observable comparable
+est la même somme dans la donnée. Noter la charge **totale** exigerait un modèle de corps que le
+mémoire n'a pas, et mélangerait le test d'un objet publié avec celui d'un objet inventé. C'est
+aussi cohérent avec la limite d'attritionnel déjà déclarée.
+
+**Quatre choses à retenir, et la deuxième évite une panique :**
+
+- **l'agrégat est rejeté**, PIT 0,734 et Kolmogorov-Smirnov p = 0,0042, couverture 75 % pour 90 %
+  annoncés, trois dépassements de la borne haute concentrés dans les quatre dernières années ;
+- **mais le rejet n'est PAS structurel**, et la signature de dérive est mesurée plutôt que
+  supposée : le désalignement n'existe que sur la seconde moitié des années notées. Donc **aucune
+  limite nouvelle** n'entre à l'inventaire du chapitre 13. Un seul mécanisme est en défaut,
+  l'échelle, et il produit désormais **trois symptômes** ; c'est ainsi que le bloc clé du
+  chapitre 06 le présente ;
+- **la binomiale négative cesse d'être un déterminant du capital.** Elle gagne nettement sur les
+  comptes (3,054 nats, couverture 91,7 contre 75 %) et ne gagne que 0,3 % sur la charge, parce que
+  celle-ci est portée par un **sinistre unique**. Elle reste le bon choix, mais ne pas la
+  présenter comme ce qui porte le niveau ;
+- **l'indépendance fréquence / sévérité tient**, et le contrôle qui tranche est celui des excès.
+  Une pente négative significative apparaît sur toute la distribution, elle **disparaît** sur les
+  excès : c'est un artefact de profondeur de collecte, pas une propriété du risque. Le commentaire
+  de la section 3bis avait été écrit avant ce contrôle et annonçait une dépendance conservatrice :
+  **la sortie l'a démenti**, sixième fois de la même leçon.
+
+**Et le paragraphe qui vaut le plus devant un jury.** La puissance du backtest est **chiffrée en
+années** : détecter un taux de dépassement double du nominal à 80 % de puissance demanderait
+**1 811 années** à 99,5 %, 905 à 99 %, 78 même à 90 %. Le quantile qui porte le capital n'est donc
+backtestable sur **aucun** historique de risque opérationnel existant. Ne jamais présenter ce
+backtest comme une validation du quantile à 99,5 % : il valide le centre et le corps. Un backtest
+qui ne déclare pas sa puissance laisse croire qu'une absence de rejet vaut validation.
+
+**Coût et contrôles, pour la journée entière.** Corps 123 → **127 pages**, total 169 → **173**.
+Harnais **2 086 nombres, 2 086 confirmés, 100 %**, hors contrôle non déclaré à zéro sur les
+dix-neuf chapitres. Chapitre 06 à 100 % sur 272 nombres dont 94 dans la nouvelle section,
+chapitre 13 à 100 % sur 209. Deck du 11 septembre passé à **douze pages**, 100 % sur 104 nombres,
+0 vbox, slides J et K relues en PNG. 0 `??` compté dans le PDF, 0 annotation hors page,
+0 Overfull \vbox, 0 page tournée, et aucun Overfull \hbox nouveau (les trois signalés sont
+antérieurs, vérifié par `git stash`). Sorties 89, 90 et 91 déterministes, deux lancements donnant
+le même fichier, et le refactor de la section 1ter du 89 vers le module partagé reproduit
+`sorties_verif/89.txt` **à l'octet**.
+
+**Un détail d'instrument, rencontré deux fois aujourd'hui.** Les scripts 90 et 91 impriment leurs
+montants avec une espace de milliers, que l'extracteur du harnais coupe en deux : `13 801` devient
+13 et 801. Le remède retenu n'est pas de changer la typographie du mémoire pour plaire à l'outil,
+mais d'ajouter à chaque script un **dernier bloc « grandeurs citées »** qui reprend les mêmes
+valeurs sans séparateur ni signe. Il n'ajoute aucun calcul. C'est le même piège que le `5 001` du
+script 74, documenté plus haut.
 
 ## Note d'honnêteté
 

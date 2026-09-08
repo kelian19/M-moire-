@@ -24,7 +24,7 @@ de résultats. Le détail est dans la section « Comment construire » du `CLAUD
 
 ## État du dernier passage (8 septembre 2026, tous chapitres)
 
-**2 059 nombres publiés, 2 059 confirmés, soit 100 %**, et **0 nombre hors contrôle
+**2 086 nombres publiés, 2 086 confirmés, soit 100 %**, et **0 nombre hors contrôle
 non déclaré sur les dix-neuf chapitres**, relevé chapitre par chapitre et non sur le
 récapitulatif, qui n'imprime pas la couverture.
 
@@ -61,6 +61,22 @@ récapitulatif, qui n'imprime pas la couverture.
   Son dernier bloc imprime les grandeurs citées **sans séparateur de milliers ni signe** : les
   tables les impriment avec une espace, que l'extracteur du harnais coupe en deux. Le bloc
   n'ajoute aucun calcul, il rend citables des nombres déjà imprimés.
+
+- `91.txt` **backteste la CHARGE ANNUELLE AGRÉGÉE**, ce que le 89 ne faisait pas, et teste les
+  deux hypothèses que ni l'un ni l'autre ne touchait. **L'agrégat est rejeté là où les deux
+  marginales passaient** : PIT 0,734 pour 0,500 attendu, Kolmogorov-Smirnov p = 0,0042, couverture
+  75,0 % pour 90 % annoncés. **Mais le rejet n'est pas structurel** : PIT 0,611 sur les six
+  premières années notées contre 0,857 sur les six dernières (Mann-Whitney p = 0,0130), charge
+  observée 363 → 1 255 M€ quand la médiane prédictive ne va que de 183 à 248. C'est la dérive du
+  89 vue sur l'objet qui porte le capital, donc **aucune limite nouvelle** à l'inventaire.
+  Trois autres résultats : la loi de comptage pèse 0,3 % au CRPS sur la charge contre 3,054 nats
+  sur les comptes, la charge étant portée par un sinistre unique ; **l'indépendance fréquence /
+  sévérité tient** sur les excès, où la pente vaut 0,14 de sa valeur et p = 0,84 ; et le quantile
+  à 99,5 % **n'est testable sur aucun historique existant**, 1 811 années étant nécessaires.
+  L'objet noté est la charge de **queue**, parce que la chaîne publiée donne une sévérité nulle
+  sous le seuil : noter la charge totale exigerait un modèle de corps que le mémoire n'a pas.
+  Sortie **déterministe**, même classeur OpRisk que le 89, et même dernier bloc de grandeurs
+  citées sans séparateur.
 
 - `88.txt` **teste le théorème du coin supérieur** au lieu de l'emprunter. Au sens du quantile il
   tient, zéro violation sur les 65 paires emboîtées graine par graine ; la version

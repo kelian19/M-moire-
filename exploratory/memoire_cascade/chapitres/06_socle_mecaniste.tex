@@ -792,16 +792,80 @@ l'écart comme le facteur sont plus \emph{petits}, donc le chiffre publié n'est
 dérive. La structure est celle du taux de dépassement gelé, un même défaut rendant le niveau
 anti-conservateur et la thèse légèrement prudente, et seul le premier engage la solvabilité.
 
+\paragraph{Le test se poursuit sur la charge annuelle agrégée, et il ne donne pas le même
+verdict.} Tout ce qui précède porte sur les lois marginales prises séparément. Or le capital
+n'est ni l'une ni l'autre : c'est le quantile de la charge annuelle. Un modèle composé peut avoir
+deux marginales correctes et un agrégat faux, et c'est le reproche que cette classe de modèles
+reçoit le plus souvent. L'observable noté est la somme annuelle des sinistres dépassant le seuil
+d'apprentissage, qui est l'objet que la chaîne publiée produit puisqu'elle donne une sévérité
+nulle sous le seuil ; la prédictive est obtenue par $200\,000$ années simulées à chaque origine.
+Le verdict est négatif. La transformée intégrale de l'agrégat vaut $0{,}734$ en moyenne pour
+$0{,}500$ attendu et Kolmogorov-Smirnov la rejette ($D = 0{,}484$, $p = 0{,}0042$) ; l'intervalle
+de prévision annoncé à $90\,\%$ n'en couvre que $75{,}0\,\%$, avec trois dépassements de sa borne
+haute concentrés dans les quatre dernières années notées.
+
+\paragraph{Le rejet n'est pourtant pas structurel : c'est la dérive, vue sur l'objet qui porte le
+capital.} Une dérive laisse une signature reconnaissable, puisqu'elle ne désaligne pas les
+premières années notées mais seulement les dernières, l'apprentissage prenant du retard à mesure
+qu'elle s'accumule. C'est ce que la mesure donne : la transformée intégrale vaut $0{,}611$ sur les
+six premières années notées contre $0{,}857$ sur les six dernières, un écart que le test de
+Mann-Whitney situe à $p = 0{,}0130$. La charge observée passe en moyenne de $363$ à
+$1\,255$~M\euro{} entre les deux moitiés, quand la médiane prédictive ne passe que de $183$ à
+$248$. \textbf{Aucune limite nouvelle ne s'ajoute donc à l'inventaire} du
+chapitre~\ref{ch:robustesse} : la même s'y lit plus fort, l'agrégat cumulant la dérive de
+l'échelle et celle du taux de dépassement quand chaque marginale n'en portait qu'une.
+
+\paragraph{Un résultat inattendu au passage : la loi de comptage est décisive sur les comptes et
+presque immatérielle sur la charge.} La binomiale négative gagne nettement sur les comptes. Notée
+au score de probabilité continu classé sur la charge agrégée, son avance sur le Poisson tombe à
+$0{,}3\,\%$. Le motif est celui que le mémoire avance déjà pour son propre quantile : la charge
+annuelle est portée par un \emph{sinistre unique}, donc par la queue de sévérité et non par la
+surdispersion du comptage. La binomiale négative reste le bon choix, mais elle cesse d'être un
+déterminant du niveau de capital et il ne faut pas la présenter ainsi.
+
+\paragraph{L'indépendance entre fréquence et sévérité cesse d'être une hypothèse non testée, et
+elle tient.} Tout modèle composé la suppose, et une dépendance positive rendrait la queue de
+l'agrégat plus lourde que celle que le modèle produit. Sur l'ensemble de la distribution, la
+régression du logarithme du montant d'un sinistre sur le nombre d'incidents de son année donne
+une pente négative et significative, $-0{,}02397$ à $p = 0{,}0419$, le millésime étant tenu
+constant pour ne pas confondre l'effet avec la dérive. Mais sur les seuls \emph{excès}, qui sont
+la population que le modèle tire, cette pente tombe à $-0{,}00331$ et cesse d'être significative
+($p = 0{,}84$), soit $0{,}14$ de sa valeur. L'effet vit donc dans le bas de la distribution, où il
+s'explique par la profondeur de collecte, une année à beaucoup d'incidents enregistrés étant une
+année où l'on descend plus bas, et non par une propriété du risque. Prise au pied de la lettre
+sur les excès, sa conséquence sur le quantile de l'agrégat est de l'ordre du pour cent et
+symétrique en signe. Les corrélations de rang entre le compte annuel et la médiane ou le maximum
+de l'année ne rejettent rien non plus, et le rang est ici le bon outil : à $\hat\xi$ voisin de
+$0{,}6$ la variance de la sévérité est infinie, si bien qu'un test adossé à la variance de
+l'agrégat n'aurait pas d'objet, du même argument d'existence que celui qui écarte la mesure de
+queue sous la calibration PRC.
+
+\begin{attention}
+\textbf{Ce que ce dispositif ne peut pas tester, dit en années plutôt qu'en précaution de style.}
+Détecter un taux de dépassement \emph{double} du nominal avec une puissance de $80\,\%$
+demanderait $1\,811$ années au niveau de $99{,}5\,\%$, $905$ à $99\,\%$, et $78$ même à
+$90\,\%$. Le quantile qui porte le capital n'est donc backtestable sur \textbf{aucun} historique
+de risque opérationnel existant, et sur douze années le test ne renseigne que le centre et le
+corps de la loi de l'agrégat. Le niveau de capital reste adossé à l'ajustement paramétrique,
+dont la queue est corroborée par trois chemins indépendants et bornée par l'intervalle de
+$\xi$ ; aucun de ces chemins n'est un backtest du quantile, et le présenter comme tel serait
+faux. Un backtest qui ne déclare pas sa puissance laisse croire qu'une absence de rejet vaut
+validation.
+\end{attention}
+
 \begin{cle}
-\textbf{Ce que le backtest établit, en trois résultats de sens différents.} La loi de fréquence
-est validée hors échantillon, sur deux critères dont un que la largeur n'achète pas. La forme de
-la queue survit au test de probabilité intégrale. Et l'échelle de la sévérité dérive, de
-$4{,}00\,\%$ par an dans la queue, ce qui rend le quantile publié anti-conservateur d'au moins
-$24{,}7\,\%$. La valeur reste gelée et l'écart est inscrit au registre des limites
-(\S\ref{sec:pu-coherence}), du même traitement que le taux de dépassement. \textbf{Sur la thèse,
-la formule à retenir est l'invariance d'échelle et non l'invariance à la dérive} : le facteur
-entre états ne bouge pas d'une variation d'échelle, mais il baisse de $6{,}6\,\%$ sous la
-sévérité dérivée, dont la forme est plus légère. Sources : scripts~\texttt{89} et~\texttt{90}.
+\textbf{Ce que le backtest établit, et il y a un seul défaut derrière trois symptômes.} La loi de
+fréquence est validée hors échantillon, sur deux critères dont un que la largeur n'achète pas. La
+forme de la queue survit au test de probabilité intégrale. L'indépendance entre fréquence et
+sévérité tient sur la population que le modèle tire. \textbf{Un seul mécanisme est en défaut,
+l'échelle de la sévérité, qui dérive de $4{,}00\,\%$ par an dans la queue}, et les trois symptômes
+qui restent en découlent : les quantiles de sévérité dépassés trois fois trop souvent, la charge
+agrégée rejetée, et un quantile publié anti-conservateur d'au moins $24{,}7\,\%$. La valeur reste
+gelée et l'écart est inscrit au registre des limites (\S\ref{sec:pu-coherence}), du même
+traitement que le taux de dépassement. \textbf{Sur la thèse, la formule à retenir est
+l'invariance d'échelle et non l'invariance à la dérive} : le facteur entre états ne bouge pas
+d'une variation d'échelle, mais il baisse de $6{,}6\,\%$ sous la sévérité dérivée, dont la forme
+est plus légère. Sources : scripts~\texttt{89}, \texttt{90} et~\texttt{91}.
 \end{cle}
 
 %--------------------------------------------------------------
