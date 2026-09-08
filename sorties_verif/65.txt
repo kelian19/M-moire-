@@ -209,6 +209,26 @@ un jugement d'ordre de grandeur, et il est explicite pour pouvoir etre contredit
   cet ecart est un RAPPORT : il survit a une erreur de niveau commune aux trois
   etats. Mais le NIVEAU, lui, doit cesser d'etre presente comme une mesure.
 
+========================================================================================
+PISTE D'AUDIT : les valeurs PERIMEES du 2 septembre, imprimees pour etre citables
+========================================================================================
+Ces quatre valeurs sont FAUSSES et le memoire ne les publie plus. Elles sont imprimees
+ici parce qu'un deck ou une note qui documente la correction doit pouvoir les citer, et
+que tout nombre cite doit sortir d'un script. Ne JAMAIS les reutiliser comme donnees.
+
+  grandeur                                  avant (FAUX)    apres (publie)
+  total d'actif, assureur non-vie B                 3234              5305
+  SCR, assureur non-vie B                            292             812.5
+  part du SCR attribuee a DORA, non-vie B          41.3 %            16.7 %
+  part imputee a l'entite notionnelle                13 %               9 %
+
+MOTIF DE CHAQUE ECART. Le 3234 avait ete saisi en TOTAL D'ACTIF alors que le rapport le
+donne en FONDS PROPRES ELIGIBLES ; l'identite comptable le confirme, 5305 - 2071 = 3234.
+Le SCR de 292 en decoulait par un taux de couverture, alors que la section E.2 du rapport
+PUBLIE 812,5. Les deux parts suivent mecaniquement. La part imputee de 13 % venait d'un
+levier median de 6,9 %, devenu 10,0 %, ce qui fait passer le test du levier SOUS son
+critere : c'est ce qui l'a rendu neutre.
+
 Une charge de plusieurs dizaines de pourcents du SCR total pour une entite de
 quelques milliards d'actifs n'est pas un resultat, c'est le signe que la brique de
 severite est hors de son domaine. Le dire est plus utile que de publier le chiffre.
