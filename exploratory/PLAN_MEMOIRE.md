@@ -426,6 +426,47 @@ de grandeur de l'enjeu est qu'un jury note ce qu'il trouve en vingt minutes de l
 - **Ce fichier et `CLAUDE.md` sont remis à l'état mesuré**, et 96 antislashs parasites devant
   des apostrophes ont été retirés d'ici, séquelles d'une écriture scriptée.
 
+## Le 8 septembre : le premier backtest hors échantillon du projet (script 89)
+
+Le mémoire validait l'adéquation **dans** l'échantillon (Anderson-Darling, Kolmogorov-Smirnov,
+balayage de seuil, bootstrap de $\xi$) et ne demandait jamais au modèle de prédire une période
+qu'il n'avait pas vue. C'était le trou le plus visible, et c'est la première question d'un jury
+d'actuaires sur un modèle de capital. Protocole : origine glissante un pas en avant, fenêtre
+2004-2025, douze années notées hors échantillon.
+
+**Trois résultats, et ils ne vont pas dans le même sens.**
+
+1. **La loi de fréquence est validée, et c'est un gain net.** La binomiale négative couvre
+   **91,7 %** pour un intervalle annoncé à 90 %, quand Poisson ne couvre que **75 %**. Elle
+   gagne aussi au log-score prédictif, donc son paramètre supplémentaire n'est pas payé par une
+   largeur inutile. Le choix de surdispersion cesse d'être une précaution et devient une mesure.
+2. **La forme de la queue survit au test PIT**, ce qui n'était pas acquis avec vingt à quatre-
+   vingt-dix excès par ajustement. La GPD n'est donc pas la mauvaise famille.
+3. **Les quantiles de sévérité sont dépassés trois fois trop souvent** et le test de Kupiec les
+   rejette aux deux niveaux (huit dépassements contre 2,8 attendus à 99 %, p = 0,0078).
+
+**Le motif du troisième est mesuré, et il n'est pas celui qu'on attendrait.** Ce n'est pas la
+queue : c'est l'**échelle** de la loi de sévérité qui dérive. Le taux de dépassement du seuil
+vaut 15,1 % en apprentissage contre **27,1 %** hors échantillon (rapport 1,80, p = 2,4·10⁻⁷), et
+la médiane annuelle des pertes monte de **13 % par an** en log (p = 0,0003). Une fenêtre
+d'apprentissage qui s'étend garde les petites pertes anciennes, donc elle retarde sur la dérive.
+C'est un défaut de **stationnarité**, pas de famille.
+
+**Une décision de Kélian, et elle est du même type que celle du `p_u`.** La non-stationnarité de
+l'échelle n'est pas dans l'inventaire du chapitre 13. Son sens est **anti-conservateur**, donc
+elle se déclare et ne se couvre pas par un argument de prudence. Le traitement cohérent avec le
+gel est de la **déclarer chiffrée**, non de recalibrer sur une fenêtre glissante, ce qui
+déplacerait tous les niveaux publiés.
+
+**Deux pièges évités en chemin, et le premier aurait invalidé le backtest.** Le périmètre couvre
+1979-2026, mais avant 2004 la collecte porte un à neuf incidents par an contre treize à
+trente-neuf ensuite, et 2026 n'en porte que cinq : ce ne sont pas des années calmes, c'est une
+base qui ne les couvre pas. Retenir toute la période aurait produit un faux effondrement de
+fréquence en fin de période. Et le seuil est **re-estimé** sur chaque échantillon
+d'apprentissage par la règle du percentile 85, au lieu d'être lu dans `config.py` : un seuil
+calculé sur toute la période ferait fuiter l'information de test dans l'apprentissage. Cette
+différence avec la chaîne publiée est délibérée et écrite dans l'en-tête du script.
+
 ---
 
 ## F. Clos, à ne pas rouvrir

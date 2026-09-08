@@ -30,6 +30,15 @@ récapitulatif, qui n'imprime pas la couverture.
 
 ### Ce qui s'est ajouté depuis le 14 août
 
+- `89.txt` est le **premier backtest hors échantillon du projet**, et le seul endroit où le
+  modèle prédit une période qu'il n'a pas vue. Trois résultats de sens opposés : la binomiale
+  négative est **validée** (couverture 91,7 % contre 75 % pour Poisson), la **forme** de la
+  queue survit au test PIT, et les **quantiles de sévérité sont dépassés trois fois trop
+  souvent**. Le motif est mesuré et ce n'est pas la queue : le taux de dépassement dérive, de
+  15,1 % en apprentissage à 27,1 % hors échantillon. Sortie **déterministe**, deux lancements
+  donnent le même fichier. Exige `SAS_OpRisk_Global_Data_June_2026.xlsx`, donc ne se relance
+  que là où ce fichier est présent.
+
 - `88.txt` **teste le théorème du coin supérieur** au lieu de l'emprunter. Au sens du quantile il
   tient, zéro violation sur les 65 paires emboîtées graine par graine ; la version
   **trajectorielle** du préprint ne transporte pas, 16,18 % d'années en baisse sur la propagation

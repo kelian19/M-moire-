@@ -327,6 +327,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 86 | plafond et saturation mesurés **conjointement**. Le plafond est un **AMORTISSEUR** et non un contrepoids : l'interaction change de signe à θ = 1. Aucune crête de compensation, les deux réserves sont hiérarchisées et non confondues |
 | 88 | le **coin supérieur** du pavé des quatre canaux. Sur les 65 paires emboîtées, relâcher un canal ne fait **jamais** baisser le capital, graine par graine : l'état non conforme est le maximum, donc un test de résistance se réduit à une évaluation. **Mais la version TRAJECTORIELLE du préprint ne transporte pas** : à aléas communs la perte d'une année baisse dans 16,2 % des cas sur la propagation et **30,7 % sur la détection**, qui viole le plus pour une raison étrangère à la cascade (p_u entre dans la transformation de sévérité, pas dans une table). Et le garde-fou qui compte : **un coin peut être infaisable**, deux canaux sur quatre étant des bornes posées |
 | 35 | étude d'événement MOVEit, différence de différences, placebo et bootstrap. **Sa sortie est versionnée depuis le 17 août** : elle exige `Data_Breach_Chronology.xlsx`, présent sur le PC et absent du Mac. Le chapitre 09 est passé de 95,5 à 100 % grâce à elle |
+| 89 | **backtest hors échantillon**, origine glissante sur 2004-2025, le premier du projet. Trois résultats de sens opposés : la **binomiale négative est validée** (couverture 91,7 % contre 75 % pour Poisson, et elle gagne au log-score), la **forme de la queue survit** au test PIT, et les **quantiles de sévérité sont dépassés trois fois trop souvent**. Le motif est mesuré et ce n'est pas la queue : le **taux de dépassement dérive**, 15,1 % en apprentissage contre 27,1 % hors échantillon, et la médiane annuelle monte de 13 % par an. C'est un défaut de **stationnarité**, pas de famille. Il exige `SAS_OpRisk_Global_Data_June_2026.xlsx` |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
@@ -1241,7 +1242,17 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
   c'est non**, et le motif n'est pas la disponibilité mais la nature de ce que ces sources
   publient. Voir la décision E5 dans la section du 21 août. Ne pas rouvrir ;
 - les **7 % de blanc résiduels** sous trois titres de figures : cosmétique, refusé deux fois,
-  le corriger imposerait de changer de moteur de mise en page sur sept scripts déjà validés.
+  le corriger imposerait de changer de moteur de mise en page sur sept scripts déjà validés ;
+- **la non-stationnarité de l'échelle de sévérité, mesurée le 8 septembre et NON déclarée dans
+  le mémoire.** Le backtest du script 89 la chiffre : le taux de dépassement du seuil vaut
+  15,1 % en apprentissage contre **27,1 %** hors échantillon, rapport 1,80 et p = 2,4·10⁻⁷, et
+  la médiane annuelle des pertes monte de **13 % par an** en log (p = 0,0003). Le sens est
+  **anti-conservateur** : un capital de sévérité estimé sur l'historique complet sous-estime
+  celui d'une année récente. Elle a exactement le statut du `p_u` gelé, donc le traitement
+  cohérent avec le gel est de la **déclarer chiffrée au chapitre 13**, pas de recalibrer sur
+  une fenêtre glissante, ce qui déplacerait tous les niveaux publiés. **La décision revient à
+  Kélian.** Ne pas en conclure que le modèle est faux : la forme de la queue est validée et la
+  loi de fréquence est confirmée par le même backtest.
 
 **Clos, à ne pas rouvrir :** le **statut de citation** de Hackmageddon (la source reste
 utilisée, voir plus haut), le **Hawkes** (l'outil est bien écarté et le choix est documenté et
