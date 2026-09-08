@@ -1,0 +1,82 @@
+% VERSION 2 : MEME CONTENU, STYLE CLASSIQUE. Comparaison avec main.tex.
+%
+% Ce fichier est main.tex a une ligne pres : il appelle preambule_v2 au lieu de
+% preambule. Les \input de chapitres sont les MEMES FICHIERS, donc les deux PDF
+% portent le meme texte, les memes nombres et la meme structure, et le harnais de
+% verification vaut pour les deux sans etre relance.
+%
+% NE PAS DUPLIQUER LES CHAPITRES pour faire evoluer la v2 : ce serait deux textes
+% a maintenir, et ils divergeraient en une semaine. Si la v2 est retenue, on
+% remplace preambule.tex par preambule_v2.tex et l'on supprime ce fichier.
+
+\documentclass[11pt,a4paper]{report}
+
+% Le mémoire est éclaté : un fichier par chapitre dans chapitres/, le préambule
+% dans preambule.tex. Ce fichier ne contient que l'ORDRE DE LECTURE.
+%
+% STRUCTURE EN CINQ PARTIES (conforme aux recommandations de l'Institut des Actuaires :
+% contexte et problématique, puis données, puis modélisation, puis résultats, puis limites
+% et sensibilité). La règle qui gouverne ce découpage : AUCUN niveau de capital agrégé
+% n'apparaît avant la partie IV. Les parties II et III établissent les données, le modèle
+% et ce qui est identifiable ; elles n'énoncent que des écarts relatifs, avec renvoi.
+\input{preambule_v2}
+
+\begin{document}
+\maketitle
+
+\input{chapitres/01_resume}   % Résumé, abstract, table des matières
+
+% =====================================================================
+\part{Contexte et problématique}
+\label{part:contexte}
+% =====================================================================
+\input{chapitres/02_introduction}            % Problématique, contribution, plan
+\input{chapitres/04_cadre_reglementaire}     % DORA et Solvabilité II
+\input{chapitres/03_etat_art_positionnement} % État de l'art et positionnement
+
+% =====================================================================
+\part{Les données et leurs limites}
+\label{part:donnees}
+% =====================================================================
+\input{chapitres/05_donnees_limites}         % Sources, périmètres, retraitements, limites
+
+% =====================================================================
+\part{Modélisation}
+\label{part:modele}
+% =====================================================================
+\input{chapitres/06_socle_mecaniste}         % Fréquence et sévérité : théorie et calibration
+\input{chapitres/07_cascade_dirigee}         % La cascade dirigée, sa formalisation et ses vérifications
+\input{chapitres/11_conformite_multietats}   % La conformité multi-états (Markov)
+\input{chapitres/09_identifiabilite}         % Ce qui est identifiable, et ce qui ne l'est pas
+
+% =====================================================================
+\part{Résultats}
+\label{part:resultats}
+% =====================================================================
+\input{chapitres/10_identification_partielle} % Le capital en bornes sur l'ensemble admissible
+\input{chapitres/12_resultats}                % Surcoût DORA, attribution, benchmarks
+
+% =====================================================================
+\part{Robustesse, limites et perspectives}
+\label{part:limites}
+% =====================================================================
+\input{chapitres/13_inventaire_hypotheses}        % Hypothèses, sensibilité, étages d'incertitude
+\input{chapitres/13b_donnee_manquante_livrable}   % La donnée manquante, chiffrée et hiérarchisée
+\input{chapitres/14_conclusion}                   % Conclusion
+
+% =====================================================================
+\appendix
+\part*{Annexes}
+\addcontentsline{toc}{part}{Annexes}
+% =====================================================================
+\input{chapitres/15b_demonstrations_cascade}  % Démonstrations : cascade
+\input{chapitres/15_demonstrations}           % Démonstrations : socle
+\input{chapitres/12b_adaptations_pilier}      % Adaptations par pilier et cas d'usage
+\input{chapitres/17_pieces_justificatives}    % Réconciliations, inventaire, sensibilités
+\input{chapitres/18_elicitation_protocole}    % Protocole de Cooke, préparé et non exécuté
+\input{chapitres/16_notations}                % Table des notations
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
