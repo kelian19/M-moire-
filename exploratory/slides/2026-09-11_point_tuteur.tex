@@ -7,8 +7,17 @@
 % d'autres sujets (defaillances simultanees, additivites, concavite en duree).
 %
 % LE FIL : deux semaines d'absence, donc le deck ne raconte pas une production de semaine. Il
-% porte le chiffre de tete, qui n'avait jamais ete expose, et les deux verifications de fond
-% faites le 2 septembre. C'est un deck de CONSOLIDATION, et il faut l'annoncer comme tel.
+% porte le chiffre de tete, qui n'avait jamais ete expose, et les trois resultats de fond de la
+% descente d'echelle et du facteur. C'est un deck de CONSOLIDATION, et il faut l'annoncer ainsi.
+%
+% TRAME REPRISE DU DECK DU 21 AOUT, ET C'EST UNE CONSIGNE. Une slide = UN RESULTAT enonce dans
+% son titre, deux lignes d'amorce, UNE table compacte, trois puces courtes, la ligne de sources.
+% Rien d'autre. Une premiere redaction de ce deck racontait la CORRECTION des chiffres SFCR
+% (table avant / apres, identite comptable, erreur de champ, test du levier retourne) : c'etait
+% du detail de fabrication, et le tuteur n'a pas besoin du chemin, il a besoin du resultat. Ce
+% qui a remplace : la part du SCR DECROIT avec la taille, le forfait SE TROMPE DANS LES DEUX
+% SENS, le facteur N'A PAS DE TRAJECTOIRE et la donnee impose des sauts. Les trois sont des
+% enonces defendables de bout en bout. NE PAS REVENIR AU RECIT DE LA CORRECTION.
 %
 % HORS SUJET SUR CONSIGNE, NE PAS REMETTRE : la charte graphique, et tout ce qui releve de la
 % FABRICATION du document (comptes de pages, taux du harnais, defauts de citation, couverture
@@ -44,7 +53,7 @@
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
-\subtitle{Le chiffre de tête, et deux vérifications de fond}
+\subtitle{Le chiffre de tête, les quatre bilans réels et le facteur systémique}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[11/09/2026]{11 septembre 2026}
@@ -78,9 +87,9 @@ $\mathbf{3{,}34}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-\vspace{4mm}
+\vspace{2mm}
 
-\begin{itemize}\itemsep6pt
+\begin{itemize}\itemsep4pt
   \item \alert{La quatrième est la seule où l'état conforme est conforme sur tous les canaux}
   \item Ailleurs, c'est une remédiation partielle appelée conformité, ce qui sous-estime
         l'écart par construction
@@ -94,84 +103,100 @@ $\mathbf{3{,}34}$ \\
 % =====================================================================
 \section*{B. Les quatre bilans réels}
 
-\begin{frame}{Les rapports SFCR relus, et une erreur de champ}
+\begin{frame}{Le besoin de capital décroît avec la taille de l'entité}
 \small
-Les quatre jeux de chiffres d'entité étaient saisis depuis les rapports de solvabilité 2024
-sans que les rapports eux-mêmes aient été relus. Ils l'ont été.
+Le modèle est descendu sur quatre bilans réels, tirés des rapports de solvabilité 2024.
 \vspace{3mm}
 
 \begin{center}\small
-\begin{tabular}{@{}l r r@{}}
+\begin{tabular}{@{}l r r r r@{}}
 \toprule
-\textbf{Assureur non-vie B} & \textbf{avant} & \textbf{après relecture} \\
+\textbf{Entité} & \textbf{actifs} & \textbf{\textsc{scr} publié} & \textbf{besoin \textsc{orsa}}
+& \textbf{rapport} \\
 \midrule
-Total d'actif & $3\,234$ & $\mathbf{5\,305}$ \\
-\textsc{scr} & $292$ \emph{(déduit)} & $\mathbf{812{,}5}$ \emph{(publié)} \\
-Besoin \textsc{orsa} au titre de DORA & $120{,}8$ & $135{,}5$ \\
-Rapport au \textsc{scr} publié & $41{,}3\,\%$ & $\mathbf{16{,}7\,\%}$ \\
+Assureur non-vie A & $2\,319$ & $425$ & $112$ & $26{,}4\,\%$ \\
+Assureur non-vie B & $5\,305$ & $812$ & $136$ & $16{,}7\,\%$ \\
+Assureur vie C & $37\,845$ & $1\,587$ & $196$ & $12{,}3\,\%$ \\
+\textbf{Assureur vie D} & $\mathbf{309\,800}$ & $\mathbf{14\,800}$ & $\mathbf{294}$ &
+$\mathbf{2{,}0\,\%}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-\vspace{3mm}
+\vspace{2mm}
 
-\begin{itemize}\itemsep5pt
-  \item Le $3\,234$ était saisi en \textbf{total d'actif} là où le rapport le donne en
-        \textbf{fonds propres éligibles}
-  \item L'identité comptable le confirme : $5\,305 - 2\,071 = 3\,234$
-  \item \alert{La figure signalait l'anomalie avant qu'on la trouve} : la part montait avec la
-        taille entre les deux petites entités
+\begin{itemize}\itemsep4pt
+  \item \alert{Trois entités sur quatre sont hors du domaine de validité} de la descente
+        d'échelle. Seule la plus grande reste crédible
+  \item La cause est l'élasticité de sévérité, $0{,}087$ : un facteur $134$ sur les actifs ne
+        divise la sévérité que par $1{,}53$
+  \item Les quatre \textsc{scr} du dénominateur sont \textbf{publiés}, donc plus aucun n'est
+        reconstitué et la réserve qui l'accompagnait n'a plus d'objet
 \end{itemize}
-\vspace{1mm}
+\vspace{2mm}
 {\scriptsize En M\euro. Sources : script~\texttt{65}.}
 \end{frame}
 
 % =====================================================================
-\begin{frame}{Ce que cette relecture fait gagner}
+\begin{frame}{Le forfait de Formule Standard se trompe dans les deux sens}
 \small
-\begin{block}{Une limite déclarée disparaît}
-Les quatre \textsc{scr} sont \textbf{publiés} par les rapports. Plus aucun n'est reconstitué
-depuis un taux de couverture, donc la réserve \og{}deux \textsc{scr} sur quatre sont
-déduits\fg{} et la borne sous stress de $\pm 10\,\%$ n'ont plus d'objet.
-\end{block}
-\vspace{3mm}
-\begin{itemize}\itemsep6pt
-  \item \textbf{Le forfait de $3\,\%$ n'est pas une borne, et c'est mesuré} : contre le module
-        opérationnel publié, $54{,}1$ contre $59$ chez l'un, $62{,}1$ contre $39{,}7$ chez
-        l'autre. Il se trompe \alert{dans les deux sens}
-  \item \textbf{Le test du levier a changé de sens}, et je ne l'invoque plus : la part de
-        l'entité notionnelle passe de $13$ à $9\,\%$, donc \emph{sous} le critère de $10\,\%$
-  \item La requalification du $169$~M\euro{} repose désormais sur le \textbf{seul} argument de
-        taille, qui tient par lui-même
+Le repère habituel est la charge opérationnelle forfaitaire, $3\,\%$ des provisions. Les états
+\textsc{s.25.01} publient le module réellement retenu, donc le forfait est confrontable.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+\textbf{Entité} & \textbf{forfait $3\,\%$} & \textbf{module publié} & \textbf{écart} \\
+\midrule
+Assureur non-vie A & $54{,}1$ & $59{,}0$ & $-8\,\%$ \\
+Assureur non-vie B & $62{,}1$ & $39{,}7$ & $\mathbf{+56\,\%}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item \alert{Le forfait n'est donc ni un majorant ni un minorant} : il se cite comme un ordre
+        de grandeur de comparaison, jamais comme une borne
+  \item Deux entités ne déterminent pas un biais, mais elles suffisent à réfuter la monotonie
+  \item Les deux entités vie ne sont pas comparables ici, leur assiette étant d'une autre nature
 \end{itemize}
 \vspace{2mm}
-{\scriptsize Sources : script~\texttt{65}.}
+{\scriptsize En M\euro. Sources : script~\texttt{65}.}
 \end{frame}
 
 % =====================================================================
 \section*{C. La dynamique du facteur}
 
-\begin{frame}{Le facteur systémique suit-il une trajectoire ?}
+\begin{frame}{Le facteur systémique n'a pas de trajectoire, et la donnée impose des sauts}
 \small
-Question de ma tutrice de stage : sous Vasicek, la probabilité de défaut de crédit est portée
-par un brownien. Quelle trajectoire suit mon facteur systémique ?
-\vspace{3mm}
+Sous Vasicek, la probabilité de défaut de crédit est portée par un brownien. La question posée
+est celle de la trajectoire du facteur systémique du modèle.
+\vspace{1mm}
 
-\begin{itemize}\itemsep6pt
-  \item \textbf{Réponse en deux temps.} Le facteur publié n'a \emph{pas} de trajectoire : il est
-        indépendant d'un pas au suivant. Ce n'est pas un défaut, c'est \alert{exactement
-        l'incrément brownien normalisé} du modèle de crédit, au pas comptable
-  \item La dépendance entre piliers existe et elle est forte : charge commune $0{,}68$, soit une
-        corrélation de $0{,}462$ entre deux piliers
-  \item \textbf{Mais un brownien pur imposerait un indice de dispersion égal à $1$}, et il est
-        mesuré à $1{,}19$ sur les cellules firme-année et $2{,}24$ sur la série annuelle. Le
-        moteur en pose $9{,}20$ comme marge
-  \item \alert{Donc la donnée identifie une composante de saut} : le facteur s'écrit avec un
-        retour à la moyenne et des sauts, et la section le publie avec sa normalisation
+\begin{center}\small
+\begin{tabular}{@{}l r l@{}}
+\toprule
+\textbf{Indice de dispersion, selon l'échelle} & \textbf{valeur} & \textbf{statut} \\
+\midrule
+Brownien pur, ce qu'il imposerait & $1$ & référence \\
+Cellules firme-année & $1{,}19$ & mesure \\
+Série annuelle & $2{,}24$ & mesure \\
+Moteur du modèle & $9{,}20$ & marge posée \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item Le facteur publié n'a \emph{pas} de trajectoire, et ce n'est pas un défaut : c'est
+        \textbf{l'incrément brownien normalisé} du modèle de crédit, au pas comptable
+  \item \alert{Un brownien pur imposerait $1$, la donnée en mesure davantage} : elle identifie
+        donc une composante de \textbf{saut}
+  \item La dépendance entre piliers existe et elle est forte : corrélation de $0{,}462$
 \end{itemize}
-\vspace{3mm}
-{\scriptsize L'indice de dispersion vaut $1 + \lambda/r$ : il n'est pas invariant d'échelle,
-d'où trois valeurs pour trois niveaux d'agrégation. Sources : scripts~\texttt{08b},
-\texttt{16}, \texttt{41} et~\texttt{69}.}
+\vspace{2mm}
+{\scriptsize Sources : scripts~\texttt{08b}, \texttt{41} et~\texttt{69}.}
 \end{frame}
 
 \end{document}
