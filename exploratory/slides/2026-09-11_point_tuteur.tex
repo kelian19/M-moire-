@@ -1,4 +1,4 @@
-% Point d'avancement tuteur, vendredi 11 septembre 2026. DOUZE pages : titre et onze resultats.
+% Point d'avancement tuteur, vendredi 11 septembre 2026. TREIZE pages : titre et douze resultats.
 %
 % TRAME, ET C'EST UNE CONSIGNE : celle du deck du 21 aout. Une slide = UN RESULTAT enonce dans
 % son titre, deux lignes d'amorce, UNE table compacte, trois puces courtes, la ligne de sources.
@@ -12,24 +12,25 @@
 % FABRICATION du document (comptes de pages, taux du harnais, defauts de citation, couverture de
 % deck). Ce travail est trace dans CLAUDE.md et PLAN_MEMOIRE.md.
 %
-% PROVENANCE DES ONZE RESULTATS, VERIFIEE PAR GREP SUR TOUS LES DECKS.
+% PROVENANCE DES DOUZE RESULTATS, VERIFIEE PAR GREP SUR TOUS LES DECKS.
 %   Jamais montres nulle part : le chiffre de tete (A), les quatre bilans reels (F), le forfait
 %   (G), le facteur systemique (H), l'equivalence Hawkes / cascade (I), le backtest (J), la
 %   charge agregee (K).
 %   Portes par le deck du 21 aout : les defaillances simultanees (B), l'hypothese d'additivite
 %   des couts (C), l'ablation en echelle (D), le coin superieur (E).
-%   SI LE DECK DU 21 AOUT A ETE PRESENTE, retirer B a E et le deck retombe a huit pages. S'il ne
+%   SI LE DECK DU 21 AOUT A ETE PRESENTE, retirer B a E et le deck retombe a neuf pages. S'il ne
 %   l'a pas ete, ce deck le remplace et il faut retirer le 21 aout du dossier pour ne pas
 %   presenter deux fois les memes slides.
-%   J ET K SONT LE TRAVAIL DE LA SEMAINE, les seuls de ce deck : ce sont les slides a garder en
+%   J, K ET L SONT LE TRAVAIL DE LA SEMAINE, les seuls de ce deck : ce sont les slides a garder en
 %   toute hypothese, et celles sur lesquelles le tuteur aura le plus a dire. K porte le resultat
 %   le plus parlant, deux marginales validees et un agregat rejete pour la meme cause.
 %
 % LE FIL : le chiffre, le mecanisme qui le produit, l'hypothese qui le porte, ce qui le porte
 % vraiment, la garantie de test de resistance, la descente a l'entite, le repere externe, la
-% dynamique du facteur, le choix de modele, et pour finir la question la plus profonde, celle de
-% savoir si les deux lois du socle predisent une periode qu'elles n'ont pas vue. Il va du
-% resultat vers ses fondations, ce qui est l'ordre dans lequel un jury pose ses questions.
+% dynamique du facteur, le choix de modele, puis la question la plus profonde, celle de savoir si
+% les deux lois du socle predisent une periode qu'elles n'ont pas vue, et enfin la question
+% RECIPROQUE, celle qu'un dispositif ORSA pose. Il va du resultat vers ses fondations, ce qui est
+% l'ordre dans lequel un jury pose ses questions, et se referme sur l'usage.
 %
 % AUCUNE FIGURE. S10 (SCR par etat), S24 (interaction des canaux) et Z22 (biais de narration)
 % restent disponibles, aucune n'ayant servi dans un deck non presente.
@@ -55,7 +56,7 @@
 \setbeamerfont{block title}{size=\small}
 
 \title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
-\subtitle{Onze résultats, du chiffre publié jusqu'à ses fondations}
+\subtitle{Douze résultats, du chiffre publié jusqu'à ses fondations}
 \author[K. Kaddouri]{Kélian Kaddouri}
 \institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
 \date[11/09/2026]{11 septembre 2026}
@@ -436,6 +437,41 @@ Médiane prédictive & $183$ & $248$ \\
 \end{itemize}
 \vspace{1mm}
 {\scriptsize En M\euro. Sources : script~\texttt{91}.}
+\end{frame}
+
+% =====================================================================
+\section*{L. La question inverse}
+
+\begin{frame}{Un seul canal peut à lui seul produire un scénario sévère}
+\small
+Le modèle répond \og{}que coûte tel état\fg{}. L'exercice inverse fixe le capital et cherche les
+états qui le produisent, comme un dispositif \textsc{orsa}.
+\vspace{1mm}
+
+\begin{center}\small
+\begin{tabular}{@{}r l c@{}}
+\toprule
+\textbf{Cible} & \textbf{combinaisons minimales} & \textbf{canaux} \\
+\midrule
+$8\,000$ & fréquence, ou deux des trois autres & $1$ \\
+$10\,000$ & fréquence, ou les trois autres réunis & $1$ \\
+$12\,000$ & fréquence \emph{plus} un autre & $2$ \\
+$18\,000$ & les quatre & $4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{2mm}
+
+\begin{itemize}\itemsep4pt
+  \item La fréquence seule atteint $10\,377$ ; les trois autres \textbf{réunis} n'atteignent
+        que $11\,413$
+  \item \alert{Donc toute cible au-dessus exige la fréquence}, et aucun autre canal seul
+        n'atteint même $8\,000$
+  \item Lisible parce que le capital est monotone sur le pavé : seules les combinaisons
+        minimales comptent
+\end{itemize}
+\vspace{1mm}
+{\scriptsize En M\euro. Sources : script~\texttt{92}.}
 \end{frame}
 
 \end{document}

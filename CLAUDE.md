@@ -9,10 +9,10 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au **8 septembre 2026** : **173 pages au total, dont 127 de corps** (annexes en 128),
+État au **8 septembre 2026** : **176 pages au total, dont 129 de corps** (annexes en 130),
 branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 8 septembre : **2 086 nombres, 2 086 confirmés, 100 %**, et **0 hors
+Harnais au 8 septembre : **2 142 nombres, 2 142 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
@@ -331,6 +331,9 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 89 | **backtest hors échantillon**, origine glissante sur 2004-2025, le premier du projet. Trois résultats de sens opposés : la **binomiale négative est validée** (couverture 91,7 % contre 75 % pour Poisson, et elle gagne au log-score), la **forme de la queue survit** au test PIT, et les **quantiles de sévérité sont dépassés trois fois trop souvent**. Le motif est mesuré et ce n'est pas la queue : le **taux de dépassement dérive**, 15,1 % en apprentissage contre 27,1 % hors échantillon, et la médiane annuelle monte de 13 % par an. C'est un défaut de **stationnarité**, pas de famille. **Sa section 1ter chiffre ce que la dérive coûte, et elle MODÈRE la 1bis** : la queue ne dérive que de 4,00 % par an quand le corps dérive de 13,0 %, facteur 3,2, donc l'effet à déclarer est de +24,7 % sur le quantile de sévérité (borne basse) et non un quintuplement. Deux garde-fous à connaître : indexer la queue à la tendance du corps fait passer l'indice de queue **au-dessus de un**, donc détruit l'espérance de la sévérité, et modéliser la dérive fait **tomber** ξ de 0,5979 à 0,5273, l'ajustement stationnaire attribuant à la forme une part de ce qui est de la dérive. Il exige `SAS_OpRisk_Global_Data_June_2026.xlsx` |
 | 90 | **la dérive de sévérité est-elle neutre sur l'écart entre états ?** Il ferme une affirmation du mémoire au lieu d'en ouvrir une. **L'argument est juste mais il porte sur l'ÉCHELLE et sur elle seule** : une variation de la seule échelle multiplie les deux états par le même facteur, 1,4556 et 1,4532, rapport **0,9984**, alors que les niveaux montent de 46 %. La dérive mesurée, elle, n'est pas un pur changement d'échelle : la modéliser fait tomber ξ, et **le facteur entre états passe de 3,344 à 3,124**, −6,6 %, résolu à 4,43 écarts-types, **entièrement porté par la composante de FORME** (−6,1 %, 4,09 σ ; l'échelle seule ne pèse que −0,2 %, non résolu). L'écart en euros ne bouge que de −1,9 %, **mais par COMPENSATION** : forme seule 9 393, échelle seule 20 041. **Ne jamais annoncer l'écart comme robuste à la sévérité**, et citer l'invariance d'échelle, jamais l'invariance à la dérive |
 | 91 | **backtest de la CHARGE ANNUELLE AGRÉGÉE**, plus les deux hypothèses que le 89 ne testait pas. **L'agrégat est REJETÉ là où les deux marginales passaient** : PIT 0,734 pour 0,500 attendu, Kolmogorov-Smirnov p = 0,0042, couverture 75,0 % pour 90 % annoncés. **Mais le rejet n'est pas structurel**, c'est la dérive du 89 vue sur l'objet qui porte le capital, et la signature est mesurée : PIT 0,611 sur les six premières années notées contre 0,857 sur les six dernières (Mann-Whitney p = 0,0130), charge observée 363 → 1 255 M€ quand la médiane prédictive ne va que de 183 à 248. **Aucune limite nouvelle** n'entre donc à l'inventaire. Trois autres résultats : la loi de comptage est décisive sur les comptes et **immatérielle sur la charge** (0,3 % au CRPS contre 3,054 nats sur les comptes), la charge étant portée par un sinistre unique ; **l'indépendance fréquence / sévérité TIENT** sur les excès, la pente y valant 0,14 de sa valeur et p = 0,84, l'effet visible sur toute la distribution étant un artefact de profondeur de collecte ; et **le quantile à 99,5 % n'est testable sur aucun historique existant**, 1 811 années étant nécessaires pour détecter un taux double du nominal à 80 % de puissance (905 à 99 %, 78 à 90 %) |
+| 92 | **test de résistance INVERSÉ** sur les quatre canaux : on fixe le capital et l'on cherche les états qui le produisent. Possible seulement grâce à la monotonie du script 88, qui rend l'ensemble des configurations atteignant une cible **croissant**, donc décrit par ses seuls éléments **minimaux** (jamais plus de quatre sur seize). **Le résultat de gestion tient en deux seuils** : la fréquence SEULE atteint 10 377 M€ (×1,72) quand les trois autres canaux RÉUNIS n'atteignent que 11 413 (×1,89), donc toute cible sous le premier se produit par un canal unique et toute cible au-dessus du second **exige** la fréquence. Aucun autre canal seul n'atteint même 8 000 (détection 7 497, propagation 7 682, accumulation 7 777). **Et une découverte : le canal d'accumulation n'admet pas d'inversion continue**, ses deux états étant deux structures de table ; sa bascule à φ nul fait **baisser** le capital de 239 M€ (résolu, 4 graines sur 4) parce qu'elle retire la propagation propre de P4, si bien que son effet isolé publié de 1 728 est le NET de −239 et +1 967 |
+| 93 | **le seuil de la calibration est-il une règle ou un choix ?** Trois règles sur dix percentiles candidats, et le résultat est favorable. **La règle de stabilité sélectionne EXACTEMENT le seuil publié** (19,87 contre 20,03, soit 0,8 %, quantile identique), et ce seuil est aussi **le mieux ajusté du balayage**, p d'Anderson-Darling 0,971 contre 0,954 pour le second. **La règle la plus permissive descendrait à 12,88 M€ et donnerait un quantile SUPÉRIEUR de 16 %** : le seuil publié n'est donc pas celui qui maximise le chiffre du mémoire. **Et le compromis biais-variance n'existe pas sur cette grandeur** : l'écart-type du quantile est divisé par 3,5 en remontant le seuil alors que les excès sont divisés par six, parce que descendre gonfle ξ jusqu'à 1,058 et que le quantile en dépend exponentiellement. Le double bootstrap d'erreur quadratique asymptotique est **refusé avec son motif** : ses sous-échantillons vaudraient 118 puis 24 observations |
+| 94 | **le quantile de la loi des CONFIGURATIONS**, c'est-à-dire le trou que le script 69 déclarait lui-même. L'invariance de 69 porte sur l'**espérance** ; ici l'espérance bouge de −0,02 % quand le quantile à 75 % bouge de +5,53 %, celui à 90 % de +2,76 % et la moyenne de queue à 90 % de +1,06 %. **L'argument d'additivité ne transporte donc pas à un quantile**, la réserve était justifiée, mais l'ordre de grandeur reste petit. Mécanisme mesuré : la **polarisation**, P(tous C) 29,06 → 33,03 % et P(tous NC) 6,83 → 8,78 % à espérance inchangée. **Et une limite de l'objet** : au-delà de 93,17 % le quantile EST la configuration intégralement non conforme, donc les niveaux hauts sont **saturés et non invariants**, et un « quantile à 99,5 % de la loi des configurations » n'a aucun contenu. Ce n'est PAS une mesure de capital : ni `\VaR` ni `\TVaR` |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
@@ -988,7 +991,7 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
   rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
   déclarée supprimée, un résultat gagné sur le forfait ;
-- l'arbitrage de **format** : le corps est à **127 pages pour 173 au total** (annexes en 128),
+- l'arbitrage de **format** : le corps est à **129 pages pour 176 au total** (annexes en 130),
   contre les ~70 de
   corps recommandés par l'Institut. **Tranché en faveur de Kélian**, Hugo ayant dit de ne pas se
   contraindre ;
@@ -1266,20 +1269,16 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
   1. ~~backtester la charge annuelle agrégée et tester l'indépendance fréquence / sévérité~~ :
      **FAIT le 8 septembre, script 91**, voir sa ligne dans la table des scripts. Le pari était
      bon : l'agrégat est rejeté là où les deux marginales passaient, et le motif est mesuré ;
-  2. **le test de résistance INVERSÉ.** Le mémoire répond à « que coûte la non-conformité » ;
-     l'ORSA demande aussi « quel état du monde produit une perte de tel montant ». Le pavé des
-     quatre canaux est énuméré et le script 88 a établi que le coin supérieur majore : le test
-     inversé est la question réciproque sur le même pavé ;
-  3. **la règle de sélection du seuil**, pour répondre à « pourquoi ce seuil et pas un autre ».
-     Le gel interdit de changer `u`, mais pas de montrer qu'une règle automatique le retrouve,
-     ni de mesurer la distance si elle ne le retrouve pas ;
+  2. ~~le test de résistance inversé~~ : **FAIT le 8 septembre, script 92** ;
+  3. ~~la règle de sélection du seuil~~ : **FAIT le 8 septembre, script 93**, et le résultat est
+     favorable ;
   et **deux à ne pas faire** : une alternative GEV par maxima de blocs, qui donnerait vingt-deux
   observations donc moins de puissance que ce qui existe déjà, et un bootstrap complet de la
   calibration de $W$, dont l'incertitude est déjà traitée par l'identification partielle, qui
   donne un **ensemble** et non une bande ;
-- **l'invariance du script 69 porte sur l'ESPÉRANCE, pas sur un quantile** de la loi des
-  configurations. C'est une limite que le script déclare lui-même et elle reste ouverte ; le
-  script 77 traite un objet voisin, pas celui-là.
+- ~~l'invariance du script 69 porte sur l'ESPÉRANCE, pas sur un quantile~~ : **FAIT le
+  8 septembre, script 94.** La réserve était justifiée et elle est chiffrée. **La liste des
+  manques de test identifiés le 8 septembre est donc vide.**
 
 **Clos, à ne pas rouvrir :** le **statut de citation** de Hackmageddon (la source reste
 utilisée, voir plus haut), le **Hawkes** (l'outil est bien écarté et le choix est documenté et
@@ -1646,11 +1645,39 @@ backtestable sur **aucun** historique de risque opérationnel existant. Ne jamai
 backtest comme une validation du quantile à 99,5 % : il valide le centre et le corps. Un backtest
 qui ne déclare pas sa puissance laisse croire qu'une absence de rejet vaut validation.
 
-**Coût et contrôles, pour la journée entière.** Corps 123 → **127 pages**, total 169 → **173**.
-Harnais **2 086 nombres, 2 086 confirmés, 100 %**, hors contrôle non déclaré à zéro sur les
-dix-neuf chapitres. Chapitre 06 à 100 % sur 272 nombres dont 94 dans la nouvelle section,
-chapitre 13 à 100 % sur 209. Deck du 11 septembre passé à **douze pages**, 100 % sur 104 nombres,
-0 vbox, slides J et K relues en PNG. 0 `??` compté dans le PDF, 0 annotation hors page,
+### Puis les trois derniers manques de test, scripts 92, 93 et 94
+
+**La liste des manques identifiés le matin est vide au soir.** Aucun n'était une recalibration ;
+tous sont des diagnostics compatibles avec le gel. Détail chiffré dans la table des scripts,
+lignes 92 à 94. Ce qu'il faut retenir de chacun :
+
+- **92, le test de résistance inversé.** La lecture inverse dit **autre chose** que la lecture
+  directe, et c'est tout l'intérêt : la directe hiérarchise les canaux par leur contribution, la
+  inverse désigne celui dont la maîtrise *interdit* les scénarios sévères. Deux seuils résument
+  seize configurations. Et le canal d'accumulation n'admet **pas** d'inversion continue, sa
+  bascule de structure faisant *baisser* le capital ;
+- **93, la règle de seuil, et le résultat est favorable.** La règle de stabilité retombe
+  exactement sur le seuil publié, qui est aussi le mieux ajusté du balayage, et la règle la plus
+  permissive donnerait **davantage** de capital : le seuil publié n'est donc pas celui qui
+  maximise le chiffre du mémoire. **Ce script est lent, un quart d'heure** : seize mille
+  ajustements GPD. Ne pas le relancer sans nécessité ;
+- **94, le quantile de la loi des configurations.** La réserve que le script 69 posait lui-même
+  était justifiée et elle est chiffrée. Retenir surtout la **limite de l'objet** : au-delà de
+  93,17 % le quantile est saturé sur la configuration intégralement non conforme, donc un
+  « quantile à 99,5 % de la loi des configurations » n'a aucun contenu.
+
+**Et une septième fois la même leçon, sur le 93.** Le commentaire de sa section 1 annonçait le
+compromis biais-variance qu'on écrit par habitude. La colonne d'écart-type dit l'inverse :
+descendre le seuil dégrade **à la fois** le biais et la précision, parce que ξ gonfle et que le
+quantile en dépend exponentiellement. Il n'y a donc rien à arbitrer entre les deux, et le seuil se
+choisit sur l'adéquation et la stabilité. Réécrit sur la mesure.
+
+**Coût et contrôles, pour la journée entière.** Corps 123 → **129 pages**, total 169 → **176**.
+Harnais 1 979 → **2 142 nombres, 2 142 confirmés, 100 %**, hors contrôle non déclaré à zéro sur
+les dix-neuf chapitres. Chapitre 06 à 100 % sur 291 nombres, 11 à 100 % sur 104, 12 sur 521, 12b
+sur 186, 13 sur 209. Deck du 11 septembre passé à **treize pages**, 100 % sur 104 nombres,
+0 vbox, slides J, K et L relues en PNG. Six sorties versionnées ce jour, 89 à 94, toutes
+déterministes. 0 `??` compté dans le PDF, 0 annotation hors page,
 0 Overfull \vbox, 0 page tournée, et aucun Overfull \hbox nouveau (les trois signalés sont
 antérieurs, vérifié par `git stash`). Sorties 89, 90 et 91 déterministes, deux lancements donnant
 le même fichier, et le refactor de la section 1ter du 89 vers le module partagé reproduit

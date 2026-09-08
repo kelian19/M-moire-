@@ -401,6 +401,65 @@ majorant du capital sur le pavé déclaré}, non la description d'une entité, e
 statut que le \S\ref{sec:chiffre-de-tete} donne déjà à l'état non conforme.
 \end{attention}
 
+\subsection{Le test de résistance inversé}
+\label{sec:inverse}
+
+La monotonie qui précède autorise la question réciproque, et c'est celle qu'un dispositif ORSA
+pose aussi. Jusqu'ici un état est fixé et un capital est lu ; l'exercice inverse fixe le
+\emph{capital} et cherche les états du monde qui le produisent. Sans monotonie, il faudrait
+balayer tout le pavé. Avec elle, l'ensemble des configurations atteignant une cible est un
+ensemble \emph{croissant}, donc entièrement décrit par ses éléments \textbf{minimaux}, et il n'en
+compte jamais plus de quatre sur les seize. Le théorème du coin supérieur cesse ainsi d'être une
+propriété de confort pour devenir l'instrument de l'exercice.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}r l l@{}}
+\toprule
+\textbf{Cible} & \textbf{configurations minimales qui l'atteignent} & \textbf{minimum de canaux} \\
+\midrule
+$8\,000$ & fréq. ; dét.$+$prop. ; dét.$+$accum. ; prop.$+$accum. & $1$ \\
+$10\,000$ & fréq. ; dét.$+$prop.$+$accum. & $1$ \\
+$12\,000$ & fréq.$+$dét. ; fréq.$+$prop. ; fréq.$+$accum. & $2$ \\
+$15\,000$ & les trois triplets contenant la fréquence & $3$ \\
+$18\,000$ & les quatre canaux & $4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent \textbf{Deux nombres résument le tableau, et ils sont le résultat de gestion de cette
+sous-section.} Le canal de fréquence \emph{seul} atteint $10\,377$~M\euro, soit $1{,}72$ fois
+l'état conforme, quand les trois autres canaux \emph{réunis} n'atteignent que $11\,413$, soit
+$1{,}89$ fois, et l'ordre de ces deux bornes est du même signe sur les quatre graines. Toute
+cible sous le premier seuil se produit donc par un canal unique ; toute cible au-dessus du second
+\textbf{exige} la fréquence, aucune combinaison des trois autres ne l'atteignant. Entre les deux
+elle n'est ni suffisante seule ni nécessaire. Et aucun autre canal, seul et dans sa plage
+déclarée, n'atteint même la cible la plus basse : la détection plafonne à $7\,497$~M\euro, la
+propagation à $7\,682$ et l'accumulation à $7\,777$. Une exposition à un canal unique est donc,
+dans ce modèle, une exposition à la fréquence et à rien d'autre.
+
+\begin{attention}
+\textbf{Le canal d'accumulation n'admet pas d'inversion continue, et son effet isolé est un
+\emph{net}.} À l'état conforme, le pilier des tiers est un n\oe{}ud de cascade ordinaire ; à
+l'état non conforme il devient un choc commun de paramètre $\varphi_{cs}$. Ce ne sont pas les deux
+extrémités d'un continuum mais deux \emph{structures} de table, si bien que $\varphi_{cs}=0$ n'est
+pas l'état conforme et qu'un test inverse ne peut pas demander à ce canal jusqu'où il doit se
+dégrader. La bascule de structure à paramètre nul fait d'ailleurs \textbf{baisser} le capital de
+$239$~M\euro, résolu sur les quatre graines, parce qu'elle retire la propagation propre du pilier
+avant d'ajouter le choc commun. L'effet isolé publié de $1\,728$~M\euro{} est donc le net d'un
+retrait de $239$ et d'un ajout de $1\,967$, et non une addition : une raison de plus de ne jamais
+sommer les quatre canaux.
+\end{attention}
+
+\noindent \textbf{Deux réserves, de nature différente.} L'inatteignabilité porte sur un pavé
+\textbf{déclaré} et jamais sur une entité, puisque deux canaux sur quatre sont des bornes posées :
+c'est le garde-fou de l'infaisabilité d'un coin, appliqué dans l'autre sens. Et une configuration
+proche d'une cible n'est pas \emph{classée}, son appartenance à l'ensemble dépendant de la graine ;
+le script les nomme cible par cible. Une frontière non résolue est un résultat, non un défaut :
+elle dit que la cible tombe dans le bruit de simulation d'une configuration. En M\euro. Source :
+script~\texttt{92}.
+
 \paragraph{L'interaction n'est plus un résidu : elle se décompose, et elle vit aux paires.} La
 somme des quatre effets isolés laissait $+5\,001$~M\euro{} sans emploi. La décomposition de
 Möbius sur le treillis des seize configurations en rend compte terme par terme : quatre effets

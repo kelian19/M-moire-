@@ -24,7 +24,7 @@ de résultats. Le détail est dans la section « Comment construire » du `CLAUD
 
 ## État du dernier passage (8 septembre 2026, tous chapitres)
 
-**2 086 nombres publiés, 2 086 confirmés, soit 100 %**, et **0 nombre hors contrôle
+**2 142 nombres publiés, 2 142 confirmés, soit 100 %**, et **0 nombre hors contrôle
 non déclaré sur les dix-neuf chapitres**, relevé chapitre par chapitre et non sur le
 récapitulatif, qui n'imprime pas la couverture.
 
@@ -77,6 +77,36 @@ récapitulatif, qui n'imprime pas la couverture.
   sous le seuil : noter la charge totale exigerait un modèle de corps que le mémoire n'a pas.
   Sortie **déterministe**, même classeur OpRisk que le 89, et même dernier bloc de grandeurs
   citées sans séparateur.
+
+- `92.txt` **test de résistance INVERSÉ** : on fixe le capital, on cherche les états qui le
+  produisent. Lisible seulement grâce à la monotonie du script 88, qui rend l'ensemble des
+  configurations atteignant une cible **croissant**, donc décrit par ses seuls éléments
+  **minimaux**. Deux seuils résument tout : la fréquence **seule** atteint 10 377 M€ quand les
+  trois autres canaux **réunis** n'atteignent que 11 413, donc toute cible au-dessus du second
+  **exige** la fréquence, et aucun autre canal seul n'atteint même 8 000. **Et le canal
+  d'accumulation n'admet pas d'inversion continue** : ses deux états sont deux structures de
+  table, et la bascule à φ nul fait **baisser** le capital de 239 M€, si bien que l'effet isolé
+  publié de 1 728 est le net de −239 et +1 967. Deux contrôles : les coins reproduisent 6 049 et
+  20 188.
+
+- `93.txt` **le seuil est-il une règle ou un choix ?** Trois règles sur dix percentiles, et le
+  résultat est favorable au mémoire. **La règle de stabilité sélectionne exactement le seuil
+  publié** (19,87 contre 20,03, quantile identique), qui est aussi **le mieux ajusté du
+  balayage** (p d'Anderson-Darling 0,971 contre 0,954 pour le second). **La règle la plus
+  permissive descendrait à 12,88 et donnerait 16 % de plus** : le seuil publié n'est pas celui
+  qui maximise le chiffre. **Et le compromis biais-variance n'existe pas ici**, l'écart-type du
+  quantile étant divisé par 3,5 en remontant le seuil. Le double bootstrap d'erreur quadratique
+  asymptotique est refusé avec son motif. **Ce script est lent**, environ un quart d'heure : il
+  fait seize mille ajustements GPD.
+
+- `94.txt` **le quantile de la loi des CONFIGURATIONS**, le trou que le script 69 déclarait.
+  L'espérance bouge de −0,02 %, le quantile à 75 % de +5,53 %, celui à 90 % de +2,76 %, la
+  moyenne de queue à 90 % de +1,06 % : l'argument d'additivité **ne transporte pas** à un
+  quantile. Mécanisme mesuré, la **polarisation** : P(tous C) 29,06 → 33,03 % et P(tous NC)
+  6,83 → 8,78 % à espérance inchangée. **Limite de l'objet** : au-delà de 93,17 % le quantile
+  est saturé sur la configuration intégralement non conforme, donc un quantile à 99,5 % de cette
+  loi n'a aucun contenu. **Ce n'est pas une mesure de capital** : ni `\VaR` ni `\TVaR`. Contrôle :
+  l'espérance à surcroît nul reproduit le 9736 du script 69.
 
 - `88.txt` **teste le théorème du coin supérieur** au lieu de l'emprunter. Au sens du quantile il
   tient, zéro violation sur les 65 paires emboîtées graine par graine ; la version

@@ -205,8 +205,9 @@ déduit la \textbf{décomposition} du surcoût de non-conformité par pilier, en
 \subsection{La dépendance entre états : ce que le modèle porte déjà, et ce qu'il omet}
 \label{sec:dependance-etats}
 
-\noindent Chiffres de cette sous-section : scripts~\texttt{69} (invariance sur l'espérance)
-et~\texttt{77} (quantile du mélange et son bruit).
+\noindent Chiffres de cette sous-section : scripts~\texttt{69} (invariance sur l'espérance),
+\texttt{77} (quantile du mélange et son bruit) et~\texttt{94} (quantile de la loi des
+configurations).
 
 Une objection métier mérite d'être traitée explicitement, parce qu'elle est juste : le
 recouvrement des dispositifs de contrôle fait qu'être conforme aux piliers~1 et~2 confère
@@ -275,6 +276,41 @@ déplacement reste petit devant l'incertitude déjà déclarée, ces $334$~M\eur
 la largeur de la bande d'identification. La conclusion de gestion ne change pas ; c'est le
 \emph{statut} de la conclusion qui change, de démontré à non détecté, et cette nuance appartient
 au lecteur.
+
+\paragraph{Reste un troisième objet, et c'est celui que la réserve visait. Il est maintenant
+calculé.} Les deux grandeurs qui précèdent portent sur la loi de \emph{perte} : la moyenne des
+quantiles conditionnels, et le quantile du mélange. La réserve posée par l'argument d'additivité
+visait autre chose, un quantile de la loi des \textbf{configurations} elle-même, c'est-à-dire de
+l'incertitude sur l'\emph{état} de conformité de l'entité. Sur le même balayage, à marges
+inchangées, l'espérance ne bouge que de $-0{,}02\,\%$, ce qui reproduit le résultat déjà publié,
+tandis que le quantile de niveau $75\,\%$ de cette loi bouge de $+5{,}53\,\%$, celui de $90\,\%$
+de $+2{,}76\,\%$ et la moyenne de queue au-delà de $90\,\%$ de $+1{,}06\,\%$. \textbf{L'argument
+d'additivité ne transporte donc pas à un quantile}, et la réserve était justifiée. Mais l'ordre
+de grandeur est celui de quelques pour cent, contre deux centièmes de pour cent pour l'espérance :
+deux ordres de grandeur d'écart entre les deux objets, et les deux restent loin des incertitudes
+déclarées ailleurs.
+
+Le mécanisme est la \textbf{polarisation}, et c'est la mesure la plus robuste de cet exercice
+parce qu'elle varie continûment quand un quantile discret, lui, procède par sauts. À espérance
+inchangée, davantage de corrélation rend les configurations extrêmes plus probables des
+\emph{deux} côtés : la probabilité que les cinq piliers soient conformes passe de $29{,}06$ à
+$33{,}03\,\%$ et celle qu'ils soient tous non conformes de $6{,}83$ à $8{,}78\,\%$, tandis que la
+probabilité de dépasser $1{,}25$ fois le capital espéré monte de $24{,}22$ à $27{,}34\,\%$.
+
+\begin{attention}
+\textbf{Deux mises en garde sur cet objet, et la première est une limite de l'objet lui-même.}
+La loi des configurations ne porte que $32$ atomes, et le plus haut en concentre $6{,}83\,\%$ :
+au-delà du niveau de $93{,}17\,\%$, son quantile \emph{est} la configuration intégralement non
+conforme et ne peut plus bouger. Un \og{}quantile à $99{,}5\,\%$ de la loi des
+configurations\fg{} n'aurait donc aucun contenu, et l'immobilité des niveaux hauts est une
+\textbf{saturation}, non une invariance. On ne demande pas à une loi à $32$ atomes la résolution
+qu'on demande à une loi de perte.
+
+\emph{Et cette grandeur n'est pas une mesure de capital.} Elle porte sur l'incertitude d'état,
+non sur la charge annuelle : elle ne reçoit ni $\VaR$ ni $\TVaR$, réservées à cette dernière, et
+la confondre avec l'exigence de solvabilité ferait lire une incertitude d'état comme une
+exigence. C'est la même discipline de notation que celle qui sépare $\VaR$ de $\qsev$.
+\end{attention}
 
 \section{La chaîne de Markov et les séjours de type phase}
 

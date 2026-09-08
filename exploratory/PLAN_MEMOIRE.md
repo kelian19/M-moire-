@@ -13,14 +13,14 @@ Tout cela est fait. Ce document repart de l'état mesuré, pas de l'état décla
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **127 p.** | première page d'annexe moins une (annexes en 128) |
-| Document complet | **173 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **129 p.** | première page d'annexe moins une (annexes en 130) |
+| Document complet | **176 p.** | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
-| Scripts de calcul | 103 | `vasicek_lab/*/*.py` |
-| Sorties versionnées | 98 | `sorties_verif/NN.txt` |
-| Scripts cités par le mémoire | **85** | le reste est du travail deja porte autrement |
-| Nombres publiés | 2 086 | harnais, tous chapitres |
-| Confirmation | **100 %** | 2 086 confirmés |
+| Scripts de calcul | 106 | `vasicek_lab/*/*.py` |
+| Sorties versionnées | 101 | `sorties_verif/NN.txt` |
+| Scripts cités par le mémoire | **88** | le reste est du travail deja porte autrement |
+| Nombres publiés | 2 142 | harnais, tous chapitres |
+| Confirmation | **100 %** | 2 142 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
@@ -391,7 +391,7 @@ retirée. Ce qui reste n'est pas un arbitrage mais une **validation** : le choix
 présenter à Caroline, pas à reprendre.
 
 **Le format est tranché en faveur de Kélian.** Hugo a dit de ne pas se contraindre. Le corps est
-à 127 pages contre les ~70 recommandés de l'Institut.
+à 129 pages contre les ~70 recommandés de l'Institut.
 
 **Ce qui change avec la remise fin novembre, et c'est le seul point rouvert par le calendrier.**
 Une compression du corps était écartée faute de temps ; trois mois la rendent possible, et c'est
@@ -554,11 +554,58 @@ désormais trois symptômes.
   backtestable sur **aucun** historique de risque opérationnel existant. Ne jamais présenter ce
   backtest comme une validation du quantile.
 
-**Deck** : slide K ajoutée, le deck du 11 septembre passe à douze pages. J et K sont les deux
-seules slides de travail neuf de ce deck.
+**Deck** : slide K ajoutée, le deck du 11 septembre passe à douze pages.
 
-- Coût de la journée : corps 123 → **127 pages**, total 169 → **173**. Harnais 1 979 →
-  **2 086**, à 100 %, hors contrôle non déclaré à zéro.
+### Puis les trois manques de test qui restaient, scripts 92, 93 et 94
+
+La liste des manques identifiés le matin est **vide** au soir. Aucun des trois n'était une
+recalibration : tous sont des diagnostics compatibles avec le gel.
+
+**Le test de résistance INVERSÉ, script 92.** On fixe le capital et l'on cherche les états du
+monde qui le produisent, ce qui est la forme sous laquelle un dispositif ORSA emploie un modèle.
+La monotonie du script 88 rend l'exercice court : l'ensemble des configurations atteignant une
+cible est **croissant**, donc décrit par ses seuls éléments **minimaux**, jamais plus de quatre
+sur seize. Le résultat de gestion tient en deux seuils : la fréquence **seule** atteint
+10 377 M€, quand les trois autres canaux **réunis** n'atteignent que 11 413. Toute cible sous le
+premier se produit par un canal unique, toute cible au-dessus du second **exige** la fréquence, et
+aucun autre canal seul n'atteint même 8 000. **La lecture inverse dit donc autre chose que la
+lecture directe** : celle-là hiérarchise les canaux par leur contribution, celle-ci désigne celui
+dont la maîtrise *interdit* les scénarios sévères. Et une découverte non cherchée : le canal
+d'accumulation n'admet **pas** d'inversion continue, ses deux états étant deux structures de
+table, et sa bascule à paramètre nul fait **baisser** le capital de 239 M€ parce qu'elle retire la
+propagation propre de P4 ; son effet isolé publié de 1 728 est donc un **net**.
+
+**La règle de sélection du seuil, script 93, et le résultat est favorable.** Trois règles sur dix
+percentiles candidats. **La règle de stabilité sélectionne exactement le seuil publié**, 19,87
+contre 20,03, à quantile identique : le seuil publié est précisément le plus bas au-dessus duquel
+ξ cesse de dériver. Il est aussi **le mieux ajusté du balayage**, p d'Anderson-Darling 0,971
+contre 0,954 pour le second candidat, donc deux critères indépendants désignent le même point.
+Et surtout **la règle la plus permissive descendrait à 12,88 M€ et donnerait un quantile
+supérieur de 16 %** : le seuil publié n'est pas celui qui maximise le chiffre du mémoire, ce qui
+est l'argument le plus fort contre un soupçon de choix opportuniste. **Le compromis biais-variance
+n'existe pas sur cette grandeur**, contre l'attente : l'écart-type du quantile est divisé par 3,5
+en remontant le seuil alors que les excès sont divisés par six, parce que descendre gonfle ξ
+jusqu'à 1,058 et que le quantile en dépend exponentiellement. Le double bootstrap d'erreur
+quadratique asymptotique est **refusé avec son motif**, ses sous-échantillons vaudraient 118 puis
+24 observations, même arbitrage que celui qui a écarté l'élicitation.
+
+**Le quantile de la loi des configurations, script 94.** Le script 69 déclarait lui-même que son
+invariance portait sur l'**espérance**. C'est chiffré : l'espérance bouge de −0,02 %, le quantile
+à 75 % de +5,53 %, celui à 90 % de +2,76 %, la moyenne de queue à 90 % de +1,06 %. **La réserve
+était justifiée**, l'argument d'additivité ne transporte pas à un quantile, mais l'ordre de
+grandeur reste petit. Le mécanisme est la **polarisation**, mesurée : P(tous conformes) 29,06 →
+33,03 % et P(tous non conformes) 6,83 → 8,78 % à espérance inchangée. **Et une limite de l'objet
+lui-même** : au-delà de 93,17 % le quantile est saturé sur la configuration intégralement non
+conforme, si bien qu'un « quantile à 99,5 % de la loi des configurations » n'a aucun contenu. Ce
+n'est pas une mesure de capital et il ne reçoit ni `\VaR` ni `\TVaR`.
+
+**Intégration** : deux paragraphes et un encadré au chapitre 06 pour le seuil, une nouvelle
+sous-section de l'annexe C plus un paragraphe court au chapitre 12 pour le test inverse, et trois
+paragraphes plus un encadré au chapitre 11 pour le quantile des configurations. Slide L au deck,
+qui passe à treize pages. J, K et L sont les trois slides de travail neuf.
+
+- Coût de la journée : corps 123 → **129 pages**, total 169 → **176**. Harnais 1 979 →
+  **2 142**, à 100 %, hors contrôle non déclaré à zéro.
 
 **Deux pièges évités en chemin, et le premier aurait invalidé le backtest.** Le périmètre couvre
 1979-2026, mais avant 2004 la collecte porte un à neuf incidents par an contre treize à

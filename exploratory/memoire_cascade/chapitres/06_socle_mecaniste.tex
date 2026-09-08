@@ -657,9 +657,51 @@ artefact, et la NB épouse la queue des comptes là où le Poisson s'effondre.
 ajustée. \textbf{(c)} vie résiduelle moyenne, linéaire au-delà de $u$. \textbf{(d)} stabilité
 de $\hat\xi$ au seuil. \textbf{(e)} test d'Anderson-Darling, loi nulle par bootstrap
 paramétrique et statistique observée ($p=0{,}96$). \textbf{(f)} adéquation de la fréquence :
-la NB colle aux comptes firme-année, le Poisson rate la queue. Source : script~\texttt{47}.}
+la NB colle aux comptes firme-année, le Poisson rate la queue. Sources : scripts~\texttt{47}
+et~\texttt{93} (règles de sélection du seuil).}
 \label{soc:fig:validation}
 \end{figure}
+
+\paragraph{Le seuil est-il un choix ou une règle ? La question mérite d'être posée à l'envers.}
+Tout ce qui précède décrit le comportement de l'ajustement autour du seuil retenu. Un lecteur
+demande autre chose : pourquoi \emph{ce} seuil, et qu'aurait choisi une règle écrite. Deux règles
+sont donc mises en \oe uvre sur dix percentiles candidats, du $70^{\text{e}}$ au $95^{\text{e}}$.
+La première retient le plus \emph{bas} seuil que le test d'adéquation ne rejette pas, puisque
+descendre gagne des excès ; la seconde retient le plus bas seuil au-dessus duquel l'indice de
+queue cesse de dériver, c'est-à-dire tel que tous les indices estimés plus haut tombent dans son
+intervalle de confiance à $90\,\%$.
+
+\textbf{La règle de stabilité sélectionne exactement le seuil publié}, $19{,}87$~M\euro{} contre
+$20{,}03$, soit un écart de $0{,}8\,\%$ et un quantile identique au centième de pour cent. Le
+seuil publié est donc précisément le plus bas au-dessus duquel $\hat\xi$ se stabilise, ce qui
+n'est pas un critère fabriqué après coup : c'est le balayage décrit plus haut, employé comme
+règle de sélection au lieu d'être seulement rapporté. Et c'est aussi le seuil le \emph{mieux
+ajusté} du balayage, sa $p$-value d'Anderson-Darling valant $0{,}971$ quand le second meilleur
+candidat vaut $0{,}954$ : deux critères indépendants désignent le même point, ce qui n'était pas
+garanti.
+
+\textbf{La règle la plus permissive descendrait plus bas et donnerait davantage de capital}, et
+c'est l'argument le plus solide contre le soupçon d'un choix opportuniste. Elle retient
+$12{,}88$~M\euro, soit $35{,}7\,\%$ sous le seuil publié, où le quantile de sévérité vaut
+$758{,}9$ contre $654{,}5$, soit $16{,}0\,\%$ de plus. Le seuil publié n'est donc pas celui qui
+maximise le chiffre du mémoire : parmi les candidats acceptables, il est du côté qui le minore.
+Une assurance de rédaction ne vaudrait pas cette comparaison.
+
+\begin{attention}
+\textbf{Et le compromis biais-variance que l'on écrit par habitude n'existe pas sur cette
+grandeur.} On attend qu'un seuil plus bas gagne en précision ce qu'il perd en biais, puisqu'il
+ajoute des excès. La mesure dit l'inverse : l'écart-type du quantile à $99{,}5\,\%$ passe de
+$519{,}8$ à $150{,}3$~M\euro{} en remontant le seuil, soit une division par $3{,}5$, alors que le
+nombre d'excès est divisé par presque six, de $174$ à $30$. Le motif est propre à la grandeur
+visée : le quantile dépend \emph{exponentiellement} de l'indice de queue, et descendre le seuil
+gonfle cet indice jusqu'à $1{,}058$ au percentile $70$, donc au-delà de l'unité où l'espérance de
+la sévérité cesse d'exister. Les excès gagnés en descendant sont des pertes qui n'appartiennent
+pas encore à la queue : elles ajoutent du biais, et ce biais se propage à l'écart-type par le
+levier de l'indice. Il n'y a donc rien à arbitrer entre biais et précision, les deux allant du
+même côté, et le seuil doit se choisir sur l'adéquation et la stabilité. Un dernier avertissement
+de lecture : le faible écart-type du percentile $95$ ne se lit pas comme de la précision, étant
+estimé sur $30$ excès seulement, donc lui-même mal connu.
+\end{attention}
 
 \begin{cle}
 \textbf{Ce que la validation établit, et ce qu'elle n'établit pas.} Les tests portent sur la
