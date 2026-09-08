@@ -9,10 +9,10 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au **8 septembre 2026** : **171 pages au total, dont 125 de corps** (annexes en 126),
+État au **8 septembre 2026** : **172 pages au total, dont 126 de corps** (annexes en 127),
 branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 8 septembre : **2 034 nombres, 2 034 confirmés, 100 %**, et **0 hors
+Harnais au 8 septembre : **2 059 nombres, 2 059 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
@@ -329,11 +329,22 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 88 | le **coin supérieur** du pavé des quatre canaux. Sur les 65 paires emboîtées, relâcher un canal ne fait **jamais** baisser le capital, graine par graine : l'état non conforme est le maximum, donc un test de résistance se réduit à une évaluation. **Mais la version TRAJECTORIELLE du préprint ne transporte pas** : à aléas communs la perte d'une année baisse dans 16,2 % des cas sur la propagation et **30,7 % sur la détection**, qui viole le plus pour une raison étrangère à la cascade (p_u entre dans la transformation de sévérité, pas dans une table). Et le garde-fou qui compte : **un coin peut être infaisable**, deux canaux sur quatre étant des bornes posées |
 | 35 | étude d'événement MOVEit, différence de différences, placebo et bootstrap. **Sa sortie est versionnée depuis le 17 août** : elle exige `Data_Breach_Chronology.xlsx`, présent sur le PC et absent du Mac. Le chapitre 09 est passé de 95,5 à 100 % grâce à elle |
 | 89 | **backtest hors échantillon**, origine glissante sur 2004-2025, le premier du projet. Trois résultats de sens opposés : la **binomiale négative est validée** (couverture 91,7 % contre 75 % pour Poisson, et elle gagne au log-score), la **forme de la queue survit** au test PIT, et les **quantiles de sévérité sont dépassés trois fois trop souvent**. Le motif est mesuré et ce n'est pas la queue : le **taux de dépassement dérive**, 15,1 % en apprentissage contre 27,1 % hors échantillon, et la médiane annuelle monte de 13 % par an. C'est un défaut de **stationnarité**, pas de famille. **Sa section 1ter chiffre ce que la dérive coûte, et elle MODÈRE la 1bis** : la queue ne dérive que de 4,00 % par an quand le corps dérive de 13,0 %, facteur 3,2, donc l'effet à déclarer est de +24,7 % sur le quantile de sévérité (borne basse) et non un quintuplement. Deux garde-fous à connaître : indexer la queue à la tendance du corps fait passer l'indice de queue **au-dessus de un**, donc détruit l'espérance de la sévérité, et modéliser la dérive fait **tomber** ξ de 0,5979 à 0,5273, l'ajustement stationnaire attribuant à la forme une part de ce qui est de la dérive. Il exige `SAS_OpRisk_Global_Data_June_2026.xlsx` |
+| 90 | **la dérive de sévérité est-elle neutre sur l'écart entre états ?** Il ferme une affirmation du mémoire au lieu d'en ouvrir une. **L'argument est juste mais il porte sur l'ÉCHELLE et sur elle seule** : une variation de la seule échelle multiplie les deux états par le même facteur, 1,4556 et 1,4532, rapport **0,9984**, alors que les niveaux montent de 46 %. La dérive mesurée, elle, n'est pas un pur changement d'échelle : la modéliser fait tomber ξ, et **le facteur entre états passe de 3,344 à 3,124**, −6,6 %, résolu à 4,43 écarts-types, **entièrement porté par la composante de FORME** (−6,1 %, 4,09 σ ; l'échelle seule ne pèse que −0,2 %, non résolu). L'écart en euros ne bouge que de −1,9 %, **mais par COMPENSATION** : forme seule 9 393, échelle seule 20 041. **Ne jamais annoncer l'écart comme robuste à la sévérité**, et citer l'invariance d'échelle, jamais l'invariance à la dérive |
 
 Modules partagés : `partial_id.py` (identification partielle et évaluateur à nombres communs),
 `descente.py` (panel OpRisk et élasticités, lu par 60 et 65), `postmortem_corpus.py` (lu par 59
 et 64), `canaux_conformite.py` (moteur des quatre canaux, lu par 43, 50 et 68 : **le modifier
-déplace les 14 139 M€**), `scr_engine.py`, `euro_cascade_model.py`.
+déplace les 14 139 M€**), `derive_severite.py` (estimation de la dérive d'échelle de sévérité,
+lu par 89 et 90 : les deux ne peuvent donc pas s'écarter d'une décimale), `scr_engine.py`,
+`euro_cascade_model.py`.
+
+**Et le patron à suivre quand un script doit faire tourner le moteur des canaux avec un
+paramètre changé** : ne pas modifier `canaux_conformite.py`, et ne pas le contourner par une
+substitution de ses variables de module. Recopier `pertes_annuelles` dans le script, **dans le
+même ordre de tirages**, avec le paramètre rendu variable, puis **contrôler** que l'appel aux
+valeurs publiées reproduit `cx.pertes_annuelles` tirage pour tirage. C'est ce que font les
+scripts 81 et 90, et le contrôle est ce qui empêche de démontrer une propriété d'un autre
+modèle.
 
 Règle : **tout rapport cité dans le mémoire doit être imprimé par un script.** Un ratio calculé
 pendant la rédaction n'est vérifiable par personne. Trois des chiffres périmés trouvés cette
@@ -976,7 +987,7 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
   rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
   déclarée supprimée, un résultat gagné sur le forfait ;
-- l'arbitrage de **format** : le corps est à **125 pages pour 171 au total** (annexes en 126),
+- l'arbitrage de **format** : le corps est à **126 pages pour 172 au total** (annexes en 127),
   contre les ~70 de
   corps recommandés par l'Institut. **Tranché en faveur de Kélian**, Hugo ayant dit de ne pas se
   contraindre ;
@@ -1247,6 +1258,31 @@ tranché ce point**, ce serait échanger un chiffre mal défini contre un autre.
 - ~~la non-stationnarité de l'échelle de sévérité, mesurée le 8 septembre et non déclarée~~ :
   **DÉCLARÉE le 8 septembre 2026**, voir la section « Le backtest hors échantillon » plus bas.
   Le chapitre 13 porte la ligne, chiffrée, et le chapitre 06 porte la section qui la produit.
+  Son effet sur l'écart entre états est mesuré par le script 90, et l'argument d'invariance a
+  été **corrigé** au passage : il ne vaut que pour l'échelle ;
+- **les trois manques de test identifiés le 8 septembre, par ordre de valeur.** Aucun ne dépend
+  d'une recalibration, tous sont des diagnostics compatibles avec le gel.
+  1. **backtester la charge annuelle AGRÉGÉE**, et non les deux lois marginales séparément. Le
+     script 89 valide la fréquence et la forme de la sévérité chacune de son côté ; le capital
+     n'est ni l'une ni l'autre, c'est le quantile de la charge annuelle. Un modèle peut avoir
+     deux marginales correctes et un agrégat faux. **C'est là aussi que se testerait
+     l'indépendance entre fréquence et sévérité**, hypothèse de construction de tout modèle
+     composé, que rien ne teste dans le projet (vérifié par grep) et que le résultat du 89 rend
+     précisément intéressante, la sévérité dérivant quand la fréquence ne dérive pas ;
+  2. **le test de résistance INVERSÉ.** Le mémoire répond à « que coûte la non-conformité » ;
+     l'ORSA demande aussi « quel état du monde produit une perte de tel montant ». Le pavé des
+     quatre canaux est énuméré et le script 88 a établi que le coin supérieur majore : le test
+     inversé est la question réciproque sur le même pavé ;
+  3. **la règle de sélection du seuil**, pour répondre à « pourquoi ce seuil et pas un autre ».
+     Le gel interdit de changer `u`, mais pas de montrer qu'une règle automatique le retrouve,
+     ni de mesurer la distance si elle ne le retrouve pas ;
+  et **deux à ne pas faire** : une alternative GEV par maxima de blocs, qui donnerait vingt-deux
+  observations donc moins de puissance que ce qui existe déjà, et un bootstrap complet de la
+  calibration de $W$, dont l'incertitude est déjà traitée par l'identification partielle, qui
+  donne un **ensemble** et non une bande ;
+- **l'invariance du script 69 porte sur l'ESPÉRANCE, pas sur un quantile** de la loi des
+  configurations. C'est une limite que le script déclare lui-même et elle reste ouverte ; le
+  script 77 traite un objet voisin, pas celui-là.
 
 **Clos, à ne pas rouvrir :** le **statut de citation** de Hackmageddon (la source reste
 utilisée, voir plus haut), le **Hawkes** (l'outil est bien écarté et le choix est documenté et
@@ -1541,12 +1577,45 @@ attribue donc à la **forme** une part de ce qui relève de la **dérive**. Le �
 légèrement prudent quand l'échelle est anti-conservatrice, et les deux ne se compensent pas
 puisqu'ils ne portent pas sur la même grandeur.
 
-**Coût et contrôles.** Corps 123 → **125 pages**, total 169 → **171**. Harnais **2 034 nombres,
-2 034 confirmés, 100 %**, hors contrôle non déclaré à zéro sur les dix-neuf chapitres. Chapitre 06
-à 100 % sur 227 nombres dont 49 dans la nouvelle section, chapitre 13 à 100 % sur 202. Deck du
-11 septembre à 100 % sur 90 nombres, 0 vbox. 0 `??` compté dans le PDF, 0 annotation hors page,
-0 Overfull \vbox, 0 page tournée, et aucun Overfull \hbox nouveau (les deux du chapitre 06 sont
-antérieurs, vérifié par `git stash`).
+### La suite immédiate : l'effet de la dérive sur l'écart, mesuré (script 90)
+
+**Une affirmation publiée le matin, fermée l'après-midi, et elle était fausse sous la forme où
+elle avait été écrite.** Les deux textes ci-dessus disaient qu'une dérive commune aux deux états
+de conformité se simplifie dans un rapport, donc que la thèse était à l'abri. **C'était un
+argument, pas une mesure**, et il n'était pas gratuit : les quatre canaux ne transforment pas la
+sévérité de la même façon selon l'état, la détection entrant dans la *transformation* de sévérité
+et la propagation changeant le *nombre* de sévérités tirées par sinistre.
+
+**Ce que la mesure donne, et le détail est dans la table des scripts, ligne 90.** L'argument est
+juste pour l'**échelle** et pour elle seule, où il est même remarquablement exact. Il est **faux**
+pour un changement de **forme** de queue, et la dérive mesurée en contient un, parce que la
+modéliser réattribue à l'échelle ce que l'ajustement stationnaire lisait comme de la forme.
+
+**Les trois choses à ne pas perdre :**
+
+- **la formule à employer est l'invariance d'ÉCHELLE, jamais l'invariance à la dérive.** La
+  première vaut pour toute amplitude et elle est mesurée ; la seconde ne vaut pas ;
+- **la quasi-invariance de l'écart en euros est une COMPENSATION, pas une insensibilité.** Prise
+  composante par composante, la sévérité déplace l'écart de 9 393 à 20 041 M€. L'annoncer comme
+  robuste à la sévérité serait faux, et c'est le genre d'énoncé qu'un jury vérifie ;
+- **la direction est favorable, et c'est la même structure à deux sens que le `p_u` gelé** : la
+  dérive rend le **niveau** anti-conservateur et la **thèse** légèrement prudente, l'écart comme
+  le facteur étant plus petits sous la sévérité dérivée. Seul le premier engage la solvabilité.
+
+**Deux réserves imprimées par le script, à ne pas retirer** : il teste **une** sévérité
+alternative, celle que la dérive produit à l'année de référence, non toute la famille ; et la
+séparation forme / échelle est une **reparamétrisation**, non deux mécanismes physiques
+indépendants, donc elle dit d'où vient le déplacement dans le modèle et non que la queue s'est
+allégée dans le monde réel.
+
+**Coût et contrôles, pour la journée entière.** Corps 123 → **126 pages**, total 169 → **172**.
+Harnais **2 059 nombres, 2 059 confirmés, 100 %**, hors contrôle non déclaré à zéro sur les
+dix-neuf chapitres. Chapitre 06 à 100 % sur 247 nombres dont 69 dans la nouvelle section,
+chapitre 13 à 100 % sur 207. Deck du 11 septembre à 100 % sur 92 nombres, 0 vbox. 0 `??` compté
+dans le PDF, 0 annotation hors page, 0 Overfull \vbox, 0 page tournée, et aucun Overfull \hbox
+nouveau (les trois signalés sont antérieurs, vérifié par `git stash`). Sorties 89 et 90
+déterministes, deux lancements donnant le même fichier, et le refactor de la section 1ter du 89
+vers le module partagé reproduit `sorties_verif/89.txt` **à l'octet**.
 
 ## Note d'honnêteté
 

@@ -50,10 +50,13 @@ from scipy import optimize, special, stats
 from scipy.stats import genpareto, nbinom, poisson
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+LAB = os.path.dirname(HERE)
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
-if REPO not in sys.path:
-    sys.path.insert(0, REPO)
+for _p in (REPO, LAB):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
+import derive_severite as ds  # noqa: E402
 from src.severity.oprisk_analysis import (  # noqa: E402
     USD_EUR, filter_cyber, filter_finance, load_clean,
 )
@@ -248,27 +251,25 @@ print("que le memoire publie. C'est l'objet de cette section, et le traitement e
 print("du p_u gele : le chiffre publie ne bouge pas, l'ecart est imprime.")
 print()
 
-u_pub = float(OPRISK["seuil_u_eur"])
-AN_REF = AN_FIN
+u_pub = ds.U_PUB
+AN_REF = ds.AN_REF
 x_all = d_all["loss_eur"].values
 an_all = d_all["year"].values.astype(float)
-m_exc = x_all > u_pub
-exc_p = x_all[m_exc] - u_pub
-an_p = an_all[m_exc]
-p_u_cpt = float(m_exc.mean())
+fit = ds.ajuster(d_all)
+p_u_cpt = fit["p_u"]
 
-print(f"Perimetre : la donnee complete de la chaine publiee, {len(x_all)} incidents,")
-print(f"dont {len(exc_p)} exces au-dessus du seuil publie de {u_pub} M EUR.")
+print(f"Perimetre : la donnee complete de la chaine publiee, {fit['n']} incidents,")
+print(f"dont {fit['n_exc']} exces au-dessus du seuil publie de {u_pub} M EUR.")
 print()
 
 
 def q_pot(q, xi, sig, pu):
     """Quantile de severite par la formule POT, taux de depassement pu."""
-    return u_pub + (sig / xi) * (((1.0 - q) / pu) ** (-xi) - 1.0)
+    return ds.quantile_pot(q, xi, sig, pu, u_pub)
 
 
 # (a) reference stationnaire, calculee par la MEME regle que les variantes
-xi_s, _, sig_s = genpareto.fit(exc_p, floc=0.0)
+xi_s, sig_s = fit["xi_stat"], fit["sigma_stat"]
 q995_s = q_pot(0.995, xi_s, sig_s, p_u_cpt)
 print("(a) REFERENCE STATIONNAIRE, ajustement libre sur tout l'historique :")
 print(f"    xi {xi_s:.4f}   sigma {sig_s:.2f}   p_u compte {p_u_cpt:.4f}")
@@ -282,26 +283,9 @@ print("    melangeraient dans un seul nombre.")
 print()
 
 # (b) echelle de la queue rendue non stationnaire, sigma_t = exp(ls + b (t - 2025))
-def nll_ns(par, b_fixe=None):
-    xi, ls = par[0], par[1]
-    b = par[2] if b_fixe is None else b_fixe
-    sig_t = np.exp(ls + b * (an_p - AN_REF))
-    if xi <= -0.5:
-        return 1e12
-    z = 1.0 + xi * exc_p / sig_t
-    if np.any(z <= 0.0):
-        return 1e12
-    return float(np.sum(np.log(sig_t) + (1.0 + 1.0 / xi) * np.log(z)))
-
-
-res_ns = optimize.minimize(nll_ns, [xi_s, np.log(sig_s), 0.0], method="BFGS")
-xi_ns, ls_ns, b_ns = res_ns.x
-se_b = float(np.sqrt(np.diag(res_ns.hess_inv))[2])
-res_st = optimize.minimize(lambda p: nll_ns(np.append(p, 0.0), b_fixe=0.0),
-                           [xi_s, np.log(sig_s)], method="Nelder-Mead")
-lr = 2.0 * (res_st.fun - res_ns.fun)
-p_lr = float(stats.chi2.sf(max(lr, 0.0), 1))
-sig_ref = float(np.exp(ls_ns))
+xi_ns, sig_ref = fit["xi_derive"], fit["sigma_derive"]
+b_ns, se_b = fit["b"], fit["se_b"]
+lr, p_lr = fit["lr"], fit["p_lr"]
 q995_ns = q_pot(0.995, xi_ns, sig_ref, p_u_cpt)
 
 print("(b) ECHELLE DE LA QUEUE RENDUE NON STATIONNAIRE. On ajuste sigma_t = exp(ls + b (t - "

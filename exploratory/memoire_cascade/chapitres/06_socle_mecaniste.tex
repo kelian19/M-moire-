@@ -765,16 +765,43 @@ de la \emph{dérive}. Les deux écarts du modèle publié sont ainsi de sens con
 queue étant légèrement prudent quand l'échelle est anti-conservatrice, et ils ne se compensent
 pas puisqu'ils ne portent pas sur la même grandeur.
 
+\paragraph{L'effet sur l'écart entre états est mesuré, et l'argument attendu ne vaut que pour
+l'échelle.} Il serait naturel d'affirmer qu'une dérive commune aux deux états de conformité se
+simplifie dans un rapport, donc que l'écart DORA n'est pas concerné. L'affirmation est exacte
+pour une variation de la seule \emph{échelle} de sévérité, et elle est désormais mesurée plutôt
+qu'avancée : multiplier l'échelle multiplie les deux états par le même facteur, $1{,}4556$ en
+conforme contre $1{,}4532$ en non conforme, soit un rapport de $0{,}9984$ alors que les niveaux
+montent de $46\,\%$. L'invariance d'échelle du facteur entre états est donc établie à
+$0{,}16\,\%$ près, et pour toute amplitude. Mais la dérive mesurée \emph{n'est pas} une pure
+variation d'échelle : la modéliser réattribue à l'échelle ce que l'ajustement stationnaire lisait
+comme de la forme, et l'indice de queue tombe de $0{,}5979$ à $0{,}5273$. Or c'est la forme qui
+pèse. La composante de forme déplace seule le facteur de $-6{,}1\,\%$, soit $4{,}09$ écarts-types
+de simulation, quand celle d'échelle ne le déplace que de $-0{,}2\,\%$, non résolu ; les deux
+sont additives, le résidu d'interaction valant $0{,}23$ écart-type. Le facteur entre états passe
+ainsi de $3{,}344$ à $3{,}124$, un déplacement résolu.
+
+\paragraph{L'écart en euros, lui, bouge à peine, mais par compensation et non par
+insensibilité.} Il passe de $13\,801$ à $13\,542$~M\euro, soit $-1{,}9\,\%$ pour un bruit de
+simulation de $731$~M\euro, donc un déplacement non résolu. Il serait pourtant faux d'en conclure
+que l'écart est robuste à la sévérité : la composante de forme seule le ramènerait à
+$9\,393$~M\euro{} et celle d'échelle seule le porterait à $20\,041$. L'écart est donc très
+sensible à la sévérité prise \emph{composante par composante}, et presque insensible à la seule
+combinaison que la dérive produit. Ce qui survit sans réserve est le \textbf{signe} et
+l'\textbf{ordre}, avec une marge large, et la direction est favorable : sous la sévérité dérivée
+l'écart comme le facteur sont plus \emph{petits}, donc le chiffre publié n'est pas gonflé par la
+dérive. La structure est celle du taux de dépassement gelé, un même défaut rendant le niveau
+anti-conservateur et la thèse légèrement prudente, et seul le premier engage la solvabilité.
+
 \begin{cle}
 \textbf{Ce que le backtest établit, en trois résultats de sens différents.} La loi de fréquence
 est validée hors échantillon, sur deux critères dont un que la largeur n'achète pas. La forme de
 la queue survit au test de probabilité intégrale. Et l'échelle de la sévérité dérive, de
 $4{,}00\,\%$ par an dans la queue, ce qui rend le quantile publié anti-conservateur d'au moins
 $24{,}7\,\%$. La valeur reste gelée et l'écart est inscrit au registre des limites
-(\S\ref{sec:pu-coherence}), du même traitement que le taux de dépassement. Ce que ce résultat ne
-touche pas est la \textbf{thèse}, qui porte sur un rapport entre états de conformité à sévérité
-de base commune : une dérive commune aux deux états se simplifie dans un rapport.
-Source : script~\texttt{89}.
+(\S\ref{sec:pu-coherence}), du même traitement que le taux de dépassement. \textbf{Sur la thèse,
+la formule à retenir est l'invariance d'échelle et non l'invariance à la dérive} : le facteur
+entre états ne bouge pas d'une variation d'échelle, mais il baisse de $6{,}6\,\%$ sous la
+sévérité dérivée, dont la forme est plus légère. Sources : scripts~\texttt{89} et~\texttt{90}.
 \end{cle}
 
 %--------------------------------------------------------------

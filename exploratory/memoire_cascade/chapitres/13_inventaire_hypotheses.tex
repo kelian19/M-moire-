@@ -529,11 +529,23 @@ néanmoins le même, et pour le même motif : la corriger supposerait de recalib
 une fenêtre glissante, ce qui déplacerait tous les niveaux publiés sans qu'aucun déplacement soit
 attribuable à la correction. Deux atténuations la bornent sans l'effacer. La dérive de la queue
 vaut le tiers de celle du corps, si bien qu'une lecture rapide de la tendance des pertes
-\emph{surestimerait} l'effet d'un facteur trois. Et elle ne touche que le \emph{niveau} : la thèse
-porte sur un rapport entre états à sévérité de base commune, et une dérive commune aux deux états
-s'y simplifie. Le même backtest valide par ailleurs la loi de fréquence et la forme de la queue,
-de sorte que cette ligne est le prix d'un test dont le solde est favorable
-(\S\ref{soc:sec:backtest}).
+\emph{surestimerait} l'effet d'un facteur trois. Et son effet sur l'\emph{écart} entre états de
+conformité est mesuré, non supposé : $-1{,}9\,\%$, soit un déplacement non résolu devant le bruit
+de simulation, quand le facteur entre états baisse de $6{,}6\,\%$. La direction est favorable
+dans les deux cas, le chiffre publié n'étant pas gonflé par la dérive. Le même backtest valide
+par ailleurs la loi de fréquence et la forme de la queue, de sorte que cette ligne est le prix
+d'un test dont le solde est favorable (\S\ref{soc:sec:backtest}).
+
+\vspace{2pt}
+\noindent \textbf{Et l'argument qui ne doit pas être employé, parce qu'il est faux sous cette
+forme.} On serait tenté d'écrire qu'une dérive commune aux deux états se simplifie dans un
+rapport, donc que la thèse est à l'abri par construction. La proposition n'est vraie que pour une
+variation de la seule \emph{échelle} de sévérité, où elle est d'ailleurs remarquablement exacte,
+le rapport des effets sur les deux états valant $0{,}9984$ pour des niveaux qui montent de
+$46\,\%$. Elle est \emph{fausse} pour un changement de \emph{forme} de queue, qui déplace le
+facteur de $-6{,}1\,\%$, et la dérive mesurée en contient un. La formule juste est donc
+l'\textbf{invariance d'échelle}, qui vaut pour toute amplitude, et non l'invariance à la dérive,
+qui ne vaut pas. Source : script~\texttt{90}.
 
 \paragraph{Les deux lignes de périmètre sont d'une autre nature, et vont en sens contraire.} Ce ne
 sont ni des défauts d'estimation ni des choix de prudence, mais les deux bornes du périmètre, et
@@ -642,8 +654,9 @@ elle-même.
 
 \vspace{2pt}
 \noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60},
-\texttt{63}, \texttt{65} (expositions et besoins du panel), \texttt{74}, \texttt{78}
-et~\texttt{89} (backtest hors échantillon et dérive d'échelle).
+\texttt{63}, \texttt{65} (expositions et besoins du panel), \texttt{74}, \texttt{78},
+\texttt{89} (backtest hors échantillon et dérive d'échelle) et~\texttt{90} (effet de la dérive
+sur l'écart entre états).
 
 \section{Défaillances simultanées et additivité des coûts}
 \label{sec:additivite-couts}

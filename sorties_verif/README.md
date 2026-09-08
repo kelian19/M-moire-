@@ -24,7 +24,7 @@ de résultats. Le détail est dans la section « Comment construire » du `CLAUD
 
 ## État du dernier passage (8 septembre 2026, tous chapitres)
 
-**2 034 nombres publiés, 2 034 confirmés, soit 100 %**, et **0 nombre hors contrôle
+**2 059 nombres publiés, 2 059 confirmés, soit 100 %**, et **0 nombre hors contrôle
 non déclaré sur les dix-neuf chapitres**, relevé chapitre par chapitre et non sur le
 récapitulatif, qui n'imprime pas la couverture.
 
@@ -45,6 +45,22 @@ récapitulatif, qui n'imprime pas la couverture.
   **Ne pas citer la 1bis sans la 1ter** : prise seule, la 1bis invite à une erreur d'un
   facteur trois. C'est la source de la ligne du chapitre 13 et de la nouvelle section du
   chapitre 06.
+
+- `90.txt` **ferme une affirmation du mémoire au lieu d'en ouvrir une**, et il la corrige. Le
+  mémoire écrivait qu'une dérive commune aux deux états de conformité se simplifie dans un
+  rapport : c'était un argument, pas une mesure. L'argument est juste pour l'**échelle** et pour
+  elle seule, où il est exact à 0,16 % près pour des niveaux qui montent de 46 % ; il est
+  **faux** pour un changement de **forme** de queue, et la dérive mesurée en contient un. Le
+  facteur entre états passe de **3,344 à 3,124**, résolu à 4,43 écarts-types, le déplacement
+  étant entièrement porté par la forme. **L'écart en euros ne bouge que de −1,9 %, mais par
+  compensation** : forme seule 9 393, échelle seule 20 041 M€. Ne jamais annoncer l'écart comme
+  robuste à la sévérité. Deux contrôles imprimés : la fonction de perte locale reproduit
+  `canaux_conformite.pertes_annuelles` tirage pour tirage (écart maximal 0,00e+00), et la
+  branche publiée redonne 6 049 et 20 188. Sortie **déterministe**. Exige le même classeur
+  OpRisk que le 89, et lit le module partagé `derive_severite.py`.
+  Son dernier bloc imprime les grandeurs citées **sans séparateur de milliers ni signe** : les
+  tables les impriment avec une espace, que l'extracteur du harnais coupe en deux. Le bloc
+  n'ajoute aucun calcul, il rend citables des nombres déjà imprimés.
 
 - `88.txt` **teste le théorème du coin supérieur** au lieu de l'emprunter. Au sens du quantile il
   tient, zéro violation sur les 65 paires emboîtées graine par graine ; la version

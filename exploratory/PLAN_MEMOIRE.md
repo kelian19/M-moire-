@@ -13,14 +13,14 @@ Tout cela est fait. Ce document repart de l'état mesuré, pas de l'état décla
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **125 p.** | première page d'annexe moins une (annexes en 126) |
-| Document complet | **171 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **126 p.** | première page d'annexe moins une (annexes en 127) |
+| Document complet | **172 p.** | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
-| Scripts de calcul | 101 | `vasicek_lab/*/*.py` |
-| Sorties versionnées | 96 | `sorties_verif/NN.txt` |
-| Scripts cités par le mémoire | **83** | le reste est du travail deja porte autrement |
-| Nombres publiés | 2 034 | harnais, tous chapitres |
-| Confirmation | **100 %** | 2 034 confirmés |
+| Scripts de calcul | 102 | `vasicek_lab/*/*.py` |
+| Sorties versionnées | 97 | `sorties_verif/NN.txt` |
+| Scripts cités par le mémoire | **84** | le reste est du travail deja porte autrement |
+| Nombres publiés | 2 059 | harnais, tous chapitres |
+| Confirmation | **100 %** | 2 059 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
@@ -391,7 +391,7 @@ retirée. Ce qui reste n'est pas un arbitrage mais une **validation** : le choix
 présenter à Caroline, pas à reprendre.
 
 **Le format est tranché en faveur de Kélian.** Hugo a dit de ne pas se contraindre. Le corps est
-à 125 pages contre les ~70 recommandés de l'Institut.
+à 126 pages contre les ~70 recommandés de l'Institut.
 
 **Ce qui change avec la remise fin novembre, et c'est le seul point rouvert par le calendrier.**
 Une compression du corps était écartée faute de temps ; trois mois la rendent possible, et c'est
@@ -480,7 +480,48 @@ la **dérive**. Les deux écarts du modèle publié sont donc de sens contraires
 - **Aucune recalibration.** Corriger supposerait de déplacer tous les niveaux publiés à onze
   semaines du dépôt sans qu'aucun déplacement soit attribuable à la correction.
 - **Slide J** du deck du 11 septembre, seule slide de travail neuf de ce deck.
-- Coût : corps 123 → **125 pages**, total 169 → **171**. Harnais 1 979 → **2 034**, à 100 %.
+
+### Et l'affirmation publiée le matin a été fermée l'après-midi, script 90
+
+Les deux textes ci-dessus disaient qu'une dérive commune aux deux états de conformité se
+simplifie dans un rapport, donc que la thèse était à l'abri. **C'était un argument, pas une
+mesure.** Il n'était pas gratuit non plus : les quatre canaux ne transforment pas la sévérité de
+la même façon selon l'état, la détection entrant dans la *transformation* de sévérité et la
+propagation changeant le *nombre* de sévérités tirées par sinistre.
+
+**Le résultat, et il corrige la formulation.** L'argument est juste pour l'**échelle** et pour
+elle seule, où il est même remarquablement exact : une variation de la seule échelle multiplie
+les deux états par le même facteur, 1,4556 et 1,4532, soit un rapport de **0,9984** alors que
+les niveaux montent de 46 %. Il est **faux** pour un changement de **forme** de queue, et la
+dérive mesurée en contient un, puisque la modéliser réattribue à l'échelle ce que l'ajustement
+stationnaire lisait comme de la forme. Le facteur entre états passe donc de **3,344 à 3,124**,
+soit −6,6 % résolu à 4,43 écarts-types, et le déplacement est **entièrement porté par la
+composante de forme** (−6,1 %, 4,09 σ, contre −0,2 % non résolu pour l'échelle).
+
+**L'écart en euros ne bouge que de −1,9 %, et il ne faut surtout pas y lire une robustesse.**
+C'est une **compensation** : la composante de forme seule ramènerait l'écart à 9 393 M€ et celle
+d'échelle seule le porterait à 20 041. L'écart est donc très sensible à la sévérité prise
+composante par composante, et presque insensible à la seule combinaison que la dérive produit.
+
+**Trois choses à retenir :** citer l'**invariance d'échelle**, jamais l'invariance à la dérive ;
+ne jamais annoncer l'écart comme robuste à la sévérité ; et la direction est **favorable**, écart
+et facteur étant plus petits sous la sévérité dérivée, donc le chiffre publié n'est pas gonflé.
+Même structure à deux sens que le `p_u` gelé, le niveau devenant anti-conservateur et la thèse
+légèrement prudente.
+
+**Deux réserves imprimées par le script, à conserver :** il teste **une** sévérité alternative,
+non toute la famille, et la séparation forme / échelle est une **reparamétrisation**, non deux
+mécanismes physiques indépendants.
+
+**Nouveau module partagé `derive_severite.py`**, lu par 89 et 90, pour que les deux ne puissent
+pas s'écarter d'une décimale. Le refactor de la section 1ter du 89 reproduit sa sortie versionnée
+**à l'octet**. Et le script 90 suit le patron du script 81 pour faire tourner le moteur des
+canaux avec un paramètre changé : recopie de `pertes_annuelles` dans le même ordre de tirages,
+puis **contrôle** que l'appel aux valeurs publiées reproduit le module tirage pour tirage (écart
+maximal 0,00e+00) et que la branche publiée redonne 6 049 et 20 188.
+
+- Coût de la journée : corps 123 → **126 pages**, total 169 → **172**. Harnais 1 979 →
+  **2 059**, à 100 %, hors contrôle non déclaré à zéro.
 
 **Deux pièges évités en chemin, et le premier aurait invalidé le backtest.** Le périmètre couvre
 1979-2026, mais avant 2004 la collecte porte un à neuf incidents par an contre treize à
