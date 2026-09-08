@@ -1,0 +1,177 @@
+% Point d'avancement tuteur, vendredi 11 septembre 2026. CINQ pages : titre et quatre slides.
+%
+% CE QUE CE DECK PORTE, ET IL A ETE VERIFIE PAR GREP SUR TOUS LES DECKS ANTERIEURS. Aucun des
+% chiffres de ces quatre slides n'a jamais ete montre : ni le chiffre de tete (6 049, 20 188,
+% facteur 3,34), ni la lecture des rapports SFCR (5 305, 812, 16,7 %), ni la dynamique du
+% facteur systemique. Le dernier point PRESENTE est celui du 14 aout ; le deck du 21 aout porte
+% d'autres sujets (defaillances simultanees, additivites, concavite en duree).
+%
+% LE FIL : deux semaines d'absence, donc le deck ne raconte pas une production de semaine. Il
+% porte le chiffre de tete, qui n'avait jamais ete expose, et les deux verifications de fond
+% faites le 2 septembre. C'est un deck de CONSOLIDATION, et il faut l'annoncer comme tel.
+%
+% HORS SUJET SUR CONSIGNE, NE PAS REMETTRE : la charte graphique, et tout ce qui releve de la
+% FABRICATION du document (comptes de pages, taux du harnais, defauts de citation, couverture
+% de deck). Ce travail est trace dans CLAUDE.md et PLAN_MEMOIRE.md.
+%
+% REGLE DE DENSITE : support de parole, pas document. Titre qui enonce le resultat, une table ou
+% trois a cinq lignes courtes, les chiffres. Le raisonnement passe a l'oral. Les tables valent
+% mieux que les puces des que la slide compare deux etats. NE PAS REDENSIFIER.
+%
+% AUCUNE FIGURE. La semaine a produit des verifications et une section de modele, pas de
+% nouvelles courbes. S10 (SCR par etat) et S24 (interaction des canaux) restent disponibles,
+% aucune n'ayant jamais servi dans un deck.
+%
+% PUCES : template beamer force en cercle. Le babel francais met un tiret cadratin en puce
+% d'itemize par defaut, et les tirets cadratins sont proscrits. Controle SUR LE PDF.
+%
+% HARNAIS : chaque section porte sa ligne de sources, la page de titre est declaree hors
+% section. Une declaration n'est honoree que si la section ne cite aucun script, et elle doit
+% etre posee APRES le \section*.
+\documentclass[11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{eurosym}
+\graphicspath{{../vasicek_lab/figures/}{../cascade_qualitative/figures/}{../vasicek_lab/notes/}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamertemplate{itemize items}[circle]
+\setbeamerfont{block title}{size=\small}
+
+\title[Point d'avancement]{Mémoire SCR DORA : point d'avancement}
+\subtitle{Le chiffre de tête, et deux vérifications de fond}
+\author[K. Kaddouri]{Kélian Kaddouri}
+\institute[ENSAE / Nexialog]{ENSAE / Nexialog Consulting}
+\date[11/09/2026]{11 septembre 2026}
+
+\begin{document}
+
+% HARNAIS-HORS-SECTION: page de titre. Millesime et date, aucun resultat.
+\begin{frame}
+\titlepage
+\end{frame}
+
+% =====================================================================
+\section*{A. Le chiffre de tête}
+
+\begin{frame}{Quatre protocoles chiffraient l'écart. Un seul est publié}
+\small
+Quatre protocoles du mémoire chiffrent \og{}l'écart entre l'état conforme et l'état non
+conforme\fg{}. Aucun n'est faux : ils ne relâchent pas le même nombre de canaux.
+\vspace{3mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l c r r r@{}}
+\toprule
+\textbf{Lecture} & \textbf{canaux} & \textbf{conforme} & \textbf{non conf.} & \textbf{facteur} \\
+\midrule
+Score de conformité seul & $1$ & $7\,987$ & $16\,847$ & $2{,}11$ \\
+Fréquence $+$ propagation & $2$ & $6\,664$ & $15\,074$ & $2{,}26$ \\
+$+$ détection & $3$ & $5\,932$ & $16\,595$ & $2{,}80$ \\
+\textbf{$+$ accumulation tiers} & $\mathbf{4}$ & $\mathbf{6\,049}$ & $\mathbf{20\,188}$ &
+$\mathbf{3{,}34}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{4mm}
+
+\begin{itemize}\itemsep6pt
+  \item \alert{La quatrième est la seule où l'état conforme est conforme sur tous les canaux}
+  \item Ailleurs, c'est une remédiation partielle appelée conformité, ce qui sous-estime
+        l'écart par construction
+  \item Les trois autres restent publiées, comme remédiations partielles
+\end{itemize}
+\vspace{2mm}
+{\scriptsize En M\euro, périmètre OpRisk. Sources : scripts~\texttt{16}, \texttt{25},
+\texttt{43} et~\texttt{67}.}
+\end{frame}
+
+% =====================================================================
+\section*{B. Les quatre bilans réels}
+
+\begin{frame}{Les rapports SFCR relus, et une erreur de champ}
+\small
+Les quatre jeux de chiffres d'entité étaient saisis depuis les rapports de solvabilité 2024
+sans que les rapports eux-mêmes aient été relus. Ils l'ont été.
+\vspace{3mm}
+
+\begin{center}\small
+\begin{tabular}{@{}l r r@{}}
+\toprule
+\textbf{Assureur non-vie B} & \textbf{avant} & \textbf{après relecture} \\
+\midrule
+Total d'actif & $3\,234$ & $\mathbf{5\,305}$ \\
+\textsc{scr} & $292$ \emph{(déduit)} & $\mathbf{812{,}5}$ \emph{(publié)} \\
+Besoin \textsc{orsa} au titre de DORA & $120{,}8$ & $135{,}5$ \\
+Rapport au \textsc{scr} publié & $41{,}3\,\%$ & $\mathbf{16{,}7\,\%}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{3mm}
+
+\begin{itemize}\itemsep5pt
+  \item Le $3\,234$ était saisi en \textbf{total d'actif} là où le rapport le donne en
+        \textbf{fonds propres éligibles}
+  \item L'identité comptable le confirme : $5\,305 - 2\,071 = 3\,234$
+  \item \alert{La figure signalait l'anomalie avant qu'on la trouve} : la part montait avec la
+        taille entre les deux petites entités
+\end{itemize}
+\vspace{1mm}
+{\scriptsize En M\euro. Sources : script~\texttt{65}.}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Ce que cette relecture fait gagner}
+\small
+\begin{block}{Une limite déclarée disparaît}
+Les quatre \textsc{scr} sont \textbf{publiés} par les rapports. Plus aucun n'est reconstitué
+depuis un taux de couverture, donc la réserve \og{}deux \textsc{scr} sur quatre sont
+déduits\fg{} et la borne sous stress de $\pm 10\,\%$ n'ont plus d'objet.
+\end{block}
+\vspace{3mm}
+\begin{itemize}\itemsep6pt
+  \item \textbf{Le forfait de $3\,\%$ n'est pas une borne, et c'est mesuré} : contre le module
+        opérationnel publié, $54{,}1$ contre $59$ chez l'un, $62{,}1$ contre $39{,}7$ chez
+        l'autre. Il se trompe \alert{dans les deux sens}
+  \item \textbf{Le test du levier a changé de sens}, et je ne l'invoque plus : la part de
+        l'entité notionnelle passe de $13$ à $9\,\%$, donc \emph{sous} le critère de $10\,\%$
+  \item La requalification du $169$~M\euro{} repose désormais sur le \textbf{seul} argument de
+        taille, qui tient par lui-même
+\end{itemize}
+\vspace{2mm}
+{\scriptsize Sources : script~\texttt{65}.}
+\end{frame}
+
+% =====================================================================
+\section*{C. La dynamique du facteur}
+
+\begin{frame}{Le facteur systémique suit-il une trajectoire ?}
+\small
+Question de ma tutrice de stage : sous Vasicek, la probabilité de défaut de crédit est portée
+par un brownien. Quelle trajectoire suit mon facteur systémique ?
+\vspace{3mm}
+
+\begin{itemize}\itemsep6pt
+  \item \textbf{Réponse en deux temps.} Le facteur publié n'a \emph{pas} de trajectoire : il est
+        indépendant d'un pas au suivant. Ce n'est pas un défaut, c'est \alert{exactement
+        l'incrément brownien normalisé} du modèle de crédit, au pas comptable
+  \item La dépendance entre piliers existe et elle est forte : charge commune $0{,}68$, soit une
+        corrélation de $0{,}462$ entre deux piliers
+  \item \textbf{Mais un brownien pur imposerait un indice de dispersion égal à $1$}, et il est
+        mesuré à $1{,}19$ sur les cellules firme-année et $2{,}24$ sur la série annuelle. Le
+        moteur en pose $9{,}20$ comme marge
+  \item \alert{Donc la donnée identifie une composante de saut} : le facteur s'écrit avec un
+        retour à la moyenne et des sauts, et la section le publie avec sa normalisation
+\end{itemize}
+\vspace{3mm}
+{\scriptsize L'indice de dispersion vaut $1 + \lambda/r$ : il n'est pas invariant d'échelle,
+d'où trois valeurs pour trois niveaux d'agrégation. Sources : scripts~\texttt{08b},
+\texttt{16}, \texttt{41} et~\texttt{69}.}
+\end{frame}
+
+\end{document}
