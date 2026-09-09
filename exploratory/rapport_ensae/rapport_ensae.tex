@@ -648,6 +648,77 @@ son bruit.
 \label{s:methode}
 % =============================================================================
 
+\subsection{Le modèle en quatre équations}
+\label{ss:equations}
+
+Avant toute explication, voici l'objet complet. Les quatre équations ci-dessous
+sont le modèle entier ; tout ce qui suit dans cette partie les commente.
+
+\paragraph{Un. La charge annuelle, et ce qu'on en retient.} La perte agrégée d'un
+exercice est une somme composée, et le besoin de capital en est un quantile :
+\begin{equation}
+  L \;=\; \sum_{i=1}^{N} X_i,
+  \qquad
+  \mathrm{VaR}_{\alpha}(L) \;=\; \inf\bigl\{x : \mathbb{P}(L \le x) \ge \alpha \bigr\},
+  \qquad \alpha = 99{,}5\,\%.
+  \label{eq:charge}
+\end{equation}
+La notation est réservée : $\mathrm{VaR}$ ne désigne \emph{que} le quantile de la
+charge annuelle $L$, seul objet à porter un sens réglementaire au niveau retenu. Le
+quantile de la sévérité d'un \emph{sinistre} porte le symbole $\mathrm{q}$ et rien
+d'autre. C'est la convention qui règle la confusion d'échelles du
+\S\ref{ss:dora}, et elle est tenue dans tout le document.
+
+\paragraph{Deux. Le nombre de sinistres.} La loi de comptage est une binomiale
+négative de moyenne $\lambda$ et de paramètre de forme $r$, retenue contre une loi
+de Poisson pour sa surdispersion :
+\begin{equation}
+  N \sim \mathcal{BN}(\lambda, r),
+  \qquad
+  \frac{\mathbb{V}\mathrm{ar}(N)}{\mathbb{E}[N]} \;=\; 1 + \frac{\lambda}{r}.
+  \label{eq:frequence}
+\end{equation}
+L'indice de dispersion s'écrit ainsi, ce qui explique pourquoi il \emph{n'est pas
+invariant d'échelle} et pourquoi le mémoire en publie quatre valeurs sans se
+contredire (annexe~\ref{ann:methodes}).
+
+\paragraph{Trois. La sévérité, par dépassement de seuil.} Au-delà du seuil $u$, les
+excès suivent une loi de Pareto généralisée, ce qui donne la queue et le quantile
+par sinistre en forme fermée :
+\begin{equation}
+  \mathbb{P}(X > u + y \mid X > u) = \Bigl(1 + \frac{\xi y}{\sigma}\Bigr)^{-1/\xi},
+  \qquad
+  \mathrm{q}(1-p) \;=\; u + \frac{\sigma}{\xi}
+  \Bigl[\Bigl(\frac{p}{p_u}\Bigr)^{-\xi} - 1\Bigr],
+  \label{eq:severite}
+\end{equation}
+où $p_u = \mathbb{P}(X > u)$ est le taux de dépassement. Trois des quatre canaux de
+conformité agissent sur ces équations, et c'est de cette forme fermée que sort la
+proposition~\ref{prop:pont}.
+
+\paragraph{Quatre. La cascade et l'état de conformité.} Un sinistre s'amorce sur un
+pilier, puis engendre l'ensemble $S_i$ des piliers touchés par un branchement de
+matrice moyenne $W(g)$, et son coût est la somme des coûts des piliers atteints :
+\begin{equation}
+  X_i \;=\; \sum_{j \in S_i} c_j,
+  \qquad
+  Y_j \;=\; \mathbf{1}\bigl\{a\,Z + \sqrt{1-a^2}\;\varepsilon_j < z_j\bigr\},
+  \qquad
+  \mathrm{corr}(Y_j, Y_k)\big|_{\text{latentes}} = a^2.
+  \label{eq:cascade}
+\end{equation}
+La première égalité est l'\textbf{hypothèse d'additivité des coûts}, la plus lourde
+des hypothèses non testées de ce travail, et l'écrire ici la rend visible plutôt
+que tacite. La seconde donne l'état de conformité du pilier $j$ par une latente
+gaussienne à facteur commun $Z$, de charge $a = 0{,}68$, d'où une corrélation de
+$0{,}462$ entre deux piliers quelconques : le chiffre publié n'est pas posé, il est
+le carré de la charge.
+
+\vspace{4pt}
+\noindent Sources : scripts~\texttt{07} (paramètres de la loi de sévérité),
+\texttt{08b} (loi de comptage et indice de dispersion) et~\texttt{69} (charge de
+facteur commun et corrélation induite).
+
 \subsection{La cascade dirigée}
 \label{ss:cascade}
 
@@ -754,10 +825,21 @@ dénégation : sous l'hypothèse d'un codage sans information directionnelle,
 l'asymétrie observée atteint un écart de $3{,}9$ écarts-types, un jackknife montre
 qu'aucun rapport isolé ne porte le résultat, et le point de rupture est calculé.
 
-\paragraph{Et une relecture de praticien, dont le résultat n'est pas celui
-attendu.} Le même soupçon a été porté à des praticiens du secteur, sous une forme
-inhabituelle : sept affirmations qualitatives du modèle leur ont été soumises avec
-la consigne d'essayer de les \emph{contredire}, sans lecture du mémoire. La
+\paragraph{Et une relecture de praticien, nécessaire pour une raison structurelle.}
+La matrice d'influence \textbf{n'est pas calibrée} au sens où le sont la fréquence
+et la sévérité, et elle ne peut pas l'être : sa direction n'est pas identifiable
+sur les données disponibles, ce que le \S\ref{ss:identif} démontre. Sa structure est
+\emph{déduite} d'un corpus de rapports post-mortem, source qui porte le confondant
+de narration décrit ci-dessus. Sur une structure ainsi posée, il ne reste qu'un
+seul contrôle externe possible, le jugement de praticiens qui ont vu des
+défaillances réelles sans avoir lu ni le corpus ni le mémoire. Encore faut-il voir
+ce qu'un tel contrôle peut : il peut corroborer ou contredire une structure, il ne
+peut pas la calibrer, faute de quoi on retomberait sur le jugement d'expert que ce
+travail écarte. C'est la différence entre une relecture et une élicitation, et elle
+commande la forme de l'instrument.
+
+Sept affirmations qualitatives du modèle ont donc été soumises à des praticiens
+avec la consigne d'essayer de les \emph{contredire}, sans lecture du mémoire. La
 première réponse reçue, celle d'une consultante de Nexialog exerçant en gestion des
 risques depuis une dizaine d'années, n'en contredit aucune.
 
@@ -773,12 +855,10 @@ matrice, et c'est aussi ce qui justifie de ne pas employer le jugement d'expert
 comme instrument de calibration.
 
 Deux défauts de l'instrument ont été identifiés au passage, tous deux dans les
-phrases et non chez la répondante : l'une empaquetait deux affirmations, dont
-seule la plus facile a reçu une réponse, et celle qui devait discriminer ne
-discriminait pas. Trois questions à choix forcé ont été ajoutées, dont une qui
-offre explicitement la modalité \emph{je ne peux pas trancher}. Un praticien qui la
-choisit corrobore la frontière sur le terrain, ce qui vaut davantage qu'un accord
-sur la matrice.
+phrases et non chez la répondante, et trois questions à choix forcé ont été
+ajoutées pour y remédier. L'une offre explicitement la modalité \emph{je ne peux
+pas trancher} : un praticien qui la choisit corrobore la frontière sur le terrain,
+ce qui vaut davantage qu'un accord sur la matrice.
 
 \vspace{4pt}
 \noindent Sources : scripts~\texttt{03} (rayon spectral et gain critique),
@@ -1513,11 +1593,6 @@ supérieure d'ordre de grandeur} et non en mesure, parce que l'entité tombe sou
 borne inférieure de validité de la descente d'échelle. Cette borne de validité est
 publiée, ce qui est inhabituel et me paraît nécessaire : une méthode qui ne dit pas
 où elle cesse de valoir sera utilisée là où elle ne vaut pas.
-
-Une figure a signalé l'anomalie de saisie avant que je la trouve : son panneau
-montrait une part qui \emph{montait} avec la taille entre les deux petites
-entités, ce qui contredisait l'argument même de la section. La leçon vaut d'être
-retenue et elle revient au \S\ref{ss:retiens}.
 
 \vspace{4pt}
 \noindent Sources : script~\texttt{65} (bilans, SCR publiés, forfait comparé,

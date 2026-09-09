@@ -35,6 +35,15 @@ la référence de style** ; le retrait de la v1 n'est pas fait et lui appartient
 ligne : `preambule_v2.tex` remplace `preambule.tex`). Détail dans la section « Essai de style V2 »
 plus bas.
 
+**ET LA V2 SE RECOMPILE À CHAQUE FOIS, consigne de Kélian du 9 septembre.** Toute modification
+d'un chapitre vaut pour les deux versions, donc `main_v2.pdf` se périme dès qu'on touche au
+contenu. La règle est désormais : après toute modification de chapitre, compiler `main.tex`
+**et** `main_v2.tex`, et passer les contrôles sur les deux. Leurs lignes de base diffèrent :
+**15 Overfull `\hbox` distincts pour la v1, 6 pour la v2**, et c'est à ces deux nombres qu'il
+faut comparer pour savoir si un débordement est nouveau. `main.pdf` est versionné,
+`main_v2.pdf` est gitignoré, ce qui ne dispense pas de le régénérer : un PDF périmé sur le
+poste est exactement ce qui a fait présenter du travail antérieur comme récent le 21 août.
+
 État au **8 septembre 2026** : v1 à **178 pages dont 130 de corps** (annexes en 131), v2 à
 **185 pages dont 136 de corps** (annexes en 137), branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
@@ -166,7 +175,14 @@ $py = "C:\Users\KélianKADDOURI\Projects\M-moire-\.venv\Scripts\python.exe"
 $tec = "C:\Users\KélianKADDOURI\Projects\M-moire-\memoire\tectonic.exe"
 cd exploratory\memoire_cascade
 & $tec -X compile main.tex --keep-intermediates
-# NB : --synctex=none n'existe pas sur cette version. Pas de main.log : tout va sur stdout.
+& $tec -X compile main_v2.tex --keep-intermediates   # OBLIGATOIRE, voir ci-dessous
+# NB : --synctex=none n'existe pas sur cette version.
+# ET TECTONIC ECRIT SES AVERTISSEMENTS SUR STDERR, PAS SUR STDOUT. Un
+# « > log.txt » ne capture donc RIEN des Overfull, vbox et annotations hors page,
+# et le controle passe a vide en donnant zero partout. Deux controles ont ete
+# annonces faux le 9 septembre pour cette raison. Rediriger les deux flux, et le
+# faire par cmd pour eviter le NativeCommandError de PowerShell 5.1 :
+#   cmd /c "..\..\memoire\tectonic.exe -X compile main.tex --keep-intermediates > %TEMP%\log.txt 2>&1"
 
 # Harnais, tous les chapitres
 cd exploratory\memoire_cascade
@@ -1848,13 +1864,27 @@ est imposé** et il est respecté : rapport, annexes, note française, note angl
 déposer doit s'appeler `KADDOURI_Kelian_3A25.pdf`, ou le même suffixé `_CONF` si Nexialog exige
 la confidentialité.
 
-**État mesuré au 9 septembre au soir, après trois reprises successives.** 50 pages au total :
-couverture 1, sommaire 2 et 3, corps 4 à 36, bibliographie 37, **sept annexes A à G** de 38 à 46,
-note française 47 et 48, note anglaise 49 et 50. Donc **33 pages de corps, références comprises**
-pour une cible d'« environ 30 ». **C'est 10 % au-dessus et il faut s'y tenir** : deux tentatives
-de descendre à 30 ont échoué, parce que chaque page rendue au corps y ramène du contenu que le
-barème note. Ce qui pouvait partir est déjà en annexe, et les annexes ne comptent pas. Couper
-davantage retirerait de l'analyse critique, qui vaut 6 points, pour gagner sur un « environ ».
+**État mesuré au 9 septembre au soir, après quatre reprises successives.** 52 pages au total :
+couverture 1, sommaire 2 et 3, corps 4 à 38, bibliographie 39, **sept annexes A à G** de 40 à 48,
+note française 49 et 50, note anglaise 51 et 52. Donc **36 pages de corps, références comprises**
+pour une cible d'« environ 30 ». **C'est 20 % au-dessus, et c'est un arbitrage assumé, pas un
+oubli** : trois tentatives de descendre ont échoué, parce que chaque page rendue au corps y
+ramène du contenu que le barème note sur 6. Ce qui pouvait partir est déjà en annexe, et les
+annexes ne comptent pas. La lecture retenue est que la consigne des trente pages existe pour
+empêcher un rapport de dix pages, non pour plafonner un document dense, et que les motifs de
+pénalité listés portent sur les modalités de rendu et non sur la longueur. **Si Kélian veut
+descendre, les deux blocs les moins coûteux à déplacer en annexe sont la trajectoire et la durée
+de non-conformité, et la mise en regard des cadres existants.**
+
+**Le corps porte le modèle en quatre équations, depuis le 9 septembre au soir.** Le rapport
+décrivait un modèle sans jamais l'écrire, ce qui est un défaut sur la ligne de qualité
+scientifique. Nouvelle sous-section `ss:equations` en tête de la partie méthode : la charge
+annuelle composée et le capital comme son quantile, la loi de comptage avec son indice de
+dispersion écrit sous la forme $1 + \lambda/r$ qui explique pourquoi il n'est pas invariant
+d'échelle, la queue de Pareto généralisée avec le quantile par sinistre en forme fermée, et la
+cascade avec deux choses rendues visibles : l'**hypothèse d'additivité des coûts**, écrite comme
+une somme sur les piliers touchés, et la latente de conformité, qui montre que la corrélation
+publiée de $0{,}462$ n'est pas posée mais est le **carré** de la charge de facteur commun.
 Compile sans erreur, 0 Overfull `\hbox`, 0 Overfull `\vbox`, 0 annotation hors page, 0 page
 tournée, 0 `??` compté dans le PDF. **Harnais : 371 nombres sous contrôle, 371 confirmés,
 100 %**, plus 25 déclarés hors script section par section, soit **0 hors contrôle non déclaré**
