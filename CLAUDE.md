@@ -9,6 +9,23 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
+**LE DÉPÔT EST LE 30 SEPTEMBRE 2026, ET NON FIN NOVEMBRE.** Ce fichier a porté « fin novembre »
+jusqu'au 9 septembre, et la section du backtest justifiait même de ne pas recalibrer au motif
+qu'on serait « à onze semaines du dépôt » : les deux étaient faux. Deux sessions existent,
+soutenance en novembre 2026 avec rendu le **30 septembre**, ou soutenance en mars 2027 avec
+rendu début janvier. **Kélian a tranché le 9 septembre pour novembre**, donc il reste trois
+semaines et non trois mois. Toute décision qui invoque le temps restant doit se relire à cette
+aune.
+
+**ET IL Y A DEUX DOCUMENTS À RENDRE, PAS UN.** Le mémoire d'actuariat d'un côté ; le **rapport
+de stage de fin d'études ENSAE** de l'autre, que Kélian a demandé le 9 septembre de traiter
+comme un document **distinct**. Il vit dans `exploratory/rapport_ensae/` et obéit à ses propres
+consignes, qui ne sont pas celles du mémoire : environ 30 pages de corps hors annexes, Times New
+Roman 12, interligne 1,5, page de couverture au modèle imposé, et deux notes de synthèse
+autonomes d'une à deux pages, française et anglaise. Détail dans la section « Le rapport de
+stage ENSAE » plus bas. **Ne pas confondre les deux documents et ne pas leur appliquer les mêmes
+contraintes** : le mémoire assume ses 130 pages de corps, le rapport ENSAE ne peut pas.
+
 **IL Y A DEUX VERSIONS DEPUIS LE 8 SEPTEMBRE, ET ELLES PARTAGENT LES CHAPITRES.**
 `main.tex` porte le style d'origine, `main_v2.tex` un style de monographie classique sans
 couleur. Les deux appellent **les mêmes fichiers de chapitres** : seul le préambule diffère, une
@@ -91,6 +108,7 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 | Quoi | Où |
 |---|---|
 | **Mémoire vivant** | `exploratory/memoire_cascade/main.tex` |
+| **Rapport de stage ENSAE** | `exploratory/rapport_ensae/rapport_ensae.tex` — document DISTINCT |
 | Version abandonnée, pré-cascade | `memoire/main.tex` — **ne jamais y toucher** |
 | Chapitres | `exploratory/memoire_cascade/chapitres/*.tex` |
 | Harnais de vérification | `exploratory/memoire_cascade/verif_chiffres.py` |
@@ -1010,7 +1028,15 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
   connaître avant d'en rediscuter : la robuste à 95 % **est** la borne haute de l'IC90 déjà
   publié, donc reporter le plug-in avec sa bande publie déjà le chiffre robuste ;
 - ~~relancer le script 08h et versionner sa sortie~~ : **FAIT le 12 août** ;
-- le registre de sous-traitance.
+- le registre de sous-traitance ;
+- **les cinq champs de la page de couverture du rapport ENSAE**, dont la mention de
+  confidentialité, qui relève de Nexialog et non de Kélian seul. Voir la section « Le rapport de
+  stage ENSAE » ;
+- **le courriel au service des stages** sur les dispositions prises pour la voie actuariat, que
+  les consignes qualifient d'impératif ;
+- **la date limite du Prix SCOR**, signalée cinq fois et toujours inconnue. Elle est devenue
+  décisive le 9 septembre : c'était le seul argument qui pouvait faire préférer la session de
+  mars 2027 à celle de novembre.
 
 **Deux arbitrages, trouvés et tranchés le 6 août 2026 en dépouillant les 36 non confirmés.**
 
@@ -1561,7 +1587,9 @@ de sévérité ne tient pas, Kupiec rejetant aux deux niveaux.
 
 **Ce qui n'a PAS été fait, et le motif :** aucune recalibration sur fenêtre glissante. L'écart
 est déclaré chiffré, exactement comme le `p_u`. Corriger supposerait de déplacer tous les niveaux
-publiés à onze semaines du dépôt sans qu'aucun déplacement soit attribuable à la correction.
+publiés à **trois semaines** du dépôt, sans qu'aucun déplacement soit attribuable à la
+correction. (Le motif avait été écrit « à onze semaines », sur une date de dépôt erronée ; il
+n'en est que plus fort.)
 
 **Le piège de lecture de cette section, et il est symétrique de celui de Hackmageddon.** La
 section 1bis mesure une dérive de 13,0 % par an sur la médiane, ce qui invite à conclure que le
@@ -1796,6 +1824,79 @@ par un here-string PowerShell à guillemets **doubles**, où le backtick est le 
 d'échappement : l'accent grave de « Lumière », écrit en LaTeX avec un backtick, a été mangé et a
 laissé une séquence de contrôle indéfinie qui a fait échouer la compilation sur le `.bbl`.
 Utiliser un here-string à guillemets **simples**, jamais doubles, pour écrire du LaTeX.
+
+## Le rapport de stage ENSAE, le 9 septembre 2026
+
+**C'est un second document, et il ne se confond pas avec le mémoire.** Kélian a demandé le
+9 septembre de dissocier les deux : le mémoire d'actuariat d'un côté, le rapport de stage de fin
+d'études ENSAE de l'autre. Le second vit dans `exploratory/rapport_ensae/rapport_ensae.tex`, un
+seul fichier, préambule compris. Il ne partage **aucun** fichier avec le mémoire, à deux
+exceptions près : les figures, lues dans `../vasicek_lab/figures/`, et la bibliographie, lue dans
+`../memoire_cascade/references.bib`.
+
+**Les consignes qu'il respecte, et elles ne sont pas celles du mémoire.** Environ 30 pages de
+corps hors annexes, références et tableaux compris ; Times New Roman 12 ; interligne 1,5 ;
+pagination ; page de couverture au modèle imposé de l'annexe 1 ; sommaire ; bibliographie ;
+annexes appelées depuis le corps ; et deux notes de synthèse autonomes d'une à deux pages,
+française et anglaise, lisibles par un non-spécialiste. **L'ordre des pièces du fichier unique
+est imposé** et il est respecté : rapport, annexes, note française, note anglaise. Le fichier à
+déposer doit s'appeler `KADDOURI_Kelian_3A25.pdf`, ou le même suffixé `_CONF` si Nexialog exige
+la confidentialité.
+
+**État mesuré.** 38 pages au total : couverture 1, sommaire 2 et 3, corps 4 à 32, bibliographie
+33, annexes A, B et C en 34, note française 35 et 36, note anglaise 37 et 38. Donc **29 pages de
+corps plus une de références**, ce qui tient la cible d'environ 30. Compile sans erreur, 0
+Overfull `\hbox`, 0 Overfull `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans
+le PDF. **Harnais : 232 nombres sous contrôle, 232 confirmés, 100 %**, plus 32 nombres déclarés
+hors script section par section, soit **0 hors contrôle non déclaré** sur 264 nombres publiés.
+
+**Trois choses à savoir avant d'y toucher.**
+
+- **Le corps a été écrit court puis étoffé, et c'est le bon sens de marche.** La première version
+  faisait 19 pages de corps quand il en fallait 30, et le manque était du **fond**, pas de la mise
+  en page. Cinq sous-sections ont été ajoutées, toutes adossées à des résultats déjà publiés et
+  déjà vérifiés : les trois propriétés démontrées, l'attribution par pilier avec les trois sens du
+  mot additivité, la sensibilité en élasticités, les deux horloges, la posture reportée avec le
+  diagnostic de queue, et la mise en regard des trois cadres. **Ne jamais gagner des pages en
+  desserrant l'interligne ou les marges** : les deux sont imposés.
+- **Le harnais a redonné sa leçon, et deux fois.** Une ligne « Sources : scripts… » posée en bas
+  de `\section` ne couvre que la **dernière** sous-section, parce que le harnais coupe aussi sur
+  `\subsection` : la première passe donnait **7,5 %** de couverture. Il en faut une par
+  sous-section. Et une déclaration `% HARNAIS-HORS-SECTION:` est **ignorée si la sous-section cite
+  un script**, le code exigeant `m_sec and not cites` : les comptes du dispositif de vérification
+  ont donc leur propre sous-section, sans citation.
+- **Deux valeurs ont été réécrites avec leur signe, et le document y gagne.** Le script 76 imprime
+  l'effet du seuil à $+320$ et celui de l'indice de queue à $-13\,993$, de signes **opposés** ; le
+  script 81 imprime les ablations à $-76{,}2$ et $-20{,}3\,\%$. Les avoir d'abord écrits en valeur
+  absolue les faisait ressortir non confirmés, et la correction rend l'énoncé plus juste, puisque
+  c'est la compensation entre composantes de signes contraires qui est le résultat.
+
+**Deux écarts assumés, avec leur motif.**
+
+- **Les notes de synthèse sont en interligne simple**, pas 1,5. Les consignes fixent l'interligne
+  pour « le corps du rapport » et imposent à la note de tenir en une ou deux pages ; à 1,5 la note
+  française débordait sur une troisième page malgré quatre passes de resserrage. La contrainte de
+  page a été jugée la plus visible des deux. Le motif est écrit en commentaire dans le fichier.
+- **Les trois figures sont reprises du mémoire** (`H1_reseau_W`, `Z_identification_partielle`,
+  `S32_tornado_normalise`), et les trois pages qui les portent ont été rendues en PNG et
+  regardées. La règle « aucune figure déjà utilisée ne resserve » vaut pour les **decks**, où elle
+  évite de présenter deux fois le même travail ; elle n'a pas de sens entre deux documents qui
+  décrivent le même stage.
+
+**Ce qui reste à compléter, et cela n'appartient pas à l'assistant.** Cinq champs sont regroupés
+en tête du fichier et s'impriment en gras entre crochets tant qu'ils sont vides : le **maître de
+stage**, les **dates de début et de fin** de stage, et la **mention de confidentialité**, qui
+relève de Nexialog et non de Kélian seul. L'année scolaire, l'entreprise et la ville sont
+préremplies. Deux actions administratives par ailleurs : informer le **service des stages** par
+courriel des dispositions prises pour la voie actuariat, ce que les consignes qualifient
+d'impératif, et déposer un **fichier unique** au nom imposé.
+
+**Un point de fond à ne pas perdre.** Le barème ENSAE note sur 6 « l'analyse et la réflexion sur
+le contexte et les outils utilisés », demande de préciser la part d'influence du maître de stage
+et des tierces personnes, et attend un recul sur l'expérience. Le mémoire d'actuariat ne porte
+**rien** de tout cela. C'est la section 6 du rapport ENSAE qui le couvre, et elle est nommée
+« Ce que le stage a mobilisé, et le recul ». La retirer ou la comprimer pour gagner des pages
+coûterait des points de barème, pas seulement de la place.
 
 ## Note d'honnêteté
 
