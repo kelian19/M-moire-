@@ -1843,14 +1843,37 @@ est imposé** et il est respecté : rapport, annexes, note française, note angl
 déposer doit s'appeler `KADDOURI_Kelian_3A25.pdf`, ou le même suffixé `_CONF` si Nexialog exige
 la confidentialité.
 
-**État mesuré au 9 septembre, après la reprise de style demandée le soir même.** 40 pages au
-total : couverture 1, sommaire 2 et 3, corps 4 à 35, bibliographie 36, annexes A et B en 37, note
-française 38 et 39, note anglaise 40. Donc **32 pages de corps plus une de références** pour une
+**État mesuré au 9 septembre au soir, après deux reprises successives.** 46 pages au total :
+couverture 1, sommaire 2 et 3, corps 4 à 35, bibliographie 36, **six annexes A à F** de 37 à 44,
+note française 45, note anglaise 46. Donc **32 pages de corps plus une de références** pour une
 cible d'« environ 30 » : c'est 10 % au-dessus, assumé, et le motif est que couper davantage
-retirerait de l'analyse critique que le barème note sur 6. Compile sans erreur, 0 Overfull
-`\hbox`, 0 Overfull `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans le PDF.
-**Harnais : 260 nombres sous contrôle, 260 confirmés, 100 %**, plus 23 déclarés hors script
-section par section, soit **0 hors contrôle non déclaré** sur 283 nombres publiés.
+retirerait de l'analyse critique que le barème note sur 6. Chaque note tient sur **une** page.
+Compile sans erreur, 0 Overfull `\hbox`, 0 Overfull `\vbox`, 0 annotation hors page, 0 page
+tournée, 0 `??` compté dans le PDF. **Harnais : 371 nombres sous contrôle, 371 confirmés,
+100 %**, plus 25 déclarés hors script section par section, soit **0 hors contrôle non déclaré**
+sur 396 nombres publiés.
+
+**LES ANNEXES SONT L'ENDROIT OÙ METTRE LE MATÉRIEL, parce qu'elles ne comptent pas dans les
+30 pages.** Les consignes disent « environ 30 pages de corps **hors annexes** ». Kélian a demandé
+le 9 septembre au soir plus de tableaux, de démonstrations et de figures, et tout est donc allé en
+annexe, sans toucher au corps. Les six annexes :
+
+| Annexe | Contenu |
+|---|---|
+| A | table des paramètres, avec la colonne de statut (estimé, posé, gelé) |
+| B | **si un paramètre change, quel résultat** : les sept leviers à $\pm 10\,\%$, en euros, plus l'élasticité, sans ré-ajustement (script 76) |
+| C | **la même grandeur par plusieurs méthodes**, en trois tables : indice de queue par cinq estimateurs, loi de comptage par deux modèles et la dispersion à quatre échelles, progéniture contre amorce posée. Figure K3 |
+| D | **l'état conforme et l'état non conforme terme à terme** : les quatre paramètres, la loi exacte du nombre de piliers touchés, la charge annuelle moyenne, le capital. Figure S30 |
+| E | trois démonstrations de plus : identité de la colonne de fermeture, monotonie du capital en $g$, borne basse du facteur d'agrégation |
+| F | chronologie du stage |
+
+**Trois « lectures » d'annexe refusent une conclusion flatteuse, et c'est ce qui les rend
+utiles.** L'accord parfait entre progéniture et amorce (Spearman $1{,}000$) n'est **pas** une
+validation externe : l'amorce se déduit de la structure des transferts, donc l'accord est une
+conséquence de la construction, et le script le dit dans sa propre sortie. La monotonie du capital
+en $g$ **s'appuie sur** l'hypothèse d'additivité des coûts, donc elle n'est pas gratuite.
+Et l'encadrement $9\,138 \le 14\,139 \le 19\,141$ est **mesuré, non démontré** : il supposerait
+tous les croisés positifs, ce que les ordres trois et quatre démentent.
 
 **Le document porte 6 figures, 13 tableaux et 3 propositions démontrées.** Kélian a demandé le
 9 septembre que le rapport soit plus agréable à lire, avec graphiques, démonstrations, figures et
@@ -1878,7 +1901,11 @@ tableaux, et que l'écriture cesse de sentir la rédaction automatique. Ce qui a
 
 - **Une ligne « Sources : scripts… » en bas de `\section` ne couvre que la dernière
   sous-section**, le harnais coupant aussi sur `\subsection` : la première passe donnait **7,5 %**
-  de couverture. Il en faut une par sous-section.
+  de couverture. Il en faut une par sous-section. **Et cela vaut aussi pour `\subsection*`**, la
+  forme étoilée : les annexes ajoutées le soir du 9 septembre ont refait tomber la couverture à
+  **83,5 %** pour cette seule raison, trois sous-sections étoilées d'annexe n'ayant pas leur
+  propre ligne de sources. La règle est donc : **une ligne de sources par bloc que le harnais
+  découpe**, et il découpe sur `\section`, `\section*`, `\subsection` et `\subsection*`.
 - **Une déclaration `% HARNAIS-HORS-SECTION:` est ignorée si la sous-section cite un script**, le
   code exigeant `m_sec and not cites`.
 - **NOUVEAU : un type de colonne maison n'est pas neutralisé.** Le harnais neutralise `p{3.4cm}`,

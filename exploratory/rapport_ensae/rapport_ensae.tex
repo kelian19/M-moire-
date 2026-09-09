@@ -87,6 +87,8 @@
 \gdef\figCanaux{S24_interaction_canaux.png}
 \gdef\figTornado{S32_tornado_normalise.png}
 \gdef\figTraj{S12_trajectoire_scr.png}
+\gdef\figBranch{K3_branchement_R0.png}
+\gdef\figSimult{S30_defaillances_simultanees.png}
 \endgroup
 
 % ---------------------------------------------------------------------------
@@ -522,7 +524,8 @@ généralisé donne un indice de queue $\hat\xi = 0{,}5954$ et une échelle
 $\hat\sigma = 57{,}97$. Le quantile de sévérité à $99{,}5\,\%$ d'un sinistre vaut
 $662{,}78$~M\euro, d'intervalle de confiance à $90\,\%$
 $[411{,}5\,;\,1\,037]$~M\euro. La table complète des paramètres, avec leur statut,
-figure en annexe~\ref{ann:parametres}.
+figure en annexe~\ref{ann:parametres}, et l'annexe~\ref{ann:methodes} donne la même
+grandeur estimée par cinq méthodes concurrentes.
 
 L'ajustement est validé sur trois critères indépendants, présentés en
 figure~\ref{fig:validation} : les paramètres publiés, imposés au test, passent
@@ -689,7 +692,9 @@ reproduction) et~\texttt{59} (convention de direction et matrice ordonnée).
 
 Un modèle de contagion est facile à écrire et difficile à défendre, parce que ses
 propriétés intéressantes sont souvent celles qu'on a implicitement supposées.
-Trois propriétés sont donc démontrées, et une quatrième a été réfutée.
+Trois propriétés sont donc démontrées, et une quatrième a été réfutée. Trois
+démonstrations supplémentaires, qui règlent des questions de lecture plutôt que de
+construction, sont en annexe~\ref{ann:demos}.
 
 \begin{proposition}[La normalisation borne la propagation]
 \label{prop:leontief}
@@ -766,7 +771,8 @@ du modèle, c'est sa sortie, et elle est majoritaire à l'état non conforme :
 $62{,}31\,\%$ des sinistres y touchent plus d'un pilier, contre $31{,}15\,\%$ à
 l'état conforme, pour respectivement $1{,}931$ et $1{,}380$ pilier touché en
 moyenne. La loi du nombre de piliers touchés est obtenue par énumération exacte de
-la progéniture, donc sans bruit de simulation, et elle est citable telle quelle.
+la progéniture, donc sans bruit de simulation, et elle est citable telle quelle ;
+elle figure en entier, aux deux états, en annexe~\ref{ann:etats}.
 
 \vspace{4pt}
 \noindent Sources : scripts~\texttt{69} (structure de dépendance des états)
@@ -1153,7 +1159,8 @@ configurations).
 
 Un modèle de cascade attire une objection prévisible : tout dépendrait du niveau
 de contagion supposé, qui est précisément la partie posée. Deux analyses
-indépendantes montrent le contraire.
+indépendantes montrent le contraire. Le balayage complet, paramètre par paramètre
+et en euros plutôt qu'en élasticités, est en annexe~\ref{ann:sensibilite}.
 
 \begin{table}[htbp]
 \centering\small
@@ -2004,6 +2011,380 @@ reproduction, gain critique), \texttt{07} (ajustement de sévérité), \texttt{0
 (fréquence et dispersion), \texttt{43} (niveaux des quatre canaux), \texttt{47}
 (seuil et excès), \texttt{60} (intensité annuelle), \texttt{63} (calibration
 figée) et~\texttt{67} (paramètres posés).
+
+\section{Sensibilité : ce que déplace chaque paramètre}
+\label{ann:sensibilite}
+
+Le tableau~\ref{tab:balayage} répond à la question qu'un lecteur pose devant tout
+modèle : \emph{si ce paramètre change, qu'arrive-t-il au résultat}. La perturbation
+est la même pour tous, plus ou moins dix pour cent en relatif, et chaque paramètre
+bouge \textbf{seul}, sans ré-ajustement des autres. C'est la seule façon de rendre
+des leviers d'unités différentes comparables.
+
+\begin{table}[htbp]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.2cm}rrrl@{}}
+\toprule
+\textbf{Paramètre perturbé} & $\boldsymbol{-10\,\%}$ & $\boldsymbol{+10\,\%}$ &
+\textbf{Élasticité} & \textbf{Statut} \\
+\midrule
+Indice de queue $\xi$            & $4\,650$ & $9\,950$ & $3{,}79$ & estimé \\
+Échelle de sévérité $\sigma$     & $6\,005$ & $7\,299$ & $0{,}97$ & estimé \\
+Taux de dépassement $p_u$        & $5\,867$ & $6\,922$ & $0{,}82$ & estimé \\
+Intensité annuelle $\lambda$     & $6\,122$ & $6\,697$ & $0{,}45$ & estimé \\
+Surdispersion $\varphi$          & $6\,909$ & $6\,320$ & $-0{,}44$ & \textbf{posé} \\
+Gain de propagation $g$          & $6\,343$ & $6\,833$ & $0{,}37$ & \textbf{posé} \\
+Seuil $u$                        & $6\,636$ & $6\,670$ & $0{,}03$ & choix de méthode \\
+\bottomrule
+\end{tabular}
+\caption{Écart entre états, en millions d'euros, quand un paramètre et un seul est
+déplacé de dix pour cent dans chaque sens.}
+\label{tab:balayage}
+\end{table}
+
+\textbf{Lecture.} Trois choses se lisent directement dans les colonnes. L'indice de
+queue déplace le résultat d'un facteur deux à la baisse et d'un facteur un et demi
+à la hausse là où le seuil ne le déplace pas du tout : c'est la hiérarchie discutée
+au \S\ref{ss:sensibilite}. Les deux paramètres \textbf{posés}, ceux qui ne sont pas
+estimés sur donnée et qu'un lecteur critique attaquerait en premier, sont parmi les
+moins influents. Et la surdispersion est la seule à faire \emph{baisser} l'écart
+quand elle monte, ce que la colonne d'élasticité signale par un signe négatif et
+qu'une lecture en valeur absolue effacerait.
+
+\vspace{4pt}
+\noindent Sources de la table : script~\texttt{76} (balayage à perturbation
+relative égale, sans ré-ajustement).
+
+\section{Estimation : les mêmes grandeurs par plusieurs méthodes}
+\label{ann:methodes}
+
+Une estimation unique ne dit pas si elle est fragile. Les trois tableaux qui
+suivent donnent, pour chacune des trois briques du modèle, ce que plusieurs
+méthodes concurrentes produisent sur la même donnée.
+
+\subsection*{Sévérité : l'indice de queue}
+
+\begin{table}[htbp]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+\textbf{Méthode} & \textbf{Indice de queue} & \textbf{Intervalle ou écart} \\
+\midrule
+Maximum de vraisemblance, paramètres publiés imposés &
+$0{,}5954$ & référence du mémoire \\
+Maximum de vraisemblance ré-ajusté librement au même seuil &
+$0{,}598$ & échelle $55{,}75$ \\
+Maximum de vraisemblance au percentile $85$ des données courantes &
+$-$ & seuil $22{,}03$~M\euro, $88$ excès, écart de $0{,}5\,\%$ \\
+Estimateur de Hill, $k = 86$ &
+$1{,}315$ & simulé $1{,}327$, IC90 $[1{,}155\,;\,1{,}506]$ \\
+Estimateur de Hill, $k = 91$ &
+$1{,}396$ & \\
+\midrule
+Intervalle à $90\,\%$ par delta-méthode & & $[0{,}320\,;\,0{,}871]$ \\
+Intervalle à $90\,\%$ par bootstrap & & $[0{,}304\,;\,0{,}831]$ \\
+\bottomrule
+\end{tabular}
+\caption{L'indice de queue de la sévérité, estimé de cinq façons.}
+\label{tab:severite-methodes}
+\end{table}
+
+\textbf{Lecture.} L'estimateur de Hill donne plus du \emph{double} du maximum de
+vraisemblance, et c'est le point le plus exposé de toute la calibration. L'enjeu
+n'est pas cosmétique : à $0{,}595$ la variance de la sévérité est infinie mais
+l'espérance existe, tandis qu'au-delà de un l'espérance elle-même cesse d'exister
+et le modèle de perte agrégée n'a plus d'objet. L'écart a donc été traité par une
+simulation plutôt que par un argument d'autorité : on tire deux mille échantillons
+sous le modèle publié et on leur applique le même estimateur de Hill aux mêmes
+rangs. Il donne $1{,}327$ en moyenne simulée contre $1{,}315$ observé, et
+l'observation tombe dans l'intervalle simulé. L'écart est donc exactement ce qu'un
+indice de $0{,}595$ produit sur un échantillon de cette taille, et la donnée
+corrobore la calibration par un troisième chemin.
+
+\vspace{4pt}
+\noindent Sources de la table : script~\texttt{47} (ajustements, estimateur de
+Hill simulé, intervalles par delta-méthode et par bootstrap, contrôle au
+percentile~$85$).
+
+\subsection*{Fréquence : la loi de comptage}
+
+\begin{table}[htbp]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.0cm}>{\raggedright\arraybackslash}p{4.4cm}r@{}}
+\toprule
+\textbf{Modèle ou mesure} & \textbf{Paramètres} &
+\textbf{Log-vraisemblance} \\
+\midrule
+Loi de Poisson & $\lambda = 0{,}0988$ & $-5\,023{,}8$ \\
+Binomiale négative & $\mu = 0{,}0988$, $r = 0{,}632$ & $-4\,958{,}5$ \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Indice de dispersion, selon l'échelle de lecture}} \\
+Cellules firme-année ($14\,944$ observations) & $1{,}19$ & \\
+Dispersion de Pearson résiduelle & $2{,}24$ & \\
+Valeur posée au moteur & $9{,}20$ & choix de prudence \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Intensité selon le périmètre de firmes}} \\
+Toutes firmes & $0{,}0988$ & \\
+Firmes à dix événements ou plus ($2\,631$ observations) & $0{,}2102$ & \\
+\bottomrule
+\end{tabular}
+\caption{La loi du nombre d'incidents, par deux modèles et à quatre échelles de
+lecture de la dispersion.}
+\label{tab:frequence-methodes}
+\end{table}
+
+\textbf{Lecture.} Le test du rapport de vraisemblance entre les deux modèles vaut
+$130{,}5$ pour un degré de liberté, donc sa $p$-valeur sort de toute échelle
+usuelle : la loi de Poisson est écartée sans ambiguïté. Le bloc du milieu règle une
+apparente contradiction du mémoire, qui citait quatre valeurs différentes du même
+indice de dispersion. Elles ne sont pas en désaccord : l'indice vaut
+$1 + \lambda/r$, donc il \textbf{n'est pas invariant d'échelle} et change avec le
+niveau d'agrégation. Une échelle de lecture, une agrégation résiduelle et une marge
+prudentielle posée ne sont pas trois mesures de la même chose. Le dernier bloc dit
+pourquoi l'intensité retenue n'est pas la moyenne brute : une entité soumise à DORA
+ressemble davantage à une firme qui déclare plusieurs événements par an qu'à la
+firme médiane du panel.
+
+\vspace{4pt}
+\noindent Sources de la table : scripts~\texttt{08b} (les deux modèles, leurs
+vraisemblances, la dispersion aux différentes échelles et les deux périmètres de
+firmes) et~\texttt{63} (valeur posée au moteur).
+
+\subsection*{Contagion : la progéniture par pilier}
+
+\begin{table}[htbp]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.4cm}rr@{}}
+\toprule
+\textbf{Pilier} & \textbf{Progéniture attendue} & \textbf{Amorce posée} \\
+\midrule
+P1, gouvernance du risque technologique & $0{,}109$ & $1{,}00$ \\
+P4, gestion des prestataires tiers      & $0{,}069$ & $0{,}90$ \\
+P2, gestion des incidents               & $0{,}058$ & $0{,}60$ \\
+P3, tests de résilience                 & $0{,}054$ & $0{,}50$ \\
+P5, partage d'informations              & $0{,}026$ & $0{,}30$ \\
+\bottomrule
+\end{tabular}
+\caption{Descendants attendus d'un incident amorcé sur chaque pilier, et amorce
+posée. Corrélation de rang de Spearman entre les deux colonnes : $1{,}000$.}
+\label{tab:contagion-methodes}
+\end{table}
+
+\textbf{Lecture, et elle refuse une conclusion trop flatteuse.} Les deux colonnes
+se classent dans le même ordre, corrélation de rang parfaite. La tentation est de
+présenter cela comme une validation : la structure des transferts retrouverait le
+jugement posé sur les amorces. \textbf{C'en est l'inverse.} L'amorce se \emph{déduit}
+de la structure des transferts par cohérence interne, donc l'accord des deux
+classements est une conséquence de la construction et non une confirmation
+extérieure. Ce que le résultat apporte est une réduction du nombre de paramètres
+libres, ce qui est utile, et rien de plus. Le script le dit dans sa propre sortie,
+et cette précaution appartient au même registre que la puissance du backtest du
+\S\ref{ss:backtest} : un accord n'est une preuve que si le désaccord était possible.
+
+\begin{figure}[htbp]
+  \centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.12\textwidth]{\figBranch}}
+  \caption{La cascade lue comme un processus de branchement. (a) rayon spectral de
+  la matrice d'influence et taux de reproduction de base, en fonction du gain de
+  propagation. Le domaine admissible est à gauche, très loin des deux seuils
+  critiques. La valeur non normalisée de la matrice de transferts y est rappelée
+  pour montrer que la comparer au seuil critique serait une erreur de catégorie.
+  (b) progéniture attendue et amorce posée, pilier par pilier.}
+  \label{fig:branchement}
+\end{figure}
+
+\vspace{4pt}
+\noindent Sources de la table et de la figure : script~\texttt{03} (progéniture,
+amorce, corrélation de rang, rayon spectral et gains critiques).
+
+\section{L'état conforme et l'état non conforme, terme à terme}
+\label{ann:etats}
+
+Le tableau~\ref{tab:etats} rassemble en un endroit tout ce que la conformité
+déplace, des paramètres d'entrée jusqu'au capital, en passant par la loi du nombre
+de piliers touchés qui n'apparaît nulle part ailleurs sous cette forme.
+
+\begin{table}[htbp]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{7.2cm}rr@{}}
+\toprule
+\textbf{Grandeur} & \textbf{Conforme} & \textbf{Non conforme} \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Les quatre paramètres que la conformité déplace}} \\
+Intensité annuelle $\lambda$        & $21{,}6$ & $53{,}6$ \\
+Taux de dépassement $p_u$           & $0{,}128$ & $0{,}181$ \\
+Gain de propagation $g$             & $0{,}45$ & $0{,}90$ \\
+Facteur tiers $\varphi_{cs}$        & $0$ & $0{,}68$ \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Loi exacte du nombre de piliers touchés par un sinistre}} \\
+un seul pilier                      & $68{,}85\,\%$ & $37{,}69\,\%$ \\
+deux piliers                        & $25{,}10\,\%$ & $38{,}10\,\%$ \\
+trois piliers                       & $5{,}31\,\%$  & $18{,}29\,\%$ \\
+quatre piliers                      & $0{,}70\,\%$  & $5{,}22\,\%$ \\
+cinq piliers                        & $0{,}04\,\%$  & $0{,}69\,\%$ \\
+moyenne                             & $1{,}380$ & $1{,}931$ \\
+plus d'un pilier                    & $31{,}15\,\%$ & $62{,}31\,\%$ \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Conséquences}} \\
+Charge annuelle moyenne (M\euro)    & $622$ & $3\,869$ \\
+Besoin de capital (M\euro)          & $6\,049$ & $20\,188$ \\
+\bottomrule
+\end{tabular}
+\caption{Les deux états, de leurs paramètres à leur capital.}
+\label{tab:etats}
+\end{table}
+
+\textbf{Lecture.} Le bloc du milieu est celui qui surprend, et il répond par
+avance à une objection fréquente. On demande souvent à ce type de modèle comment il
+traite la défaillance simultanée de plusieurs domaines de contrôle, en supposant
+qu'elle serait un cas laissé de côté. Elle n'est pas laissée de côté : elle est la
+\emph{sortie} du modèle, et à l'état non conforme elle est \textbf{majoritaire},
+$62{,}31$ contre $37{,}69\,\%$ de sinistres mono-pilier. Cette loi est obtenue par
+énumération exacte de la progéniture, sans simulation, donc elle se cite sans bruit.
+
+Le dernier bloc porte enfin la distinction qui sépare le résultat de capital du
+résultat comptable. La charge annuelle moyenne est multipliée par un peu plus de
+six entre les deux états, quand le besoin de capital ne l'est que par $3{,}34$ : le
+capital est un quantile, non une moyenne, et il ne se déplace pas au même rythme
+que l'espérance. La différence entre les deux, $3\,247$~M\euro{} par an, est la
+sinistralité évitée du \S\ref{ss:economique}.
+
+\begin{figure}[htbp]
+  \centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.12\textwidth]{\figSimult}}
+  \caption{(a) loi du nombre de piliers touchés par un sinistre, en échelle
+  logarithmique, aux deux états de conformité. (b) coût de l'hypothèse
+  d'additivité des coûts au sein d'un sinistre : l'exposant appliqué au nombre de
+  piliers touchés déplace l'écart entre états sur toute la plage grisée, et il mord
+  bien davantage sur l'état qui cumule les piliers.}
+  \label{fig:simultanees}
+\end{figure}
+
+Le panneau (b) montre pourquoi cette hypothèse est la plus lourde de celles qui
+ne sont pas testées. L'élasticité de l'écart à l'exposant vaut $0{,}95$ à l'état
+non conforme contre $0{,}39$ à l'état conforme, soit un facteur de deux et demi :
+l'hypothèse n'est pas neutre entre les deux états, parce qu'elle ne mord que sur
+les sinistres multi-piliers, majoritaires au seul état non conforme. Elle interagit
+donc avec le canal de propagation. Ce qui survit toute la plage est le signe et
+l'ordre de l'écart ; ce qui ne survit pas est son amplitude.
+
+\vspace{4pt}
+\noindent Sources de la table : scripts~\texttt{43} (les quatre canaux et les deux
+capitaux), \texttt{50} (charges annuelles moyennes et sinistralité évitée)
+et~\texttt{74} (loi exacte du cardinal et élasticités à l'exposant).
+
+\section{Démonstrations complémentaires}
+\label{ann:demos}
+
+Les trois propositions du corps portent le mécanisme, l'identifiabilité et
+l'invariance. Les trois qui suivent règlent trois questions de lecture qui reviennent.
+
+\subsection*{La colonne de fermeture ne double compte pas}
+
+Le soupçon est naturel : la somme des effets de fermeture des quatre canaux vaut
+$19\,141$~M\euro{} quand l'écart total vaut $14\,139$, donc quelque chose semble
+compté deux fois. Ce n'est pas le cas, et l'identité suivante le dit.
+
+\begin{proposition}[Somme des fermetures]
+\label{prop:fermeture}
+Soit $N$ l'ensemble des quatre canaux et $\Delta(T)$ l'écart obtenu en relâchant
+le sous-ensemble $T \subseteq N$, de décomposition de Möbius $m$ définie par
+$\Delta(T) = \sum_{S \subseteq T} m(S)$. L'effet de fermeture du canal $j$ étant
+$m^{\mathrm{cl}}_j = \Delta(N) - \Delta(N \setminus \{j\})$, on~a
+\[
+  \sum_{j \in N} m^{\mathrm{cl}}_j \;=\; \sum_{S \subseteq N} |S|\; m(S).
+\]
+\end{proposition}
+
+\begin{proof}
+Par définition de $m$, $\Delta(N) - \Delta(N\setminus\{j\})$ est la somme des
+$m(S)$ portant sur les seuls sous-ensembles contenant $j$, soit
+$m^{\mathrm{cl}}_j = \sum_{S \ni j} m(S)$. En sommant sur $j$ et en échangeant
+l'ordre des deux sommes, chaque $m(S)$ apparaît une fois par élément de $S$, donc
+$|S|$ fois.
+\end{proof}
+
+Un terme croisé d'ordre $k$ compte donc $k$ fois dans cette somme, et c'est la
+définition même d'un effet de fermeture, non un défaut. Ce qui était fautif dans une
+première version du mémoire n'était pas la colonne mais la ligne « somme » placée
+sous elle, qui invitait à lire une addition là où il n'y en a pas. L'encadrement
+$9\,138 \le 14\,139 \le 19\,141$ reste vrai sur cette calibration, mais il est
+\textbf{mesuré et non démontré} : il supposerait tous les termes croisés positifs,
+ce que la mesure dément puisque les ordres trois et quatre sont négatifs.
+
+\vspace{4pt}
+\noindent Sources : scripts~\texttt{68} (décomposition de Möbius par ordre)
+et~\texttt{82} (identité vérifiée à la précision machine).
+
+\subsection*{Le capital est croissant en le gain de propagation}
+
+\begin{proposition}[Monotonie en $g$]
+\label{prop:monotone}
+Sous l'hypothèse d'additivité des coûts au sein d'un sinistre, la charge annuelle
+est stochastiquement croissante en $g$, donc tous ses quantiles le sont.
+\end{proposition}
+
+\begin{proof}
+Chaque transmission du pilier $j$ vers le pilier $k$ est décidée par une variable
+de Bernoulli de paramètre $W_{jk}(g) = g\,\mathrm{TRANS}_{jk}/\max_l s_l$,
+croissante en $g$. En tirant toutes ces décisions à partir d'un même jeu de
+variables uniformes, un $g$ plus grand ne peut qu'ajouter des transmissions : le
+couplage est monotone et l'ensemble des piliers touchés croît par inclusion. Le
+coût d'un sinistre étant la somme des coûts des piliers touchés, il croît avec cet
+ensemble, et la charge annuelle, somme des coûts des sinistres, aussi. Une variable
+stochastiquement plus grande a tous ses quantiles plus grands.
+\end{proof}
+
+Cette proposition porte la thèse du mémoire là où le gain de propagation est
+\emph{posé} et non calibré : toute correspondance entre niveau de maturité et
+valeur de $g$ qui respecte l'\emph{ordre} produit l'écart, seule l'amplitude étant
+un scénario. Elle a une contrepartie qu'il faut dire : elle s'appuie sur
+l'additivité des coûts, qui est précisément l'hypothèse non testée de
+l'annexe~\ref{ann:etats}. La monotonie n'est donc pas gratuite, et un coût
+sous-additif au sein d'un sinistre l'affaiblirait sans en renverser le sens.
+
+\subsection*{Le facteur d'agrégation, et pourquoi c'est une borne basse}
+
+Le passage du quantile d'un sinistre au quantile de la charge annuelle a été la
+source d'une confusion en réunion d'avancement (\S\ref{ss:dora}). La forme fermée
+en explique la nature.
+
+\begin{proposition}[Borne basse du facteur d'agrégation]
+\label{prop:pont}
+Le quantile de sévérité de niveau $1-p$ s'écrit
+$\mathrm{q}(1-p) = c + \frac{\sigma}{\xi}\bigl(p/p_u\bigr)^{-\xi}$ avec
+$c = u - \sigma/\xi$. Si $c < 0$, alors pour tout $\lambda > 1$
+\[
+  \frac{\mathrm{q}\bigl(1 - \alpha/\lambda\bigr)}{\mathrm{q}(1-\alpha)}
+  \;>\; \lambda^{\xi}.
+\]
+\end{proposition}
+
+\begin{proof}
+Posons $A = \frac{\sigma}{\xi}(\alpha/p_u)^{-\xi} > 0$, de sorte que le
+dénominateur vaut $c + A$ et le numérateur $c + A\lambda^{\xi}$. La différence
+entre le numérateur et $\lambda^{\xi}$ fois le dénominateur vaut
+$c\,(1 - \lambda^{\xi})$, produit de deux quantités négatives, donc positive.
+\end{proof}
+
+Sur la calibration publiée, $\sigma/\xi$ vaut environ $97$ contre un seuil de
+$20{,}03$, donc $c$ est négatif et l'hypothèse est satisfaite. La conséquence est
+une mise en garde de rédaction plus qu'un résultat : $\lambda^{\xi}$ est une
+\textbf{borne basse} du facteur d'agrégation et non son approximation centrée, si
+bien qu'un facteur résiduel supérieur à un n'est pas l'indice d'une erreur de
+calcul. Le résidu mesuré vaut $1{,}79$ au niveau sectoriel contre $1{,}96$ au
+niveau d'une entité, soit le même ordre à moins de dix pour cent près, et cet écart
+mesure la qualité du pont plutôt qu'un défaut.
+
+\vspace{4pt}
+\noindent Sources : scripts~\texttt{07} (paramètres de la forme fermée),
+\texttt{66} (vérification numérique de la monotonie en $g$) et~\texttt{67},
+section~1bis (pont entre les deux échelles et facteurs résiduels).
 
 \section{Chronologie du stage}
 \label{ann:chronologie}
