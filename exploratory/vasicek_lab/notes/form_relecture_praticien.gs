@@ -1,11 +1,44 @@
 /**
  * FORMULAIRE 2 sur 3 : la relecture de praticien.
- * Mémoire d'actuariat, ENSAE Paris / Institut des Actuaires. Version 2.0 du 13 août 2026.
+ * Mémoire d'actuariat, ENSAE Paris / Institut des Actuaires. Version 3.0 du 9 septembre 2026.
  *
  * Destinataires : praticiens du secteur, tuteur entreprise, tutrice académique. La liste
  * nominative de juillet a été retirée : elle était périmée (un collaborateur a quitté le
  * projet le 27 juillet) et n'a pas à figurer dans un fichier destiné à circuler.
  * Remplace le kit papier : tout passe désormais par le formulaire.
+ *
+ * =======================================================================================
+ * NE RELANCEZ PAS creerFormulaire SUR UN FORMULAIRE DÉJÀ DIFFUSÉ. LIRE CE BLOC D'ABORD.
+ *
+ *   creerFormulaire() crée À CHAQUE EXÉCUTION un formulaire NEUF et une feuille de réponses
+ *   NEUVE, tous deux portant le même titre que les précédents. Au 9 septembre 2026 le Drive
+ *   du projet contenait SEPT couples formulaire/feuille identiques de nom, créés les 3 août
+ *   (trois fois), 12 août, 2 septembre, 8 septembre et 9 septembre.
+ *
+ *   Conséquence observée, et elle a coûté une demi-journée : la seule réponse reçue vivait
+ *   dans la feuille du 8 septembre pendant qu'on regardait celle du 9, vide. Une feuille
+ *   vide ne prouve donc RIEN sur le fait qu'un praticien ait répondu ou non.
+ *
+ *   Conséquence plus grave, à vérifier avant toute relance : si deux praticiens détiennent
+ *   des liens générés à des dates différentes, leurs réponses partent dans DEUX feuilles
+ *   différentes. Avant de relancer qui que ce soit, s'assurer que tout le monde a le MÊME
+ *   lien, celui du formulaire en cours de diffusion.
+ *
+ *   POUR AJOUTER DES QUESTIONS À UN FORMULAIRE DÉJÀ DIFFUSÉ, utiliser
+ *   ajouterQuestionsDiscriminantes() en bas de ce fichier, qui greffe les questions sur le
+ *   formulaire existant et conserve les réponses déjà reçues dans la même feuille.
+ * =======================================================================================
+ *
+ * =======================================================================================
+ * ÉCART CONSTATÉ LE 9 SEPTEMBRE ENTRE CE FICHIER ET LE FORMULAIRE EN LIGNE.
+ *   La feuille de réponses du formulaire diffusé ne porte NI la question de consentement
+ *   obligatoire, NI la question de forme de citation graduée, NI la demande de relecture,
+ *   toutes trois ajoutées ici le 13 août. Elle porte en revanche l'ancienne question
+ *   « Acceptez-vous d'être cité par votre nom ? », retirée ici le 17 août.
+ *   Le projet Apps Script en ligne est donc une version ANTÉRIEURE de ce fichier : le
+ *   dépôt a été corrigé, le formulaire déployé non. Recoller ce fichier dans le projet
+ *   Apps Script avant toute nouvelle diffusion.
+ * =======================================================================================
  *
  * MODE D'EMPLOI
  *   1. script.google.com, nouveau projet (SÉPARÉ de celui du formulaire 1).
@@ -30,6 +63,34 @@
  *   atteindre en faisant défiler, sans traverser six pages.
  *   Aucune question n'est obligatoire, sauf rien du tout. Un praticien qui ne répond qu'à
  *   deux phrases sur sept a déjà rendu le service demandé.
+ *
+ * CE QUE LA PREMIÈRE RÉPONSE A APPRIS, ET POURQUOI LA VERSION 3.0 EXISTE
+ *   La première praticienne à répondre n'a contredit AUCUNE des sept phrases : deux accords
+ *   pleins, cinq accords avec nuance. Un instrument qui ne recueille que des accords ne
+ *   discrimine rien, et trois réponses de ce type ne vaudront pas mieux qu'une.
+ *
+ *   Deux défauts précis, tous deux dans les phrases et non chez la répondante :
+ *
+ *   a. LA PHRASE 3 EMPAQUETTE DEUX AFFIRMATIONS, que la gouvernance dégrade les autres
+ *      domaines ET que l'inverse ne se produit pas. La répondante a nuancé la première et
+ *      n'a rien dit de la seconde, qui est pourtant celle qui fait de P1 une source pure.
+ *      On a donc perdu l'information qui compte. La phrase 8 isole cette seconde moitié.
+ *
+ *   b. LA PHRASE 2 NE DISCRIMINE PAS ce qu'elle prétend discriminer. Elle oppose la
+ *      contagion à la cause commune, mais l'exemple donné en accord (une recette
+ *      insuffisante avant mise en production, donc plus d'incidents) est PARFAITEMENT
+ *      COMPATIBLE avec une cause commune : une direction informatique sous-dotée teste mal
+ *      et gère mal, sans que l'un cause l'autre. La phrase 9 pose la question en choix
+ *      forcé, avec une modalité « je ne peux pas trancher » qui est celle qui intéresse le
+ *      plus : un praticien qui la choisit corrobore sur le terrain la frontière
+ *      d'identifiabilité du chapitre 09, ce qui vaut davantage qu'un accord sur la matrice.
+ *
+ *   La phrase 10 transforme en item mesurable la nuance la plus utile de la première
+ *   réponse : la répondante distingue l'OCCURRENCE d'un incident chez un prestataire, qu'une
+ *   bonne gouvernance ne change pas, et la MAÎTRISE de ses conséquences, qu'elle change.
+ *   Traduite dans le modèle, cette distinction dit que l'arc P1 vers P4 vivrait dans le
+ *   canal de détection plutôt que dans la matrice de propagation. La phrase 10 demande aux
+ *   répondants suivants de trancher.
  */
 
 // ---------------------------------------------------------------- identité
@@ -38,7 +99,13 @@ var ORGANISATION = "Nexialog Consulting";
 var AUTEUR = "Kélian Kaddouri";
 var CONTACT = "kkaddouri@nexialog.com";
 var CADRE = "Mémoire d'actuariat, ENSAE Paris / Institut des Actuaires, promotion 2026";
-var VERSION = "version 2.0 du 13 août 2026";
+var VERSION = "version 3.0 du 9 septembre 2026";
+
+// IDENTIFIANT DU FORMULAIRE EN COURS DE DIFFUSION, à renseigner avant d'utiliser
+// ajouterQuestionsDiscriminantes(). C'est la longue chaîne entre /d/ et /edit dans l'URL
+// d'édition du formulaire. Au 9 septembre 2026, le formulaire diffusé est celui du 8
+// septembre, dont la feuille de réponses porte déjà une réponse : ne pas en créer un autre.
+var FORM_ID_EN_DIFFUSION = "1uBKaP_3dj6blEsHqVHgJQp-Rf7rViu2PwYjxI8uIpyY";
 
 // MENTIONS ET CONSENTEMENT, AJOUTÉS LE 13 AOÛT 2026, ET ICI L'ENJEU EST PLUS LOURD QUE POUR LE
 // FORMULAIRE 1. Celui-ci annonce en toutes lettres que « vos réponses seront citées dans mon
@@ -134,6 +201,67 @@ var PHRASES = [
   }
 ];
 
+// ------------------------------------------------- les trois questions qui discriminent
+//
+// AJOUT DU 9 SEPTEMBRE 2026. Elles ne remplacent aucune des sept phrases : les remplacer
+// rendrait la première réponse reçue incomparable aux suivantes. Elles s'ajoutent à la fin,
+// et chacune propose des modalités PROPRES, différentes de l'échelle d'accord, parce qu'une
+// échelle d'accord ne peut pas trancher entre deux explications concurrentes.
+
+var QUESTIONS_ORDRE = [
+  {
+    titre: "Phrase 8 : un incident majeur, un test raté ou la défaillance d'un prestataire "
+         + "peuvent-ils DÉGRADER la gouvernance elle-même, c'est-à-dire la façon dont "
+         + "l'entreprise décide, attribue les responsabilités et alloue les moyens à la "
+         + "sécurité ?",
+    aide: "C'est la moitié de la phrase 3 sur laquelle mon modèle repose le plus, et celle "
+        + "sur laquelle j'ai le moins d'avis. Une réponse « au contraire » m'intéresse autant "
+        + "qu'un « oui ».",
+    choix: [
+      "Non, jamais",
+      "Non, au contraire : ces événements la font progresser",
+      "Oui, ils la dégradent temporairement",
+      "Oui, ils la dégradent durablement",
+      "Sans avis"
+    ]
+  },
+  {
+    titre: "Phrase 9 : repensez à un cas précis où vous avez vu, chez le même acteur, deux "
+         + "domaines défaillants en même temps. D'après ce que vous avez observé, qu'est-ce "
+         + "qui s'est réellement passé ?",
+    aide: "C'est la question la plus utile de tout le formulaire. La modalité « je ne peux pas "
+        + "trancher » est une réponse pleine et entière, pas un aveu : mon mémoire démontre "
+        + "précisément que cette distinction n'est pas identifiable sur les données "
+        + "disponibles, et savoir qu'elle ne l'est pas non plus sur le terrain est un "
+        + "résultat.",
+    choix: [
+      "L'un a entraîné l'autre, et je pourrais dire lequel",
+      "Les deux venaient d'une même cause en amont (moyens, priorités, organisation), sans "
+        + "que l'un cause l'autre",
+      "Les deux à la fois : une cause commune, et un enchaînement par-dessus",
+      "Je ne peux pas trancher entre les deux",
+      "Je n'ai pas de cas précis en tête"
+    ]
+  },
+  {
+    titre: "Phrase 10 : une gouvernance solide change-t-elle la PROBABILITÉ qu'un prestataire "
+         + "critique tombe, ou seulement votre capacité à en LIMITER LES CONSÉQUENCES ?",
+    aide: "Cette distinction m'a été signalée par une première relecture et je n'y avais pas "
+        + "pensé. Elle décide de l'endroit où ce lien vit dans mon modèle, et les deux "
+        + "endroits ne donnent pas le même chiffre.",
+    choix: [
+      "Elle change la probabilité que cela arrive",
+      "Elle ne change que la capacité à en limiter les conséquences",
+      "Les deux, à parts comparables",
+      "Sans avis"
+    ]
+  }
+];
+
+var CONSIGNE_CAS =
+  "Décrivez le cas en deux lignes, sans nommer l'entreprise. Un exemple précis vaut mieux "
+  + "qu'une appréciation générale.";
+
 // ---------------------------------------------------------------- textes
 
 // AJOUT DU 17 AOUT 2026 : voir la note identique du formulaire 1. Les destinataires n'ont
@@ -176,7 +304,15 @@ var AVERTISSEMENT =
   + "vraiment dans une entreprise.\n\n"
   + "Votre réponse à ces deux phrases, fondée sur ce que vous avez vu et non sur des "
   + "rapports, est le seul moyen de faire la différence. SI VOUS MANQUEZ DE TEMPS, RÉPONDEZ "
-  + "À CELLES-LÀ.";
+  + "À CELLES-LÀ, ET AUX PHRASES 8 À 10.";
+
+var INTRO_DISCRIMINANTES =
+  "Les sept phrases ci-dessus demandent si vous êtes d'accord. Les trois qui suivent "
+  + "demandent autre chose : elles vous font choisir entre des explications concurrentes.\n\n"
+  + "Elles existent parce qu'une première relecture n'a contredit aucune des sept phrases, "
+  + "tout en donnant un exemple qui admettait deux lectures opposées. Une échelle d'accord ne "
+  + "pouvait pas trancher : ces trois questions le peuvent.\n\n"
+  + "Comptez cinq minutes de plus.";
 
 var CONSIGNE_COMMENTAIRE =
   "Le commentaire est la partie qui m'intéresse vraiment : un exemple précis vaut mieux "
@@ -250,6 +386,9 @@ function creerFormulaire() {
         .setRequired(false);
   }
 
+  // les trois questions qui discriminent
+  poserQuestionsDiscriminantes(form);
+
   // page finale
   // LA QUESTION DE CITATION N'EST PAS REPOSEE ICI, ET C'EST UNE CORRECTION DU 17 AOUT 2026.
   // Cette page en portait une seconde (« Acceptez-vous d'etre cite par votre nom ? », trois
@@ -290,4 +429,65 @@ function creerFormulaire() {
   Logger.log("");
   Logger.log("RESTE À FAIRE À LA MAIN : même en-tête, même couleur et même police que le");
   Logger.log("  formulaire du codage en aveugle.");
+  Logger.log("ET METTRE À JOUR FORM_ID_EN_DIFFUSION en tête de ce fichier avec l'identifiant");
+  Logger.log("  du formulaire qui vient d'être créé, sans quoi la prochaine greffe de");
+  Logger.log("  questions ira sur l'ancien.");
+}
+
+// ------------------------------------------------------------ greffe sur un formulaire vivant
+
+/**
+ * Ajoute les trois questions discriminantes à un formulaire DÉJÀ DIFFUSÉ, sans en créer un
+ * nouveau et sans toucher aux réponses déjà reçues, qui restent dans la même feuille.
+ *
+ * À utiliser plutôt que creerFormulaire dès qu'un lien a circulé. Renseigner d'abord
+ * FORM_ID_EN_DIFFUSION en tête de fichier.
+ *
+ * Les questions sont ajoutées EN FIN de formulaire, donc après les questions de profil. Ce
+ * n'est pas l'ordre idéal, mais c'est le prix à payer pour ne pas casser la comparabilité
+ * avec les réponses déjà reçues : réordonner les items décale les colonnes de la feuille.
+ */
+function ajouterQuestionsDiscriminantes() {
+  if (!FORM_ID_EN_DIFFUSION) {
+    throw new Error("Renseigner FORM_ID_EN_DIFFUSION en tête de fichier avant d'exécuter.");
+  }
+  var form = FormApp.openById(FORM_ID_EN_DIFFUSION);
+
+  // garde-fou : ne pas greffer deux fois les mêmes questions.
+  var items = form.getItems();
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].getTitle().indexOf("Phrase 8") === 0) {
+      Logger.log("DÉJÀ FAIT : ce formulaire porte déjà la phrase 8. Rien n'a été ajouté.");
+      return;
+    }
+  }
+
+  poserQuestionsDiscriminantes(form);
+
+  Logger.log("Trois questions ajoutées au formulaire : " + form.getTitle());
+  Logger.log("Formulaire à diffuser : " + form.getPublishedUrl());
+  Logger.log("");
+  Logger.log("PRÉVENIR LES PERSONNES QUI ONT DÉJÀ RÉPONDU : leurs colonnes des phrases 8 à 10");
+  Logger.log("  resteront vides. Trois questions, cinq minutes, et le panel redevient");
+  Logger.log("  comparable.");
+}
+
+/** Corps commun aux deux fonctions ci-dessus. */
+function poserQuestionsDiscriminantes(form) {
+  form.addPageBreakItem()
+      .setTitle("Trois questions qui tranchent")
+      .setHelpText(INTRO_DISCRIMINANTES);
+
+  for (var i = 0; i < QUESTIONS_ORDRE.length; i++) {
+    var q = QUESTIONS_ORDRE[i];
+    form.addMultipleChoiceItem()
+        .setTitle(q.titre)
+        .setHelpText(q.aide)
+        .setChoiceValues(q.choix)
+        .setRequired(false);
+    form.addParagraphTextItem()
+        .setTitle(q.titre.split(" :")[0] + " : le cas que vous avez en tête")
+        .setHelpText(CONSIGNE_CAS)
+        .setRequired(false);
+  }
 }

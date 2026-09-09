@@ -1014,6 +1014,11 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
   du 2 septembre. **La réception est prête et testée** : le script `54b_reception_formulaire.py`
   convertit l'export du formulaire Google vers le format long du script 54, et deux commandes
   suffisent. Le 54 ne fabrique rien sans donnée ;
+- ~~la **relecture par praticiens**~~ : **ENGAGÉE le 9 septembre**, une réponse sur trois
+  sollicitations, intégrée au mémoire et au rapport ENSAE. Voir la section « La relecture de
+  praticien » plus bas, et surtout les deux pièges du formulaire, dont sept exemplaires vivent
+  dans le Drive. **Reste à faire par Kélian** : vérifier que Mehdi et Nathanaël détiennent le
+  même lien que la première répondante, et leur envoyer les trois questions ajoutées ;
 - l'**élicitation** et les autres documents ;
 - ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
   rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
@@ -1975,6 +1980,80 @@ et des tierces personnes, et attend un recul sur l'expérience. Le mémoire d'ac
 **rien** de tout cela. C'est la section 6 du rapport ENSAE qui le couvre, et elle est nommée
 « Ce que le stage a mobilisé, et le recul ». La retirer ou la comprimer pour gagner des pages
 coûterait des points de barème, pas seulement de la place.
+
+## La relecture de praticien, engagée le 9 septembre 2026
+
+**Le dispositif annoncé au chapitre 09 comme « préparé et disponible » est désormais engagé, et
+sa première réponse illustre la frontière d'identifiabilité au lieu de la lever.** C'est le
+meilleur résultat qu'il pouvait produire, et ce n'est pas celui qui était espéré.
+
+**Ce qui a été reçu.** Une consultante de Nexialog, en gestion des risques depuis une dizaine
+d'années, a répondu aux sept phrases du formulaire « Sept phrases à contredire ». Elle n'en a
+contredit **aucune** : deux accords pleins, cinq accords avec nuance. **Elle n'est pas nommée
+dans les documents**, décision de Kélian le 9 septembre, alors même qu'elle avait coché
+« citez-moi par mon nom » : la citation se fait sous la forme « une consultante de Nexialog ».
+
+**Le résultat qui compte, et il faut le citer ainsi.** Sur la phrase qui oppose la contagion à
+la cause extérieure commune, elle donne son accord et l'illustre par un défaut de recette avant
+mise en production qui entraîne plus d'incidents. **Cet exemple est compatible avec les deux
+explications** : une direction informatique sous-dotée teste mal ET gère mal, sans que l'un
+cause l'autre. Le jugement de terrain nomme donc un ordre qu'il ne distingue pas d'une cause
+commune, exactement comme les trois sources de données du chapitre 09. **Corroboration de la
+FRONTIÈRE, jamais de la matrice**, et argument supplémentaire pour ne pas employer le jugement
+d'expert comme instrument de calibration.
+
+**Une qualification substantielle, déclarée et non traitée.** Elle distingue l'**occurrence**
+d'un incident chez un prestataire, qu'une bonne gouvernance ne change pas selon elle, et la
+**maîtrise** de ses conséquences, qu'elle change. Traduit dans le modèle, cela déplacerait l'arc
+P1 vers P4 de la matrice de propagation vers le canal de détection, ce qui ne donne pas le même
+chiffre. **Ne pas le faire** : ce serait une recalibration, le gel l'interdit, et une réponse
+unique ne justifie pas de rouvrir la calibration.
+
+**Deux accords qui portent sur la faisabilité, et ils valent.** Les trois indicateurs pilotables
+sont jugés cohérents et produisibles. Et sur le registre d'incidents mieux spécifié, qui est le
+prolongement le plus utile du mémoire, elle décrit un usage professionnel établi : un tableau de
+bord des incidents par prestataire, employé dans une analyse de risque au titre de DORA pour
+évaluer la fréquence du risque de défaillance système et le taux d'indisponibilité sur douze
+mois. La recommandation la moins mathématique du mémoire est celle que le terrain confirme le
+plus directement.
+
+**Où c'est écrit.** Chapitre 09, dans l'encadré qui annonçait les deux dispositifs, avec le
+paragraphe sur la compatibilité des deux lectures. Nouvelle section `sec:relecture-praticien` à
+l'annexe du protocole de Cooke, qui porte l'instrument, le résultat nul, les deux accords de
+faisabilité, la qualification et le statut. Et deux passages du rapport ENSAE,
+\S4.2 et \S6.2. **Aucun chiffre n'y est écrit en chiffres** : les comptes sont en lettres, donc
+le harnais ne les voit pas et aucun script nouveau n'est requis. C'est délibéré et c'est le seul
+endroit du dossier où cette latitude est prise.
+
+### Le formulaire : deux pièges qui ont coûté une demi-journée
+
+**SEPT EXEMPLAIRES DU MÊME FORMULAIRE VIVENT DANS LE DRIVE**, avec sept feuilles de réponses de
+titre identique, créés les 3 août (trois fois), 12 août, 2 septembre, 8 septembre et
+9 septembre. `creerFormulaire()` du fichier `notes/form_relecture_praticien.gs` crée un
+formulaire ET une feuille **neufs à chaque exécution**. La seule réponse reçue vivait dans la
+feuille du 8 septembre pendant qu'on regardait celle du 9, vide. **Une feuille vide ne prouve
+donc rien** sur le fait qu'un praticien ait répondu. Le formulaire en diffusion est celui du
+8 septembre, dont l'identifiant est désormais inscrit en tête du `.gs`.
+
+**Et le risque à vérifier avant toute relance** : si deux praticiens détiennent des liens
+générés à des dates différentes, leurs réponses partent dans deux feuilles différentes.
+S'assurer que Mehdi et Nathanaël ont le **même** lien que la première répondante.
+
+**Le `.gs` du dépôt et le formulaire déployé ont divergé.** La feuille de réponses du formulaire
+en ligne ne porte ni la question de consentement obligatoire, ni la forme de citation graduée,
+ni la demande de relecture, toutes trois ajoutées au dépôt le 13 août ; elle porte en revanche
+l'ancienne question « Acceptez-vous d'être cité par votre nom ? », retirée du dépôt le 17 août.
+Le projet Apps Script en ligne est donc une version antérieure. Recoller le fichier avant toute
+nouvelle diffusion.
+
+**Le `.gs` est en version 3.0 depuis le 9 septembre**, avec trois questions à choix forcé
+ajoutées et une fonction `ajouterQuestionsDiscriminantes()` qui les greffe sur un formulaire
+**déjà diffusé**, sans en créer un huitième et sans casser la feuille existante. Les sept
+phrases d'origine ne sont pas touchées : les modifier rendrait la première réponse incomparable
+aux suivantes. Les trois ajouts séparent les deux affirmations qu'une phrase empaquetait, posent
+le choix entre contagion et cause commune, et font trancher la distinction occurrence contre
+maîtrise. **La modalité « je ne peux pas trancher » est la plus intéressante des trois** : un
+praticien qui la choisit corrobore la frontière sur le terrain.
 
 ## Note d'honnêteté
 
