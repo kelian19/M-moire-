@@ -1843,11 +1843,13 @@ est imposé** et il est respecté : rapport, annexes, note française, note angl
 déposer doit s'appeler `KADDOURI_Kelian_3A25.pdf`, ou le même suffixé `_CONF` si Nexialog exige
 la confidentialité.
 
-**État mesuré au 9 septembre au soir, après deux reprises successives.** 46 pages au total :
-couverture 1, sommaire 2 et 3, corps 4 à 35, bibliographie 36, **six annexes A à F** de 37 à 44,
-note française 45, note anglaise 46. Donc **32 pages de corps plus une de références** pour une
-cible d'« environ 30 » : c'est 10 % au-dessus, assumé, et le motif est que couper davantage
-retirerait de l'analyse critique que le barème note sur 6. Chaque note tient sur **une** page.
+**État mesuré au 9 septembre au soir, après trois reprises successives.** 50 pages au total :
+couverture 1, sommaire 2 et 3, corps 4 à 36, bibliographie 37, **sept annexes A à G** de 38 à 46,
+note française 47 et 48, note anglaise 49 et 50. Donc **33 pages de corps, références comprises**
+pour une cible d'« environ 30 ». **C'est 10 % au-dessus et il faut s'y tenir** : deux tentatives
+de descendre à 30 ont échoué, parce que chaque page rendue au corps y ramène du contenu que le
+barème note. Ce qui pouvait partir est déjà en annexe, et les annexes ne comptent pas. Couper
+davantage retirerait de l'analyse critique, qui vaut 6 points, pour gagner sur un « environ ».
 Compile sans erreur, 0 Overfull `\hbox`, 0 Overfull `\vbox`, 0 annotation hors page, 0 page
 tournée, 0 `??` compté dans le PDF. **Harnais : 371 nombres sous contrôle, 371 confirmés,
 100 %**, plus 25 déclarés hors script section par section, soit **0 hors contrôle non déclaré**
@@ -1932,17 +1934,32 @@ d'années sans incident à l'échelle d'entité, publié au mémoire, est imprim
 script 58 : l'écart passe dans la tolérance d'arrondi, donc le harnais confirme, mais c'est une
 décimale à corriger au mémoire si l'occasion se présente.
 
-**Deux écarts assumés, avec leur motif.**
+**~~Deux écarts assumés~~, il n'en reste qu'un.** L'écart d'interligne sur les notes de synthèse
+**est levé** : après resserrage, chacune tient en deux pages à interligne 1,5, donc le document
+est désormais à 1,5 de bout en bout, comme les consignes le demandent. Reste que **les figures
+sont reprises du mémoire**, et les pages qui les portent ont toutes été rendues en PNG et
+regardées. La règle « aucune figure déjà utilisée ne resserve » vaut pour les **decks**, où elle
+évite de présenter deux fois le même travail ; elle n'a pas de sens entre deux documents qui
+décrivent le même stage.
 
-- **Les notes de synthèse sont en interligne simple**, pas 1,5. Les consignes fixent l'interligne
-  pour « le corps du rapport » et imposent à la note de tenir en une ou deux pages ; à 1,5 la note
-  française débordait sur une troisième page malgré quatre passes de resserrage. La contrainte de
-  page a été jugée la plus visible des deux. Le motif est écrit en commentaire dans le fichier.
-- **Les trois figures sont reprises du mémoire** (`H1_reseau_W`, `Z_identification_partielle`,
-  `S32_tornado_normalise`), et les trois pages qui les portent ont été rendues en PNG et
-  regardées. La règle « aucune figure déjà utilisée ne resserve » vaut pour les **decks**, où elle
-  évite de présenter deux fois le même travail ; elle n'a pas de sens entre deux documents qui
-  décrivent le même stage.
+**Le registre d'écriture a été calé sur un vrai mémoire d'actuariat, le 9 septembre au soir.**
+Kélian a demandé de regarder à quoi ressemblent les mémoires publiés de l'Institut. Un mémoire
+ISFA a été téléchargé et son texte extrait. Ce qu'il faut en retenir, et qui a servi de correctif :
+**voix impersonnelle** (« une étude statistique est réalisée afin de », « le lissage est utilisé à
+cette fin »), **titres purement nominaux** (« Bilan économique selon Solvabilité 2 », « Choix des
+maturités au-delà du dernier point liquide »), **gras quasi absent du corps**, italique réservé
+aux termes techniques, listes à tirets pour les définitions. Le rapport ENSAE s'en écarte
+délibérément sur un point : il emploie la **première personne** là où une décision est assumée ou
+une erreur reconnue, parce que le barème ENSAE exige explicitement le recul personnel et la part
+de l'encadrement, ce qu'un mémoire d'actuariat n'a pas à porter. Partout ailleurs, l'impersonnel.
+
+**Et une sous-section qui manquait au barème, ajoutée le même soir.** Le barème note sur 6
+l'analyse et la réflexion sur **le contexte**, et le rapport n'en portait presque rien. Nouvelle
+sous-section `ss:cadre`, « Le cadre de la mission et ses contraintes » : les deux destinataires du
+travail et le livrable client distinct du mémoire, la donnée sous licence et ce qu'elle impose
+(c'est elle qui a fait naître le dispositif de vérification, la traçabilité remplaçant la
+reproductibilité), l'anonymisation comme décision de prudence et non de confidentialité, et le gel
+de la calibration comme décision de **conduite de projet** et non de statistique.
 
 **Ce qui reste à compléter, et cela n'appartient pas à l'assistant.** Cinq champs sont regroupés
 en tête du fichier et s'impriment en gras entre crochets tant qu'ils sont vides : le **maître de

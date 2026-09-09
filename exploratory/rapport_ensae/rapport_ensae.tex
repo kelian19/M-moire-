@@ -606,8 +606,9 @@ de ce que chaque enseignement fournit au travail est en table~\ref{tab:ensae}.
 % lui-meme : les faire verifier par le dispositif qu'elles decrivent serait
 % circulaire. C'est la meme declaration que celle de la section D.1 du memoire.
 
-L'outil dont je suis le plus satisfait n'est pas un modèle, c'est un dispositif de
-contrôle construit pendant le stage et qui n'était pas demandé. Chaque section du
+Un dispositif de contrôle des chiffres publiés a été construit pendant le stage,
+alors qu'il n'était pas demandé, et il s'est révélé l'outil le plus utile du
+travail. Chaque section du
 mémoire cite les scripts dont elle tire ses nombres. Un programme relit le
 document, extrait tous les nombres publiés, et cherche chacun d'eux dans les
 sorties versionnées des scripts que sa section cite, à une tolérance d'arrondi
@@ -781,7 +782,7 @@ et~\texttt{74} (loi exacte du nombre de piliers touchés).
 \subsection{La frontière d'identifiabilité}
 \label{ss:identif}
 
-Voici le point que je considère comme le résultat du stage. Toute matrice
+La propriété qui suit est le résultat central du travail. Toute matrice
 d'influence se décompose en une partie symétrique et une partie antisymétrique,
 $W = S + A$ avec $S = (W + W^{\!\top})/2$ et $A = (W - W^{\!\top})/2$. La donnée
 disponible identifie $S$, qui est la co-occurrence des défaillances, et ne dit
@@ -1400,7 +1401,7 @@ quantile supérieur de $16\,\%$ \\
 \textbf{Lecture.} Le résultat est favorable et c'est la meilleure réponse possible
 au soupçon. La règle de stabilité retombe à $0{,}8\,\%$ du seuil publié, pour un
 quantile identique ; le seuil publié est le mieux ajusté de tout le balayage ; et
-la règle la plus permissive donnerait un quantile \textbf{supérieur} de $16\,\%$,
+la règle la plus permissive donnerait un quantile supérieur de $16\,\%$,
 donc le seuil publié n'est pas celui qui maximise le chiffre du mémoire.
 
 Un résultat inattendu est apparu au passage, et il a fallu réécrire le
@@ -1603,48 +1604,20 @@ est réglementaire et non d'opportunité : une borne haute sur un ensemble
 d'ambiguïté est un suprémum sur une famille de lois, non un quantile de la loi de
 perte, donc la substituer répond à une autre question que celle que pose
 Solvabilité~II. Et une vérification a montré que le débat était en partie vide de
-contenu : la posture robuste au niveau de $95\,\%$ \textbf{est} la borne haute de
-l'intervalle à $90\,\%$ déjà publié, les deux valant $1\,037$~M\euro, parce qu'il
-s'agit de la même loi bootstrap lue à deux endroits. Reporter le point avec sa
+contenu. La posture robuste au niveau de $95\,\%$ et la borne haute de l'intervalle
+à $90\,\%$ déjà publié sont la même quantité, $1\,037$~M\euro, parce qu'il s'agit
+de la même loi bootstrap lue à deux endroits. Reporter le point avec sa
 bande publie donc déjà le chiffre robuste, comme une borne et non comme un point.
 
-\paragraph{Le niveau de l'intervalle.} La question de reporter une bande à $90$ ou
-à $95\,\%$ a été posée par l'encadrement académique. En allant chiffrer la
-réponse, j'ai constaté que le mémoire se contredisait lui-même, une annexe
-annonçant $95\,\%$ dans son ouverture et gardant $90\,\%$ dans sa conclusion deux
-pages plus bas. L'argument décisif y était déjà mesuré sans être lu : la
-couverture réelle vaut $86{,}8\,\%$ pour un niveau nominal de $90$ et
-$91{,}8\,\%$ pour un nominal de $95$, donc le manque est \emph{le même}. Relever
-le niveau annoncé déplacerait l'annonce sans corriger l'estimateur.
-
-\paragraph{Trois étages d'incertitude, à ne jamais fondre en une seule barre.} Le
-bruit de simulation s'achète en temps de machine, puisqu'il décroît en racine du
-nombre d'années simulées. L'incertitude d'estimation ne s'achète pas, et elle est
-\textbf{dix fois plus grande} sur la même grandeur. L'ambiguïté de famille de loi
-est d'une troisième nature, épistémique : un choix de famille ne se moyenne pas.
-C'est le motif pour lequel cet étage a été sorti de la bande reportée et transformé
-en axe de sensibilité déclaré, alors qu'il est le plus gros des trois, avec un
-facteur $5{,}5$ contre $2{,}5$ pour l'incertitude de paramètre.
-
-\paragraph{Une mesure de queue en diagnostic, jamais à la place du capital.} Il
-m'a été demandé de traiter la moyenne de queue, mesure que beaucoup préfèrent au
-quantile. Elle est employée à deux titres, tous deux diagnostiques : comme noyau
-d'allocation, et comme indicateur de forme de queue par le rapport de la moyenne de
-queue au quantile, qui vaut $2{,}1$ contre une asymptote théorique de $2{,}5$. Elle
-ne porte aucun capital, et l'argument qui tranche n'est pas de degré mais
-d'\textbf{existence} : sous une source de sévérité alternative, l'indice de queue
-estimé vaut $1{,}033$, donc supérieur à un, donc l'espérance est infinie et la
-mesure \emph{n'existe pas}. Une mesure de couverture qui cesse d'être définie selon
-la base retenue ne peut pas porter une exigence de capital. Accessoirement, une
-moyenne de queue au niveau de $95\,\%$ vaudrait $5\,734$~M\euro{} contre $8\,374$
-pour le quantile réglementaire : rapportée comme capital, elle serait \emph{moins}
-prudente que l'exigence, ce qui n'est pas l'intuition courante.
+Trois questions restent attachées à ce choix et sont traitées en
+annexe~\ref{ann:posture} : le niveau de la bande reportée, la distinction des trois
+étages d'incertitude qui la composent, et le statut de la moyenne de queue, mesure
+que beaucoup préfèrent au quantile et qui ne peut pourtant pas porter une exigence
+de capital.
 
 \vspace{4pt}
-\noindent Sources : scripts~\texttt{46} et~\texttt{51} (postures et leur bruit),
-\texttt{48} (bande de modèle et trois étages), \texttt{72} (niveau de
-l'intervalle), \texttt{73} (moyenne de queue en diagnostic) et~\texttt{84}
-(origine de la largeur des intervalles).
+\noindent Sources : scripts~\texttt{46} et~\texttt{51} (postures et bruit de
+simulation).
 
 \subsection{Mise en regard des cadres existants}
 \label{ss:regard}
@@ -1656,13 +1629,11 @@ Le forfait réglementaire, d'abord, ne borne rien : il se trompe dans les deux s
 face aux modules publiés (\S\ref{ss:entites}), donc il est à citer comme ordre de
 grandeur et jamais comme majorant ni minorant.
 
-\paragraph{Supposer une queue commune à toutes les catégories de risque
-opérationnel sous-estime le capital.} La table des indices de queue par catégorie,
-recalculée avec un filtre écrit après que la précédente s'est révélée
-irreproductible, donne des valeurs allant de $0{,}865$ à $1{,}368$ pour une
-dispersion de $0{,}50$. Traiter la catégorie technologique comme les autres
-conduirait donc à une borne de capital inférieure de plusieurs dizaines de pour
-cent, et la conclusion du chapitre concerné en sort renforcée plutôt qu'affaiblie.
+La pratique courante, ensuite, qui consiste à traiter toutes les catégories de
+risque opérationnel avec un même indice de queue, sous-estime le capital : les
+indices mesurés catégorie par catégorie s'étalent au point que la catégorie
+technologique ne peut pas être confondue avec les autres. Le détail est en
+annexe~\ref{ann:posture}.
 
 \paragraph{Le modèle voisin le plus naturel n'est pas distinguable du nôtre, et
 c'est un résultat.} Les processus auto-excités sont l'outil canonique pour
@@ -1705,7 +1676,7 @@ ans\fg{} masquait une non-existence. Ce qui rentabilise la conformité est la pe
 évitée, qui cesse ainsi d'être une précaution de rédaction pour devenir la
 condition de rentabilité.
 
-Un résultat annexe mérite d'être cité parce qu'il est net : le transfert du risque
+Un dernier résultat est net : le transfert du risque
 à un réassureur reste préférable à sa détention tant que plus de $78\,\%$ de la
 couverture ne sont pas inefficaces, ce qui est une marge considérable.
 
@@ -1718,6 +1689,62 @@ retour actualisée).
 \section{Enseignements du stage}
 \label{s:recul}
 % =============================================================================
+
+\subsection{Le cadre de la mission et ses contraintes}
+\label{ss:cadre}
+
+Un travail de modélisation conduit dans un cabinet de conseil n'a pas le même
+cadre qu'un travail conduit dans un laboratoire, et trois contraintes propres à ce
+cadre ont façonné le contenu du mémoire autant que les choix statistiques.
+
+\paragraph{Deux destinataires, deux livrables.} Le travail avait deux
+destinataires, le cabinet et l'école, et ce qui est remis à l'un n'est pas ce qui
+est remis à l'autre. Du côté du cabinet, le stage a donné lieu à un livrable
+distinct du mémoire : l'analyse actuarielle de l'édition $2026$ d'une étude de
+marché sur la cyberassurance en France, co-écrite avec le tuteur et publiée par le
+cabinet \citep{RapiorKaddouri2026}. Son objet est inverse de celui du mémoire,
+puisqu'elle décrit un marché observé là où le mémoire construit un modèle sur des
+états hypothétiques. Elle a pourtant servi au mémoire d'une façon qui n'était pas
+prévue : elle constate de l'extérieur, et sous la signature de praticiens qui
+observent ce marché, l'absence de traduction de l'exposition cyber en besoin de
+capital réglementaire. La prémisse du mémoire cesse ainsi d'être une affirmation
+de son auteur.
+
+\paragraph{Une donnée sous licence, et ce qu'elle impose.} La base de pertes qui
+porte toute la sévérité est sous licence et ne peut pas être redistribuée. Elle ne
+peut donc pas être versionnée avec le code, et un lecteur qui voudrait vérifier un
+chiffre ne peut pas rejouer la chaîne depuis la donnée brute. Cette contrainte
+n'est pas un détail administratif : c'est elle qui a fait naître le dispositif de
+vérification du \S\ref{ss:controle}. Puisque la donnée ne peut pas circuler, ce
+sont les \emph{sorties} des scripts qui sont versionnées, et le contrôle porte sur
+la correspondance entre ces sorties et le document. La traçabilité remplace la
+reproductibilité complète, et le document dit lequel des deux il offre.
+
+\paragraph{Des entités réelles, et une décision d'anonymisation.} L'application à
+quatre assureurs réels aurait été plus démonstrative sous leur nom. Elle est
+anonymisée, et le motif n'est pas la confidentialité des sources, qui sont des
+rapports publics, mais la nature de ce que le modèle produit. Il n'utilise que le
+bilan, jamais l'identité, et l'état de conformité y est \emph{supposé} : nommer une
+entité reviendrait donc à lui attribuer une non-conformité que rien n'observe. La
+table de correspondance existe et vit dans un script, de sorte que le travail reste
+vérifiable sans être diffamatoire.
+
+\paragraph{Le gel de la calibration, décision de gestion et non de statistique.}
+La calibration a été gelée à mi-parcours, et cette décision ne relève d'aucun
+critère statistique. Elle répond à un problème de conduite de projet : à partir
+d'un certain volume de résultats publiés, un modèle qui bouge encore invalide en
+silence ce qui a déjà été écrit, et la piste d'audit se perd. Le gel fixe une
+frontière nette entre la correction d'erreur, qui reste autorisée, et la
+recalibration, qui ne l'est plus. Le prix en est visible dans l'inventaire des
+limites du \S\ref{ss:inventaire}, où trois écarts connus sont publiés chiffrés
+plutôt que corrigés.
+
+\paragraph{Ce que ce cadre m'a appris du métier.} La moitié du travail utile n'a
+pas consisté à modéliser. Elle a consisté à rendre un résultat vérifiable par
+quelqu'un qui n'a pas fait le calcul, et à écrire des énoncés qui ne dépassent pas
+ce que le calcul soutient. Un modèle qu'un tiers ne peut pas contrôler n'a pas de
+valeur en conseil, quelle que soit sa qualité mathématique, et c'est la différence
+la plus nette que j'aie observée entre un exercice académique et une mission.
 
 \subsection{Les enseignements de l'ENSAE mobilisés}
 \label{ss:ensae}
@@ -1788,10 +1815,10 @@ la rédaction, parce que la moitié du travail effectif a consisté à écrire d
 \subsection{La part de l'encadrement et des tiers}
 \label{ss:encadrement}
 
-Cette section est demandée par les consignes et je la prends au sérieux, parce que
-plusieurs résultats de ce travail ne seraient pas là sans une remarque extérieure.
-Le suivi s'est fait par un point hebdomadaire, préparé sous forme d'un jeu de
-diapositives et donnant lieu à des demandes précises.
+Plusieurs résultats de ce travail ne seraient pas là sans une remarque extérieure,
+et cette section les recense. Le suivi s'est fait par un point hebdomadaire,
+préparé sous forme d'un jeu de diapositives et donnant lieu à des demandes
+précises.
 
 \begin{table}[htbp]
 \centering\small
@@ -2177,7 +2204,7 @@ posée. Corrélation de rang de Spearman entre les deux colonnes : $1{,}000$.}
 \textbf{Lecture, et elle refuse une conclusion trop flatteuse.} Les deux colonnes
 se classent dans le même ordre, corrélation de rang parfaite. La tentation est de
 présenter cela comme une validation : la structure des transferts retrouverait le
-jugement posé sur les amorces. \textbf{C'en est l'inverse.} L'amorce se \emph{déduit}
+jugement posé sur les amorces. C'en est l'inverse. L'amorce se \emph{déduit}
 de la structure des transferts par cohérence interne, donc l'accord des deux
 classements est une conséquence de la construction et non une confirmation
 extérieure. Ce que le résultat apporte est une réduction du nombre de paramètres
@@ -2386,6 +2413,89 @@ mesure la qualité du pont plutôt qu'un défaut.
 \texttt{66} (vérification numérique de la monotonie en $g$) et~\texttt{67},
 section~1bis (pont entre les deux échelles et facteurs résiduels).
 
+\section{Compléments sur la grandeur reportée}
+\label{ann:posture}
+
+Trois questions attachées au choix de la posture reportée (\S\ref{ss:posture}) et
+une quatrième attachée à la mise en regard des cadres existants
+(\S\ref{ss:regard}).
+
+\subsection*{Le niveau de la bande reportée}
+
+La question de reporter une bande à $90$ ou à $95\,\%$ a été posée par
+l'encadrement académique. En allant chiffrer la réponse, j'ai constaté que le
+mémoire se contredisait lui-même, une annexe annonçant $95\,\%$ dans son ouverture
+et gardant $90\,\%$ dans sa conclusion deux pages plus bas. L'argument décisif y
+était déjà mesuré sans avoir été lu : la couverture réelle vaut $86{,}8\,\%$ pour
+un niveau nominal de $90$ et $91{,}8\,\%$ pour un nominal de $95$, donc le manque
+est le même dans les deux cas. Relever le niveau annoncé déplacerait l'annonce sans
+corriger l'estimateur, et le niveau de $90\,\%$ est conservé pour ce motif.
+
+\vspace{4pt}
+\noindent Sources : script~\texttt{72} (couverture réelle aux deux niveaux
+nominaux).
+
+\subsection*{Trois étages d'incertitude, à ne pas fondre en une seule barre}
+
+L'incertitude du résultat a trois origines de natures différentes, et les
+additionner en une bande unique effacerait ce qui les distingue. Le bruit de
+simulation s'achète en temps de machine, puisqu'il décroît en racine du nombre
+d'années simulées. L'incertitude d'estimation ne s'achète pas, et elle est dix fois
+plus grande sur la même grandeur. L'ambiguïté de famille de loi est d'une troisième
+nature, épistémique : un choix de famille ne se moyenne pas.
+
+C'est le motif pour lequel ce troisième étage a été sorti de la bande reportée et
+transformé en axe de sensibilité déclaré, alors même qu'il est le plus gros des
+trois, avec un facteur $5{,}5$ contre $2{,}5$ pour l'incertitude de paramètre. La
+décision se lit donc à l'envers de ce qu'on attendrait : l'étage retiré de
+l'affichage est le plus lourd, et le retirer rétrécit l'affichage sans que
+l'incertitude bouge. C'est écrit ainsi pour que la décision reste critiquable.
+
+\vspace{4pt}
+\noindent Sources : scripts~\texttt{48} (bande de modèle, les trois étages)
+et~\texttt{84} (origine de la largeur des intervalles).
+
+\subsection*{La moyenne de queue en diagnostic, jamais à la place du capital}
+
+La moyenne de queue est employée à deux titres, tous deux diagnostiques : comme
+noyau d'allocation, et comme indicateur de forme de queue par son rapport au
+quantile, qui vaut $2{,}1$ contre une asymptote théorique de $2{,}5$. Elle ne porte
+aucun capital.
+
+L'argument qui l'écarte comme mesure de capital n'est pas de degré mais
+d'\emph{existence}. Sous une source de sévérité alternative, l'indice de queue
+estimé vaut $1{,}033$, donc supérieur à un : l'espérance de la sévérité est infinie
+et la moyenne de queue \emph{n'est pas définie}. Une mesure de couverture qui cesse
+d'exister selon la base retenue ne peut pas porter une exigence de capital, et cet
+argument vaut mieux qu'une comparaison de niveaux, qui se discuterait. La
+comparaison de niveaux va d'ailleurs à l'encontre de l'intuition courante : une
+moyenne de queue au niveau de $95\,\%$ vaudrait $5\,734$~M\euro{} contre $8\,374$
+pour le quantile réglementaire, donc elle serait \emph{moins} prudente que
+l'exigence.
+
+\vspace{4pt}
+\noindent Sources : script~\texttt{73} (moyenne de queue en diagnostic, niveau
+d'équivalence avec le quantile réglementaire).
+
+\subsection*{Les indices de queue par catégorie de risque opérationnel}
+
+La table des indices de queue par catégorie a dû être refaite en cours de stage,
+la précédente provenant d'une extraction dont le filtre n'avait pas été conservé et
+qu'aucune combinaison du code ne reproduisait. Recalculée avec un filtre écrit, à
+seuil et méthode d'ajustement identiques d'une catégorie à l'autre, elle donne des
+indices allant de $0{,}865$ à $1{,}368$ pour une dispersion de $0{,}50$.
+
+L'écart entre catégories est donc du même ordre que l'incertitude qui pèse sur
+chacune, ce qui interdit de les confondre. Traiter la catégorie technologique avec
+l'indice commun conduirait à une borne de capital inférieure de plusieurs dizaines
+de pour cent, et la conclusion du mémoire sur ce point en sort renforcée plutôt
+qu'affaiblie : supposer une queue commune n'est pas neutre, c'est
+anti-conservateur.
+
+\vspace{4pt}
+\noindent Sources : scripts~\texttt{37} (consommateur de la table) et~\texttt{67},
+section~5 (recalcul des indices avec leur filtre écrit).
+
 \section{Chronologie du stage}
 \label{ann:chronologie}
 
@@ -2429,11 +2539,10 @@ publiés.}
 \section*{Note de synthèse}
 \addcontentsline{toc}{section}{Note de synthèse (français)}
 \vspace{-6pt}
-% Les consignes fixent l'interligne 1,5 pour LE CORPS DU RAPPORT et imposent a la
-% note de synthese de tenir en une ou deux pages. C'est la contrainte de page qui
-% gouverne ici : la note, piece autonome jointe au rapport, est en interligne
-% simple. Verifie sur le PDF : deux pages.
-\begin{singlespace}
+% L'interligne 1,5 du corps est RESTAURE ici. La note avait ete mise en interligne
+% simple le 9 septembre parce qu'elle debordait sur une troisieme page ; apres
+% resserrage elle tient en deux pages a 1,5, donc l'ecart n'a plus lieu d'etre.
+% Verifie sur le PDF.
 % =============================================================================
 
 % HARNAIS-HORS-SECTION: note de synthese autonome, destinee a un lecteur non
@@ -2503,14 +2612,12 @@ que le capital est sous-estimé. Ce même backtest chiffre enfin sa propre
 puissance : détecter une anomalie sur le quantile réglementaire demanderait plus
 de mille huit cents années d'observations, donc aucun historique existant ne
 permet de valider ce niveau.
-\end{singlespace}
 
 % =============================================================================
 \newpage
 \section*{Executive summary}
 \addcontentsline{toc}{section}{Note de synthèse (English)}
 \vspace{-6pt}
-\begin{singlespace}
 % =============================================================================
 
 % HARNAIS-HORS-SECTION: stand-alone executive summary for a non-specialist
@@ -2578,6 +2685,5 @@ level of extreme losses drifts faster than the model assumes, so that capital is
 understated. The same backtest finally quantifies its own power: detecting an
 anomaly at the regulatory quantile would require more than one thousand eight
 hundred years of observations, so no existing history can validate that level.
-\end{singlespace}
 
 \end{document}
