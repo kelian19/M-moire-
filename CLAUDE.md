@@ -1843,33 +1843,67 @@ est imposé** et il est respecté : rapport, annexes, note française, note angl
 déposer doit s'appeler `KADDOURI_Kelian_3A25.pdf`, ou le même suffixé `_CONF` si Nexialog exige
 la confidentialité.
 
-**État mesuré.** 38 pages au total : couverture 1, sommaire 2 et 3, corps 4 à 32, bibliographie
-33, annexes A, B et C en 34, note française 35 et 36, note anglaise 37 et 38. Donc **29 pages de
-corps plus une de références**, ce qui tient la cible d'environ 30. Compile sans erreur, 0
-Overfull `\hbox`, 0 Overfull `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans
-le PDF. **Harnais : 232 nombres sous contrôle, 232 confirmés, 100 %**, plus 32 nombres déclarés
-hors script section par section, soit **0 hors contrôle non déclaré** sur 264 nombres publiés.
+**État mesuré au 9 septembre, après la reprise de style demandée le soir même.** 40 pages au
+total : couverture 1, sommaire 2 et 3, corps 4 à 35, bibliographie 36, annexes A et B en 37, note
+française 38 et 39, note anglaise 40. Donc **32 pages de corps plus une de références** pour une
+cible d'« environ 30 » : c'est 10 % au-dessus, assumé, et le motif est que couper davantage
+retirerait de l'analyse critique que le barème note sur 6. Compile sans erreur, 0 Overfull
+`\hbox`, 0 Overfull `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans le PDF.
+**Harnais : 260 nombres sous contrôle, 260 confirmés, 100 %**, plus 23 déclarés hors script
+section par section, soit **0 hors contrôle non déclaré** sur 283 nombres publiés.
 
-**Trois choses à savoir avant d'y toucher.**
+**Le document porte 6 figures, 13 tableaux et 3 propositions démontrées.** Kélian a demandé le
+9 septembre que le rapport soit plus agréable à lire, avec graphiques, démonstrations, figures et
+tableaux, et que l'écriture cesse de sentir la rédaction automatique. Ce qui a été fait :
 
-- **Le corps a été écrit court puis étoffé, et c'est le bon sens de marche.** La première version
-  faisait 19 pages de corps quand il en fallait 30, et le manque était du **fond**, pas de la mise
-  en page. Cinq sous-sections ont été ajoutées, toutes adossées à des résultats déjà publiés et
-  déjà vérifiés : les trois propriétés démontrées, l'attribution par pilier avec les trois sens du
-  mot additivité, la sensibilité en élasticités, les deux horloges, la posture reportée avec le
-  diagnostic de queue, et la mise en regard des trois cadres. **Ne jamais gagner des pages en
-  desserrant l'interligne ou les marges** : les deux sont imposés.
-- **Le harnais a redonné sa leçon, et deux fois.** Une ligne « Sources : scripts… » posée en bas
-  de `\section` ne couvre que la **dernière** sous-section, parce que le harnais coupe aussi sur
-  `\subsection` : la première passe donnait **7,5 %** de couverture. Il en faut une par
-  sous-section. Et une déclaration `% HARNAIS-HORS-SECTION:` est **ignorée si la sous-section cite
-  un script**, le code exigeant `m_sec and not cites` : les comptes du dispositif de vérification
-  ont donc leur propre sous-section, sans citation.
-- **Deux valeurs ont été réécrites avec leur signe, et le document y gagne.** Le script 76 imprime
-  l'effet du seuil à $+320$ et celui de l'indice de queue à $-13\,993$, de signes **opposés** ; le
-  script 81 imprime les ablations à $-76{,}2$ et $-20{,}3\,\%$. Les avoir d'abord écrits en valeur
-  absolue les faisait ressortir non confirmés, et la correction rend l'énoncé plus juste, puisque
-  c'est la compensation entre composantes de signes contraires qui est le résultat.
+- **titres de sections remis en libellés sobres.** Seize des trente et un titres suivaient le
+  moule « X, et ce que Y » : c'était le marqueur le plus visible. Ils sont descriptifs
+  (« Analyse de sensibilité », « Validation hors échantillon ») ;
+- **treize tableaux**, chacun suivi d'un paragraphe **Lecture** et d'une ligne « Sources de la
+  table : scripts NN (ce que chacun fournit) », sur le patron du chapitre 13 du mémoire ;
+- **six figures** : `H1_reseau_W`, `J3_validation_adequation`, `Z_identification_partielle`,
+  `S24_interaction_canaux`, `S32_tornado_normalise`, `S12_trajectoire_scr`. Les trois plus denses
+  débordent dans les marges à `1.12\textwidth` via `\makebox`, faute de quoi leurs étiquettes
+  tombent sous 4 pt ; **les six pages ont été rendues en PNG et regardées** ;
+- **trois propositions avec démonstration**, toutes courtes et toutes déjà établies au mémoire :
+  la normalisation de Leontief borne la progéniture et donc le rayon spectral ; l'énergie de
+  fluctuation est aveugle à la partie antisymétrique, ce qui est la frontière d'identifiabilité ;
+  l'espérance d'une forme additive ne dépend que des marges, ce qui porte l'invariance du
+  script 69 et sa réserve ;
+- **l'annexe sur le dispositif de vérification a été supprimée**, Kélian ne l'aimant pas. Son
+  contenu utile, ce que le dispositif ne fait pas, est passé dans le corps au \S3.6, où il compte
+  comme analyse critique.
+
+**Quatre pièges d'instrument, dont deux nouveaux.**
+
+- **Une ligne « Sources : scripts… » en bas de `\section` ne couvre que la dernière
+  sous-section**, le harnais coupant aussi sur `\subsection` : la première passe donnait **7,5 %**
+  de couverture. Il en faut une par sous-section.
+- **Une déclaration `% HARNAIS-HORS-SECTION:` est ignorée si la sous-section cite un script**, le
+  code exigeant `m_sec and not cites`.
+- **NOUVEAU : un type de colonne maison n'est pas neutralisé.** Le harnais neutralise `p{3.4cm}`,
+  `m{}` et `b{}` mais pas un `L{3.4cm}` défini par `\newcolumntype` : douze fausses alertes d'un
+  coup. Écrire les colonnes en clair, `>{\raggedright\arraybackslash}p{3.4cm}`. (Et
+  `\newcolumntype` prend une **lettre**, pas un nom de macro, sinon « Illegal pream-token ».)
+- **NOUVEAU : le nom de fichier d'une figure verse son nombre dans le pool.** Le harnais
+  neutralise l'argument optionnel d'un `\includegraphics` mais pas son argument obligatoire, donc
+  `{S12_trajectoire_scr.png}` fabrique un 12 à confirmer. Les six noms passent par une macro
+  définie dans le préambule, lui-même déclaré hors script. Le tiret bas impose
+  `\begingroup\catcode`\_=12 \gdef… \endgroup`, une macro figeant les catcodes à la définition.
+
+**Trois valeurs ont été réécrites avec leur signe, et le document y gagne à chaque fois.** Le
+script 76 imprime l'effet du seuil à `+320` et celui de l'indice de queue à `-13 993`, de signes
+**opposés** ; le script 81 imprime les ablations à `-76,2` et `-20,3 %` ; et surtout **l'élasticité
+de la surdispersion vaut `-0,44`, seule négative des sept**. Augmenter la dispersion des comptes
+*rétrécit* l'écart entre états, l'écart étant porté par un sinistre dominant unique. Reporter sa
+valeur absolue, comme le fait la figure S32, effaçait ce résultat.
+
+**Deux points à connaître sur des valeurs.** La figure `J3` affiche une p-valeur d'Anderson-Darling
+par bootstrap qui **diffère** de celle du texte, laquelle impose les paramètres publiés : la
+légende le dit désormais, sans quoi la page se lit comme une contradiction. Et le **98,8 %**
+d'années sans incident à l'échelle d'entité, publié au mémoire, est imprimé **98,7 %** par le
+script 58 : l'écart passe dans la tolérance d'arrondi, donc le harnais confirme, mais c'est une
+décimale à corriger au mémoire si l'occasion se présente.
 
 **Deux écarts assumés, avec leur motif.**
 
