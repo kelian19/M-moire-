@@ -47,7 +47,7 @@ poste est exactement ce qui a fait présenter du travail antérieur comme récen
 État au **9 septembre 2026 au soir** : v1 à **186 pages dont 136 de corps** (annexes en 137),
 v2 à **192 pages dont 140 de corps** (annexes en 141), branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 9 septembre : **2 352 nombres, 2 352 confirmés, 100 %**, et **0 hors
+Harnais au 9 septembre : **2 346 nombres, 2 346 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Les six pages gagnées dans le corps le
 9 septembre sont la lecture de marché de l'introduction, demandée par Kélian : voir la section
 « La page de garde et la lecture de marché » plus bas. Ce
@@ -478,6 +478,13 @@ avec son bruit. Un lecteur qui voit ± 7 ne pose plus la question du troisième 
   coordonnées négatives (« Annotation out of page boundary »). Utiliser `longtable`.
 - **Les nombres ronds d'un pool de plusieurs milliers se confirment mutuellement par hasard.**
   Ne jamais conclure d'une correspondance numérique seule.
+- **LES DÉBORDEMENTS SE COMPTENT PAR EMPLACEMENT, PAS PAR LIGNE D'AVERTISSEMENT.** Dédupliquer
+  sur le texte complet du warning fait apparaître de faux débordements nouveaux : les deux passes
+  de tectonic ne calculent pas toujours la même largeur au dernier chiffre, et le même paragraphe
+  ressort alors sous deux valeurs. Vu le 9 septembre 2026 sur
+  `15b_demonstrations_cascade:43`, signalé à 8,44485 pt puis 8,44498 pt, ce qui a fait annoncer
+  16 débordements pour une ligne de base de 15. Le bon comptage retire la valeur en points :
+  `($_.Line -replace ': Overfull.*','') | Sort-Object -Unique`.
 
 ## Contrôles à passer avant de dire que c'est fini
 
@@ -2180,20 +2187,45 @@ vingt-huit valeurs contraintes par sept sommes (écart maximal 3 M€) ; la somm
 doit redonner la charge du marché ; et chaque multiplicateur cité doit se retrouver depuis les
 niveaux qui l'encadrent.
 
-### 3. Ce que les contrôles ont trouvé, et il y a un erratum à signaler
+### 3. Ce que les contrôles ont trouvé, et où cela est écrit
+
+**RÈGLE TRANCHÉE PAR KÉLIAN LE 9 SEPTEMBRE, ET ELLE COMMANDE TOUT CE QUI SUIT : LE MÉMOIRE NE
+SIGNALE AUCUN DÉFAUT DU RAPPORT LUCY.** Les défauts trouvés restent consignés ici et dans la
+sortie du script 63, qui est l'audit interne et n'entre pas dans le PDF déposé. Le mémoire, lui,
+publie les valeurs justes **sans dire qu'elles corrigent quoi que ce soit**. Motif : le rapport
+est co-signé par Kélian et son maître de stage, et un mémoire n'est pas le lieu où l'on relève
+les coquilles de son propre employeur. **Ne pas réintroduire ces passages dans un chapitre.**
 
 **UNE COQUILLE DANS LE RAPPORT PUBLIÉ, ET IL EST CO-SIGNÉ PAR KÉLIAN.** La section 7.1 écrit
 « 37,3 M€ en 2025 contre 10,5 M€ en 2024 (×2,53) ». Le rapport des deux montants vaut **3,55**,
 et la section 7.6 du **même** rapport donne bien ×3,53 pour ce bloc. Le 2,53 est une coquille sur
-le chiffre des unités. Le mémoire retient 3,53 et le script imprime la vérification. **À
-signaler comme erratum** : un lecteur qui divise les deux montants la trouvera.
+le chiffre des unités. Le mémoire retient **3,53**, valeur juste, et le script 63 imprime la
+vérification qui la justifie. Le mémoire ne mentionne ni le 2,53 ni l'existence de l'écart.
 
 **Une seconde imprécision de la même source.** Le recul du taux de prime des grandes entreprises
 est annoncé à 32 % dans le résumé et la section 3, puis à **33 %** dans la section 3.1, pour les
 mêmes niveaux 1,90 % et 1,28 %. Le rapport des niveaux vaut 32,6 %, donc 33 % à l'unité. Le
-mémoire cite désormais **les niveaux et le recul qu'ils impliquent, jamais un recul transcrit**,
-et le script imprime les deux valeurs pour que le désaccord soit visible. Même traitement que
-l'imprécision sur le mot « fréquence », déjà documentée.
+mémoire publie **33 %**, recalculé depuis les niveaux, et ne signale pas le désaccord. Le script
+63 imprime les deux valeurs.
+
+**Sept autres défauts relevés dans le rapport et non repris**, listés ici parce qu'ils
+appartiennent à Kélian et Hugo : deux clauses dupliquées (sections 3.1 et 7, « plutôt qu'une
+véritable concession tarifaire plutôt que d'une véritable concession tarifaire » et « se concentre
+sur le bloc intermédiaire une dégradation concentrée sur le bloc intermédiaire ») ; un commentaire
+de relecture resté visible en section 8 ; des artefacts de suivi de modifications ; cinq
+« Erreur ! Signet non défini » au sommaire ; deux sections numérotées 11, dont l'une s'intitule
+« Bibliographies » dans le corps et « Références » au sommaire ; les annexes A à D annoncées au
+sommaire et absentes du document ; et **une légende de figure qui annonce des « S/P recalculés
+ligne à ligne » alors que le rapport démontre par ailleurs que la donnée ligne à ligne n'existe
+pas**, ce dernier étant le seul qui touche au fond.
+
+**Ce que devient l'encadré du mot « fréquence ».** Il existait depuis le 8 septembre et disait
+« une imprécision de la source, corrigée ici et non reprise ». Il est réécrit en **distinction
+définitionnelle** : une fréquence est un nombre par assuré, elle vaut 1,88 quand le nombre vaut
+2,79 et l'exposition 1,49, donc l'identité charge = nombre × sinistre moyen n'est exacte qu'avec
+le nombre. **L'argument analytique est intégralement conservé**, seule la mise en cause de la
+source disparaît, ce qui est la même règle appliquée au même endroit. La consigne de fond ne
+change pas : **ne pas employer le mot « fréquence » pour ces multiplicateurs**.
 
 **Une valeur relevée de travers, corrigée par un zoom.** Le S/P des ETI en 2020 avait d'abord été
 transcrit à 88 % : son étiquette est **partiellement recouverte** par le marqueur de la courbe
@@ -2242,8 +2274,8 @@ le dépôt.
 
 **Corps 130 → 136 pages en v1, total 180 → 186 ; corps 136 → 140 en v2, total 187 → 192.** Les
 six pages sont exactement ce que Kélian a demandé, et elles vont contre l'arbitrage de format,
-qui reste tranché en sa faveur. Harnais **2 172 → 2 352 nombres, 2 352 confirmés, 100 %**, hors
-contrôle non déclaré à zéro. Chapitre 02 à 100 % sur 210 nombres, couverture 100 %.
+qui reste tranché en sa faveur. Harnais **2 172 → 2 346 nombres, 2 346 confirmés, 100 %**, hors
+contrôle non déclaré à zéro. Chapitre 02 à 100 % sur 204 nombres, couverture 100 %.
 **Débordements exactement aux deux lignes de base, 15 pour la v1 et 6 pour la v2**, 0 Overfull
 `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans les deux PDF. Les cinq pages
 touchées de la v1 et la page de garde ont été rendues en PNG et regardées. Cinq nouvelles entrées
