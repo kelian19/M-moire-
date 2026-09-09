@@ -13,14 +13,14 @@ Tout cela est fait. Ce document repart de l'état mesuré, pas de l'état décla
 
 | Grandeur | Valeur | Comment elle se relit |
 | --- | --- | --- |
-| Corps du mémoire | **129 p.** | première page d'annexe moins une (annexes en 130) |
-| Document complet | **176 p.** | comptage des pages du PDF, jamais un index |
+| Corps du mémoire | **130 p.** (v1) / **136 p.** (v2) | première page d'annexe moins une |
+| Document complet | **178 p.** (v1) / **185 p.** (v2) | comptage des pages du PDF, jamais un index |
 | Chapitres rédigés | 19 | dont 6 annexes |
 | Scripts de calcul | 106 | `vasicek_lab/*/*.py` |
 | Sorties versionnées | 101 | `sorties_verif/NN.txt` |
 | Scripts cités par le mémoire | **88** | le reste est du travail deja porte autrement |
-| Nombres publiés | 2 142 | harnais, tous chapitres |
-| Confirmation | **100 %** | 2 142 confirmés |
+| Nombres publiés | 2 172 | harnais, tous chapitres |
+| Confirmation | **100 %** | 2 172 confirmés |
 | **Couverture** | **100 %** | 0 hors contrôle non déclaré, et c'est ce qui passe en premier |
 | Contrôles du document | 0 / 0 / 0 / 0 | `??` dans le PDF, Overfull vbox, annotation hors page, page tournée |
 
@@ -391,7 +391,7 @@ retirée. Ce qui reste n'est pas un arbitrage mais une **validation** : le choix
 présenter à Caroline, pas à reprendre.
 
 **Le format est tranché en faveur de Kélian.** Hugo a dit de ne pas se contraindre. Le corps est
-à 129 pages contre les ~70 recommandés de l'Institut.
+à 130 pages en v1 et 136 en v2, contre les ~70 recommandés de l'Institut.
 
 **Ce qui change avec la remise fin novembre, et c'est le seul point rouvert par le calendrier.**
 Une compression du corps était écartée faute de temps ; trois mois la rendent possible, et c'est

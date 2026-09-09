@@ -24,11 +24,24 @@ de résultats. Le détail est dans la section « Comment construire » du `CLAUD
 
 ## État du dernier passage (8 septembre 2026, tous chapitres)
 
-**2 142 nombres publiés, 2 142 confirmés, soit 100 %**, et **0 nombre hors contrôle
+**2 172 nombres publiés, 2 172 confirmés, soit 100 %**, et **0 nombre hors contrôle
 non déclaré sur les dix-neuf chapitres**, relevé chapitre par chapitre et non sur le
 récapitulatif, qui n'imprime pas la couverture.
 
 ### Ce qui s'est ajouté depuis le 14 août
+
+- `63.txt` **porte désormais un bloc LUCY 2026**, sous la même étiquette de **citation externe
+  non recalculable** que Hackmageddon. Source : l'étude LUCY de l'AMRAE sur l'exercice 2025, et
+  l'analyse Nexialog dont Kélian est co-auteur avec son tuteur. Elle n'entre dans **aucune**
+  calibration et ne porte aucun niveau de capital. **Deux choses à ne pas perdre.** D'abord
+  l'avertissement d'échelle : la charge de LUCY est **indemnisée**, nette de franchise et
+  plafonnée, donc elle ne se compare pas à une sévérité brute d'entité, et c'est le piège du
+  7 août sous une autre forme. Ensuite la **correction d'une imprécision de la source** : le
+  rapport nomme « fréquence » le multiplicateur du **nombre** de sinistres, alors que la fréquence
+  vaut 1,88 pour 2025 quand le nombre vaut 2,79. Le bloc **vérifie l'identité**
+  charge = nombre × sinistre moyen sur les deux exercices, écarts 0,0008 et 0,0045 : c'est ce
+  contrôle qui atteste que la transcription est fidèle. Ne pas revenir au mot « fréquence » sur
+  ces multiplicateurs.
 
 - `89.txt` est le **premier backtest hors échantillon du projet**, et le seul endroit où le
   modèle prédit une période qu'il n'a pas vue. Trois résultats de sens opposés : la binomiale

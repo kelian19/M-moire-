@@ -9,10 +9,19 @@ Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
 les cinq piliers »**. Objectif affiché : le Prix SCOR, donc le top 1-3 national, pas la simple
 validation. Tuteur : Hugo. Point d'avancement hebdomadaire.
 
-État au **8 septembre 2026** : **176 pages au total, dont 129 de corps** (annexes en 130),
-branche `exploratory`. Les comptes de ce
+**IL Y A DEUX VERSIONS DEPUIS LE 8 SEPTEMBRE, ET ELLES PARTAGENT LES CHAPITRES.**
+`main.tex` porte le style d'origine, `main_v2.tex` un style de monographie classique sans
+couleur. Les deux appellent **les mêmes fichiers de chapitres** : seul le préambule diffère, une
+ligne. Donc **toute modification de contenu vaut pour les deux**, et il ne faut jamais dupliquer
+un chapitre pour faire évoluer une version. Kélian a demandé le 8 septembre que la **v2 devienne
+la référence de style** ; le retrait de la v1 n'est pas fait et lui appartient (échange d'une
+ligne : `preambule_v2.tex` remplace `preambule.tex`). Détail dans la section « Essai de style V2 »
+plus bas.
+
+État au **8 septembre 2026** : v1 à **178 pages dont 130 de corps** (annexes en 131), v2 à
+**185 pages dont 136 de corps** (annexes en 137), branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 8 septembre : **2 142 nombres, 2 142 confirmés, 100 %**, et **0 hors
+Harnais au 8 septembre : **2 172 nombres, 2 172 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
@@ -991,8 +1000,8 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - ~~vérifier les quatre jeux de chiffres SFCR~~ : **FAIT le 2 septembre 2026**, les quatre
   rapports ont été lus. Voir le point 10 plus bas : une erreur de champ corrigée, une limite
   déclarée supprimée, un résultat gagné sur le forfait ;
-- l'arbitrage de **format** : le corps est à **129 pages pour 176 au total** (annexes en 130),
-  contre les ~70 de
+- l'arbitrage de **format** : le corps est à **130 pages pour 178 au total** en v1, **136 pour
+  185** en v2 (Palatino est plus large), contre les ~70 de
   corps recommandés par l'Institut. **Tranché en faveur de Kélian**, Hugo ayant dit de ne pas se
   contraindre ;
 - **le choix de la posture à reporter** : **tranché le 17 août** en faveur du plug-in avec sa
@@ -1689,6 +1698,104 @@ montants avec une espace de milliers, que l'extracteur du harnais coupe en deux 
 mais d'ajouter à chaque script un **dernier bloc « grandeurs citées »** qui reprend les mêmes
 valeurs sans séparateur ni signe. Il n'ajoute aucun calcul. C'est le même piège que le `5 001` du
 script 74, documenté plus haut.
+
+## Essai de style V2, et le rapport LUCY dans l'introduction, le 8 septembre 2026
+
+### La V2 : monographie classique, mêmes chapitres
+
+Kélian trouvait que le mémoire ne faisait pas assez mémoire d'actuariat, les encadrés bleus en
+particulier. Une v2 a donc été construite **à côté** de la version d'origine, qui n'a pas été
+touchée. Voir la note en tête de fichier pour la règle qui compte : **les chapitres sont
+partagés**, `main_v2.tex` ne diffère de `main.tex` que par la ligne du préambule, vérifié par
+`Compare-Object`. Ne jamais dupliquer un chapitre pour faire évoluer une version.
+
+**Ce que la v2 change** : police Palatino, interligne 1,05, **aucune couleur** (les huit noms de
+couleurs du projet sont redéfinis en noir, ce qui neutralise les `\textcolor{navy}` des chapitres
+sans les éditer), les encadrés passent de fonds colorés à des **filets** (haut et bas pour la
+synthèse, vertical épais pour l'avertissement), les verdicts de table en petites capitales, titres
+en petites capitales avec filets, titres courants, et têtes de paragraphe en italique.
+
+**Ce qu'elle ne change pas, délibérément** : la géométrie. Une monographie classique aurait une
+justification plus étroite, mais la lisibilité des cinquante figures est calibrée sur cette
+largeur. Et les chiffres restent alignés, pas elzéviriens : ce document se lit pour ses nombres.
+
+**Deux pièges, documentés dans `preambule_v2.tex` :**
+
+- **tcolorbox** : mettre `boxrule` à 0pt puis relever `toprule` ne suffit pas, le squelette
+  `enhanced` trace un filet de cheveu sur les quatre côtés et les deux encadrés redeviennent
+  indistinguables. Idiome correct : `frame hidden` puis `borderline`. Trouvé en **regardant** le
+  PDF, pas la source ;
+- Palatino étant plus large, les débordements de paragraphe explosaient. Un `emergencystretch`
+  de 2,5 em les résorbe sans toucher un chapitre : la v2 en compte **6 distincts contre 15 pour
+  la v1**, tous antérieurs et tous dans des tableaux ou des alignements.
+
+`main_v2.pdf` est **gitignoré** : 10 Mo pour un essai, et il se régénère en une commande. Ses
+sources sont versionnées.
+
+### Le rapport LUCY 2026 entre dans l'introduction
+
+Kélian est **co-auteur, avec son tuteur**, de l'analyse actuarielle Nexialog de l'édition 2026 de
+l'étude LUCY de l'AMRAE (marché français de la cyberassurance, exercice 2025). Nouvelle section
+`sec:lucy` au chapitre 02, entre « Le vide que ce mémoire comble » et « Un seul fil ».
+
+**Pourquoi elle vaut sa place, et ce n'est pas la signature.** Trois constats du rapport
+travaillent pour le mémoire :
+
+1. **il constate le vide de l'extérieur** : aucun module de capital standardisé ne couvre le
+   risque de catastrophe cyber sous Solvabilité II, donc l'exposition observée ne se traduit pas
+   en besoin réglementaire. C'est la prémisse du mémoire, énoncée par ceux qui observent le
+   marché ;
+2. **il justifie le choix de données** : un **seul** sinistre au-delà de 10 M€ en France sur
+   l'exercice, donc une distribution censurée précisément là où se joue le quantile extrême. C'est
+   la raison de calibrer la sévérité sur une base internationale plutôt que nationale ;
+3. **il porte le même argument de méthode** : un ratio agrégé croissant recouvre deux régimes
+   opposés, 2024 année de sévérité et 2025 année de fréquence. Même raisonnement que celui que le
+   mémoire impose à ses quatre canaux.
+
+**Statut de la source : CITATION EXTERNE NON RECALCULABLE**, exactement celui de Hackmageddon.
+Enregistrée dans `config.py` sous `LUCY_2026` et imprimée par le **script 63**. Elle n'entre dans
+aucune calibration et ne porte aucun niveau de capital.
+
+**LE PIÈGE D'ÉCHELLE, ET IL EST DU MÊME TYPE QUE CELUI DU 7 AOÛT.** La charge de LUCY est
+**indemnisée**, donc `min(capacité, max(sinistre − franchise, 0))` sommée sur un portefeuille de
+marché. La sévérité du mémoire est une perte opérationnelle **brute** d'entité. Rapprocher les
+83,2 M€ indemnisés du marché français du quantile unitaire publié ferait lire une différence de
+périmètre et de rétention comme une contradiction. Un encadré de l'introduction le pose avant
+tout usage.
+
+**UNE IMPRÉCISION DE LA SOURCE, CORRIGÉE ET NON REPRISE.** Le rapport nomme « fréquence » le
+multiplicateur du **nombre** de sinistres dans sa décomposition de la charge. Ce n'en est pas
+une : une fréquence est un nombre par assuré, et les tables du même rapport la donnent à **1,88**
+pour 2025 quand le nombre est à **2,79**, l'exposition ayant crû de **1,49**. L'identité
+charge = nombre × sinistre moyen n'est exacte qu'avec le **nombre**. Le script 63 **vérifie
+l'identité** sur les deux exercices, écarts 0,0008 et 0,0045, ce qui atteste au passage que la
+transcription est fidèle. Ne pas revenir au mot « fréquence » sur ces multiplicateurs.
+
+**Sur les figures du rapport : elles ne sont pas reprises, et c'est un choix.** Une capture d'un
+rapport bureautique serait la seule figure du mémoire non produite par un script, porterait les
+couleurs de graphique de la charte dans un document dont la v2 est en noir, et ne serait traçable
+par rien. Le tableau des deux régimes est donc **reconstruit** en LaTeX depuis la citation
+enregistrée, dans la typographie du mémoire. Le fichier PDF du rapport n'est d'ailleurs pas au
+dépôt.
+
+**Un défaut PRÉEXISTANT trouvé au passage, et non corrigé.** La bibliographie est en
+`plainnat`, un style **anglais** : les citations à deux auteurs impriment « and » et non « et ».
+Vérifié dans la v1 avant toute modification, **seize** occurrences distinctes du motif (Herath and
+Herath, Hillairet and Lopez, Iooss and Prieur…). Ce n'est donc pas venu de la nouvelle entrée. Le
+corriger demande un style bibliographique français ou un passage à biblatex, ce qui touche
+**toutes** les citations du document : c'est une décision, pas une retouche, et elle appartient à
+Kélian.
+
+**Coût et contrôles.** v1 176 → **178 pages** (corps 130), v2 183 → **185** (corps 136). Harnais
+2 142 → **2 172 nombres, 2 172 confirmés, 100 %**, hors contrôle non déclaré à zéro. La nouvelle
+section est à 100 % sur **30 nombres**, tous imprimés par le script 63. 0 `??` dans les deux PDF,
+0 vbox, 0 annotation hors page, 0 page tournée, aucun débordement nouveau.
+
+**Et un piège de here-string, commis une fois de plus.** L'entrée de bibliographie a été écrite
+par un here-string PowerShell à guillemets **doubles**, où le backtick est le caractère
+d'échappement : l'accent grave de « Lumière », écrit en LaTeX avec un backtick, a été mangé et a
+laissé une séquence de contrôle indéfinie qui a fait échouer la compilation sur le `.bbl`.
+Utiliser un here-string à guillemets **simples**, jamais doubles, pour écrire du LaTeX.
 
 ## Note d'honnêteté
 

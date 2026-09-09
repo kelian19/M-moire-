@@ -36,7 +36,7 @@ if REPO not in sys.path:
     sys.path.insert(0, REPO)
 
 from src.utils.config import (COPULE, FREQUENCY, HACKMAGEDDON,     # noqa: E402
-                              OPRISK, PRC, SCR_DORA)
+                              LUCY_2026, OPRISK, PRC, SCR_DORA)
 
 W = 84
 
@@ -142,6 +142,93 @@ print("\n  AVERTISSEMENT. Contrairement a PRC et OpRisk, le jeu Hackmageddon n'e
 print("  versionne dans data/raw/ : ces valeurs sont une citation enregistree, pas une")
 print("  sortie recalculable (cf. script 62). Elles ne servent qu'a fixer les parts de")
 print("  repartition par vecteur, et ne portent aucun niveau de capital.")
+
+titre("LUCY 2026 : CITATION EXTERNE, non recalculable")
+L = LUCY_2026
+print(f"  etude    : {L['source']}")
+print(f"  analyse  : {L['analyse']}")
+print(f"  perimetre de l'etude : {L['n_polices']} polices et {L['n_sinistres']} sinistres")
+print(f"                         declares, {L['n_courtiers']} courtiers et "
+      f"{L['n_assureurs']} assureur.")
+print()
+print("  RATIOS SINISTRES SUR PRIMES, en fraction ET en pourcentage, les deux, pour la")
+print("  raison deja documentee au bloc Hackmageddon ci-dessus :")
+for lab, k in (("agrege 2024", "sp_2024"), ("agrege 2025", "sp_2025"),
+               ("segment ETI 2024", "sp_eti_2024"), ("segment ETI 2025", "sp_eti_2025")):
+    ligne(f"    {lab}", f"{L[k]:.2f}   soit {100*L[k]:.0f} %")
+print()
+print("  CHARGE INDEMNISEE, nette de franchise et plafonnee par la capacite :")
+ligne("    exercice 2024", L["charge_2024_eur"], "M EUR")
+ligne("    exercice 2025", L["charge_2025_eur"], "M EUR")
+ligne("    hausse", f"{L['hausse_charge_2025']:.2f}   soit "
+                    f"{100*L['hausse_charge_2025']:.0f} %")
+print()
+print("  RECULS DE TAUX DE PRIME, en valeur absolue et nommes recul :")
+ligne("    grandes entreprises", f"{L['recul_taux_prime_grandes']:.2f}   soit "
+                                 f"{100*L['recul_taux_prime_grandes']:.0f} %")
+ligne("    entreprises de taille intermediaire",
+      f"{L['recul_taux_prime_eti']:.2f}   soit {100*L['recul_taux_prime_eti']:.0f} %")
+print()
+print("  LA VALEUR QUI COMPTE LE PLUS POUR CE MEMOIRE, et c'est un compte, pas un ratio :")
+ligne("    sinistres au-dela du seuil XXL en France, 2025",
+      L["n_sinistres_sup_10m_france_2025"])
+ligne("    seuil XL", L["seuil_xl_eur"], "M EUR")
+ligne("    seuil XXL", L["seuil_xxl_eur"], "M EUR")
+print("    Un seul sinistre au-dela du seuil XXL sur l'exercice : la queue francaise est")
+print("    CENSUREE en partie haute, ce qui rend un quantile a 99,5 % instable et biaise")
+print("    vers le bas. C'est le constat externe qui justifie de calibrer la severite du")
+print("    memoire sur une base INTERNATIONALE et non sur le marche francais.")
+print()
+print("  DEUX REGIMES OPPOSES SOUS UNE MEME TRAJECTOIRE DE RATIO CROISSANTE.")
+print("  Le ratio monte les deux annees, mais le moteur s'inverse : 2024 est une annee de")
+print("  SEVERITE, 2025 une annee de FREQUENCE. Un ratio agrege ne distingue pas les deux,")
+print("  et ils n'appellent pas les memes leviers. C'est le meme argument de decomposition")
+print("  que celui que ce memoire applique a ses quatre canaux.")
+print()
+print("    exercice     nombre   sinistre moyen   charge   produit   ecart a l'identite")
+for an in (2024, 2025):
+    n = L[f"mult_nombre_{an}"]
+    s = L[f"mult_sinistre_moyen_{an}"]
+    c = L[f"mult_charge_{an}"]
+    print(f"    {an}         {n:6.2f}          {s:7.2f}  {c:7.2f}  {n*s:8.4f}   "
+          f"{abs(n*s - c):.4f}")
+print()
+print("    L'ECART A L'IDENTITE EST LE CONTROLE DE CE BLOC. La charge se decompose")
+print("    exactement en nombre de sinistres fois sinistre moyen, et les deux lignes le")
+print("    verifient a l'arrondi de publication pres. Si la source avait ete recopiee de")
+print("    travers, ce produit ne tomberait pas.")
+print()
+print("  UNE IMPRECISION DE LA SOURCE, CORRIGEE ICI ET A NE PAS REPRENDRE. Le rapport nomme")
+print("  << frequence >> le multiplicateur du NOMBRE de sinistres dans cette decomposition.")
+print("  Ce n'en est pas une : une frequence est un nombre de sinistres par assure, et les")
+print("  tables du meme rapport la donnent a 1,88 pour 2025 quand le nombre est a 2,79.")
+ligne("    2025, multiplicateur d'exposition", L["mult_exposition_2025"])
+ligne("    2025, multiplicateur du NOMBRE de sinistres", L["mult_nombre_2025"])
+ligne("    2025, multiplicateur de la vraie FREQUENCE", L["mult_frequence_2025"])
+_p = L["mult_exposition_2025"] * L["mult_frequence_2025"]
+print(f"    controle : exposition x frequence = {_p:.4f}, a comparer au nombre "
+      f"{L['mult_nombre_2025']:.2f}, ecart {abs(_p - L['mult_nombre_2025']):.4f}")
+print("    Avec la vraie frequence l'identite demande TROIS facteurs, exposition fois")
+print("    frequence fois sinistre moyen. La distinction separe un effet de VOLUME d'une")
+print("    degradation a exposition donnee, et c'est exactement la lecture que ce memoire")
+print("    impose a ses propres canaux.")
+print()
+print("  DECOMPOSITION 2025 PAR BLOC (nombre, sinistre moyen, charge) :")
+print("    bloc                       nombre   sinistre moyen   charge")
+for nom, (n, s, c) in L["blocs_2025"].items():
+    print(f"    {nom:<24} {n:7.2f}          {s:7.2f}  {c:7.2f}")
+print("    Le bloc intermediaire est le SEUL ou le nombre et le sinistre moyen montent")
+print("    ENSEMBLE, d'ou sa charge multipliee par 3,53. Les grandes entreprises absorbent")
+print("    la hausse du nombre sans derive de cout, et les micro-entreprises portent une")
+print("    charge tiree par le seul nombre, sur une base 2024 reduite.")
+print()
+print("  AVERTISSEMENT D'ECHELLE, ET IL EST DU MEME TYPE QUE CELUI DU 7 AOUT 2026. La charge")
+print("  de LUCY est INDEMNISEE, donc nette de franchise et plafonnee par la capacite, et")
+print("  sommee sur un portefeuille de MARCHE. La severite de ce memoire est une perte")
+print("  operationnelle BRUTE d'entite financiere. Les deux ne se comparent ni en niveau ni")
+print("  en quantile : rapprocher les 83,2 M EUR indemnises du marche francais du quantile")
+print("  unitaire publie ferait lire une difference de perimetre et de retention comme une")
+print("  contradiction. Cette source n'entre dans AUCUNE calibration du memoire.")
 
 titre("Deux constantes homonymes, et le garde-fou qui remplace un renommage")
 # DECISION DU 17 AOUT 2026 : ON NE RENOMME PAS, ON REND LA CONFUSION IMPOSSIBLE A COMMETTRE.

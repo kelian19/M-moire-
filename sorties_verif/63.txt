@@ -99,6 +99,85 @@ Hackmageddon : CITATION EXTERNE, non recalculable
   repartition par vecteur, et ne portent aucun niveau de capital.
 
 ====================================================================================
+LUCY 2026 : CITATION EXTERNE, non recalculable
+====================================================================================
+  etude    : AMRAE, LUCY 2026 (Lumière sur la Cyberassurance), exercice 2025
+  analyse  : Nexialog Consulting, Rapport LUCY 2026, 9 juin 2026, H. Rapior et K. Kaddouri
+  perimetre de l'etude : 20996 polices et 1251 sinistres
+                         declares, 12 courtiers et 1 assureur.
+
+  RATIOS SINISTRES SUR PRIMES, en fraction ET en pourcentage, les deux, pour la
+  raison deja documentee au bloc Hackmageddon ci-dessus :
+      agrege 2024                                 0.17   soit 17 % 
+      agrege 2025                                 0.27   soit 27 % 
+      segment ETI 2024                            0.13   soit 13 % 
+      segment ETI 2025                            0.42   soit 42 % 
+
+  CHARGE INDEMNISEE, nette de franchise et plafonnee par la capacite :
+      exercice 2024                                           54.5 M EUR
+      exercice 2025                                           83.2 M EUR
+      hausse                                      0.53   soit 53 % 
+
+  RECULS DE TAUX DE PRIME, en valeur absolue et nommes recul :
+      grandes entreprises                         0.32   soit 32 % 
+      entreprises de taille intermediaire         0.23   soit 23 % 
+
+  LA VALEUR QUI COMPTE LE PLUS POUR CE MEMOIRE, et c'est un compte, pas un ratio :
+      sinistres au-dela du seuil XXL en France, 2025                 1 
+      seuil XL                                                   3 M EUR
+      seuil XXL                                                 10 M EUR
+    Un seul sinistre au-dela du seuil XXL sur l'exercice : la queue francaise est
+    CENSUREE en partie haute, ce qui rend un quantile a 99,5 % instable et biaise
+    vers le bas. C'est le constat externe qui justifie de calibrer la severite du
+    memoire sur une base INTERNATIONALE et non sur le marche francais.
+
+  DEUX REGIMES OPPOSES SOUS UNE MEME TRAJECTOIRE DE RATIO CROISSANTE.
+  Le ratio monte les deux annees, mais le moteur s'inverse : 2024 est une annee de
+  SEVERITE, 2025 une annee de FREQUENCE. Un ratio agrege ne distingue pas les deux,
+  et ils n'appellent pas les memes leviers. C'est le meme argument de decomposition
+  que celui que ce memoire applique a ses quatre canaux.
+
+    exercice     nombre   sinistre moyen   charge   produit   ecart a l'identite
+    2024           0.73             1.96     1.43    1.4308   0.0008
+    2025           2.79             0.55     1.53    1.5345   0.0045
+
+    L'ECART A L'IDENTITE EST LE CONTROLE DE CE BLOC. La charge se decompose
+    exactement en nombre de sinistres fois sinistre moyen, et les deux lignes le
+    verifient a l'arrondi de publication pres. Si la source avait ete recopiee de
+    travers, ce produit ne tomberait pas.
+
+  UNE IMPRECISION DE LA SOURCE, CORRIGEE ICI ET A NE PAS REPRENDRE. Le rapport nomme
+  << frequence >> le multiplicateur du NOMBRE de sinistres dans cette decomposition.
+  Ce n'en est pas une : une frequence est un nombre de sinistres par assure, et les
+  tables du meme rapport la donnent a 1,88 pour 2025 quand le nombre est a 2,79.
+      2025, multiplicateur d'exposition                       1.49 
+      2025, multiplicateur du NOMBRE de sinistres              2.79 
+      2025, multiplicateur de la vraie FREQUENCE              1.88 
+    controle : exposition x frequence = 2.8012, a comparer au nombre 2.79, ecart 0.0112
+    Avec la vraie frequence l'identite demande TROIS facteurs, exposition fois
+    frequence fois sinistre moyen. La distinction separe un effet de VOLUME d'une
+    degradation a exposition donnee, et c'est exactement la lecture que ce memoire
+    impose a ses propres canaux.
+
+  DECOMPOSITION 2025 PAR BLOC (nombre, sinistre moyen, charge) :
+    bloc                       nombre   sinistre moyen   charge
+    grandes entreprises         1.24             0.82     1.02
+    bloc intermediaire          2.14             1.65     3.53
+    micro-entreprises           9.52             0.73     6.97
+    Le bloc intermediaire est le SEUL ou le nombre et le sinistre moyen montent
+    ENSEMBLE, d'ou sa charge multipliee par 3,53. Les grandes entreprises absorbent
+    la hausse du nombre sans derive de cout, et les micro-entreprises portent une
+    charge tiree par le seul nombre, sur une base 2024 reduite.
+
+  AVERTISSEMENT D'ECHELLE, ET IL EST DU MEME TYPE QUE CELUI DU 7 AOUT 2026. La charge
+  de LUCY est INDEMNISEE, donc nette de franchise et plafonnee par la capacite, et
+  sommee sur un portefeuille de MARCHE. La severite de ce memoire est une perte
+  operationnelle BRUTE d'entite financiere. Les deux ne se comparent ni en niveau ni
+  en quantile : rapprocher les 83,2 M EUR indemnises du marche francais du quantile
+  unitaire publie ferait lire une difference de perimetre et de retention comme une
+  contradiction. Cette source n'entre dans AUCUNE calibration du memoire.
+
+====================================================================================
 Deux constantes homonymes, et le garde-fou qui remplace un renommage
 ====================================================================================
   nom                           valeur             unite  ce que c est

@@ -30,6 +30,99 @@ défaillance qui les \emph{subit}. Or c'est précisément cette asymétrie, la d
 propagation, qui devrait commander la priorité de remédiation d'un assureur. C'est le vide
 que le mémoire vient combler, sans prétendre à ce que la donnée ne permet pas.
 
+\section{Le marché français, vu de l'intérieur}
+\label{sec:lucy}
+
+Ce vide n'est pas seulement une lacune de la Formule Standard : il se constate sur le marché
+lui-même. L'étude LUCY de l'AMRAE, dont l'édition $2026$ porte sur l'exercice $2025$, observe le
+marché français de la cyberassurance à partir de $20\,996$ polices et $1\,251$ sinistres
+déclarés, recueillis auprès de douze courtiers et d'un assureur \citep{amraeLucy2026}. L'auteur
+de ce mémoire a co-écrit, avec son tuteur, l'analyse actuarielle de cette édition publiée par
+Nexialog Consulting \citep{RapiorKaddouri2026}. Trois de ses constats commandent la construction
+qui suit.
+
+\paragraph{Le premier constat est la prémisse même de ce mémoire.} Cette analyse conclut
+qu'aucun module de capital standardisé ne couvre le risque de catastrophe cyber sous
+Solvabilité~II, et qu'en l'absence d'un module dédié l'exposition observée ne se traduit pas en
+besoin de capital réglementaire. Ce que le présent travail construit répond donc à un manque
+déjà nommé par ceux qui observent le marché, et non à un exercice de méthode en quête d'un
+objet.
+
+\paragraph{Le deuxième justifie un choix de données qui pourrait surprendre.} Le marché français
+ne compte, sur l'exercice $2025$, qu'un \emph{seul} sinistre au-delà du seuil de $10$~M\euro,
+quand plusieurs marchés européens comparables ont enregistré des pertes majeures sur la même
+période. La distribution empirique française est donc censurée précisément dans la région qui
+gouverne le quantile extrême, ce qui rend toute estimation à $99{,}5\,\%$ instable et biaisée
+vers le bas. C'est la raison pour laquelle la sévérité de ce mémoire est calibrée sur une base
+\textbf{internationale} (chapitre~\ref{chap:donnees}) et non sur le marché national : préférer
+la donnée française aurait donné un chiffre plus local et moins vrai.
+
+\paragraph{Le troisième porte sur la méthode, et c'est le plus transposable.} Le ratio sinistres
+sur primes du marché progresse de $17$ à $27\,\%$ entre les deux derniers exercices, et jusqu'à
+$42\,\%$ sur le seul segment des entreprises de taille intermédiaire, contre $13\,\%$ l'exercice
+précédent. Mais cette progression continue recouvre deux régimes \textbf{opposés}, et c'est la
+décomposition qui le montre.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l r r r l@{}}
+\toprule
+& \textbf{nombre} & \textbf{sinistre moyen} & \textbf{charge} & \textbf{régime} \\
+\midrule
+Marché, exercice $2024$ & $\times 0{,}73$ & $\times 1{,}96$ & $\times 1{,}43$ & sévérité \\
+Marché, exercice $2025$ & $\times 2{,}79$ & $\times 0{,}55$ & $\times 1{,}53$ & fréquence \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Exercice $2025$, par bloc}} \\
+grandes entreprises & $\times 1{,}24$ & $\times 0{,}82$ & $\times 1{,}02$ & absorbé \\
+bloc intermédiaire & $\times 2{,}14$ & $\times 1{,}65$ & $\times 3{,}53$ & \textbf{les deux} \\
+micro-entreprises & $\times 9{,}52$ & $\times 0{,}73$ & $\times 6{,}97$ & nombre seul \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent Deux exercices dont le ratio monte tous les deux, et dont le moteur s'inverse : la
+charge de $2024$ vient du \emph{sinistre moyen}, celle de $2025$ du \emph{nombre}. Un ratio
+agrégé ne distingue pas les deux, et les deux n'appellent pas les mêmes leviers, une révision
+des franchises d'un côté, une gestion de la rétention de l'autre. Le bloc intermédiaire est par
+ailleurs le seul où le nombre et le sinistre moyen montent \emph{ensemble}, d'où sa charge
+multipliée par $3{,}53$. C'est exactement l'argument que ce mémoire applique à ses quatre canaux
+de conformité : un écart de capital ne se lit pas, il se \textbf{décompose}.
+
+\begin{attention}
+\textbf{Une imprécision de la source, corrigée ici et non reprise.} Le rapport nomme
+\og{}fréquence\fg{} le multiplicateur du \emph{nombre} de sinistres dans cette décomposition. Ce
+n'en est pas une : une fréquence est un nombre de sinistres \emph{par assuré}, et les tables du
+même rapport la donnent à $1{,}88$ pour $2025$ quand le nombre de sinistres est à $2{,}79$,
+l'exposition ayant crû de $1{,}49$. L'identité charge $=$ nombre $\times$ sinistre moyen n'est
+exacte qu'avec le \textbf{nombre}, ce que le tableau ci-dessus vérifie à l'arrondi de publication
+près ; avec la fréquence il faut trois facteurs. La distinction n'est pas byzantine : c'est elle
+qui sépare un effet de \emph{volume} d'une dégradation à exposition donnée, et le présent travail
+l'impose à ses propres canaux.
+\end{attention}
+
+\paragraph{Et le règlement y apparaît sous l'angle que le mémoire retient.} L'analyse relève que
+DORA formalise la préoccupation de concentration en imposant une cartographie des dépendances
+aux prestataires informatiques critiques, et que les plus petites structures assurées peuvent
+constituer un vecteur de contagion vers les segments supérieurs. La dépendance dirigée entre
+domaines de contrôle n'est donc pas une hypothèse de commodité : c'est le mécanisme que le
+régulateur demande précisément de cartographier.
+
+\begin{attention}
+\textbf{Un piège d'échelle, et il vaut mieux le poser tout de suite.} La charge de LUCY est une
+charge \emph{indemnisée}, c'est-à-dire $\min\bigl(\text{capacité},\,\max(\text{sinistre} -
+\text{franchise},\,0)\bigr)$ sommée sur un portefeuille de marché : $83{,}2$~M\euro{} en $2025$
+contre $54{,}5$ l'exercice précédent, soit une hausse de $53\,\%$. La sévérité de ce mémoire est
+une perte opérationnelle \emph{brute} d'entité financière. Les deux grandeurs ne se comparent ni
+en niveau ni en quantile, et les rapprocher ferait lire une différence de périmètre et de
+rétention comme une contradiction. Cette source ne porte donc \textbf{aucun} niveau de capital du
+présent travail et n'entre dans aucune calibration : elle est enregistrée comme \textbf{citation
+externe non recalculable}, du même statut que la base qui fournit la structure des vecteurs
+d'attaque (chapitre~\ref{chap:donnees}).
+\end{attention}
+
+\noindent Sources : script~\texttt{63}, qui imprime la citation enregistrée.
+
 \section{Un seul fil, en cinq mouvements}
 Le mémoire poursuit une seule question, \emph{combien coûte la non-conformité à DORA, et
 jusqu'où ce chiffre peut-il être affirmé}, à travers cinq mouvements qui s'enchaînent. Il

@@ -303,6 +303,88 @@ HACKMAGEDDON = {
 }
 
 # ---------------------------------------------------------------------------
+# LUCY 2026 — MARCHÉ FRANÇAIS DE LA CYBERASSURANCE
+# ---------------------------------------------------------------------------
+# STATUT : CITATION EXTERNE, NON RECALCULABLE, exactement celui de HACKMAGEDDON
+# ci-dessus. Le jeu de polices et de sinistres de LUCY n'est pas versionné dans
+# data/raw/ et ne le sera pas : il est agrégé et confidentiel par construction.
+# Ces valeurs sont enregistrées ici pour être CITABLES, non pour être rejouées.
+#
+# CE QUE CETTE SOURCE APPORTE AU MÉMOIRE, ET CE QU'ELLE N'APPORTE PAS. Elle
+# constate de l'extérieur les deux prémisses du mémoire : qu'aucun module de
+# capital standardisé ne couvre le risque de catastrophe cyber sous Solvabilité II,
+# et que la queue française est censurée en partie haute, ce qui rend un quantile
+# à 99,5 % instable et biaisé vers le bas. Elle ne porte AUCUN niveau de capital du
+# mémoire et n'entre dans aucune calibration.
+#
+# LE PIÈGE D'ÉCHELLE, ET IL EST DU MÊME TYPE QUE CELUI DU 7 AOÛT 2026. La charge de
+# LUCY est une charge INDEMNISÉE, c'est-à-dire min(capacité, max(sinistre −
+# franchise, 0)) sommée sur un portefeuille de marché. La sévérité du mémoire est
+# une perte opérationnelle BRUTE d'entité financière. Les deux ne se comparent pas,
+# ni en niveau ni en quantile : rapprocher les 83,2 M EUR indemnisés du marché
+# français des 662,78 M EUR de quantile unitaire ferait lire une différence de
+# périmètre et de rétention comme une contradiction.
+LUCY_2026 = {
+    "source": "AMRAE, LUCY 2026 (Lumière sur la Cyberassurance), exercice 2025",
+    "analyse": ("Nexialog Consulting, Rapport LUCY 2026, 9 juin 2026, "
+                "H. Rapior et K. Kaddouri"),
+    "n_polices": 20996,
+    "n_sinistres": 1251,
+    "n_courtiers": 12,
+    "n_assureurs": 1,
+    # Ratios sinistres sur primes agrégés, et sur le seul segment des ETI.
+    "sp_2024": 0.17,
+    "sp_2025": 0.27,
+    "sp_eti_2024": 0.13,
+    "sp_eti_2025": 0.42,
+    # Charge INDEMNISÉE, nette de franchise et plafonnée par la capacité. M EUR.
+    "charge_2024_eur": 54.5,
+    "charge_2025_eur": 83.2,
+    "hausse_charge_2025": 0.53,
+    # Reculs de taux de prime, stockés en valeur ABSOLUE et nommés « recul » : un
+    # signe négatif dans une sortie se lit mal et le harnais l'a déjà mal lu.
+    "recul_taux_prime_grandes": 0.32,
+    "recul_taux_prime_eti": 0.23,
+    # LA VALEUR QUI COMPTE LE PLUS POUR LE MÉMOIRE : la queue française est vide.
+    "n_sinistres_sup_10m_france_2025": 1,
+    "seuil_xl_eur": 3.0,
+    "seuil_xxl_eur": 10.0,
+    # LES DEUX RÉGIMES OPPOSÉS SOUS UNE MÊME TRAJECTOIRE DE RATIO CROISSANTE.
+    #
+    # UNE IMPRÉCISION DE LA SOURCE, CORRIGÉE ICI ET NON REPRISE. Le rapport nomme
+    # « fréquence » le multiplicateur du NOMBRE de sinistres quand il écrit que la
+    # charge se décompose. Ce n'est pas la fréquence : la fréquence est un nombre
+    # de sinistres par assuré, et ses propres tables la donnent à 1,88 pour 2025
+    # quand le nombre de sinistres est à 2,79, l'exposition ayant crû de 1,49.
+    # L'identité charge = nombre x sinistre moyen n'est exacte qu'avec le NOMBRE,
+    # et c'est donc sous ce nom que les valeurs sont enregistrées. Avec la vraie
+    # fréquence il faut trois facteurs : charge = exposition x fréquence x sinistre
+    # moyen. La distinction n'est pas byzantine, c'est elle qui sépare un effet de
+    # VOLUME d'une dégradation technique à exposition donnée.
+    "mult_nombre_2024": 0.73,
+    "mult_sinistre_moyen_2024": 1.96,
+    "mult_charge_2024": 1.43,
+    "mult_nombre_2025": 2.79,
+    "mult_sinistre_moyen_2025": 0.55,
+    "mult_charge_2025": 1.53,
+    "mult_exposition_2025": 1.49,
+    "mult_frequence_2025": 1.88,
+    # Décomposition 2025 par bloc : (nombre, sinistre moyen, charge). Le bloc
+    # intermédiaire est le SEUL où le nombre et le sinistre moyen montent ensemble.
+    "blocs_2025": {
+        "grandes entreprises": (1.24, 0.82, 1.02),
+        "bloc intermediaire": (2.14, 1.65, 3.53),
+        "micro-entreprises": (9.52, 0.73, 6.97),
+    },
+    "note": (
+        "Citation externe non recalculable, même statut que HACKMAGEDDON. Ne porte "
+        "aucun niveau de capital du mémoire et n'entre dans aucune calibration. La "
+        "charge est INDEMNISÉE, donc nette de franchise et plafonnée par la "
+        "capacité : elle ne se compare pas à une sévérité brute d'entité."
+    ),
+}
+
+# ---------------------------------------------------------------------------
 # MULTIPLICATEURS DORA — sources de calibration (résumé ; détail dans negbin.py)
 # ---------------------------------------------------------------------------
 
