@@ -118,6 +118,7 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 
 | Quoi | Où |
 |---|---|
+| **Fichier de reprise, tenu à jour chaque soir** | `REPRISE.md` — état daté, ce que dit le mémoire, comment le code est fait, journal des journées |
 | **Mémoire vivant** | `exploratory/memoire_cascade/main.tex` |
 | **Page de garde officielle** | `exploratory/memoire_cascade/page_de_garde.tex` + `logos/` — **partagée par les deux versions**, champs à trancher en tête du fichier |
 | **Rapport de stage ENSAE** | `exploratory/rapport_ensae/rapport_ensae.tex` — document DISTINCT |
@@ -258,6 +259,14 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 
 ## Contraintes de Kélian, à respecter littéralement
 
+- **`REPRISE.md` SE MET À JOUR À CHAQUE FIN DE JOURNÉE DE TRAVAIL**, consigne du 9 septembre
+  2026. C'est le fichier de reprise que Kélian joint à une nouvelle fenêtre pour ne pas perdre
+  le fil, et il est **complémentaire** de ce fichier-ci, qui reste la référence de fond. Il porte
+  l'état daté, ce que dit le mémoire, comment le code est fait, les points ouverts par
+  propriétaire, la prochaine étape, les pièges d'instrument cumulés, et un **journal** dont
+  l'entrée la plus récente est en tête. Les sections d'état se **réécrivent** au lieu de
+  s'empiler : un compte de pages périmé est pire qu'un compte absent. Ne pas le laisser diverger
+  de ce fichier, et ne pas y recopier la table complète des scripts, qui vit ici.
 - **Step by step.** Ne pas élargir le périmètre au-delà de ce qui est demandé.
 - **Un deck égale une semaine de travail.** Un deck figé ne se recharge JAMAIS avec du travail
   nouveau : le nouveau va dans le deck suivant. Exception : corriger une valeur qu'on sait
