@@ -22,7 +22,10 @@
 \input{preambule_v2}
 
 \begin{document}
-\maketitle
+
+% Page de garde au modèle imposé par l'Institut des Actuaires et l'ENSAE.
+% Fichier PARTAGÉ avec main.tex, comme les chapitres : ne pas le dupliquer.
+\input{page_de_garde}
 
 \input{chapitres/01_resume}   % Résumé, abstract, table des matières
 
@@ -66,8 +69,16 @@
 
 % =====================================================================
 \appendix
+% PAS DE \addcontentsline ICI, ET C'EST LA SEULE DIVERGENCE DE FOND AVEC main.tex.
+% preambule_v2 redefinit \part par titlesec en style [display], et dans cette
+% configuration titlesec ecrit LUI-MEME l'entree de sommaire d'un \part*. La ligne
+% explicite que porte main.tex, indispensable la puisque \part* n'y ecrit rien, en
+% ajoutait donc une SECONDE ici : le sommaire de la v2 portait << Annexes >> deux
+% fois, aux pages 141 et 142, depuis la creation de la v2 le 8 septembre 2026.
+% Defaut trouve le 9 septembre en comparant les deux .toc, et corrige ici plutot
+% que dans le preambule : desactiver l'ecriture de titlesec toucherait les cinq
+% \part numerotes, qui, eux, s'inscrivent correctement.
 \part*{Annexes}
-\addcontentsline{toc}{part}{Annexes}
 % =====================================================================
 \input{chapitres/15b_demonstrations_cascade}  % Démonstrations : cascade
 \input{chapitres/15_demonstrations}           % Démonstrations : socle

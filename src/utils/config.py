@@ -376,6 +376,195 @@ LUCY_2026 = {
         "bloc intermediaire": (2.14, 1.65, 3.53),
         "micro-entreprises": (9.52, 0.73, 6.97),
     },
+    # -------------------------------------------------------------------
+    # TRANSCRIPTION ÉLARGIE, 9 SEPTEMBRE 2026.
+    #
+    # Le rapport n'entrait dans l'introduction que par trois constats.
+    # Kélian a demandé que la lecture de marché en occupe une part
+    # substantielle, de façon à ce que le mémoire situe le risque cyber
+    # dans le marché qui l'assure avant de le charger en capital. Tout ce
+    # qui suit est donc transcrit du rapport co-écrit, sous le MÊME statut
+    # de CITATION EXTERNE NON RECALCULABLE : aucune de ces valeurs n'entre
+    # dans une calibration, aucune ne porte un niveau de capital.
+    #
+    # LES SÉRIES SONT STOCKÉES BRUTES ET LES RATIOS SE CALCULENT DANS LE
+    # SCRIPT 63. C'est la règle du projet : un rapport écrit à la main
+    # pendant la rédaction n'est vérifiable par personne. Le script en
+    # tire aussi trois CONTRÔLES D'IDENTITÉ qui valident la transcription
+    # elle-même, et c'est leur seul objet :
+    #   - sinistres / primes doit redonner la série des S/P, année par année ;
+    #   - la somme des quatre classes de taille doit redonner la charge
+    #     annuelle indemnisée, année par année ;
+    #   - la somme des charges des trois blocs doit redonner la charge 2025.
+    # Une valeur recopiée de travers casse l'un des trois.
+    # -------------------------------------------------------------------
+    # Indicateurs de souscription du marché. Couple (2024, 2025) dans cet
+    # ordre, unité en troisième position.
+    "marche_2024_2025": {
+        "entreprises assurees":         (14124.0, 20996.0, "unite"),
+        "primes souscrites":            (316.8, 305.9, "M EUR"),
+        "prime unitaire moyenne":       (22427.0, 14567.0, "EUR"),
+        "capacite moyenne souscrite":   (2.04, 1.88, "M EUR"),
+        "franchise moyenne":            (149.9, 89.0, "k EUR"),
+        "taux de prime annuel moyen":   (0.28, 0.26, "%"),
+        "sinistres indemnises":         (448.0, 1251.0, "unite"),
+        "charge indemnisee":            (54.5, 83.2, "M EUR"),
+    },
+    # Séries longues 2019-2025, celles que portent les figures du rapport.
+    # Elles sont transcrites pour que le mémoire les commente au lieu de
+    # lire un point sur un graphique, travers déjà corrigé sur le pic à
+    # trois heures du script 08h.
+    "annees_serie": (2019, 2020, 2021, 2022, 2023, 2024, 2025),
+    "primes_serie_eur": (86.0, 128.0, 183.0, 316.0, 328.0, 317.0, 306.0),
+    "sinistres_serie_eur": (74.0, 217.0, 164.0, 71.0, 38.0, 55.0, 83.0),
+    "sp_serie": (0.85, 1.69, 0.89, 0.22, 0.12, 0.17, 0.27),
+    # Conditions de souscription, mêmes années. La franchise n'est publiée
+    # qu'à partir de 2021, d'où les deux None : le panneau correspondant du
+    # rapport ne porte que cinq barres quand les deux autres en portent
+    # sept, et sa légende commune n'en déclare que six. C'est pour cette
+    # raison que le mémoire REPRODUIT ces trois séries en tableau au lieu
+    # de reprendre la figure : une légende qui ne compte pas ses séries est
+    # un défaut qu'il vaut mieux ne pas importer.
+    "capacite_serie_eur": (2.40, 2.68, 1.77, 1.71, 1.65, 2.04, 1.88),
+    "franchise_serie_eur": (None, None, 92.0, 218.0, 175.0, 149.9, 89.0),
+    "taux_prime_serie": (0.08, 0.10, 0.39, 0.33, 0.29, 0.28, 0.26),
+    # Taux de prime annuel moyen par segment, en pourcentage, (2024, 2025).
+    #
+    # UNE SECONDE IMPRÉCISION DE LA SOURCE, ET ELLE SE VOIT EN RECALCULANT.
+    # Le rapport annonce le recul du taux des grandes entreprises à 32 %
+    # dans son résumé et sa section 3, puis à 33 % dans sa section 3.1,
+    # pour les mêmes niveaux 1,90 % et 1,28 %. Le rapport des deux donne
+    # 32,6 %, donc 33 % à l'unité : c'est la seconde valeur qui est juste,
+    # et la première arrondit vers le bas. L'écart est immatériel, mais le
+    # mémoire cite les NIVEAUX et le recul qu'ils impliquent, jamais un
+    # recul transcrit : c'est la seule façon de ne pas propager celui des
+    # deux qui est faux. La clé recul_taux_prime_grandes ci-dessus garde la
+    # valeur du résumé, pour que la sortie porte les deux et que le
+    # désaccord soit visible plutôt que arbitré en silence.
+    "taux_prime_segment": {
+        "grandes entreprises": (1.90, 1.28),
+        "entreprises de taille intermediaire": (1.05, 0.81),
+    },
+    # Mouvements de conditions propres au bloc intermédiaire. Le taux des
+    # petites entreprises monte à CONTRE-COURANT du marché, et le rapport
+    # l'attribue à une recomposition du sous-segment vers des profils
+    # mieux couverts : ce n'est donc pas un durcissement tarifaire.
+    "recul_taux_prime_moyennes": 0.08,
+    "hausse_taux_prime_petites": 0.44,
+    "recul_franchise_eti": 0.17,
+    "recul_franchise_moyennes": 0.41,
+    # Conditions du segment mature, exercice 2025.
+    "capacite_grandes_2025_eur": 50.0,
+    "franchise_grandes_2025_eur": 5.1,
+    # Croissance du nombre d'entreprises assurées entre 2024 et 2025.
+    "croissance_assures_2025": {
+        "grandes entreprises": 0.08,
+        "entreprises de taille intermediaire": 0.75,
+        "entreprises moyennes": 0.97,
+        "petites entreprises": 0.45,
+        "micro-entreprises": 0.35,
+        "ensemble du marche": 0.49,
+    },
+    # Les trois blocs : charge indemnisée 2025 en M EUR. La charge des
+    # micro-entreprises n'est PAS transcrite, elle est déduite par
+    # différence dans le script 63, ce qui en fait le troisième contrôle.
+    "blocs_charge_2025_eur": {
+        "grandes entreprises": 44.6,
+        "bloc intermediaire": 37.3,
+    },
+    "bloc_intermediaire_charge_2024_eur": 10.5,
+    # UNE COQUILLE DE LA SOURCE, TROUVÉE PAR LE CONTRÔLE ET NON REPRISE.
+    # La section 7.1 du rapport écrit « 37,3 M€ en 2025 contre 10,5 M€ en
+    # 2024 (x2,53) ». Le rapport des deux montants vaut 3,55, et la
+    # section 7.6 du MÊME rapport donne bien x3,53 pour ce bloc. Le 2,53
+    # de la section 7.1 est donc une coquille sur le chiffre des unités,
+    # et c'est le troisième contrôle d'identité de ce bloc qui l'a fait
+    # tomber. La valeur retenue est celle de blocs_2025, soit 3,53, et le
+    # script 63 imprime la vérification. À signaler comme erratum du
+    # rapport publié : la coquille est dans un document co-signé.
+    "mult_charge_bloc_intermediaire": 3.53,
+    "mult_frequence_blocs_2025": {
+        "grandes entreprises": 1.15,
+        "bloc intermediaire": 1.30,
+        "micro-entreprises": 7.06,
+    },
+    "sp_2025_segment": {
+        "grandes entreprises": 0.22,
+        "entreprises de taille intermediaire": 0.42,
+        "entreprises moyennes": 0.33,
+    },
+    # Le sous-segment qui décroche, et celui qui ne décroche pas. Les ETI
+    # portent une hausse de fréquence à exposition donnée ; les entreprises
+    # moyennes ont une fréquence plate et une charge tirée par la seule
+    # exposition. Les deux se ressemblent en charge et diffèrent en nature.
+    "eti_2025": {
+        "mult_nombre_sinistres": 2.48,
+        "mult_charge": 4.22,
+        "mult_frequence": 1.42,
+        "frequence_2024": 0.087,
+        "frequence_2025": 0.124,
+    },
+    "petites_2025": {"mult_nombre_sinistres": 2.03, "mult_frequence": 1.40},
+    "moyennes_2025": {"mult_frequence": 1.01, "mult_exposition": 1.97},
+    # Historique du décrochage ETI, 2020 à 2025, et l'indice du taux de
+    # prime du même segment en base 100 (2020). Le pic de 2021 dit que le
+    # décrochage de 2025 n'est pas un régime inédit : il est CYCLIQUE.
+    #
+    # PROVENANCE DE CES QUATRE SÉRIES, ET IL FAUT LA DÉCLARER. Le corps du
+    # rapport ne donne en clair que quatre de leurs vingt-quatre valeurs
+    # (le pic ETI de 261 %, le point bas de 13 %, le 42 % de 2025 et le
+    # 22 % des grandes). Les vingt autres sont relevées sur les ÉTIQUETTES
+    # DE DONNÉES de la figure du rapport, c'est-à-dire sur des nombres
+    # imprimés, et non sur une position de pixel. La distinction n'est pas
+    # de confort : lire la hauteur d'une barre est ce que la passation
+    # interdit depuis le « pic à trois heures » du script 08h, relever une
+    # étiquette imprimée ne l'est pas.
+    # Une valeur a d'ailleurs été corrigée à ce titre : le S/P des ETI en
+    # 2020 avait d'abord été transcrit à 88 % parce que son étiquette est
+    # partiellement recouverte par le marqueur de la courbe d'indice. Le
+    # zoom donne 85, et la hauteur de barre le confirme.
+    "annees_segment": (2020, 2021, 2022, 2023, 2024, 2025),
+    "sp_serie_grandes": (1.90, 0.58, 0.16, 0.09, 0.18, 0.22),
+    "sp_serie_eti": (0.85, 2.61, 0.51, 0.21, 0.13, 0.42),
+    "sp_serie_moyennes": (0.45, 0.36, 1.00, 0.19, 0.22, 0.33),
+    "indice_taux_prime_eti": (100.0, 156.0, 240.0, 257.0, 231.0, 178.0),
+    # Répartition du montant indemnisé par taille de sinistre, en M EUR,
+    # 2019 à 2025. LA LIGNE XXL EST CELLE QUI COMMANDE LE CHOIX DE DONNÉES
+    # DU MÉMOIRE : deux exercices à zéro, un pic à 135, et 19 en 2025 pour
+    # un seul sinistre. La queue française est peuplée par accident.
+    "taille_sinistre_eur": {
+        "XS/S, 0 a 0,3 M EUR": (5.0, 8.0, 10.0, 2.0, 4.0, 7.0, 9.0),
+        "M/L, 0,3 a 3 M EUR": (28.0, 22.0, 24.0, 35.0, 22.0, 15.0, 26.0),
+        "XL, 3 a 10 M EUR": (40.0, 55.0, 37.0, 20.0, 11.0, 13.0, 29.0),
+        "XXL, 10 a 40 M EUR": (0.0, 135.0, 92.0, 15.0, 0.0, 20.0, 19.0),
+    },
+    # Ce que la queue produit ailleurs, sur la même période. Ces montants
+    # sont ce qui interdit de lire la sévérité moyenne contenue de 2025
+    # comme une protection structurelle du marché français.
+    "comparaisons_etrangeres": {
+        "Marks & Spencer, effet sur le resultat operationnel 2025-2026":
+            (300.0, "M GBP"),
+        "Jaguar Land Rover, garantie d'Etat aux creanciers commerciaux":
+            (1.5, "Md GBP"),
+        "Rheinmetall, cout declare en 2024 d'une attaque de 2023":
+            (10.0, "M EUR"),
+        "Association of British Insurers, indemnites cyber versees":
+            (200.0, "M GBP"),
+    },
+    "recul_sinistres_cyber_europe_2024": 0.20,
+    # Propension à s'assurer et sinistralité déclarée, baromètre CESIN.
+    # Couples (vague precedente, vague 2026) dans cet ordre.
+    "cesin_2026": {
+        "part des membres assures": (0.72, 0.71),
+        "part ayant subi une attaque significative": (0.45, 0.40),
+    },
+    "cesin_couverture_grandes": 0.78,
+    # Ratio de frais et de commissionnement usuel sur la branche cyber.
+    # C'est lui qui explique qu'un S/P de 27 % laisse le ratio combiné
+    # sous le seuil d'équilibre, et donc que la détente commerciale
+    # continue malgré un signal technique qui se dégrade.
+    "ratio_frais_bas": 0.30,
+    "ratio_frais_haut": 0.35,
     "note": (
         "Citation externe non recalculable, même statut que HACKMAGEDDON. Ne porte "
         "aucun niveau de capital du mémoire et n'entre dans aucune calibration. La "

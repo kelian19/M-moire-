@@ -1,0 +1,127 @@
+% =====================================================================
+% PAGE DE GARDE OFFICIELLE — modèle imposé par l'Institut des Actuaires
+% et l'ENSAE Paris (filière Actuariat).
+%
+% Ce fichier reproduit le gabarit officiel « Page_de_garde_memoire.tex »
+% sans en modifier la structure ni les mentions légales : seules les
+% valeurs des champs sont renseignées, et elles sont regroupées
+% ci-dessous pour être relues d'un coup d'oeil avant le dépôt.
+%
+% CE QUI RESTE À TRANCHER, ET CELA N'APPARTIENT PAS À L'ASSISTANT :
+%   1. la DATE DE SOUTENANCE. Elle s'imprime en gras entre crochets
+%      tant qu'elle n'est pas renseignée, donc un dépôt accidentel avec
+%      une date fausse est impossible. Session de novembre 2026, semaine
+%      du 9 annoncée sous réserve de confirmation ;
+%   2. la CONFIDENTIALITÉ. Les deux cases sont livrées NON cochées, comme
+%      le gabarit. Cocher l'une des deux est obligatoire au dépôt, et le
+%      choix relève de Nexialog et non de Kélian seul. Pour cocher,
+%      remplacer le $\Box$ voulu par $\boxtimes$ ;
+%   3. les MEMBRES DU JURY. Le gabarit les laisse vides, ils ne sont en
+%      général pas connus à la date du dépôt. Ne rien y écrire par
+%      anticipation : ces lignes sont signées en séance.
+% =====================================================================
+
+% --- Champs renseignés ------------------------------------------------
+\newcommand{\pgdatesoutenance}{\textbf{[jj/mm/2026]}}
+\newcommand{\pgauteur}{Kélian KADDOURI}
+% Le titre tient sur deux lignes, le titre proprement dit puis le sous-titre.
+% Ne pas les refondre en une seule : à ce corps la ligne déborde de la
+% justification, et le gabarit prévoit explicitement d'ajouter des lignes au
+% titre en retirant autant de \bigskip plus bas.
+\newcommand{\pgtitre}{Quantification du SCR lié à la non-conformité au règlement DORA}
+\newcommand{\pgtitrebis}{Une cascade dirigée entre les cinq piliers}
+\newcommand{\pgentreprise}{Nexialog Consulting}
+\newcommand{\pgdirecteur}{Hugo RAPIOR}
+% ---------------------------------------------------------------------
+
+% GÉOMÉTRIE PROPRE À CETTE PAGE, et ce n'est pas une coquetterie. Le gabarit
+% officiel est calibré sur des marges de 2 cm en corps 12, quand le mémoire
+% compose sur 2,4 cm en corps 11 : posé tel quel dans la géométrie du mémoire,
+% le tableau des signatures déborde de 1,4 cm et la ligne de titre de 0,2 cm.
+% On rend donc à cette page les marges du gabarit, et on les reprend ensuite.
+\newgeometry{margin=2cm}
+
+\begin{titlepage}
+\fontsize{12}{14.5}\selectfont
+
+% Filet de cadre sur les quatre bords de la page, comme le gabarit.
+\begin{tikzpicture}[remember picture,overlay]
+  \draw[line width=0.25mm]
+    ([yshift=-15pt,xshift=15pt]current page.north west)--
+    ([yshift=-15pt,xshift=-15pt]current page.north east)--
+    ([yshift=15pt,xshift=-15pt]current page.south east)--
+    ([yshift=15pt,xshift=15pt]current page.south west)--cycle;
+\end{tikzpicture}
+
+\begin{figure}[t]
+  \vspace{-1cm}
+  \begin{minipage}[l]{.46\linewidth}
+    \hspace{-0.5cm}\includegraphics[scale=0.3]{logos/IA}
+  \end{minipage}\hfill
+  % Le gabarit donne .1\linewidth à ce bloc, ce qui vaut 48,2 pt dans cette
+  % justification quand le logo ENSAE à l'échelle 0,1 en mesure 52,2 : il
+  % débordait de 4 pt, exactement. La boîte est élargie, l'image ne bouge pas
+  % et sa taille reste celle du gabarit.
+  \begin{minipage}[r]{.12\linewidth}
+    \includegraphics[scale=0.1]{logos/ensae}
+  \end{minipage}
+\end{figure}
+
+\begin{center}
+  {\large\bfseries Mémoire présenté devant l'ENSAE Paris\\
+   pour l'obtention du diplôme de la filière Actuariat\\
+   et l'admission à l'Institut des actuaires\\
+   le \pgdatesoutenance}
+\end{center}
+
+\bigskip
+
+\begin{tabular}{ll}
+  Par : & {\Large\bfseries \pgauteur} \\ & \\
+  Titre : & {\large\bfseries \pgtitre} \\
+          & {\large\bfseries \pgtitrebis}
+\end{tabular}
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+Confidentialité : \ \ $\Box$ NON \hspace{1cm} $\Box$ OUI \ (Durée : $\Box$ 1 an \hspace{0.25cm} $\Box$ 2 ans)
+
+\bigskip
+\textit{Les signataires s'engagent à respecter la confidentialité indiquée ci-dessus}
+\medskip
+
+\begin{tabular}{p{8.4cm}l}
+  \textit{Membres présents du jury de la filière} & \textit{Entreprise :} \\
+  & \pgentreprise \\
+  \textit{Nom :} & \textit{Signature :} \\
+  & \\
+  \textit{Membres présents du jury de l'Institut} & \textit{Directeur du mémoire en entreprise :} \\
+  \textit{des Actuaires} & \\
+  & \textit{Nom :} \pgdirecteur \\
+  & \textit{Signature :} \\
+  & \\
+  & {\itshape\bfseries Autorisation de publication et de} \\
+  & {\itshape\bfseries mise en ligne sur un site de} \\
+  & {\itshape\bfseries diffusion de documents actuariels} \\
+  & \textit{(après expiration de l'éventuel délai de} \\
+  & \textit{confidentialité)} \\
+  & \\
+  & Signature du responsable entreprise \\[2pt] \cline{2-2}
+  Secrétariat : & \multicolumn{1}{|c|}{} \\[32pt] \cline{2-2}\\[-8pt]
+  & Signature du candidat \\[2pt] \cline{2-2}
+  Bibliothèque : & \multicolumn{1}{|c|}{} \\[32pt] \cline{2-2}
+\end{tabular}
+
+\vspace{1.5cm}
+
+\begin{center}
+  \footnotesize{Ecole Nationale de la Statistique et de l'Administration Economique (ENSAE)\\
+  5, avenue Henry Le Chatelier - 91120 PALAISEAU, FRANCE}
+\end{center}
+
+\end{titlepage}
+
+\restoregeometry

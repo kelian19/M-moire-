@@ -44,11 +44,13 @@ faut comparer pour savoir si un débordement est nouveau. `main.pdf` est version
 `main_v2.pdf` est gitignoré, ce qui ne dispense pas de le régénérer : un PDF périmé sur le
 poste est exactement ce qui a fait présenter du travail antérieur comme récent le 21 août.
 
-État au **8 septembre 2026** : v1 à **178 pages dont 130 de corps** (annexes en 131), v2 à
-**185 pages dont 136 de corps** (annexes en 137), branche `exploratory`. Les comptes de ce
+État au **9 septembre 2026 au soir** : v1 à **186 pages dont 136 de corps** (annexes en 137),
+v2 à **192 pages dont 140 de corps** (annexes en 141), branche `exploratory`. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 8 septembre : **2 172 nombres, 2 172 confirmés, 100 %**, et **0 hors
-contrôle non déclaré sur les dix-neuf chapitres**. Ce
+Harnais au 9 septembre : **2 352 nombres, 2 352 confirmés, 100 %**, et **0 hors
+contrôle non déclaré sur les dix-neuf chapitres**. Les six pages gagnées dans le corps le
+9 septembre sont la lecture de marché de l'introduction, demandée par Kélian : voir la section
+« La page de garde et la lecture de marché » plus bas. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
 n'imprime PAS la couverture, seulement le taux de confirmation, alors que c'est la couverture qui
 passe en premier.
@@ -117,7 +119,9 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 | Quoi | Où |
 |---|---|
 | **Mémoire vivant** | `exploratory/memoire_cascade/main.tex` |
+| **Page de garde officielle** | `exploratory/memoire_cascade/page_de_garde.tex` + `logos/` — **partagée par les deux versions**, champs à trancher en tête du fichier |
 | **Rapport de stage ENSAE** | `exploratory/rapport_ensae/rapport_ensae.tex` — document DISTINCT |
+| Figures NON produites par un script | `exploratory/memoire_cascade/figures_externes/` — **exception unique et déclarée**, lire son `README.md` avant d'y toucher |
 | Version abandonnée, pré-cascade | `memoire/main.tex` — **ne jamais y toucher** |
 | Chapitres | `exploratory/memoire_cascade/chapitres/*.tex` |
 | Harnais de vérification | `exploratory/memoire_cascade/verif_chiffres.py` |
@@ -1053,6 +1057,15 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - **les cinq champs de la page de couverture du rapport ENSAE**, dont la mention de
   confidentialité, qui relève de Nexialog et non de Kélian seul. Voir la section « Le rapport de
   stage ENSAE » ;
+- **les trois champs de la page de garde du mémoire** : la date de soutenance, la case de
+  confidentialité (obligatoire au dépôt, décision Nexialog) et les membres du jury. Voir la
+  section « La page de garde et la lecture de marché » ;
+- **l'autorisation de reproduire trois figures du rapport LUCY 2026** dans un mémoire destiné à
+  être mis en ligne par l'Institut. Question à poser à Hugo : citer des chiffres était déjà
+  acquis, reproduire des figures entières est un pas de plus ;
+- **l'erratum du rapport LUCY 2026** : la section 7.1 publie un multiplicateur de charge à 2,53
+  là où les deux montants qui l'encadrent donnent 3,55 et où la section 7.6 donne 3,53. Le
+  rapport est co-signé, donc c'est à ses auteurs de décider quoi en faire ;
 - **le courriel au service des stages** sur les dispositions prises pour la voie actuariat, que
   les consignes qualifient d'impératif ;
 - **la date limite du Prix SCOR**, signalée cinq fois et toujours inconnue. Elle est devenue
@@ -2084,6 +2097,157 @@ aux suivantes. Les trois ajouts séparent les deux affirmations qu'une phrase em
 le choix entre contagion et cause commune, et font trancher la distinction occurrence contre
 maîtrise. **La modalité « je ne peux pas trancher » est la plus intéressante des trois** : un
 praticien qui la choisit corrobore la frontière sur le terrain.
+
+## La page de garde et la lecture de marché, le 9 septembre 2026
+
+Deux demandes de Kélian, et la seconde a fait tomber trois défauts.
+
+### 1. La page de garde officielle de l'Institut des Actuaires
+
+Elle est posée, et elle **remplace** le `\maketitle` : les deux feraient deux pages de titre pour
+un même document. `exploratory/memoire_cascade/page_de_garde.tex`, appelé par `main.tex` **et**
+`main_v2.tex`, donc **fichier partagé au même titre que les chapitres** : ne pas le dupliquer
+pour faire évoluer une version. Le gabarit officiel vient de
+`~/Documents/latex/Page_de_garde_memoire.tex` et ses deux logos sont recopiés dans
+`memoire_cascade/logos/` (`IA.jpg`, `ensae.png`, ce dernier renommé en minuscules pour le Mac).
+
+**La structure et les mentions légales du gabarit ne sont pas touchées**, seules les valeurs des
+champs sont renseignées. Trois champs restent ouverts et sont regroupés en tête du fichier :
+
+- la **date de soutenance**, qui s'imprime `[jj/mm/2026]` en gras tant qu'elle n'est pas
+  renseignée, donc un dépôt avec une date fausse est impossible par inadvertance ;
+- la **confidentialité**, livrée avec les deux cases NON cochées comme le gabarit. En cocher une
+  est obligatoire au dépôt, et le choix **relève de Nexialog**, pas de Kélian seul. Remplacer le
+  `$\Box$` voulu par `$\boxtimes$` ;
+- les **membres du jury**, laissés vides comme le gabarit le prévoit. Ne rien y écrire par
+  anticipation.
+
+Renseignés : Kélian KADDOURI, le titre sur deux lignes, Nexialog Consulting en entreprise, Hugo
+RAPIOR en directeur du mémoire en entreprise.
+
+**Trois pièges de mise en page, tous mesurés et tous documentés dans le fichier.** Le gabarit est
+calibré sur des **marges de 2 cm en corps 12** quand le mémoire compose sur 2,4 cm en corps 11 :
+posé tel quel il déborde de 1,4 cm sur le tableau des signatures. D'où un `\newgeometry{margin=2cm}`
+autour de la seule page de garde, plus un `p{8,4cm}` au lieu de `p{9cm}`, plus un
+`\restoregeometry` après. Ensuite le **logo ENSAE à l'échelle 0,1 mesure 52,2 pt** quand la boîte
+`.1\linewidth` du gabarit en vaut 48,2 : il débordait de 4 pt exactement, la boîte est passée à
+`.12`. Enfin **le titre ne tient pas sur une ligne** à ce corps : il est réparti en titre et
+sous-titre, ce que le gabarit prévoit explicitement (« ajouter des lignes au titre = retirer
+autant de `\bigskip` plus bas »). Avec ces trois corrections la v1 revient **exactement** à ses
+15 débordements de base.
+
+**Le logo d'entreprise n'est pas mis, et c'est un choix.** Le gabarit le donne pour facultatif et
+écrit sinon le nom en clair. Le seul fichier disponible est le logo Nexialog extrait du rapport
+LUCY, un JPEG **sur fond noir** dont la transparence a été perdue : détourer un texte bleu nuit
+d'un fond noir laisse un halo. Le nom en clair est plus propre. Si Kélian veut le logo, il faut
+un PNG à fond transparent ou blanc, et la ligne à décommenter est déjà dans le fichier.
+
+### 2. La lecture de marché occupe désormais une part substantielle de l'introduction
+
+Demande de Kélian : le rapport LUCY n'entrait dans l'introduction que par trois constats, il doit
+« faire une grande partie de l'intro pour parler du marché de la cyberassurance actuellement ».
+La section `sec:lucy` du chapitre 02 passe donc de deux pages à **sept sous-sections**, avec
+**trois figures du rapport**, **cinq tableaux** et l'équation de rétention.
+
+Le plan suit une seule idée : décrire le marché avant de le charger en capital. Cadre
+d'observation, régime de détente, trajectoire du ratio, trois blocs, deux régimes de risque,
+queue de distribution, puis ce que cette lecture commande au mémoire. Les quatre conséquences
+sont écrites en fin de section et ce sont elles qui portent la jonction : l'objet est réel et non
+chargé, la sévérité se calibre hors de France pour un motif mesuré, la méthode de décomposition
+est reprise telle quelle, et **la source décrit elle-même une propagation dirigée** (les
+micro-entreprises comme vecteur de contagion vers les segments supérieurs, en tant que
+fournisseurs), que le mémoire modélise à l'échelle des domaines de contrôle.
+
+**Deux ponts de méthode sont explicites, et ils valent mieux qu'une citation.** La formule de
+rétention `min(capacité, max(sinistre − franchise, 0))` demande la donnée ligne à ligne :
+sur des agrégats, une baisse de franchise et une aggravation réelle de la menace **produisent le
+même signal**. Deux mécanismes, une seule observable, rien dans la donnée pour les séparer.
+C'est, à l'échelle du marché, la situation exacte du chapitre 09 à l'échelle des piliers, et le
+traitement retenu est le même. Second pont : un multiplicateur hiérarchise des **dynamiques**,
+pas des **enjeux**, les micro-entreprises portant tous les multiplicateurs les plus
+spectaculaires et 1,6 % de la charge.
+
+**TOUTE LA TRANSCRIPTION EST DANS `LUCY_2026` DE `config.py` ET IMPRIMÉE PAR LE SCRIPT 63**, sous
+le statut inchangé de **citation externe non recalculable**. Aucune valeur n'entre dans une
+calibration, aucune ne porte un niveau de capital : le gel n'est pas touché. Le harnais confirme
+le chapitre 02 à **210 nombres sur 210**, couverture 100 %, du premier passage.
+
+**Et le script en tire QUATRE CONTRÔLES D'IDENTITÉ, qui sont l'intérêt principal du bloc.** Ils
+ne valident pas le rapport, qui est une source externe : ils valident la **transcription**.
+Sinistres sur primes doit redonner la série des ratios (écart maximal 0,0105) ; la somme des
+quatre classes de taille doit redonner la charge annuelle sur les sept exercices, soit
+vingt-huit valeurs contraintes par sept sommes (écart maximal 3 M€) ; la somme des trois blocs
+doit redonner la charge du marché ; et chaque multiplicateur cité doit se retrouver depuis les
+niveaux qui l'encadrent.
+
+### 3. Ce que les contrôles ont trouvé, et il y a un erratum à signaler
+
+**UNE COQUILLE DANS LE RAPPORT PUBLIÉ, ET IL EST CO-SIGNÉ PAR KÉLIAN.** La section 7.1 écrit
+« 37,3 M€ en 2025 contre 10,5 M€ en 2024 (×2,53) ». Le rapport des deux montants vaut **3,55**,
+et la section 7.6 du **même** rapport donne bien ×3,53 pour ce bloc. Le 2,53 est une coquille sur
+le chiffre des unités. Le mémoire retient 3,53 et le script imprime la vérification. **À
+signaler comme erratum** : un lecteur qui divise les deux montants la trouvera.
+
+**Une seconde imprécision de la même source.** Le recul du taux de prime des grandes entreprises
+est annoncé à 32 % dans le résumé et la section 3, puis à **33 %** dans la section 3.1, pour les
+mêmes niveaux 1,90 % et 1,28 %. Le rapport des niveaux vaut 32,6 %, donc 33 % à l'unité. Le
+mémoire cite désormais **les niveaux et le recul qu'ils impliquent, jamais un recul transcrit**,
+et le script imprime les deux valeurs pour que le désaccord soit visible. Même traitement que
+l'imprécision sur le mot « fréquence », déjà documentée.
+
+**Une valeur relevée de travers, corrigée par un zoom.** Le S/P des ETI en 2020 avait d'abord été
+transcrit à 88 % : son étiquette est **partiellement recouverte** par le marqueur de la courbe
+d'indice tarifaire. Le zoom donne **85**, et la hauteur de barre le confirme. D'où une règle
+étendue : relever une **étiquette imprimée** est licite, mesurer une **hauteur de barre** ne
+l'est pas, et une étiquette masquée se zoome avant d'être transcrite.
+
+**UN DOUBLON DANS LE SOMMAIRE DE LA V2, ANTÉRIEUR ET NON VU PENDANT UN JOUR.** `main_v2.toc`
+portait « Annexes » **deux fois**, aux pages 141 et 142, et le sommaire imprimé aussi. Cause :
+`preambule_v2` redéfinit `\part` par `titlesec` en style `[display]`, et dans cette configuration
+**titlesec écrit lui-même l'entrée de sommaire d'un `\part*`**. La ligne `\addcontentsline`
+explicite, indispensable dans `main.tex` où `\part*` n'écrit rien, en ajoutait donc une seconde.
+Le défaut existe **depuis la création de la v2 le 8 septembre**. Corrigé en retirant la ligne du
+seul `main_v2.tex`, ce qui en fait **la seule divergence de fond entre les deux fichiers maîtres**
+en plus de la ligne de préambule. Ne pas la remettre, et ne pas désactiver l'écriture de titlesec
+dans le préambule : les cinq `\part` numérotés, eux, s'inscrivent correctement.
+
+Trouvé en comparant les deux `.toc`, ce qui confirme une fois de plus la leçon du dossier : les
+défauts se trouvent en **regardant une sortie**, pas en relisant une source.
+
+### 4. Les figures du rapport, et l'exception qu'elles créent
+
+`exploratory/memoire_cascade/figures_externes/` est le **seul** dossier de figures non produites
+par un script du dépôt. Son `README.md` porte la provenance figure par figure, les retouches,
+et ce qu'il ne faut pas en faire. Les trois retenues : la trajectoire primes, sinistres et ratio
+sur sept exercices ; la divergence prix contre risque par segment ; la répartition du montant
+indemnisé par classe de taille de sinistre. **Aucune valeur n'a été modifiée sur ces images**,
+les seules retouches sont des recadrages.
+
+**Une quatrième figure a été écartée, et le motif compte.** La figure 2 du rapport (capacité,
+franchise, taux de prime) a une **légende commune qui déclare six millésimes** quand deux de ses
+trois panneaux en portent sept et le troisième cinq. Le défaut est dans la source et il est
+visible. Les trois séries sont donc **reproduites en tableau** depuis la transcription, ce qui
+donne la même information sans importer le défaut. Même raisonnement pour la légende de la figure
+de divergence, dont les cartouches se chevauchent : elle est recadrée et remplacée par une
+lecture **par position**, dont l'ordre a été vérifié contre les trois valeurs que le corps du
+rapport donne en clair.
+
+**Deux questions qui appartiennent à Kélian et qui ne sont pas tranchées ici :** le rapport
+LUCY 2026 est-il **publié** au sens où l'on peut en reproduire les figures dans un mémoire mis en
+ligne par l'Institut, et Nexialog l'autorise-t-elle ? Le mémoire citait déjà ses chiffres depuis
+le 8 septembre, mais reproduire trois figures entières est un pas de plus. À poser à Hugo avant
+le dépôt.
+
+### 5. Coût et contrôles
+
+**Corps 130 → 136 pages en v1, total 180 → 186 ; corps 136 → 140 en v2, total 187 → 192.** Les
+six pages sont exactement ce que Kélian a demandé, et elles vont contre l'arbitrage de format,
+qui reste tranché en sa faveur. Harnais **2 172 → 2 352 nombres, 2 352 confirmés, 100 %**, hors
+contrôle non déclaré à zéro. Chapitre 02 à 100 % sur 210 nombres, couverture 100 %.
+**Débordements exactement aux deux lignes de base, 15 pour la v1 et 6 pour la v2**, 0 Overfull
+`\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans les deux PDF. Les cinq pages
+touchées de la v1 et la page de garde ont été rendues en PNG et regardées. Cinq nouvelles entrées
+bibliographiques (CESIN, Marsh, ABI, DSIT, ENISA 2025), toutes citées.
 
 ## Note d'honnêteté
 

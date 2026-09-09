@@ -178,6 +178,286 @@ LUCY 2026 : CITATION EXTERNE, non recalculable
   contradiction. Cette source n'entre dans AUCUNE calibration du memoire.
 
 ====================================================================================
+LUCY 2026, lecture de marche elargie : citation externe non recalculable
+====================================================================================
+  LE MARCHE SUR DEUX EXERCICES. Colonnes 2024, 2025, puis variation
+  RELATIVE calculee ici. Pour le taux de prime la variation se lit en
+  POINTS et non en relatif : 0,28 % a 0,26 % est un recul de deux
+  centiemes de point, et le relatif de 7 % n'a pas de sens de gestion.
+
+    indicateur                              2024        2025   variation
+    entreprises assurees                   14124       20996         49 %   unite
+    primes souscrites                      316.8       305.9         -3 %   M EUR
+    prime unitaire moyenne                 22427       14567        -35 %   EUR
+    capacite moyenne souscrite              2.04        1.88         -8 %   M EUR
+    franchise moyenne                      149.9          89        -41 %   k EUR
+    taux de prime annuel moyen              0.28        0.26         -7 %   %
+    sinistres indemnises                     448        1251        179 %   unite
+    charge indemnisee                       54.5        83.2         53 %   M EUR
+
+  ET LE TAUX DE PRIME SE LIT EN POINTS, pas en relatif :
+    ecart du taux de prime annuel moyen             -0.02 point de pourcentage
+
+  LE CISEAU QUI RESUME L'EXERCICE, et il tient en deux lignes de cette
+  table : le nombre d'entreprises assurees progresse de 49 % quand le
+  volume de primes RECULE de 3 %. L'elargissement du marche s'est donc
+  fait par la prime unitaire, qui perd 35 %.
+
+  SERIE LONGUE 2019-2025, en M EUR et en fraction.
+    annee       primes   sinistres  S/P publie   S/P recalcule    ecart
+    2019            86          74        0.85          0.8605   0.0105
+    2020           128         217        1.69          1.6953   0.0053
+    2021           183         164        0.89          0.8962   0.0062
+    2022           316          71        0.22          0.2247   0.0047
+    2023           328          38        0.12          0.1159   0.0041
+    2024           317          55        0.17          0.1735   0.0035
+    2025           306          83        0.27          0.2712   0.0012
+
+  PREMIER CONTROLE D'IDENTITE. Le S/P est par definition le rapport des
+  sinistres aux primes, donc la troisieme colonne doit se retrouver a
+  partir des deux premieres, annee par annee.
+    ecart maximal sur les sept exercices : 0.0105
+    Il reste sous l'arrondi de publication des etiquettes du rapport,
+    qui sont au point de pourcentage. La serie est donc coherente.
+
+  ET CE QUE LA SERIE LONGUE APPREND, que les deux derniers exercices
+  seuls ne disent pas : le marche a DEJA connu un regime bien plus
+    S/P maximal de la serie, exercice 2020        169 %
+    S/P minimal de la serie, exercice 2023        12 %
+    S/P de l'exercice sous revue, 2025            27 %
+  degrade. Le 27 % de 2025 est un point haut de trois ans, pas un point
+  haut d'historique, et l'ecrire autrement serait forcer le trait.
+
+  LES DEUX ECARTS DES TROIS DERNIERS EXERCICES, EN POINTS DE RATIO, et
+  c'est l'acceleration qui compte davantage que le niveau :
+    ecart 2023 vers 2024                              5 points
+    ecart 2024 vers 2025                             10 points
+    rapport des deux ecarts                           2
+    Le second ecart vaut le double du premier, sur un ratio qui monte
+    depuis trois exercices : la progression n'est pas lineaire, elle
+    s'accelere, et c'est ce qui la rend interpretable comme un signal.
+
+  CONDITIONS DE SOUSCRIPTION SUR LA MEME SERIE. La franchise n'est publiee
+  qu'a partir de 2021, d'ou les tirets : le panneau correspondant du
+  rapport ne porte que cinq barres quand les deux autres en portent sept,
+  et leur legende commune n'en declare que six. C'est le motif pour lequel
+  le memoire REPRODUIT ces trois series en tableau au lieu de reprendre la
+  figure : une legende qui ne compte pas ses series est un defaut qu'il
+  vaut mieux ne pas importer dans un document qu'un jury va verifier.
+    annee     capacite M EUR   franchise k EUR   taux de prime %
+    2019                2.40                 -              0.08
+    2020                2.68                 -              0.10
+    2021                1.77              92.0              0.39
+    2022                1.71             218.0              0.33
+    2023                1.65             175.0              0.29
+    2024                2.04             149.9              0.28
+    2025                1.88              89.0              0.26
+
+  CE QUE CETTE SERIE DIT, ET QUE LES DEUX DERNIERS EXERCICES CACHENT : la
+  detente ne date pas de 2025. Le taux de prime a culmine en 2021 et
+  recule depuis quatre exercices, la franchise a culmine en 2022 et recule
+  depuis trois. Le soft market est donc un REGIME et non un accident de
+  l'exercice, ce qui compte pour lire la degradation technique : elle
+  arrive au bout d'un cycle de detente, pas en meme temps que lui.
+    sommet du taux de prime : exercice 2021, 0.39 %
+    taux de prime 2025      : 0.26 %, soit 33 % sous le sommet
+    sommet de la franchise  : 218.0 k EUR
+    franchise 2025          : 89.0 k EUR, soit 59 % sous le sommet
+
+  TAUX DE PRIME ANNUEL MOYEN PAR SEGMENT, en pourcentage, et le recul
+  RELATIF calcule ici :
+    grandes entreprises                         1.90    1.28      33 % de recul
+    entreprises de taille intermediaire         1.05    0.81      23 % de recul
+
+  UNE SECONDE IMPRECISION DE LA SOURCE, ET ELLE SE VOIT EN RECALCULANT.
+  Le rapport annonce ce recul a 32 % dans son resume et sa section 3, puis
+  a 33 % dans sa section 3.1, pour les MEMES niveaux 1,90 % et 1,28 %.
+    recul transcrit du resume                    0.32   soit 32 %
+    recul recalcule depuis les deux niveaux      0.3263   soit 32.6 %, donc 33 % a l'unite
+    C'est la seconde valeur qui est juste, la premiere arrondissant vers
+    le bas. L'ecart est immateriel, mais le memoire cite les NIVEAUX et le
+    recul qu'ils impliquent, jamais un recul transcrit : c'est la seule
+    facon de ne pas propager celui des deux qui est faux. Meme traitement
+    que l'imprecision sur le mot << frequence >> du bloc precedent.
+
+  MOUVEMENTS DE CONDITIONS DU BLOC INTERMEDIAIRE :
+      recul du taux de prime, moyennes             0.08   soit 8 % 
+      hausse du taux de prime, petites            0.44   soit 44 % 
+      recul de la franchise, ETI                  0.17   soit 17 % 
+      recul de la franchise, moyennes             0.41   soit 41 % 
+    LE TAUX DES PETITES ENTREPRISES MONTE A CONTRE-COURANT DU MARCHE, et
+    le rapport l'attribue a une recomposition du sous-segment vers des
+    profils mieux couverts. Ce n'est donc pas un durcissement tarifaire,
+    et le lire comme tel inverserait le sens du mouvement.
+
+  CONDITIONS DU SEGMENT MATURE, exercice 2025 :
+      capacite moyenne souscrite, grandes                       50 M EUR
+      franchise moyenne, grandes                               5.1 M EUR
+
+  CROISSANCE DU NOMBRE D'ENTREPRISES ASSUREES, 2024 vers 2025 :
+    grandes entreprises                         0.08   soit    8 %
+    entreprises de taille intermediaire         0.75   soit   75 %
+    entreprises moyennes                        0.97   soit   97 %
+    petites entreprises                         0.45   soit   45 %
+    micro-entreprises                           0.35   soit   35 %
+    ensemble du marche                          0.49   soit   49 %
+
+  LES TROIS BLOCS, exercice 2025. Charge indemnisee en M EUR.
+    grandes entreprises                           44.6
+    bloc intermediaire                            37.3
+    micro-entreprises, PAR DIFFERENCE              1.3
+    total, a comparer a la charge publiee         83.2
+
+  DEUXIEME CONTROLE D'IDENTITE. La charge des micro-entreprises n'est PAS
+  transcrite : elle est deduite par difference, donc la somme des trois
+  blocs redonne la charge du marche par construction. Ce qui se controle
+  est que le residu soit PLAUSIBLE, c'est-a-dire positif et petit devant
+  les deux autres blocs, ce qui est le cas.
+    part de la charge, grandes entreprises         0.5361   soit 53.6 %
+    part de la charge, bloc intermediaire          0.4483   soit 44.8 %
+    part de la charge, micro-entreprises           0.0156   soit 1.6 %
+    Les deux premiers blocs font l'essentiel de la charge du marche, et
+    le troisieme, dont tous les multiplicateurs sont spectaculaires, en
+    porte moins de deux pour cent. Un multiplicateur de 9,52 sur une base
+    reduite ne fait pas un enjeu de charge : c'est la lecon de ce bloc.
+
+      charge du bloc intermediaire, 2024                      10.5 M EUR
+      multiplicateur de charge du bloc intermediaire              3.53 
+    controle : 37,3 / 10,5 = 3.5524, a comparer au multiplicateur retenu 3.53, ecart 0.0224
+
+  UNE COQUILLE DE LA SOURCE, TROUVEE PAR CE CONTROLE ET NON REPRISE, et
+  c'est la trouvaille de ce bloc. La section 7.1 du rapport ecrit
+  << 37,3 M EUR en 2025 contre 10,5 M EUR en 2024 (x2,53) >>. Le rapport
+  des deux montants vaut 3,55, et la section 7.6 du MEME rapport donne
+  bien x3,53 pour ce bloc. Le 2,53 de la section 7.1 est donc une coquille
+  sur le chiffre des unites, et le controle d'identite l'a fait tomber.
+  La valeur retenue est celle de la section 7.6 :
+    multiplicateur de charge du bloc, section 7.6       3.53
+    multiplicateur recalcule 37,3 / 10,5             3.5524
+    A SIGNALER COMME ERRATUM DU RAPPORT PUBLIE : la coquille est dans un
+    document co-signe, et un lecteur qui divise les deux montants la
+    trouvera comme ce script l'a trouvee.
+
+  MULTIPLICATEURS DE FREQUENCE PAR BLOC, exercice 2025 :
+    grandes entreprises                           1.15
+    bloc intermediaire                            1.30
+    micro-entreprises                             7.06
+      ensemble du marche                                      1.88 
+
+  RATIOS SINISTRES SUR PRIMES PAR SEGMENT, exercice 2025 :
+    grandes entreprises                           0.22   soit   22 %
+    entreprises de taille intermediaire           0.42   soit   42 %
+    entreprises moyennes                          0.33   soit   33 %
+
+  LE SOUS-SEGMENT QUI DECROCHE, ET CELUI QUI NE DECROCHE PAS.
+  Les deux se ressemblent en charge et DIFFERENT EN NATURE, et c'est
+  exactement la distinction que ce memoire impose a ses propres canaux :
+      ETI, multiplicateur du nombre de sinistres              2.48 
+      ETI, multiplicateur de charge                           4.22 
+      ETI, multiplicateur de frequence                        1.42 
+      ETI, frequence 2024                       0.087   soit 8.7 % 
+      ETI, frequence 2025                       0.124   soit 12.4 % 
+    controle : 12,4 / 8,7 = 1.4253, a comparer au multiplicateur transcrit 1.42, ecart 0.0053
+      petites, multiplicateur du nombre de sinistres              2.03 
+      petites, multiplicateur de frequence                     1.4 
+      moyennes, multiplicateur de frequence                   1.01 
+      moyennes, multiplicateur d'exposition                   1.97 
+    LA FREQUENCE DES ENTREPRISES MOYENNES EST PLATE. Leur charge monte
+    donc par la seule EXPOSITION, quand celle des ETI monte a exposition
+    donnee. Deux hausses de charge de meme allure, deux mecanismes
+    opposes, et un seul appelle un ajustement de tarif.
+
+  HISTORIQUE DU DECROCHAGE ETI, 2020 a 2025, et l'indice du taux de prime
+  du meme segment, base 100 en 2020 :
+    annee      S/P grandes   S/P ETI  S/P moyennes   indice taux ETI
+    2020              190 %       85 %           45 %               100
+    2021               58 %      261 %           36 %               156
+    2022               16 %       51 %          100 %               240
+    2023                9 %       21 %           19 %               257
+    2024               18 %       13 %           22 %               231
+    2025               22 %       42 %           33 %               178
+
+  CE QUE CET HISTORIQUE INTERDIT D'ECRIRE, et c'est un piege de lecture
+  symetrique de celui de Hackmageddon : le 42 % des ETI en 2025 n'est PAS
+  un regime inedit.
+    S/P ETI maximal de la serie, exercice 2021   261 %
+    S/P ETI minimal de la serie, exercice 2024   13 %
+    Le segment a deja porte un ratio six fois plus eleve. Le decrochage
+    est donc CYCLIQUE, et ce qui fait sa nouveaute n'est pas son niveau
+    mais le DECALAGE avec l'indice tarifaire, encore proche de son sommet
+    de 2023 quand le retournement technique etait deja engage.
+
+    sommet de l'indice tarifaire ETI : exercice 2023, indice 257
+    point bas du S/P ETI : exercice 2024
+    Le prix atteint son sommet APRES que le risque a atteint son point
+    bas, et il ne reflue qu'ensuite : c'est le mouvement de ciseaux.
+
+  REPARTITION DU MONTANT INDEMNISE PAR TAILLE DE SINISTRE, en M EUR.
+  LA LIGNE XXL EST CELLE QUI COMMANDE LE CHOIX DE DONNEES DU MEMOIRE.
+    classe                      2019    2020    2021    2022    2023    2024    2025
+    XS/S, 0 a 0,3 M EUR            5       8      10       2       4       7       9
+    M/L, 0,3 a 3 M EUR            28      22      24      35      22      15      26
+    XL, 3 a 10 M EUR              40      55      37      20      11      13      29
+    XXL, 10 a 40 M EUR             0     135      92      15       0      20      19
+    somme des classes             73     220     163      72      37      55      83
+    charge annuelle publiee       74     217     164      71      38      55      83
+
+  TROISIEME CONTROLE D'IDENTITE, et c'est le plus exigeant des trois : la
+  somme des quatre classes de taille doit redonner la charge annuelle
+  indemnisee, et ce sur les SEPT exercices, soit vingt-huit valeurs
+  transcrites contrainte par sept sommes.
+    ecart maximal sur les sept exercices : 3 M EUR
+    Les etiquettes du rapport sont arrondies a l'unite de M EUR, donc un
+    ecart de quelques unites sur une somme de quatre termes est l'arrondi
+    lui-meme. La transcription des vingt-huit valeurs est validee.
+
+  ET CE QUE DIT LA LIGNE XXL, qui est le constat externe le plus
+  important de tout ce bloc pour le present memoire :
+    exercices de la serie sans AUCUN sinistre de classe XXL : 2 sur 7
+    maximum de la classe XXL, exercice 2020 : 135 M EUR
+    classe XXL sur l'exercice sous revue, 2025 : 19 M EUR
+      sinistres au-dela du seuil XXL, France, 2025                 1 
+    rapport du maximum de la serie a l'exercice 2025 : 7.11
+    LA QUEUE FRANCAISE EST PEUPLEE PAR ACCIDENT. Deux exercices sur sept
+    ne portent aucun sinistre de la classe la plus haute, un exercice en
+    porte 135 M EUR, et l'exercice sous revue en porte 19 pour UN SEUL
+    sinistre. Une queue ainsi peuplee ne soutient aucun ajustement de
+    valeurs extremes : c'est le motif qui fait calibrer la severite de ce
+    memoire sur une base INTERNATIONALE et non sur le marche francais.
+
+  CE QUE LA QUEUE PRODUIT AILLEURS SUR LA MEME PERIODE. Ces montants sont
+  ce qui interdit de lire la severite moyenne contenue de 2025 comme une
+  protection structurelle du marche francais :
+    Marks & Spencer, effet sur le resultat operationnel 2025-2026      300.0 M GBP
+    Jaguar Land Rover, garantie d'Etat aux creanciers commerciaux        1.5 Md GBP
+    Rheinmetall, cout declare en 2024 d'une attaque de 2023             10.0 M EUR
+    Association of British Insurers, indemnites cyber versees          200.0 M GBP
+      recul des sinistres cyber en Europe, 2024   0.20   soit 20 % 
+    A LIRE AVEC SON SENS : ce recul de 20 % laisse le niveau britannique
+    tres au-dessus de celui des exercices 2020 a 2022. Une baisse depuis
+    un point haut n'est pas un retour a la normale.
+
+  PROPENSION A S'ASSURER ET SINISTRALITE DECLAREE, barometre CESIN.
+  Couples (vague precedente, vague 2026) :
+    part des membres assures                            72 %      71 %
+    part ayant subi une attaque significative           45 %      40 %
+      part des grandes entreprises couvertes      0.78   soit 78 % 
+    LES DEUX SERIES RECULENT D'UN POINT ET DE CINQ POINTS, donc rien ne
+    bouge vraiment : la propension a s'assurer se stabilise a un niveau
+    eleve, et la frequence DECLAREE recule quand la sinistralite
+    INDEMNISEE progresse. Les deux ne mesurent pas la meme chose, et
+    l'ecart entre elles est un rappel du sous-report deja declare.
+
+  LE RATIO DE FRAIS, ET POURQUOI IL EXPLIQUE LA POURSUITE DU SOFT MARKET :
+      ratio de frais et de commissionnement, borne basse  0.30   soit 30 % 
+      ratio de frais et de commissionnement, borne haute  0.35   soit 35 % 
+    ratio combine a la borne haute = 62 %, a comparer au seuil d'equilibre de 100 %
+    Un S/P de 27 % laisse donc le ratio combine NETTEMENT sous le seuil
+    d'equilibre, et c'est cette marge residuelle qui explique qu'une
+    detente commerciale se poursuive sur un signal technique qui se
+    degrade. Le constat n'est pas contradictoire, il est arithmetique.
+
+====================================================================================
 Deux constantes homonymes, et le garde-fou qui remplace un renommage
 ====================================================================================
   nom                           valeur             unite  ce que c est

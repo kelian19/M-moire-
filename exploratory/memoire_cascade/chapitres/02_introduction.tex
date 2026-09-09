@@ -30,38 +30,273 @@ défaillance qui les \emph{subit}. Or c'est précisément cette asymétrie, la d
 propagation, qui devrait commander la priorité de remédiation d'un assureur. C'est le vide
 que le mémoire vient combler, sans prétendre à ce que la donnée ne permet pas.
 
-\section{Le marché français, vu de l'intérieur}
+\section{Le marché français de la cyberassurance}
 \label{sec:lucy}
 
 Ce vide n'est pas seulement une lacune de la Formule Standard : il se constate sur le marché
-lui-même. L'étude LUCY de l'AMRAE, dont l'édition $2026$ porte sur l'exercice $2025$, observe le
-marché français de la cyberassurance à partir de $20\,996$ polices et $1\,251$ sinistres
-déclarés, recueillis auprès de douze courtiers et d'un assureur \citep{amraeLucy2026}. L'auteur
-de ce mémoire a co-écrit, avec son tuteur, l'analyse actuarielle de cette édition publiée par
-Nexialog Consulting \citep{RapiorKaddouri2026}. Trois de ses constats commandent la construction
-qui suit.
+lui-même, et il faut décrire ce marché avant de le charger en capital. Une exposition qui ne se
+traduit pas en exigence réglementaire ne devient un problème que si elle est réelle, croissante
+et mal tarifée ; c'est ce que la présente section établit, à partir de la seule observation
+continue du marché français.
 
-\paragraph{Le premier constat est la prémisse même de ce mémoire.} Cette analyse conclut
-qu'aucun module de capital standardisé ne couvre le risque de catastrophe cyber sous
-Solvabilité~II, et qu'en l'absence d'un module dédié l'exposition observée ne se traduit pas en
-besoin de capital réglementaire. Ce que le présent travail construit répond donc à un manque
-déjà nommé par ceux qui observent le marché, et non à un exercice de méthode en quête d'un
-objet.
+\subsection{Le cadre d'observation}
+\label{ss:lucy-cadre}
 
-\paragraph{Le deuxième justifie un choix de données qui pourrait surprendre.} Le marché français
-ne compte, sur l'exercice $2025$, qu'un \emph{seul} sinistre au-delà du seuil de $10$~M\euro,
-quand plusieurs marchés européens comparables ont enregistré des pertes majeures sur la même
-période. La distribution empirique française est donc censurée précisément dans la région qui
-gouverne le quantile extrême, ce qui rend toute estimation à $99{,}5\,\%$ instable et biaisée
-vers le bas. C'est la raison pour laquelle la sévérité de ce mémoire est calibrée sur une base
-\textbf{internationale} (chapitre~\ref{chap:donnees}) et non sur le marché national : préférer
-la donnée française aurait donné un chiffre plus local et moins vrai.
+L'étude LUCY de l'AMRAE, dont l'édition $2026$ porte sur l'exercice $2025$, observe le marché
+français de la cyberassurance à partir de $20\,996$ polices et $1\,251$ sinistres déclarés,
+recueillis auprès de douze courtiers et d'un assureur \citep{amraeLucy2026}. La série
+d'observation est engagée depuis $2019$, ce qui donne sept exercices comparables et permet de
+distinguer un régime d'un accident d'exercice. L'auteur de ce mémoire a co-écrit, avec son
+tuteur, l'analyse actuarielle de cette édition publiée par Nexialog Consulting
+\citep{RapiorKaddouri2026} ; les développements qui suivent en reprennent les décompositions.
 
-\paragraph{Le troisième porte sur la méthode, et c'est le plus transposable.} Le ratio sinistres
-sur primes du marché progresse de $17$ à $27\,\%$ entre les deux derniers exercices, et jusqu'à
-$42\,\%$ sur le seul segment des entreprises de taille intermédiaire, contre $13\,\%$ l'exercice
-précédent. Mais cette progression continue recouvre deux régimes \textbf{opposés}, et c'est la
-décomposition qui le montre.
+Deux grilles de lecture y sont employées, et elles sont reprises ici parce que le mémoire les
+applique ensuite à son propre objet. La première sépare, dans la dégradation d'un ratio, ce qui
+relève d'une composante \textbf{structurelle} (volume d'exposition, niveaux de franchise, limites
+contractuelles) de ce qui relève d'une composante \textbf{systémique} (fréquence, sévérité,
+environnement géopolitique). La seconde décompose la charge en \textbf{nombre} de sinistres et
+\textbf{sinistre moyen}, et fait apparaître que des exercices dont le ratio monte tous les deux
+peuvent recouvrir des régimes de risque opposés.
+
+Le statut de cette source doit être posé avant tout usage. Elle est enregistrée comme
+\textbf{citation externe non recalculable}, du même statut que la base qui fournit la structure
+des vecteurs d'attaque (chapitre~\ref{chap:donnees}) : ses valeurs sont transcrites et imprimées
+par un script du dépôt, mais aucune n'entre dans une calibration du mémoire et aucune ne porte un
+niveau de capital. La fidélité de la transcription est elle-même contrôlée : le script qui la
+porte vérifie que le rapport des sinistres aux primes redonne la série des ratios année par
+année, que la somme des classes de taille redonne la charge annuelle sur les sept exercices, que
+la somme des trois blocs redonne la charge du marché, et que chaque multiplicateur cité se
+retrouve depuis les niveaux qui l'encadrent. Deux écarts de la source ont été trouvés par ces
+contrôles, et ils sont signalés plus bas plutôt que corrigés en silence.
+
+\noindent Sources : script~\texttt{63}, qui imprime la citation enregistrée et ses contrôles.
+
+\subsection{Un régime de détente qui dure}
+\label{ss:lucy-detente}
+
+L'exercice $2025$ prolonge un marché souple. La capacité moyenne souscrite recule légèrement, de
+$2{,}04$ à $1{,}88$~M\euro, la franchise moyenne nettement, de $149{,}9$ à $89{,}0$~k\euro, et le
+taux de prime annuel moyen s'établit à $0{,}26\,\%$ contre $0{,}28\,\%$. La détente est plus
+marquée encore par segment : le taux de prime des grandes entreprises passe de $1{,}90$ à
+$1{,}28\,\%$, celui des entreprises de taille intermédiaire de $1{,}05$ à $0{,}81\,\%$, soit des
+reculs relatifs de $33$ et $23\,\%$.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r r@{}}
+\toprule
+& \textbf{$2024$} & \textbf{$2025$} & \textbf{variation} \\
+\midrule
+Entreprises assurées & $14\,124$ & $20\,996$ & $+49\,\%$ \\
+Primes souscrites (M\euro) & $316{,}8$ & $305{,}9$ & $-3\,\%$ \\
+Prime unitaire moyenne (\euro) & $22\,427$ & $14\,567$ & $-35\,\%$ \\
+\midrule
+Capacité moyenne souscrite (M\euro) & $2{,}04$ & $1{,}88$ & $-8\,\%$ \\
+Franchise moyenne (k\euro) & $149{,}9$ & $89{,}0$ & $-41\,\%$ \\
+Taux de prime annuel moyen (\%) & $0{,}28$ & $0{,}26$ & $-0{,}02$ point \\
+\midrule
+Sinistres indemnisés (nombre) & $448$ & $1\,251$ & $+179\,\%$ \\
+Charge indemnisée (M\euro) & $54{,}5$ & $83{,}2$ & $+53\,\%$ \\
+Ratio sinistres sur primes (\%) & $17$ & $27$ & $+10$ points \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent\textbf{Lecture.} Le ciseau qui résume l'exercice tient dans les trois premières lignes :
+le nombre d'entreprises assurées progresse de $49\,\%$ quand le volume de primes \emph{recule} de
+$3\,\%$. L'élargissement du marché s'est donc fait par la prime unitaire, qui perd $35\,\%$. Les
+trois dernières lignes disent que cet élargissement s'est accompagné d'une dégradation technique,
+et non d'une simple dilution : la charge indemnisée progresse plus vite que rien d'autre dans la
+table à l'exception du nombre de sinistres.
+
+\medskip
+\noindent Une part de ce recul de prime unitaire n'est pas une concession tarifaire. Le nombre
+d'assurés progresse de $8\,\%$ sur les grandes entreprises mais de $75\,\%$ sur les entreprises
+de taille intermédiaire, $97\,\%$ sur les entreprises moyennes, $45\,\%$ sur les petites et
+$35\,\%$ sur les micro-entreprises : l'afflux se fait par le bas du marché, où les primes
+unitaires sont naturellement plus faibles. La baisse observée combine donc un \textbf{effet prix},
+mesuré par les taux de prime par segment, et un \textbf{effet de structure} du portefeuille. Les
+confondre conduirait à surestimer l'ampleur réelle de la détente, et c'est le même travers que
+celui qui consiste à lire un écart de capital sans le décomposer.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r r r r r r@{}}
+\toprule
+& $2019$ & $2020$ & $2021$ & $2022$ & $2023$ & $2024$ & $2025$ \\
+\midrule
+Capacité moyenne (M\euro) & $2{,}40$ & $2{,}68$ & $1{,}77$ & $1{,}71$ & $1{,}65$ & $2{,}04$ & $1{,}88$ \\
+Franchise moyenne (k\euro) & \textendash{} & \textendash{} & $92$ & $218$ & $175$ & $149{,}9$ & $89{,}0$ \\
+Taux de prime (\%) & $0{,}08$ & $0{,}10$ & $0{,}39$ & $0{,}33$ & $0{,}29$ & $0{,}28$ & $0{,}26$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent\textbf{Lecture.} La détente ne date pas de l'exercice sous revue. Le taux de prime a
+culminé à $0{,}39\,\%$ en $2021$ et recule depuis quatre exercices, jusqu'à s'établir un tiers
+sous son sommet ; la franchise a culminé à $218$~k\euro{} en $2022$ et se situe désormais
+$59\,\%$ sous ce niveau. Le \emph{soft market} est donc un régime installé et non un accident,
+ce qui change la lecture de la dégradation technique : elle survient au bout d'un cycle de
+détente, et non simultanément à lui. La franchise n'est publiée qu'à partir de $2021$, d'où les
+deux cases vides.
+
+\medskip
+\noindent Un mouvement va à contre-courant et il ne faut pas l'interpréter comme un durcissement.
+Le taux de prime des petites entreprises progresse de $44\,\%$ quand celui des entreprises
+moyennes recule de $8\,\%$ et que les franchises reculent de $17\,\%$ sur les entreprises de
+taille intermédiaire et de $41\,\%$ sur les moyennes. La source attribue cette hausse à une
+recomposition du sous-segment vers des profils mieux couverts, donc à un changement de ce qui est
+assuré et non du prix de ce qui l'était. Le segment mature, lui, est stabilisé : capacité moyenne
+de $50$~M\euro{} et franchise de $5{,}1$~M\euro{} sur les grandes entreprises.
+
+\noindent Sources : script~\texttt{63}, qui imprime les séries et calcule les variations.
+
+\subsection{La trajectoire du ratio sinistres sur primes}
+\label{ss:lucy-ratio}
+
+Le ratio sinistres sur primes suit une trajectoire ascendante sur les trois derniers exercices :
+$12\,\%$ en $2023$, $17\,\%$ en $2024$, $27\,\%$ en $2025$. Ce qui doit retenir l'attention n'est
+pas le niveau mais l'accélération. Le premier écart vaut $5$ points, le second $10$, soit le
+double, sur un ratio qui monte déjà.
+
+\begin{figure}[htbp]
+\centering
+\figover{figures_externes/lucy_primes_sinistres_ratio.png}
+\caption[Primes, sinistres et ratio du marché français de la cyberassurance]{Primes souscrites,
+sinistres indemnisés et ratio sinistres sur primes du marché français de la cyberassurance,
+$2019$ à $2025$. Reproduit du rapport cité \citep{RapiorKaddouri2026}. L'étiquette du montant
+$2025$ des sinistres est recouverte par le marqueur du ratio dans la source ; sa valeur est
+$83{,}2$~M\euro, donnée en clair par le texte du même rapport.}
+\label{fig:lucy-sp}
+\end{figure}
+
+La figure~\ref{fig:lucy-sp} interdit une lecture alarmiste, et c'est la raison de la produire.
+Le marché a déjà connu un régime bien plus dégradé : le ratio atteignait $85\,\%$ en $2019$ et
+$169\,\%$ en $2020$, pour un point bas de $12\,\%$ en $2023$. Le $27\,\%$ de l'exercice sous revue
+est donc un point haut de trois ans et non un point haut d'historique. Ce qui a changé n'est pas
+le niveau du ratio, c'est le fait qu'il remonte alors que les primes reculent, ce que les deux
+séries de barres montrent directement.
+
+L'écart de dix points mérite deux précisions de sens opposé, et il faut les tenir ensemble.
+
+\paragraph{La première relativise.} Dix points de ratio représentent une contraction équivalente
+de la marge technique brute, avant frais de gestion et commissions de courtage. Rapportée à un
+ratio combiné, la lecture change : adossée à un ratio de frais et de commissionnement de l'ordre
+de $30$ à $35\,\%$, usuel sur la branche, une sinistralité à $27\,\%$ laisse le ratio combiné à
+$62\,\%$, donc nettement sous le seuil d'équilibre de $100\,\%$. C'est cette marge résiduelle qui
+explique arithmétiquement qu'une détente commerciale se poursuive sur un signal technique qui se
+dégrade. Le constat n'est pas contradictoire, il est comptable.
+
+\paragraph{La seconde inquiète.} Cette même marge est ce qui absorbe un choc de sévérité à
+tarification constante, et elle se réduit. Un segment qui s'approche de son point d'équilibre
+perd sa capacité d'absorption, et le mémoire retrouvera cette structure au
+chapitre~\ref{chap:resultats} : ce qui compte dans une réserve n'est pas son niveau mais ce qu'il
+reste d'elle quand le choc arrive.
+
+\medskip
+\noindent Reste que la décomposition entre composante structurelle et composante systémique ne
+peut pas être conduite sur ces données. Le montant effectivement supporté par l'assureur s'écrit
+\begin{equation}
+  \text{montant indemnisé} \;=\; \min\bigl(\text{capacité},\;\max(\text{sinistre} -
+  \text{franchise},\,0)\bigr),
+  \label{eq:retention}
+\end{equation}
+et son application demande la police et le sinistre, ligne à ligne. Sur des agrégats, l'effet
+d'une baisse de franchise et celui d'une aggravation réelle de la menace produisent le même
+signal : davantage de sinistres indemnisés et une charge plus lourde. \textbf{Deux mécanismes,
+une seule observable, et rien dans la donnée pour les séparer.} C'est, à l'échelle du marché, la
+situation exacte que le mémoire rencontrera à l'échelle des piliers au
+chapitre~\ref{ch:identifiabilite}, et le traitement retenu y sera le même : nommer la limite et
+borner, plutôt que poser un partage que la donnée ne soutient pas.
+
+\noindent Sources : script~\texttt{63}, pour les séries, les écarts en points et le ratio combiné.
+
+\subsection{Trois blocs aux dynamiques opposées}
+\label{ss:lucy-blocs}
+
+Le marché ne se dégrade pas uniformément, et l'agrégat masque trois régimes. Les grandes
+entreprises forment un segment consolidé ; le bloc intermédiaire, composé des entreprises de
+taille intermédiaire, moyennes et petites, concentre la dégradation ; les micro-entreprises
+constituent un segment en expansion dont les conditions de souscription ne sont pas stabilisées.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r r r r@{}}
+\toprule
+& \textbf{nombre de} & \textbf{fréquence} & \textbf{charge} & \textbf{charge $2025$} &
+\textbf{part de la} \\
+& \textbf{sinistres} & & & \textbf{(M\euro)} & \textbf{charge} \\
+\midrule
+Grandes entreprises & $\times 1{,}24$ & $\times 1{,}15$ & $\times 1{,}02$ & $44{,}6$ & $53{,}6\,\%$ \\
+Bloc intermédiaire & $\times 2{,}14$ & $\times 1{,}30$ & $\times 3{,}53$ & $37{,}3$ & $44{,}8\,\%$ \\
+Micro-entreprises & $\times 9{,}52$ & $\times 7{,}06$ & $\times 6{,}97$ & $1{,}3$ & $1{,}6\,\%$ \\
+\midrule
+Ensemble du marché & $\times 2{,}79$ & $\times 1{,}88$ & $\times 1{,}53$ & $83{,}2$ & $100\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent\textbf{Lecture.} La colonne des multiplicateurs et celle des montants disent des choses
+différentes, et c'est l'intérêt de les mettre côte à côte. Les micro-entreprises affichent tous
+les multiplicateurs les plus spectaculaires de la table, jusqu'à $\times 9{,}52$ sur le nombre de
+sinistres, et portent $1{,}6\,\%$ de la charge du marché. Un multiplicateur calculé sur une base
+réduite ne fait pas un enjeu de charge. Inversement les grandes entreprises, dont aucun
+multiplicateur ne dépasse $1{,}24$, portent plus de la moitié de la charge. \textbf{Un
+multiplicateur hiérarchise des dynamiques, pas des enjeux}, et confondre les deux est une erreur
+de lecture que ce mémoire aura à éviter sur ses propres canaux.
+
+\medskip
+\noindent Le bloc intermédiaire est celui qui décroche, et sa charge passe de $10{,}5$ à
+$37{,}3$~M\euro. Mais il n'est pas homogène, et la distinction interne vaut d'être faite parce
+qu'elle oppose deux mécanismes sous une même hausse de charge. Sur les entreprises de taille
+intermédiaire, le nombre de sinistres est multiplié par $2{,}48$ et la charge par $4{,}22$, pour
+une fréquence qui passe de $8{,}7$ à $12{,}4\,\%$, soit $\times 1{,}42$ : la hausse existe
+\emph{à exposition donnée}, c'est une dégradation technique. Sur les entreprises moyennes, la
+fréquence est plate, $\times 1{,}01$, et la charge monte par la seule exposition,
+$\times 1{,}97$ : c'est un effet de volume. Deux hausses de charge de même allure, deux
+mécanismes opposés, et un seul appelle un ajustement de tarif. Les petites entreprises se
+rangent du premier côté, avec un nombre de sinistres multiplié par $2{,}03$ pour une fréquence à
+$\times 1{,}40$.
+
+\begin{figure}[htbp]
+\centering
+\figover{figures_externes/lucy_divergence_prix_risque.png}
+\caption[Divergence entre prix et risque par segment]{Ratios sinistres sur primes par segment
+(barres, axe de gauche) et indice du taux de prime des entreprises de taille intermédiaire
+(courbe, axe de droite, base $100$ en $2020$). Pour chaque exercice, les trois barres sont, de
+gauche à droite, les grandes entreprises, les entreprises de taille intermédiaire et les
+entreprises moyennes. Reproduit du rapport cité \citep{RapiorKaddouri2026} ; la légende de
+couleurs de la source, dont les cartouches se chevauchent, est remplacée ici par cette lecture
+par position. Deux étiquettes de barre sont partiellement recouvertes par la courbe dans la
+source, celles des exercices $2020$ et $2021$ du segment intermédiaire : leurs valeurs, $85$ et
+$261\,\%$, sont données dans le texte.}
+\label{fig:lucy-divergence}
+\end{figure}
+
+La figure~\ref{fig:lucy-divergence} porte le résultat de marché le plus net de la section, et
+elle en corrige aussi une lecture trop rapide. Le ratio des entreprises de taille intermédiaire
+passe de $13$ à $42\,\%$ en un exercice, ce qui se lit volontiers comme un décrochage inédit. La
+série dit le contraire : le même segment a porté $261\,\%$ en $2021$ et $85\,\%$ en $2020$, donc
+un ratio jusqu'à six fois plus élevé. \textbf{Le décrochage est cyclique, et sa nouveauté n'est
+pas son niveau mais son décalage avec le prix.} L'indice tarifaire du segment culmine à $257$ en
+$2023$, soit \emph{après} que le ratio a touché son point bas, et ne reflue qu'ensuite, à $231$
+puis $178$. Le prix atteint son sommet quand le risque atteint son minimum, et il baisse quand le
+risque remonte. C'est le mouvement de ciseaux, et il est mesuré plutôt qu'affirmé.
+
+Le segment mature, à $22\,\%$ de ratio, ne participe pas à ce mouvement, et les entreprises
+moyennes, à $33\,\%$, s'en approchent sans l'atteindre.
+
+\noindent Sources : script~\texttt{63}, pour la table des blocs, ses parts et les séries par
+segment.
+
+\subsection{Deux régimes de risque sous une même trajectoire}
+\label{ss:lucy-regimes}
+
+La progression du ratio recouvre deux exercices dont le moteur s'inverse, et c'est la
+décomposition en nombre et sinistre moyen qui le fait apparaître.
 
 \begin{center}\small
 \renewcommand{\arraystretch}{1.25}
@@ -81,13 +316,14 @@ micro-entreprises & $\times 9{,}52$ & $\times 0{,}73$ & $\times 6{,}97$ & nombre
 \end{center}
 
 \vspace{4pt}
-\noindent Deux exercices dont le ratio monte tous les deux, et dont le moteur s'inverse : la
-charge de $2024$ vient du \emph{sinistre moyen}, celle de $2025$ du \emph{nombre}. Un ratio
-agrégé ne distingue pas les deux, et les deux n'appellent pas les mêmes leviers, une révision
-des franchises d'un côté, une gestion de la rétention de l'autre. Le bloc intermédiaire est par
-ailleurs le seul où le nombre et le sinistre moyen montent \emph{ensemble}, d'où sa charge
-multipliée par $3{,}53$. C'est exactement l'argument que ce mémoire applique à ses quatre canaux
-de conformité : un écart de capital ne se lit pas, il se \textbf{décompose}.
+\noindent\textbf{Lecture.} Deux exercices dont le ratio monte tous les deux, et dont le moteur
+s'inverse : la charge de $2024$ vient du \emph{sinistre moyen}, celle de $2025$ du \emph{nombre}.
+Un ratio agrégé ne distingue pas les deux, et les deux n'appellent pas les mêmes leviers, une
+révision des franchises d'un côté, une gestion de la rétention et une couverture de réassurance
+adaptée de l'autre. Le bloc intermédiaire est par ailleurs le seul où le nombre et le sinistre
+moyen montent \emph{ensemble}, d'où sa charge multipliée par $3{,}53$. C'est exactement l'argument
+que ce mémoire applique à ses quatre canaux de conformité : un écart de capital ne se lit pas, il
+se \textbf{décompose}.
 
 \begin{attention}
 \textbf{Une imprécision de la source, corrigée ici et non reprise.} Le rapport nomme
@@ -99,29 +335,141 @@ exacte qu'avec le \textbf{nombre}, ce que le tableau ci-dessus vérifie à l'arr
 près ; avec la fréquence il faut trois facteurs. La distinction n'est pas byzantine : c'est elle
 qui sépare un effet de \emph{volume} d'une dégradation à exposition donnée, et le présent travail
 l'impose à ses propres canaux.
+
+Deux autres écarts de la source ont été relevés par les contrôles de transcription et ne sont
+pas repris : un multiplicateur de charge écrit $2{,}53$ là où les deux montants qui l'encadrent
+donnent $3{,}55$ et où une autre section du même rapport donne $3{,}53$, et un recul de taux de
+prime annoncé à $32\,\%$ dans un endroit et à $33\,\%$ dans un autre pour les mêmes niveaux, le
+rapport des niveaux valant $32{,}6\,\%$. Le présent travail cite les niveaux et les
+multiplicateurs recalculés, jamais un rapport transcrit.
 \end{attention}
 
-\paragraph{Et le règlement y apparaît sous l'angle que le mémoire retient.} L'analyse relève que
-DORA formalise la préoccupation de concentration en imposant une cartographie des dépendances
-aux prestataires informatiques critiques, et que les plus petites structures assurées peuvent
-constituer un vecteur de contagion vers les segments supérieurs. La dépendance dirigée entre
-domaines de contrôle n'est donc pas une hypothèse de commodité : c'est le mécanisme que le
-régulateur demande précisément de cartographier.
+\noindent Sources : script~\texttt{63}, qui imprime la décomposition et vérifie son identité.
+
+\subsection{La queue de distribution française}
+\label{ss:lucy-queue}
+
+C'est la partie de cette lecture de marché qui commande directement un choix de ce mémoire, et
+elle porte sur la région de la distribution qui gouverne le capital.
+
+\begin{figure}[htbp]
+\centering
+\figover{figures_externes/lucy_taille_des_sinistres.png}
+\caption[Montant indemnisé par classe de taille de sinistre]{Montant indemnisé par classe de
+taille de sinistre sur le marché français, $2019$ à $2025$, en millions d'euros. Reproduit du
+rapport cité \citep{RapiorKaddouri2026}. Les seuils de classe $3$ et $10$~M\euro{} sont ceux de
+la source.}
+\label{fig:lucy-taille}
+\end{figure}
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r r r r r r@{}}
+\toprule
+Classe (M\euro) & $2019$ & $2020$ & $2021$ & $2022$ & $2023$ & $2024$ & $2025$ \\
+\midrule
+XS/S, $0$ à $0{,}3$ & $5$ & $8$ & $10$ & $2$ & $4$ & $7$ & $9$ \\
+M/L, $0{,}3$ à $3$ & $28$ & $22$ & $24$ & $35$ & $22$ & $15$ & $26$ \\
+XL, $3$ à $10$ & $40$ & $55$ & $37$ & $20$ & $11$ & $13$ & $29$ \\
+\textbf{XXL, $10$ à $40$} & $\mathbf{0}$ & $\mathbf{135}$ & $\mathbf{92}$ & $\mathbf{15}$ &
+$\mathbf{0}$ & $\mathbf{20}$ & $\mathbf{19}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent\textbf{Lecture.} La ligne en gras est celle qui compte. Deux exercices sur sept ne
+portent \emph{aucun} sinistre de la classe la plus haute, un exercice en porte $135$~M\euro, et
+l'exercice sous revue en porte $19$, pour un \emph{seul} sinistre au-delà du seuil de
+$10$~M\euro. Le maximum de la série vaut ainsi $7{,}11$ fois le montant de l'exercice sous revue.
+Une queue ainsi peuplée ne soutient aucun ajustement de valeurs extrêmes : les seuils naturels
+d'une approche par dépassement de seuil sont ici ceux des classes XL et XXL, et il n'y a pas
+d'observations au-delà.
+
+\medskip
+\noindent Cette quasi-absence d'événement extrême ne peut pas être lue comme une protection
+structurelle du marché français, et la comparaison le montre. Sur la même période, la
+cyberattaque subie par Marks \& Spencer a amputé son résultat opérationnel de $300$~M\pounds{} ;
+Jaguar Land Rover a subi un arrêt de production d'un mois, conduisant l'État britannique à
+accorder une garantie de $1{,}5$~Md\pounds{} à ses créanciers commerciaux ; le groupe Rheinmetall
+a déclaré un coût de $10$~M\euro{} au titre d'une attaque visant son activité civile.
+L'Association of British Insurers estime à près de $200$~M\pounds{} les indemnités versées au
+titre de sinistres cyber pour les entreprises britanniques sur la période récente
+\citep{abi2025}, et le marché britannique est décrit à la fois comme plus développé et plus
+exposé aux sinistres sévères \citep{dsit2025}. Les analyses de sinistres européennes relèvent un
+recul d'environ $20\,\%$ des sinistres cyber en $2024$, qui laisse néanmoins le niveau près d'un
+tiers au-dessus de celui des exercices $2020$ à $2022$ \citep{marsh2025} : une baisse depuis un
+point haut n'est pas un retour à la normale.
+
+\medskip
+\noindent Il faut aussi noter que la sinistralité observée n'est pas la fréquence des attaques.
+Les données portent sur des sinistres \emph{indemnisés}, donc conditionnés par les franchises, les
+conditions contractuelles et la décision de déclarer. Le baromètre du CESIN donne, sur la même
+période, une part d'entreprises membres assurées qui passe de $72$ à $71\,\%$, dont $78\,\%$ sur
+les grandes entreprises, et une part ayant subi au moins une cyberattaque significative qui
+recule de $45$ à $40\,\%$ \citep{cesin2026}. La fréquence \emph{déclarée} recule donc quand la
+sinistralité \emph{indemnisée} progresse : les deux ne mesurent pas la même chose, et l'écart
+entre elles est un rappel du sous-report que le chapitre~\ref{chap:donnees} déclare pour ses
+propres sources.
+
+\medskip
+\noindent Deux conséquences, et ce sont elles qui font la jonction avec le reste du mémoire.
+D'une part, l'historique français fournit une distribution empirique censurée en partie haute
+alors que c'est exactement cette région qui gouverne le quantile à $99{,}5\,\%$ : toute estimation
+y serait instable et biaisée vers le bas. C'est la raison pour laquelle la sévérité de ce mémoire
+est calibrée sur une base \textbf{internationale} (chapitre~\ref{chap:donnees}) et non sur le
+marché national ; préférer la donnée française aurait donné un chiffre plus local et moins vrai.
+D'autre part, sous Solvabilité~II, aucun module de capital standardisé ne couvre le risque de
+catastrophe cyber, de sorte qu'en l'absence de module dédié cette exposition ne se traduit pas en
+besoin de capital réglementaire. Le vide décrit au début de ce chapitre est donc constaté de
+l'extérieur, par ceux qui observent le marché, et non postulé par commodité.
+
+\noindent Sources : script~\texttt{63}, pour la table des classes de taille, son contrôle de
+somme et les comparaisons citées.
+
+\subsection{Ce que cette lecture de marché commande au mémoire}
+\label{ss:lucy-consequences}
+
+Quatre choses, et elles ne sont pas de même nature.
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=3pt]
+\item \textbf{L'objet est réel et il n'est pas chargé en capital.} L'exposition croît, se diffuse
+      dans le tissu économique et se dégrade techniquement, sans qu'aucun module prudentiel ne la
+      traduise en exigence. Ce que le présent travail construit répond à un manque nommé par le
+      marché, et non à un exercice de méthode en quête d'un objet.
+\item \textbf{La calibration de sévérité se fait hors de France, et le motif est mesuré.} La
+      classe la plus haute de la distribution française est vide deux exercices sur sept et ne
+      porte qu'un sinistre sur l'exercice sous revue, quand des marchés voisins enregistrent des
+      pertes d'un ordre supérieur. Le choix de base du chapitre~\ref{chap:donnees} n'est donc pas
+      un choix de commodité.
+\item \textbf{La méthode de décomposition est reprise telle quelle.} Un ratio agrégé qui monte
+      peut recouvrir deux régimes opposés ; un multiplicateur spectaculaire peut porter une part
+      négligeable de la charge ; deux mécanismes distincts peuvent produire la même observable.
+      Ces trois constats commandent la façon dont le chapitre~\ref{chap:resultats} présente son
+      écart de capital, en le décomposant en canaux plutôt qu'en l'annonçant en niveau.
+\item \textbf{Le règlement y apparaît sous l'angle que le mémoire retient.} L'analyse relève que
+      DORA formalise la préoccupation de concentration en imposant une cartographie des
+      dépendances aux prestataires informatiques critiques, et que les plus petites structures
+      assurées peuvent constituer un vecteur de contagion vers les segments supérieurs, en tant
+      que fournisseurs ou sous-traitants. Une propagation dirigée, allant d'un maillon peu
+      protégé vers de plus gros, est donc décrite par la source elle-même à l'échelle du marché.
+      Le mémoire la modélise à l'échelle des domaines de contrôle d'une entité : la dépendance
+      dirigée n'est pas une hypothèse de commodité, c'est le mécanisme que le régulateur demande
+      de cartographier.
+\end{enumerate}
 
 \begin{attention}
 \textbf{Un piège d'échelle, et il vaut mieux le poser tout de suite.} La charge de LUCY est une
-charge \emph{indemnisée}, c'est-à-dire $\min\bigl(\text{capacité},\,\max(\text{sinistre} -
-\text{franchise},\,0)\bigr)$ sommée sur un portefeuille de marché : $83{,}2$~M\euro{} en $2025$
-contre $54{,}5$ l'exercice précédent, soit une hausse de $53\,\%$. La sévérité de ce mémoire est
-une perte opérationnelle \emph{brute} d'entité financière. Les deux grandeurs ne se comparent ni
-en niveau ni en quantile, et les rapprocher ferait lire une différence de périmètre et de
-rétention comme une contradiction. Cette source ne porte donc \textbf{aucun} niveau de capital du
-présent travail et n'entre dans aucune calibration : elle est enregistrée comme \textbf{citation
-externe non recalculable}, du même statut que la base qui fournit la structure des vecteurs
-d'attaque (chapitre~\ref{chap:donnees}).
+charge \emph{indemnisée}, c'est-à-dire l'expression~\eqref{eq:retention} sommée sur un
+portefeuille de marché : $83{,}2$~M\euro{} en $2025$ contre $54{,}5$ l'exercice précédent, soit
+une hausse de $53\,\%$. La sévérité de ce mémoire est une perte opérationnelle \emph{brute}
+d'entité financière. Les deux grandeurs ne se comparent ni en niveau ni en quantile, et les
+rapprocher ferait lire une différence de périmètre et de rétention comme une contradiction.
+Aucune valeur de cette section ne porte donc un niveau de capital du présent travail et aucune
+n'entre dans une calibration.
 \end{attention}
 
-\noindent Sources : script~\texttt{63}, qui imprime la citation enregistrée.
+\noindent Sources : script~\texttt{63}, pour les valeurs rappelées.
 
 \section{Un seul fil, en cinq mouvements}
 Le mémoire poursuit une seule question, \emph{combien coûte la non-conformité à DORA, et

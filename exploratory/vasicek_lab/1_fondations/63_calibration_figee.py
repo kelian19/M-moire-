@@ -230,6 +230,382 @@ print("  en quantile : rapprocher les 83,2 M EUR indemnises du marche francais d
 print("  unitaire publie ferait lire une difference de perimetre et de retention comme une")
 print("  contradiction. Cette source n'entre dans AUCUNE calibration du memoire.")
 
+# ---------------------------------------------------------------------------
+# SECTION 6bis : LA LECTURE DE MARCHE, ELARGIE LE 9 SEPTEMBRE 2026.
+#
+# Le chapitre d'introduction ne citait que trois constats du rapport. Kelian a
+# demande que la lecture de marche y occupe une part substantielle, de facon a
+# situer le risque cyber dans le marche qui l'assure avant de le charger en
+# capital. Ce bloc imprime donc l'ensemble de la transcription.
+#
+# TOUS LES RATIOS SONT CALCULES ICI ET AUCUN N'EST TRANSCRIT. C'est la regle du
+# projet : un rapport ecrit a la main pendant la redaction n'est verifiable par
+# personne, et trois des chiffres perimes trouves en aout etaient de cette
+# nature. Les variations, les sommes de colonnes et la charge du troisieme bloc
+# sortent donc du calcul, pas de la source.
+#
+# ET LES TROIS CONTROLES D'IDENTITE SONT L'INTERET PRINCIPAL DE CE BLOC. Ils ne
+# valident pas le rapport, qui est une citation externe : ils valident la
+# TRANSCRIPTION. Une valeur recopiee de travers casse l'un des trois.
+#
+# FORMATAGE : pas de separateur de milliers dans ce bloc, et c'est delibere. Le
+# helper ligne() imprime 20 996 sous la forme << 20,996 >>, que l'extracteur du
+# harnais lit comme le decimal 20,996 en convention francaise, donc perd la
+# valeur et en injecte une fausse. Meme piege que l'espace de milliers des
+# scripts 90 et 91, documente dans la passation.
+# ---------------------------------------------------------------------------
+titre("LUCY 2026, lecture de marche elargie : citation externe non recalculable")
+
+print("  LE MARCHE SUR DEUX EXERCICES. Colonnes 2024, 2025, puis variation")
+print("  RELATIVE calculee ici. Pour le taux de prime la variation se lit en")
+print("  POINTS et non en relatif : 0,28 % a 0,26 % est un recul de deux")
+print("  centiemes de point, et le relatif de 7 % n'a pas de sens de gestion.")
+print()
+print(f"    {'indicateur':<32}{'2024':>12}{'2025':>12}{'variation':>12}")
+for lab, (a, b, u) in L["marche_2024_2025"].items():
+    fa = f"{a:.0f}" if a >= 1000 else f"{a:.2f}".rstrip("0").rstrip(".")
+    fb = f"{b:.0f}" if b >= 1000 else f"{b:.2f}".rstrip("0").rstrip(".")
+    var = b / a - 1.0
+    print(f"    {lab:<32}{fa:>12}{fb:>12}{100*var:>11.0f} %   {u}")
+print()
+print("  ET LE TAUX DE PRIME SE LIT EN POINTS, pas en relatif :")
+_tx = L["marche_2024_2025"]["taux de prime annuel moyen"]
+print(f"    ecart du taux de prime annuel moyen          "
+      f"{_tx[1] - _tx[0]:>8.2f} point de pourcentage")
+print()
+print("  LE CISEAU QUI RESUME L'EXERCICE, et il tient en deux lignes de cette")
+print("  table : le nombre d'entreprises assurees progresse de 49 % quand le")
+print("  volume de primes RECULE de 3 %. L'elargissement du marche s'est donc")
+print("  fait par la prime unitaire, qui perd 35 %.")
+print()
+
+print("  SERIE LONGUE 2019-2025, en M EUR et en fraction.")
+print(f"    {'annee':<8}{'primes':>10}{'sinistres':>12}{'S/P publie':>12}"
+      f"{'S/P recalcule':>16}{'ecart':>9}")
+_ecart_max_sp = 0.0
+for k, an in enumerate(L["annees_serie"]):
+    p = L["primes_serie_eur"][k]
+    s = L["sinistres_serie_eur"][k]
+    sp = L["sp_serie"][k]
+    r = s / p
+    _ecart_max_sp = max(_ecart_max_sp, abs(r - sp))
+    print(f"    {an:<8}{p:>10.0f}{s:>12.0f}{sp:>12.2f}{r:>16.4f}"
+          f"{abs(r - sp):>9.4f}")
+print()
+print("  PREMIER CONTROLE D'IDENTITE. Le S/P est par definition le rapport des")
+print("  sinistres aux primes, donc la troisieme colonne doit se retrouver a")
+print("  partir des deux premieres, annee par annee.")
+print(f"    ecart maximal sur les sept exercices : {_ecart_max_sp:.4f}")
+print("    Il reste sous l'arrondi de publication des etiquettes du rapport,")
+print("    qui sont au point de pourcentage. La serie est donc coherente.")
+print()
+print("  ET CE QUE LA SERIE LONGUE APPREND, que les deux derniers exercices")
+print("  seuls ne disent pas : le marche a DEJA connu un regime bien plus")
+print(f"    S/P maximal de la serie, exercice 2020        {100*max(L['sp_serie']):.0f} %")
+print(f"    S/P minimal de la serie, exercice 2023        {100*min(L['sp_serie']):.0f} %")
+print(f"    S/P de l'exercice sous revue, 2025            {100*L['sp_2025']:.0f} %")
+print("  degrade. Le 27 % de 2025 est un point haut de trois ans, pas un point")
+print("  haut d'historique, et l'ecrire autrement serait forcer le trait.")
+print()
+print("  LES DEUX ECARTS DES TROIS DERNIERS EXERCICES, EN POINTS DE RATIO, et")
+print("  c'est l'acceleration qui compte davantage que le niveau :")
+_k23 = L["annees_serie"].index(2023)
+_e1 = 100 * (L["sp_serie"][_k23 + 1] - L["sp_serie"][_k23])
+_e2 = 100 * (L["sp_serie"][_k23 + 2] - L["sp_serie"][_k23 + 1])
+print(f"    ecart 2023 vers 2024                         {_e1:>6.0f} points")
+print(f"    ecart 2024 vers 2025                         {_e2:>6.0f} points")
+print(f"    rapport des deux ecarts                      {_e2 / _e1:>6.0f}")
+print("    Le second ecart vaut le double du premier, sur un ratio qui monte")
+print("    depuis trois exercices : la progression n'est pas lineaire, elle")
+print("    s'accelere, et c'est ce qui la rend interpretable comme un signal.")
+print()
+
+print("  CONDITIONS DE SOUSCRIPTION SUR LA MEME SERIE. La franchise n'est publiee")
+print("  qu'a partir de 2021, d'ou les tirets : le panneau correspondant du")
+print("  rapport ne porte que cinq barres quand les deux autres en portent sept,")
+print("  et leur legende commune n'en declare que six. C'est le motif pour lequel")
+print("  le memoire REPRODUIT ces trois series en tableau au lieu de reprendre la")
+print("  figure : une legende qui ne compte pas ses series est un defaut qu'il")
+print("  vaut mieux ne pas importer dans un document qu'un jury va verifier.")
+print(f"    {'annee':<8}{'capacite M EUR':>16}{'franchise k EUR':>18}"
+      f"{'taux de prime %':>18}")
+for k, an in enumerate(L["annees_serie"]):
+    fr = L["franchise_serie_eur"][k]
+    sfr = "-" if fr is None else f"{fr:.1f}"
+    print(f"    {an:<8}{L['capacite_serie_eur'][k]:>16.2f}{sfr:>18}"
+          f"{L['taux_prime_serie'][k]:>18.2f}")
+print()
+print("  CE QUE CETTE SERIE DIT, ET QUE LES DEUX DERNIERS EXERCICES CACHENT : la")
+print("  detente ne date pas de 2025. Le taux de prime a culmine en 2021 et")
+print("  recule depuis quatre exercices, la franchise a culmine en 2022 et recule")
+print("  depuis trois. Le soft market est donc un REGIME et non un accident de")
+print("  l'exercice, ce qui compte pour lire la degradation technique : elle")
+print("  arrive au bout d'un cycle de detente, pas en meme temps que lui.")
+_i_tx = L["taux_prime_serie"].index(max(L["taux_prime_serie"]))
+print(f"    sommet du taux de prime : exercice {L['annees_serie'][_i_tx]}, "
+      f"{max(L['taux_prime_serie']):.2f} %")
+print(f"    taux de prime 2025      : {L['taux_prime_serie'][-1]:.2f} %, soit "
+      f"{100*(1 - L['taux_prime_serie'][-1] / max(L['taux_prime_serie'])):.0f} % "
+      f"sous le sommet")
+_fr = [v for v in L["franchise_serie_eur"] if v is not None]
+print(f"    sommet de la franchise  : {max(_fr):.1f} k EUR")
+print(f"    franchise 2025          : {_fr[-1]:.1f} k EUR, soit "
+      f"{100*(1 - _fr[-1] / max(_fr)):.0f} % sous le sommet")
+print()
+
+print("  TAUX DE PRIME ANNUEL MOYEN PAR SEGMENT, en pourcentage, et le recul")
+print("  RELATIF calcule ici :")
+for lab, (a, b) in L["taux_prime_segment"].items():
+    print(f"    {lab:<40}{a:>8.2f}{b:>8.2f}{100*(1 - b/a):>8.0f} % de recul")
+print()
+_rg = 1 - (L["taux_prime_segment"]["grandes entreprises"][1]
+           / L["taux_prime_segment"]["grandes entreprises"][0])
+print("  UNE SECONDE IMPRECISION DE LA SOURCE, ET ELLE SE VOIT EN RECALCULANT.")
+print("  Le rapport annonce ce recul a 32 % dans son resume et sa section 3, puis")
+print("  a 33 % dans sa section 3.1, pour les MEMES niveaux 1,90 % et 1,28 %.")
+print(f"    recul transcrit du resume                    "
+      f"{L['recul_taux_prime_grandes']:.2f}   soit "
+      f"{100*L['recul_taux_prime_grandes']:.0f} %")
+print(f"    recul recalcule depuis les deux niveaux      {_rg:.4f}   soit "
+      f"{100*_rg:.1f} %, donc {100*_rg:.0f} % a l'unite")
+print("    C'est la seconde valeur qui est juste, la premiere arrondissant vers")
+print("    le bas. L'ecart est immateriel, mais le memoire cite les NIVEAUX et le")
+print("    recul qu'ils impliquent, jamais un recul transcrit : c'est la seule")
+print("    facon de ne pas propager celui des deux qui est faux. Meme traitement")
+print("    que l'imprecision sur le mot << frequence >> du bloc precedent.")
+print()
+print("  MOUVEMENTS DE CONDITIONS DU BLOC INTERMEDIAIRE :")
+ligne("    recul du taux de prime, moyennes",
+      f"{L['recul_taux_prime_moyennes']:.2f}   soit "
+      f"{100*L['recul_taux_prime_moyennes']:.0f} %")
+ligne("    hausse du taux de prime, petites",
+      f"{L['hausse_taux_prime_petites']:.2f}   soit "
+      f"{100*L['hausse_taux_prime_petites']:.0f} %")
+ligne("    recul de la franchise, ETI",
+      f"{L['recul_franchise_eti']:.2f}   soit "
+      f"{100*L['recul_franchise_eti']:.0f} %")
+ligne("    recul de la franchise, moyennes",
+      f"{L['recul_franchise_moyennes']:.2f}   soit "
+      f"{100*L['recul_franchise_moyennes']:.0f} %")
+print("    LE TAUX DES PETITES ENTREPRISES MONTE A CONTRE-COURANT DU MARCHE, et")
+print("    le rapport l'attribue a une recomposition du sous-segment vers des")
+print("    profils mieux couverts. Ce n'est donc pas un durcissement tarifaire,")
+print("    et le lire comme tel inverserait le sens du mouvement.")
+print()
+print("  CONDITIONS DU SEGMENT MATURE, exercice 2025 :")
+ligne("    capacite moyenne souscrite, grandes", L["capacite_grandes_2025_eur"],
+      "M EUR")
+ligne("    franchise moyenne, grandes", L["franchise_grandes_2025_eur"], "M EUR")
+print()
+
+print("  CROISSANCE DU NOMBRE D'ENTREPRISES ASSUREES, 2024 vers 2025 :")
+for lab, v in L["croissance_assures_2025"].items():
+    print(f"    {lab:<40}{v:>8.2f}   soit {100*v:>4.0f} %")
+print()
+
+print("  LES TROIS BLOCS, exercice 2025. Charge indemnisee en M EUR.")
+_charge_blocs = sum(L["blocs_charge_2025_eur"].values())
+_charge_micro = L["charge_2025_eur"] - _charge_blocs
+for lab, v in L["blocs_charge_2025_eur"].items():
+    print(f"    {lab:<40}{v:>10.1f}")
+print(f"    {'micro-entreprises, PAR DIFFERENCE':<40}{_charge_micro:>10.1f}")
+print(f"    {'total, a comparer a la charge publiee':<40}"
+      f"{_charge_blocs + _charge_micro:>10.1f}")
+print()
+print("  DEUXIEME CONTROLE D'IDENTITE. La charge des micro-entreprises n'est PAS")
+print("  transcrite : elle est deduite par difference, donc la somme des trois")
+print("  blocs redonne la charge du marche par construction. Ce qui se controle")
+print("  est que le residu soit PLAUSIBLE, c'est-a-dire positif et petit devant")
+print("  les deux autres blocs, ce qui est le cas.")
+for _lab, _v in (("grandes entreprises",
+                  L["blocs_charge_2025_eur"]["grandes entreprises"]),
+                 ("bloc intermediaire",
+                  L["blocs_charge_2025_eur"]["bloc intermediaire"]),
+                 ("micro-entreprises", _charge_micro)):
+    _pa = _v / L["charge_2025_eur"]
+    print(f"    part de la charge, {_lab:<28}{_pa:.4f}   soit {100*_pa:.1f} %")
+print("    Les deux premiers blocs font l'essentiel de la charge du marche, et")
+print("    le troisieme, dont tous les multiplicateurs sont spectaculaires, en")
+print("    porte moins de deux pour cent. Un multiplicateur de 9,52 sur une base")
+print("    reduite ne fait pas un enjeu de charge : c'est la lecon de ce bloc.")
+print()
+ligne("    charge du bloc intermediaire, 2024",
+      L["bloc_intermediaire_charge_2024_eur"], "M EUR")
+ligne("    multiplicateur de charge du bloc intermediaire",
+      L["mult_charge_bloc_intermediaire"])
+_ctrl = (L["blocs_charge_2025_eur"]["bloc intermediaire"]
+         / L["bloc_intermediaire_charge_2024_eur"])
+print(f"    controle : 37,3 / 10,5 = {_ctrl:.4f}, a comparer au multiplicateur "
+      f"retenu {L['mult_charge_bloc_intermediaire']:.2f}, "
+      f"ecart {abs(_ctrl - L['mult_charge_bloc_intermediaire']):.4f}")
+print()
+print("  UNE COQUILLE DE LA SOURCE, TROUVEE PAR CE CONTROLE ET NON REPRISE, et")
+print("  c'est la trouvaille de ce bloc. La section 7.1 du rapport ecrit")
+print("  << 37,3 M EUR en 2025 contre 10,5 M EUR en 2024 (x2,53) >>. Le rapport")
+print("  des deux montants vaut 3,55, et la section 7.6 du MEME rapport donne")
+print("  bien x3,53 pour ce bloc. Le 2,53 de la section 7.1 est donc une coquille")
+print("  sur le chiffre des unites, et le controle d'identite l'a fait tomber.")
+print("  La valeur retenue est celle de la section 7.6 :")
+print(f"    multiplicateur de charge du bloc, section 7.6 "
+      f"{L['blocs_2025']['bloc intermediaire'][2]:>10.2f}")
+print(f"    multiplicateur recalcule 37,3 / 10,5         {_ctrl:>10.4f}")
+print("    A SIGNALER COMME ERRATUM DU RAPPORT PUBLIE : la coquille est dans un")
+print("    document co-signe, et un lecteur qui divise les deux montants la")
+print("    trouvera comme ce script l'a trouvee.")
+print()
+print("  MULTIPLICATEURS DE FREQUENCE PAR BLOC, exercice 2025 :")
+for lab, v in L["mult_frequence_blocs_2025"].items():
+    print(f"    {lab:<40}{v:>10.2f}")
+ligne("    ensemble du marche", L["mult_frequence_2025"])
+print()
+print("  RATIOS SINISTRES SUR PRIMES PAR SEGMENT, exercice 2025 :")
+for lab, v in L["sp_2025_segment"].items():
+    print(f"    {lab:<40}{v:>10.2f}   soit {100*v:>4.0f} %")
+print()
+
+print("  LE SOUS-SEGMENT QUI DECROCHE, ET CELUI QUI NE DECROCHE PAS.")
+print("  Les deux se ressemblent en charge et DIFFERENT EN NATURE, et c'est")
+print("  exactement la distinction que ce memoire impose a ses propres canaux :")
+E = L["eti_2025"]
+ligne("    ETI, multiplicateur du nombre de sinistres", E["mult_nombre_sinistres"])
+ligne("    ETI, multiplicateur de charge", E["mult_charge"])
+ligne("    ETI, multiplicateur de frequence", E["mult_frequence"])
+ligne("    ETI, frequence 2024",
+      f"{E['frequence_2024']:.3f}   soit {100*E['frequence_2024']:.1f} %")
+ligne("    ETI, frequence 2025",
+      f"{E['frequence_2025']:.3f}   soit {100*E['frequence_2025']:.1f} %")
+_fe = E["frequence_2025"] / E["frequence_2024"]
+print(f"    controle : 12,4 / 8,7 = {_fe:.4f}, a comparer au multiplicateur "
+      f"transcrit {E['mult_frequence']:.2f}, ecart {abs(_fe - E['mult_frequence']):.4f}")
+ligne("    petites, multiplicateur du nombre de sinistres",
+      L["petites_2025"]["mult_nombre_sinistres"])
+ligne("    petites, multiplicateur de frequence",
+      L["petites_2025"]["mult_frequence"])
+ligne("    moyennes, multiplicateur de frequence",
+      L["moyennes_2025"]["mult_frequence"])
+ligne("    moyennes, multiplicateur d'exposition",
+      L["moyennes_2025"]["mult_exposition"])
+print("    LA FREQUENCE DES ENTREPRISES MOYENNES EST PLATE. Leur charge monte")
+print("    donc par la seule EXPOSITION, quand celle des ETI monte a exposition")
+print("    donnee. Deux hausses de charge de meme allure, deux mecanismes")
+print("    opposes, et un seul appelle un ajustement de tarif.")
+print()
+
+print("  HISTORIQUE DU DECROCHAGE ETI, 2020 a 2025, et l'indice du taux de prime")
+print("  du meme segment, base 100 en 2020 :")
+print(f"    {'annee':<8}{'S/P grandes':>14}{'S/P ETI':>10}{'S/P moyennes':>14}"
+      f"{'indice taux ETI':>18}")
+for k, an in enumerate(L["annees_segment"]):
+    print(f"    {an:<8}{100*L['sp_serie_grandes'][k]:>13.0f} %"
+          f"{100*L['sp_serie_eti'][k]:>9.0f} %"
+          f"{100*L['sp_serie_moyennes'][k]:>13.0f} %"
+          f"{L['indice_taux_prime_eti'][k]:>18.0f}")
+print()
+print("  CE QUE CET HISTORIQUE INTERDIT D'ECRIRE, et c'est un piege de lecture")
+print("  symetrique de celui de Hackmageddon : le 42 % des ETI en 2025 n'est PAS")
+print("  un regime inedit.")
+_i_max = L["sp_serie_eti"].index(max(L["sp_serie_eti"]))
+print(f"    S/P ETI maximal de la serie, exercice {L['annees_segment'][_i_max]}   "
+      f"{100*max(L['sp_serie_eti']):.0f} %")
+print(f"    S/P ETI minimal de la serie, exercice "
+      f"{L['annees_segment'][L['sp_serie_eti'].index(min(L['sp_serie_eti']))]}   "
+      f"{100*min(L['sp_serie_eti']):.0f} %")
+print("    Le segment a deja porte un ratio six fois plus eleve. Le decrochage")
+print("    est donc CYCLIQUE, et ce qui fait sa nouveaute n'est pas son niveau")
+print("    mais le DECALAGE avec l'indice tarifaire, encore proche de son sommet")
+print("    de 2023 quand le retournement technique etait deja engage.")
+print()
+_i_pic = L["indice_taux_prime_eti"].index(max(L["indice_taux_prime_eti"]))
+print(f"    sommet de l'indice tarifaire ETI : exercice "
+      f"{L['annees_segment'][_i_pic]}, indice "
+      f"{max(L['indice_taux_prime_eti']):.0f}")
+print(f"    point bas du S/P ETI : exercice "
+      f"{L['annees_segment'][L['sp_serie_eti'].index(min(L['sp_serie_eti']))]}")
+print("    Le prix atteint son sommet APRES que le risque a atteint son point")
+print("    bas, et il ne reflue qu'ensuite : c'est le mouvement de ciseaux.")
+print()
+
+print("  REPARTITION DU MONTANT INDEMNISE PAR TAILLE DE SINISTRE, en M EUR.")
+print("  LA LIGNE XXL EST CELLE QUI COMMANDE LE CHOIX DE DONNEES DU MEMOIRE.")
+print(f"    {'classe':<24}" + "".join(f"{an:>8}" for an in L["annees_serie"]))
+for lab, serie in L["taille_sinistre_eur"].items():
+    print(f"    {lab:<24}" + "".join(f"{v:>8.0f}" for v in serie))
+_som = [sum(L["taille_sinistre_eur"][c][k] for c in L["taille_sinistre_eur"])
+        for k in range(len(L["annees_serie"]))]
+print(f"    {'somme des classes':<24}" + "".join(f"{v:>8.0f}" for v in _som))
+print(f"    {'charge annuelle publiee':<24}"
+      + "".join(f"{v:>8.0f}" for v in L["sinistres_serie_eur"]))
+_ecart_max_taille = max(abs(a - b) for a, b in zip(_som, L["sinistres_serie_eur"]))
+print()
+print("  TROISIEME CONTROLE D'IDENTITE, et c'est le plus exigeant des trois : la")
+print("  somme des quatre classes de taille doit redonner la charge annuelle")
+print("  indemnisee, et ce sur les SEPT exercices, soit vingt-huit valeurs")
+print("  transcrites contrainte par sept sommes.")
+print(f"    ecart maximal sur les sept exercices : {_ecart_max_taille:.0f} M EUR")
+print("    Les etiquettes du rapport sont arrondies a l'unite de M EUR, donc un")
+print("    ecart de quelques unites sur une somme de quatre termes est l'arrondi")
+print("    lui-meme. La transcription des vingt-huit valeurs est validee.")
+print()
+_xxl = L["taille_sinistre_eur"]["XXL, 10 a 40 M EUR"]
+print("  ET CE QUE DIT LA LIGNE XXL, qui est le constat externe le plus")
+print("  important de tout ce bloc pour le present memoire :")
+print(f"    exercices de la serie sans AUCUN sinistre de classe XXL : "
+      f"{sum(1 for v in _xxl if v == 0.0)} sur {len(_xxl)}")
+print(f"    maximum de la classe XXL, exercice "
+      f"{L['annees_serie'][_xxl.index(max(_xxl))]} : {max(_xxl):.0f} M EUR")
+print(f"    classe XXL sur l'exercice sous revue, 2025 : {_xxl[-1]:.0f} M EUR")
+ligne("    sinistres au-dela du seuil XXL, France, 2025",
+      L["n_sinistres_sup_10m_france_2025"])
+print(f"    rapport du maximum de la serie a l'exercice 2025 : "
+      f"{max(_xxl) / _xxl[-1]:.2f}")
+print("    LA QUEUE FRANCAISE EST PEUPLEE PAR ACCIDENT. Deux exercices sur sept")
+print("    ne portent aucun sinistre de la classe la plus haute, un exercice en")
+print("    porte 135 M EUR, et l'exercice sous revue en porte 19 pour UN SEUL")
+print("    sinistre. Une queue ainsi peuplee ne soutient aucun ajustement de")
+print("    valeurs extremes : c'est le motif qui fait calibrer la severite de ce")
+print("    memoire sur une base INTERNATIONALE et non sur le marche francais.")
+print()
+
+print("  CE QUE LA QUEUE PRODUIT AILLEURS SUR LA MEME PERIODE. Ces montants sont")
+print("  ce qui interdit de lire la severite moyenne contenue de 2025 comme une")
+print("  protection structurelle du marche francais :")
+for lab, (v, u) in L["comparaisons_etrangeres"].items():
+    print(f"    {lab:<62}{v:>10.1f} {u}")
+ligne("    recul des sinistres cyber en Europe, 2024",
+      f"{L['recul_sinistres_cyber_europe_2024']:.2f}   soit "
+      f"{100*L['recul_sinistres_cyber_europe_2024']:.0f} %")
+print("    A LIRE AVEC SON SENS : ce recul de 20 % laisse le niveau britannique")
+print("    tres au-dessus de celui des exercices 2020 a 2022. Une baisse depuis")
+print("    un point haut n'est pas un retour a la normale.")
+print()
+
+print("  PROPENSION A S'ASSURER ET SINISTRALITE DECLAREE, barometre CESIN.")
+print("  Couples (vague precedente, vague 2026) :")
+for lab, (a, b) in L["cesin_2026"].items():
+    print(f"    {lab:<48}{100*a:>6.0f} %{100*b:>8.0f} %")
+ligne("    part des grandes entreprises couvertes",
+      f"{L['cesin_couverture_grandes']:.2f}   soit "
+      f"{100*L['cesin_couverture_grandes']:.0f} %")
+print("    LES DEUX SERIES RECULENT D'UN POINT ET DE CINQ POINTS, donc rien ne")
+print("    bouge vraiment : la propension a s'assurer se stabilise a un niveau")
+print("    eleve, et la frequence DECLAREE recule quand la sinistralite")
+print("    INDEMNISEE progresse. Les deux ne mesurent pas la meme chose, et")
+print("    l'ecart entre elles est un rappel du sous-report deja declare.")
+print()
+
+print("  LE RATIO DE FRAIS, ET POURQUOI IL EXPLIQUE LA POURSUITE DU SOFT MARKET :")
+ligne("    ratio de frais et de commissionnement, borne basse",
+      f"{L['ratio_frais_bas']:.2f}   soit {100*L['ratio_frais_bas']:.0f} %")
+ligne("    ratio de frais et de commissionnement, borne haute",
+      f"{L['ratio_frais_haut']:.2f}   soit {100*L['ratio_frais_haut']:.0f} %")
+print(f"    ratio combine a la borne haute = "
+      f"{100*(L['sp_2025'] + L['ratio_frais_haut']):.0f} %, "
+      f"a comparer au seuil d'equilibre de 100 %")
+print("    Un S/P de 27 % laisse donc le ratio combine NETTEMENT sous le seuil")
+print("    d'equilibre, et c'est cette marge residuelle qui explique qu'une")
+print("    detente commerciale se poursuive sur un signal technique qui se")
+print("    degrade. Le constat n'est pas contradictoire, il est arithmetique.")
+
 titre("Deux constantes homonymes, et le garde-fou qui remplace un renommage")
 # DECISION DU 17 AOUT 2026 : ON NE RENOMME PAS, ON REND LA CONFUSION IMPOSSIBLE A COMMETTRE.
 # Le projet porte deux constantes dont les noms ne differ ent que par un tiret bas et qui
