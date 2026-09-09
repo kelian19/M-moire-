@@ -97,8 +97,8 @@
 \newcommand{\anneescolaire}{2025-2026}
 \newcommand{\entreprise}{Nexialog Consulting}
 \newcommand{\villeentreprise}{Paris, France}
-\newcommand{\maitredestage}{\ACOMPLETER{Prénom NOM}}
-\newcommand{\datesstage}{\ACOMPLETER{date de début} au \ACOMPLETER{date de fin}}
+\newcommand{\maitredestage}{Hugo RAPIOR}
+\newcommand{\datesstage}{1\up{er} juin 2026 au 27 novembre 2026}
 % Confidentialite : si Nexialog la demande, remplacer la ligne suivante par
 % \newcommand{\mentionconf}{\\[10pt] \Large\bfseries Confidentiel}
 \newcommand{\mentionconf}{}
@@ -172,12 +172,18 @@
 \label{s:intro}
 % =============================================================================
 
-Ce stage de fin d'études s'est déroulé chez \entreprise, cabinet de conseil
-spécialisé dans la modélisation des risques pour les établissements financiers,
-au sein de l'activité de recherche appliquée. Il a donné lieu à un mémoire
-d'actuariat, dont ce rapport présente la démarche, les résultats et le recul que
-plusieurs mois de travail permettent d'en avoir. La chronologie des jalons figure
-en annexe~\ref{ann:chronologie}.
+Ce stage de fin d'études se déroule chez \entreprise, cabinet de conseil spécialisé
+dans la modélisation des risques pour les établissements financiers, au sein de
+l'activité de recherche appliquée. Il est encadré par Hugo Rapior pour le cabinet
+et par Caroline Hillairet pour l'école. Il a donné lieu à un mémoire d'actuariat,
+dont ce rapport présente la démarche, les résultats et le recul que plusieurs mois
+de travail permettent d'en avoir.
+
+Ce rapport est rédigé \emph{avant} la fin du stage, qui court jusqu'à la fin du mois
+de novembre. Cela explique deux choses qu'un lecteur pourrait autrement prendre pour
+des lacunes : certains travaux sont déclarés engagés et non aboutis, et la
+conclusion distingue ce qui est établi de ce qui reste au calendrier. La chronologie
+des jalons figure en annexe~\ref{ann:chronologie}.
 
 Le sujet vient du règlement européen DORA \citep{DORA2022}, entré en application
 en janvier 2025, qui impose aux entités financières la maîtrise de cinq domaines
@@ -1816,9 +1822,11 @@ la rédaction, parce que la moitié du travail effectif a consisté à écrire d
 \label{ss:encadrement}
 
 Plusieurs résultats de ce travail ne seraient pas là sans une remarque extérieure,
-et cette section les recense. Le suivi s'est fait par un point hebdomadaire,
-préparé sous forme d'un jeu de diapositives et donnant lieu à des demandes
-précises.
+et cette section les recense. L'encadrement a été double : un point hebdomadaire
+avec le maître de stage, préparé sous forme d'un jeu de diapositives et donnant lieu
+à des demandes précises, et des échanges plus espacés avec l'encadrement académique,
+dont les remarques ont porté sur le traitement de l'incertitude. Le tableau
+ci-dessous distingue les deux.
 
 \begin{table}[htbp]
 \centering\small
@@ -1827,6 +1835,7 @@ précises.
 \toprule
 \textbf{Demande ou remarque} & \textbf{Ce qu'elle a changé dans le travail} \\
 \midrule
+\multicolumn{2}{@{}l}{\emph{Du maître de stage, au point hebdomadaire}} \\
 Retirer les conclusions tirées du bootstrap de l'indice de queue, un intervalle
 trop large ne portant pas de conclusion &
 l'intervalle reste affiché comme un fait, la lecture qu'on en faisait disparaît ;
@@ -1841,15 +1850,20 @@ le chiffre qu'un plan de remédiation doit citer \\
 Deux mots mal employés, \og{}portage\fg{} et \og{}plancher\fg{} &
 le sens d'une borne était inversé, dans le texte, dans un script et dans un titre
 de figure ; corrigé aux trois endroits \\
-\og{}Le quantile d'un objet incertain est un mauvais estimateur\fg{} &
-le quantile prédictif et la bande de modèle ; résultat contraire à l'attente,
-puisque c'est la largeur et non le point qui était fragile \\
 Traiter la moyenne de queue &
 mesure de queue en diagnostic, et l'argument d'existence qui interdit de la
 substituer au quantile \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{De l'encadrement académique}} \\
+\og{}Le quantile d'un objet incertain est un mauvais estimateur\fg{} &
+le quantile prédictif et la bande de modèle ; résultat contraire à l'attente,
+puisque c'est la largeur et non le point qui était fragile \\
 Sensibilité aux probabilités de propagation &
 la section~\ref{ss:sensibilite}, dont le résultat va contre l'inquiétude qui la
 motivait \\
+Niveau de la bande reportée, $90$ ou $95\,\%$ &
+le niveau de $90\,\%$ est conservé, et la question a fait apparaître une
+contradiction interne du mémoire (annexe~\ref{ann:posture}) \\
 \bottomrule
 \end{tabular}
 \caption{Les demandes de l'encadrement et leur effet sur le travail.}
@@ -2523,9 +2537,11 @@ corrections d'erreur sont autorisées. \\
 Puis & Mise sous contrôle de la totalité des nombres publiés ; lecture des quatre
 rapports de solvabilité et requalification du chiffre d'entité en borne
 supérieure. \\
-Fin de stage & Premier backtest hors échantillon du projet, sur la sévérité puis
+Septembre 2026 & Premier backtest hors échantillon du projet, sur la sévérité puis
 sur la charge agrégée ; règle de sélection du seuil ; test de résistance inversé
 sur les quatre canaux. \\
+Jusqu'à fin novembre & Suite du stage : réception du second codage en aveugle,
+articulation avec les autres modules de capital, et préparation de la soutenance. \\
 \bottomrule
 \end{tabular}
 \caption{Les jalons du stage. Les deux dates qui ont le plus compté sont celle du
