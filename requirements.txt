@@ -10,3 +10,7 @@ scikit-learn>=1.3.0
 jupyter>=1.0.0
 ipykernel>=6.26.0
 tqdm>=4.66.0
+# Ajoute le 10 septembre 2026 pour fabriquer le support de soutenance par script,
+# de facon a inserer les vraies figures du depot et a passer le harnais sur les
+# chiffres du support. Tire lxml et XlsxWriter comme dependances transitives.
+python-pptx>=1.0.2

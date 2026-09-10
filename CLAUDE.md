@@ -227,6 +227,16 @@ Après compilation, **supprimer** `main.aux`, `main.bbl`, `main.out`, `main.toc`
 pas versionnés. `main.pdf`, lui, **l'est** : une compilation de simple vérification le salit
 sans qu'aucune source ait changé, il faut alors le restaurer par `git checkout`.
 
+**LES VERSIONS DE CE PARAGRAPHE ÉTAIENT PÉRIMÉES, RELEVÉ DU 10 SEPTEMBRE 2026.** Le `.venv` du
+PC tourne aujourd'hui sur **Python 3.14.6 et pandas 3.0.3**, non sur 3.13.5 et 3.0.5 comme écrit
+ci-dessous ; numpy 2.5.1, scipy 1.18.0 et matplotlib 3.11.0 sont inchangés. **Les deux postes ne
+sont donc plus sur la même version mineure de Python**, la commande de reconstruction du Mac plus
+bas épinglant `python3.13`. Ce n'est pas un défaut constaté : le script 66 a été rejoué le
+10 septembre sur la pile courante et reproduit `sorties_verif/66.txt` **ligne pour ligne**, donc
+la parité tient sur ce contrôle. Mais elle n'est plus *vérifiée* sur la pile documentée, et
+aligner les deux postes ou non est un arbitrage qui appartient à Kélian. Ne pas relancer une
+sortie versionnée sur le Mac sans comparer avant de committer.
+
 **Parité des deux machines, vérifiée le 6 août 2026.** Sur Python 3.13.5, numpy 2.5.1,
 pandas 3.0.5, scipy 1.18.0, le script 66 reproduit `sorties_verif/66.txt` à l'identique,
 seul le chemin absolu de la figure diffère. Le harnais complet, lancé **avant** les corrections
