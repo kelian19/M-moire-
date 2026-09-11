@@ -444,6 +444,47 @@ def carte(s, x, y, l, h, entete, contenu, teinte=ARDOISE, taille=13):
     return b
 
 
+def tableau(s, x, y, l, entetes, parts, donnees, taille=13, hl=Inches(0.36)):
+    """Tableau a en-tete pleine et lignes alternees.
+
+    POURQUOI UN TABLEAU ET PAS UNE LISTE A PUCES. Une table de parametres se lit
+    en colonnes : le jury cherche le STATUT d'une valeur, pas sa phrase. Le
+    mémoire la présente ainsi, et l'oral ne doit pas en donner une autre forme.
+
+    `donnees` : liste de lignes, chaque ligne une liste de cellules. Une cellule
+    est un texte, ou un triplet (texte, couleur, gras).
+    """
+    xs, cx = [], x
+    for p in parts:
+        xs.append((cx, l * p))
+        cx += l * p
+    e = _rect(s, x, y, l, hl, ARDOISE)
+    e.shadow.inherit = False
+    for (cx, cl), t in zip(xs, entetes):
+        tf = zone(s, cx + Inches(0.10), y, cl - Inches(0.16), hl)
+        tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+        para(tf, t, taille, BLANC, gras=True, premier=True)
+    # LA HAUTEUR DE LIGNE SE MESURE, elle ne se pose pas. Fixee a une hauteur
+    # unique, une cellule qui passe a la ligne deborde sur la ligne suivante :
+    # c'est le meme defaut que les titres, vu sur huit lignes d'un coup.
+    yl = y + hl
+    for i, ligne in enumerate(donnees):
+        nl = max(nb_lignes(c[0] if isinstance(c, tuple) else c, cl - Inches(0.16),
+                           POLICE, isinstance(c, tuple) and c[2], taille)
+                 for (cx, cl), c in zip(xs, ligne))
+        hr = max(hl, Pt(nl * taille * 1.24) + Inches(0.14))
+        if i % 2 == 0:
+            _rect(s, x, yl, l, hr, CLAIR)
+        _rect(s, x, yl + hr - Pt(0.5), l, Pt(0.5), FILET)
+        for (cx, cl), cel in zip(xs, ligne):
+            texte, couleur, gras = cel if isinstance(cel, tuple) else (cel, ENCRE, False)
+            tf = zone(s, cx + Inches(0.10), yl, cl - Inches(0.16), hr)
+            tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+            para(tf, texte, taille, couleur, gras=gras, premier=True)
+        yl += hr
+    return yl
+
+
 def chevron(s, x, y, l, h, texte, teinte, taille=13, couleur_texte=BLANC):
     """Etape de chaine, en chevron, comme la bande « Bale / Solvabilite / DORA »
     du gabarit."""
@@ -466,6 +507,207 @@ def fleche_bas(s, x, y, l, h=Inches(0.30)):
     a.fill.fore_color.rgb = ACIER
     a.line.fill.background()
     a.shadow.inherit = False
+
+
+# ---------------------------------------------------------------------------
+# LES NOMBRES SE LISENT DANS LES SORTIES VERSIONNEES, ILS NE S'ECRIVENT PAS ICI.
+#
+# POURQUOI. Une figure importee tient ses nombres du script qui l'a produite :
+# elle ne peut pas mentir. Un graphique dessine dans le support, lui, retaperait
+# les valeurs, et c'est exactement la faute que le harnais existe pour empecher.
+# Les graphiques natifs ci-dessous lisent donc sorties_verif/NN.txt, comme le
+# ferait le harnais, et chaque lecture est CONTROLEE contre la valeur que le
+# memoire publie. Si une sortie derive, la construction echoue au lieu de
+# publier en silence un chiffre que le document ne porte pas.
+# ---------------------------------------------------------------------------
+SORTIES = os.path.join(ICI, "..", "..", "sorties_verif")
+_sorties = {}
+
+
+def lire_sortie(numero):
+    if numero not in _sorties:
+        chemin = os.path.join(SORTIES, f"{numero}.txt")
+        if not os.path.exists(chemin):
+            raise SystemExit(f"sortie versionnee absente : {chemin}")
+        import io
+        _sorties[numero] = io.open(chemin, encoding="utf-8", errors="replace").read()
+    return _sorties[numero]
+
+
+def tolerance(attendu):
+    """L'ecart tolere : celui du harnais du memoire, et PAS DE PLANCHER ABSOLU.
+
+    LE PIEGE, ET IL A DEJA COUTE AU PROJET UNE FOIS. La tolerance du harnais
+    s'ecrivait « max(0,5 ; 0,6 %) » et le plancher de 0,5 ecrasait tout ce qui
+    valait moins que cela : il faisait confirmer 0,9 par un 0,99 sans rapport.
+    Recopie tel quel ici, il laissait passer un indice de queue lu a 0,5954 pour
+    une valeur attendue de 0,62. Le demi-pas se prend sur la DERNIERE DECIMALE
+    ECRITE, jamais sur une constante.
+    """
+    from decimal import Decimal
+    exposant = Decimal(str(attendu)).as_tuple().exponent
+    demi = 0.5 * (10 ** exposant) if isinstance(exposant, int) else 0.5
+    return max(0.006 * abs(attendu), demi)
+
+
+def extraire(numero, motif, attendus):
+    """Cherche `motif` dans la sortie du script `numero` et CONTROLE le resultat.
+
+    `attendus` est le tuple des valeurs que le memoire publie.
+    """
+    import re
+    m = re.search(motif, lire_sortie(numero), re.M)
+    if m is None:
+        raise SystemExit(f"motif introuvable dans sorties_verif/{numero}.txt :\n  {motif}")
+    lus = tuple(float(g.replace(",", ".")) for g in m.groups())
+    if len(lus) != len(attendus):
+        raise SystemExit(f"script {numero} : {len(lus)} valeurs lues pour "
+                         f"{len(attendus)} attendues")
+    for lu, att in zip(lus, attendus):
+        if abs(lu - att) > tolerance(att):
+            raise SystemExit(f"script {numero} : lu {lu}, le memoire publie {att}. "
+                             f"La sortie versionnee a derive, ou le support est perime.")
+    return lus
+
+
+def fr(x, decimales=0):
+    """Un nombre a la francaise : espace fine de milliers, virgule decimale."""
+    s = f"{x:,.{decimales}f}".replace(",", " ").replace(".", ",")
+    return s
+
+
+# ---------------------------------------------------------------------------
+# GRAPHIQUES NATIFS. Dessines en formes vectorielles, pas importes en image.
+#
+# POURQUOI PAS UN OBJET GRAPHIQUE POWERPOINT. Un graphique natif d'Office porte
+# son classeur et son habillage par defaut : il faudrait le restyler piece par
+# piece pour retrouver la charte, et python-pptx n'expose aucune interface pour
+# les barres d'erreur, qu'il faudrait ecrire en XML. Or la convention du projet
+# veut que toute grandeur simulee se publie AVEC SON BRUIT. Des formes donnent
+# le controle exact de la charte, la barre d'erreur en trois traits, et un rendu
+# identique sur tout poste.
+# ---------------------------------------------------------------------------
+def _etiq(s, x, y, l, h, texte, taille, couleur, gras=False, aligne=PP_ALIGN.LEFT,
+          italique=False):
+    tf = zone(s, x, y, l, h)
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    para(tf, texte, taille, couleur, gras=gras, italique=italique, premier=True,
+         aligne=aligne)
+    return tf
+
+
+def legende(s, x, y, entrees, taille=11):
+    """Legende horizontale : un pave de couleur puis son libelle."""
+    cx = x
+    for nom, couleur in entrees:
+        _rect(s, cx, y + Inches(0.045), Inches(0.17), Inches(0.10), couleur)
+        larg = Inches(largeur_pt(nom, POLICE, False, taille) / 72 + 0.12)
+        _etiq(s, cx + Inches(0.23), y, larg, Inches(0.20), nom, taille, GRIS)
+        cx += Inches(0.23) + larg + Inches(0.28)
+    return cx
+
+
+def barres_groupees(s, x, y, l, h, categories, series, unite="M€",
+                    larg_libelle=Inches(1.30), taille=11):
+    """Barres horizontales groupees, avec valeur ecrite et barre d'erreur.
+
+    `series` : liste de (nom, couleur, valeurs, bruits). `bruits` peut valoir None.
+    L'axe n'est pas trace : sur une diapositive, une graduation se lit moins bien
+    que la valeur ecrite au bout de la barre.
+    """
+    n_ser = len(series)
+    x0 = x + larg_libelle
+    # La reserve de droite porte l'etiquette de valeur ET la moitie haute de la
+    # barre d'erreur : la dimensionner sur la plus longue des deux.
+    maxi = max(v + (b[i] if b else 0) for _, _, vs, b in series
+               for i, v in enumerate(vs))
+    # La reserve se MESURE sur la plus longue etiquette. Posee en dur a 0,92
+    # pouce, elle faisait passer « 8 775  ± 1 004 » a la ligne, sous la barre
+    # suivante. C'est le meme defaut que les titres, et le meme remede.
+    reserve = Inches(0.24) + max(
+        Emu(0), *[Inches((largeur_pt(fr(v), POLICE, True, taille)
+                          + (largeur_pt("   ± " + fr(b[i]), POLICE, False, taille)
+                             if b else 0)) / 72)
+                  for _, _, vs, b in series for i, v in enumerate(vs)])
+    lu = (l - larg_libelle - reserve) / maxi
+    hb = h / len(categories)
+    hbar = min(Inches(0.21), hb / (n_ser + 1.6))
+
+    for i, cat in enumerate(categories):
+        yc = y + i * hb
+        _etiq(s, x, yc, larg_libelle - Inches(0.08), hb, cat, taille + 1, ARDOISE,
+              gras=True, aligne=PP_ALIGN.RIGHT)
+        dep = yc + (hb - n_ser * hbar - (n_ser - 1) * Inches(0.035)) / 2
+        for j, (nom, couleur, valeurs, bruits) in enumerate(series):
+            v = valeurs[i]
+            yb = dep + j * (hbar + Inches(0.035))
+            _rect(s, x0, yb, max(int(v * lu), 1), hbar, couleur)
+            bout = x0 + v * lu
+            if bruits:
+                # La barre d'erreur se dedouble : blanche sur l'aplat de la barre,
+                # de la couleur de la serie au-dela. D'une seule teinte, sa moitie
+                # interieure disparaitrait dans l'aplat.
+                e = bruits[i] * lu
+                ym = yb + hbar / 2 - Pt(0.5)
+                _rect(s, bout - e, ym, e, Pt(1), BLANC)
+                _rect(s, bout, ym, e, Pt(1), couleur)
+                _rect(s, bout - e - Pt(0.5), yb + hbar * 0.20, Pt(1), hbar * 0.60, BLANC)
+                _rect(s, bout + e - Pt(0.5), yb + hbar * 0.20, Pt(1), hbar * 0.60, couleur)
+                bout += e
+            txt = [(fr(v), couleur, True, POLICE)]
+            if bruits:
+                txt.append((chr(32)*3 + chr(177) + chr(32) + fr(bruits[i]), GRIS, False, POLICE))
+            tf = zone(s, bout + Inches(0.10), yb - Inches(0.06), reserve,
+                      hbar + Inches(0.12))
+            tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+            morceaux(tf, txt, taille, premier=True)
+    _rect(s, x0 - Pt(1), y, Pt(1), h, FILET)
+    _etiq(s, x0, y + h + Inches(0.03), Inches(3.0), Inches(0.20),
+          "capital en jeu, en " + unite, taille - 1, PIED, italique=True)
+
+
+def colonnes_flottantes(s, x, y, l, h, categories, bas, haut, largeurs,
+                        ymin, ymax, reperes=(), taille=11, unite="M€"):
+    """Intervalles verticaux : une colonne par categorie, du bas au haut.
+
+    C'est la forme qui dit une BANDE plutot qu'un point, donc exactement ce que
+    la diapositive affirme. Les reperes sont des lignes horizontales nommees.
+    """
+    marge_g = Inches(0.62)
+    x0 = x + marge_g
+    lg = l - marge_g
+    hu = h / (ymax - ymin)
+
+    def ypx(v):
+        return y + (ymax - v) * hu
+
+    # graduation : quatre niveaux, discrets, sans quadrillage lourd
+    pas = (ymax - ymin) / 4.0
+    for k in range(5):
+        v = ymin + k * pas
+        _rect(s, x0, ypx(v), lg, Pt(0.75), FILET)
+        _etiq(s, x, ypx(v) - Inches(0.09), marge_g - Inches(0.08), Inches(0.18),
+              fr(v), taille - 1, PIED, aligne=PP_ALIGN.RIGHT)
+
+    lc = lg / len(categories)
+    lbar = lc * 0.42
+    for i, cat in enumerate(categories):
+        cx = x0 + i * lc + (lc - lbar) / 2
+        yh, yb = ypx(haut[i]), ypx(bas[i])
+        _rect(s, cx, yh, lbar, yb - yh, ARDOISE)
+        _etiq(s, cx - Inches(0.30), yh - Inches(0.26), lbar + Inches(0.60), Inches(0.22),
+              fr(largeurs[i]), taille, ACCENT, gras=True, aligne=PP_ALIGN.CENTER)
+        _etiq(s, cx - Inches(0.30), y + h + Inches(0.04), lbar + Inches(0.60),
+              Inches(0.20), cat, taille, ARDOISE, gras=True, aligne=PP_ALIGN.CENTER)
+
+    # Les reperes se posent APRES les colonnes, donc par-dessus, et leur libelle
+    # est cale a droite : la zone libre d'un intervalle est de ce cote.
+    for v, nom, couleur in reperes:
+        _rect(s, x0, ypx(v) - Pt(0.75), lg, Pt(1.5), couleur)
+        _etiq(s, x0, ypx(v) - Inches(0.24), lg - Inches(0.04), Inches(0.20),
+              nom, taille, couleur, gras=True, aligne=PP_ALIGN.RIGHT)
+    _etiq(s, x, y - Inches(0.24), Inches(2.4), Inches(0.20),
+          "capital, en " + unite, taille - 1, PIED, italique=True)
 
 
 def notes(s, texte):
@@ -684,10 +926,69 @@ def annexe(prs, rang, texte, sous_titre=None):
 # ---------------------------------------------------------------------------
 # Le support
 # ---------------------------------------------------------------------------
+def donnees_parametres():
+    """La table des parametres, LUE dans sorties_verif/63.txt.
+
+    C'est l'annexe qu'un jury d'actuaires ouvre en premier : elle dit ce qui est
+    estime, ce qui est pose et ce qui est gele. La lire dans la sortie du script
+    qui rend la calibration citable est le seul moyen de garantir qu'elle ne
+    derive pas du document.
+    """
+    u, = extraire(63, r"seuil POT u \(percentile 85\)\s+([\d.]+) M EUR", (20.03,))
+    n, = extraire(63, r"exces au-dessus du seuil\s+(\d+)\s*$", (91,))
+    xi, = extraire(63, r"indice de queue xi\s+([\d.]+)\s*$", (0.5954,))
+    b, h = extraire(63, r"IC 90 % sur xi\s+\[([\d.]+) ; ([\d.]+)\]", (0.3044, 0.8313))
+    sig, = extraire(63, r"echelle sigma\s+([\d.]+) M EUR", (57.97,))
+    lam, = extraire(63, r"lambda \(secteur\)=\s*([\d.]+) / an", (21.56,))
+    phi, = extraire(63, r"facteur de surdispersion Var / moyenne\s+([\d.]+)", (9.2,))
+    pu, = extraire(63, r"taux de depassement p_u\s+([\d.]+)\s*$", (0.1509,))
+    g, = extraire(63, r"G_BASE\s+([\d.]+)\s+sans dimension", (0.9,))
+    return dict(u=u, n=n, xi=xi, xi_bas=b, xi_haut=h, sigma=sig, lam=lam,
+                phi=phi, pu=pu, g=g)
+
+
+def donnees_canaux():
+    """Les trois lectures des quatre canaux, LUES dans sorties_verif/68.txt.
+
+    Le motif capture les six nombres d'une ligne de la table du script, et le
+    controle les compare aux valeurs que le memoire publie au chapitre 10.
+    """
+    m = r"^\s*%s\s+(\d+)\s*\+-(\d+)\s+(\d+)\s*\+-(\d+)\s+(\d+)\s*\+-(\d+)"
+    return {
+        "frequence": extraire(68, m % "frequence",
+                              (4328, 463, 8775, 1004, 6546, 457)),
+        "detection": extraire(68, m % "detection",
+                              (1448, 277, 4562, 819, 2928, 343)),
+        "propagation": extraire(68, m % "propagation",
+                                (1633, 188, 2402, 442, 2088, 152)),
+        "accumulation": extraire(68, m % "accumulation",
+                                 (1728, 210, 3402, 493, 2576, 222)),
+    }
+
+
+def donnees_bornes():
+    """Les bornes de capital selon l'ignorance directionnelle, dans
+    sorties_verif/30.txt, plus le socle et le point d'expert."""
+    m = r"^\s*t = %s : SCR dans \[\s*(\d+) ;\s*(\d+)\] M\s+largeur\s+(\d+) M"
+    t = {
+        "0,25": extraire(30, m % r"0\.25", (7837, 8174, 336)),
+        "0,50": extraire(30, m % r"0\.50", (7605, 8300, 695)),
+        "0,75": extraire(30, m % r"0\.75", (7348, 8431, 1083)),
+        "1,00": extraire(30, m % r"1\.00", (6858, 8697, 1839)),
+    }
+    socle, = extraire(30, r"SOCLE \(W = 0, aucune contagion\)\s*:\s*(\d+) M", (5275,))
+    expert, = extraire(30, r"W d'expert \(classeur qualitatif actuel\)\s*:\s*(\d+) M",
+                       (8110,))
+    return t, socle, expert
+
+
 def construire():
     prs = Presentation()
     prs.slide_width, prs.slide_height = L, H
     _numero["n"] = 0
+    canaux = donnees_canaux()
+    bornes, socle, expert = donnees_bornes()
+    par = donnees_parametres()
 
     couverture(prs)
     sommaire(prs, ["Le vide prudentiel",
@@ -956,19 +1257,34 @@ identifier ? »
     s = nouvelle(prs)
     titre(s, "Du point à la bande : borner plutôt que poser",
           "Identification partielle sur l'ensemble des matrices admissibles")
-    xd = figure_gauche(s, "Z_identification_partielle.png")
+    separation_colonnes(s)
+    lg = MILIEU - MARGE - Inches(0.34)
+    colonnes_flottantes(
+        s, MARGE, Inches(2.05), lg, Inches(3.30),
+        categories=["t = 0,25", "t = 0,50", "t = 0,75", "t = 1,00"],
+        bas=[bornes[c][0] for c in ("0,25", "0,50", "0,75", "1,00")],
+        haut=[bornes[c][1] for c in ("0,25", "0,50", "0,75", "1,00")],
+        largeurs=[bornes[c][2] for c in ("0,25", "0,50", "0,75", "1,00")],
+        ymin=5000, ymax=9000,
+        reperes=[(socle, "socle identifié, sans aucune contagion", GRIS)])
+    _etiq(s, MARGE, Inches(5.80), lg, Inches(0.22),
+          "t : ignorance sur la direction, 1 = état actuel des données", 11, PIED,
+          italique=True, aligne=PP_ALIGN.CENTER)
+    xd = MILIEU + Inches(0.28)
     ld = L - MARGE - xd
     lignes(s, xd, Y_CORPS + Inches(0.25), ld, [
         ("Plutôt que de poser la direction, le capital est borné sur l'ensemble "
          "des matrices compatibles avec ce que la donnée identifie.", "texte"),
         ("1 024 sommets, énumérés exhaustivement", "fort"),
-        ("L'ignorance directionnelle se paye linéairement, et son coût maximal est "
-         "connu d'avance : c'est plus favorable qu'un intervalle de confiance "
-         "ordinaire.", "texte"),
+        ("En rouge, la largeur de la bande. Elle croît linéairement avec "
+         "l'ignorance, et son maximum est connu d'avance : c'est plus favorable "
+         "qu'un intervalle de confiance ordinaire.", "texte"),
+        ("Le point d'expert, " + fr(expert) + " M€, est un point de cet ensemble, "
+         "jamais sa mesure.", "texte"),
         ("Le niveau affiché reste illustratif.", "alerte"),
-    ], taille=15, interligne=15)
+    ], taille=15, interligne=14)
     message(s, "la bande quantifie une incertitude structurelle au lieu de la masquer derrière un point.")
-    source(s, "Sources : mémoire, chapitre 9 ; scripts 30 et 40.")
+    source(s, "Sources : mémoire, chapitre 9 ; valeurs lues dans la sortie versionnée du script 30 ; énumération, script 40.")
     notes(s, """
 [2:00] Le mecanisme : plutot que de poser la direction, on borne le capital sur
 l'ENSEMBLE des matrices compatibles avec ce que la donnee identifie. 1 024
@@ -984,12 +1300,29 @@ hierarchie qui sont defendus.
     s = nouvelle(prs)
     titre(s, "Quatre canaux déplacés, et leurs effets ne s'additionnent pas",
           "Au secteur, et non à l'échelle d'une entité")
-    figure(s, "S24_interaction_canaux.png", bas=Inches(2.85))
-    lignes(s, MARGE, Inches(4.85), LARG, [
+    lignes(s, MARGE, Inches(1.42), LARG, [
         ("Au secteur, le besoin de capital passe de 6 049 à 20 188 M€, soit un "
          "facteur 3,34. La non-conformité n'ajoute aucune pénalité : elle déplace "
          "quatre paramètres de la loi de perte.", "texte"),
-    ], taille=14, h=Inches(0.70))
+    ], taille=14, h=Inches(0.44))
+    legende(s, MARGE + Inches(1.40), Inches(1.92),
+            [("isolé, depuis l'état conforme", ACIER),
+             ("Shapley, la seule lecture additive", ARDOISE),
+             ("fermeture, depuis l'état non conforme", ACCENT)])
+    barres_groupees(
+        s, MARGE, Inches(2.22), LARG, Inches(2.90),
+        categories=["Fréquence", "Détection", "Propagation", "Accumulation"],
+        series=[
+            ("isolé", ACIER,
+             [canaux[c][0] for c in ("frequence", "detection", "propagation", "accumulation")],
+             [canaux[c][1] for c in ("frequence", "detection", "propagation", "accumulation")]),
+            ("Shapley", ARDOISE,
+             [canaux[c][4] for c in ("frequence", "detection", "propagation", "accumulation")],
+             [canaux[c][5] for c in ("frequence", "detection", "propagation", "accumulation")]),
+            ("fermeture", ACCENT,
+             [canaux[c][2] for c in ("frequence", "detection", "propagation", "accumulation")],
+             [canaux[c][3] for c in ("frequence", "detection", "propagation", "accumulation")]),
+        ])
     lc = (LARG - Inches(0.48)) / 3
     for i, (t, v) in enumerate([("Canaux isolés", "9 138 M€"),
                                 ("Écart total", "14 139 M€"),
@@ -1001,8 +1334,8 @@ hierarchie qui sont defendus.
         morceaux(b.text_frame, [(t + "   ", GRIS, False, POLICE),
                                 (v, ACCENT, True, POLICE)], 14, premier=True,
                  aligne=PP_ALIGN.CENTER)
-    message(s, "remédier un canal rapporte davantage à une entité défaillante partout : c'est la colonne de fermeture qu'un plan doit citer.")
-    source(s, "Sources : mémoire, chapitre 10 ; scripts 43 et 68.")
+    message(s, "remédier un canal rapporte davantage à une entité défaillante partout : c'est la lecture de fermeture qu'un plan doit citer.")
+    source(s, "Sources : mémoire, chapitre 10 ; les douze valeurs et leur bruit sont lus dans la sortie versionnée du script 68 ; repères du script 43.")
     notes(s, """
 [1:40] Trois nombres, pas plus : 9 138, 14 139, 5 001.
 Dire d'abord AU SECTEUR. Sans ce mot, le jury lit vingt milliards pour une entite
@@ -1194,29 +1527,72 @@ etre la reponse a la question posee au debut.
         notes(s, note)
         return s
 
-    sauv(1, "Sept sources, et chacune avec son statut de preuve",
-         "Ce qui est rejouable, et ce qui ne l'est pas",
-         [("Sévérité en euros : base internationale de pertes opérationnelles", "fort"),
-          ("Chronologie de brèches : fréquence et étude d'événement", "puce"),
-          ("Corpus de rapports post-mortem : structure de la direction", "puce"),
-          ("États réglementaires publiés : quatre bilans réels, anonymisés", "puce"),
-          ("Comptage d'incidents par vecteur : structure, jamais niveau", "puce"),
-          ("Étude de marché cyberassurance : contexte, aucune calibration", "puce"),
-          ("Deux statuts distingués : versionné et rejouable, ou citation externe "
-           "non recalculable", "fort")],
-         src="Sources : mémoire, chapitre 4 ; scripts 62 et 63.",
-         note="Si le jury demande la tracabilite : chaque nombre publie sort d'un script versionne, et un harnais verifie les 2 346 nombres du document.")
+    POSE = ("posé", ACCENT, True)
+    EST = ("estimé", ARDOISE, True)
 
-    sauv(2, "Les paramètres, et ce qui est estimé, posé ou gelé",
-         "La thèse dépend de l'ordre, pas du niveau",
-         [("Sévérité : loi de Pareto généralisée au-delà du seuil, indice de queue 0,5954", "puce"),
-          ("Seuil 20,03 M€, 91 excès, calibration gelée depuis le 7 août 2026", "puce"),
-          ("Fréquence : binomiale négative, validée hors échantillon", "puce"),
-          ("Gain de propagation : trois valeurs POSÉES, 0,45 / 0,68 / 0,90", "alerte"),
-          ("Le capital est croissant en ce gain : l'ordre suffit à produire l'écart, "
-           "l'amplitude est un scénario", "fort")],
-         src="Sources : mémoire, annexe D ; scripts 07, 08b, 63 et 66.",
-         note="Le point qui desamorce la question sur les valeurs posees : la these ne depend pas de leur niveau mais de leur ORDRE, et la monotonie est demontree.")
+    s = annexe(prs, 1, "Sept sources, et chacune avec son statut de preuve",
+               "Ce qui est rejouable, et ce qui ne l'est pas")
+    bas = tableau(s, MARGE, Inches(1.62), LARG,
+            ["Source", "Ce qu'elle porte dans le modèle", "Statut de preuve"],
+            [0.30, 0.44, 0.26],
+            [["Base internationale de pertes opérationnelles",
+              "la sévérité en euros, au-delà du seuil",
+              ("versionné, rejouable", ARDOISE, True)],
+             ["Chronologie de brèches",
+              "la fréquence, et l'étude d'événement MOVEit",
+              ("versionné, rejouable", ARDOISE, True)],
+             ["Corpus de rapports post-mortem",
+              "la structure de la direction, et son biais mesuré",
+              ("versionné, rejouable", ARDOISE, True)],
+             ["États réglementaires publiés",
+              "quatre bilans réels, anonymisés, pour la descente d'échelle",
+              ("versionné, rejouable", ARDOISE, True)],
+             ["Comptage d'incidents par vecteur",
+              "la structure du risque, jamais son niveau",
+              ("citation externe", ACCENT, True)],
+             ["Étude de marché de la cyberassurance",
+              "le contexte, et aucune calibration",
+              ("citation externe", ACCENT, True)],
+             ["Préprint de cascade climatique",
+              "le protocole, jamais l'ordre du résultat",
+              ("citation externe", ACCENT, True)]])
+    lignes(s, MARGE, bas + Inches(0.30), LARG, [
+        ("Une citation externe est une valeur qu'aucun script du dépôt ne "
+         "reproduit. Elle est déclarée comme telle, elle n'entre dans aucune "
+         "calibration, et elle ne porte aucun niveau de capital.", "note"),
+    ], taille=14, h=Inches(0.60))
+    source(s, "Sources : mémoire, chapitre 4 ; scripts 62 et 63.")
+    notes(s, "Si le jury demande la tracabilite : chaque nombre publie sort d'un script versionne, et un harnais verifie les 2 346 nombres du document. La colonne de droite est le point : deux statuts, jamais confondus.")
+
+    s = annexe(prs, 2, "Les paramètres, et ce qui est estimé, posé ou gelé",
+               "La thèse dépend de l'ordre, pas du niveau")
+    bas = tableau(s, MARGE, Inches(1.62), LARG,
+            ["Paramètre", "Valeur", "Statut", "Ce que le statut engage"],
+            [0.30, 0.24, 0.13, 0.33],
+            [["Seuil de la loi de queue, u", fr(par["u"], 2) + " M€",
+              POSE, "règle du percentile 85 ; la règle de stabilité retombe dessus"],
+             ["Excès au-dessus du seuil", fr(par["n"]),
+              ("compté", ARDOISE, True), "une fois le seuil et l'échantillon fixés"],
+             ["Indice de queue, ξ", fr(par["xi"], 4),
+              EST, "IC 90 % [" + fr(par["xi_bas"], 3) + " ; " + fr(par["xi_haut"], 3)
+              + "], et c'est la plus grosse incertitude"],
+             ["Échelle, σ", fr(par["sigma"], 2) + " M€",
+              EST, "maximum de vraisemblance, seuil imposé"],
+             ["Fréquence au secteur, λ", fr(par["lam"], 2) + " par an",
+              ("calibré", ARDOISE, True), "descente d'échelle depuis le périmètre financier"],
+             ["Surdispersion des comptes", fr(par["phi"], 1),
+              POSE, "marge prudentielle assumée, et déclarée comme telle"],
+             ["Gain de propagation, g", "0,45  /  0,68  /  " + fr(par["g"], 2),
+              POSE, "le capital est croissant en g : l'ordre suffit à produire l'écart"],
+             ["Taux de dépassement, p_u", fr(par["pu"], 4),
+              ("gelé", GRIS, True), "écart de +2,4 % sur la VaR, chiffré plutôt que corrigé"]])
+    lignes(s, MARGE, bas + Inches(0.26), LARG, [
+        ("Ce qui est POSÉ n'est pas une estimation déguisée : la thèse ne dépend "
+         "pas du niveau de ces valeurs mais de leur ORDRE, et la monotonie du "
+         "capital en g est démontrée.", "alerte"),
+    ], taille=14, h=Inches(0.60))
+    source(s, "Sources : mémoire, annexe D ; valeurs lues dans la sortie versionnée du script 63 ; monotonie, script 66.")
+    notes(s, "Le point qui desamorce la question sur les valeurs posees : la these ne depend pas de leur niveau mais de leur ORDRE, et la monotonie est demontree au script 66. Le p_u gele est l'exemple a citer si on demande la rigueur : l'ecart est publie au chapitre 13 au lieu d'etre corrige en silence, parce que rejouer un pipeline stochastique pour 2,4 % deplacerait des centaines de nombres sans qu'aucun deplacement soit attribuable a la correction.")
 
     sauv(3, "Pourquoi une loi de valeurs extrêmes pour la sévérité",
          "Adéquation, et ce que le backtest valide",
@@ -1273,11 +1649,28 @@ etre la reponse a la question posee au debut.
          src="Sources : mémoire, annexe F, table des notations.",
          note="La distinction en rouge est celle qui a produit une confusion en seance le 7 aout 2026 : le quantile de severite d'un sinistre n'est pas une mesure de capital.")
 
+    # Les deux figures que l'expose remplace par un graphique natif restent
+    # disponibles ICI, telles qu'elles sont dans le memoire. Le texte de
+    # l'Institut dit que le jury « essaie de retrouver dans le memoire ce que
+    # l'etudiant presente a l'oral » : la figure du document doit donc rester a
+    # portee de voix, meme quand la diapositive en montre une lecture plus lisible.
+    sauv(11, "La table complète des quatre canaux, telle qu'elle est au mémoire",
+         "Les quinze termes, les trois lectures, et où vit l'interaction",
+         fig="S24_interaction_canaux.png",
+         src="Sources : mémoire, chapitre 10, figure S24 ; scripts 43 et 68.",
+         note="C'est la figure du memoire. La diapositive de l'expose en montre le panneau du milieu, redessine pour etre lisible a la projection, avec les memes valeurs lues dans la sortie versionnee. Le panneau (a) porte la decomposition de Mobius, le (c) les six croises de paires. NE PAS additionner l'interaction des canaux et celle des piliers : ce sont deux partitions du meme ecart.")
+
+    sauv(12, "L'ensemble d'identification partielle, tel qu'il est au mémoire",
+         "Le pavé, la lecture centrale, la priorité robuste et la hiérarchie",
+         fig="Z_identification_partielle.png",
+         src="Sources : mémoire, chapitre 9, figure Z ; scripts 30 et 40.",
+         note="C'est la figure du memoire. La diapositive de l'expose en montre le panneau (a), redessine en bandes. Les trois autres panneaux repondent a des questions de jury : la lecture centrale bayesienne, la priorite robuste au sens du regret maximal, et la hierarchie sans cycle.")
+
     prs.save(SORTIE)
     n = len(prs.slides.__iter__.__self__._sldIdLst)
     print(f"ecrit  {os.path.relpath(SORTIE, ICI)}")
     print(f"       {n} diapositives : {_numero['n']} numerotees (couverture, sommaire,")
-    print(f"       14 de contenu, cloture), 1 intercalaire, 10 de sauvegarde")
+    print(f"       14 de contenu, cloture), 1 intercalaire, {n - _numero['n'] - 1} de sauvegarde")
 
 
 if __name__ == "__main__":

@@ -571,6 +571,16 @@ Chacun a coûté du temps au moins une fois.
 22. **Le contrôle de mise en page se fait sur le PDF rendu, deux à deux.** Exporter par PowerPoint,
     puis comparer les cadres de toutes les lignes de texte de chaque page avec `pymupdf`. Quatre
     titres chevauchés sur vingt-huit pages ne se voient pas à la relecture.
+23. **Toute dimension qui dépend d'un texte se MESURE.** Le corps d'un titre, la largeur réservée
+    à une étiquette de valeur, la hauteur d'une ligne de tableau : posées en dur, les trois ont
+    produit un chevauchement. `PIL.ImageFont` sur la vraie police, puis la coupure aux espaces,
+    et le défaut disparaît par construction au lieu d'être corrigé au cas par cas.
+24. **UNE TOLÉRANCE NE PORTE JAMAIS DE PLANCHER ABSOLU.** Recopiée sous la forme
+    `max(0,6 % ; 0,5)`, la tolérance de comparaison acceptait un indice de queue lu à 0,5954 pour
+    une valeur attendue de 0,62 : le plancher écrase tout ce qui vaut moins que lui. C'est le
+    défaut que le harnais du mémoire avait déjà corrigé en août, reproduit à l'identique. Le
+    demi-pas se prend sur la **dernière décimale écrite**. Et il ne se suppose pas : le garde-fou
+    a été **testé sur cinq cas**, dont deux dérives, et c'est le test qui a révélé le défaut.
 
 ---
 
@@ -624,6 +634,41 @@ Deux écarts au gabarit sont assumés et écrits : le bandeau de bas de page n'�
 cadratin que le gabarit emploie, le gras du libellé suffisant ; et le corps des titres varie
 entre 20 et 26 points au lieu des 26 fixes du gabarit, ce qui est précisément le remède au défaut
 que le gabarit porte lui-même.
+
+### Puis les graphiques et les tableaux passent en vectoriel, et ils LISENT leurs nombres
+
+Seconde demande du jour, et c'est celle qui change le statut du support. Deux diapositives de
+l'exposé et deux annexes ne portent plus une image importée mais un **graphique ou un tableau
+dessiné par le script**, en formes vectorielles à la charte.
+
+**LA RÈGLE QUI GOUVERNE CES GRAPHIQUES, ET ELLE N'EST PAS COSMÉTIQUE.** Une figure importée tient
+ses nombres du script qui l'a produite : elle ne peut pas mentir. Un graphique dessiné dans le
+support, lui, **retaperait** les valeurs, et c'est exactement la faute que le harnais du mémoire
+existe pour empêcher. Les graphiques construits **lisent donc `sorties_verif/NN.txt`**, et chaque
+lecture est **contrôlée contre la valeur que le mémoire publie** : si une sortie versionnée dérive,
+la construction s'arrête au lieu de publier en silence un chiffre que le document ne porte pas.
+Le support devient ainsi **plus sûr** qu'avec ses images, qui, elles, se périment sans rien dire.
+
+Ce qui est passé en construit, et pourquoi : la diapositive des **quatre canaux**, qui portait une
+figure à trois panneaux illisible à la projection et qui montre désormais les **douze valeurs avec
+leur bruit** en barres groupées, lues dans le script 68 ; la diapositive des **bornes**, qui montre
+la bande s'élargir linéairement avec l'ignorance, lue dans le script 30 ; l'**annexe des sources**
+et l'**annexe des paramètres**, devenues de vraies tables, la seconde lue dans le script 63. Les
+deux figures du mémoire remplacées sont **conservées en sauvegarde**, parce que le texte de
+l'Institut dit que le jury cherche à retrouver dans le mémoire ce qui est présenté à l'oral.
+
+**Ce qui n'a PAS été redessiné, et c'est une règle :** les figures qui portent autre chose qu'une
+petite table de nombres, réseau, matrice, ajustement, courbe. Redessiner une figure de résultat en
+approchant des positions à l'œil serait inventer.
+
+**Un objet graphique PowerPoint natif a été écarté avec son motif.** Il porte son classeur et son
+habillage Office, il faudrait le restyler pièce par pièce, et python-pptx n'expose aucune interface
+pour les **barres d'erreur**, qu'il faudrait écrire en XML. Or toute grandeur simulée se publie
+avec son bruit dans ce projet.
+
+**Le garde-fou était faux au premier jet, et c'est le test qui l'a dit.** Voir le piège 24
+ci-dessus : un plancher de tolérance absolu recopié sans réfléchir. Le contrôle tourne désormais
+sur cinq cas, deux dérives comprises, et les cinq passent.
 
 ### Un point de rédaction ouvert, laissé à Kélian
 

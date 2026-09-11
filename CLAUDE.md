@@ -168,11 +168,21 @@ recolorier une figure à la palette de présentation ferait diverger le mémoire
 **Et le support de soutenance est GÉNÉRÉ, comme les figures.** `build_soutenance_ppt.py` écrit
 `soutenance_memoire_DORA.pptx` ; ne jamais l'éditer dans PowerPoint, la modification serait perdue
 à la régénération suivante. C'est ce qui a rendu le changement de charte bon marché : le contenu
-n'a pas bougé, seules les primitives de mise en page ont été réécrites. **Quatre pièges de
-python-pptx sont documentés dans `REPRISE.md`**, dont deux qui reviennent à chaque fois : un titre
-à corps fixe qui passe à la ligne recouvre son sous-titre, et une photographie agrandie pour
-couvrir son cadre en sort et passe sous le texte. Le contrôle qui les attrape compare deux à deux
-les cadres des lignes de texte du **PDF rendu**, jamais la source.
+n'a pas bougé, seules les primitives de mise en page ont été réécrites. **Six pièges de
+python-pptx sont documentés dans `REPRISE.md`**, dont deux qui reviennent à chaque fois : toute
+dimension qui dépend d'un texte se **mesure** avec la vraie police (un titre, une étiquette de
+valeur, une hauteur de ligne de tableau posés en dur ont chacun produit un chevauchement), et une
+photographie agrandie pour couvrir son cadre en sort et passe sous le texte. Le contrôle qui les
+attrape compare deux à deux les cadres des lignes de texte du **PDF rendu**, jamais la source.
+
+**ET LES GRAPHIQUES CONSTRUITS DU SUPPORT LISENT LEURS NOMBRES DANS `sorties_verif/`.** Depuis le
+11 septembre, quatre diapositives ne portent plus une image mais un graphique ou un tableau
+vectoriel dessiné par le script. Le motif est le même que celui du harnais : une figure importée
+tient ses nombres du script qui l'a produite, un graphique dessiné les **retaperait**. Chaque
+lecture est donc **contrôlée contre la valeur que le mémoire publie**, et la construction échoue
+si une sortie versionnée dérive. **La tolérance de ce contrôle ne porte pas de plancher absolu** :
+le demi-pas se prend sur la dernière décimale écrite, sans quoi 0,5954 se confirme par 0,62. C'est
+le défaut déjà corrigé dans le harnais en août, reproduit puis retrouvé par un test.
 
 **Et les deux postes ne portent pas le même format de la chronologie PRC, ce qui rend deux
 scripts complémentaires et non redondants.** Le PC a `Data_Breach_Chronology.xlsx` et pas le

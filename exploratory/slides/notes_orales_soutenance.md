@@ -1,7 +1,7 @@
 # Notes orales, soutenance devant l'Institut
 
 Support : `soutenance_memoire_DORA.pptx`, au gabarit Nexialog depuis le 11 septembre 2026 :
-couverture, sommaire, **14 diapositives de contenu**, clôture, intercalaire et 10 de sauvegarde.
+couverture, sommaire, **14 diapositives de contenu**, clôture, intercalaire et 12 de sauvegarde.
 Les mêmes notes figurent dans le volet commentaires du fichier, diapositive par diapositive.
 
 **La numérotation ci-dessous est celle du support.** La diapositive 2 est le sommaire, qui
