@@ -1,7 +1,11 @@
 # Notes orales, soutenance devant l'Institut
 
-Support : `soutenance_memoire_DORA.pptx`, 16 diapositives principales et 10 de sauvegarde.
+Support : `soutenance_memoire_DORA.pptx`, au gabarit Nexialog depuis le 11 septembre 2026 :
+couverture, sommaire, **14 diapositives de contenu**, clôture, intercalaire et 10 de sauvegarde.
 Les mêmes notes figurent dans le volet commentaires du fichier, diapositive par diapositive.
+
+**La numérotation ci-dessous est celle du support.** La diapositive 2 est le sommaire, qui
+s'annonce en une phrase et ne se commente pas ; elle n'a donc pas de section ici.
 
 **Durée visée : 20 minutes.** Le texte de l'Institut prévoit 25 minutes de présentation et
 20 de questions, et précise que le dépassement peut être pénalisant. Le support tient dans les
@@ -14,7 +18,7 @@ l'avoir introduit.
 
 ---
 
-## 1. Titre — 20 s
+## 1. Titre  ·  20 s
 
 **Message.** Se présenter, annoncer la durée, poser la question tout de suite.
 
@@ -27,7 +31,7 @@ peut-il être affirmé. »
 
 ---
 
-## 2. Le problème métier — 1 min 30
+## 3. Le problème métier  ·  1 min 30
 
 **Message.** Il existe un maillon manquant entre une exigence de maîtrise et une exigence de
 capital.
@@ -45,7 +49,7 @@ provisions, donc elle donne le même chiffre à une entité exemplaire et à une
 
 ---
 
-## 3. Question et contribution — 1 min 20
+## 4. Question et contribution  ·  1 min 20
 
 **Message.** Trois apports, et le second est celui qui distingue le travail.
 
@@ -59,7 +63,7 @@ est celle qui produit la contribution.
 
 ---
 
-## 4. Les cinq piliers — 1 min
+## 5. Les cinq piliers  ·  1 min
 
 **Message.** Ce sont des domaines de contrôle, pas des cases à cocher, et ils interagissent.
 
@@ -74,7 +78,7 @@ dans la matrice calibrée. Si on demande pourquoi, la figure est en sauvegarde.
 
 ---
 
-## 5. La donnée, observable et non observable — 1 min 30
+## 6. La donnée, observable et non observable  ·  1 min 30
 
 **Message.** La colonne de droite n'est pas un manque à combler avec plus de données du même
 type. Elle est structurelle.
@@ -88,7 +92,7 @@ la sévérité et la co-occurrence. Elles ne donnent pas la direction.
 
 ---
 
-## 6. L'architecture — 1 min 30
+## 7. L'architecture  ·  1 min 30
 
 **Message.** Le modèle est partiellement calibré et partiellement borné, et le document dit
 lequel est lequel.
@@ -105,7 +109,7 @@ limites, et c'est elle qui interdit d'additionner les quatre leviers.
 
 ---
 
-## 7. Pourquoi une cascade dirigée — 1 min 30
+## 8. Pourquoi une cascade dirigée  ·  1 min 30
 
 **Message.** L'ordre de propagation change la criticité, et une dépendance symétrique ne le voit
 pas.
@@ -121,7 +125,7 @@ remédiation.
 
 ---
 
-## 8. La non-identifiabilité — 2 min
+## 9. La non-identifiabilité  ·  2 min
 
 **C'est la diapositive du mémoire. Prendre le temps, ralentir le débit.**
 
@@ -140,7 +144,7 @@ résultat d'identification. C'est ce qui interdit de publier une direction comme
 
 ---
 
-## 9. Du point à la bande — 2 min
+## 10. Du point à la bande  ·  2 min
 
 **Message.** Borner plutôt que poser, et chiffrer ce que l'ignorance coûte.
 
@@ -159,7 +163,7 @@ capital. »
 
 ---
 
-## 10. Les quatre canaux — 1 min 40
+## 11. Les quatre canaux  ·  1 min 40
 
 **Message.** La non-conformité ne se paie pas en pénalité, et les canaux ne s'additionnent pas.
 
@@ -184,7 +188,7 @@ cascade est super-additive sur ses canaux.
 
 ---
 
-## 11. Le pilier des tiers — 1 min
+## 12. Le pilier des tiers  ·  1 min
 
 **Message.** Contagion et accumulation sont deux mécanismes différents, et le modèle porte les
 deux.
@@ -200,7 +204,7 @@ calibration.
 
 ---
 
-## 12. La donnée manquante devient un livrable — 1 min 40
+## 13. La donnée manquante devient un livrable  ·  1 min 40
 
 **L'une des deux diapositives les plus importantes, avec la huitième.**
 
@@ -219,7 +223,7 @@ question de l'applicabilité vient.
 
 ---
 
-## 13. Décision pour l'entité — 1 min 20
+## 14. Décision pour l'entité  ·  1 min 20
 
 **Message.** Trois décisions, et une confusion à ne pas commettre.
 
@@ -236,7 +240,7 @@ de la borne.
 
 ---
 
-## 14. Limites — 1 min 10
+## 15. Limites  ·  1 min 10
 
 **Message.** Quatre limites, et en face ce qui tient malgré elles.
 
@@ -253,7 +257,7 @@ a été **requalifié en borne supérieure**. Le texte de l'Institut récompense
 
 ---
 
-## 15. Conclusion — 30 s
+## 16. Conclusion  ·  30 s
 
 **À dire.** Les trois messages, puis la phrase finale, lentement et sans la lire mot à mot :
 « Quand la dépendance n'est pas identifiable, la bonne réponse actuarielle n'est pas la fausse
@@ -261,7 +265,7 @@ précision : c'est une borne, une hiérarchie de données et une décision mieux
 
 ---
 
-## 16. Questions
+## 17. Questions
 
 Garder l'architecture visible : elle sert de point d'appui pour situer chaque question. Les dix
 diapositives de sauvegarde s'appellent à la voix.

@@ -5,6 +5,17 @@ LaTeX, des cinquante figures de `exploratory/vasicek_lab/figures/` et des sortie
 `sorties_verif/`. **Aucun chiffre de ce plan n'est nouveau** : tous sont repris du mémoire ou
 d'une sortie de script.
 
+**Mise à jour du 11 septembre au soir.** Le support est passé au gabarit de présentation Nexialog,
+à la demande de Kélian. Le contenu et l'enchaînement de ce plan tiennent inchangés ; seule la
+numérotation des diapositives se décale, le gabarit ajoutant un sommaire en position 2 et une
+diapositive de clôture. La table de correspondance est dans `controle_soutenance.md`, et les
+notes orales portent déjà la numérotation nouvelle.
+
+**Le titre de soutenance recommandé plus bas n'est pas celui de la couverture.** Le gabarit
+Nexialog place le titre du mémoire sur sa page de couverture, et c'est ce qui a été suivi. La
+thèse, « borner plutôt que poser », est le titre de la diapositive qui l'énonce. Arbitrage ouvert,
+et il se change en un endroit.
+
 ---
 
 ## Une réserve de cadrage, à lever avant de répéter

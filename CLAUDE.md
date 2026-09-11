@@ -133,6 +133,8 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 | Decks tuteur | `exploratory/slides/AAAA-MM-JJ_point_tuteur.tex` |
 | Deck tutrice de stage | `exploratory/slides/2026-08-10_point_caroline.tex` |
 | Aide-mémoire de call | `exploratory/slides/aide_memoire_call_AAAA-MM-JJ.tex` |
+| **Support de soutenance Institut** | `exploratory/slides/build_soutenance_ppt.py` — **généré, jamais édité à la main** ; contrôle dans `controle_soutenance.md`, notes dans `notes_orales_soutenance.md` |
+| Visuels du gabarit Nexialog | `exploratory/slides/charte_nexialog/` — logos et photographies, lire son `README.md` |
 | Données brutes | `data/raw/` — **gitignoré, sous licence, ne jamais committer** |
 | **Palette et style de figures** | `exploratory/vasicek_lab/style_nexialog.py` — **source unique des couleurs** |
 
@@ -152,6 +154,25 @@ Trois choses à savoir avant d'y toucher :
   ordre**, et c'est un écart assumé à la charte. DejaVu est fournie par matplotlib, donc
   identique sur les deux postes : c'est ce qui rend une figure rejouée identique à l'octet.
   Mettre Segoe UI en premier la ferait choisir sur le PC et casserait la parité avec le Mac.
+
+**ET IL Y A DEUX PALETTES NEXIALOG DANS LE DÉPÔT DEPUIS LE 11 SEPTEMBRE, À NE PAS CONFONDRE.**
+`style_nexialog.py` porte celle des **figures** et reste la source unique pour elles. Le gabarit
+de **présentation** de l'entreprise, fourni par Kélian ce jour-là et relevé aplat par aplat, en
+porte une autre : titre Georgia gras `#223E55`, sous-titre Georgia gras `#B10031`, corps Segoe UI
+`#122738`, secondaire `#595959`, aplats `#223E55` / `#192E3F` / `#435B6E`, clair `#F2F2F2`, accent
+`#B10031`, pied `#A5A5A5`. Elle vaut pour les **diapositives** du support de soutenance, jamais
+pour un tracé, et elle est recopiée en tête de `build_soutenance_ppt.py` avec le
+`README.md` de `charte_nexialog/`. Les deux familles se ressemblent sans être identiques :
+recolorier une figure à la palette de présentation ferait diverger le mémoire et le support.
+
+**Et le support de soutenance est GÉNÉRÉ, comme les figures.** `build_soutenance_ppt.py` écrit
+`soutenance_memoire_DORA.pptx` ; ne jamais l'éditer dans PowerPoint, la modification serait perdue
+à la régénération suivante. C'est ce qui a rendu le changement de charte bon marché : le contenu
+n'a pas bougé, seules les primitives de mise en page ont été réécrites. **Quatre pièges de
+python-pptx sont documentés dans `REPRISE.md`**, dont deux qui reviennent à chaque fois : un titre
+à corps fixe qui passe à la ligne recouvre son sous-titre, et une photographie agrandie pour
+couvrir son cadre en sort et passe sous le texte. Le contrôle qui les attrape compare deux à deux
+les cadres des lignes de texte du **PDF rendu**, jamais la source.
 
 **Et les deux postes ne portent pas le même format de la chronologie PRC, ce qui rend deux
 scripts complémentaires et non redondants.** Le PC a `Data_Breach_Chronology.xlsx` et pas le
@@ -2167,6 +2188,13 @@ autant de `\bigskip` plus bas »). Avec ces trois corrections la v1 revient **ex
 LUCY, un JPEG **sur fond noir** dont la transparence a été perdue : détourer un texte bleu nuit
 d'un fond noir laisse un halo. Le nom en clair est plus propre. Si Kélian veut le logo, il faut
 un PNG à fond transparent ou blanc, et la ligne à décommenter est déjà dans le fichier.
+
+**LA CONDITION EST REMPLIE DEPUIS LE 11 SEPTEMBRE 2026, ET LE GESTE N'EST PAS FAIT.** Le gabarit
+de présentation fourni ce jour-là contient le logo Nexialog en **PNG à fond transparent** ; il est
+au dépôt sous `exploratory/slides/charte_nexialog/nexialog.png`. Le seul motif du refus tombe donc.
+Poser le logo sur la page de garde du mémoire reste une décision de Kélian, pas de l'assistant :
+le mémoire est destiné à être mis en ligne par l'Institut, et faire figurer une marque
+d'entreprise sur sa couverture n'est pas un choix typographique.
 
 ### 2. La lecture de marché occupe désormais une part substantielle de l'introduction
 

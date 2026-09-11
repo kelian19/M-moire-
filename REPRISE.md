@@ -484,9 +484,16 @@ propagation sur des sources prudentielles, et l'élicitation.
 
 ## La prochaine étape immédiate
 
-**Construire le support de soutenance.** Le prompt est dans
-`exploratory/slides/prompt_soutenance_ensae.md`, prêt à coller avec les deux PDF joints. Trois
-choses à savoir avant de lancer :
+**Le support de soutenance devant l'Institut est fait**, au gabarit de présentation Nexialog :
+`exploratory/slides/soutenance_memoire_DORA.pptx`, généré par `build_soutenance_ppt.py`, contrôlé
+dans `controle_soutenance.md`, notes orales dans `notes_orales_soutenance.md`. Ce qui reste sur ce
+support appartient à Kélian : la **date de soutenance**, qui s'imprime `[jj / mm / 2026]` sur la
+couverture tant qu'elle n'est pas renseignée, et l'arbitrage entre le titre du mémoire et le titre
+de soutenance recommandé sur cette même couverture.
+
+**Reste à construire le support de la soutenance ENSAE**, qui est un document distinct. Le prompt
+est dans `exploratory/slides/prompt_soutenance_ensae.md`, prêt à coller avec les deux PDF joints.
+Trois choses à savoir avant de lancer :
 
 - **la soutenance dure 45 minutes, dont 15 d'exposé et 25 à 30 de questions.** La partie questions
   vaut donc deux fois l'exposé, d'où quinze diapositives de repli en plus des treize de l'exposé ;
@@ -548,9 +555,83 @@ Chacun a coûté du temps au moins une fois.
 18. **`.Replace()` PowerShell avec `\n` échoue sur des fichiers CRLF.** Utiliser `[regex]::Replace`
     avec `\r?\n`, ou l'outil d'édition.
 
+### PowerPoint, depuis le 11 septembre 2026
+
+19. **Un titre posé à corps fixe qui passe à la ligne recouvre ce qui est dessous.** Le gabarit
+    Nexialog lui-même porte ce défaut deux fois. Le remède est de **mesurer** le texte avec la
+    vraie police, par `PIL.ImageFont` sur `georgiab.ttf` ou `segoeui.ttf`, et de descendre le
+    corps jusqu'à ce que le titre tienne sur une ligne. Un corps qui varie de 20 à 26 points ne se
+    remarque pas d'une diapositive à l'autre ; un chevauchement, si.
+20. **Une photographie agrandie jusqu'à couvrir son cadre en SORT.** Le débord ne se perd pas hors
+    diapositive, il passe sous le texte. Utiliser `pic.crop_left` et ses voisins, qui recadrent
+    sans déformer et respectent le cadre demandé.
+21. **Une forme empilée sur une autre laisse passer ce qu'il y a dessous entre les deux.** Une
+    coupe diagonale se fait par **deux polygones superposés**, le plus grand par-dessous, jamais
+    par trois triangles voisins.
+22. **Le contrôle de mise en page se fait sur le PDF rendu, deux à deux.** Exporter par PowerPoint,
+    puis comparer les cadres de toutes les lignes de texte de chaque page avec `pymupdf`. Quatre
+    titres chevauchés sur vingt-huit pages ne se voient pas à la relecture.
+
 ---
 
 # Journal
+
+## 11 septembre 2026
+
+Deux demandes, et la seconde a fait tomber six défauts de mise en page.
+
+### Le support de soutenance passe au gabarit Nexialog
+
+Kélian a fourni un PDF de 53 pages en disant « voici le style exacte que je veux ». Le fichier
+n'est pas un rapport : ce sont **deux supports de présentation concaténés**, le gabarit de
+l'entreprise et un second support couvrant la même matière. C'est le **gabarit** qui a été suivi.
+
+**La charte est mesurée dans le fichier, pas devinée.** Aplats vectoriels pondérés par leur
+surface, polices pondérées par le nombre de caractères. Titre Georgia gras `#223E55`, sous-titre
+Georgia gras `#B10031`, corps Segoe UI `#122738`, secondaire `#595959`, aplats `#223E55`,
+`#192E3F`, `#435B6E`, clair `#F2F2F2`, accent `#B10031`, pied `#A5A5A5`. Tout est recopié en tête
+de `build_soutenance_ppt.py`, qui en est le seul consommateur, et repris dans
+`exploratory/slides/charte_nexialog/README.md`.
+
+**ATTENTION À NE PAS CONFONDRE DEUX PALETTES.** Celle du gabarit vaut pour les **diapositives** ;
+`style_nexialog.py` reste la source unique des couleurs des **figures**. Les deux se ressemblent
+sans être identiques, et aucune figure n'a été recoloriée.
+
+**Le contenu n'a pas bougé d'une ligne**, et c'est ce que la génération par script rendait bon
+marché : seules les primitives de mise en page ont été réécrites. Un support fait à la main aurait
+imposé de refaire vingt-huit diapositives une par une. Le décompte passe de 16 principales à
+**couverture, sommaire, 14 de contenu, clôture, intercalaire et 10 de sauvegarde**, soit 28 pages,
+le sommaire et la clôture étant des pièces de gabarit.
+
+**Six visuels de charte entrent au dépôt**, dans `exploratory/slides/charte_nexialog/`, extraits
+du gabarit sans retouche. Ce sont des logos et deux photographies : aucun ne porte de donnée, et
+leur provenance est écrite. **Un gain à signaler** : `nexialog.png` est un PNG à fond
+**transparent**, ce qui lève la réserve inscrite dans `CLAUDE.md` depuis le 9 septembre, selon
+laquelle le logo d'entreprise ne pouvait pas figurer sur la page de garde du mémoire faute d'un
+fichier détourable. La ligne à décommenter est déjà dans `page_de_garde.tex` ; **le geste n'est
+pas fait**, il touche le mémoire et il appartient à Kélian.
+
+### Ce que la relecture des diapositives rendues a trouvé
+
+Six défauts, tous invisibles en relisant le code et tous vus en regardant la sortie. Ils sont
+listés dans `controle_soutenance.md` et les quatre qui se généralisent sont passés aux pièges
+d'instrument ci-dessus. Le plus instructif : **quatre titres d'annexe recouvraient leur
+sous-titre**, et ils ont été trouvés non pas à l'œil mais par un contrôle qui compare deux à deux
+les cadres de toutes les lignes de texte du PDF rendu. Après correction, **0 chevauchement et
+0 débord sur 340 lignes de texte et 28 pages**.
+
+Deux écarts au gabarit sont assumés et écrits : le bandeau de bas de page n'écrit pas le tiret
+cadratin que le gabarit emploie, le gras du libellé suffisant ; et le corps des titres varie
+entre 20 et 26 points au lieu des 26 fixes du gabarit, ce qui est précisément le remède au défaut
+que le gabarit porte lui-même.
+
+### Un point de rédaction ouvert, laissé à Kélian
+
+**La couverture porte le titre du mémoire**, comme le gabarit le prévoit, et non le titre de
+soutenance recommandé dans `plan_soutenance.md`. La thèse n'est pas perdue : « borner plutôt que
+poser » est le titre de la diapositive qui l'énonce. L'arbitrage se change en un endroit.
+
+---
 
 ## 9 septembre 2026
 
