@@ -40,16 +40,33 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 9 septembre 2026 au soir
+## L'état mesuré, au 15 septembre 2026
+
+**`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, décision de Kélian le 15 septembre.** Les trois autres
+fichiers maîtres restent au dépôt et se compilent, mais **tout ajustement demandé se fait sur
+`main_ensae`** : c'est lui qui part le 30 septembre. Il partage les mêmes chapitres que les
+autres, donc une modification de chapitre les touche tous, et il ajoute la couverture ENSAE, les
+remerciements, un chapitre d'enseignements du stage et les deux notes de synthèse.
 
 | Document | Total | Corps | Débordements | Harnais |
 |---|---|---|---|---|
-| `main.pdf`, version 1 | 186 pages | 136, annexes en 137 | 15, ligne de base | voir ci-dessous |
+| **`main_ensae.pdf`, le mémoire déposé** | **195 pages** | **140, annexes en 141** | **6, ligne de base** | 2 132 sur 2 132 |
+| `main.pdf`, version 1 | 186 pages | 136, annexes en 137 | 15, ligne de base | mêmes chapitres |
 | `main_v2.pdf`, version 2 | 192 pages | 140, annexes en 141 | 6, ligne de base | mêmes chapitres |
 | `rapport_ensae.pdf` | 52 pages | 36, références comprises | 0 | 373 confirmés sur 373 |
 
-**Harnais du mémoire : 2 346 nombres, 2 346 confirmés, 100 %**, et **0 hors contrôle non déclaré
-sur les dix-neuf chapitres**. Chapitre 02 à 100 % sur 204 nombres, couverture 100 %.
+Découpage de `main_ensae` : Contexte en 8, Données en 22, Modélisation en 35, Résultats en 83,
+Robustesse en 116, **Le stage en 135**, Annexes en 141, **notes de synthèse en 191 et 193**.
+
+**Harnais du mémoire : 2 132 nombres, 2 132 confirmés, 100 %**, et **0 hors contrôle non déclaré
+sur les dix-neuf chapitres**. Le total est passé de 2 346 à 2 132 par la coupe de la lecture de
+marché, non par une perte de contrôle : la couverture reste à 100 %.
+
+**LES LIGNES « Sources : scripts… » NE S'IMPRIMENT PLUS, ET LE HARNAIS TIENT QUAND MÊME.** Depuis
+le 15 septembre elles vivent dans un commentaire LaTeX, `% SOURCES-SCRIPTS: NN`, que
+`verif_chiffres.py` lit comme **second canal** à côté des `\texttt{NN}`. Ne pas retirer ces
+commentaires en croyant faire du ménage : ils sont ce qui rattache chaque section à ses scripts,
+et sans eux la couverture tombe de 100 % à zéro.
 
 **Harnais du rapport ENSAE : 373 nombres sous contrôle sur 399 publiés**, soit 93,5 % de
 couverture, **373 confirmés sur 373**, et **26 déclarés hors script** avec leur motif, donc
@@ -484,6 +501,25 @@ propagation sur des sources prudentielles, et l'élicitation.
 
 ## La prochaine étape immédiate
 
+**Sur `main_ensae`, qui est le document déposé, dans cet ordre :**
+
+1. **les 173 citations de script encore enchâssées dans une phrase** (« le script 67 imprime »,
+   « du script 47 », « par le script 67 »). Les 165 formes mécaniques sont traitées ; celles-ci
+   demandent de **réécrire la phrase**, une substitution automatique sur de la prose détruirait le
+   sens. Le rattachement au harnais doit être conservé en `% SOURCES-SCRIPTS: NN` à chaque fois ;
+2. **les six figures encore sous 6,5 pt effectifs**, listées au journal du 15 septembre. Cinq sont
+   rejouables ici ; `M_faisabilite` ne l'est que sur le Mac, faute du `.csv` de la chronologie
+   PRC ;
+3. **purger le `\textbf{}` à l'intérieur des phrases**, en le gardant pour les têtes de
+   paragraphe. Un mémoire d'actuariat de l'Institut n'a presque pas de gras dans son corps ;
+4. **compléter `\fondateurnexialog`** dans `remerciements.tex`, qui imprime
+   `Ali [NOM À COMPLÉTER]` en gras tant qu'il est vide, donc un dépôt incomplet est impossible par
+   inadvertance. C'est à Kélian.
+
+**Facultatif, et c'est un arbitrage de Kélian** : déplacer en annexe la théorie des valeurs
+extrêmes du chapitre socle, qui est du manuel et non de la contribution, soit 5 à 7 pages de corps
+rendues.
+
 **Le support de soutenance devant l'Institut est fait**, au gabarit de présentation Nexialog :
 `exploratory/slides/soutenance_memoire_DORA.pptx`, généré par `build_soutenance_ppt.py`, contrôlé
 dans `controle_soutenance.md`, notes orales dans `notes_orales_soutenance.md`. Ce qui reste sur ce
@@ -585,6 +621,85 @@ Chacun a coûté du temps au moins une fois.
 ---
 
 # Journal
+
+## 15 septembre 2026
+
+Journée sur `main_ensae`, qui devient le document déposé. Trois demandes de Kélian, et la
+deuxième a cassé la compilation avant d'être réparée.
+
+### `6517607` : les renvois de script sortent du PDF
+
+Demande : « enlève tous les scripts + chiffres du mémoire, ce n'est pas commun ». C'est juste, un
+mémoire publié par l'Institut ne porte pas de lignes « Sources : scripts 43 et 68 » ; imprimées,
+elles ont l'air de notes de laboratoire.
+
+**Le problème était que ces lignes font tenir le harnais.** C'est par elles qu'une section est
+rattachée à ses scripts, et sans rattachement la couverture tombe de 100 % à zéro : plus aucun
+nombre publié n'est contrôlé. Le retrait a donc été précédé d'un ajout à `verif_chiffres.py`, qui
+lit désormais un **second canal**, le commentaire `% SOURCES-SCRIPTS: NN`. 165 citations
+déplacées, 141 en ligne autonome et 24 en fin de légende. Harnais inchangé après coup, **2 132
+nombres, 2 132 confirmés, 100 %**.
+
+**LE DÉGÂT, ET IL FAUT LE CONNAÎTRE.** La première version du script avalait les lignes suivantes
+jusqu'au point final, sans regarder ce qu'elle avalait. Une ligne de sources posée **à
+l'intérieur** d'une légende lui a fait manger `\label`, `\end{figure}`, `\begin{cle}` et un
+paragraphe entier, sur quatre blocs de `12_resultats` et `12b`. La compilation s'est arrêtée sur
+`File ended while scanning use of \caption@xdblarg`, et le message ne désigne pas le fichier
+fautif : il pointe la ligne d'`\input` du fichier maître. Ce qui a permis de trouver l'endroit est
+le **diff de suppression**, `git diff -U0 | Select-String '^-[^-]'`, exactement le piège que
+`CLAUDE.md` documente depuis août et qui a mordu une cinquième fois.
+
+**Le garde-fou qui remplace la prudence.** Le script refuse maintenant de franchir une commande
+structurelle, exige que le bloc consommé ait ses **accolades équilibrées**, et compare les comptes
+de `\begin`, `\end`, `\label` et `\caption` avant et après : si la structure bouge, **rien n'est
+écrit** et le fichier est signalé. Il a alors refusé de lui-même les quatre blocs qui avaient
+cassé, et la branche légende les a traités correctement.
+
+### La lecture de marché revient, en 1,84 page
+
+Elle avait été coupée entièrement le 14 septembre (435 lignes, 3 640 mots, 7 sous-sections).
+Kélian en a redemandé « une ptite partie, 2 pages max ». Ce qui est revenu est ce qui **travaille
+pour le mémoire**, et le reste est resté dehors : le vide constaté de l'extérieur par ceux qui
+observent le marché, la décomposition d'une charge en nombre et coût moyen que le chapitre 12
+applique ensuite à ses quatre canaux, et la **queue française vide** qui commande de calibrer la
+sévérité hors de France. Mesurée sur le PDF, pas sur le source : **1,84 page**, 29 nombres, 29
+confirmés, couverture 100 %, tous imprimés par le script 63.
+
+**Chaque terme technique y est défini à sa première apparition**, demande de Kélian le même jour :
+ratio sinistres sur primes, fréquence contre nombre de sinistres, exposition, quantile à 99,5 %,
+méthode par dépassement de seuil, franchise, capacité, perte brute contre perte indemnisée. Le
+critère posé est qu'un lecteur non actuaire suive.
+
+### Le contrôle du registre d'écriture, et ce qu'il donne
+
+Kélian demandait de vérifier que le texte ne trahit pas une rédaction automatique. Deux mesures,
+et les deux sont rassurantes :
+
+- **aucun tiret cadratin en incise.** Le source en porte 1 036, mais **tous** sont dans des lignes
+  de commentaire `% ------`, qui ne s'impriment jamais. Sur le PDF produit il en reste 24, et ce
+  sont des **puces de liste à tirets** (pages 19, 24, 25, 36, 151, 158, 159) et des **cases vides
+  de tableau** (92, 110, 122). Compter les tirets du source donne donc un nombre spectaculaire et
+  faux : le seul comptage qui vaut se fait sur le PDF ;
+- les 36 demi-cadratins sont de la typographie ordinaire, plages d'années `2019–2025`, pages de
+  bibliographie `14–39`, noms propres composés Fisher–Tippett–Gnedenko et Pickands–Balkema–de
+  Haan. Ne pas les « corriger » ;
+- `audit_style.py` compte **73 marqueurs sur 66 811 mots, soit 1,09 pour mille**. Le plus fréquent
+  est l'antithèse « ce n'est pas X, c'est Y », qui fait un vrai travail dans ce mémoire, celui de
+  corriger une lecture fautive. Une purge à plat l'aplatirait.
+
+### `ed73131` : huit figures retaillées, six sortent de l'illisible
+
+`Z5_echelle_repli` 7,6 pt effectifs, `Z14_p4_sousprocess_open` 7,1, `J2_var_predictive` 7,1,
+`S24_interaction_canaux` 7,5, `W_benchmark_sf` 7,2, `S20_biais_taille_troncature` 7,4. **Six
+restent sous le plancher de 6,5 pt** : `J3_validation_adequation` 4,7 (six panneaux),
+`M_faisabilite` 4,8 (script 05, Mac uniquement), `K3_branchement_R0` 5,7, `J6_roi_conformite` 6,1,
+`Z19_bayes_direction` 6,3, `Z16_p4_temps_arret` 6,4.
+
+### Contrôles de fin de journée
+
+`main_ensae` : **195 pages, 0 `??` dans le PDF, 6 Overfull `\hbox` soit exactement la ligne de
+base, 0 Overfull `\vbox`, 0 annotation hors page, 0 page tournée.** Harnais **2 132 sur 2 132,
+100 %**, hors contrôle non déclaré à zéro. Arbre git propre, branche `exploratory` poussée.
 
 ## 11 septembre 2026
 
