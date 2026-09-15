@@ -153,7 +153,8 @@ aucune contagion.
 \caption{Réconciliation des chiffres. (a)~Du socle ($W=0$, chapitre~\ref{chap:partielle}) à
 l'état conforme (chapitre~\ref{chap:resultats}), un canal ajouté à la fois sur le moteur
 commun. (b)~Sur une configuration identique, l'écart entre le moteur exact et le Monte-Carlo
-est le seul bruit d'échantillonnage. Sources : scripts~\texttt{36} et~\texttt{67}.}
+est le seul bruit d'échantillonnage.}
+% SOURCES-SCRIPTS: 36 67
 \label{fig:reconciliation}
 \end{figure}
 
@@ -177,7 +178,8 @@ axe de sensibilité, traité au \S\ref{sec:ann-hypotheses}, non d'un bruit par e
 \begin{figure}[htbp]\centering
 \figover{S16_prc_jacobs_residu.png}
 \caption{Le résidu de la conversion Jacobs ($\mathrm{RSE} = 0{,}523$) : la distribution du
-surcoût PRC se déplace plus qu'elle ne s'élargit. Sources : scripts~\texttt{21} et~\texttt{67}.}
+surcoût PRC se déplace plus qu'elle ne s'élargit.}
+% SOURCES-SCRIPTS: 21 67
 \label{fig:jacobsresidu}
 \end{figure}
 
@@ -232,8 +234,7 @@ Plafond de sévérité & $40$ M\euro{} & \textbf{posé} & capacité de réassura
 }
 
 \vspace{4pt}
-\textbf{Sources.} Scripts~\texttt{08b}, \texttt{22}, \texttt{25} (réaction du capital au score
-de conformité), \texttt{34}, \texttt{47}, \texttt{60} et~\texttt{67}.
+% SOURCES-SCRIPTS: 08b 22 25 34 47 60 67
 
 \textbf{Ce que la table rend visible.} Les seuls paramètres à \textbf{forte} sensibilité sont
 soit calibrés sur données (la queue $\xi$, dont on assume et chiffre l'incertitude), soit des
@@ -262,13 +263,14 @@ $14\,148$ à $15\,071$). L'ancrage des probabilités d'état, enfin, déplace le
 actuel ($9\,951$ à $11\,485$~M\euro{} selon les enquêtes retenues) mais jamais le SCR par état
 ni le surcoût NC contre C, qui lui sont conditionnels. Les trois axes confirment la ligne de
 partage du mémoire : les hypothèses bougent des niveaux, jamais la direction ni le classement.
-Sources : scripts~\texttt{22} et~\texttt{67}.
+% SOURCES-SCRIPTS: 22 67
 
 \begin{figure}[htbp]\centering
 \figover{S17_sensibilites_hypotheses.png}
 \caption{Sensibilités des hypothèses restantes : coefficients Jacobs (pivotés au centroïde
 déduit des erreurs-types publiées), charge systémique $\gamma$, ancrage des probabilités
-d'état. Source : script~\texttt{22}.}
+d'état.}
+% SOURCES-SCRIPTS: 22
 \label{fig:hypotheses}
 \end{figure}
 
@@ -399,8 +401,7 @@ journalière est en coupe, entre entités ; l'accumulation que le modèle fait p
 tiers est au sein d'un incident, entre piliers. Le premier calibre le second par analogie, non par
 mesure, et c'est une hypothèse à assumer plutôt qu'un ancrage.
 
-Sources de cette table : scripts~\texttt{34}, \texttt{40}, \texttt{57}, \texttt{59}, \texttt{63}
-et~\texttt{69}.
+% SOURCES-SCRIPTS: 34 40 57 59 63 69
 
 % =====================================================================
 \section{La CTE au niveau agrégé, et à quel niveau elle égale la VaR réglementaire}
@@ -595,7 +596,7 @@ sous-couverture, qui reste de trois points au nouveau niveau comme à l'ancien :
 l'annonce sans toucher l'estimateur. Et le correctif qui la réparerait, un élargissement de la
 demi-largeur d'environ $10\,\%$, est une recalibration que le gel interdit. Le choix retenu est
 donc celui que ce mémoire applique partout ailleurs : \emph{déclarer plutôt que rebaptiser}.
-Sources : scripts~\texttt{63} (calibration figée) et~\texttt{72}.
+% SOURCES-SCRIPTS: 63 72
 
 % =====================================================================
 \section{Martingalisation, tests conduits et tests impossibles}
@@ -687,7 +688,7 @@ l'\emph{extinction} de la cascade, ni l'\emph{épuisement} des piliers déjà to
 mécanismes sont dans le moteur de simulation, ils ne sont pas dans la chaîne servant à l'argument
 d'identification, et l'argument n'en a pas besoin : il porte sur ce que la co-occurrence peut ou
 ne peut pas révéler de la direction, indépendamment du nombre de pas effectivement parcourus.
-Source : script~\texttt{40}.
+% SOURCES-SCRIPTS: 40
 
 % =====================================================================
 \section{La structure de la dépendance entre états et son absence d'effet}
@@ -804,7 +805,7 @@ $1{,}30$ & $6\,972$ & $27\,459$ & $20\,487$ & $1{,}449$ \\
 \noindent La plage de $10\,781$~M\euro{} vaut $15$~fois le bruit de simulation de l'écart, mesuré à
 $\pm 734$~M\euro{} sur quatre graines appariées. L'effet n'est donc pas un artefact de Monte-Carlo,
 et c'est ce qui autorise à le qualifier de plus lourde des hypothèses structurelles non testées.
-Source : script~\texttt{74}.
+% SOURCES-SCRIPTS: 74
 
 \subsection*{Pourquoi l'amplitude est posée et non estimée}
 
@@ -1124,7 +1125,7 @@ code pas la \emph{précédence}. La clôture transitive le montre : elle ajoute 
 (P1,\,P2) impliquée par six incidents et (P5,\,P2) par un, qu'aucun rapport ne code directement.
 Pour $W$ c'est correct, $W$ étant un transfert direct ; mais lire $p_{jk}$ comme une précédence
 serait une faute, et le $p_{12}=0$ du script~\texttt{59} ne dit rien de l'ordre d'arrivée.
-Source : script~\texttt{75}.
+% SOURCES-SCRIPTS: 75
 
 \subsection*{L'acyclicité n'est pas un résultat, et le mauvais nul la ferait croire}
 

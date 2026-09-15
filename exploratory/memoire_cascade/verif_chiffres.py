@@ -315,8 +315,18 @@ def main():
         # et le harnais la classait sans source, donc hors controle : le motif n'acceptait que
         # l'identifiant nu. La citation longue est pourtant la meilleure des deux pour un lecteur.
         # On capture donc le prefixe numerique, avec ou sans suite.
+        # ET LA CITATION PEUT ETRE INVISIBLE, DEPUIS LE 15 SEPTEMBRE 2026. Kelian a
+        # demande que le memoire ne porte plus de renvois << scripts 43 et 68 >> :
+        # un memoire publie par l'Institut n'en montre pas, c'est un appareil de
+        # tracabilite interne et il a l'air de notes de laboratoire. Le rattachement
+        # SUBSISTE donc, mais dans un commentaire LaTeX, qui ne s'imprime pas :
+        #     % SOURCES-SCRIPTS: 43 68
+        # Sans ce second canal, retirer les lignes visibles ferait tomber la
+        # couverture de 100 % a zero et le dispositif de verification entier avec.
         cites = sorted({c for c in re.findall(r"\\texttt\{([0-9]+[a-z]?)(?:\\?_[^}]*)?\}", txt)
-                        if c in sorties})
+                        if c in sorties}
+                       | {c for ligne in re.findall(r"%\s*SOURCES-SCRIPTS\s*:\s*(.+)", txt)
+                          for c in re.findall(r"[0-9]+[a-z]?", ligne) if c in sorties})
         bruts = extrait(txt)
         vals = [v for v in bruts if exemption(v) is None]
         if not vals:

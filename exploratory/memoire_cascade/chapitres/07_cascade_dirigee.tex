@@ -33,9 +33,7 @@ une valeur de firme sous-jacente, dont rien n'existe en cyber. Les deux généra
 suivent lèvent ces deux limites.
 \end{attention}
 
-\noindent Source : script~\texttt{01}, qui mesure la part dirigée du classeur d'expert par le
-rapport de l'asymétrie de $\mathrm{TRANS}$ à son intensité, et donne les trois paires dont
-l'écart est le plus fort. Le script~\texttt{03} en dérive la normalisation.
+% SOURCES-SCRIPTS: 01 03
 
 \section{Généralisation A : la structure systémique dépend du pilier}
 
@@ -98,8 +96,7 @@ l'emboîtement est propre.
 propagation d'un choc sur un sous-réseau. Source : \texttt{build\_network\_figure}.}
 \end{figure}
 
-\noindent Source de cette section : script~\texttt{29}, qui imprime la normalisation
-$\max_j s_j$ et les descendants directs par pilier.
+% SOURCES-SCRIPTS: 29
 
 \section{La normalisation de Leontief : une stabilité garantie}
 
@@ -133,8 +130,7 @@ scalaire et non ligne à ligne, ce qui préserve l'hétérogénéité de ce que 
 pilier (P1 reçoit trois fois moins que P2) : la revendication \og P1 émet fort et reçoit peu\fg{}
 survit à la normalisation.
 
-\noindent Source de cette section : script~\texttt{03}, qui imprime le rayon spectral brut
-de \textsc{trans}, le diviseur de Leontief et les parts obtenues.
+% SOURCES-SCRIPTS: 03
 
 \section{La cascade est un processus de branchement}
 \label{sec:branch}
@@ -161,8 +157,8 @@ $R_0=\mathbf{0{,}054}$ : les deux lectures sont stables, mais pas du même ordre
 \figover{K3_branchement_R0.png}
 \caption{(a) Sur le domaine admissible $g\le1$, les deux rayons spectraux restent $<1$ ; les
 seuils critiques ($\rho(W)=1$ à $g=1{,}78$ ; $R_0=1$ à $g=8{,}1$) sont hors domaine. (b) La
-progéniture $(I-M)^{-1}$ reproduit exactement le classement ROOT du jugement d'expert.
-Source : \texttt{03\_calibration\_W}.}
+progéniture $(I-M)^{-1}$ reproduit exactement le classement ROOT du jugement d'expert.}
+% SOURCES-SCRIPTS: 03
 \end{figure}
 
 Deux résultats en découlent. D'une part, la forme simultanée est \textbf{structurellement
@@ -182,8 +178,7 @@ paramètres} : ROOT se déduit de TRANS au lieu d'être posé, soit cinq paramè
 moins.
 \end{attention}
 
-\noindent Sources de cette section : scripts~\texttt{03} (matrice de génération suivante,
-$R_0$, seuils critiques) et~\texttt{29} (rayon spectral de $W$ et progéniture).
+% SOURCES-SCRIPTS: 03 29
 
 \section{Le seuil $K_j$ : ce qui remplace $\Phi^{-1}(\mathrm{PD})$}
 
@@ -220,9 +215,7 @@ débiaiser cette fréquence (extrapoler le taux depuis un seuil haut n'est pas p
 modéliser la \textbf{sévérité} au-dessus de la barre, donc le capital ($-0{,}8\,\%$ de biais
 contre $-63{,}9\,\%$ pour la lognormale).
 
-\noindent Sources de cette section : scripts~\texttt{04}, qui balaie la barre de matérialité
-et imprime le biais résiduel sur le capital, et~\texttt{02}, qui chiffre ce biais pour
-l'ajustement de queue et pour la lognormale.
+% SOURCES-SCRIPTS: 04 02
 
 \section{Calibration et faisabilité}
 \label{sec:calib-cascade}
@@ -249,8 +242,7 @@ Le présent chapitre en donne la substance ; le détail du banc d'essai
 $\Phi^{-1}$ contre EVT, de la calibration du facteur systémique et des diagnostics de
 puissance est reporté en annexe.
 
-\noindent Sources de cette section : scripts~\texttt{03} (corrélations et pentes de
-récupération de $W$) et~\texttt{05} (faisabilité de la donnée).
+% SOURCES-SCRIPTS: 03 05
 
 \section{Formalisation : définitions et propriétés}
 \label{sec:formalisation}
@@ -340,8 +332,7 @@ que par sa partie symétrique $S$. Les matrices $W$ et $W^\top$, de même $S$, s
 $\mathrm{SCR}(W)\neq\mathrm{SCR}(W^\top)$ en général : la direction est non identifiée.
 \end{proposition}
 
-\noindent Sources de cette section : scripts~\texttt{32} et~\texttt{61}, qui vérifient les
-propriétés énoncées sur la matrice du classeur puis sur des matrices tirées au hasard.
+% SOURCES-SCRIPTS: 32 61
 
 \section{Vérification numérique des trois propriétés qui portent l'argument}
 \label{sec:verif-proprietes}
@@ -406,5 +397,4 @@ régulateur.
 
 % =====================================================================
 
-\noindent Sources complémentaires de cette section : scripts~\texttt{40} (test de
-réversibilité, loi nulle de permutation) et~\texttt{03} (valeurs du classeur).
+% SOURCES-SCRIPTS: 40 03

@@ -32,10 +32,7 @@ pont terme à terme comme l'écart résiduel de Monte-Carlo sont établis au
 \S\ref{sec:ann-reconciliation}.
 \end{cle}
 
-\noindent Sources de ce préambule : scripts~\texttt{65} (entité de référence et
-bilans réels), \texttt{66} (invariance en $g$), \texttt{12} (SCR par la cascade en euros),
-\texttt{16} (les niveaux par état repris de la table qui suit) et~\texttt{63} (le plafond de
-sévérité du périmètre PRC).
+% SOURCES-SCRIPTS: 65 66 12 16 63
 
 \section{SCR par état de conformité}
 
@@ -58,7 +55,8 @@ Non conforme           & 15074 & 15074 & 16595 & & 5520 & 5520 & 6577 \\
 \bottomrule
 \end{tabular}
 \caption{SCR par état, trois lectures (A~: fréquence ; B~: $+$~propagation ; C~:
-$+$~détection). Source : script~\texttt{16}. Le canal détection ne joue qu'aux extrêmes (il
+$+$~détection). Le canal détection ne joue qu'aux extrêmes (il
+% SOURCES-SCRIPTS: 16
 abaisse l'état conforme et relève le non conforme), l'état partiel n'étant pas modulé.}
 \label{tab:scretat}
 \end{table}
@@ -141,7 +139,8 @@ interdit.
 \begin{figure}[htbp]\centering
 \figover{S10_scr_multi_etats.png}
 \caption{SCR par état de conformité (trois canaux emboîtés) et bascule des états en crise
-systémique. Source : script~\texttt{16}.}
+systémique.}
+% SOURCES-SCRIPTS: 16
 \label{fig:multietats}
 \end{figure}
 
@@ -196,7 +195,8 @@ voies de construction distinctes convergent sur la même hiérarchie de piliers.
 \begin{figure}[htbp]\centering
 \figover{S11_decomp_par_pilier.png}
 \caption{Décomposition du $\Delta_{\text{DORA}}$ par pilier et validation croisée avec ROOT.
-Source : script~\texttt{16b}.}
+}
+% SOURCES-SCRIPTS: 16b
 \label{fig:decomp}
 \end{figure}
 
@@ -221,7 +221,7 @@ principielle qui somme exactement : c'est l'objet de la valeur de Shapley
 \emph{canaux} de la non-conformité, qui décompose le même écart sur une autre partition, vaut
 $+5\,001$~M\euro{} et dont le signe, lui, \emph{est} résolu : elle est reprise terme par terme au
 \S\ref{sec:kpi}. Les deux ne s'additionnent pas.
-Sources : scripts~\texttt{16b}, \texttt{20b} et~\texttt{68}.
+% SOURCES-SCRIPTS: 16b 20b 68
 \end{cle}
 
 \section{Allocation du capital : Shapley et Euler}
@@ -352,7 +352,8 @@ côté source~; le capital, lui, se loge là où les cascades atterrissent.
 \caption{Allocation du capital DORA (OpRisk). (A)~Shapley contre marginaux : l'interaction
 redistribuée. (B)~Euler : parts de capital (queue) contre parts de perte moyenne~; sur ce
 périmètre non plafonné, l'allocation fine de la queue extrême reste indicative
-($\xi \approx 0{,}6$, variance de sévérité infinie). Source : script~\texttt{20}.}
+($\xi \approx 0{,}6$, variance de sévérité infinie).}
+% SOURCES-SCRIPTS: 20
 \label{fig:allocation}
 \end{figure}
 
@@ -378,13 +379,15 @@ $t$ (ans) & SCR($t$) médiane & bande 90\,\% & $\Delta_{\text{DORA}}(t)$ \\
 5 & 7041  & $[5857\,;9028]$  & 116 \\
 \bottomrule
 \end{tabular}
-\caption{Trajectoire du capital DORA (M\euro, OpRisk). Source : script~\texttt{17}.}
+\caption{Trajectoire du capital DORA (M\euro, OpRisk).}
+% SOURCES-SCRIPTS: 17
 \label{tab:traj}
 \end{table}
 
 \begin{figure}[htbp]\centering
 \figover{S12_trajectoire_scr.png}
-\caption{Trajectoire SCR($t$) et évolution des états de conformité. Source : script~\texttt{17}.}
+\caption{Trajectoire SCR($t$) et évolution des états de conformité.}
+% SOURCES-SCRIPTS: 17
 \label{fig:traj}
 \end{figure}
 
@@ -441,7 +444,8 @@ domine, facteur $\sim 6$), mais la \textbf{direction} ($\Delta_{\text{DORA}}>0$)
 
 \begin{figure}[htbp]\centering
 \figover{S14_robustesse_multietats.png}
-\caption{Robustesse : le classement tient, le niveau non. Source : script~\texttt{19}.}
+\caption{Robustesse : le classement tient, le niveau non.}
+% SOURCES-SCRIPTS: 19
 \label{fig:robust}
 \end{figure}
 
@@ -854,7 +858,8 @@ que celui du chapitre~\ref{ch:identifiabilite}, décliné au niveau des sous-pil
 \begin{figure}[htbp]\centering
 \figover{W_benchmark_sf.png}
 \caption{Ce que chaque cadre exprime de l'effet DORA : $0\,\%$ pour la Formule Standard,
-$62\,\%$ pour la copule, $100\,\%$ pour la cascade. Source : script~\texttt{27}.}
+$62\,\%$ pour la copule, $100\,\%$ pour la cascade.}
+% SOURCES-SCRIPTS: 27
 \label{fig:benchmark-sf}
 \end{figure}
 
@@ -939,7 +944,8 @@ $\mathbf{169}$~M\euro & $\mathbf{3{,}6}$~M\euro \\
 \caption{Le même modèle lu à plusieurs échelles. La matrice $W$ et le moteur de cascade sont
 identiques partout ; seules la fréquence d'amorce et l'échelle de sévérité changent. Les deux
 dernières lignes sont la lecture cohérente, où la fréquence \emph{et} la sévérité sont prises
-à la taille de l'entité visée. Source : script~\texttt{60}.}
+à la taille de l'entité visée.}
+% SOURCES-SCRIPTS: 60
 \label{tab:echelle}
 \end{table}
 
@@ -1154,7 +1160,7 @@ la seconde. \textbf{Le forfait n'est donc pas une borne : il se trompe dans les 
 $-8\,\%$ d'un côté et de $+56\,\%$ de l'autre. Il doit être cité comme un ordre de grandeur de
 comparaison, jamais comme un majorant ni comme un minorant de la charge opérationnelle
 réglementaire. Deux entités ne déterminent pas un biais, elles suffisent à réfuter la monotonie.
-Source : script~\texttt{65}.
+% SOURCES-SCRIPTS: 65
 
 \vspace{4pt}
 La première lecture est celle qu'on attendait. Sur la plus grande entité du panel, un assureur
@@ -1286,8 +1292,8 @@ transfert pertinent.
 traité en excès de perte ; l'optimum tombe en $L^\star=\mathrm{SCR}=169$~M\euro, là où le
 capital résiduel s'annule. \textbf{(c)}~ce que le dimensionnement fait gagner, $-64\,\%$, chiffre
 à lire comme une \emph{borne supérieure} : capacité de marché, exclusions et risque de
-contrepartie l'entament, mais il faudrait $78\,\%$ d'inefficacité pour renverser la conclusion.
-Source : script~\texttt{58}.}{fig:detenir}
+contrepartie l'entament, mais il faudrait $78\,\%$ d'inefficacité pour renverser la conclusion.}{fig:detenir}
+% SOURCES-SCRIPTS: 58
 
 \begin{cle}
 \textbf{La boucle que cette section referme.} DORA impose des exigences de \emph{gestion},
