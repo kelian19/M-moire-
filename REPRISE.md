@@ -442,6 +442,36 @@ sur le PDF, ou lire `main.toc` après une compilation avec `--keep-intermediates
 **Et le texte du PDF porte des ligatures.** Chercher « vérification » échoue parce que le `fi`
 sort en un seul caractère. Normaliser en NFKD avant toute recherche.
 
+### L'agent qui vérifie les figures, et comment le lancer depuis n'importe quel poste
+
+**`.claude/agents/verificateur-figures.md` est versionné**, donc un `git pull` suffit pour
+l'avoir sur l'autre machine : Claude Code lit ce dossier au démarrage, et une session déjà
+ouverte quand le fichier arrive ne le connaît pas encore. Dans une session ouverte à la racine du
+dépôt, il se lance en le nommant, par exemple « lance l'agent verificateur-figures sur les figures
+Z20, Z22 et Z19 », et `/agents` le montre dans la liste. Plusieurs instances peuvent tourner en
+parallèle sur des lots disjoints ; elles ne doivent pas se partager un script ni un bloc LaTeX.
+
+Ce qu'il fait : il repère la page où tombe chaque figure, la rend en image, la **regarde**, juge
+la figure et sa place sur la page, corrige le code de tracé et le bloc LaTeX, recompile dans un
+dossier privé et regarde à nouveau. Sa grille et ses interdits sont dans sa définition ; les deux
+règles qui protègent le reste du projet sont qu'il ne touche ni aux calculs ni aux `print`, dont
+sortent les chiffres du mémoire, et qu'il ne compile **jamais** sans `--outdir`.
+
+```powershell
+# La carte : page, taille imprimée, taille réelle des polices, appel LaTeX, script producteur
+& $py exploratory\memoire_cascade\carte_figures.py
+& $py exploratory\memoire_cascade\carte_figures.py --image Z20_corpus_etendu_pij --rendu $env:TEMP\pages
+# Juger une correction sans salir le dossier du mémoire (une compilation dure ~20 s)
+cd exploratory\memoire_cascade
+cmd /c "..\..\memoire\tectonic.exe -X compile main_ensae.tex --outdir %TEMP%\essai > %TEMP%\essai\log.txt 2>&1"
+& $py carte_figures.py --pdf $env:TEMP\essai\main_ensae.pdf --image Z20_corpus_etendu_pij --rendu $env:TEMP\essai\pages
+```
+
+Le facteur `police` de la carte est ce qui manquait pour juger sans compiler : une police de
+`s` points dans matplotlib s'imprime à `s` fois ce facteur. C'est lui qui a chiffré le reproche de
+Kélian du 15 septembre, « l'image est trop grande » : la figure Z20 s'imprimait sur 15,4 × 21,9 cm,
+soit presque la page entière.
+
 ---
 
 ## Ce qui reste ouvert, par propriétaire
