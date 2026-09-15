@@ -45,10 +45,10 @@ cette note. Il se déroule en quatre temps.
       d'information de Kullback-Leibler, et son niveau de signification devient le
       \textbf{score de calibration}.
 \item \textbf{Information.} Un expert bien calibré mais qui déclare des intervalles très larges
-      n'apporte rien. Le \textbf{score d'information} mesure la concentration de ses
+      n'apporte rien. Le score d'information mesure la concentration de ses
       distributions relativement à une loi de référence.
 \item \textbf{Poids et agrégation.} Le poids d'un expert est le produit des deux scores, et il
-      est \textbf{nul} sous un seuil de calibration. L'avis agrégé est la combinaison linéaire
+      est nul sous un seuil de calibration. L'avis agrégé est la combinaison linéaire
       pondérée des distributions individuelles.
 \end{enumerate}
 
@@ -58,9 +58,9 @@ effective du panel.
 
 \section{Le protocole construit pour la matrice de contagion}
 
-Le questionnaire préparé comporte deux parties. La \textbf{partie d'étalonnage} pose des
+Le questionnaire préparé comporte deux parties. La partie d'étalonnage pose des
 questions à réponse connue, tirées de sources publiques vérifiables, sur des grandeurs du même
-domaine que les cibles. La \textbf{partie cible} interroge les liens dirigés entre piliers, un
+domaine que les cibles. La partie cible interroge les liens dirigés entre piliers, un
 par un, sous la forme d'une probabilité conditionnelle : sachant que le pilier source est
 défaillant, quelle est la probabilité que le pilier cible le devienne.
 
@@ -100,7 +100,7 @@ moyenne simple. Dans les deux cas la méthode ne fait plus ce pour quoi elle est
 
 \paragraph{Et une élicitation faible ne serait pas neutre, elle serait trompeuse.} C'est
 l'argument décisif, et il est chiffré. Le chapitre~\ref{chap:partielle} mesure l'effet d'un
-panel \textbf{biaisé} sur le capital : il déplace le \textsc{scr} de $777$~M\euro{} sans
+panel biaisé sur le capital : il déplace le \textsc{scr} de $777$~M\euro{} sans
 qu'aucun signal ne l'indique au lecteur, là où l'approche par bornes reste \emph{invariante} à
 ce biais. Un jugement d'expert faiblement calibré introduirait donc dans le résultat une
 incertitude \emph{non déclarable}, alors que la non-identifiabilité, elle, se déclare et se
@@ -117,15 +117,15 @@ d'expert demande donc une justification, et non un silence.
 Elle tient en trois différences, et c'est leur cumul qui compte. Le codage est
 \textbf{auditable} : le protocole est écrit, les dix récits sont publics, et n'importe qui peut
 recoder le corpus et confronter ses réponses aux nôtres, ce qu'une élicitation quantitative en
-séance ne permet pas. Son biais principal est \textbf{mesuré} plutôt que redouté : le biais de
+séance ne permet pas. Son biais principal est mesuré plutôt que redouté : le biais de
 narration fait l'objet d'un test contre une loi nulle exacte, dont le résultat est publié
-\emph{et négatif} (\S\ref{sec:biais-narration}). Et son produit est un \textbf{ordre partiel},
+\emph{et négatif} (\S\ref{sec:biais-narration}). Et son produit est un ordre partiel,
 un objet qualitatif que la suite du raisonnement borne, là où une élicitation produirait des
 coefficients numériques entrant directement dans le capital. Un dire d'expert qui alimente une
 borne et un dire d'expert qui alimente un nombre n'engagent pas le même risque.
 
 Reste que la comparaison n'est pas entièrement à notre avantage : le codage demeure à juge
-unique, et cela se lit comme une \textbf{limite déclarée} et non comme une étape en attente. Ce
+unique, et cela se lit comme une limite déclarée et non comme une étape en attente. Ce
 qui la distingue du défaut reproché à l'élicitation est qu'elle est \emph{bornée} : la
 dégradation complète de la source contestée coûte moins que l'ignorance directionnelle déjà
 publiée (\S\ref{sec:biais-narration}), là où un panel faiblement calibré introduirait une
@@ -158,7 +158,7 @@ Trois dispositifs, tous en place et tous sans prior d'expert.
 \label{sec:relecture-praticien}
 
 \paragraph{Pourquoi ce dispositif est nécessaire, et il l'est pour une raison qui n'a rien de
-conjoncturel.} La direction de $W$ \textbf{n'est pas identifiable} sur les données disponibles,
+conjoncturel.} La direction de $W$ n'est pas identifiable sur les données disponibles,
 et le chapitre~\ref{ch:identifiabilite} le démontre plutôt que de le déplorer : la grandeur que
 la donnée observe est aveugle à la partie antisymétrique, donc une matrice et sa transposée y
 sont indiscernables. Il en résulte que $W$ n'est pas calibrée au sens où le sont la fréquence et
@@ -166,25 +166,25 @@ la sévérité. Sa structure est \emph{déduite} d'un corpus de rapports post-mo
 porte son propre confondant, le biais de narration d'une enquête officielle, borné au
 \S\ref{sec:biais-narration} mais non levé.
 
-Sur une structure ainsi posée, il ne reste qu'\textbf{un seul contrôle externe possible} : le
+Sur une structure ainsi posée, il ne reste qu'un seul contrôle externe possible : le
 jugement de praticiens qui ont vu des défaillances réelles, et qui n'ont lu ni le corpus ni le
 mémoire. Ce dispositif est donc nécessaire et non facultatif. Mais il faut voir ce
-qu'il peut et ce qu'il ne peut pas : un praticien peut \textbf{corroborer ou contredire} une
-structure, il ne peut pas la \textbf{calibrer}, faute de quoi on retomberait sur l'élicitation
+qu'il peut et ce qu'il ne peut pas : un praticien peut corroborer ou contredire une
+structure, il ne peut pas la calibrer, faute de quoi on retomberait sur l'élicitation
 que ce chapitre vient d'écarter, avec son déplacement de capital non déclarable. C'est
 exactement la différence entre une relecture et une élicitation, et elle commande la forme de
 l'instrument.
 
 Le dispositif est donc de nature différente des trois précédents : non pas recueillir des
 probabilités, mais soumettre à des praticiens du secteur les affirmations \emph{qualitatives}
-sur lesquelles le modèle repose, en leur demandant de les \textbf{contredire}. L'instrument est
+sur lesquelles le modèle repose, en leur demandant de les contredire. L'instrument est
 un questionnaire de sept phrases, sans lecture préalable du mémoire, dont deux portent
 explicitement sur l'ordre P1 vers P2. Le choix de demander des désaccords plutôt que des
 accords est délibéré : un accord ne discrimine rien, alors qu'un désaccord argumenté désigne
 l'endroit exact où le modèle s'écarte de ce que le terrain observe.
 
 \paragraph{Le résultat nul est le premier à publier.} Une consultante de Nexialog, exerçant en
-gestion des risques et du contrôle depuis une dizaine d'années, n'a contredit \textbf{aucune}
+gestion des risques et du contrôle depuis une dizaine d'années, n'a contredit aucune
 des sept phrases : deux accords pleins, cinq accords assortis d'une nuance. Un instrument
 construit pour recueillir des désaccords et qui n'en recueille aucun renseigne d'abord sur
 lui-même, et cette information vaut d'être écrite plutôt que passée sous silence.
@@ -202,7 +202,7 @@ aussi celle que le terrain confirme le plus directement.
 
 \paragraph{Une qualification substantielle, qu'il faut déclarer sans la traiter.} La nuance la
 plus utile porte sur l'arc de la gouvernance vers la gestion des prestataires tiers. La
-répondante distingue l'\textbf{occurrence} et la \textbf{maîtrise} : une gouvernance solide ou
+répondante distingue l'occurrence et la maîtrise : une gouvernance solide ou
 fragile ne change pas, selon elle, le fait qu'un prestataire critique tombe, mais elle change
 la capacité de l'entité à en limiter les conséquences. Traduite dans les termes du modèle,
 cette distinction déplacerait cet arc de la matrice de propagation vers le canal de détection,

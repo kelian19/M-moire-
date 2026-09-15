@@ -10,10 +10,10 @@
 \begin{cle}
 \textbf{Le problème, et la sortie.} Le chapitre précédent établit que la \emph{direction}
 de la contagion n'est pas identifiable sur les données disponibles. Deux attitudes sont
-alors possibles. On peut \textbf{poser} $W$ au jugement d'expert et publier un SCR
+alors possibles. On peut poser $W$ au jugement d'expert et publier un SCR
 ponctuel : c'est simple, lisible, et entièrement suspendu à un jugement qui n'a pas encore
-été élicité. Ou bien on peut refuser de choisir, caractériser l'\textbf{ensemble} des $W$
-compatibles avec ce que l'on sait, et publier des \textbf{bornes}. Ce chapitre construit
+été élicité. Ou bien on peut refuser de choisir, caractériser l'ensemble des $W$
+compatibles avec ce que l'on sait, et publier des bornes. Ce chapitre construit
 la seconde voie, la compare à la première, et montre qu'elle est la seule des deux à être
 opposable aujourd'hui.
 \end{cle}
@@ -25,7 +25,7 @@ entre ce qui est estimé et ce qui est posé.
 
 \paragraph{Le socle, identifié.} Fréquence d'entrée surdispersée, accumulation par cause
 commune, sévérité GPD en euros. Aucun de ces éléments ne dépend de $W$. En annulant toute
-contagion ($W = 0$), on obtient le \textbf{SCR nu} : $5\,275$~M\euro{} dans le calage de
+contagion ($W = 0$), on obtient le SCR nu : $5\,275$~M\euro{} dans le calage de
 référence. C'est le plancher défendable, et il ne repose sur aucun paramètre non
 identifiable.
 
@@ -42,7 +42,7 @@ de façon unique en
   W \;=\; S + A, \qquad S = \tfrac{1}{2}(W + W^{\top}), \qquad A = \tfrac{1}{2}(W - W^{\top}) .
 \]
 La donnée identifie la co-occurrence, donc $S$. Elle n'identifie pas la direction, donc
-$A$ (chapitre~\ref{ch:identifiabilite}). L'\textbf{ensemble admissible} est alors
+$A$ (chapitre~\ref{ch:identifiabilite}). L'ensemble admissible est alors
 \[
   \mathcal{W}(t) \;=\; \bigl\{\, S + A \;:\; A^{\top} = -A, \;\; |A_{jk}| \leq t\,S_{jk},
   \;\; \rho(S+A) < 1 \,\bigr\},
@@ -55,7 +55,7 @@ $t=1$ est l'ignorance totale, c'est-à-dire l'état actuel des sources publiques
 
 \section{Ce que le capital devient}
 
-Les bornes sont obtenues par énumération \textbf{exhaustive} des $2^{10} = 1\,024$ sommets
+Les bornes sont obtenues par énumération exhaustive des $2^{10} = 1\,024$ sommets
 du pavé, ce qui les rend déterministes et reproductibles, au prix d'une hypothèse qu'il faut
 énoncer, et que l'on vérifie plus bas. À $t=1$ :
 \[
@@ -68,14 +68,14 @@ de cet ensemble, jamais sa mesure.
 
 \begin{attention}
 \textbf{L'hypothèse derrière l'énumération, et sa vérification.} Énumérer les sommets ne suffit
-à borner que si les extrêmes y sont \emph{atteints}. L'argument usuel, selon lequel les extrêmes d'une monotone coordonnée par coordonnée vivent aux sommets, ne s'applique \textbf{pas}
+à borner que si les extrêmes y sont \emph{atteints}. L'argument usuel, selon lequel les extrêmes d'une monotone coordonnée par coordonnée vivent aux sommets, ne s'applique pas
 directement ici : augmenter $A_{jk}$ élève $W_{jk}$ mais \emph{abaisse} $W_{kj}$, de sorte que
 la réponse n'est pas monotone en $A_{jk}$ mais résulte d'un arbitrage. Rien ne garantit donc
 \emph{a priori} l'atteinte aux sommets, et si elle était fausse les bornes publiées seraient trop
-étroites. On procède alors par réfutation : $3\,000$ points \textbf{intérieurs} du pavé
-admissible, tirés uniformément, sont évalués, et \textbf{aucun} ne sort des bornes ci-dessus, ni
+étroites. On procède alors par réfutation : $3\,000$ points intérieurs du pavé
+admissible, tirés uniformément, sont évalués, et aucun ne sort des bornes ci-dessus, ni
 en VaR ni en perte moyenne. L'hypothèse n'est pas réfutée, et les bornes sont défendables, mais
-elles sont énoncées ici comme une \textbf{hypothèse vérifiée numériquement}, non comme un
+elles sont énoncées ici comme une hypothèse vérifiée numériquement, non comme un
 théorème. La distinction est mince~; la passer sous silence ne le serait pas.
 \end{attention}
 
@@ -83,9 +83,9 @@ théorème. La distinction est mince~; la passer sous silence ne le serait pas.
 \textbf{Une lecture à ne pas faire.} À indice de queue élevé, la queue annuelle obéit au
 principe de la perte unique dominante : la VaR est \emph{peu} sensible à la structure de
 cascade. Faire porter la démonstration par le seul niveau de VaR donnerait un tableau de
-sensibilité plat et trompeusement rassurant. La contribution se lit sur la \textbf{perte
-moyenne} (bornes $[849\,;1\,100]$~M\euro{}, estimateur bien moins bruité) et surtout sur
-la \textbf{décision}, c'est-à-dire l'ordre de remédiation.
+sensibilité plat et trompeusement rassurant. La contribution se lit sur la perte
+moyenne (bornes $[849\,;1\,100]$~M\euro{}, estimateur bien moins bruité) et surtout sur
+la décision, c'est-à-dire l'ordre de remédiation.
 \end{attention}
 
 \paragraph{La valeur de l'information.} Le paramètre $t$ se lit comme le degré de
@@ -125,9 +125,9 @@ $777$~M\euro{}, soit $10\,\%$, et la priorité bascule entre trois piliers diff�
 régime~B, elle, ne bouge pas d'un euro, et contient tous les dérapages possibles du panel.
 
 \paragraph{À quoi sert alors l'élicitation.} Son rôle est précis et limité, et c'est un
-résultat acquis sans elle. Sur l'ensemble admissible, \textbf{P5 n'arrive jamais en
-tête}, P3 dans moins de $10\,\%$ des cas, et P1 ($45\,\%$) et P4 ($36\,\%$) concentrent
-$81\,\%$ des configurations. L'élicitation sert donc à \textbf{départager P1 et P4} et à
+résultat acquis sans elle. Sur l'ensemble admissible, P5 n'arrive jamais en
+tête, P3 dans moins de $10\,\%$ des cas, et P1 ($45\,\%$) et P4 ($36\,\%$) concentrent
+$81\,\%$ des configurations. L'élicitation sert donc à départager P1 et P4 et à
 resserrer la bande. Elle ne peut pas faire remonter les autres piliers : l'ensemble
 admissible l'interdit déjà.
 
@@ -154,12 +154,12 @@ Fréquence $\times 3$ & $11\,709$ & $[14\,353\,;17\,405]$ & $1{,}49$ & $82{,}5\,
 \end{tabular}
 \end{center}
 
-\paragraph{Lecture.} Le \textbf{niveau} bouge d'un facteur $41$. Il est fixé par la
+\paragraph{Lecture.} Le niveau bouge d'un facteur $41$. Il est fixé par la
 calibration de sévérité et de fréquence, qui sont des \emph{entrées} du modèle et non des
 sorties de la cascade, et qui dépendent d'un périmètre de collecte non transposable
 (pertes américaines de grandes institutions, plafond de réassurance). Les
 \textbf{rapports} varient d'au plus $33\,\%$ de leur valeur moyenne, soit un ordre de
-grandeur trente fois plus faible, et le \textbf{groupe de tête} de la priorité de
+grandeur trente fois plus faible, et le groupe de tête de la priorité de
 remédiation est identique dans les trois configurations.
 % SOURCES-SCRIPTS: 33
 
@@ -182,12 +182,12 @@ pour laquelle le mémoire présente partout des écarts et des bornes plutôt qu
 \end{cle}
 
 \figcle{Z_identification_partielle.png}{Identification partielle de la contagion dirigée : le
-résultat central du mémoire. \textbf{(a)}~Le coût de la donnée manquante, les bornes se
+résultat central du mémoire. (a)~Le coût de la donnée manquante, les bornes se
 resserrant à mesure que l'ignorance directionnelle $t$ diminue ; c'est cette pente qui chiffre
-en euros ce qu'un registre mieux spécifié apporterait. \textbf{(b)}~La lecture centrale du prior
+en euros ce qu'un registre mieux spécifié apporterait. (b)~La lecture centrale du prior
 d'expert, à l'intérieur de bornes qui, elles, n'en dépendent pas, de sorte que le résultat reste
-opposable sans élicitation. \textbf{(c)}~La priorité de remédiation robuste, au sens du regret
-maximal. \textbf{(d)}~La dominance majoritaire entre piliers sur l'ensemble admissible : P5
+opposable sans élicitation. (c)~La priorité de remédiation robuste, au sens du regret
+maximal. (d)~La dominance majoritaire entre piliers sur l'ensemble admissible : P5
 n'arrive jamais en tête, et P1 et P4 concentrent $81\,\%$ des configurations.}{fig:partielle}
 % SOURCES-SCRIPTS: 30 67
 
@@ -209,23 +209,23 @@ la méthode d'attaque puis de repli : reparamétrer la propagation par
 \[
   \operatorname{logit} p_{ij} \;=\; \operatorname{logit} p_j + u_{ij},
 \]
-où $p_j$ est l'\textbf{attractivité de la cible} (ce qui subsiste quand la source ne compte
-pas) et $u_{ij}$ l'\textbf{excès propre à la source}, c'est-à-dire la direction. La
+où $p_j$ est l'attractivité de la cible (ce qui subsiste quand la source ne compte
+pas) et $u_{ij}$ l'excès propre à la source, c'est-à-dire la direction. La
 décomposition n'est identifiée qu'une fois posée la normalisation $\sum_{i\neq j} u_{ij}=0$
 pour chaque $j$ : c'est une convention de repérage, et non une information, ce que l'on
 vérifie numériquement (une translation compensée de $p_j$ et de $u$ laisse le SCR
 strictement inchangé). On descend alors une échelle de crans, du plus ambitieux au repli :
-$u$ libre, puis $u$ de \textbf{rang $1$} ($u_{ij}=b_j(a_i-\bar a)$, qui capte $74\,\%$ de
+$u$ libre, puis $u$ de rang $1$ ($u_{ij}=b_j(a_i-\bar a)$, qui capte $74\,\%$ de
 la direction posée et resserre les bornes de $25\,\%$ au prix d'une hypothèse de structure),
 puis $u$ élicité, puis $u=0$.
 
 \begin{cle}
 \textbf{Le cran nul, et ce qu'il révèle de la contribution.} À $u=0$, la propagation ne
 dépend plus que de la cible : \emph{aucune source ne se distingue}. Or c'est exactement là
-que P1 et P4, les deux piliers de tête, deviennent \textbf{indiscernables} (gains de
+que P1 et P4, les deux piliers de tête, deviennent indiscernables (gains de
 remédiation $1\,051$ contre $1\,052$~M\euro{}, écart nul), alors qu'ils sont séparés de
-$353$~M\euro{} dès que la direction du classeur est rétablie. \textbf{La direction est donc
-précisément ce qui départage les deux piliers prioritaires} : sans elle, on ne sait plus
+$353$~M\euro{} dès que la direction du classeur est rétablie. La direction est donc
+précisément ce qui départage les deux piliers prioritaires : sans elle, on ne sait plus
 lequel remédier d'abord. La contribution du mémoire ne se lit pas sur le niveau d'un
 quantile, elle se lit ici, sur une décision qui bascule (figure~\ref{fig:echelle}).
 \end{cle}

@@ -112,7 +112,7 @@ identifiée.
 
 Le chapitre~\ref{chap:resultats} attribue le surcoût de capital aux piliers par la valeur de
 Shapley, et lit dans le tableau que la colonne des parts somme exactement à cent. Cette somme
-n'est ni une coïncidence ni un artefact d'arrondi : c'est la propriété d'\textbf{efficience}
+n'est ni une coïncidence ni un artefact d'arrondi : c'est la propriété d'efficience
 \citep{Shapley1953}, et elle se démontre en quelques lignes. Elle est reproduite ici parce que
 c'est elle, et elle seule, qui autorise à présenter une attribution comme une \emph{partition} du
 surcoût et non comme une pondération arbitraire.
@@ -134,7 +134,7 @@ La démonstration repose entièrement sur la réécriture du poids. Pour $|u|=s$
   \;=\; \frac{s!\,(n-s-1)!}{n!},
   \label{eq:poids-shapley}
 \end{equation}
-de sorte que $\varphi_i$ est exactement la moyenne, sur les $n!$ \textbf{permutations} de
+de sorte que $\varphi_i$ est exactement la moyenne, sur les $n!$ permutations de
 $\{1,\dots,n\}$, de la contribution marginale de $i$ à l'ensemble de ses prédécesseurs. En effet,
 un sous-ensemble $u$ de cardinal $s$ ne contenant pas $i$ est l'ensemble des prédécesseurs de $i$
 dans exactement $s!\,(n-s-1)!$ permutations : $s!$ ordres pour les éléments de $u$, puis
@@ -147,7 +147,7 @@ les prédécesseurs de $i$ dans $\pi$,
 Sommons alors sur $i$ \emph{à permutation fixée}. Si $\pi = (\pi(1),\dots,\pi(n))$, les
 ensembles de prédécesseurs emboîtés donnent
 $P_{\pi(j+1)}(\pi) = P_{\pi(j)}(\pi) \cup \{\pi(j)\}$, si bien que la somme des contributions
-marginales le long de $\pi$ est \textbf{télescopique} :
+marginales le long de $\pi$ est télescopique :
 \[
   \sum_{i=1}^{n} \bigl[v\bigl(P_i(\pi)\cup\{i\}\bigr)-v\bigl(P_i(\pi)\bigr)\bigr]
   \;=\; \sum_{j=1}^{n} \bigl[v\bigl(P_{\pi(j+1)}(\pi)\bigr)-v\bigl(P_{\pi(j)}(\pi)\bigr)\bigr]
