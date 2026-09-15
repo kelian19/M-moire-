@@ -359,8 +359,8 @@ côté source~; le capital, lui, se loge là où les cascades atterrissent.
 
 \begin{figure}[htbp]\centering
 \figover{S15_allocation_shapley_euler.png}
-\caption{Allocation du capital DORA (OpRisk). (A)~Shapley contre marginaux : l'interaction
-redistribuée. (B)~Euler : parts de capital (queue) contre parts de perte moyenne~; sur ce
+\caption{Allocation du capital DORA (OpRisk). (a)~Shapley contre marginaux : l'interaction
+redistribuée. (b)~Euler : parts de capital (queue) contre parts de perte moyenne~; sur ce
 périmètre non plafonné, l'allocation fine de la queue extrême reste indicative
 ($\xi \approx 0{,}6$, variance de sévérité infinie).}
 % SOURCES-SCRIPTS: 20
@@ -820,8 +820,8 @@ mécanisme : c'en est l'ombre portée.
 
 \begin{figure}[htbp]\centering
 \figover{S18_benchmark_copule.png}
-\caption{Benchmark copule (OpRisk). (A)~Intervention : le jumeau copule suit les marges et
-sous-estime le surcoût, la cascade suit les sources. (B)~Photo : perte unique dominante en
+\caption{Benchmark copule (OpRisk). (a)~Intervention : le jumeau copule suit les marges et
+sous-estime le surcoût, la cascade suit les sources. (b)~Photo : perte unique dominante en
 queue~; la Student force des co-extrêmes que le mécanisme n'a pas.}
 % SOURCES-SCRIPTS: 23
 \label{fig:benchmark}
@@ -1095,7 +1095,9 @@ de validité en taille (\S\ref{sec:entites-reelles}). Substituer la proportionna
 supprimerait pas le problème, elle en changerait le signe sans le déclarer.
 \end{attention}
 
-\figcle{J5_benchmark_externe.png}{Benchmark externe : la confrontation au réel, à deux échelles
+\begin{figure}[htbp]\centering
+\figover{J5_benchmark_externe.png}
+\caption{Benchmark externe : la confrontation au réel, à deux échelles
 qu'il ne faut pas confondre. (a)~au niveau du \emph{sinistre unique}, nos quantiles
 (quantile de sévérité $663$~M\euro{} et moyenne de queue $1\,752$~M\euro{} à $99{,}5\,\%$, et non
 des capitaux) s'insèrent parmi les grandes pertes
@@ -1103,8 +1105,10 @@ cyber réelles, encadrant Merck-NotPetya, Equifax et Change Healthcare tout en r
 choc systémique NotPetya : la brique de sévérité est crédible. (b)~à l'échelle
 \emph{annuelle}, le capital est d'ordre systémique, comparable au marché cyber mondial, et
 domine de loin la charge de Formule Standard. C'est l'agrégation à une fréquence sectorielle,
-non la sévérité, qui porte l'agrégat à une échelle de secteur.}{fig:benchmark-externe}
+non la sévérité, qui porte l'agrégat à une échelle de secteur.}
 % SOURCES-SCRIPTS: 49
+\label{fig:benchmark-externe}
+\end{figure}
 
 \section{Quatre entités réelles, et la borne inférieure de la méthode}
 \label{sec:entites-reelles}

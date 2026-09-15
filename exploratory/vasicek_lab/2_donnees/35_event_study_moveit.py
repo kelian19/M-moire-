@@ -240,7 +240,7 @@ for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z6 : event-study MOVEit — un signal agrégé, une cible que la donnée n'attribue pas",
+fig.suptitle("Z6 : event-study MOVEit, un signal agrégé et une cible que la donnée n'attribue pas",
              fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.92])
 outdir = os.path.join(HERE, "figures")

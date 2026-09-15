@@ -144,7 +144,7 @@ hi_max = max(swing[p][1] for p in order)
 ax.set_xlim(lo_min - 0.09 * (hi_max - lo_min), hi_max + 0.06 * (hi_max - lo_min))
 ax.set_yticks(range(len(order)))
 ax.set_yticklabels(order)
-ax.set_xlabel("Delta_DORA (M€) — surcout de non-conformite", fontsize=9.5, color=INK2)
+ax.set_xlabel("Delta_DORA (M€), surcout de non-conformite", fontsize=9.5, color=INK2)
 ax.set_title("Robustesse du Delta_DORA cascade : tornado des leviers structurels (OpRisk)",
              fontsize=11.5, fontweight="bold", color=INK, pad=8)
 ax.grid(alpha=0.25, lw=0.5, axis="x")

@@ -138,9 +138,9 @@ for iy in range(len(XI_GRID)):
                  fontsize=7.6, color="#222")
 # bande instable xi > 0,9 (marquee par la ligne ; note explicite en bas de figure)
 axA.axhline(len(XI_GRID) - 1.5, color=ACCENT, lw=1.2, ls="--")
-axA.set_xlabel("g : propagation  —  calibrable si horodatage (identifiable)",
+axA.set_xlabel("g : propagation, calibrable si horodatage (identifiable)",
                fontsize=9, color=INK2)
-axA.set_ylabel("xi : queue  —  importe SAS (non identifiable ici)",
+axA.set_ylabel("xi : queue, importee du SAS (non identifiable ici)",
                fontsize=9, color=INK2)
 axA.set_title("(A)  Le SCR est une surface, pas un nombre",
               fontsize=10.5, color=INK, pad=6)

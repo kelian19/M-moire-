@@ -355,26 +355,39 @@ INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT = "#a6002e"
 BL = ["#7baafd", "#4c79c7", "#204993"]
 
-# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
-# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
-# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10.66, 3.32),
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime cette
+# figure sur 7,28 pouces : tracee sur 10,7 elle subissait une reduction de 0,68 et
+# ses legendes sortaient sous 6 points. A 9,4 pouces le facteur monte a 0,78, donc
+# une legende de 9 points s'imprime a 7. Le rapport largeur sur hauteur est conserve,
+# la figure occupe donc la meme place sur la page ; c'est son texte qui grossit.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.4, 2.95),
                                     gridspec_kw={"width_ratios": [1.1, 1, 1.05]})
+
+
+def fr(x, n=2):
+    """Nombre a la francaise : meme valeur, meme arrondi, virgule decimale."""
+    return f"{x:.{n}f}".replace(".", ",")
+
 
 # (a) nuage taille x severite
 s = pd.to_numeric(ict[col_best], errors="coerce")
 m = (s > 0) & (ict[LOSS] > 0)
+ymax = float(ict.loc[m, LOSS].max())
 ax1.scatter(s[m], ict.loc[m, LOSS], s=9, color=BL[1], alpha=0.35, edgecolors="none")
 xs = np.logspace(np.log10(s[m].min()), np.log10(s[m].max()), 60)
 ax1.plot(xs, np.exp(a_b) * xs ** b, color=ACCENT, lw=2.3,
-         label=f"pente $b={b:.2f}$  [{blo:.2f} ; {bhi:.2f}]")
+         label=f"pente $b={fr(b)}$  [{fr(blo)} ; {fr(bhi)}]")
 ax1.axvline(ACTIFS_NOTIONNELS, color=INK, ls="--", lw=1.4)
-ax1.text(ACTIFS_NOTIONNELS * 1.15, ict.loc[m, LOSS].max() * 0.5,
-         "entité\nnotionnelle", fontsize=8.5, color=INK)
 ax1.set_xscale("log"); ax1.set_yscale("log")
+# BANDE LIBRE AU-DESSUS DU NUAGE. La legende et l'etiquette de l'entite se
+# recouvraient l'une l'autre en haut a gauche ; elles se posent maintenant
+# au-dessus du dernier point, chacune de son cote de la verticale.
+ax1.set_ylim(top=ymax * 60)
+ax1.text(ACTIFS_NOTIONNELS * 1.3, ymax * 1.8, "entité\nnotionnelle",
+         fontsize=9, color=INK, va="bottom")
 ax1.set_xlabel(f"{best} de la firme (M USD)", color=INK2)
 ax1.set_ylabel("perte (M USD)", color=INK2)
-ax1.legend(frameon=False, fontsize=8.5, loc="upper left")
+ax1.legend(frameon=False, fontsize=9, loc="upper left")
 ax1.set_title("(a)  La sévérité croît moins vite que la taille", fontsize=11, color=INK, pad=8)
 for sp_ in ("top", "right"):
     ax1.spines[sp_].set_visible(False)
@@ -383,9 +396,10 @@ for sp_ in ("top", "right"):
 ax2.bar(years, obs, color=BL[0], edgecolor="#fcfcfb", label="comptes saisis à ce jour")
 ax2.plot(years, ult, color=ACCENT, lw=2.2, marker="o", ms=3.5,
          label="ultime (chain-ladder)")
+ax2.set_ylim(0, float(np.nanmax(ult)) * 1.48)      # bande libre pour la legende
 ax2.set_xlabel("année de survenance", color=INK2)
-ax2.set_ylabel("événements TIC (secteur financier)", color=INK2)
-ax2.legend(frameon=False, fontsize=8.5, loc="upper left")
+ax2.set_ylabel("événements TIC par an", color=INK2)
+ax2.legend(frameon=False, fontsize=9, loc="upper left")
 ax2.set_title("(b)  Les années récentes ne baissent pas,\nelles ne sont pas remontées",
               fontsize=11, color=INK, pad=8)
 for sp_ in ("top", "right"):
@@ -398,20 +412,22 @@ vals[2] = vals[0] * vals[1]
 cols = [BL[2], BL[1], ACCENT]
 bars = ax3.barh(range(3), vals, height=0.5, color=cols, edgecolor="#fcfcfb")
 ax3.axvline(1.0, color=INK, lw=1.2, ls="--")
+# etiquette DANS la barre : posee a droite du bout, elle traversait la verticale
+# de reference a 1,0 et se lisait comme si elle en faisait partie.
 for i, v in enumerate(vals):
-    ax3.text(v + 0.03, i, f"×{v:.2f}", va="center", fontsize=9.5, color=INK2)
+    ax3.text(v - 0.035, i, f"×{fr(v)}", va="center", ha="right", fontsize=9.5, color="#fff")
 ax3.set_yticks(range(3)); ax3.set_yticklabels(labs, fontsize=9)
 ax3.invert_yaxis()
-ax3.set_xlim(0, max(vals) * 1.35)
+ax3.set_xlim(0, max(vals) * 1.20)
 ax3.set_xlabel("facteur multiplicatif sur le niveau", color=INK2)
 ax3.set_title("(c)  Deux biais déclarés, enfin chiffrés", fontsize=11, color=INK, pad=8)
 for sp_ in ("top", "right", "left"):
     ax3.spines[sp_].set_visible(False)
 ax3.tick_params(axis="y", length=0)
 
-fig.suptitle("S18 : les deux biais d'OpRisk que le mémoire déclarait sans les corriger",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.91])
+# PAS DE TITRE GENERAL : la legende LaTeX porte le titre, et celui-ci commencait
+# par un code interne (« S18 : ») qui n'a aucun sens pour le lecteur du memoire.
+fig.tight_layout()
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "S20_biais_taille_troncature.png")

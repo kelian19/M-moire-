@@ -297,15 +297,20 @@ INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT = "#a6002e"
 BL = ["#7baafd", "#4c79c7", "#204993"]
 
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 10.1),
-                                    gridspec_kw={"height_ratios": [1.05, 1.15, 1]})
+# TROIS PANNEAUX EN RANGEE, ET NON EMPILES. Empiles sur 10 pouces de haut ils
+# remplissaient une page entiere du memoire, la matrice de (a) se perdant au milieu
+# d'un grand blanc. En rangee la figure s'imprime sur 7,3 cm de haut et tient dans le
+# fil du texte. La matrice passe en aspect libre pour remplir sa case au lieu de
+# laisser deux bandes vides sur ses cotes.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8.6, 3.4),
+                                    gridspec_kw={"width_ratios": [1.0, 1.18, 1.12]})
 
 # (a) la matrice p_jk
-im = ax1.imshow(p_med, cmap="Blues", vmin=0, vmax=max(0.6, p_med.max()))
-ax1.set_xticks(range(5)); ax1.set_xticklabels([SHORT[k] for k in PIL])
-ax1.set_yticks(range(5)); ax1.set_yticklabels([SHORT[j] for j in PIL])
-ax1.set_xlabel("cible $k$ (colonne reçoit)", color=INK2)
-ax1.set_ylabel("source $j$ (ligne émet)", color=INK2)
+im = ax1.imshow(p_med, cmap="Blues", vmin=0, vmax=max(0.6, p_med.max()), aspect="auto")
+ax1.set_xticks(range(5)); ax1.set_xticklabels([SHORT[k] for k in PIL], fontsize=9)
+ax1.set_yticks(range(5)); ax1.set_yticklabels([SHORT[j] for j in PIL], fontsize=9)
+ax1.set_xlabel("cible $k$ (colonne reçoit)", color=INK2, fontsize=9.5)
+ax1.set_ylabel("source $j$ (ligne émet)", color=INK2, fontsize=9.5)
 for j in range(5):
     for k in range(5):
         if j == k:
@@ -314,7 +319,7 @@ for j in range(5):
             v = p_med[j, k]
             ax1.text(k, j, f"{v:.2f}", ha="center", va="center", fontsize=8.5,
                      color="white" if v > 0.35 else INK2)
-ax1.set_title("(a)  $p_{jk}$ médiane a posteriori", fontsize=11, color=INK, pad=8)
+ax1.set_title("(a)  Médiane a posteriori\nde $p_{jk}$", fontsize=10, color=INK, pad=6)
 
 # (b) les liens et leurs credibles
 pairs = [(j, k) for j in PIL for k in PIL if j != k]
@@ -325,16 +330,21 @@ med = [p_med[_c[j], _c[k]] for (j, k) in pairs]
 lo = [p_med[_c[j], _c[k]] - p_lo[_c[j], _c[k]] for (j, k) in pairs]
 hi = [p_hi[_c[j], _c[k]] - p_med[_c[j], _c[k]] for (j, k) in pairs]
 ax2.errorbar(med, ypos, xerr=[lo, hi], fmt="o", color=BL[2], ecolor=BL[1],
-             elinewidth=2.0, capsize=3.5, ms=6)
-ax2.axvline(0.5, color=ACCENT, ls="--", lw=1.4, label="$0{,}5$")
+             elinewidth=1.8, capsize=3.0, ms=5)
+ax2.axvline(0.5, color=ACCENT, ls="--", lw=1.4, label="$0{,}5$ : pas de sens")
 ax2.set_yticks(ypos)
-ax2.set_yticklabels([f"P{j}$\\to$P{k}" for (j, k) in pairs], fontsize=9)
+ax2.set_yticklabels([f"P{j}$\\to$P{k}" for (j, k) in pairs], fontsize=8.5)
 ax2.invert_yaxis()
+# UNE RANGEE VIDE EN BAS, POUR LA LEGENDE. Sans elle la cle du trait a 0,5 se posait sur
+# les deux derniers intervalles ; la place libre est sous eux, pas sur eux.
+ax2.set_ylim(len(pairs) + 0.55, -0.6)
 ax2.set_xlim(0, 1)
-ax2.set_xlabel("$p_{jk}$, crédible à 90 %", color=INK2)
-ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=9, loc="lower right")
-ax2.set_title("(b)  Dix premiers liens ordonnés :\nla direction ressort, l'amplitude reste large",
-              fontsize=11, color=INK, pad=8)
+ax2.tick_params(axis="x", labelsize=9)
+ax2.set_xlabel("$p_{jk}$, crédible à 90 %", color=INK2, fontsize=9.5)
+ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88,
+           fontsize=8.5, loc="lower right", borderpad=0.3, handlelength=1.6)
+ax2.set_title("(b)  Les dix premiers liens\net leur crédible à 90 %",
+              fontsize=10, color=INK, pad=6)
 for s_ in ("top", "right"):
     ax2.spines[s_].set_visible(False)
 
@@ -348,27 +358,22 @@ for d in deltas:
     Ad = 0.5 * (pm - pm.T)
     niveau.append(pm[off].mean())
     partA.append(np.linalg.norm(Ad) / np.linalg.norm(pm))
-ax3.plot(deltas, niveau, color=BL[2], lw=2.3, label="niveau moyen de $p_{jk}$")
-ax3.plot(deltas, partA, color=ACCENT, lw=2.3, label=r"part de direction $\|A\|/\|W\|$")
-ax3.set_xlabel(r"sous-documentation $\delta$ (défaillances non propagées ajoutées)",
+ax3.plot(deltas, niveau, color=BL[2], lw=2.0, label="niveau moyen de $p_{jk}$")
+ax3.plot(deltas, partA, color=ACCENT, lw=2.0, label=r"part de direction $\|A\|/\|W\|$")
+ax3.set_xlabel("$\\delta$ : défaillances non\npropagées ajoutées",
                color=INK2, fontsize=9.5)
-ax3.set_ylabel("valeur", color=INK2)
-ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.8)
-ax3.set_ylim(0, max(max(niveau), max(partA)) * 1.15)
-ax3.set_title("(c)  L'amplitude s'effondre,\nla direction tient", fontsize=11, color=INK, pad=8)
+ax3.set_ylabel("valeur (sans unité)", color=INK2, fontsize=9.5)
+ax3.tick_params(labelsize=9)
+ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88,
+           fontsize=8.5, loc="center right", borderpad=0.3, handlelength=1.6)
+ax3.set_ylim(0, max(max(niveau), max(partA)) * 1.18)
+ax3.set_title("(c)  L'amplitude s'effondre,\nla direction tient", fontsize=10, color=INK, pad=6)
 for s_ in ("top", "right"):
     ax3.spines[s_].set_visible(False)
 
-fig.suptitle(f"Z20 : corpus étendu à {n_inc} post-mortems, et matrice ordonnée\n"
-             r"$p_{jk}$ au lieu du seul sens par paire",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
-# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
-# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
-# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
-# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
-_top = 1.0 - 0.26 / fig.get_figheight()
-fig.suptitle_y = _top
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
+# AUCUN TITRE GENERAL : la legende LaTeX porte le titre, et le code interne « Z20 »
+# n'a rien a faire dans le PDF depose.
+fig.tight_layout(w_pad=1.6)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z20_corpus_etendu_pij.png")

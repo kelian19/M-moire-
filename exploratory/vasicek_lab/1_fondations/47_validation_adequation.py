@@ -420,7 +420,13 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-fig, axs = plt.subplots(2, 3, figsize=(16.5, 9.2))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime cette
+# figure sur 7,28 pouces : tracee sur 10,2 elle subissait une reduction de 0,71 et
+# ses legendes sortaient sous 6 points. A 9,1 pouces le facteur monte a 0,80, donc
+# un titre de panneau de 11 points s'imprime a 8,8. La hauteur suit le meme
+# rapport : la figure passe de 10,3 a 9,7 cm imprimes, six panneaux ne remplissant
+# pas une page de memoire.
+fig, axs = plt.subplots(2, 3, figsize=(9.1, 4.78))
 
 # (a) QQ-plot
 theo = genpareto.ppf((np.arange(1, n + 1) - 0.5) / n, xi, scale=sig)
@@ -447,29 +453,39 @@ se = np.array([np.std(loss[loss > v] - v) / np.sqrt((loss > v).sum()) for v in v
 axs[0, 2].plot(vgrid, mrl, color=BLUE, lw=2)
 axs[0, 2].fill_between(vgrid, mrl - 1.96 * se, mrl + 1.96 * se, color=BLUE, alpha=0.15)
 axs[0, 2].axvline(u, color=ACCENT, ls="--", lw=1.4)
-axs[0, 2].text(u * 1.02, mrl.min(), f"u={u:.0f}", fontsize=8.5, color=ACCENT)
-axs[0, 2].set_xlabel("seuil v (M€)", color=INK2)
-axs[0, 2].set_ylabel("excès moyen e(v)", color=INK2)
-axs[0, 2].set_title("(c)  Mean residual life\n(linéaire au-delà de u = GPD)", fontsize=11, color=INK, pad=6)
+# etiquette du seuil remontee au-dessus de la bande : posee au bas de la
+# verticale, elle tombait sur la courbe et sur son intervalle.
+axs[0, 2].text(u * 1.25, mrl.max() * 1.06, f"$u={u:.0f}$", fontsize=9, color=ACCENT,
+               va="bottom")
+axs[0, 2].set_xlabel("seuil $v$ (M€)", color=INK2)
+axs[0, 2].set_ylabel("excès moyen $e(v)$ (M€)", color=INK2)
+axs[0, 2].set_title("(c)  Vie résiduelle moyenne\n(linéaire au-delà de $u$)",
+                    fontsize=11, color=INK, pad=6)
 
 # (d) stabilite de xi au seuil
 axs[1, 0].errorbar(u_thr, xi_thr, yerr=1.645 * sd_thr, fmt="o-", color=BLUE,
                    ecolor=MUTED, capsize=3, ms=5)
 axs[1, 0].axvline(u, color=ACCENT, ls="--", lw=1.4)
 axs[1, 0].axhline(1.0, color=MUTED, ls=":", lw=1)
-axs[1, 0].text(u_thr[0], 1.02, "ξ=1 (variance/espérance)", fontsize=7.5, color=MUTED)
-axs[1, 0].set_xlabel("seuil u (M€)", color=INK2)
+# repere de la ligne xi = 1, renvoye a droite : a gauche il tombait dans la barre
+# d'erreur du premier seuil.
+axs[1, 0].text(u_thr[-1], 1.03, "$\\xi=1$", fontsize=9, color=MUTED,
+               ha="right", va="bottom")
+axs[1, 0].set_xlabel("seuil $u$ (M€)", color=INK2)
 axs[1, 0].set_ylabel("$\\hat\\xi$ (IC90)", color=INK2)
 axs[1, 0].set_title("(d)  Stabilité de ξ au seuil", fontsize=11, color=INK, pad=6)
 
 # (e) test d'Anderson-Darling : loi nulle bootstrap + observe
 axs[1, 1].hist(ad_null, bins=40, color=BLUE, alpha=0.5, edgecolor="#fcfcfb")
-axs[1, 1].axvline(ad_obs, color=ACCENT, lw=1.8, label=f"observé A²={ad_obs:.2f}")
-axs[1, 1].text(0.5, 0.9, f"p = {p_ad:.2f}\n(non rejeté)" if p_ad > 0.05 else f"p = {p_ad:.2f}\n(rejeté)",
-               transform=axs[1, 1].transAxes, fontsize=9, color=INK2, ha="center")
+axs[1, 1].axvline(ad_obs, color=ACCENT, lw=1.8,
+                  label=f"observé $A^2={ad_obs:.2f}$".replace(".", "{,}"))
+axs[1, 1].text(0.70, 0.96,
+               (f"p = {p_ad:.2f}\n(non rejeté)" if p_ad > 0.05
+                else f"p = {p_ad:.2f}\n(rejeté)").replace("0.", "0,"),
+               transform=axs[1, 1].transAxes, fontsize=9, color=INK2, ha="center", va="top")
 axs[1, 1].set_xlabel("statistique $A^2$ sous $H_0$", color=INK2)
 axs[1, 1].set_ylabel("fréquence (bootstrap)", color=INK2)
-axs[1, 1].legend(frameon=False, fontsize=8.5)
+axs[1, 1].legend(frameon=False, fontsize=9)
 axs[1, 1].set_title("(e)  Adéquation GPD\n(Anderson-Darling, bootstrap)", fontsize=11, color=INK, pad=6)
 
 # (f) frequence : observe vs Poisson vs NB
@@ -482,22 +498,25 @@ nb = nbinom.pmf(xs, r_nb, pnb); nb[kmax] = 1 - nbinom.cdf(kmax - 1, r_nb, pnb)
 wd = 0.27
 axs[1, 2].bar(xs - wd, obs, width=wd, color="#204993", label="observé", edgecolor="#fcfcfb")
 axs[1, 2].bar(xs, pp, width=wd, color=MUTED, label="Poisson", edgecolor="#fcfcfb")
-axs[1, 2].bar(xs + wd, nb, width=wd, color=ACCENT, label=f"NB (r={r_nb:.2f})", edgecolor="#fcfcfb")
+axs[1, 2].bar(xs + wd, nb, width=wd, color=ACCENT,
+              label=f"NB ($r={r_nb:.2f}$)".replace(".", "{,}"), edgecolor="#fcfcfb")
 axs[1, 2].set_yscale("log")
 axs[1, 2].set_xticks(xs); axs[1, 2].set_xticklabels([str(k) for k in range(kmax)] + [f"{kmax}+"])
-axs[1, 2].set_xlabel("événements TIC / firme / an", color=INK2)
+axs[1, 2].set_xlabel("événements TIC par firme et par an", color=INK2)
 axs[1, 2].set_ylabel("probabilité", color=INK2)
-axs[1, 2].legend(frameon=False, fontsize=8)
-axs[1, 2].set_title(f"(f)  Fréquence : la NB colle,\nle Poisson rate la queue (LR p={p_lr:.0e})",
+axs[1, 2].legend(frameon=False, fontsize=9)
+_mant, _expo = f"{p_lr:.0e}".split("e")          # meme valeur, meme arrondi qu'avant
+axs[1, 2].set_title("(f)  Fréquence : la NB colle,\nle Poisson rate la queue "
+                    f"($p={_mant}\\cdot10^{{{int(_expo)}}}$)",
                     fontsize=11, color=INK, pad=6)
 
 for ax in axs.flat:
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("J3 : validation et adéquation du socle : la sévérité GPD et la fréquence NB passent les tests",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
-fig.tight_layout(rect=[0, 0, 1, 0.965])
+# PAS DE TITRE GENERAL : la legende LaTeX porte le titre, et celui-ci commencait
+# par le code interne « J3 : ».
+fig.tight_layout()
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "J3_validation_adequation.png")

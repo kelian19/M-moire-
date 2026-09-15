@@ -149,11 +149,12 @@ print("  de SCR a interpreter dans l'absolu.")
 
 # ============================================================ figure
 mpl.rcParams.update({
-    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 11,
+    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
     "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
     "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
+    "axes.spines.top": False, "axes.spines.right": False,
 })
 INK, INK2, MUTED, GRID = "#1b1e30", "#223e55", "#595959", "#f2f2f2"
 ACCENT = "#a6002e"
@@ -162,7 +163,9 @@ BL = ["#7baafd", "#4c79c7", "#204993"]
 # LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
 # sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
 # des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10.66, 3.31),
+# Ramenee une seconde fois a 8,8 pouces : a 10,66 le facteur d'impression
+# valait 0,65, donc une etiquette de 8,6 points s'imprimait a 5,6.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8.8, 3.45),
                                     gridspec_kw={"width_ratios": [1.05, 1, 1.1]})
 
 # (a) reponse du capital a la non-conformite DORA, par cadre

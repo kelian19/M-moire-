@@ -110,6 +110,14 @@ INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 
+# ETIQUETTES D'AFFICHAGE, DISTINCTES DES CLES. Les cles des dictionnaires alimentent
+# les impressions ci-dessus et ne bougent pas ; seules les etiquettes TRACEES sont
+# raccourcies et accentuees, pour que les deux echelles tiennent COTE A COTE au lieu
+# d'etre empilees sur une page entiere. Un nom de variable de code ne s'affiche pas.
+ETIQ = {"SCR_op Formule Standard": "charge de Formule Standard",
+        "marche cyber mondial (primes 2025)": "marché cyber mondial (primes)"}
+
+
 def ladder(ax, ours, anchors, title, xlab):
     items = [(k, v, False) for k, v in anchors.items()] + [(k, v, True) for k, v in ours.items()]
     items.sort(key=lambda t: t[1])
@@ -117,39 +125,33 @@ def ladder(ax, ours, anchors, title, xlab):
     for y, (k, v, mine) in zip(yy, items):
         c = ACCENT if mine else MUTED
         ax.barh(y, v, color=c, alpha=0.9 if mine else 0.55, height=0.6)
-        ax.text(v * 1.05, y, f"{v:.0f}", va="center", fontsize=8.5, color=INK2)
+        ax.text(v * 1.10, y, f"{v:.0f}", va="center", fontsize=8, color=INK2)
     ax.set_yticks(yy)
-    ax.set_yticklabels([("▶ " + k) if mine else k for k, v, mine in items], fontsize=8.5)
+    ax.set_yticklabels([ETIQ.get(k, k) for k, v, mine in items], fontsize=8.5)
     for tick, (_, _, mine) in zip(ax.get_yticklabels(), items):
         tick.set_color(ACCENT if mine else INK2)
-        if mine:
-            tick.set_fontweight("bold")
     ax.set_xscale("log")
+    # DE LA PLACE A DROITE POUR L'ETIQUETTE DE VALEUR. Sur un panneau deux fois moins
+    # large, la borne automatique laissait la plus grande valeur sortir du cadre.
+    ax.set_xlim(right=max(v for _, v, _ in items) * 3.2)
     ax.set_xlabel(xlab, color=INK2)
-    ax.set_title(title, fontsize=11, color=INK, pad=8)
+    ax.set_title(title, fontsize=9.5, color=INK, pad=6)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.4, 8.4))
-ladder(ax1, {"notre VaR 99,5 % (sinistre)": var_single, "notre TVaR 99,5 %": tvar_single},
-       sev_anchors, "(a)  Sinistre unique : nos quantiles\nface aux grandes pertes cyber réelles",
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.2, 2.95))
+ladder(ax1, {"notre VaR 99,5 %": var_single, "notre TVaR 99,5 %": tvar_single},
+       sev_anchors, "(a)  Sinistre unique : nos quantiles\nface aux grandes pertes réelles",
        "perte (M€, échelle log)")
-ladder(ax2, {"notre socle (sans contagion)": SOCLE, "notre SCR cascade": scr_cascade,
+ladder(ax2, {"notre socle sans contagion": SOCLE, "notre SCR cascade": scr_cascade,
              "notre SCR conforme": SCR_C, "notre SCR non conforme": SCR_NC},
-       port_anchors, "(b)  Échelle annuelle : notre capital\nface au marché et à la Formule Standard",
+       port_anchors, "(b)  Échelle annuelle : notre capital\nface au marché et au forfait",
        "capital / marché (M€, échelle log)")
 
-fig.suptitle("J5 : benchmark externe : au niveau unitaire nos quantiles collent aux pertes réelles ;\n"
-             "au niveau annuel, une échelle systémique",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
-# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
-# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
-# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
-# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
-_top = 1.0 - 0.26 / fig.get_figheight()
-fig.suptitle_y = _top
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
+# PAS DE TITRE GENERAL : la legende LaTeX le porte, et le code interne de la figure
+# n'a rien a faire sur une page de memoire.
+fig.tight_layout(w_pad=2.0)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "J5_benchmark_externe.png")

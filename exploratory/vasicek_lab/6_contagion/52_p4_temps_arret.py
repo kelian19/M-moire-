@@ -115,10 +115,11 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
-# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
-# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.69, 2.88))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime cette
+# figure sur 18,5 cm : tracee plus large, elle subit une reduction qui fait tomber
+# ses etiquettes sous 7 points. A 8,6 pouces le facteur d'impression vaut 0,85,
+# donc une police de 8,5 points s'imprime a 7,2.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8.6, 3.8))
 
 # (a) trajectoires browniennes et premier passage a z* (rho=0,50)
 rho0 = 0.50; zs0 = z_star(rho0)
@@ -133,10 +134,11 @@ for k in range(7):
     if hit > 0:
         ax1.plot(tgrid[hit], zs0, "o", color=ACCENT, ms=5, zorder=5)
 ax1.axhline(zs0, color=INK, lw=1.4)
-ax1.text(0.05, zs0 * 1.03, f"$z^*$={zs0:.2f} (ρ={rho0:.2f})", fontsize=8.5, color=INK)
+ax1.text(0.05, zs0 + 0.12, f"$z^*$={zs0:.2f} (ρ={rho0:.2f})", fontsize=8.5, color=INK,
+         va="bottom", bbox=dict(boxstyle="round,pad=0.15", fc="#fcfcfb", ec="none", alpha=0.85))
 ax1.set_xlabel("temps (années)", color=INK2)
 ax1.set_ylabel("facteur tiers  $Z_t$", color=INK2)
-ax1.set_title("(a)  Le facteur tiers, martingale ;\nle déclenchement = 1er passage de $z^*$",
+ax1.set_title("(a)  Facteur tiers (martingale)\net premier passage de $z^*$",
               fontsize=10.5, color=INK, pad=8)
 
 # (b) densite du temps de premier passage (Levy) + P(tau<=1 an)
@@ -144,11 +146,12 @@ tt = np.linspace(0.02, 8, 400)
 for rho, c in zip((0.25, 0.50, 0.75), ["#9dc3e6", BLUE, "#204993"]):
     ax2.plot(tt, fpt_density(tt, rho), color=c, lw=2, label=f"ρ={rho:.2f}")
 ax2.axvline(1.0, color=ACCENT, ls="--", lw=1.3)
-ax2.text(1.05, ax2.get_ylim()[1] * 0.8, "1 an", fontsize=8.5, color=ACCENT)
+# au pied de la ligne : en haut, l'etiquette tombait sur les courbes et la legende
+ax2.text(1.12, 0.012, "1 an", fontsize=8.5, color=ACCENT, va="bottom")
 ax2.set_xlabel("délai de déclenchement  τ (années)", color=INK2)
 ax2.set_ylabel("densité (loi de Lévy)", color=INK2)
-ax2.legend(frameon=False, fontsize=8.5, title="chargement")
-ax2.set_title("(b)  Loi du délai de déclenchement\n(temps de premier passage)",
+ax2.legend(frameon=False, fontsize=8.5, title="chargement", title_fontsize=8.5, loc="upper right")
+ax2.set_title("(b)  Délai de déclenchement\n(loi du premier passage)",
               fontsize=10.5, color=INK, pad=8)
 
 # (c) P(declenchement dans l'annee) vs rho : statique vs dynamique
@@ -156,21 +159,21 @@ rhos = np.linspace(0.05, 0.95, 60)
 p_stat = np.array([1 - norm.cdf(z_star(r)) for r in rhos])
 p_dyn = np.array([p_trigger_within(1.0, r) for r in rhos])
 ax3.plot(rhos, p_dyn, color=ACCENT, lw=2.2, label="dynamique : P(τ ≤ 1 an)")
-ax3.plot(rhos, p_stat, color=BLUE, lw=2.2, ls="--", label="statique : P(Z₁ ≥ z*)")
+ax3.plot(rhos, p_stat, color=BLUE, lw=2.2, ls="--", label="statique : P($Z_1 \\geq z^*$)")
 ax3.set_xlabel("chargement sur le tiers  ρ", color=INK2)
-ax3.set_ylabel("proba de déclenchement en 1 an", color=INK2, fontsize=9)
-ax3.legend(frameon=False, fontsize=8.5)
-ax3.set_title("(c)  Plus ρ est grand, plus le\ndéclenchement est probable et rapide",
+ax3.set_ylabel("P(déclenchement en 1 an)", color=INK2, fontsize=9)
+# marge haute : la legende tombait sur la courbe dynamique
+ax3.set_ylim(0, max(p_dyn.max(), p_stat.max()) * 1.55)
+ax3.legend(frameon=False, fontsize=8.5, loc="upper left")
+ax3.set_title("(c)  Plus ρ croît, plus le\ndéclenchement est probable",
               fontsize=10.5, color=INK, pad=8)
 
 for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z16 : le déclenchement de P4 comme temps d'arrêt ; le seuil z* devient un premier "
-             "passage, et raccorde à la martingale (item 4)",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+# PAS DE TITRE GENERAL : la legende LaTeX du memoire porte le titre de la figure.
+fig.tight_layout()
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z16_p4_temps_arret.png")

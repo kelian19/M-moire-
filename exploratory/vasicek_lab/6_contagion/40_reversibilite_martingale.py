@@ -61,6 +61,7 @@ import numpy as np
 import matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _CASCADE = os.path.abspath(os.path.join(_HERE, "..", "..", "cascade_qualitative"))
@@ -261,7 +262,13 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 9.9))
+# TROIS PANNEAUX EN LIGNE, PAS EN COLONNE. Empiles, ils remplissaient une page entiere du
+# memoire (21,9 cm) : la matrice du haut, carree par nature, flottait au milieu d'un grand
+# blanc et les deux annotations du panneau du milieu tombaient sur les barres. En ligne, la
+# matrice occupe son panneau et la figure s'imprime dans le fil du texte.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.6, 3.6),
+                                    gridspec_kw=dict(width_ratios=[1, 0.95, 1.15]))
+_fr = mticker.FuncFormatter(lambda v, _p: f"{v:+.2f}".replace(".", ","))
 
 # (a) le courant J : heatmap divergente + fleches du sens net
 vmax = np.abs(J).max()
@@ -275,12 +282,13 @@ ax1.set_xticklabels([f"P{j}" for j in PIL]); ax1.set_yticklabels([f"P{j}" for j 
 for a in range(NP_):
     for b in range(NP_):
         if a != b:
-            ax1.text(b, a, f"{J[a, b]:+.2f}", ha="center", va="center", fontsize=7.5,
-                     color=INK if abs(J[a, b]) < 0.6 * vmax else "#fcfcfb")
+            ax1.text(b, a, f"{J[a, b]:+.2f}".replace(".", ","), ha="center", va="center",
+                     fontsize=7.5, color=INK if abs(J[a, b]) < 0.6 * vmax else "#fcfcfb")
 ax1.set_title("(a)  Le courant $J_{ij}=\\pi_iP_{ij}-\\pi_jP_{ji}$\n= la direction, non identifiée",
               fontsize=10.5, color=INK, pad=8)
 cb = fig.colorbar(im, ax=ax1, fraction=0.046, pad=0.04)
 cb.ax.tick_params(labelsize=7)
+cb.ax.yaxis.set_major_formatter(_fr)
 
 # (b) la fluctuation ne voit que S ; production d'entropie
 labels = ["énergie de\nfluctuation\n$E(f,f)$", "production\nd'entropie\n$\\sigma$"]

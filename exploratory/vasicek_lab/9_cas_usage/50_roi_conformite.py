@@ -184,7 +184,7 @@ for y_, r in zip(yp, rows):
              va="center", fontsize=8.5, color=INK2)
 ax1.set_yticks(yp); ax1.set_yticklabels(names, fontsize=9)
 ax1.set_xlim(0, max(dscr) * 1.7)
-ax1.set_xlabel("capital libéré ΔSCR (M€) — bleu : calibrable, gris : borné", color=INK2, fontsize=9)
+ax1.set_xlabel("capital libéré ΔSCR (M€) ; bleu : calibrable, gris : borné", color=INK2, fontsize=9)
 ax1.set_title("(a)  Le capital libéré par levier\n(et sa valeur annuelle à 6 %)", fontsize=11,
               color=INK, pad=8)
 
@@ -211,8 +211,8 @@ for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("J6 : le ROI de la conformité : le capital libéré, concentré sur quelques leviers, "
-             "fait de la conformité un levier de capital, non un pur coût",
+fig.suptitle("J6 : le ROI de la conformité : le capital libéré, concentré sur\n"
+             "quelques leviers, fait de la conformité un levier de capital, non un pur coût",
              fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.93])
 outdir = os.path.join(HERE, "figures")

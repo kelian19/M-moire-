@@ -227,7 +227,7 @@ ax2.bar([0, 1], [p_ge3(ind_c, pr_c), p_ge3(ind_s, pr_s)], width=0.55,
         color=[ACCENT, BLUE], alpha=0.85)
 ax2.set_xticks([0, 1])
 ax2.set_xticklabels(["cascade\ndirigée", "choc commun\n$\\varphi=\\gamma$"], fontsize=9)
-ax2.set_ylabel("P(incident P4 touche ≥ 3 piliers)", color=INK2)
+ax2.set_ylabel("P(incident P4 touche ≥ 3 piliers)", color=INK2, fontsize=9.5)
 ax2.set_title("(b)  La simultanéité crée une\nco-occurrence multiple (symétrique)",
               fontsize=11, color=INK, pad=8)
 
@@ -235,9 +235,8 @@ for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z9 : le pilier tiers comme nœud d'accumulation, dans la partie identifiée",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+# PAS DE TITRE GENERAL : la legende LaTeX du memoire porte le titre de la figure.
+fig.tight_layout()
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z9_p4_accumulation.png")

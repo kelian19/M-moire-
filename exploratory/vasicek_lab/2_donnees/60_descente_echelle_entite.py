@@ -383,65 +383,79 @@ print("  et ne doit pas etre citee comme une grandeur d'entite.")
 # =====================================================================================
 titre("Figure")
 # =====================================================================================
-mpl.rcParams.update({"font.size": 10, "axes.grid": True, "grid.alpha": 0.25,
-                     "axes.spines.top": False, "axes.spines.right": False})
-NAVY, BLUE, ACC, GRN = "#1F3864", "#3661ac", "#C0491F", "#008d87"
+# STYLE ALIGNE SUR LES AUTRES FIGURES DU CHAPITRE. Ce panneau gardait le fond blanc,
+# le quadrillage et une palette propre, alors que ses voisines de page sont sur fond
+# creme, sans quadrillage et sur les couleurs de la charte. Deux figures cote a cote
+# dans un meme chapitre doivent se ressembler.
+mpl.rcParams.update({
+    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10,
+    "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
+    "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
+    "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
+    "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
+    "axes.spines.top": False, "axes.spines.right": False,
+})
+NAVY, BLUE, ACC, GRN = "#1b1e30", "#2b559f", "#a6002e", "#009a94"
+INK2, MUTED = "#223e55", "#595959"
+LEG = dict(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88)
 # LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
 # sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
 # des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, axes = plt.subplots(1, 3, figsize=(9.69, 2.96))
+fig, axes = plt.subplots(1, 3, figsize=(8.9, 3.0))
 
 # (a) lambda en fonction de la taille
 ax = axes[0]
 gr = pa.copy()
 gr["bin"] = pd.qcut(np.log(gr.actifs), 8, duplicates="drop")
 agg = gr.groupby("bin", observed=True).agg(lam=("n", "mean"), act=("actifs", "median"))
-ax.scatter(agg.act, agg.lam, s=46, color=NAVY, zorder=3, label="deciles du panel")
+ax.scatter(agg.act, agg.lam, s=40, color=NAVY, zorder=3, label="déciles du panel")
 xs = np.logspace(np.log10(max(pa.actifs.min(), 1)), np.log10(pa.actifs.max()), 200)
 ax.plot(xs, np.exp(a_hat + b_lam * (np.log(xs) - xbar)), color=BLUE, lw=2,
-        label=f"NB2, $b_\\lambda$ = {b_lam:.3f}")
+        label="NB2, $b_\\lambda$ = " + f"{b_lam:.3f}".replace(".", ","))
 ax.axvline(ACTIFS_CIBLE, color=ACC, ls="--", lw=1.6)
-ax.plot([ACTIFS_CIBLE], [lam_cible], "o", ms=10, color=ACC, zorder=4,
-        label=f"entite cible : $\\lambda$ = {lam_cible:.3f}")
+ax.plot([ACTIFS_CIBLE], [lam_cible], "o", ms=9, color=ACC, zorder=4,
+        label="entité cible : $\\lambda$ = " + f"{lam_cible:.3f}".replace(".", ","))
 ax.axhline(0.210, color="0.55", ls=":", lw=1.3)
-ax.text(pa.actifs.max(), 0.210, " seau 0,21 ", ha="right", va="bottom", fontsize=8.5,
-        color="0.35")
+# L'ETIQUETTE DU SEAU SE POSE SOUS SON TRAIT, A DROITE DU SEUIL CIBLE. Calee sur le
+# bord droit elle tombait sur le decile le plus grand, qui vit precisement a 0,20.
+ax.text(ACTIFS_CIBLE * 2.2, 0.203, "seau 0,21", ha="left", va="top", fontsize=8.4,
+        color=MUTED)
 ax.set_xscale("log"); ax.set_yscale("log")
-ax.set_xlabel("actifs de la firme (M USD, echelle log)")
-ax.set_ylabel("incidents TIC materiels / an")
-ax.set_title("(a) $\\lambda$ lu a la taille cible,\nnon choisi dans un seau", fontsize=10.5)
-ax.legend(fontsize=8.2, loc="upper left")
+ax.set_xlabel("actifs de la firme (M USD, échelle log)")
+ax.set_ylabel("incidents TIC matériels / an")
+ax.set_title("(a)  $\\lambda$ lu à la taille cible,\nnon choisi dans un seau", fontsize=10.5)
+ax.legend(fontsize=8.4, loc="upper left", **LEG)
 
 # (b) la cascade des corrections
 ax = axes[1]
-labs = ["seau 0,21\n(memoire)", "$\\lambda$ a la\ntaille", "+ severite\n(retenu)", "Formule\nStandard"]
+labs = ["seau 0,21\n(mémoire)", "$\\lambda$ à la\ntaille", "+ sévérité\n(retenu)", "Formule\nStandard"]
 vv = [res["Entite, seau >= 10 ev. (memoire)"][2], res["Entite, lambda lu a la taille"][2],
       scr_r, sf]
-cols = ["0.62", BLUE, NAVY, GRN]
-bars = ax.bar(range(4), vv, color=cols, width=0.62)
+cols = [MUTED, BLUE, NAVY, GRN]
+bars = ax.bar(range(4), vv, color=cols, width=0.62, alpha=0.9, edgecolor="#fcfcfb")
 for i, (b, v) in enumerate(zip(bars, vv)):
     ax.text(b.get_x() + b.get_width() / 2, v * 1.02, f"{v:,.0f}", ha="center",
-            va="bottom", fontsize=9.2, fontweight="bold")
-ax.set_xticks(range(4)); ax.set_xticklabels(labs, fontsize=8.6)
-ax.set_ylabel("SCR 99,5 % (M EUR)")
-ax.set_title("(b) Les deux corrections composees,\net le repere reglementaire", fontsize=10.5)
+            va="bottom", fontsize=9, color=INK2)
+ax.set_xticks(range(4)); ax.set_xticklabels(labs, fontsize=8.4)
+ax.set_ylabel("SCR 99,5 % (M€)")
+ax.set_title("(b)  Les deux corrections composées,\net le repère réglementaire", fontsize=10.5)
 
 # (c) la bande d'identification
 ax = axes[2]
-ax.hist(vals, bins=42, color=BLUE, alpha=0.72, edgecolor="white", linewidth=0.4)
-ax.axvline(vals.min(), color=NAVY, lw=2)
-ax.axvline(vals.max(), color=NAVY, lw=2)
-ax.axvline(scr_r, color=ACC, lw=2, ls="--", label=f"matrice d'expert : {scr_r:,.0f}")
-ax.axvline(scr_socle, color=GRN, lw=2, ls=":", label=f"socle $W=0$ : {scr_socle:,.0f}")
-ax.set_xlabel("SCR 99,5 % de l'entite (M EUR)")
+ax.hist(vals, bins=42, color=BLUE, alpha=0.60, edgecolor="#fcfcfb", linewidth=0.4)
+ax.axvline(vals.min(), color=NAVY, lw=1.8)
+ax.axvline(vals.max(), color=NAVY, lw=1.8)
+ax.axvline(scr_r, color=ACC, lw=1.8, ls="--", label=f"matrice d'expert : {scr_r:,.0f}")
+ax.axvline(scr_socle, color=GRN, lw=1.8, ls=":", label=f"socle $W=0$ : {scr_socle:,.0f}")
+ax.set_xlabel("SCR 99,5 % de l'entité (M€)")
 ax.set_ylabel("sommets admissibles")
-ax.set_title(f"(c) Le resultat d'entite est une bande\n[{vals.min():,.0f} ; {vals.max():,.0f}]"
-             " M EUR", fontsize=10.5)
-ax.legend(fontsize=8.2)
+ax.set_title(f"(c)  Le résultat d'entité est une bande\n[{vals.min():,.0f} ; {vals.max():,.0f}]"
+             " M€", fontsize=10.5)
+ax.legend(fontsize=8.4, loc="upper left", **LEG)
 
-fig.tight_layout()
+fig.tight_layout(w_pad=1.8)
 out = os.path.join(HERE, "figures", "S21_descente_echelle.png")
-fig.savefig(out, dpi=155, bbox_inches="tight")
+fig.savefig(out, dpi=200, bbox_inches="tight")
 print(f"figure ecrite : {out}")
 
 

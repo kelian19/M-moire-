@@ -486,7 +486,15 @@ INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 LEG = dict(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5)
 
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 10.4))
+# PLUS DE COLONNE DE TROIS PANNEAUX. Empiles sur 10,4 pouces ils occupaient une page
+# entiere du memoire. Le panneau (a) est le seul qui exige de la hauteur (dix noms
+# d'incidents) : il prend toute la colonne de gauche, (b) et (c) s'empilent a droite.
+# La figure s'imprime alors sur une dizaine de centimetres, dans le fil du texte.
+fig = plt.figure(figsize=(8.6, 4.7))
+_gs = fig.add_gridspec(2, 2, width_ratios=[1.0, 1.16])
+ax1 = fig.add_subplot(_gs[:, 0])
+ax2 = fig.add_subplot(_gs[0, 1])
+ax3 = fig.add_subplot(_gs[1, 1])
 
 # (a) jackknife par incident
 noms = [x[0] for x in jk]
@@ -494,23 +502,24 @@ ys = np.arange(len(noms))
 ax1.barh(ys, z_jk, color=BLUE, alpha=0.85, height=0.62)
 ax1.axvline(z0, color=ACCENT, lw=2)
 ax1.set_yticks(ys)
-ax1.set_yticklabels([n if len(n) <= 26 else n[:24] + "." for n in noms], fontsize=8.2)
+ax1.set_yticklabels([n if len(n) <= 30 else n[:29] + "…" for n in noms], fontsize=8.2)
 ax1.invert_yaxis()
-ax1.set_xlabel("$z$ du test exact, incident retiré", color=INK2)
+ax1.tick_params(axis="x", labelsize=9)
+ax1.set_xlabel("$z$ du test exact, incident retiré", color=INK2, fontsize=9.5)
 ax1.set_xlim(0, max(z0, z_jk.max()) * 1.18)
 # AUCUNE LEGENDE ENCADREE ICI. Dix barres horizontales ne laissent aucune place libre :
 # posee en bas a droite elle recouvrait la fin de la derniere barre. L'unique repere a
 # nommer est la ligne du corpus complet, donc on l'ecrit LE LONG de la ligne, dans la
 # marge droite qu'aucune barre n'atteint.
 ax1.text(z0 * 1.015, len(noms) / 2.0, f"corpus complet : $z={z0:+.2f}$".replace(".", "{,}"),
-         rotation=90, ha="left", va="center", fontsize=8.6, color=ACCENT)
+         rotation=90, ha="left", va="center", fontsize=8.4, color=ACCENT)
 # PAS DE SEUIL SUR z DANS CE PANNEAU. La decision se prend sur la p exacte (cf. P_SEUIL) ;
 # tracer une ligne a 1,645 inviterait a lire le graphique avec le mauvais critere.
 _ex = int(np.floor(np.log10(p_jk.max())))
 _ma = f"{p_jk.max() / 10.0 ** _ex:.1f}".replace(".", "{,}")
-ax1.set_title(f"(a)  Jackknife : aucun rapport ne porte le signal à lui seul\n"
+ax1.set_title(f"(a)  Aucun rapport ne porte le signal\n"
               f"($p$ exacte $\\leq {_ma}\\cdot 10^{{{_ex}}}$ pour les dix retraits)",
-              fontsize=11, color=INK, pad=8)
+              fontsize=10, color=INK, pad=6)
 
 # (b) point de rupture, EN p-VALEUR EXACTE et non en z
 ks = np.arange(n_p1 + 1)
@@ -521,54 +530,58 @@ ax2.semilogy(ks, [c[1] for c in courbe_flip], "s-", color=ACCENT, lw=2, ms=5,
 ax2.axhline(P_SEUIL, color=INK, lw=1.3, ls="--")
 _ymax = max(max(c[1] for c in courbe_flip), max(c[1] for c in courbe_ret)) * 3.0
 ax2.axhspan(P_SEUIL, _ymax, color=MUTED, alpha=0.16, lw=0)
-ax2.text(n_p1, P_SEUIL * 1.35, " non significatif ", ha="right", va="bottom", fontsize=8,
+ax2.text(n_p1, P_SEUIL * 1.35, " non significatif ", ha="right", va="bottom", fontsize=7.8,
          color=INK2)
 if k_f is not None:
-    ax2.plot([k_f], [courbe_flip[k_f][1]], "o", ms=13, mfc="none", mec=ACCENT, mew=2)
+    ax2.plot([k_f], [courbe_flip[k_f][1]], "o", ms=11, mfc="none", mec=ACCENT, mew=1.8)
     ax2.annotate(f"rupture : {k_f} arêtes\nsur {n_p1}", (k_f, courbe_flip[k_f][1]),
-                 textcoords="offset points", xytext=(14, -38), fontsize=8.4, color=ACCENT,
-                 bbox=dict(boxstyle="round,pad=0.3", fc="#fcfcfb", ec="none", alpha=0.9))
-ax2.set_xlabel("nombre d'arêtes partant de P1 supposées produites par la narration",
+                 textcoords="offset points", xytext=(11, -30), fontsize=8, color=ACCENT,
+                 bbox=dict(boxstyle="round,pad=0.25", fc="#fcfcfb", ec="none", alpha=0.9))
+ax2.set_xlabel("arêtes de P1 supposées produites\npar la narration",
                color=INK2, fontsize=9.5)
-ax2.set_ylabel("$p$-valeur exacte (échelle log)", color=INK2)
+ax2.set_ylabel("$p$-valeur exacte\n(échelle log)", color=INK2, fontsize=9.5)
 ax2.set_xticks(ks)
+ax2.tick_params(labelsize=8.5)
 ax2.set_ylim(top=_ymax)
 # EN BAS AU CENTRE. En bas a gauche la legende recouvrait les deux points a k = 0, qui
 # sont le point de depart de la lecture. Les deux courbes passent haut au centre : la
 # place libre est sous elles.
 ax2.legend(loc="lower center", **LEG)
-ax2.set_title("(b)  Point de rupture : combien d'arêtes le biais devrait-il\n"
-              "fabriquer pour renverser la conclusion", fontsize=11, color=INK, pad=8)
+ax2.set_title("(b)  Combien d'arêtes le biais devrait\nfabriquer pour renverser la conclusion",
+              fontsize=10, color=INK, pad=6)
 
 # (c) capital
 xs = np.arange(len(ALPHAS))
 lo = np.array([bandes[a][1].min() for a in ALPHAS])
 hi = np.array([bandes[a][1].max() for a in ALPHAS])
 pts = np.array([bandes[a][0] for a in ALPHAS])
-ax3.vlines(xs, lo, hi, color=BLUE, lw=9, alpha=0.42)
-ax3.plot(xs, pts, "o-", color=ACCENT, lw=1.8, ms=7, label="point à la matrice retenue")
-ax3.plot(xs, lo, "_", color=BLUE, ms=16, label="bande d'identification (1 024 sommets)")
-ax3.plot(xs, hi, "_", color=BLUE, ms=16)
+ax3.vlines(xs, lo, hi, color=BLUE, lw=8, alpha=0.42)
+ax3.plot(xs, pts, "o-", color=ACCENT, lw=1.6, ms=6, label="point à la matrice retenue")
+ax3.plot(xs, lo, "_", color=BLUE, ms=13, label="bande d'identification (1 024 sommets)")
+ax3.plot(xs, hi, "_", color=BLUE, ms=13)
 for x, p_, h in zip(xs, pts, hi):
-    ax3.text(x, h * 1.012, f"{p_:,.0f}", ha="center", va="bottom", fontsize=8.6,
+    ax3.text(x, h * 1.012, f"{p_:,.0f}", ha="center", va="bottom", fontsize=8.2,
              color=INK)
 ax3.set_xticks(xs)
-ax3.set_xticklabels([f"$a={a:.2f}$".replace(".", "{,}") for a in ALPHAS])
-ax3.set_xlabel("degré de dégradation de l'émission de P1", color=INK2)
-ax3.set_ylabel("SCR 99,5 % de l'entité (M€)", color=INK2)
-ax3.set_ylim(lo.min() * 0.90, hi.max() * 1.08)
-ax3.legend(loc="lower left", **LEG)
-ax3.set_title("(c)  Le niveau de capital résiste, y compris avec P1 rendue muette",
-              fontsize=11, color=INK, pad=8)
+ax3.set_xticklabels([f"$a={a:.2f}$".replace(".", "{,}") for a in ALPHAS], fontsize=8.5)
+ax3.set_xlabel("degré de dégradation de l'émission de P1", color=INK2, fontsize=9.5)
+ax3.set_ylabel("SCR 99,5 %\nde l'entité (M€)", color=INK2, fontsize=9.5)
+ax3.tick_params(axis="y", labelsize=8.5)
+# MARGE HAUTE POUR LA LEGENDE. Posee en bas a gauche elle recouvrait la bande du
+# premier point ; les deux courbes descendent vers la droite, la place libre est
+# au-dessus d'elles une fois le plafond releve.
+ax3.set_ylim(lo.min() * 0.92, hi.max() * 1.30)
+ax3.legend(loc="upper right", **LEG)
+ax3.set_title("(c)  Le niveau de capital résiste,\nmême avec P1 rendue muette",
+              fontsize=10, color=INK, pad=6)
 
 for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z22 : le biais de narration, mesuré au lieu d'être déclaré",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
-_top = 1.0 - 0.26 / fig.get_figheight()
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.9)
+# AUCUN TITRE GENERAL : la legende LaTeX porte le titre, et le code interne « Z22 »
+# n'a rien a faire dans le PDF depose.
+fig.tight_layout(h_pad=1.6, w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z22_biais_narration.png")

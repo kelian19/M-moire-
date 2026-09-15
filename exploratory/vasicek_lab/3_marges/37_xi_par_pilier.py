@@ -209,7 +209,9 @@ ax1.set_xlabel("SCR (VaR 99,5 %, M€)", color=INK2)
 ax1.set_ylabel("assignations (permutations)", color=INK2)
 ax1.set_title("(a)  Le niveau borné sur les assignations\nde queue aux piliers",
               fontsize=11, color=INK, pad=8)
-ax1.legend(frameon=False, fontsize=8)
+# LEGENDE DECALEE VERS LA DROITE. Posee en haut a gauche, son trait se superposait
+# exactement a la verticale rouge de la queue commune, ce qui formait une croix.
+ax1.legend(frameon=False, fontsize=8, loc="upper left", bbox_to_anchor=(0.06, 1.0))
 
 parts = [cnt.get(i, 0) for i in range(5)]
 ax2.bar(range(5), parts, color=[BLUE if i == int(np.argmax(parts)) else MUTED for i in range(5)],
@@ -223,9 +225,8 @@ for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z8 : la queue par pilier — hétérogénéité bornée, pas assignée",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+# PAS DE TITRE GENERAL : la legende LaTeX du memoire porte le titre de la figure.
+fig.tight_layout()
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z8_xi_par_pilier.png")

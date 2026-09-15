@@ -210,7 +210,7 @@ ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 # LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
 # sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
 # des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.69, 2.94))
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.69, 3.9))
 
 # (a) posterieurs par paire
 xg = np.linspace(0, 1, 300)
@@ -222,24 +222,36 @@ for m, lab in enumerate(PAIR_LAB):
              color=BLUE if documented else MUTED,
              alpha=0.9 if documented else 0.5)
 ax1.axvline(0.5, color=ACCENT, ls="--", lw=1.3)
-ax1.text(0.52, ax1.get_ylim()[1] * 0.92, "θ=1/2\n(pas de direction)", fontsize=8, color=ACCENT)
+from matplotlib.lines import Line2D
+# la cle des couleurs quitte le titre, trop large pour sa colonne, et passe en legende
+ax1.set_ylim(top=ax1.get_ylim()[1] * 1.45)
+ax1.legend(handles=[Line2D([0], [0], color=BLUE, lw=2.0, label="paire documentée"),
+                    Line2D([0], [0], color=MUTED, lw=1.2, alpha=0.6, label="paire sans donnée"),
+                    Line2D([0], [0], color=ACCENT, lw=1.3, ls="--",
+                           label="θ = 1/2 : pas de direction")],
+           loc="upper center", fontsize=8, frameon=True, framealpha=0.92,
+           edgecolor="none", facecolor="#fcfcfb", borderpad=0.3)
 ax1.set_xlabel("directionnalité $\\theta$ de la paire", color=INK2)
 ax1.set_ylabel("densité a posteriori", color=INK2)
-ax1.set_title("(a)  Posterieurs par paire : documentées\n(bleu) contre sans donnée (gris)",
+ax1.set_title("(a)  Loi a posteriori de θ\npar paire de piliers",
               fontsize=11, color=INK, pad=8)
 
 # (b) loi a posteriori du SCR vs bornes du chapitre 10
-ax2.hist(u["scrs"], bins=34, color=BLUE, alpha=0.55, edgecolor="#fcfcfb", label="posterieur (uniforme)")
+cnt, _, _ = ax2.hist(u["scrs"], bins=34, color=BLUE, alpha=0.55, edgecolor="#fcfcfb")
 ax2.axvspan(LO_BOUNDS, HI_BOUNDS, color=MUTED, alpha=0.16)
-ax2.text(LO_BOUNDS + 40, ax2.get_ylim()[1] * 0.93, "bornes ch. 10\n(pire cas)", fontsize=8,
-         color=INK2)
+ax2.text(0.03, 0.97, "bornes du\nchapitre 10", transform=ax2.transAxes, ha="left", va="top",
+         fontsize=8, color=INK2)
 ax2.axvline(u["q50"], color=ACCENT, lw=2, label=f"médiane {u['q50']:.0f} M€")
 for q in (u["q5"], u["q95"]):
     ax2.axvline(q, color=ACCENT, ls="--", lw=1.2)
 ax2.set_xlabel("SCR (M€)", color=INK2)
 ax2.set_ylabel("fréquence a posteriori", color=INK2)
-ax2.legend(frameon=False, fontsize=8)
-ax2.set_title("(b)  Le SCR devient une loi, plus\ninformative que des bornes", fontsize=11,
+# plus de legende : elle recouvrait le texte des bornes. Marge haute pour les etiquettes.
+ax2.set_ylim(0, cnt.max() * 1.6)
+ax2.text(0.97, 0.97, f"médiane {u['q50']:.0f} M€\nprior uniforme", transform=ax2.transAxes,
+         ha="right", va="top", fontsize=8, color=ACCENT,
+         bbox=dict(boxstyle="round,pad=0.15", fc="#fcfcfb", ec="none", alpha=0.9))
+ax2.set_title("(b)  Le SCR devient une loi,\nplus étroite que les bornes", fontsize=11,
               color=INK, pad=8)
 
 # (c) sensibilite au prior
@@ -253,18 +265,18 @@ for i, (nm, c) in enumerate(zip(names, cols)):
 ax3.set_xticks(range(3))
 ax3.set_xticklabels(["uniforme\nBeta(1,1)", "Jeffreys\nBeta(½,½)", "sceptique\nBeta(4,4)"],
                     fontsize=8.5)
-ax3.set_ylabel("SCR : médiane et crédible 90 % (M€)", color=INK2, fontsize=9)
-ax3.set_title(f"(c)  Robuste au prior : {100*spread/u['q50']:.1f} % d'écart\nde médiane, même "
-              f"sous prior sceptique", fontsize=11, color=INK, pad=8)
+ax3.set_ylabel("SCR (M€) : médiane, crédible 90 %", color=INK2, fontsize=9)
+ax3.set_title(f"(c)  Robuste au prior :\n{100*spread/u['q50']:.1f} % d'écart de médiane",
+              fontsize=11, color=INK, pad=8)
 
 for ax in (ax1, ax2, ax3):
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
 
-fig.suptitle("Z19 : reformulation bayésienne de la direction : le posterieur reproduit seul "
-             "l'identification partielle, et résiste à un prior sceptique",
+fig.suptitle("Z19 : reformulation bayésienne de la direction : le posterieur\n"
+             "reproduit seul l'identification partielle, et résiste à un prior sceptique",
              fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.93])
+fig.tight_layout(rect=[0, 0, 1, 0.88])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z19_bayes_direction.png")

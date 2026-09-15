@@ -271,35 +271,44 @@ INK, INK2, MUTED = nx.ENCRE, nx.ENCRE_2, nx.ENCRE_3
 ACCENT, BLUE, GREEN = nx.CATEGORIEL[0], nx.CATEGORIEL[2], nx.CATEGORIEL[1]
 LEG = dict(frameon=True, facecolor=nx.FOND, edgecolor="none", framealpha=0.88, fontsize=8.5)
 
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 10.4))
+# TROIS PANNEAUX EN LIGNE, PAS EN COLONNE. Empiles, ils remplissaient une page entiere du
+# memoire (21,9 cm) et laissaient un grand blanc au-dessus des barres. En ligne, la figure
+# s'imprime dans le fil du texte. Le panneau du milieu porte cinq categories : il recoit
+# donc un tiers de largeur de plus que ses voisins.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.6, 3.5),
+                                    gridspec_kw=dict(width_ratios=[1, 1.3, 1]))
 
 # (a) le lemme de monotonie
-ax1.plot(GRILLE, se, "-o", color=BLUE, lw=2, ms=4, label="SCR d'entité")
+ax1.plot(GRILLE, se, "-o", color=BLUE, lw=2, ms=4)
 # ETIQUETTES COMPLETES. Une premiere version prenait le premier mot de l'intitule, ce qui
 # affichait « non » pour « non conforme » : un etat de conformite ne se tronque pas.
+# ETAGEES EN HAUTEUR. Sur un panneau etroit les trois etiquettes, toutes posees au-dessus
+# de la courbe, se chevauchaient : « partiel » passe donc sous la courbe.
 COURT_E = {"C": "conforme", "PC": "partiel", "NC": "non conforme"}
-for e, c, dec in (("C", GREEN, (-8, 12)), ("PC", MUTED, (-8, 12)), ("NC", ACCENT, (-8, 12))):
+for e, c, dec, va in (("C", GREEN, (-7, 10), "bottom"), ("PC", MUTED, (0, -9), "top"),
+                      ("NC", ACCENT, (-7, 10), "bottom")):
     g = G_MEMOIRE[e]
-    ax1.plot([g], [scr(ev_e, g)[0]], "o", ms=10, color=c, zorder=4)
+    ax1.plot([g], [scr(ev_e, g)[0]], "o", ms=8, color=c, zorder=4)
     ax1.annotate(COURT_E[e], (g, scr(ev_e, g)[0]), textcoords="offset points",
-                 xytext=dec, ha="right", fontsize=8, color=c)
-ax1.axhline(SF_ENTITE, color=GREEN, lw=1.6, ls="--",
-            label=f"forfait de Formule Standard : {SF_ENTITE:.0f} M€")
+                 xytext=dec, ha="center" if va == "top" else "right", va=va,
+                 fontsize=8.8, color=c)
+ax1.axhline(SF_ENTITE, color=GREEN, lw=1.6, ls="--")
+# LA LIGNE EST ETIQUETEE SUR PLACE, SANS LEGENDE. Une legende de deux entrees dans un
+# panneau de 5 cm de large aurait recouvert la courbe ; la bande au-dessus des donnees,
+# elle, est vide sur toute sa longueur.
+ax1.text(GRILLE[0], SF_ENTITE + 9, f"forfait de Formule Standard : {SF_ENTITE:.0f} M€",
+         ha="left", va="bottom", fontsize=8.8, color=GREEN)
 ax1.set_xlabel("gain de propagation $g$", color=INK2)
 ax1.set_ylabel("SCR 99,5 % de l'entité (M€)", color=INK2)
 ax1.set_ylim(0, SF_ENTITE * 1.12)
-# EN BAS A DROITE. En haut a gauche la legende opaque recouvrait la ligne du forfait sur la
-# moitie de sa longueur, alors que cette ligne EST le sujet du panneau. La zone sous la
-# courbe, a droite, est vide.
-ax1.legend(loc="lower right", **LEG)
-ax1.set_title("(a)  Le lemme : le capital est croissant en $g$,\n"
-              "et le forfait ne l'est pas du tout", fontsize=11, color=INK, pad=8)
+ax1.set_title("(a)  Le capital est croissant en $g$,\nle forfait ne l'est pas",
+              fontsize=11, color=INK, pad=8)
 
 # (b) l'invariance sur cinq applications
 # LIBELLES D'AFFICHAGE ACCENTUES. Les intitules des applications sont en ASCII dans les
 # sorties de script, par convention ; une figure de memoire, elle, s'ecrit en francais.
 AFFICHE = {"etroite": "étroite", "RETENUE": "RETENUE", "large": "large",
-           "conformite faible": "conformité\nfaible", "tres etroite": "très\nétroite"}
+           "conformite faible": "conformité faible", "tres etroite": "très étroite"}
 labs = [AFFICHE[l.split("(")[0].strip()] for l, _ in MAPPINGS]
 xi = np.arange(len(MAPPINGS))
 wd = 0.26
@@ -308,41 +317,51 @@ for k, (e, c) in enumerate((("C", GREEN), ("PC", BLUE), ("NC", ACCENT))):
     ax2.bar(xi + (k - 1) * wd, vals, width=wd, color=c, alpha=0.9, label=ETIQ[e])
 ax2.axhline(SF_ENTITE, color=GREEN, lw=1.6, ls="--", label="forfait (plat)")
 ax2.set_xticks(xi)
-ax2.set_xticklabels(labs, fontsize=7.8)
+# ETIQUETTES INCLINEES. Cinq intitules dont deux de seize caracteres ne tiennent pas cote a
+# cote sur un panneau de 7 cm : a plat ils se chevauchaient deux a deux.
+ax2.set_xticklabels(labs, fontsize=9, rotation=22, ha="right", rotation_mode="anchor")
 ax2.set_ylabel("SCR 99,5 % (M€)", color=INK2)
-ax2.set_ylim(0, SF_ENTITE * 1.18)
-# AU CENTRE, ENTRE LES BARRES ET LA LIGNE. En haut a droite la legende recouvrait la ligne
-# du forfait sur la moitie du panneau. La bande entre 200 et 350 M EUR est vide : aucune
-# barre n'y monte, et la ligne du forfait est au-dessus.
-ax2.legend(loc="center", ncol=2, **LEG)
-ax2.set_title("(b)  L'ordre survit à toutes les calibrations,\n"
-              "y compris la plus étroite", fontsize=11, color=INK, pad=8)
+# BANDE HAUTE DEGAGEE POUR LA LEGENDE. Aucune barre ne depasse 170 M EUR et la ligne du
+# forfait est a 450 : en portant le haut a 585, la legende sur deux rangs ne recouvre ni
+# les barres ni la ligne.
+ax2.set_ylim(0, SF_ENTITE * 1.30)
+ax2.legend(loc="upper left", ncol=2, columnspacing=0.9, handlelength=1.4,
+           handletextpad=0.45, borderpad=0.35, **dict(LEG, fontsize=8.2))
+ax2.set_title("(b)  L'ordre survit aux cinq calibrations,\ny compris la plus étroite",
+              fontsize=11, color=INK, pad=8)
 
 # (c) l'ecart en fonction de l'ecartement
 gcs = np.array([g for g, _, _ in ecarts])
 ecs = np.array([p for _, _, p in ecarts])
 ax3.plot(G_NC - gcs, ecs, "-o", color=ACCENT, lw=2, ms=5)
 ax3.axhline(100 * seuil, color=INK, lw=1.3, ls="--")
-ax3.text(0.02, 100 * seuil + 1.5, f" écart de {100*seuil:.0f} % ", ha="left", va="bottom",
-         fontsize=8, color=INK2)
+# A DROITE DE LA LIGNE. A gauche, la courbe traverse justement ce niveau et passait sous le
+# texte ; a droite elle est a 100 %, donc la ligne y est libre.
+ax3.text((G_NC - gcs).max(), 100 * seuil + 2.5, f"écart de {100*seuil:.0f} %",
+         ha="right", va="bottom", fontsize=8.8, color=INK2)
 _gr = G_NC - G_MEMOIRE["C"]
-ax3.plot([_gr], [100 * (scr_nc / scr(ev_e, G_MEMOIRE['C'])[0] - 1)], "D", ms=9,
-         color=BLUE, zorder=4,
-         label=f"écartement retenu : {_gr:.2f}".replace(".", "{,}").replace("{,}", ","))
-ax3.set_xlabel("écartement $g_{NC} - g_C$ (à $g_{NC}=0{,}90$)", color=INK2)
-ax3.set_ylabel("écart de capital entre états (%)", color=INK2)
-ax3.legend(loc="upper left", **LEG)
-ax3.set_title("(c)  Seule l'amplitude est un scénario,\n"
-              "et elle ne dépend que de l'écartement", fontsize=11, color=INK, pad=8)
+_ye = 100 * (scr_nc / scr(ev_e, G_MEMOIRE['C'])[0] - 1)
+ax3.plot([_gr], [_ye], "D", ms=9, color=BLUE, zorder=4)
+# ETIQUETTE SUR PLACE, SOUS LE POINT. Une legende en haut a gauche recouvrait le haut de la
+# courbe, qui monte de gauche a droite ; le triangle sous la courbe, lui, est vide.
+ax3.annotate(f"écartement\nretenu : {_gr:.2f}".replace(".", ","), (_gr, _ye),
+             textcoords="offset points", xytext=(9, -6), ha="left", va="top",
+             fontsize=8.8, color=BLUE)
+# SUR DEUX LIGNES. En une seule, l'intitule depassait la figure a droite et le recadrage
+# serre coupait la parenthese fermante : le calcul de boite d'un texte mathtext ne la voit
+# pas toujours.
+ax3.set_xlabel("écartement $g_{NC} - g_C$\n(à $g_{NC}=0{,}90$)", color=INK2)
+ax3.set_ylabel("écart de capital (%)", color=INK2)
+ax3.set_title("(c)  L'amplitude dépend\ndu seul écartement",
+              fontsize=11, color=INK, pad=8)
 
 for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("S23 : la thèse ne dépend pas des valeurs de $g$, seulement de leur ordre",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
-_top = 1.0 - 0.26 / fig.get_figheight()
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.9)
+# PAS DE TITRE GENERAL : la legende du memoire porte le titre, et le code interne de la
+# figure n'a rien a faire dans un document remis a un jury.
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "S23_invariance_conformite.png")

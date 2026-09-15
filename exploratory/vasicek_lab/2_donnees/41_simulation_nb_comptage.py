@@ -243,25 +243,37 @@ mpl.rcParams.update({
 INK, INK2, MUTED, GRID = "#1b1e30", "#223e55", "#595959", "#f2f2f2"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
-# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
-# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10.66, 3.17))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime cette
+# figure sur 7,28 pouces : tracee sur 10,7 elle subissait une reduction de 0,68 et
+# ses legendes sortaient sous 6 points. A 9,4 pouces le facteur monte a 0,78, donc
+# une legende de 9 points s'imprime a 7. Le rapport largeur sur hauteur est conserve.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.4, 2.85),
+                                    gridspec_kw={"width_ratios": [1, 1, 1.15]})
+
+
+def fr(x, n=2):
+    """Nombre a la francaise : meme valeur, meme arrondi, virgule decimale."""
+    return f"{x:.{n}f}".replace(".", ",")
+
 
 # (a) distributions du nombre annuel (queues)
 hi = int(np.quantile(n_logn, 0.999))
 bins = np.arange(0, hi + 2)
 for x, c, lab in [(n_pois, MUTED, "Poisson"),
-                  (n_nb, BLUE, f"NB (Gamma, φ={PHI_POSE:.0f})"),
-                  (n_logn, ACCENT, f"Poisson-lognormal (a={a_equiv:.2f})")]:
+                  (n_nb, BLUE, f"NB (Gamma, $\\varphi$={PHI_POSE:.0f})"),
+                  (n_logn, ACCENT, f"Poisson-lognormal ($a$={fr(a_equiv)})")]:
     h, _ = np.histogram(x, bins=bins, density=True)
     ax1.plot(bins[:-1], h, color=c, lw=2, label=lab)
 ax1.axvline(LAM, color=INK, ls=":", lw=1)
-ax1.text(LAM * 1.03, ax1.get_ylim()[1] * 0.8, f"E={LAM:.0f}", fontsize=8, color=INK2)
 ax1.set_yscale("log")
+# l'etiquette de la moyenne passe SOUS la verticale : posee en haut, elle tombait
+# sur le sommet de la densite de Poisson. La legende passe a droite, ou les trois
+# queues sont deja redescendues.
+ax1.text(LAM * 1.06, ax1.get_ylim()[0] * 2.0, f"moyenne {LAM:.0f}",
+         fontsize=9, color=INK2, va="bottom")
 ax1.set_xlabel("nombre d'amorces par an", color=INK2)
 ax1.set_ylabel("densité (log)", color=INK2)
-ax1.legend(frameon=False, fontsize=8.5)
+ax1.legend(frameon=False, fontsize=9, loc="upper right")
 ax1.set_title("(a)  Même moyenne, queues très différentes", fontsize=11, color=INK, pad=8)
 
 # (b) reconciliation a <-> phi
@@ -269,36 +281,44 @@ phis = np.linspace(1.2, 14, 120)
 aa = [a_from_phi(p, LAM) for p in phis]
 ax2.plot(aa, phis, color=BLUE, lw=2.2)
 ax2.scatter([A_LOAD], [phi_from_aload], color=ACCENT, s=70, zorder=5)
-ax2.annotate(f"A_LOAD=0,60\n→ φ={phi_from_aload:.1f}", (A_LOAD, phi_from_aload),
-             textcoords="offset points", xytext=(8, -28), fontsize=8.5, color=ACCENT)
 ax2.scatter([a_equiv], [PHI_POSE], color=GREEN, s=70, zorder=5)
-ax2.annotate(f"φ=9,20\n→ a={a_equiv:.2f}", (a_equiv, PHI_POSE),
-             textcoords="offset points", xytext=(10, 6), fontsize=8.5, color=GREEN)
+# LES DEUX LECTURES SONT ECRITES EN HAUT A GAUCHE, ou la courbe convexe ne passe
+# pas : collees a leur point, elles se recouvraient l'une l'autre, les deux points
+# n'etant distants que de 0,03 en abscisse. La couleur du texte fait le lien.
+ax2.text(0.03, 0.97, f"$\\varphi=9{{,}}20 \\rightarrow a={fr(a_equiv)}$",
+         transform=ax2.transAxes, fontsize=9, color=GREEN, va="top")
+ax2.text(0.03, 0.85, f"$a=0{{,}}60$ posé $\\rightarrow \\varphi={fr(phi_from_aload, 1)}$",
+         transform=ax2.transAxes, fontsize=9, color=ACCENT, va="top")
 ax2.set_xlabel("charge systémique lognormale  $a$", color=INK2)
-ax2.set_ylabel("facteur de surdispersion NB  $\\varphi$", color=INK2)
-ax2.set_title(f"(b)  $a$ et $\\varphi$ : même surdispersion\n(à λ={LAM:.0f}/an)",
+ax2.set_ylabel("surdispersion NB  $\\varphi$", color=INK2)
+ax2.set_title(f"(b)  $a$ et $\\varphi$ : même surdispersion\n(à $\\lambda={LAM:.0f}$/an)",
               fontsize=11, color=INK, pad=8)
 
 # (c) SCR par loi de comptage
-names = [r[0].split(" (")[0].replace("NB ", "NB\n") for r in res]
+# etiquettes d'axe reecrites pour le lecteur : le nom interne du scenario porte
+# « phi » en clair et un point decimal, et les quatre se chevauchaient.
+names = [r[0].split(" (")[0].replace("NB ", "NB\n").replace("phi", "$\\varphi$").replace(".", ",")
+         for r in res]
 scrs = [r[2] for r in res]
 means = [r[3] for r in res]
 x = np.arange(len(res))
-ax3.bar(x - 0.19, scrs, width=0.36, color=BLUE, alpha=0.9, label="SCR (VaR 99,5%)")
+ax3.bar(x - 0.19, scrs, width=0.36, color=BLUE, alpha=0.9, label="SCR (VaR 99,5 %)")
 ax3.bar(x + 0.19, means, width=0.36, color=GREEN, alpha=0.9, label="moyenne")
-ax3.set_xticks(x); ax3.set_xticklabels(names, fontsize=7.5)
+ax3.set_xticks(x); ax3.set_xticklabels(names, fontsize=9)
+ax3.set_ylim(0, max(scrs) * 1.30)                  # bande libre pour la legende
 ax3.set_ylabel("M€", color=INK2)
-ax3.legend(frameon=False, fontsize=8.5)
-ax3.set_title("(c)  Le comptage déplace la VaR,\npas la moyenne (E[N] fixe)", fontsize=11,
+ax3.legend(frameon=False, fontsize=9, loc="upper center", ncol=2,
+           handlelength=1.3, columnspacing=1.0)
+ax3.set_title("(c)  Le comptage déplace la VaR,\npas la moyenne", fontsize=11,
               color=INK, pad=8)
 
 for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("N2 : la loi de comptage négative binomiale, simulée, réconciliée, et son effet sur le capital",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+# PAS DE TITRE GENERAL : la legende LaTeX porte le titre, et celui-ci commencait
+# par le code interne « N2 : ».
+fig.tight_layout()
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "N2_simulation_nb.png")

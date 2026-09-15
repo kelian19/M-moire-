@@ -493,47 +493,59 @@ p2 = os.path.join(outdir, "K2_calibration_diagnostics.png")
 fig.savefig(p2, dpi=200, bbox_inches="tight"); print("figure ecrite :", p2)
 
 # --- figure K3 : lecture epidemique
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.8, 4.7))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime cette
+# figure sur 7,28 pouces : tracee sur 9,5 elle subissait une reduction de 0,77 et
+# ses etiquettes sortaient a 6 points. A 8,6 pouces le facteur monte a 0,85. La
+# hauteur perd la bande du titre general, retire plus bas.
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.6, 3.62))
 
 ax1.axvspan(0, 1.0, color=BLUES[0], alpha=0.35, zorder=0)
 ax1.text(0.52, 2.35, "domaine\nadmissible\n$g\\leq 1$", ha="center", va="center",
-         fontsize=8, color=BLUES[5], fontweight="bold")
-ax1.plot(gains, rho_by_gain, "-", color=ACCENT, lw=2.2, label="$\\rho(W)$ : systeme latent simultane")
-ax1.plot(gains, R0_by_gain, "-", color=BLUES[4], lw=2.2, label="$R_0=\\rho(M)$ : cascade d'incidents")
+         fontsize=8.5, color=BLUES[5], fontweight="bold")
+ax1.plot(gains, rho_by_gain, "-", color=ACCENT, lw=2.2,
+         label="$\\rho(W)$ : système latent simultané")
+ax1.plot(gains, R0_by_gain, "-", color=BLUES[4], lw=2.2,
+         label="$R_0=\\rho(M)$ : cascade d'incidents")
 ax1.axhline(1.0, color=INK, lw=1.1, ls="--")
-ax1.text(8.9, 1.08, "seuil critique", ha="right", fontsize=8.5, color=INK)
-for gc, col, lab in [(g_crit_rho, ACCENT, f"$\\rho(W)=1$\ng={g_crit_rho:.2f}"),
-                     (g_crit_R0, BLUES[4], f"$R_0=1$\ng={g_crit_R0:.1f}")]:
+ax1.text(3.2, 0.84, "seuil critique", ha="center", va="top", fontsize=9, color=INK)
+for gc, col, lab in [(g_crit_rho, ACCENT, f"$\\rho(W)=1$\n$g={g_crit_rho:.2f}$".replace(".", "{,}")),
+                     (g_crit_R0, BLUES[4], f"$R_0=1$\n$g={g_crit_R0:.1f}$".replace(".", "{,}"))]:
     ax1.axvline(gc, color=col, lw=1, ls=":")
-    ax1.text(gc + 0.15, 3.0, lab, fontsize=8, color=col)
-ax1.annotate(f"$\\rho(\\mathrm{{TRANS}})={RHO_RAW:.2f}$\n(non normalise :\nerreur de categorie)",
-             xy=(1.0, RHO_RAW), xytext=(3.9, 1.30), fontsize=8, color=MUTED,
+    # a gauche de sa ligne pour le seuil de R0, sinon coupe par le bord droit
+    ax1.text(gc + 0.15 if gc < 5 else gc - 0.15, 3.0, lab, fontsize=8.5, color=col,
+             ha="left" if gc < 5 else "right")
+ax1.annotate(f"$\\rho(\\mathrm{{TRANS}})={RHO_RAW:.2f}$".replace(".", "{,}")
+             + "\n(non normalisé :\nerreur de catégorie)",
+             xy=(1.0, RHO_RAW), xytext=(5.9, 1.45), fontsize=8.5, color=MUTED,
              style="italic", ha="center",
              arrowprops=dict(arrowstyle="->", color=MUTED, lw=1,
-                             connectionstyle="arc3,rad=-0.2"))
+                             connectionstyle="arc3,rad=0"))
 ax1.plot([1.0], [RHO_RAW], "o", color=MUTED, ms=5, zorder=5)
-ax1.set_xlabel("gain $g$ = part de contagion du pilier le plus expose", color=INK2)
+ax1.set_xlabel("gain $g$ = part de contagion du pilier le plus exposé", color=INK2)
 ax1.set_ylabel("rayon spectral", color=INK2)
 ax1.set_xlim(0, 9.0); ax1.set_ylim(0, 4.0)
 ax1.grid(True, color=GRID, lw=0.7)
-ax1.legend(frameon=False, fontsize=8.5, loc="upper left")
-ax1.set_title("(a) Normalise, le modele est stable sur tout son domaine",
+# sous le cadre : dans le cadre elle recouvrait l'etiquette du seuil de rho(W)
+ax1.legend(frameon=False, fontsize=9, loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=1)
+ax1.set_title("(a)  Normalisé, le modèle est stable sur tout son domaine",
               fontsize=11, color=INK, pad=8)
 
 xpos = np.arange(J)
 rootv = np.array([ROOT[j] for j in range(1, J + 1)])
 axb = ax2.twinx()
-b1 = ax2.bar(xpos - 0.2, prog_true, width=0.4, color=BLUES[4], label="progeniture $(I-M)^{-1}$")
+b1 = ax2.bar(xpos - 0.2, prog_true, width=0.4, color=BLUES[4], label="progéniture $(I-M)^{-1}$")
 b2 = axb.bar(xpos + 0.2, rootv, width=0.4, color=ACCENT, alpha=0.85, label="ROOT (expert)")
 ax2.set_xticks(xpos); ax2.set_xticklabels(PIL)
 ax2.set_ylabel("descendants attendus", color=BLUES[4])
 axb.set_ylabel("ROOT, jugement d'expert", color=ACCENT)
 ax2.tick_params(axis="y", colors=BLUES[4]); axb.tick_params(axis="y", colors=ACCENT)
-ax2.set_title(f"(b) ROOT se deduit de TRANS (Spearman = {rho_s:.2f})",
+ax2.set_title(f"(b)  ROOT se déduit de TRANS (Spearman = {rho_s:.2f})".replace("1.00", "1,00"),
               fontsize=11, color=INK, pad=8)
-ax2.legend(handles=[b1, b2], loc="upper right", frameon=False, fontsize=8.5)
-fig.suptitle("K3 : la cascade est un processus de branchement",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.94])
+# marge haute : la barre ROOT de P4 montait dans la legende
+ax2.set_ylim(0, prog_true.max() * 1.45); axb.set_ylim(0, rootv.max() * 1.45)
+ax2.legend(handles=[b1, b2], loc="upper right", frameon=False, fontsize=9)
+# PAS DE TITRE GENERAL : la legende LaTeX porte le titre, et celui-ci commencait
+# par le code interne « K3 : ».
+fig.tight_layout()
 p3 = os.path.join(outdir, "K3_branchement_R0.png")
 fig.savefig(p3, dpi=200, bbox_inches="tight"); print("figure ecrite :", p3)
