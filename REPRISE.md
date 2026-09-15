@@ -50,17 +50,23 @@ remerciements, un chapitre d'enseignements du stage et les deux notes de synthè
 
 | Document | Total | Corps | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **195 pages** | **140, annexes en 141** | **6, ligne de base** | 2 132 sur 2 132 |
-| `main.pdf`, version 1 | 186 pages | 136, annexes en 137 | 15, ligne de base | mêmes chapitres |
-| `main_v2.pdf`, version 2 | 192 pages | 140, annexes en 141 | 6, ligne de base | mêmes chapitres |
+| **`main_ensae.pdf`, le mémoire déposé** | **187 pages** | **134, annexes en 135** | **6, ligne de base** | 2 157 sur 2 157 |
+| `main.pdf`, version 1 | 171 pages | 124, annexes en 125 | 15, ligne de base | mêmes chapitres |
+| `main_v2.pdf`, version 2 | 177 pages | 128, annexes en 129 | 6, ligne de base | mêmes chapitres |
+| `main_v3.pdf`, version courte | 150 pages | 101, annexes en 102 | 5, ligne de base | mêmes chapitres, quatorze sections retirées |
 | `rapport_ensae.pdf` | 52 pages | 36, références comprises | 0 | 373 confirmés sur 373 |
 
-Découpage de `main_ensae` : Contexte en 8, Données en 22, Modélisation en 35, Résultats en 83,
-Robustesse en 116, **Le stage en 135**, Annexes en 141, **notes de synthèse en 191 et 193**.
+Découpage de `main_ensae` : Introduction en 9, Données en 23, Modélisation en 36, Résultats
+en 85, Robustesse en 110, **Le stage en 129**, Annexes en 135, **notes de synthèse en 183
+et 185**.
 
-**Harnais du mémoire : 2 132 nombres, 2 132 confirmés, 100 %**, et **0 hors contrôle non déclaré
-sur les dix-neuf chapitres**. Le total est passé de 2 346 à 2 132 par la coupe de la lecture de
-marché, non par une perte de contrôle : la couverture reste à 100 %.
+**Les huit pages gagnées le 15 septembre au soir sont les figures**, non du texte retiré : plus
+aucune figure n'est posée seule sur sa page, et trois figures inutilisées ont été supprimées.
+Voir l'entrée du journal.
+
+**Harnais du mémoire : 2 157 nombres, 2 157 confirmés, 100 %**, et **0 hors contrôle non déclaré
+sur les dix-neuf chapitres**, 93 nombres étant déclarés hors script avec leur motif (état de
+l'art, cadre réglementaire, démonstrations, pièces justificatives).
 
 **LES LIGNES « Sources : scripts… » NE S'IMPRIMENT PLUS, ET LE HARNAIS TIENT QUAND MÊME.** Depuis
 le 15 septembre elles vivent dans un commentaire LaTeX, `% SOURCES-SCRIPTS: NN`, que
@@ -655,7 +661,61 @@ Chacun a coûté du temps au moins une fois.
 ## 15 septembre 2026
 
 Journée sur `main_ensae`, qui devient le document déposé. Trois demandes de Kélian, et la
-deuxième a cassé la compilation avant d'être réparée.
+deuxième a cassé la compilation avant d'être réparée. Le soir, la passe des figures, reprise
+depuis le PC après l'échec en 429 de la veille.
+
+### Le soir : les figures, et le mémoire perd huit pages sans perdre une phrase
+
+**LE DÉFAUT DE FOND ÉTAIT `\figcle`.** Huit figures étaient posées par cette macro, qui les
+isole seules sur une page et les agrandit jusqu'à 0,88 fois la hauteur du texte. D'où les pages
+que Kélian a signalées : une image de 22 cm, un grand blanc, et une petite matrice perdue au
+milieu. **`\figcle` ne sert plus nulle part dans le mémoire**, et l'agent `verificateur-figures`
+l'interdit désormais par sa première directive.
+
+**Ce que les figures sont devenues.** Z11 passe de 21,9 à 7,3 cm, Z17 de 21,9 à 6,4, S19 de
+21,9 à 6,0, Z18 de 21,0 à 6,2, Z\_identification\_partielle de 16,2 à 8,8, Z2 de 16,2 à 8,6 ;
+Z20 et Z22 quittent leur page flottante. Les colonnes de panneaux sont retracées en lignes.
+**Une seule figure du document dépasse encore 9 cm, J3 à 10,3**, et son script exige le fichier
+OpRisk absent de ce poste.
+
+**22 TITRES CODÉS RETIRÉS dans 21 scripts.** Un mémoire publié par l'Institut ne porte pas
+« Z19 : » ni « S24 : » en tête d'une image : c'est un code de laboratoire, et la légende LaTeX
+porte déjà le titre. Chaque figure a été régénérée et **sa sortie standard comparée à
+`sorties_verif` : identique au caractère près**, sur les 21 scripts.
+
+**S24 portait un défaut invisible dans son code, et il valait la peine d'être cherché** : le
+script enregistrait **sans `bbox_inches="tight"`**, si bien que tout texte dépassant du cadre
+était coupé. Le titre du panneau (c) et son intitulé d'axe l'étaient. La règle du projet dit
+« toujours `bbox_inches="tight"` » ; ce script y échappait.
+
+**TROIS FIGURES SUPPRIMÉES**, sur demande de Kélian d'écarter ce qui pose trop de problèmes pour
+ce que cela apporte. `M_faisabilite` (jamais citée, ne se régénère que sur le Mac, seule figure
+restée à l'ancienne palette), `S32_tornado_normalise` (jamais citée, tableau voisin donnant les
+mêmes élasticités) et `S22_entites_reelles` (jamais citée, 22 cm, script bloqué par l'absence de
+`data/raw`, et la section porte déjà le tableau des quatre entités). **`Z14` a été épargnée
+parce qu'elle est citée** : le script de suppression refuse toute figure dont un `\ref` dépend.
+
+**LE POSTE N'A PAS `data/raw`, ET CELA DÉCIDE DE CE QUI EST FAISABLE ICI.** Deux fonctions
+seulement lisent la donnée brute, `oprisk_losses` et `oprisk_excesses` ; les scripts qui les
+appellent ne peuvent pas régénérer leur figure. **Restent donc à reprendre sur un poste qui a
+les données** : Z6, J2, J4, J7, S10, Z14, S16, S17, S20, N2 et J3, qui portent encore un titre
+ou un code en dur. Ne pas modifier leur script ici : ce serait le désynchroniser de son image,
+exactement l'état qu'a laissé la session interrompue.
+
+**Deux défauts de mise en page corrigés au passage** : les espaces parasites « ( figure 8.2) »
+et « ( figure 10.3) », laissées par les commentaires `SOURCES-SCRIPTS` insérés en milieu de
+phrase (un `%` en fin de ligne les supprime), et un renvoi vers l'équation de Hill qui restait
+non résolu dans la v3, où la section qui la définit est retirée.
+
+**Contrôles.** `main_ensae` 187 pages, `main` 171, `main_v2` 177, `main_v3` 150 ; 0 erreur,
+0 vbox, 0 annotation hors page, 0 page tournée, 0 « ?? » dans les quatre PDF, débordements à la
+ligne de base partout. Harnais 2 157 nombres, tous confirmés.
+
+**Piège d'environnement, à savoir avant de relancer un script sur ce poste.** Le `.venv` ne
+trouvait pas `ffi.dll`, d'où « scipy install broken » et l'échec de `pip`. Un fichier
+`zz_dll_ffi.pth` dans `.venv/Lib/site-packages` ajoute le dossier de DLL au démarrage et règle
+les deux. PyMuPDF y est installé, ce qu'exige `carte_figures.py`. Et `memoire\tectonic.exe`
+n'existe pas ici : le binaire est `C:\Users\kelia\miniconda3\Library\bin\tectonic.exe`.
 
 ### `6517607` : les renvois de script sortent du PDF
 

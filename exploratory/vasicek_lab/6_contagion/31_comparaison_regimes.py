@@ -219,7 +219,8 @@ ax1.set_xticks([0, 1])
 ax1.set_xticklabels(["A : $W$ posé", "B : en couches"])
 ax1.set_ylabel("SCR (VaR 99,5 %, M€)", color=INK2)
 ax1.set_title("(a)  Un point, ou un socle et des bornes", fontsize=10, color=INK, pad=6)
-ax1.legend(frameon=False, fontsize=8.5, loc="lower right")
+ax1.set_ylim(0, ax1.get_ylim()[1] * 1.34)
+ax1.legend(frameon=False, fontsize=8, loc="upper center", ncol=2)
 for s in ("top", "right"):
     ax1.spines[s].set_visible(False)
 
@@ -236,7 +237,7 @@ ax2.set_xticks([])
 ax2.set_ylabel("SCR (M€)", color=INK2)
 ax2.set_title("(b)  Seule la part orange dépend\nde l'élicitation", fontsize=11,
               color=INK, pad=8)
-ax2.legend(frameon=False, fontsize=8.5, loc="lower right")
+ax2.legend(frameon=False, fontsize=7.5, loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=3)
 for s in ("top", "right"):
     ax2.spines[s].set_visible(False)
 
@@ -251,7 +252,7 @@ ax3.set_xlabel("biais du panel  (1 = confirme le classeur, 0 = aucune direction,
 ax3.set_ylabel("SCR (M€)", color=INK2)
 ax3.set_title("(c)  Le régime A suit le panel,\nla bande B ne bouge pas", fontsize=11,
               color=INK, pad=8)
-ax3.legend(frameon=False, fontsize=8.5, loc="lower right")
+ax3.legend(frameon=False, fontsize=8, loc="upper left")
 for s in ("top", "right"):
     ax3.spines[s].set_visible(False)
 
@@ -262,12 +263,13 @@ for j in xs:
     if freq[j] > 0.005:
         ax4.text(j, 100 * freq[j] + 1.5, f"{100*freq[j]:.0f}%", ha="center", fontsize=8.5,
                  color=INK2)
-ax4.scatter([prio_exp], [100 * freq[prio_exp] + 7], marker="v", s=90, color=ACCENT, zorder=6)
-ax4.text(prio_exp, 100 * freq[prio_exp] + 10, "choix A", ha="center", fontsize=8.5,
+ax4.scatter([prio_exp], [100 * freq[prio_exp] + 11], marker="v", s=90, color=ACCENT, zorder=6)
+ax4.set_ylim(0, ax4.get_ylim()[1] * 1.32)
+ax4.text(prio_exp, 100 * freq[prio_exp] + 14, "choix A", ha="center", fontsize=8.5,
          color=ACCENT)
 ax4.set_xticks(xs)
 ax4.set_xticklabels([f"P{p}" for p in pid.PIL])
-ax4.set_ylabel("% des $W$ admissibles où le pilier est 1er", color=INK2, fontsize=9)
+ax4.set_ylabel("% des $W$ admissibles", color=INK2, fontsize=9)
 ax4.set_title("(d)  Ce que l'élicitation doit\ndépartager, et rien de plus", fontsize=11,
               color=INK, pad=8)
 for s in ("top", "right"):

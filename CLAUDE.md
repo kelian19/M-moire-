@@ -44,10 +44,14 @@ faut comparer pour savoir si un débordement est nouveau. `main.pdf` est version
 `main_v2.pdf` est gitignoré, ce qui ne dispense pas de le régénérer : un PDF périmé sur le
 poste est exactement ce qui a fait présenter du travail antérieur comme récent le 21 août.
 
-État au **9 septembre 2026 au soir** : v1 à **186 pages dont 136 de corps** (annexes en 137),
-v2 à **192 pages dont 140 de corps** (annexes en 141), branche `exploratory`. Les comptes de ce
+État au **15 septembre 2026 au soir**, après la passe des figures : **`main_ensae` à 187 pages
+dont 134 de corps** (annexes en 135), v1 à **171 pages dont 124 de corps** (annexes en 125),
+v2 à **177 pages dont 128 de corps** (annexes en 129), v3 à **150 pages dont 101 de corps**
+(annexes en 102), branche `exploratory`. Les huit pages gagnées ce soir-là sont des figures, non
+du texte : **`\figcle` ne sert plus nulle part**, donc plus aucune figure n'est seule sur sa
+page, et trois figures inutilisées ont été retirées. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 9 septembre : **2 346 nombres, 2 346 confirmés, 100 %**, et **0 hors
+Harnais au 15 septembre : **2 157 nombres, 2 157 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Les six pages gagnées dans le corps le
 9 septembre sont la lecture de marché de l'introduction, demandée par Kélian : voir la section
 « La page de garde et la lecture de marché » plus bas. Ce
@@ -519,8 +523,14 @@ avec son bruit. Un lecteur qui voit ± 7 ne pose plus la question du troisième 
 - **Une figure portrait ne se dimensionne qu'en HAUTEUR sur une slide 4:3.** Posée en largeur,
   elle fait déborder son cadre (jusqu'à 7 cm constatés). `height=0.80\textheight`, et elle a sa
   propre slide.
-- **`\figover` ne contraint pas la hauteur.** Une figure portrait dans le mémoire prend
-  `\figcle` (page entière), jamais `\figover`.
+- **`\figcle` EST INTERDIT DEPUIS LE 15 SEPTEMBRE, et la consigne a changé de sens.** Cette macro
+  pose la figure seule sur sa page et l'agrandit jusqu'à 0,88 fois la hauteur du texte : c'est
+  elle qui produisait les pages « totalement à revoir » signalées par Kélian, une image de 22 cm
+  au milieu d'un grand blanc. Une figure portrait ne se pose donc plus en pleine page : **elle se
+  retrace en ligne ou en grille compacte dans son script**, pour 5 à 9 cm imprimés, et s'appelle
+  par un environnement `figure` avec `\figover`. `\figover` ne contraint toujours pas la hauteur :
+  quand une figure déjà plate dépasse d'un cheveu, réduire la largeur d'appel
+  (`\includegraphics[width=0.99\textwidth]`) plutôt que la laisser flotter seule.
 - **Les PDF de `exploratory/slides/` peuvent être périmés** par rapport à `build/`. Recopier
   après compilation.
 - **Un job d'arrière-plan peut écraser une figure après un commit.** Comparer les horodatages.
