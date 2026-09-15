@@ -140,7 +140,7 @@ ladder(ax2, {"notre socle (sans contagion)": SOCLE, "notre SCR cascade": scr_cas
        port_anchors, "(b)  Échelle annuelle : notre capital\nface au marché et à la Formule Standard",
        "capital / marché (M€, échelle log)")
 
-fig.suptitle("J5 : benchmark externe : au niveau unitaire nos quantiles collent aux pertes réelles ; "
+fig.suptitle("J5 : benchmark externe : au niveau unitaire nos quantiles collent aux pertes réelles ;\n"
              "au niveau annuel, une échelle systémique",
              fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au

@@ -266,7 +266,10 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.5, 5.0))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
+# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
+# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10.66, 3.23))
 
 crans = ["0\nu libre", "1\nrang 1", "3\nclasseur", "4\nu = 0"]
 los = [v0.min(), v1.min(), scr_exp, scr_nul]

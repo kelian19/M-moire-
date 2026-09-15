@@ -254,7 +254,7 @@ for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z18 : la valeur de l'information manquante, chiffrée et hiérarchisée : "
+fig.suptitle("Z18 : la valeur de l'information manquante, chiffrée et hiérarchisée :\n"
              "quelle dépendance le registre DORA devrait documenter d'abord",
              fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au

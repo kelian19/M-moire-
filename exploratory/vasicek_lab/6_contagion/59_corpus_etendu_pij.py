@@ -359,7 +359,7 @@ ax3.set_title("(c)  L'amplitude s'effondre,\nla direction tient", fontsize=11, c
 for s_ in ("top", "right"):
     ax3.spines[s_].set_visible(False)
 
-fig.suptitle(f"Z20 : corpus étendu à {n_inc} post-mortems, et matrice ordonnée "
+fig.suptitle(f"Z20 : corpus étendu à {n_inc} post-mortems, et matrice ordonnée\n"
              r"$p_{jk}$ au lieu du seul sens par paire",
              fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au

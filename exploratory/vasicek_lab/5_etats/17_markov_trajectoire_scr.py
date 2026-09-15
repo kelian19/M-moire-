@@ -193,7 +193,10 @@ axA.axhline(tr["scr"]["NC"], color=ACCENT, ls=":", lw=1.2,
             label=f"SCR non conforme {tr['scr']['NC']:.0f}")
 axA.set_xlabel("horizon t (annees)", fontsize=9.5, color=INK2)
 axA.set_ylabel("SCR_DORA(t) (M€)", fontsize=9.5, color=INK2)
-axA.set_title("(A)  Trajectoire du capital le long de la remediation (OpRisk)",
+# TITRES RACCOURCIS. A la largeur de trace corrigee, les deux titres etaient
+# plus larges que leur panneau et se chevauchaient au milieu de la figure. Ce
+# que le titre perd, la legende de la figure le porte deja dans le memoire.
+axA.set_title("(A)  Trajectoire du capital le long de la remédiation",
               fontsize=10, color=INK, pad=6)
 axA.legend(fontsize=8.0, frameon=False, loc="upper right")
 axA.grid(alpha=0.25, lw=0.5)
@@ -208,7 +211,7 @@ axB.stackplot(HORIZONS, pN, pP, pC, colors=[ACCENT, "#e0a53f", GREEN], alpha=0.8
               labels=["Non conforme", "Partiellement conforme", "Conforme"])
 axB.set_xlabel("horizon t (annees)", fontsize=9.5, color=INK2)
 axB.set_ylabel("probabilite d'etat", fontsize=9.5, color=INK2)
-axB.set_title("(B)  La remediation en marche : les etats vers Conforme (Theta=0)",
+axB.set_title("(B)  Les états de conformité au fil de la remédiation",
               fontsize=10, color=INK, pad=6)
 axB.legend(fontsize=8.2, frameon=False, loc="center right")
 axB.set_xlim(0, 5)

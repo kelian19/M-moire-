@@ -177,7 +177,10 @@ mpl.rcParams.update({
 INK, INK2 = "#1b1e30", "#223e55"
 ACCENT, BLUE, GREEN, GREY = "#a6002e", "#3661ac", "#008d87", "#7d7d7d"
 
-fig, (axA, axB, axC) = plt.subplots(1, 3, figsize=(15.6, 5.0))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
+# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
+# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
+fig, (axA, axB, axC) = plt.subplots(1, 3, figsize=(9.69, 3.11))
 
 # panneau A : Delta PRC selon b (pivote)
 labs = list(axes_b.keys())

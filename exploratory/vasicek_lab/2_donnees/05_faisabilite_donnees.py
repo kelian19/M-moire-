@@ -300,7 +300,10 @@ INK, INK2, MUTED, GRID = "#1b1e30", "#223e55", "#595959", "#f2f2f2"
 ACCENT = "#a6002e"
 BL = ["#7baafd", "#4c79c7", "#204993"]
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15.4, 4.7),
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
+# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
+# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.69, 2.96),
                                     gridspec_kw={"width_ratios": [1, 1.1, 1]})
 
 # (a) puissance : transitions disponibles vs requises

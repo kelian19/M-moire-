@@ -190,7 +190,10 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16.5, 4.9))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
+# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
+# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10.66, 3.17))
 
 # (a) event-study : taux mensuel de breches traite vs controle autour du choc
 traite_orgs = set(mv.normalized_org_name)

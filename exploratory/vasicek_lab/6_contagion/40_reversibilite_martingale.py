@@ -266,6 +266,10 @@ fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 9.9))
 # (a) le courant J : heatmap divergente + fleches du sens net
 vmax = np.abs(J).max()
 im = ax1.imshow(J, cmap="RdBu_r", vmin=-vmax, vmax=vmax)
+# UNE MATRICE EST CARREE, PAS LE PANNEAU QUI LA PORTE. Sans ancrage, imshow
+# calait la matrice a droite de son panneau et laissait un grand blanc a
+# gauche, ce qui desequilibrait toute la figure. L'ancrage central corrige.
+ax1.set_anchor("C")
 ax1.set_xticks(range(NP_)); ax1.set_yticks(range(NP_))
 ax1.set_xticklabels([f"P{j}" for j in PIL]); ax1.set_yticklabels([f"P{j}" for j in PIL])
 for a in range(NP_):
@@ -319,7 +323,7 @@ ax3.text(0.02, 0.09, "$S$ : identifiée.   $A$ : placebo $z=-0{,}33$,\n"
                      "compatible avec $\\sigma = 0$ (réversible).",
          fontsize=9.5, color=ACCENT)
 
-fig.suptitle("Z11 : la direction $A$ est le courant irréversible d'un processus, "
+fig.suptitle("Z11 : la direction $A$ est le courant irréversible d'un processus,\n"
              "ce que la martingalisation retire et que la co-occurrence ne voit pas",
              fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au

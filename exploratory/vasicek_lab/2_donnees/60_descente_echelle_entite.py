@@ -386,7 +386,10 @@ titre("Figure")
 mpl.rcParams.update({"font.size": 10, "axes.grid": True, "grid.alpha": 0.25,
                      "axes.spines.top": False, "axes.spines.right": False})
 NAVY, BLUE, ACC, GRN = "#1F3864", "#3661ac", "#C0491F", "#008d87"
-fig, axes = plt.subplots(1, 3, figsize=(15.4, 4.7))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
+# sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
+# des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
+fig, axes = plt.subplots(1, 3, figsize=(9.69, 2.96))
 
 # (a) lambda en fonction de la taille
 ax = axes[0]

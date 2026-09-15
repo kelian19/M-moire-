@@ -348,7 +348,7 @@ for ax in (ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z17 : la direction de $W$ identifiée par codage de post-mortems officiels, "
+fig.suptitle("Z17 : la direction de $W$ identifiée par codage de post-mortems officiels,\n"
              "là où les bases agrégées échouaient",
              fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
