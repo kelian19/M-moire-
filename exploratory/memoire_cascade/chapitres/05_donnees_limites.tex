@@ -174,7 +174,7 @@ intervalle, qui sont des constantes de la calibration figée).
 \noindent Sources de cette section : scripts~\texttt{08b} (panel firme-année),
 \texttt{60} (lecture à la taille de l'entité) et \texttt{62} (périmètre de $\lambda_{ref}$).
 
-\paragraph{Le seuil de collecte, et pourquoi $\lambda$ se lit à deux niveaux.}
+\paragraph{Le seuil de collecte et la double lecture de $\lambda$.}
 La fréquence est la seule brique du modèle dont la valeur dépende
 explicitement du \emph{périmètre de comptage} de la source, et cette dépendance
 doit être déclarée avant tout usage du niveau. Un contrôle mené sur le panel
@@ -237,7 +237,7 @@ moteur}, et c'est lui
 seul qui doit être invoqué quand le mémoire parle de \og{}la fréquence du modèle\fg{}.
 \end{attention}
 
-\section{Deux biais déclarés, et de combien ils déplacent le résultat}
+\section{Deux biais déclarés et leur effet chiffré sur le résultat}
 \label{sec:biais-chiffres}
 
 Déclarer un biais ne coûte rien ; le mesurer engage. Les deux limites les plus souvent
@@ -307,7 +307,7 @@ n'autorise donc pas à ignorer les deux biais.
 
 %--------------------------------------------------------------
 
-\section{Ce que Hackmageddon fixe, et ce qu'elle ne fixe pas}
+\section{Hackmageddon : structure du risque, jamais niveau}
 
 Cette source a déjà été présentée au \S\ref{sec:carto} comme celle qui porte la
 \emph{structure} du risque et non son niveau. Reste à en donner le périmètre exact et les
@@ -515,7 +515,7 @@ l'échantillon \og pannes\fg{} (28 excès), qui rend cette calibration indicativ
 
 %--------------------------------------------------------------
 
-\section{Ce que le dispositif de données permet, et ce qu'il interdit}
+\section{Portée et limites du dispositif de données}
 
 La discipline méthodologique retenue dans ce mémoire consiste à ne jamais
 prétendre inférer davantage que ce que les données permettent réellement, ce
@@ -655,7 +655,7 @@ sévérité ($\xi \approx 0{,}9$), la fréquence d'entrée et l'accumulation par
 Elles ne fixent \emph{pas} la direction de la contagion : le chapitre~\ref{ch:identifiabilite}
 le démontre sur deux sources qui échouent pour des raisons opposées, et le
 chapitre~\ref{chap:partielle} en tire les conséquences en bornes de capital. Cette frontière
-n'est pas une faiblesse du dispositif de données, c'est un résultat qu'il produit.
+est un résultat produit par le dispositif de données, non une lacune de celui-ci.
 \end{cle}
 
 % =====================================================================
