@@ -207,63 +207,81 @@ print("     CHIFFREE et HIERARCHISEE, opposable a un superviseur.")
 # =====================================================================================
 # figure Z18
 # =====================================================================================
+# Une LIGNE de deux panneaux, et non une colonne : la figure s'imprime dans le fil du
+# texte au lieu d'occuper seule une page. Aucun titre general dans l'image : la
+# legende LaTeX le porte. HAUTEUR DE 2,5 POUCES, et elle a un motif : imprimee a
+# environ 6 cm, la figure et sa legende de six lignes tiennent sous le titre de leur
+# section, en fin de chapitre ; a 3,1 pouces le flottant etait renvoye seul sur une page.
+from matplotlib.patches import Patch                            # noqa: E402
+from matplotlib.ticker import FuncFormatter, MultipleLocator    # noqa: E402
+
 mpl.rcParams.update({
-    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 10.5,
+    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 8.5,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
     "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
     "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
+    "xtick.labelsize": 8, "ytick.labelsize": 8,
 })
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
+ESP = " "                    # espace fine insecable, separateur de milliers
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.4, 8.6),
-                               gridspec_kw={"height_ratios": [1, 1.15]})
+
+def fr(x, nd=0):
+    """Nombre ecrit a la francaise : virgule decimale, espace fine pour les milliers."""
+    return f"{x:,.{nd}f}".replace(",", ESP).replace(".", ",")
+
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.3, 2.5),
+                               gridspec_kw={"width_ratios": [1, 1.35]})
 
 # (a) retrecissement de la bande : avant / apres post-mortems / signes complets
 stages = [("ignorance\ntotale", lo0, hi0, MUTED),
           ("après les 7\npost-mortems", lo1, hi1, BLUE),
-          ("les 10 sens connus\n(reste l'amplitude)", lo_amp, hi_amp, GREEN)]
+          ("les 10 sens\nconnus", lo_amp, hi_amp, GREEN)]
 for i, (lab, lo, hi, c) in enumerate(stages):
-    ax1.plot([i, i], [lo, hi], color=c, lw=14, solid_capstyle="butt", alpha=0.85)
-    ax1.text(i, hi + 60, f"largeur\n{hi-lo:.0f} M€", ha="center", fontsize=8.5, color=INK2)
-ax1.axhline(SCR_SOCLE, color=ACCENT, ls=":", lw=1.2)
-ax1.text(-0.5, SCR_SOCLE + 70, "socle sans contagion", fontsize=8, color=ACCENT, va="bottom")
-ax1.set_xticks(range(3)); ax1.set_xticklabels([s[0] for s in stages], fontsize=9)
-ax1.set_ylabel("bande de SCR (M€)", color=INK2)
-ax1.set_xlim(-0.6, 2.7)
-ax1.set_title(f"(a)  L'information rétrécit la bande\n({100*(1-w1/w0):.0f} % acquis par la lecture "
-              f"de 7 rapports)", fontsize=11, color=INK, pad=8)
+    ax1.plot([i, i], [lo, hi], color=c, lw=15, solid_capstyle="butt", alpha=0.85)
+    ax1.text(i, hi + 70, f"largeur\n{fr(hi - lo)} M€", ha="center", va="bottom",
+             fontsize=7.5, color=INK2)
+ax1.text(1, lo1 - 90, f"{100*(1-w1/w0):.0f} % acquis\npar 7 rapports", ha="center",
+         va="top", fontsize=7.5, color=BLUE)
+ax1.text(2, lo_amp - 90, "reste\nl'amplitude", ha="center", va="top", fontsize=7.5,
+         color=GREEN)
+ax1.axhline(SCR_SOCLE, color=ACCENT, ls=":", lw=1.1)
+ax1.text(-0.5, SCR_SOCLE + 60, "socle sans contagion", fontsize=7.5, color=ACCENT,
+         va="bottom")
+ax1.set_xticks(range(3)); ax1.set_xticklabels([s[0] for s in stages])
+ax1.set_xlim(-0.55, 2.55)
+ax1.set_ylim(5000, 9600)
+ax1.yaxis.set_major_locator(MultipleLocator(1000))
+ax1.yaxis.set_major_formatter(FuncFormatter(lambda v, _: fr(v)))
+ax1.set_ylabel("bande de SCR (M€)")
+ax1.set_title("(a)  L'information rétrécit la bande", fontsize=9.5, color=INK, loc="left")
 
-# (b) valeur marginale par paire, classee
+# (b) valeur marginale par paire, classee ; la couleur dit la source du signe
 labs = [r[0] for r in rows]
 reds = [r[1] for r in rows]
 cols = [BLUE if r[2] == "post-mortem" else MUTED for r in rows]
 yp = np.arange(len(rows))[::-1]
-ax2.barh(yp, reds, color=cols, alpha=0.9)
+ax2.barh(yp, reds, height=0.72, color=cols, alpha=0.9)
 for y_, r in zip(yp, rows):
-    ax2.text(r[1] + 0.4, y_, f"{r[1]:.1f} %  ({r[2]})", va="center", fontsize=8, color=INK2)
-ax2.set_yticks(yp); ax2.set_yticklabels(labs, fontsize=9)
-ax2.set_xlim(0, max(reds) * 1.5)
-ax2.set_xlabel("rétrécissement de la bande si CETTE seule paire est documentée (%)",
-               color=INK2, fontsize=9)
-ax2.set_title("(b)  Quelle dépendance documenter en priorité\n(bleu : déjà couverte par un "
-              "post-mortem)", fontsize=11, color=INK, pad=8)
+    ax2.text(r[1] + 0.5, y_, f"{fr(r[1], 1)} %", va="center", fontsize=7.5, color=INK2)
+ax2.set_yticks(yp); ax2.set_yticklabels(labs)
+ax2.set_ylim(-0.6, len(rows) - 0.4)
+ax2.set_xlim(0, max(reds) * 1.25)
+ax2.set_xlabel("rétrécissement si cette seule paire est documentée (%)")
+ax2.set_title("(b)  Quelle dépendance documenter en priorité", fontsize=9.5, color=INK,
+              loc="left")
+ax2.legend(handles=[Patch(facecolor=BLUE, alpha=0.9, label="sens établi par un post-mortem"),
+                    Patch(facecolor=MUTED, alpha=0.9, label="sens tiré du classeur d'expert")],
+           loc="lower right", fontsize=7.5, frameon=False, handlelength=1.2)
 
 for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z18 : la valeur de l'information manquante, chiffrée et hiérarchisée :\n"
-             "quelle dépendance le registre DORA devrait documenter d'abord",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
-# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
-# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
-# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
-# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
-_top = 1.0 - 0.26 / fig.get_figheight()
-fig.suptitle_y = _top
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z18_valeur_information.png")

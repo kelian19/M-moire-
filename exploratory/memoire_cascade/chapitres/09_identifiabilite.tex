@@ -152,7 +152,7 @@ et retourne le signe de $A$.
 Formellement, en notant $P$ le noyau de transition et $\pi$ sa loi stationnaire, on décompose
 $P = S_\pi + A_\pi$ où $S_\pi=\tfrac12(P+\tilde P)$ et $A_\pi=\tfrac12(P-\tilde P)$, avec
 $\tilde P_{jk} = \pi_k P_{kj}/\pi_j$ le noyau \emph{adjoint} (la chaîne renversée dans le temps).
-Trois identités s'ensuivent, vérifiées numériquement (
+Trois identités s'ensuivent, vérifiées numériquement (%
 % SOURCES-SCRIPTS: 40
 figure~\ref{fig:reversibilite}).
 
@@ -209,14 +209,19 @@ $\pi$ uniforme ; $W$ n'est pas littéralement un générateur de Markov) : c'est
 \emph{fonde} la limite sur un théorème, non une hypothèse de plus.
 \end{cle}
 
-\figcle{Z11_reversibilite_martingale.png}{La direction $A$ comme courant irréversible, et
+\begin{figure}[htbp]
+  \centering
+  \figover{Z11_reversibilite_martingale.png}
+  \caption{La direction $A$ comme courant irréversible, et
 pourquoi la donnée ne peut pas la voir. (a)~le courant $J_{jk}=\pi_jP_{jk}-\pi_kP_{kj}$
 est non nul : le modèle porte bien une direction. (b)~l'énergie de fluctuation, c'est-à-dire
 la variation quadratique de la martingale, est \emph{identique} pour la chaîne posée et pour sa
 symétrisée : elle ne voit que $S$. La production d'entropie, elle, s'efface à la symétrisation.
-\textbf{(c)}~le renversement du temps laisse $S$ intacte et retourne le signe de $A$. C'est la
+(c)~le renversement du temps laisse $S$ intacte et retourne le signe de $A$. C'est la
 raison de principe pour laquelle une statistique de co-occurrence, invariante par renversement,
-ne peut pas identifier un courant qui change de signe sous ce renversement.}{fig:reversibilite}
+ne peut pas identifier un courant qui change de signe sous ce renversement.}
+  \label{fig:reversibilite}
+\end{figure}
 % SOURCES-SCRIPTS: 40
 
 \section{La meilleure expérience naturelle disponible : le choc MOVEit}

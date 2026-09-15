@@ -252,99 +252,110 @@ print("  emprunt d'analogie (W n'est pas un generateur de Markov). C'est une lec
 print("  fonde la limite sur un theoreme, pas une hypothese de plus.")
 
 # ============================================================ figure Z11
+# TROIS PANNEAUX EN LIGNE, TRACES A LA TAILLE D'IMPRESSION. Empiles, ils remplissaient une
+# page entiere du memoire (21,9 cm) et la matrice flottait dans un grand blanc. La figure
+# s'imprime par \figover a 18,5 cm, soit 7,3 pouces : tracee a 7,4 pouces, une police de
+# s points s'imprime a s points environ, donc les tailles ecrites ici sont celles de la page.
+# Aucun titre general dans l'image : la legende LaTeX porte le titre.
 mpl.rcParams.update({
-    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 11,
+    "font.family": ["DejaVu Sans", "Segoe UI", "sans-serif"], "font.size": 8,
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb", "axes.edgecolor": "#dcdcdc",
     "axes.linewidth": 0.8, "text.color": "#1b1e30", "axes.labelcolor": "#223e55",
     "xtick.color": "#595959", "ytick.color": "#595959", "axes.grid": False,
+    "xtick.labelsize": 8, "ytick.labelsize": 8, "axes.labelsize": 8.5,
 })
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
+T_PAN = 9.2                                # titres de panneau
+# Carte divergente faite des valeurs de la charte (poles et paliers clairs de DIVERGENT), le
+# fond de figure au point neutre : les courants proches de zero restent sur fond clair et
+# leurs valeurs lisibles. Rouge pour un courant positif, bleu pour un negatif.
+DIV = mpl.colors.LinearSegmentedColormap.from_list(
+    "courant", ["#204993", "#8fa8d8", "#fcfcfb", "#e8a0aa", "#a6002e"])
 
-# TROIS PANNEAUX EN LIGNE, PAS EN COLONNE. Empiles, ils remplissaient une page entiere du
-# memoire (21,9 cm) : la matrice du haut, carree par nature, flottait au milieu d'un grand
-# blanc et les deux annotations du panneau du milieu tombaient sur les barres. En ligne, la
-# matrice occupe son panneau et la figure s'imprime dans le fil du texte.
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.6, 3.6),
-                                    gridspec_kw=dict(width_ratios=[1, 0.95, 1.15]))
-_fr = mticker.FuncFormatter(lambda v, _p: f"{v:+.2f}".replace(".", ","))
 
-# (a) le courant J : heatmap divergente + fleches du sens net
+def _signe(v):
+    """Valeur signee a deux decimales, virgule decimale et vrai signe moins."""
+    return f"{v:+.2f}".replace(".", ",").replace("-", "−")
+
+
+_fr = mticker.FuncFormatter(lambda v, _p: _signe(v))
+
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(7.4, 2.8), layout="constrained",
+                                    gridspec_kw=dict(width_ratios=[1.12, 0.92, 1.0]))
+fig.get_layout_engine().set(w_pad=0.03, h_pad=0.03, wspace=0.06)
+
+# (a) le courant J : matrice divergente, valeurs dans les cases
 vmax = np.abs(J).max()
-im = ax1.imshow(J, cmap="RdBu_r", vmin=-vmax, vmax=vmax)
-# UNE MATRICE EST CARREE, PAS LE PANNEAU QUI LA PORTE. Sans ancrage, imshow
-# calait la matrice a droite de son panneau et laissait un grand blanc a
-# gauche, ce qui desequilibrait toute la figure. L'ancrage central corrige.
+im = ax1.imshow(J, cmap=DIV, vmin=-vmax, vmax=vmax)
+# UNE MATRICE EST CARREE, PAS LE PANNEAU QUI LA PORTE : ancrage central.
 ax1.set_anchor("C")
 ax1.set_xticks(range(NP_)); ax1.set_yticks(range(NP_))
 ax1.set_xticklabels([f"P{j}" for j in PIL]); ax1.set_yticklabels([f"P{j}" for j in PIL])
+ax1.tick_params(length=0, pad=2)
+for _sp in ax1.spines.values():
+    _sp.set_visible(False)
+ax1.set_ylabel("pilier source $j$")
+ax1.set_xlabel("pilier cible $k$")
 for a in range(NP_):
     for b in range(NP_):
         if a != b:
-            ax1.text(b, a, f"{J[a, b]:+.2f}".replace(".", ","), ha="center", va="center",
-                     fontsize=7.5, color=INK if abs(J[a, b]) < 0.6 * vmax else "#fcfcfb")
-ax1.set_title("(a)  Le courant $J_{ij}=\\pi_iP_{ij}-\\pi_jP_{ji}$\n= la direction, non identifiée",
-              fontsize=10.5, color=INK, pad=8)
-cb = fig.colorbar(im, ax=ax1, fraction=0.046, pad=0.04)
-cb.ax.tick_params(labelsize=7)
+            ax1.text(b, a, _signe(J[a, b]), ha="center", va="center",
+                     fontsize=7.2, color=INK if abs(J[a, b]) < 0.6 * vmax else "#fcfcfb")
+ax1.set_title("(a)  Le courant $J_{jk}$ :\nla direction, non identifiée",
+              fontsize=T_PAN, color=INK)
+cb = fig.colorbar(im, ax=ax1, fraction=0.05, pad=0.03, aspect=16)
+cb.ax.tick_params(labelsize=7.2, length=2, color="#dcdcdc")
 cb.ax.yaxis.set_major_formatter(_fr)
+cb.outline.set_edgecolor("#dcdcdc")
+cb.outline.set_linewidth(0.6)
 
 # (b) la fluctuation ne voit que S ; production d'entropie
-labels = ["énergie de\nfluctuation\n$E(f,f)$", "production\nd'entropie\n$\\sigma$"]
+labels = ["énergie de\nfluctuation\n$\\mathcal{E}(f,f)$", "production\nd'entropie\n$\\sigma$"]
 posee = [1.0, 1.0]                     # fluctuation et entropie de la chaine posee (base 1)
 sym = [1.0, 0.0]                       # symetrisee : meme fluctuation, entropie nulle
 x = np.arange(2)
 ax2.bar(x - 0.19, posee, width=0.36, color=BLUE, alpha=0.9, label="chaîne posée")
 ax2.bar(x + 0.19, sym, width=0.36, color=GREEN, alpha=0.9, label="chaîne symétrisée")
-ax2.set_xticks(x); ax2.set_xticklabels(labels, fontsize=9)
-ax2.set_ylabel("valeur (normalisée à la chaîne posée)", color=INK2, fontsize=9)
-# BANDE HAUTE DEGAGEE. Les deux commentaires etaient poses SUR les barres, avec un fond
-# opaque pour rester lisibles : ils masquaient la donnee. Les barres culminant a 1, on porte
-# le haut a 1,75 et chaque commentaire passe au-dessus de son groupe, la legende encore
-# au-dessus. Plus aucun texte ne recouvre une barre.
+ax2.set_xticks(x); ax2.set_xticklabels(labels)
+ax2.tick_params(axis="x", length=0, pad=3)
+ax2.set_ylabel("valeur (chaîne posée = 1)")
+ax2.spines["top"].set_visible(False)
+ax2.spines["right"].set_visible(False)
+# BANDE HAUTE DEGAGEE : les barres culminent a 1, chaque commentaire passe au-dessus de son
+# groupe et la legende encore au-dessus. Aucun texte ne recouvre une barre.
 ax2.set_ylim(0, 1.75)
 ax2.set_yticks([0.0, 0.5, 1.0])
 ax2.set_yticklabels(["0", "0,5", "1,0"])
-ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88,
-           fontsize=8.5, loc="upper center", ncol=2, columnspacing=0.9, handlelength=1.4,
-           handletextpad=0.45, borderpad=0.35)
-ax2.text(0, 1.06, "identique :\nne voit que $S$", ha="center", va="bottom",
-         fontsize=9, color=MUTED, style="italic")
-ax2.text(1, 1.06, "s'efface :\n$\\sigma \\to 0$", ha="center", va="bottom",
-         fontsize=9, color=MUTED, style="italic")
-ax2.set_title("(b)  La martingale ne voit que $S$ ;\n$A$ est toute la direction",
-              fontsize=10.5, color=INK, pad=8)
+ax2.legend(frameon=False, fontsize=7.5, loc="upper center", ncol=1, handlelength=1.2,
+           handletextpad=0.45, borderaxespad=0.15, labelspacing=0.25)
+ax2.text(0, 1.05, "identique :\nne voit que $S$", ha="center", va="bottom",
+         fontsize=7.5, color=MUTED, style="italic")
+ax2.text(1, 1.05, "s'efface :\n$\\sigma \\to 0$", ha="center", va="bottom",
+         fontsize=7.5, color=MUTED, style="italic")
+ax2.set_title("(b)  La martingale ne voit\nque $S$, pas la direction $A$",
+              fontsize=T_PAN, color=INK)
 
 # (c) le schema du renversement du temps
 ax3.axis("off")
 ax3.set_xlim(0, 1); ax3.set_ylim(0, 1)
 ax3.set_title("(c)  Renversement du temps :\n$S$ invariante, $A$ change de signe",
-              fontsize=10.5, color=INK, pad=8)
-ax3.annotate("", xy=(0.86, 0.80), xytext=(0.14, 0.80),
-             arrowprops=dict(arrowstyle="->", color=INK2, lw=1.4))
-ax3.annotate("", xy=(0.14, 0.55), xytext=(0.86, 0.55),
-             arrowprops=dict(arrowstyle="->", color=INK2, lw=1.4))
-ax3.text(0.5, 0.86, "temps  $t \\to$", ha="center", fontsize=9, color=INK2)
-ax3.text(0.5, 0.60, "$\\leftarrow t$  renversé", ha="center", fontsize=9, color=INK2)
-ax3.text(0.02, 0.40, "$P = S + A$", fontsize=14, color=INK)
-ax3.text(0.30, 0.40, "$S$ = co-occurrence,  $A$ = direction", fontsize=9, color=INK2)
-ax3.text(0.02, 0.26, "$\\tilde{P} = S - A$", fontsize=14, color=INK)
-ax3.text(0.30, 0.26, "(chaîne renversée : $A$ change de signe)", fontsize=9, color=INK2)
-ax3.text(0.02, 0.09, "$S$ : identifiée.   $A$ : placebo $z=-0{,}33$,\n"
-                     "compatible avec $\\sigma = 0$ (réversible).",
-         fontsize=9.5, color=ACCENT)
+              fontsize=T_PAN, color=INK)
+ax3.text(0.25, 0.97, "temps $t$", ha="center", va="top", fontsize=8, color=INK2)
+ax3.text(0.75, 0.97, "temps renversé", ha="center", va="top", fontsize=8, color=INK2)
+ax3.annotate("", xy=(0.43, 0.80), xytext=(0.07, 0.80),
+             arrowprops=dict(arrowstyle="->", color=INK2, lw=1.2))
+ax3.annotate("", xy=(0.57, 0.80), xytext=(0.93, 0.80),
+             arrowprops=dict(arrowstyle="->", color=INK2, lw=1.2))
+ax3.text(0.25, 0.60, "$P = S + A$", ha="center", va="center", fontsize=11, color=INK)
+ax3.text(0.75, 0.60, "$\\tilde{P} = S - A$", ha="center", va="center", fontsize=11, color=INK)
+ax3.text(0.5, 0.39, "$S$ = co-occurrence,  $A$ = direction", ha="center", va="center",
+         fontsize=8, color=INK2)
+ax3.text(0.5, 0.02, "$S$ : identifiée.  $A$ : placebo $z=-0{,}33$,\n"
+                    "compatible avec $\\sigma = 0$ (réversible).",
+         ha="center", va="bottom", fontsize=8, color=ACCENT)
 
-fig.suptitle("Z11 : la direction $A$ est le courant irréversible d'un processus,\n"
-             "ce que la martingalisation retire et que la co-occurrence ne voit pas",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
-# RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
-# titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
-# figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
-# reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
-_top = 1.0 - 0.26 / fig.get_figheight()
-fig.suptitle_y = _top
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
 outdir = os.path.join(os.path.dirname(_HERE), "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z11_reversibilite_martingale.png")
