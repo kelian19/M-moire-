@@ -57,6 +57,26 @@ memoire_cascade/*.blg
 memoire_cascade/*.log
 memoire_cascade/*.out
 memoire_cascade/*.toc
+# LES SIX MOTIFS CI-DESSUS SONT ANCRES A LA RACINE, et c'est ce qui les rendait
+# inoperants. Un motif de .gitignore qui contient une barre oblique ne vaut que
+# depuis le dossier du fichier .gitignore : << memoire_cascade/*.aux >> ne
+# couvrait donc qu'un dossier memoire_cascade place a la racine, jamais
+# exploratory/memoire_cascade/, qui est le vrai chemin. Le defaut ne s'etait pas
+# vu parce que les intermediaires de main et de main_v2 etaient effaces a la main
+# apres chaque compilation ; quatre intermediaires de main_ensae ont fini commites
+# le 15 septembre 2026. Les motifs sont donc repetes sous leur chemin reel.
+exploratory/memoire_cascade/*.aux
+exploratory/memoire_cascade/*.bbl
+exploratory/memoire_cascade/*.blg
+exploratory/memoire_cascade/*.log
+exploratory/memoire_cascade/*.out
+exploratory/memoire_cascade/*.toc
+exploratory/rapport_ensae/*.aux
+exploratory/rapport_ensae/*.bbl
+exploratory/rapport_ensae/*.blg
+exploratory/rapport_ensae/*.log
+exploratory/rapport_ensae/*.out
+exploratory/rapport_ensae/*.toc
 memoire/*.pdf
 memoire/*.aux
 memoire/*.bbl
