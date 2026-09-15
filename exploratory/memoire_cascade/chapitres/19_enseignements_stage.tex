@@ -1,0 +1,282 @@
+% =====================================================================
+% ENSEIGNEMENTS DU STAGE
+%
+% CHAPITRE PROPRE À LA VERSION ENSAE. Seul main_ensae.tex l'appelle : le barème
+% de l'école note sur 6 l'analyse et la réflexion sur le contexte et les outils,
+% demande de préciser la part d'influence du maître de stage et des tiers, et
+% attend un recul sur l'expérience. Un mémoire d'actuariat n'a rien à porter de
+% tout cela, et l'Institut ne le demande pas.
+%
+% Le texte vient de la section « Enseignements du stage » de l'ancien rapport de
+% stage raccourci (exploratory/rapport_ensae/rapport_ensae.tex, \S6). Ce qui a
+% changé en le transportant ici :
+%   - la hiérarchie, une \section d'article devenant un \chapter de report ;
+%   - LES VINGT RENVOIS, remappés un par un sur les labels du mémoire. Les deux
+%     documents ne partageaient aucun label : transporté tel quel, ce chapitre
+%     aurait imprimé vingt « ?? » dans le PDF déposé ;
+%   - le mot « rapport » remplacé par « mémoire » là où il désigne le document.
+% =====================================================================
+
+\chapter{Enseignements du stage}
+\label{ens:ch}
+
+\section{Le cadre de la mission et ses contraintes}
+\label{ens:cadre}
+
+Un travail de modélisation conduit dans un cabinet de conseil n'a pas le même
+cadre qu'un travail conduit dans un laboratoire, et trois contraintes propres à ce
+cadre ont façonné le contenu du mémoire autant que les choix statistiques.
+
+\paragraph{Deux destinataires, deux livrables.} Le travail avait deux
+destinataires, le cabinet et l'école, et ce qui est remis à l'un n'est pas ce qui
+est remis à l'autre. Du côté du cabinet, le stage a donné lieu à un livrable
+distinct du mémoire : l'analyse actuarielle de l'édition $2026$ d'une étude de
+marché sur la cyberassurance en France, co-écrite avec le tuteur et publiée par le
+cabinet \citep{RapiorKaddouri2026}. Son objet est inverse de celui du mémoire,
+puisqu'elle décrit un marché observé là où le mémoire construit un modèle sur des
+états hypothétiques. Elle a pourtant servi au mémoire d'une façon qui n'était pas
+prévue : elle constate de l'extérieur, et sous la signature de praticiens qui
+observent ce marché, l'absence de traduction de l'exposition cyber en besoin de
+capital réglementaire. La prémisse du mémoire cesse ainsi d'être une affirmation
+de son auteur.
+
+\paragraph{Une donnée sous licence, et ce qu'elle impose.} La base de pertes qui
+porte toute la sévérité est sous licence et ne peut pas être redistribuée. Elle ne
+peut donc pas être versionnée avec le code, et un lecteur qui voudrait vérifier un
+chiffre ne peut pas rejouer la chaîne depuis la donnée brute. Cette contrainte
+n'est pas un détail administratif : c'est elle qui a fait naître le dispositif de
+vérification de l'annexe~\ref{sec:ann-harnais}. Puisque la donnée ne peut pas
+circuler, ce sont les \emph{sorties} des scripts qui sont versionnées, et le
+contrôle porte sur la correspondance entre ces sorties et le document. La
+traçabilité remplace la reproductibilité complète, et le document dit lequel des
+deux il offre.
+
+\paragraph{Des entités réelles, et une décision d'anonymisation.} L'application à
+quatre assureurs réels aurait été plus démonstrative sous leur nom. Elle est
+anonymisée, et le motif n'est pas la confidentialité des sources, qui sont des
+rapports publics, mais la nature de ce que le modèle produit. Il n'utilise que le
+bilan, jamais l'identité, et l'état de conformité y est \emph{supposé} : nommer une
+entité reviendrait donc à lui attribuer une non-conformité que rien n'observe. La
+table de correspondance existe et vit dans un script, de sorte que le travail reste
+vérifiable sans être diffamatoire.
+
+\paragraph{Le gel de la calibration, décision de gestion et non de statistique.}
+La calibration a été gelée à mi-parcours, et cette décision ne relève d'aucun
+critère statistique. Elle répond à un problème de conduite de projet : à partir
+d'un certain volume de résultats publiés, un modèle qui bouge encore invalide en
+silence ce qui a déjà été écrit, et la piste d'audit se perd. Le gel fixe une
+frontière nette entre la correction d'erreur, qui reste autorisée, et la
+recalibration, qui ne l'est plus. Le prix en est visible au
+chapitre~\ref{ch:robustesse}, où trois écarts connus sont publiés chiffrés plutôt
+que corrigés.
+
+\paragraph{Ce que ce cadre m'a appris du métier.} La moitié du travail utile n'a
+pas consisté à modéliser. Elle a consisté à rendre un résultat vérifiable par
+quelqu'un qui n'a pas fait le calcul, et à écrire des énoncés qui ne dépassent pas
+ce que le calcul soutient. Un modèle qu'un tiers ne peut pas contrôler n'a pas de
+valeur en conseil, quelle que soit sa qualité mathématique, et c'est la différence
+la plus nette que j'aie observée entre un exercice académique et une mission.
+
+\section{Les enseignements de l'ENSAE mobilisés}
+\label{ens:ensae}
+
+Le sujet a mobilisé la formation de façon assez directe, et sur plusieurs
+enseignements à la fois, ce qui est la difficulté propre d'un travail de
+modélisation complet.
+
+\begin{table}[htbp]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{2.6cm}@{}}
+\toprule
+\textbf{Enseignement} & \textbf{Ce qu'il fournit au travail} & \textbf{Où} \\
+\midrule
+Statistique des valeurs extrêmes &
+dépassements de seuil, ajustement de Pareto généralisé, et surtout l'indice de
+queue lu comme condition d'existence des moments &
+\S\ref{soc:sec:severite} \\
+Modèles à variable latente gaussienne &
+dépendance entre états de conformité, transposée du risque de crédit &
+chap.~\ref{chap:multietats} \\
+Processus stochastiques et chaînes de Markov &
+dynamique des états, trajectoire de capital, processus de branchement &
+\S\ref{sec:verif-proprietes}, \S\ref{sec:res-traj} \\
+Statistique inférentielle et théorie des tests &
+adéquation, tests de couverture, bootstrap paramétrique, puissance &
+\S\ref{soc:sec:validation}, \S\ref{soc:sec:backtest} \\
+Économétrie de l'identification &
+identification partielle, ensemble admissible, capital en bornes &
+chap.~\ref{ch:identifiabilite}, \ref{chap:partielle} \\
+Économétrie de l'évaluation &
+différence de différences, test placebo, bootstrap &
+chap.~\ref{ch:identifiabilite} \\
+Méthodes de Monte-Carlo &
+lois de perte simulées, et la discipline de publier un bruit &
+\S\ref{sec:allocation}, \S\ref{sec:posture-retenue} \\
+Théorie des jeux coopératifs &
+valeur de Shapley pour l'attribution par canal &
+\S\ref{sec:allocation} \\
+Assurance non-vie et Solvabilité~II &
+charge de capital, quantile réglementaire, marge de risque, allocation &
+chap.~\ref{chap:reglementaire}, \S\ref{sec:detenir-transferer} \\
+Programmation scientifique &
+une centaine de scripts reproductibles et leurs sorties versionnées &
+\S\ref{sec:ann-harnais} \\
+\bottomrule
+\end{tabular}
+\caption{Les enseignements mobilisés et l'endroit du mémoire où chacun sert.}
+\label{ens:tab:ensae}
+\end{table}
+
+\textbf{Lecture.} L'apport le plus décisif n'est pas celui que j'attendais. C'est
+l'économétrie de l'identification : reconnaître qu'un paramètre n'est \emph{pas
+identifié}, plutôt que constater qu'il est mal estimé, est un réflexe qui vient de
+ce cours, et il a changé la nature du mémoire. La différence est considérable en
+pratique, puisqu'un paramètre mal estimé appelle plus de données quand un paramètre
+non identifié appelle une autre méthode. Vient ensuite la lecture de l'indice de
+queue comme condition d'existence des moments, qui a permis de rejeter deux
+variantes par un argument d'existence plutôt que de degré.
+
+Deux compétences non mathématiques ont compté autant. La programmation
+scientifique, parce qu'une centaine de scripts qui doivent tous rester
+reproductibles pendant des mois est un problème d'ingénierie et non de calcul. Et
+la rédaction, parce que la moitié du travail effectif a consisté à écrire des
+énoncés qui ne dépassent pas ce que le calcul soutient.
+
+\section{La part de l'encadrement et des tiers}
+\label{ens:encadrement}
+
+Plusieurs résultats de ce travail ne seraient pas là sans une remarque extérieure,
+et cette section les recense. L'encadrement a été double : un point hebdomadaire
+avec le maître de stage, préparé sous forme d'un jeu de diapositives et donnant lieu
+à des demandes précises, et des échanges plus espacés avec l'encadrement académique,
+dont les remarques ont porté sur le traitement de l'incertitude. Le tableau
+ci-dessous distingue les deux.
+
+\begin{table}[htbp]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{8.4cm}@{}}
+\toprule
+\textbf{Demande ou remarque} & \textbf{Ce qu'elle a changé dans le travail} \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{Du maître de stage, au point hebdomadaire}} \\
+Retirer les conclusions tirées du bootstrap de l'indice de queue, un intervalle
+trop large ne portant pas de conclusion &
+l'intervalle reste affiché comme un fait, la lecture qu'on en faisait disparaît ;
+et le retrait a fait tomber une valeur fausse d'une diapositive antérieure \\
+Soupçon de double comptage dans la colonne de fermeture &
+soupçon infondé, la somme des fermetures étant une identité ; une ligne
+\og{}somme\fg{} sous une colonne non additive invitait cette lecture, et elle a
+été retirée \\
+Demande d'une table complète des leviers &
+la table des trois lectures du \S\ref{sec:chiffre-de-tete} et la découverte de
+l'effet de fermeture, qui change le chiffre qu'un plan de remédiation doit citer \\
+Deux mots mal employés, \og{}portage\fg{} et \og{}plancher\fg{} &
+le sens d'une borne était inversé, dans le texte, dans un script et dans un titre
+de figure ; corrigé aux trois endroits \\
+Traiter la moyenne de queue &
+mesure de queue en diagnostic, et l'argument d'existence qui interdit de la
+substituer au quantile \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{De l'encadrement académique}} \\
+\og{}Le quantile d'un objet incertain est un mauvais estimateur\fg{} &
+le quantile prédictif et la bande de modèle ; résultat contraire à l'attente,
+puisque c'est la largeur et non le point qui était fragile \\
+Sensibilité aux probabilités de propagation &
+le \S\ref{sec:sensibilite-propagation}, dont le résultat va contre l'inquiétude
+qui la motivait \\
+Niveau de la bande reportée, $90$ ou $95\,\%$ &
+le niveau de $90\,\%$ est conservé, et la question a fait apparaître une
+contradiction interne du mémoire (\S\ref{sec:ann-intervalle95}) \\
+\bottomrule
+\end{tabular}
+\caption{Les demandes de l'encadrement et leur effet sur le travail.}
+\label{ens:tab:encadrement}
+\end{table}
+
+\textbf{Lecture.} Aucune de ces demandes ne portait sur un calcul, et toutes ont
+fait tomber un défaut. C'est le constat que je retiens de l'encadrement : la valeur
+d'une relecture extérieure ne tient pas à sa compétence technique sur le détail,
+elle tient à ce qu'elle interroge un énoncé hors du contexte qui le justifiait.
+
+L'orientation du traitement des processus auto-excités mérite une mention
+particulière, parce que le domaine de recherche de l'encadrement académique est
+précisément celui-là. Le rejet de cet outil a été testé contre \emph{leurs}
+variantes de noyau et non contre un modèle de paille, et il s'est reformulé en
+cours de route en équivalence observationnelle suivie d'un choix de parcimonie
+(chapitre~\ref{ch:robustesse}). Cette reformulation est plus faible en apparence et
+plus honnête, et c'est celle qui tient.
+
+\paragraph{Les tiers.} Deux sollicitations extérieures ont été lancées. Un collègue
+du cabinet a été sollicité pour un second codage en aveugle du corpus de rapports
+post-incident, destiné à mesurer la fiabilité entre codeurs. Ce codage n'était pas
+reçu à la date de rédaction, et le dispositif d'accueil est prêt et testé sans
+produire aucune donnée en son absence.
+
+Trois praticiens du secteur ont par ailleurs été sollicités pour une relecture
+critique des affirmations qualitatives du modèle, et une consultante de Nexialog a
+répondu. Sa contribution n'est pas de celles qu'on espère et elle est plus utile
+que celle qu'on espérait : elle n'a contredit aucune des sept affirmations, mais
+son exemple d'enchaînement admet deux lectures opposées, ce qui illustre la
+frontière d'identifiabilité au lieu de la lever
+(chapitre~\ref{ch:identifiabilite}). Elle a aussi qualifié un arc du modèle en
+distinguant l'occurrence d'un incident chez un prestataire, qu'une bonne
+gouvernance ne change pas, et la maîtrise de ses conséquences, qu'elle change.
+Cette réserve est déclarée et non traitée : la traiter reviendrait à déplacer cet
+arc d'un canal à l'autre, donc à recalibrer, ce que le gel interdit. La répondante
+n'est pas nommée. Le second codage n'est pas le préalable du résultat mais son
+renforcement, et ce qu'il apporterait est une mesure d'intersubjectivité, non une
+correction de niveau. Le détail de cette relecture figure au
+\S\ref{sec:relecture-praticien}.
+
+\vspace{4pt}
+\noindent Sources : scripts~\texttt{46} (quantile prédictif), \texttt{08h}
+(variantes de noyau) et~\texttt{85} (équivalence observationnelle).
+
+\section{Ce que j'en retiens}
+\label{ens:retiens}
+
+% HARNAIS-HORS-SECTION: les seuls nombres de cette section sont les comptes du
+% dispositif de verification lui-meme (taux de confirmation et couverture). Les
+% faire verifier par ce dispositif serait circulaire : meme declaration que la
+% section D.1 du memoire, qui porte le dispositif.
+
+\paragraph{Écrire le commentaire après avoir lu la sortie, jamais en même temps que
+le code qui la produit.} C'est la leçon la plus coûteuse et je l'ai apprise sept
+fois. Sept fois j'ai rédigé une conclusion pendant que le calcul tournait, et sept
+fois la sortie l'a démentie : un effet annoncé convexe qui était concave, un écart
+annoncé en train de se refermer qui grossissait, un ratio annoncé en effondrement
+qui montait, une dépendance annoncée conservatrice que le contrôle suivant a niée,
+et un compromis biais-variance que la colonne d'écart-type a exactement renversé.
+Le mécanisme est toujours le même : on écrit ce que l'on attend, et le texte survit
+à la mesure parce que personne ne le relit contre elle.
+
+\paragraph{La couverture passe avant le taux.} Un indicateur de qualité qui se
+calcule sur un périmètre choisi mesure le périmètre autant que la qualité. Le
+dispositif de vérification affichait $99{,}6\,\%$ de nombres confirmés sur un
+périmètre qui ne couvrait que $74{,}7\,\%$ des nombres publiés, et les valeurs
+périmées vivaient toutes dans le quart restant. Un taux se règle en retirant une
+citation, une couverture non. Cette asymétrie me paraît générale et vaut bien
+au-delà de ce projet.
+
+\paragraph{La figure est le meilleur détecteur de défauts.} Les erreurs trouvées
+pendant ce stage ne l'ont presque jamais été en relisant le texte. Elles l'ont été
+en regardant une figure ou une diapositive et en allant vérifier ce qu'elle
+affirmait : un seuil contradictoire, six postures affichées dont deux n'étaient
+définies nulle part, une même grandeur à deux valeurs, un facteur calculé à la main
+et jamais imprimé, et l'anomalie de bilan du \S\ref{sec:entites-reelles}, qu'un
+panneau croissant a signalée avant que je la cherche. Une figure force à énoncer un
+chiffre hors du contexte qui le justifiait, et c'est là qu'un défaut devient
+visible.
+
+\section{Ce que je ferais autrement}
+\label{ens:autrement}
+
+Deux choses. J'aurais mis le dispositif de vérification en place au début et non au
+milieu : construit après coup, il a fallu rattacher chaque section du document à
+ses scripts, et c'est ce rattrapage qui a révélé que le chapitre central n'était
+contrôlé par rien. Et j'aurais gelé la calibration plus tôt. Le gel a été décidé à
+mi-parcours, après plusieurs semaines où des recalibrations partielles faisaient
+bouger des nombres déjà écrits, ce qui est la façon la plus efficace de perdre une
+piste d'audit.

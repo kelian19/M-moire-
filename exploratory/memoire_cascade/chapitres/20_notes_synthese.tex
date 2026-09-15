@@ -1,0 +1,159 @@
+% =====================================================================
+% LES DEUX NOTES DE SYNTHÈSE, FRANÇAISE PUIS ANGLAISE
+%
+% PIÈCES PROPRES À LA VERSION ENSAE. Seul main_ensae.tex les appelle. Les
+% consignes de l'école les exigent, autonomes, d'une à deux pages chacune, et
+% lisibles par un non-spécialiste ; elles imposent aussi leur PLACE dans le
+% fichier unique déposé, en toute fin de document. L'Institut des Actuaires ne
+% demande ni l'une ni l'autre : le mémoire porte un résumé et un abstract, qui
+% sont d'un autre genre, plus techniques et plus courts.
+%
+% Texte repris de l'ancien rapport de stage raccourci
+% (exploratory/rapport_ensae/rapport_ensae.tex), où il avait été validé. Aucun
+% nombre n'y a été modifié.
+% =====================================================================
+
+\chapter*{Note de synthèse}
+\addcontentsline{toc}{chapter}{Note de synthèse (français)}
+% UN \chapter* NE MET PAS LA MARQUE DE TITRE COURANT A JOUR, et fancyhdr garde
+% alors celle du dernier \chapter numerote : les deux notes s'imprimaient sous
+% un titre courant << Bibliographie >>. Vu sur le PDF rendu, pas sur la source.
+\markboth{Note de synthèse}{}
+
+% HARNAIS-HORS-SECTION: note de synthese autonome, destinee a un lecteur non
+% specialiste. Elle reprend, en les arrondissant, des grandeurs etablies et
+% verifiees dans le corps du memoire, ou elles portent leurs citations de script.
+
+\textbf{Le problème.} Depuis janvier 2025, le règlement européen DORA impose aux
+banques et aux assureurs la maîtrise de cinq domaines de résilience informatique :
+gouvernance du risque technologique, gestion des incidents, tests de résilience,
+maîtrise des prestataires tiers, partage d'informations sur les menaces. Le
+règlement dit ce qu'il faut mettre en place. Il ne dit pas ce que coûte de ne pas
+le faire, et le cadre prudentiel qui fixe le capital d'un assureur,
+Solvabilité~II, ne le dit pas non plus : sa charge de risque opérationnel est un
+pourcentage des primes, identique pour un assureur exemplaire et pour un assureur
+défaillant. Un dirigeant qui arbitre un budget de conformité ne dispose donc
+d'aucun chiffre.
+
+\textbf{La difficulté, qui n'est pas celle qu'on croit.} Les cinq domaines ne sont
+pas des cases indépendantes. Une gouvernance défaillante retarde la détection des
+incidents, et un prestataire mal maîtrisé ouvre une porte que les tests n'ont pas
+explorée : la défaillance se propage, et dans un sens. Un domaine en entraîne
+d'autres, et il vaut mieux corriger une cause qu'un symptôme. Les outils
+statistiques habituels représentent le fait que plusieurs domaines cèdent
+ensemble, mais pas lequel a entraîné l'autre, alors que c'est ce sens qui devrait
+dicter l'ordre des travaux.
+
+\textbf{Ce qui a été construit.} Le travail représente la propagation par une
+\emph{cascade dirigée} : un incident naît sur un domaine, puis se transmet aux
+autres selon une matrice d'influence asymétrique, calibrée sur un corpus de
+rapports d'incidents officiels et normalisée de sorte que la cascade s'éteigne
+toujours. L'état de conformité, domaine par domaine, pilote alors quatre
+paramètres de la loi des pertes : combien d'incidents surviennent par an, quelle
+proportion échappe à la détection, avec quelle force ils se propagent, et dans
+quelle mesure un prestataire commun les fait converger. Le capital est recalculé à
+partir de cette loi, sans pénalité ajoutée.
+
+\textbf{Le résultat principal.} Entre un état pleinement conforme et un état
+pleinement défaillant, le besoin de capital est multiplié par $3{,}3$. Surtout,
+les quatre canaux ne s'additionnent pas : pris séparément ils expliquent les deux
+tiers de l'écart, et le tiers restant, environ $35\,\%$, vient de leurs
+interactions. Conséquence directe : corriger un domaine rapporte davantage à une
+entité défaillante partout qu'à une entité déjà saine par ailleurs, parce que la
+correction ferme aussi les interactions que ce domaine portait. Le chiffre à citer
+dans un plan d'action est donc l'effet de fermeture, de $1{,}5$ à $3$~fois plus
+grand que l'effet isolé.
+
+\textbf{L'apport de méthode, et il est plus important que le chiffre.} La donnée
+disponible ne permet pas d'observer le \emph{sens} de la propagation, et ce n'est
+pas un manque de volume : la grandeur observable y est mathématiquement
+insensible, donc une matrice et son symétrique sont indiscernables pour la donnée
+tout en conduisant à des décisions différentes. Un schéma d'incidents standard de
+la profession porte les deux champs nécessaires et ne les renseigne ensemble que
+dans un incident sur $10\,591$. Le travail ne pose donc pas une valeur
+arbitraire : il calcule l'\emph{ensemble} des matrices compatibles avec la donnée
+et publie le capital en fourchette. L'ignorance a ainsi un coût connu d'avance et
+plafonné, et l'essentiel du surcoût vient de la co-occurrence des défaillances,
+qui est observable, non du sens de la propagation. Ce sens manquant déplace la
+\emph{priorité} de remédiation plus que le montant, d'où une hiérarchie de
+domaines plutôt qu'un chiffre.
+
+\textbf{Les limites, publiées avec le résultat.} Le niveau absolu du capital est
+illustratif : il varie fortement selon la base de sinistres retenue, et c'est le
+rapport entre les deux états qui est défendu. Un backtest hors échantillon valide
+la loi du nombre d'incidents et la forme de la queue des pertes, mais montre que
+le niveau des pertes extrêmes dérive plus vite que le modèle ne le suppose, donc
+que le capital est sous-estimé. Ce même backtest chiffre enfin sa propre
+puissance : détecter une anomalie sur le quantile réglementaire demanderait plus
+de mille huit cents années d'observations, donc aucun historique existant ne
+permet de valider ce niveau.
+
+\chapter*{Executive summary}
+\addcontentsline{toc}{chapter}{Note de synthèse (English)}
+\markboth{Executive summary}{}
+
+% HARNAIS-HORS-SECTION: stand-alone executive summary for a non-specialist
+% reader. Figures restate, in rounded form, quantities established and verified
+% in the body of the memoir, where they carry their script citations.
+
+\textbf{The problem.} Since January 2025, the European DORA regulation has
+required banks and insurers to master five areas of digital operational
+resilience: technology risk governance, incident management, resilience testing,
+third-party provider risk, and cyber threat information sharing. The regulation
+states what must be put in place. It does not state what failing to do so costs.
+Nor does Solvency~II, the prudential framework that sets an insurer's capital: its
+operational risk charge is a percentage of premiums, identical for an exemplary
+insurer and for a failing one. An executive weighing a compliance budget therefore
+has no figure to work with.
+
+\textbf{The difficulty is not the obvious one.} The five areas are not independent
+boxes to tick. Weak governance delays incident detection; an unmanaged provider
+opens a door that testing never explored. Failure propagates, and it propagates in
+a \emph{direction}: one area drags others down, and fixing a cause is worth more
+than fixing a symptom. Standard statistical tools can represent the fact that
+several areas fail together, but not which one dragged the others. Yet it is
+precisely that direction which should dictate the order of remediation work.
+
+\textbf{What was built.} The work represents propagation as a \emph{directed
+cascade}: an incident starts in one area, then transmits to others through an
+asymmetric influence matrix calibrated on a corpus of official post-incident
+reports. The matrix is normalised so that the cascade always dies out, a property
+guaranteed by construction rather than checked afterwards. The firm's compliance
+state, area by area, then drives four parameters of the loss distribution: how
+many incidents occur per year, what share escapes detection, how strongly they
+propagate, and how far a shared provider makes them converge. Capital is recomputed
+from that distribution, with no penalty added on top.
+
+\textbf{The headline result.} Between a fully compliant state and a fully failing
+one, the capital requirement is multiplied by $3{,}3$. More importantly, the four
+channels are not additive: taken separately they account for two thirds of the gap,
+and the remaining third, about $35\,\%$, comes from their interactions. One direct
+consequence for a remediation plan: fixing one area is worth more to a firm that
+fails everywhere than to a firm otherwise sound, because the fix also closes the
+interactions that area carried. The figure to quote in an action plan is therefore
+not the area's standalone effect but its closure effect, which is $1{,}5$ to $3$
+times larger.
+
+\textbf{The methodological contribution, which matters more than the figure.} The
+available data does not allow the \emph{direction} of propagation to be observed.
+This is not a matter of sample size: the observable quantity is mathematically
+insensitive to direction, so that a matrix and its symmetric counterpart are
+indistinguishable to the data even though they lead to different decisions. An
+industry-standard incident schema carries the two required fields and populates
+both in only one incident out of $10\,591$. Faced with this, the work does not
+posit an arbitrary value. It computes the \emph{set} of matrices consistent with
+the data and reports capital as a range over that set. Ignorance thus has a cost
+known in advance and capped, and most of the additional capital comes from the
+co-occurrence of failures, which is observable, not from the direction of
+propagation, which is not. The missing direction shifts the remediation
+\emph{priority} more than the amount, which is the reason for publishing a ranking
+of areas rather than a single number.
+
+\textbf{Limitations, published alongside the result.} The absolute capital level is
+illustrative: it varies widely with the loss database used, and what is defended is
+the ratio between the two compliance states. An out-of-sample backtest validates
+the incident count distribution and the shape of the loss tail, but shows that the
+level of extreme losses drifts faster than the model assumes, so that capital is
+understated. The same backtest finally quantifies its own power: detecting an
+anomaly at the regulatory quantile would require more than one thousand eight
+hundred years of observations, so no existing history can validate that level.

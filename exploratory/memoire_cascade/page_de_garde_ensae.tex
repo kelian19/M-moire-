@@ -1,0 +1,81 @@
+% =====================================================================
+% PAGE DE COUVERTURE ENSAE — modèle de l'annexe 1 des consignes de stage.
+%
+% Elle remplace, dans main_ensae.tex SEULEMENT, la page de garde de l'Institut
+% des Actuaires que portent main.tex, main_v2.tex et main_v3.tex. Les deux
+% documents ont deux destinataires et deux gabarits imposés distincts : c'est la
+% seule raison pour laquelle ce fichier existe en double.
+%
+% La structure reprend celle de l'ancien rapport de stage raccourci
+% (exploratory/rapport_ensae/rapport_ensae.tex), dont elle avait été validée.
+% Seule la géométrie est adaptée : ce document compose en Palatino sur 2,4 cm,
+% quand le rapport composait en Times sur 2,5 cm.
+%
+% TROIS CHAMPS À TRANCHER, ET CELA N'APPARTIENT PAS À L'ASSISTANT :
+%   1. la MENTION DE CONFIDENTIALITÉ, qui relève de Nexialog et non de Kélian
+%      seul. Elle est vide par défaut ; pour l'activer, décommenter la ligne
+%      indiquée plus bas ;
+%   2. le NOM DU FICHIER À DÉPOSER, KADDOURI_Kelian_3A25.pdf, ou le même suffixé
+%      _CONF si la confidentialité est demandée ;
+%   3. les DATES DE STAGE, préremplies au 1er juin et au 27 novembre 2026, à
+%      vérifier contre la convention avant le dépôt.
+% =====================================================================
+
+% --- Champs renseignés ------------------------------------------------
+\newcommand{\pgeanneescolaire}{2025-2026}
+\newcommand{\pgeentreprise}{Nexialog Consulting}
+\newcommand{\pgeville}{Paris, France}
+\newcommand{\pgemaitre}{Hugo RAPIOR}
+\newcommand{\pgedates}{1\up{er} juin 2026 au 27 novembre 2026}
+% Confidentialité : si Nexialog la demande, remplacer la ligne suivante par
+% \newcommand{\pgeconf}{\\[10pt] \Large\bfseries Confidentiel}
+\newcommand{\pgeconf}{}
+% ---------------------------------------------------------------------
+
+\newgeometry{margin=2.5cm}
+
+\begin{titlepage}
+\thispagestyle{empty}
+
+\noindent
+\begin{minipage}[t]{0.55\textwidth}
+  \large\bfseries KADDOURI Kélian
+\end{minipage}%
+\begin{minipage}[t]{0.45\textwidth}
+  \raggedleft\large\bfseries ENSAE 3\up{ème} année \\[2pt] Stage de fin d'études
+\end{minipage}
+
+\vspace{10pt}
+\noindent\textit{\large Année scolaire \pgeanneescolaire}
+
+\vspace{6cm}
+
+\begin{center}
+\fbox{\begin{minipage}{0.92\textwidth}
+  \vspace{10pt}
+  \begin{center}
+    {\LARGE\bfseries Quantification du SCR lié à la non-conformité\\[6pt]
+     au règlement DORA}\\[14pt]
+    {\large Une cascade dirigée entre les cinq piliers, dont l'état de conformité
+     pilote le capital}
+    \pgeconf
+  \end{center}
+  \vspace{10pt}
+\end{minipage}}
+\end{center}
+
+\vfill
+
+\noindent
+\begin{minipage}[t]{0.48\textwidth}
+  \large\bfseries \pgeentreprise \\[4pt] \pgeville
+\end{minipage}%
+\begin{minipage}[t]{0.52\textwidth}
+  \raggedleft\bfseries Maître de stage : \pgemaitre \\[4pt]
+  \pgedates
+\end{minipage}
+
+\vspace{8pt}
+\end{titlepage}
+
+\restoregeometry

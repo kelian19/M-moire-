@@ -85,3 +85,10 @@ exploratory/memoire_cascade/main_v2.pdf
 # Meme traitement pour la version courte : elle se regenere en une commande, et
 # dix megaoctets de plus par compilation alourdiraient le depot sans profit.
 exploratory/memoire_cascade/main_v3.pdf
+# ET POUR LA VERSION ENSAE, qui est pourtant le document DEPOSE le 30 septembre.
+# Meme motif : dix megaoctets, regenerables en une commande, et un binaire de
+# cette taille commite a chaque compilation fait grossir l'historique de facon
+# irreversible. Ses SOURCES sont versionnees, donc le PDF se reconstruit a
+# l'identique. C'est un arbitrage, et il appartient a Kelian de le renverser :
+# retirer cette ligne suffit.
+exploratory/memoire_cascade/main_ensae.pdf
