@@ -201,7 +201,12 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(20.5, 4.9))
+# GEOMETRIE : DEUX RANGEES, PAS QUATRE COLONNES. Le memoire imprime cette figure
+# sur 7,27 pouces. Tracee sur 20,5, elle subissait une reduction de 2,8 : une
+# etiquette de 9 points s'imprimait a 3,2, illisible. En 2 x 2 sur 9,4 pouces la
+# reduction tombe a 1,29 et la meme etiquette sort a 7 points. La largeur de
+# PANNEAU passe de 1,8 pouce imprime a 3,6, ce qui est le vrai gain.
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(9.4, 8.2))
 
 # (a) les deux regimes cote a cote
 ax1.bar([0], [scr_exp], width=0.5, color=ACCENT, alpha=0.85)
@@ -214,7 +219,7 @@ ax1.set_xticks([0, 1])
 ax1.set_xticklabels(["A : $W$ posé", "B : en couches"])
 ax1.set_ylabel("SCR (VaR 99,5 %, M€)", color=INK2)
 ax1.set_title("(a)  Un point, ou un socle et des bornes", fontsize=11, color=INK, pad=8)
-ax1.legend(frameon=False, fontsize=8, loc="lower right")
+ax1.legend(frameon=False, fontsize=8.5, loc="lower right")
 for s in ("top", "right"):
     ax1.spines[s].set_visible(False)
 
@@ -231,7 +236,7 @@ ax2.set_xticks([])
 ax2.set_ylabel("SCR (M€)", color=INK2)
 ax2.set_title("(b)  Seule la part orange dépend\nde l'élicitation", fontsize=11,
               color=INK, pad=8)
-ax2.legend(frameon=False, fontsize=8, loc="lower right")
+ax2.legend(frameon=False, fontsize=8.5, loc="lower right")
 for s in ("top", "right"):
     ax2.spines[s].set_visible(False)
 
@@ -239,14 +244,14 @@ for s in ("top", "right"):
 ax3.axhspan(lo, hi, color=BLUE, alpha=0.16, label="bande du régime B")
 ax3.plot(bs, scr_b, color=ACCENT, lw=2.4, label="SCR publié par le régime A")
 ax3.axvline(1.0, color=MUTED, lw=0.9, ls=":")
-ax3.text(1.0, scr_b.min(), " classeur\n actuel", fontsize=7.6, color=MUTED, va="bottom")
+ax3.text(1.0, scr_b.min(), " classeur\n actuel", fontsize=8.5, color=MUTED, va="bottom")
 ax3.axvline(0.0, color=MUTED, lw=0.9, ls=":")
 ax3.set_xlabel("biais du panel  (1 = confirme le classeur, 0 = aucune direction,\n"
                "négatif = dit l'inverse)", color=INK2, fontsize=9)
 ax3.set_ylabel("SCR (M€)", color=INK2)
 ax3.set_title("(c)  Le régime A suit le panel,\nla bande B ne bouge pas", fontsize=11,
               color=INK, pad=8)
-ax3.legend(frameon=False, fontsize=8, loc="lower right")
+ax3.legend(frameon=False, fontsize=8.5, loc="lower right")
 for s in ("top", "right"):
     ax3.spines[s].set_visible(False)
 
@@ -258,7 +263,7 @@ for j in xs:
         ax4.text(j, 100 * freq[j] + 1.5, f"{100*freq[j]:.0f}%", ha="center", fontsize=8.5,
                  color=INK2)
 ax4.scatter([prio_exp], [100 * freq[prio_exp] + 7], marker="v", s=90, color=ACCENT, zorder=6)
-ax4.text(prio_exp, 100 * freq[prio_exp] + 10, "choix A", ha="center", fontsize=8,
+ax4.text(prio_exp, 100 * freq[prio_exp] + 10, "choix A", ha="center", fontsize=8.5,
          color=ACCENT)
 ax4.set_xticks(xs)
 ax4.set_xticklabels([f"P{p}" for p in pid.PIL])
@@ -270,7 +275,7 @@ for s in ("top", "right"):
 
 fig.suptitle("Z2 : poser $W$ ou le borner, comparés AVANT l'élicitation",
              fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+fig.tight_layout(rect=[0, 0, 1, 0.95])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z2_comparaison_regimes.png")

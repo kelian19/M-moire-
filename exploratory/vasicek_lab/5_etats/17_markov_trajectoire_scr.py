@@ -175,7 +175,12 @@ mpl.rcParams.update({
 INK, INK2 = "#1b1e30", "#223e55"
 ACCENT, BLUE, GREEN, GREY = "#a6002e", "#3661ac", "#008d87", "#7d7d7d"
 
-fig, (axA, axB) = plt.subplots(1, 2, figsize=(13.4, 5.3))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime
+# cette figure sur 7,27 pouces : tracee plus large, elle subissait une
+# reduction qui faisait tomber ses etiquettes sous 6 points. Le rapport
+# largeur sur hauteur est conserve, donc la figure occupe la meme place
+# sur la page ; c'est son texte qui y prend plus de place.
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(8.9, 3.52))
 
 # panneau A : trajectoire SCR(t) OpRisk, mediane + bande + asymptote SCR_C
 tr = traj["OPRISK"]

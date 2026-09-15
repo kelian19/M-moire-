@@ -257,7 +257,12 @@ INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 COUL = {"estime": BLUE, "pose": ACCENT, "choix": MUTED}
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14.4, 5.4),
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime
+# cette figure sur 7,27 pouces : tracee plus large, elle subissait une
+# reduction qui faisait tomber ses etiquettes sous 6 points. Le rapport
+# largeur sur hauteur est conserve, donc la figure occupe la meme place
+# sur la page ; c'est son texte qui y prend plus de place.
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.9, 3.34),
                                gridspec_kw={"width_ratios": [1.15, 1]})
 
 # (a) elasticites, triees

@@ -248,7 +248,12 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14.4, 5.2))
+# LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime
+# cette figure sur 7,27 pouces : tracee plus large, elle subissait une
+# reduction qui faisait tomber ses etiquettes sous 6 points. Le rapport
+# largeur sur hauteur est conserve, donc la figure occupe la meme place
+# sur la page ; c'est son texte qui y prend plus de place.
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.9, 3.21))
 
 # (a) les deux objets, en niveau
 ax1.bar([0, 1], [e_var0, v_mel0], color=[BLUE, ACCENT], width=0.5, alpha=0.9)
