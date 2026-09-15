@@ -246,36 +246,17 @@ publiée, petite devant la somme des marginaux et de signe non résolu (\S\ref{s
 deux lectures d'un seul constat, et l'ordre des contributions additives reproduit celui des
 marginaux, $P1 > P4 > P2 > P3 > P5$.
 
-\paragraph{Mais l'argument porte sur une espérance, et le capital est un quantile.} La réserve
-mérite mieux qu'une phrase, car elle vise le c\oe ur de la démonstration. Ce qui vient d'être
-établi concerne
-\[
-\mathbb{E}\bigl[\mathrm{VaR}\bigr] \;=\; \sum_{m} w_m \,\mathrm{VaR}\bigl(L \mid m\bigr),
-\]
-la \emph{moyenne des VaR conditionnelles} aux $32$ configurations. Un lecteur qui demande le
-capital d'une entité dont l'état de conformité est incertain demande autre chose : le quantile de
-la loi \textbf{mélangée} sur les configurations. Or la moyenne des quantiles n'est pas le quantile
-du mélange, et surtout l'argument d'additivité ne s'étend pas au second, puisqu'il repose sur la
-linéarité de l'espérance, dont un quantile ne dispose pas.
-
-Les deux objets ont donc été calculés. Ils diffèrent de $904$~M\euro, soit $9{,}3\,\%$ :
-$9\,739$~M\euro{} pour la moyenne des VaR conditionnelles, $10\,643$ pour le quantile du mélange.
-L'écart est structurel et non fortuit, car à $99{,}5\,\%$ la queue du mélange est prélevée dans
-les composantes les plus lourdes quand la moyenne pondère toutes les composantes, y compris les
-conformes. \textbf{Le mémoire publie la première grandeur}, et il valait mieux le dire que le
-laisser deviner.
-
-\paragraph{Sur le quantile du mélange, l'invariance n'est pas démontrée, elle est seulement non
-détectée.} Le balayage y déplace le capital de $334$~M\euro{} contre $2$ pour l'espérance. Mais
-ce déplacement n'est pas monotone en $\delta$, et le bruit de tirage seul, mesuré sur huit graines
-de mélange à $\delta = 0$, a une étendue de $344$~M\euro{} pour un écart-type de $94$. \textbf{Le
-déplacement est donc du même ordre que le bruit et n'est pas résolu.} L'énoncé honnête est plus
-faible que pour l'espérance : on ne peut pas affirmer que la structure déplace le quantile, on
-peut seulement dire qu'on ne le voit pas à cette résolution. Dans les deux lectures le
-déplacement reste petit devant l'incertitude déjà déclarée, ces $334$~M\euro{} valant $18\,\%$ de
-la largeur de la bande d'identification. La conclusion de gestion ne change pas ; c'est le
-\emph{statut} de la conclusion qui change, de démontré à non détecté, et cette nuance appartient
-au lecteur.
+\paragraph{Mais l'argument porte sur une espérance, et le capital est un quantile.} Ce qui vient
+d'être établi concerne la \emph{moyenne des VaR conditionnelles} aux $32$ configurations. Un
+lecteur qui demande le capital d'une entité dont l'état de conformité est incertain demande le
+quantile de la loi \textbf{mélangée} sur ces configurations, et l'argument d'additivité ne
+s'étend pas à ce second objet, puisqu'il repose sur la linéarité de l'espérance. Les deux ont
+donc été calculés : ils diffèrent de $9{,}3\,\%$, et \textbf{le mémoire publie la première
+grandeur}. Sur le quantile, le déplacement n'est pas monotone en $\delta$ et reste du même ordre
+que le bruit de tirage, de sorte que \textbf{l'invariance n'y est pas démontrée, elle est
+seulement non détectée} : énoncé strictement plus faible que sur l'espérance. La conclusion de
+gestion ne change pas, c'est son \emph{statut} qui change. Les deux niveaux, leur écart et le
+bruit qui les encadre sont donnés au \S\ref{sec:ann-corrections-instrument}.
 
 \paragraph{Reste un troisième objet, et c'est celui que la réserve visait. Il est maintenant
 calculé.} Les deux grandeurs qui précèdent portent sur la loi de \emph{perte} : la moyenne des
