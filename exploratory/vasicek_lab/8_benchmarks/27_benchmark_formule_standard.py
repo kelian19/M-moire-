@@ -175,12 +175,12 @@ cols = [MUTED, BL[1], ACCENT]
 ax1.bar(range(3), deltas, color=cols, edgecolor="#fcfcfb", width=0.68)
 for i, d in enumerate(deltas):
     frac = "0 % de l'effet" if i == 0 else f"{100*d/d_casc:.0f} % de l'effet"
-    ax1.text(i, d + max(deltas) * 0.02, f"{d:.0f} M€\n{frac}", ha="center", fontsize=8.6,
-             color=INK2)
-ax1.set_xticks(range(3)); ax1.set_xticklabels(frames, fontsize=9)
-ax1.set_ylabel("Delta capital conforme $\\to$ non conforme (M€)", color=INK2)
-ax1.set_ylim(0, max(deltas) * 1.2)
-ax1.set_title("(a)  Effet DORA que chaque cadre exprime", fontsize=11, color=INK, pad=8)
+    ax1.text(i, d + max(deltas) * 0.03, f"{d:.0f} M€\n{frac}", ha="center", va="bottom",
+             fontsize=9, color=INK2)
+ax1.set_xticks(range(3)); ax1.set_xticklabels(frames, fontsize=9.5)
+ax1.set_ylabel("effet DORA sur le capital (M€)", color=INK2, fontsize=10)
+ax1.set_ylim(0, max(deltas) * 1.32)
+ax1.set_title("(a)  Effet DORA exprimé par chaque cadre", fontsize=10.5, color=INK, pad=8)
 for s in ("top", "right"):
     ax1.spines[s].set_visible(False)
 

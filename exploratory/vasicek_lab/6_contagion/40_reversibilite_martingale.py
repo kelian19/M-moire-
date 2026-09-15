@@ -297,19 +297,23 @@ sym = [1.0, 0.0]                       # symetrisee : meme fluctuation, entropie
 x = np.arange(2)
 ax2.bar(x - 0.19, posee, width=0.36, color=BLUE, alpha=0.9, label="chaîne posée")
 ax2.bar(x + 0.19, sym, width=0.36, color=GREEN, alpha=0.9, label="chaîne symétrisée")
-ax2.set_xticks(x); ax2.set_xticklabels(labels, fontsize=8.5)
+ax2.set_xticks(x); ax2.set_xticklabels(labels, fontsize=9)
 ax2.set_ylabel("valeur (normalisée à la chaîne posée)", color=INK2, fontsize=9)
-ax2.set_ylim(0, 1.25)
-ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8, loc="upper center")
-# FOND OPAQUE SUR LES ANNOTATIONS. En panneaux empiles les barres sont larges et ces deux
-# textes tombent DESSUS : ecrits en gris a nu sur du bleu, ils devenaient illisibles. Le
-# cadre les rend lisibles quelle que soit la barre derriere, sans deplacer l'annotation.
-_boite = dict(boxstyle="round,pad=0.28", facecolor="#fcfcfb", edgecolor="none", alpha=0.90)
-ax2.text(0.02, 0.44, "la fluctuation est\nIDENTIQUE\n(ne voit que S)", transform=ax2.transAxes,
-         fontsize=8, color=MUTED, style="italic", ha="left", bbox=_boite, zorder=6)
-ax2.text(0.60, 0.12, "l'irréversibilité\ns'efface\n(σ → 0)", transform=ax2.transAxes,
-         fontsize=8, color=MUTED, style="italic", ha="left", bbox=_boite, zorder=6)
-ax2.set_title("(b)  La martingale (fluctuation) ne voit que $S$ ;\n$A$ est toute la direction",
+# BANDE HAUTE DEGAGEE. Les deux commentaires etaient poses SUR les barres, avec un fond
+# opaque pour rester lisibles : ils masquaient la donnee. Les barres culminant a 1, on porte
+# le haut a 1,75 et chaque commentaire passe au-dessus de son groupe, la legende encore
+# au-dessus. Plus aucun texte ne recouvre une barre.
+ax2.set_ylim(0, 1.75)
+ax2.set_yticks([0.0, 0.5, 1.0])
+ax2.set_yticklabels(["0", "0,5", "1,0"])
+ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88,
+           fontsize=8.5, loc="upper center", ncol=2, columnspacing=0.9, handlelength=1.4,
+           handletextpad=0.45, borderpad=0.35)
+ax2.text(0, 1.06, "identique :\nne voit que $S$", ha="center", va="bottom",
+         fontsize=9, color=MUTED, style="italic")
+ax2.text(1, 1.06, "s'efface :\n$\\sigma \\to 0$", ha="center", va="bottom",
+         fontsize=9, color=MUTED, style="italic")
+ax2.set_title("(b)  La martingale ne voit que $S$ ;\n$A$ est toute la direction",
               fontsize=10.5, color=INK, pad=8)
 
 # (c) le schema du renversement du temps

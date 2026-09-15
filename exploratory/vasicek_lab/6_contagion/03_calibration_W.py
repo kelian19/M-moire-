@@ -539,7 +539,7 @@ ax2.set_xticks(xpos); ax2.set_xticklabels(PIL)
 ax2.set_ylabel("descendants attendus", color=BLUES[4])
 axb.set_ylabel("ROOT, jugement d'expert", color=ACCENT)
 ax2.tick_params(axis="y", colors=BLUES[4]); axb.tick_params(axis="y", colors=ACCENT)
-ax2.set_title(f"(b)  ROOT se déduit de TRANS (Spearman = {rho_s:.2f})".replace("1.00", "1,00"),
+ax2.set_title(f"(b)  ROOT se déduit de TRANS (Spearman = {rho_s:.2f})".replace(".", ","),
               fontsize=11, color=INK, pad=8)
 # marge haute : la barre ROOT de P4 montait dans la legende
 ax2.set_ylim(0, prog_true.max() * 1.45); axb.set_ylim(0, rootv.max() * 1.45)

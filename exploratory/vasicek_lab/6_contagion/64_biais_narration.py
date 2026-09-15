@@ -530,12 +530,15 @@ ax2.semilogy(ks, [c[1] for c in courbe_flip], "s-", color=ACCENT, lw=2, ms=5,
 ax2.axhline(P_SEUIL, color=INK, lw=1.3, ls="--")
 _ymax = max(max(c[1] for c in courbe_flip), max(c[1] for c in courbe_ret)) * 3.0
 ax2.axhspan(P_SEUIL, _ymax, color=MUTED, alpha=0.16, lw=0)
-ax2.text(n_p1, P_SEUIL * 1.35, " non significatif ", ha="right", va="bottom", fontsize=7.8,
+# L'ETIQUETTE DE LA BANDE PASSE A GAUCHE. A droite elle tombait sur le plateau de la
+# courbe de retournement, qui longe justement le seuil ; a gauche les deux courbes sont
+# au plancher.
+ax2.text(0, P_SEUIL * 1.5, " non significatif", ha="left", va="bottom", fontsize=7.8,
          color=INK2)
 if k_f is not None:
     ax2.plot([k_f], [courbe_flip[k_f][1]], "o", ms=11, mfc="none", mec=ACCENT, mew=1.8)
     ax2.annotate(f"rupture : {k_f} arêtes\nsur {n_p1}", (k_f, courbe_flip[k_f][1]),
-                 textcoords="offset points", xytext=(11, -30), fontsize=8, color=ACCENT,
+                 textcoords="offset points", xytext=(9, -36), fontsize=8, color=ACCENT,
                  bbox=dict(boxstyle="round,pad=0.25", fc="#fcfcfb", ec="none", alpha=0.9))
 ax2.set_xlabel("arêtes de P1 supposées produites\npar la narration",
                color=INK2, fontsize=9.5)

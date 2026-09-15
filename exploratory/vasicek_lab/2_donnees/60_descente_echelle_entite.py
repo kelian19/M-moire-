@@ -401,7 +401,7 @@ LEG = dict(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88)
 # LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
 # sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
 # des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, axes = plt.subplots(1, 3, figsize=(8.9, 3.0))
+fig, axes = plt.subplots(1, 3, figsize=(8.9, 3.5))
 
 # (a) lambda en fonction de la taille
 ax = axes[0]
