@@ -559,8 +559,8 @@ lo = np.array([bandes[a][1].min() for a in ALPHAS])
 hi = np.array([bandes[a][1].max() for a in ALPHAS])
 pts = np.array([bandes[a][0] for a in ALPHAS])
 ax3.vlines(xs, lo, hi, color=BLUE, lw=8, alpha=0.42)
-ax3.plot(xs, pts, "o-", color=ACCENT, lw=1.6, ms=6, label="point à la matrice retenue")
-ax3.plot(xs, lo, "_", color=BLUE, ms=13, label="bande d'identification (1 024 sommets)")
+ax3.plot(xs, pts, "o-", color=ACCENT, lw=1.6, ms=6, label="matrice retenue")
+ax3.plot(xs, lo, "_", color=BLUE, ms=13, label="bande d'identification")
 ax3.plot(xs, hi, "_", color=BLUE, ms=13)
 for x, p_, h in zip(xs, pts, hi):
     ax3.text(x, h * 1.012, f"{p_:,.0f}", ha="center", va="bottom", fontsize=8.2,
