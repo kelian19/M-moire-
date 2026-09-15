@@ -203,8 +203,6 @@ axB.set_title("(B)  Priorite robuste : P1 en tete\n(inchange sur tous les levier
               fontsize=10, color=INK, pad=6)
 axB.grid(alpha=0.25, lw=0.5, axis="x")
 
-fig.suptitle("Robustesse du chantier multi-etats : le classement tient, le niveau non",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")

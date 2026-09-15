@@ -121,21 +121,11 @@ ce qui donne sa portée à la spécification de reporting du chapitre~\ref{ch:li
 ne demande pas d'inventer des champs, elle demande d'en rendre deux obligatoires.
 \end{cle}
 
-\begin{figure}[htbp]
-\centering
-\figover{M_faisabilite.png}
-\caption{Les deux échecs et ce qui subsiste. (a)~Une seule source atteint le
-volume requis. (b)~Sur cette source, le signal directionnel est sous le bruit du placebo
-($z=-0{,}33$). (c)~Ce que la donnée identifie, elle : l'indice de queue $\xi$.}
-\label{fig:faisabilite}
-\end{figure}
-
 % SOURCES-SCRIPTS: 05 57
 
 % SOURCES-SCRIPTS: 28 40 64
 
 % SOURCES-SCRIPTS: 40 64
-
 
 \section{Pourquoi la direction est inidentifiable : la lecture par la réversibilité}
 
@@ -315,7 +305,10 @@ comme les trois sources de données du présent chapitre. C'est une corroboratio
 le jugement d'expert comme instrument de calibration (annexe~\ref{ch:elicitation}).
 \end{attention}
 
-\figcle{Z17_postmortem_direction.png}{La direction corroborée par codage de post-mortems
+\begin{figure}[htbp]
+  \centering
+  \figover{Z17_postmortem_direction.png}
+  \caption{La direction corroborée par codage de post-mortems
 officiels, seule source où elle franchit le placebo. (a)~les $17$ transitions codées
 $k\to j$ sur sept rapports d'enquête publique, aucune n'allant à contre-sens de la tendance
 dominante de sa paire. (b)~le placebo directionnel est franchi ($z=+3{,}93$,
@@ -323,7 +316,9 @@ $p=0{,}0004$), là où le pas annuel d'OpRisk donnait $z=-0{,}33$ : c'est la qua
 non le volume, qui donne la puissance. (c)~P1 (gouvernance) est source pure ($9$
 sorties, $0$ entrée) et P2 (gestion des incidents) est un puits ($0$ sortie, $7$ entrées) : la
 structure que le classeur posait par jugement, retrouvée par un chemin indépendant. Le
-confondant de narration reste déclaré et non levé.}{fig:postmortem}
+confondant de narration reste déclaré et non levé.}
+  \label{fig:postmortem}
+\end{figure}
 % SOURCES-SCRIPTS: 53
 
 \section{Le corpus étendu, et la matrice ordonnée complète}
@@ -403,13 +398,18 @@ $\lVert A\rVert/\lVert W\rVert$ ne bouge pas (elle reste à $60\,\%$). Le corpus
 objet plus riche au lieu de la déplacer.
 \end{cle}
 
-\figcle{Z20_corpus_etendu_pij.png}{Le corpus étendu et la matrice ordonnée $p_{jk}$.
+\begin{figure}[htbp]
+  \centering
+  \figover{Z20_corpus_etendu_pij.png}
+  \caption{Le corpus étendu et la matrice ordonnée $p_{jk}$.
 \textbf{(a)}~la matrice complète des médianes a posteriori, ligne émettrice et colonne
 réceptrice : la ligne de $P_2$ et la colonne de $P_1$ sont vides, ce qui est la traduction
 chiffrée du puits et de la source pure. (b)~les dix premiers liens ordonnés avec leur
 crédible à $90\,\%$ : la direction ressort, l'amplitude reste large et aucun crédible ne passe
 entièrement au-dessus de $0{,}5$. (c)~sensibilité à la sous-documentation des
-défaillances non propagées : le niveau s'effondre, la part de direction tient.}{fig:corpus-etendu}
+défaillances non propagées : le niveau s'effondre, la part de direction tient.}
+  \label{fig:corpus-etendu}
+\end{figure}
 % SOURCES-SCRIPTS: 59
 
 \section{Le biais de narration, mesuré au lieu d'être déclaré}
@@ -532,7 +532,10 @@ compte $22$ directionnelles, ce qui fixe la base d'accord sur laquelle le $\kapp
 calcule. En l'absence de second jeu, le script ne fabrique aucune donnée et s'arrête :
 un dispositif qui produirait un coefficient sans second codeur vaudrait moins que son absence.
 
-\figcle{Z22_biais_narration.png}{Le biais de narration, mesuré au lieu d'être déclaré.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.99\textwidth]{Z22_biais_narration.png}
+  \caption{Le biais de narration, mesuré au lieu d'être déclaré.
 \textbf{(a)}~jackknife par incident : aucun rapport ne porte le signal à lui seul, les dix
 retraits laissant $p \leq 2{,}4\cdot10^{-4}$. (b)~point de rupture, en $p$-valeur
 exacte et non en $z$ : il faudrait quatre arêtes de $P_1$ retournées dans la pire configuration
@@ -540,7 +543,9 @@ pour perdre la significativité, et aucun nombre de retraits n'y suffit. La cour
 retournement remonte au-delà de sept parce que retourner \emph{toutes} les arêtes n'efface pas
 l'asymétrie, elle l'inverse. (c)~le niveau de capital résiste, y compris avec $P_1$
 rendue muette, et la bande d'identification se resserre à mesure que l'émission de $P_1$
-disparaît.}{fig:biais-narration}
+disparaît.}
+  \label{fig:biais-narration}
+\end{figure}
 % SOURCES-SCRIPTS: 64
 
 \section{Les séquences ordonnées : une voie explorée et refermée}

@@ -22,12 +22,12 @@ pour qu'aucun chiffre du mémoire ne soit sans origine déclarée.
 
 \begin{cle}
 \textbf{Thèse.} Les conclusions du modèle ne reposent pas sur les paramètres non calibrés.
-Je le montre en deux temps : (i)~elles sont \textbf{insensibles} aux choix de modélisation
+Je le montre en deux temps : (i)~elles sont insensibles aux choix de modélisation
 innocents (structure de la cascade, famille de dépendance, couche temporelle, source de
-sévérité) ; (ii)~elles ne \textbf{réagissent} qu'aux leviers qui doivent compter (conformité,
+sévérité) ; (ii)~elles ne réagissent qu'aux leviers qui doivent compter (conformité,
 contagion), ce qui est une \emph{qualité}, pas un défaut, c'est la sensibilité au risque que
 la Formule Standard n'a pas. Reste une incertitude irréductible, la queue de sévérité, que
-j'assume en présentant le SCR comme une \textbf{distribution}, jamais un point.
+j'assume en présentant le SCR comme une distribution, jamais un point.
 \end{cle}
 
 \section{L'argument de robustesse, en une table}
@@ -83,11 +83,11 @@ exposant $\theta\in[0{,}70\,;1{,}30]$ sur le nombre de piliers touchés &
 \end{center}
 
 \vspace{4pt}
-\textbf{Lecture.} Les cinq premières lignes sont l'\textbf{ossature} : le signe et l'ordre
+\textbf{Lecture.} Les cinq premières lignes sont l'ossature : le signe et l'ordre
 de grandeur de l'effet DORA, la hiérarchie des piliers, le rôle de la direction, le statut de
 l'auto-excitation et le comportement prédictif des deux lois du socle tiennent quand on change ce
 qui pourrait sembler arbitraire. La sixième ligne
-n'est pas une fragilité mais le \textbf{c\oe ur du modèle} : un SCR qui ne bougerait pas avec la
+n'est pas une fragilité mais le c\oe ur du modèle : un SCR qui ne bougerait pas avec la
 conformité serait inutile (c'est le reproche fait à la Formule Standard,
 chapitre~\ref{chap:resultats}). Les trois dernières sont les limites honnêtes, et elles ne portent
 pas sur le même objet : la queue de sévérité domine l'incertitude sur le \emph{niveau}, donc toute
@@ -97,7 +97,7 @@ taille bornée (\S\ref{soc:sec:backtest}) ; l'additivité des coûts d'un sinist
 multi-piliers domine celle qui pèse sur l'\emph{écart}, sans jamais en renverser le signe
 (\S\ref{sec:additivite-couts}).
 
-\noindent Sources de la table : scripts~\texttt{25} (réaction du capital au score de conformité), \texttt{29} (branchement), \texttt{47} et~\texttt{63} (calibration figée), \texttt{61} (points intérieurs du pavé, dont le nombre de tirages du knockout), \texttt{66} (invariance en $g$), \texttt{67} (paramètres posés), \texttt{74} (additivité des coûts), \texttt{08h} (variantes de noyau et logique two-phase du rejet de l'auto-excitation) et~\texttt{89} (backtest à origine glissante).
+% SOURCES-SCRIPTS: 25 29 47 63 61 66 67 74 08h 89
 
 
 
@@ -106,19 +106,20 @@ multi-piliers domine celle qui pèse sur l'\emph{écart}, sans jamais en renvers
 
 L'incertitude sur le SCR ne se réduit pas au paramètre. Elle se répartit sur trois étages, qu'il
 faut nommer plutôt que confondre (figure~\ref{fig:bande-modele}). Le premier est l'incertitude
-de \textbf{paramètre} : l'intervalle de confiance de $\xi$ à lui seul dilate la VaR d'un facteur
-$2{,}5$ (calibration figée, script~\texttt{63} ; le bootstrap du script~\texttt{46} le retrouve
-à la précision près). Le deuxième est l'incertitude d'\textbf{identification} :
+de paramètre : l'intervalle de confiance de $\xi$ à lui seul dilate la VaR d'un facteur
+$2{,}5$ sur la calibration figée, valeur que le bootstrap retrouve à la précision près.
+% SOURCES-SCRIPTS: 63 46
+Le deuxième est l'incertitude d'identification :
 la direction de $W$ n'étant pas identifiable, la contagion se lit en bande
 (chapitre~\ref{chap:partielle}). Le troisième, le plus souvent passé sous silence, est
-l'incertitude de \textbf{modèle} : le choix de la \emph{famille} elle-même.
+l'incertitude de modèle : le choix de la \emph{famille} elle-même.
 
 On la chiffre en recalculant le SCR sous des familles concurrentes. Sur l'axe de la
 \textbf{dépendance}, à marges par pilier fixées, le SCR va de $5\,322$ M\euro{} (indépendance) à
 $9\,806$ M\euro{} (comonotone, borne de Fréchet), soit un facteur $1{,}8$, la formule standard
 Solvabilité~II et les copules gaussienne et de Gumbel se plaçant entre les deux ; notre cascade
 dirigée ($8\,318$ M\euro) tombe dans cette bande, entre une dépendance gaussienne et une
-dépendance de Gumbel. Sur l'axe de la \textbf{famille de queue}, l'écart est bien plus large :
+dépendance de Gumbel. Sur l'axe de la famille de queue, l'écart est bien plus large :
 d'une lognormale ($4\,330$ M\euro) à une GPD à queue lourde ($\xi=0{,}90$ ; $24\,016$ M\euro),
 un facteur $5{,}5$. C'est le choix de la loi de queue qui domine, de loin, l'incertitude de
 modèle, et c'est précisément pourquoi le plafond de réassurance ($40$ M\euro) est un levier
@@ -127,13 +128,14 @@ risque lui-même.
 
 \begin{figure}[htbp]\centering
 \figover{J4_bande_modele.png}
-\caption{La bande de modèle, troisième étage d'incertitude. \textbf{(a)}~axe dépendance, à
+\caption{La bande de modèle, troisième étage d'incertitude. (a)~axe dépendance, à
 marges fixées : la cascade se place entre les copules gaussienne et de Gumbel, dans une bande
-$[5{,}3\,;9{,}8]$ Md\euro. \textbf{(b)}~axe famille de queue : la queue lourde domine
-l'incertitude ($\times 5{,}5$). \textbf{(c)}~les trois étages (paramètre, identification,
+$[5{,}3\,;9{,}8]$ Md\euro. (b)~axe famille de queue : la queue lourde domine
+l'incertitude ($\times 5{,}5$). (c)~les trois étages (paramètre, identification,
 modèle) tels que le script les cumule ; la bande \emph{reportée} par le mémoire n'en retient que
 les deux premiers, le troisième étant publié comme axe de sensibilité
-(\S\ref{sec:etage-modele-hors-bande}). Source : script~\texttt{48}.}
+(\S\ref{sec:etage-modele-hors-bande}).}
+% SOURCES-SCRIPTS: 48
 \label{fig:bande-modele}
 \end{figure}
 
@@ -141,9 +143,9 @@ les deux premiers, le troisième étant publié comme axe de sensibilité
 \label{sec:etage-modele-hors-bande}
 
 Les trois étages ne peuvent pas tous entrer dans un intervalle unique, et il faut dire lequel
-en sort et pourquoi. \textbf{La bande reportée par ce mémoire ne cumule que les deux premiers},
-paramètre et identification. L'étage de modèle est publié, mais comme \textbf{axe de
-sensibilité déclaré} et non comme composante de la bande.
+en sort et pourquoi. La bande reportée par ce mémoire ne cumule que les deux premiers,
+paramètre et identification. L'étage de modèle est publié, mais comme axe de
+sensibilité déclaré et non comme composante de la bande.
 
 \paragraph{Les trois étages, mis sur une seule échelle avant toute comparaison.} Comparer les
 étages exige de les lire sur la \emph{même} grandeur, et c'est la première chose à faire ici :
@@ -151,8 +153,9 @@ l'étage de paramètre est publié sur le quantile d'\emph{un sinistre} (facteur
 les deux autres vivent sur la \emph{charge annuelle agrégée}. Les rapprocher tels quels
 comparerait deux échelles, ce qui est précisément l'erreur que ce mémoire s'interdit ailleurs.
 Porté sur l'agrégat, l'intervalle bootstrap de $\xi$ donne $[3\,042\,;\,27\,152]$~M\euro, soit un
-facteur $8{,}93$ : le quantile annuel \textbf{amplifie} l'incertitude de paramètre, et le facteur
-$2{,}5$ ne mesure donc pas ce que le paramètre fait au \emph{capital} (script~\texttt{71}).
+facteur $8{,}93$ : le quantile annuel amplifie l'incertitude de paramètre, et le facteur
+$2{,}5$ ne mesure donc pas ce que le paramètre fait au \emph{capital}.
+% SOURCES-SCRIPTS: 71
 
 \begin{center}\footnotesize
 \renewcommand{\arraystretch}{1.25}
@@ -183,12 +186,12 @@ modèle fixé, et un intervalle est l'objet qui convient pour les porter. Le tro
 
 Le point décisif est plus précis que cette opposition générale, et il se voit sur l'axe de la
 famille de queue. Cet axe pousse $\xi$ à $0{,}90$, tandis que l'étage de paramètre le fait varier
-jusqu'à $0{,}8313$ : \textbf{c'est le même paramètre}, et une bande doit dire \emph{une seule
-fois} jusqu'où on le laisse aller. Or $0{,}8313$ est une borne \textbf{estimée}, celle de
-l'intervalle bootstrap, quand $0{,}90$ est une valeur \textbf{posée} hors de cet intervalle. Les
+jusqu'à $0{,}8313$ : c'est le même paramètre, et une bande doit dire \emph{une seule
+fois} jusqu'où on le laisse aller. Or $0{,}8313$ est une borne estimée, celle de
+l'intervalle bootstrap, quand $0{,}90$ est une valeur posée hors de cet intervalle. Les
 placer sur la même échelle met un scénario et une borne de confiance dans le même objet, et le
 lecteur ne sait plus si la borne haute est un aléa défavorable ou une autre théorie de la queue.
-Le retrait rend la bande \textbf{homogène}, ce qui est un motif plus fort que la lisibilité.
+Le retrait rend la bande homogène, ce qui est un motif plus fort que la lisibilité.
 
 À l'inverse, la borne \emph{basse} de cet axe, la lognormale à $4\,330$~M\euro, est une autre
 famille et non un autre $\xi$ : celle-là est un apport propre, et c'est pourquoi le
@@ -196,7 +199,7 @@ recouvrement est asymétrique. Le déplacement porte donc sur ce que la bande \e
 non sur ce que le mémoire publie.
 
 \paragraph{Où cet étage est publié, désormais.} Il l'est deux fois, et rien n'est caché. Sur
-l'axe de la famille de queue, la \textbf{sixième posture} de la table du
+l'axe de la famille de queue, la sixième posture de la table du
 \S\ref{sec:predictive-robuste}, le pire cas de modèle à $\xi$ \emph{posé} à $0{,}90$, \emph{est}
 l'ambiguïté de famille : c'est le même objet, sous un autre nom, et il porte un chiffre.
 Sur l'axe de la dépendance, la bande de $5\,322$ à $9\,806$~M\euro{} reste publiée dans cette
@@ -235,13 +238,14 @@ peut en tirer. Le rejet lui-même ne repose que sur le test du présent travail.
 
 \paragraph{Ce que ce test établit réellement : une équivalence observationnelle, et c'est plus
 fort qu'un rejet.} Le mot \og rejet \fg{} suppose que la donnée départage les deux modèles. Elle
-ne les départage pas, et le mesurer valait mieux que de l'espérer (script~\texttt{85}).
+ne les départage pas, et le mesurer valait mieux que de l'espérer.
+% SOURCES-SCRIPTS: 85
 
 L'argument se pose d'abord \emph{sans} rien simuler. Si chaque pilier touché est un événement
 enregistrable, la fraction d'événements qui sont des \emph{enfants} vaut
 $(\mathbb{E}[k]-1)/\mathbb{E}[k]$, où $\mathbb{E}[k]$ est le nombre moyen de piliers touchés par
 sinistre : c'est exactement ce qu'un ajustement de Hawkes appelle son ratio de branchement. Avec
-$\mathbb{E}[k]=1{,}931$ à l'état non conforme, une cascade \textbf{sans aucune auto-excitation}
+$\mathbb{E}[k]=1{,}931$ à l'état non conforme, une cascade sans aucune auto-excitation
 prédit $n=0{,}482$, à comparer au $0{,}551$ mesuré sur la chronologie réelle.
 
 Le test le confirme. On engendre soixante années de dates avec le moteur de cascade, dont la
@@ -255,7 +259,7 @@ $0{,}004$, et sur trois processus de Hawkes simulés de ratios connus, qu'il ret
 
 \begin{cle}
 \textbf{Conséquence, à assumer telle quelle.} Un ratio de branchement de l'ordre de $0{,}5$
-mesuré sur des dates réelles \textbf{ne prouve pas l'auto-excitation} : une cascade qui n'en
+mesuré sur des dates réelles ne prouve pas l'auto-excitation : une cascade qui n'en
 contient aucune le produit. Les deux modèles sont \emph{observationnellement équivalents} à la
 résolution disponible. L'énoncé juste n'est donc pas \og le Hawkes est rejeté \fg{} mais \og le
 Hawkes n'est pas distinguable de la cascade, et la cascade est retenue par parcimonie
@@ -264,7 +268,7 @@ en outre la structure inter-piliers et se traduit en capital. C'est une conclusi
 apparence et plus solide en fait, puisqu'elle cesse de s'appuyer sur un départage que la donnée
 ne permet pas.
 
-\textbf{Attention au sens de l'effet de résolution.} Dégrader la résolution \textbf{fait monter}
+\textbf{Attention au sens de l'effet de résolution.} Dégrader la résolution fait monter
 le ratio estimé, de $0{,}473$ à l'heure jusqu'à $0{,}739$ au mois, parce qu'agréger fabrique du
 regroupement apparent. C'est l'opération \emph{inverse} de celle conduite plus haut, qui fait
 tomber l'endogénéité en reclassant les co-occurrences du même jour en exogène. Les deux
@@ -277,8 +281,8 @@ donnerait une conclusion opposée.
 (lognormale, splicing, EVT bayésienne), dépendance (copules, réseaux, Hawkes multivarié),
 mesure (TVaR, spectrale, robuste), agrégation (formule standard, Panjer) : on ne prétend pas
 détenir \emph{la} méthode. La discipline est ailleurs : on a testé les concurrents les plus
-sérieux, on \textbf{borne} l'effet du choix, et surtout le niveau bouge dans la bande mais
-l'\textbf{ordre d'amorce des piliers ne bouge pas} ($P1>P4>P2>P3>P5$, invariant à la famille).
+sérieux, on borne l'effet du choix, et surtout le niveau bouge dans la bande mais
+l'ordre d'amorce des piliers ne bouge pas ($P1>P4>P2>P3>P5$, invariant à la famille).
 Le niveau est illustratif, l'ordre résiste : c'est, chiffrée sur un troisième axe, la thèse du
 mémoire, et la réponse à qui demanderait \og et si vous aviez pris une autre méthode~?\fg.
 \end{cle}
@@ -297,8 +301,6 @@ substituer répondrait à une autre question. Un point mérite d'être connu ava
 débattre : la posture robuste \textbf{est} la borne haute de l'intervalle déjà publié, de
 sorte que reporter le plug-in avec sa bande publie déjà le chiffre robuste. La table des
 six postures et leur bruit de simulation sont dans la version longue de ce mémoire.
-
-\noindent Sources : scripts~\texttt{46}, \texttt{51} et~\texttt{63}.
 
 \section{Un défaut de calibration, chiffré plutôt que corrigé}
 % PONT v3 : la section complete est dans main_v2, version
@@ -319,16 +321,14 @@ thèse il va dans l'autre sens, le chiffre avancé étant minoré et non gonflé
 premier engage. Le calcul, son signe et le contrôle qui le recalcule à chaque exécution
 sont dans la version longue de ce mémoire.
 
-\noindent Sources : scripts~\texttt{08b}, \texttt{47}, \texttt{57}, \texttt{60}, \texttt{63}, \texttt{65}, \texttt{74}, \texttt{78}, \texttt{89}, \texttt{90} et~\texttt{91}.
-
 \section{Défaillances simultanées et additivité des coûts}
 \label{sec:additivite-couts}
 
 La cascade produit, pour chaque sinistre, un \emph{ensemble} de piliers touchés, si bien que la
 défaillance simultanée n'est pas un cas particulier resté de côté mais la sortie même du modèle. La
 loi exacte de ce nombre est donnée au \S\ref{sec:ann-additivite} : à l'état non conforme, la
-défaillance multiple est \textbf{majoritaire}, $62{,}31\,\%$ des sinistres touchant plus d'un
-pilier contre $31{,}15\,\%$ à l'état conforme. Reste alors la vraie question, celle de l'agrégation
+défaillance multiple est majoritaire, $62{,}31\,\%$ des sinistres touchant plus d'un
+pilier contre $31{,}15\,\%$ à l'état conforme. Reste la question de l'agrégation
 des coûts, et elle demande de distinguer trois énoncés que le seul mot d'additivité recouvre.
 
 \begin{enumerate}[leftmargin=*,itemsep=2pt]
@@ -350,8 +350,8 @@ perte d'un sinistre touchant $k$ piliers valant $\bigl(\sum_j X_j\bigr)k^{\,\the
 $\theta=1$ redonne exactement le modèle publié et que les sinistres mono-pilier restent intouchés.
 Pour $\theta$ parcourant $[0{,}70\,;1{,}30]$, l'écart entre états parcourt
 $[9\,706\,;20\,487]$~M\euro, soit $76\,\%$ de l'écart publié et $15$~fois son bruit de simulation de
-$\pm 734$~M\euro. L'effet est donc réel, et l'additivité des coûts est \textbf{la plus lourde des
-hypothèses structurelles non testées} du modèle. Deux précautions pour ne pas en tirer un classement
+$\pm 734$~M\euro. L'effet est donc réel, et l'additivité des coûts est la plus lourde des
+hypothèses structurelles non testées du modèle. Deux précautions pour ne pas en tirer un classement
 qu'il n'établit pas : elle porte sur l'\emph{écart} là où la queue de sévérité domine l'incertitude
 sur le \emph{niveau} (\S\ref{sec:trois-etages}), et c'est une hypothèse de structure et non un choix
 de prudence, les trois choix posés du \S\ref{sec:pu-coherence} déplaçant davantage mais dans une
@@ -360,7 +360,7 @@ direction connue.
 \paragraph{Elle n'est pas neutre entre les deux états, ce qui n'était pas attendu.} Les élasticités
 valent $0{,}95$ à l'état non conforme contre $0{,}39$ à l'état conforme, un facteur $2{,}42$, parce
 que l'exposant ne mord que sur les sinistres multi-piliers, majoritaires au seul état non conforme.
-L'hypothèse \textbf{interagit donc avec le canal de propagation} au lieu de s'ajouter à côté de lui,
+L'hypothèse interagit donc avec le canal de propagation au lieu de s'ajouter à côté de lui,
 et atteint de ce fait la grandeur centrale du mémoire et non un simple niveau. Ce qui tient malgré
 tout : sur toute l'amplitude examinée l'écart garde son signe et son ordre de grandeur, jamais
 proche de zéro, si bien que la thèse ne dépend pas de l'hypothèse d'additivité et que seule son
@@ -372,13 +372,12 @@ détail, la loi du nombre de piliers, la table complète des exposants et la rai
 l'amplitude est posée plutôt qu'estimée sont au \S\ref{sec:ann-additivite}.
 
 \vspace{2pt}
-\noindent Sources : scripts~\texttt{74} (loi du nombre de piliers, exposant et élasticités),
-\texttt{68} (interaction des canaux) et~\texttt{69} (additivité par pilier).
+% SOURCES-SCRIPTS: 74 68 69
 
 
 \begin{cle}
 \textbf{La double lecture.} \og Insensible aux choix innocents, sensible aux leviers réels \fg :
-le modèle n'est ni sur-ajusté ni fragile, il est \textbf{piloté par ce qui doit le piloter}.
+le modèle n'est ni sur-ajusté ni fragile, il est piloté par ce qui doit le piloter.
 Et la seule grande incertitude, la queue, est nommée et bornée, pas cachée. C'est ce qui
 transforme \og je n'ai pas tout calibré \fg{} en \og je sais précisément de quoi mon SCR
 dépend, et de quoi il ne dépend pas \fg.

@@ -305,8 +305,6 @@ for ax in (ax1, ax2, ax3):
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
 
-fig.suptitle("Z5 : l'échelle de repli sur $u_{ij}$, du plus dur au modèle nul",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.92])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

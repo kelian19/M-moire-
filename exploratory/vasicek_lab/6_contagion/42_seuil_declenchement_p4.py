@@ -257,9 +257,6 @@ for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z12 : le seuil de P4 est une marge (franchissement $K_4$) ; l'accumulation, elle, "
-             "dépend de la dépendance de queue, et se lit en bande",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.92])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

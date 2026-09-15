@@ -273,9 +273,6 @@ for ax in (ax1, ax2, ax3):
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
 
-fig.suptitle("Z19 : reformulation bayésienne de la direction : le posterieur\n"
-             "reproduit seul l'identification partielle, et résiste à un prior sceptique",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.88])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

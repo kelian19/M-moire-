@@ -383,9 +383,6 @@ for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("S30 : les défaillances simultanées sont la sortie du modèle, et l'additivité de "
-             "leurs coûts est son hypothèse non testée la plus lourde",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.92])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

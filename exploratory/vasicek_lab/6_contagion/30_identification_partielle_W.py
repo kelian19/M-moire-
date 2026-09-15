@@ -245,7 +245,7 @@ ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 # quatre panneaux : une grille 2x2 tient en portrait la ou une rangee de quatre
 # imposerait une page tournee (rapport h/l de 0,89 contre 0,24).
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(7.6, 6.8),
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(8.4, 4.0),
                                              gridspec_kw={"width_ratios": [1.1, 1]})
 ts = np.array(T_GRID)
 los = np.array([bounds[t][0] for t in T_GRID])
@@ -300,15 +300,12 @@ for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z : identification partielle de la contagion dirigée, et bornes de capital",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
 # titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
 # figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
 # reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
 _top = 1.0 - 0.26 / fig.get_figheight()
-fig.suptitle_y = _top
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
+fig.tight_layout(h_pad=1.6)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z_identification_partielle.png")

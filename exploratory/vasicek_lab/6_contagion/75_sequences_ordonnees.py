@@ -523,9 +523,6 @@ ax2.set_title("(b)  Les deux conditions du test ne se rencontrent\njamais sur le
 for s in ("top", "right"):
     ax2.spines[s].set_visible(False)
 
-fig.suptitle("S31 : les séquences étaient déjà dans le corpus, mais elles ne peuvent pas "
-             "identifier la direction, et pour une raison de structure",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.91])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

@@ -222,8 +222,6 @@ ax3.text(0.98, 0.05, "la FS suit la taille,\nla cascade suit le risque",
 for s in ("top", "right"):
     ax3.spines[s].set_visible(False)
 
-fig.suptitle("W : benchmark Formule Standard, la valeur se mesure en effet DORA exprimé",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.93])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

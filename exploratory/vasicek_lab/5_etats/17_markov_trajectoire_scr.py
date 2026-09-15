@@ -217,8 +217,6 @@ axB.legend(fontsize=8.2, frameon=False, loc="center right")
 axB.set_xlim(0, 5)
 axB.set_ylim(0, 1)
 
-fig.suptitle("Markov + trajectoire SCR(t) : le capital DORA le long de la mise en conformite",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")

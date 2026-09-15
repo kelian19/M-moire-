@@ -212,8 +212,6 @@ axB.legend(fontsize=8.2, frameon=False, title="capital integre", title_fontsize=
 axB.grid(alpha=0.25, lw=0.5)
 axB.set_xlim(0, len(PIL))
 
-fig.suptitle("Priorisation de la remediation : quel ordre minimise le capital porte",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")

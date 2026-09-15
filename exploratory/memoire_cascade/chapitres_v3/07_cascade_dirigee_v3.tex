@@ -9,17 +9,17 @@
 \begin{cle}
 \textbf{Idée directrice.} La dépendance entre les cinq piliers n'est pas ajoutée après coup par
 une copule : elle est \emph{produite} par la propagation d'un incident le long d'une matrice
-d'influence dirigée. La cascade est ainsi la vue \textbf{structurelle} (bottom-up) de la
-dépendance, en regard de la vue \textbf{copule} (top-down) de l'ancien mémoire. Le fil du
+d'influence dirigée. La cascade est ainsi la vue structurelle (bottom-up) de la
+dépendance, en regard de la vue copule (top-down) de l'ancien mémoire. Le fil du
 chapitre part du Vasicek à un facteur, l'ouvre en deux temps (systémique par pilier, puis
 propagation dirigée), et remplace le seuil de défaut du crédit par un seuil ancré sur la barre
 de matérialité du règlement.
 \end{cle}
 
-\section{Le point de départ : le Vasicek à un facteur, et pourquoi il ne suffit pas}
+\section{Le point de départ : le Vasicek à un facteur et ses limites}
 
 Le modèle structurel de Merton-Vasicek associe à chaque entité une variable latente. On retient
-la convention où $X$ mesure le \textbf{stress} et non la santé (un $X$ élevé est une mauvaise
+la convention où $X$ mesure le stress et non la santé (un $X$ élevé est une mauvaise
 nouvelle), de sorte qu'une contagion positive encode bien une contamination :
 \begin{equation}
 X_i \;=\; \sqrt{\rho}\;Y \;+\; \sqrt{1-\rho}\;\varepsilon_i, \qquad \mathrm{Var}(X_i)=1,
@@ -31,21 +31,19 @@ le modèle classique $K_i=\Phi^{-1}(1-\mathrm{PD}_i)$.
 
 \begin{attention}
 \textbf{Deux hypothèses de ce modèle sont fausses pour le cyber sous DORA.} D'abord, la
-dépendance y est \textbf{symétrique} (un seul $Y$, un seul $\rho$) : le modèle ne peut pas dire
+dépendance y est symétrique (un seul $Y$, un seul $\rho$) : le modèle ne peut pas dire
 \og P1 entraîne P2 plus que l'inverse\fg{}, alors que nos données d'expert sont dirigées à
 \textbf{81\,\%}. Ensuite, le seuil $\Phi^{-1}(\mathrm{PD})$ suppose une PD stable, mesurable et
 une valeur de firme sous-jacente, dont rien n'existe en cyber. Les deux généralisations qui
 suivent lèvent ces deux limites.
 \end{attention}
 
-\noindent Source : script~\texttt{01}, qui mesure la part dirigée du classeur d'expert par le
-rapport de l'asymétrie de $\mathrm{TRANS}$ à son intensité, et donne les trois paires dont
-l'écart est le plus fort. Le script~\texttt{03} en dérive la normalisation.
+% SOURCES-SCRIPTS: 01 03
 
 \section{Généralisation A : la structure systémique dépend du pilier}
 
 On indexe désormais par entité~$i$ et pilier~$j\in\{1,\dots,5\}$, et l'on remplace le facteur
-unique par \textbf{un facteur systémique par pilier} $Y_j$ et une sensibilité propre
+unique par un facteur systémique par pilier $Y_j$ et une sensibilité propre
 $\rho_{ij}$ :
 \begin{equation}
 X_{ij} \;=\; \sqrt{\rho_{ij}}\;Y_j \;+\; \sqrt{1-\rho_{ij}}\;\varepsilon_{ij}.
@@ -62,7 +60,7 @@ son pilier $\rho_j$ (pooling partiel).
 \textbf{La partie A n'est pas une contribution.} Le Merton-Vasicek multifacteur à
 matrice de corrélation générale est celui de Li~(2000), employé tel quel dans les modèles de
 stress-test (Pineau et Zuñiga, 2023). La contribution propre ne commence qu'en partie~B, avec
-la contagion \textbf{dirigée}. Le revendiquer clairement évite de se voir opposer une
+la contagion dirigée. Le revendiquer clairement évite de se voir opposer une
 littérature qu'on aurait ignorée.
 \end{cle}
 
@@ -71,20 +69,20 @@ littérature qu'on aurait ignorée.
 \begin{cle}
 \textbf{Convention d'indices, à fixer une fois pour toutes.} Dans tout le mémoire,
 \[
-  \boxed{\;W_{jk}\;=\;\text{propension du pilier } j \text{ (\textbf{source}) à entraîner la
-  défaillance du pilier } k \text{ (\textbf{cible}).}\;}
+  \boxed{\;W_{jk}\;=\;\text{propension du pilier } j \text{ (source) à entraîner la
+  défaillance du pilier } k \text{ (cible).}\;}
 \]
-La \textbf{ligne} $j$ décrit donc ce que $j$ \emph{émet}, et la \textbf{colonne} $k$ ce que $k$
+La ligne $j$ décrit donc ce que $j$ \emph{émet}, et la colonne $k$ ce que $k$
 \emph{reçoit}. C'est la convention du graphe d'arêtes vivantes (définition~\ref{def:cascade} :
 l'arc $j\to k$ existe si $B_{jk}=1$) et celle de toutes les implémentations. Elle donne son sens
-à la somme de ligne $s_j$, qui mesure l'\textbf{émission} du pilier $j$, et à la revendication
+à la somme de ligne $s_j$, qui mesure l'émission du pilier $j$, et à la revendication
 centrale \og{}P1 émet fort et reçoit peu\fg{} : P1 a la plus grande somme de ligne ($2{,}6$) et
 une somme de colonne trois fois inférieure à celle de P2. Toute lecture inverse rendrait cette
 revendication fausse.
 \end{cle}
 
 Pour encoder l'asymétrie, on ajoute un terme de réseau dirigé : le stress de $j$ subit celui des
-autres piliers de la même entité, pondéré par une matrice \textbf{asymétrique} $W$. En respectant
+autres piliers de la même entité, pondéré par une matrice asymétrique $W$. En respectant
 la convention ci-dessus, la source est le premier indice, donc le stress \emph{reçu} par $j$
 somme les colonnes :
 \begin{equation}
@@ -100,11 +98,10 @@ l'emboîtement est propre.
 \begin{figure}[htbp]\centering
 \figover{H1_reseau_W.png}
 \caption{Structure dirigée de $W$ sur les cinq piliers (P1 émet fort et reçoit peu) et
-propagation d'un choc sur un sous-réseau. Source : \texttt{build\_network\_figure}.}
+propagation d'un choc sur un sous-réseau.}
 \end{figure}
 
-\noindent Source de cette section : script~\texttt{29}, qui imprime la normalisation
-$\max_j s_j$ et les descendants directs par pilier.
+% SOURCES-SCRIPTS: 29
 
 \section{La normalisation de Leontief : une stabilité garantie}
 
@@ -117,7 +114,7 @@ TRANS n'a jamais été une matrice de parts.
 \end{attention}
 
 La discipline vient du modèle entrées-sorties de Leontief, dont l'inverse
-$B=(I-A)^{-1}=\sum_{k\ge0}A^k$ n'explose jamais parce que $A$ est une matrice de \textbf{parts} :
+$B=(I-A)^{-1}=\sum_{k\ge0}A^k$ n'explose jamais parce que $A$ est une matrice de parts :
 les colonnes somment à moins de un, la différence étant la valeur ajoutée, strictement positive.
 On applique la même règle en lisant la ligne $j$ de $W$ comme les parts du stress que $j$
 \textbf{émet} vers les autres piliers :
@@ -132,24 +129,23 @@ analogue de la valeur ajoutée positive de Leontief)
 \begin{equation}
 \rho(W)\;\le\;\max_j\sum_k W_{jk}\;\le\;g\;<\;1,
 \end{equation}
-et $(I-W)^{-1}$ existe. \textbf{La stabilité est donc garantie par la normalisation}, sur tout
+et $(I-W)^{-1}$ existe. La stabilité est donc garantie par la normalisation, sur tout
 le domaine admissible, et non supposée. Numériquement, $\rho(W)=0{,}562\,g$. On divise par un
 scalaire et non ligne à ligne, ce qui préserve l'hétérogénéité de ce que \emph{reçoit} chaque
 pilier (P1 reçoit trois fois moins que P2) : la revendication \og P1 émet fort et reçoit peu\fg{}
 survit à la normalisation.
 
-\noindent Source de cette section : script~\texttt{03}, qui imprime le rayon spectral brut
-de \textsc{trans}, le diviseur de Leontief et les parts obtenues.
+% SOURCES-SCRIPTS: 03
 
 \section{La cascade est un processus de branchement}
 \label{sec:branch}
 
 Le modèle simultané sur latentes n'est pas celui que les données pourraient identifier. On lui
-substitue une contagion \textbf{retardée sur incidents}, qui est un \textbf{processus de
-branchement multitype} : un incident sur le pilier~$k$ engendre, à la période suivante, un
+substitue une contagion retardée sur incidents, qui est un processus de
+branchement multitype : un incident sur le pilier~$k$ engendre, à la période suivante, un
 nombre aléatoire d'incidents sur les autres piliers. Toute la théorie de l'extinction des
-épidémies s'applique, et l'objet central n'est plus $W$ mais la \textbf{matrice de génération
-suivante} $M$, qui compte des incidents et non des écarts-types latents :
+épidémies s'applique, et l'objet central n'est plus $W$ mais la matrice de génération
+suivante $M$, qui compte des incidents et non des écarts-types latents :
 \begin{equation}
 M_{jk}\;=\;\Phi(\text{base}_j+W_{jk})-\Phi(\text{base}_j).
 \end{equation}
@@ -166,35 +162,34 @@ $R_0=\mathbf{0{,}054}$ : les deux lectures sont stables, mais pas du même ordre
 \figover{K3_branchement_R0.png}
 \caption{(a) Sur le domaine admissible $g\le1$, les deux rayons spectraux restent $<1$ ; les
 seuils critiques ($\rho(W)=1$ à $g=1{,}78$ ; $R_0=1$ à $g=8{,}1$) sont hors domaine. (b) La
-progéniture $(I-M)^{-1}$ reproduit exactement le classement ROOT du jugement d'expert.
-Source : \texttt{03\_calibration\_W}.}
+progéniture $(I-M)^{-1}$ reproduit exactement le classement ROOT du jugement d'expert.}
+% SOURCES-SCRIPTS: 03
 \end{figure}
 
-Deux résultats en découlent. D'une part, la forme simultanée est \textbf{structurellement
-alarmiste} : même normalisée, elle approche son seuil critique plus de \emph{quatre} fois plus
+Deux résultats en découlent. D'une part, la forme simultanée est structurellement
+alarmiste : même normalisée, elle approche son seuil critique plus de \emph{quatre} fois plus
 vite que la cascade réelle ($g^\star=1{,}78$ contre $8{,}1$). Une lecture naïve de TRANS crierait à
 l'emballement systémique dans un régime où la contagion s'éteint tranquillement. D'autre part,
 la progéniture $(I-M)^{-1}$ se lit comme le nombre de descendants d'un incident initial : le
 calcul donne $0{,}109$ (P1), $0{,}069$ (P4), $0{,}058$ (P2), $0{,}054$ (P3), $0{,}026$ (P5), un
-classement \textbf{identique} à celui du barème ROOT (Spearman $=1{,}00$), et ce pour toute
+classement identique à celui du barème ROOT (Spearman $=1{,}00$), et ce pour toute
 valeur de $g$.
 
 \begin{attention}
 \textbf{Cohérence interne, et non validation externe.} ROOT et TRANS sont issus du jugement du
 même expert ; retrouver ROOT à partir de TRANS n'est pas une validation externe mais un test de
-\textbf{cohérence interne} du jugement, réussi. Sa portée réelle est une \textbf{réduction de
-paramètres} : ROOT se déduit de TRANS au lieu d'être posé, soit cinq paramètres d'expert en
+\textbf{cohérence interne} du jugement, réussi. Sa portée réelle est une réduction de
+paramètres : ROOT se déduit de TRANS au lieu d'être posé, soit cinq paramètres d'expert en
 moins.
 \end{attention}
 
-\noindent Sources de cette section : scripts~\texttt{03} (matrice de génération suivante,
-$R_0$, seuils critiques) et~\texttt{29} (rayon spectral de $W$ et progéniture).
+% SOURCES-SCRIPTS: 03 29
 
 \section{Le seuil $K_j$ : ce qui remplace $\Phi^{-1}(\mathrm{PD})$}
 
-Il faut distinguer deux seuils vivant dans deux espaces : $u_j$, le seuil de \textbf{matérialité}
+Il faut distinguer deux seuils vivant dans deux espaces : $u_j$, le seuil de matérialité
 (DORA art.~18), dans l'espace des sévérités observables (euros, clients, heures) ; et $K_j$, le
-seuil sur la variable \textbf{latente}, sans unité. On ne peut pas prendre l'un pour l'autre : on
+seuil sur la variable latente, sans unité. On ne peut pas prendre l'un pour l'autre : on
 \textbf{apparie leurs probabilités}, en choisissant $K_j$ pour que l'événement latent
 $\{X_{ij}\ge K_j\}$ ait la même probabilité que l'incident majeur observable
 $\{S_{ij}\ge u_j\}$ :
@@ -210,7 +205,7 @@ $L=\Phi^{-1}(\text{fréquence cumulée observée})$ : on inverse \emph{toujours}
 qu'on reproche à $\Phi^{-1}(\mathrm{PD})$ n'est pas l'inversion, ce sont ses deux entrées : une
 fréquence non mesurable (remplacée par $p_j$, définie par le règlement, donc stable et
 comparable entre entités) et une queue gaussienne trop fine (remplacée par une loi $F$ à queue
-lourde). La probabilité de dépassement devient alors une \textbf{sortie} du modèle,
+lourde). La probabilité de dépassement devient alors une sortie du modèle,
 conditionnelle à l'état systémique.
 \end{cle}
 
@@ -218,23 +213,21 @@ conditionnelle à l'état systémique.
 \textbf{sous-déclaration} : en notant $q(s)$ la probabilité qu'un incident de sévérité $s$ soit
 déclaré, on a l'identité exacte $\hat p_j^{\text{naïf}}/p_j=\mathbb E[q(S)\mid S\ge u_j]<1$. On
 sous-estime $p_j$, donc on sur-estime $K_j$, donc on sous-provisionne, et ce biais s'effondre
-quand la barre monte dans la queue ($+0{,}369$ à $u=0{,}5$ ; $+0{,}001$ à $u=40$). \textbf{La
-barre DORA est défendable parce qu'elle est haute}, pas parce qu'elle est réglementaire, et
+quand la barre monte dans la queue ($+0{,}369$ à $u=0{,}5$ ; $+0{,}001$ à $u=40$). La
+barre DORA est défendable parce qu'elle est haute, pas parce qu'elle est réglementaire, et
 c'est une propriété vérifiable : il suffit d'estimer $q(u_j)$. Le rôle de l'EVT n'est pas de
 débiaiser cette fréquence (extrapoler le taux depuis un seuil haut n'est pas pilotable), mais de
-modéliser la \textbf{sévérité} au-dessus de la barre, donc le capital ($-0{,}8\,\%$ de biais
+modéliser la sévérité au-dessus de la barre, donc le capital ($-0{,}8\,\%$ de biais
 contre $-63{,}9\,\%$ pour la lognormale).
 
-\noindent Sources de cette section : scripts~\texttt{04}, qui balaie la barre de matérialité
-et imprime le biais résiduel sur le capital, et~\texttt{02}, qui chiffre ce biais pour
-l'ajustement de queue et pour la lognormale.
+% SOURCES-SCRIPTS: 04 02
 
 \section{Calibration et faisabilité}
 \label{sec:calib-cascade}
 
-L'asymétrie de $W$ ne s'identifie que par l'information \textbf{temporelle} (qui déclenche avant
-qui) : le modèle de calibration est dynamique, et l'estimateur est \textbf{littéralement un
-probit} (le modèle générateur a un bruit gaussien et un seuil), non un logit qui gonflerait les
+L'asymétrie de $W$ ne s'identifie que par l'information temporelle (qui déclenche avant
+qui) : le modèle de calibration est dynamique, et l'estimateur est littéralement un
+probit (le modèle générateur a un bruit gaussien et un seuil), non un logit qui gonflerait les
 magnitudes d'un facteur $2{,}1$. Sur données \emph{simulées}, ce protocole fonctionne : le probit
 retrouve $W$ dans ses unités (corrélation $0{,}92$, pente $1{,}08$). Le protocole n'est donc pas
 en cause dans ce qui suit.
@@ -245,7 +238,7 @@ disponibles, il échoue, et il échoue pour des raisons qui tiennent aux \emph{d
 la méthode. Le chapitre~\ref{ch:identifiabilite} le démontre sur deux sources qui échouent pour
 des raisons opposées et en tire la frontière d'identification ; le
 chapitre~\ref{chap:partielle} en tire les conséquences sur le capital. Une précision de méthode
-mérite d'être posée dès ici : le test intuitif du \og temps inversé \fg{} est \textbf{dégénéré}
+mérite d'être posée dès ici : le test intuitif du \og temps inversé \fg{} est dégénéré
 sur des comptages, puisque la matrice obtenue en renversant la chronologie vaut, par
 construction, la transposée. Il ne prouve rien, et seul le placebo par permutation est valide.
 \end{attention}
@@ -254,8 +247,7 @@ Le présent chapitre en donne la substance ; le détail du banc d'essai
 $\Phi^{-1}$ contre EVT, de la calibration du facteur systémique et des diagnostics de
 puissance est reporté en annexe.
 
-\noindent Sources de cette section : scripts~\texttt{03} (corrélations et pentes de
-récupération de $W$) et~\texttt{05} (faisabilité de la donnée).
+% SOURCES-SCRIPTS: 03 05
 
 \section{Formalisation : définitions et propriétés}
 \label{sec:formalisation}
@@ -345,8 +337,7 @@ que par sa partie symétrique $S$. Les matrices $W$ et $W^\top$, de même $S$, s
 $\mathrm{SCR}(W)\neq\mathrm{SCR}(W^\top)$ en général : la direction est non identifiée.
 \end{proposition}
 
-\noindent Sources de cette section : scripts~\texttt{32} et~\texttt{61}, qui vérifient les
-propriétés énoncées sur la matrice du classeur puis sur des matrices tirées au hasard.
+% SOURCES-SCRIPTS: 32 61
 
 \section{Les trois propriétés, vérifiées numériquement}
 % PONT v3 : la section complete est dans main_v2, version
@@ -357,6 +348,4 @@ matrice calibrée et sur des matrices tirées au hasard : la dépendance à l'or
 nulle, la normalisation borne effectivement la progéniture, et une matrice et sa
 transposée donnent bien un capital différent. Les démonstrations figurent à
 l'annexe~\ref{ann:cascade} et les vérifications numériques correspondantes dans la version longue de ce mémoire.
-
-\noindent Sources : scripts~\texttt{03} et~\texttt{40}.
 

@@ -247,8 +247,6 @@ axB.set_title("(B)  Euler : contribution au CAPITAL vs a la MOYENNE (OpRisk)",
 axB.legend(fontsize=8.2, frameon=False, loc="upper right")
 axB.grid(alpha=0.25, lw=0.5, axis="y")
 
-fig.suptitle("Allocation du capital DORA aux piliers : Shapley (surcout) et Euler (niveau)",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")

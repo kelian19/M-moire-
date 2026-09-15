@@ -306,9 +306,6 @@ for ax in (ax1, ax2):
 # TITRE CORRIGE : il annoncait « l'invariance vaut pour les deux », ce que la mesure ne soutient
 # pas. Elle est DEMONTREE sur l'esperance et seulement NON DETECTEE sur le quantile, le
 # deplacement y restant dans le bruit de tirage. La nuance est tout l'objet de cette figure.
-fig.suptitle("S33 : la moyenne des VaR conditionnelles n'est pas la VaR du mélange, "
-             "et l'invariance n'a pas le même statut sur les deux",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.91])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

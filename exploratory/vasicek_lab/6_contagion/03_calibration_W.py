@@ -458,9 +458,6 @@ ax.set_title(f"Probit : bonnes unites (corr {corr_p:.2f} ; sens {dir_p:.0%})",
              fontsize=10.5, color=INK, pad=8)
 ax.grid(True, color=GRID, lw=0.7)
 ax.legend(frameon=False, fontsize=8.5, loc="upper left")
-fig.suptitle(f"K1 : le probit retrouve W dans ses propres unites, le logit le gonfle de "
-             f"{100*(sl_l/sl_p-1):.0f} %",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.94])
 p1 = os.path.join(outdir, "K1_calibration_W.png")
 fig.savefig(p1, dpi=200, bbox_inches="tight"); print("\nfigure ecrite :", p1)
@@ -486,8 +483,6 @@ ax2.set_ylabel("qualite de recuperation", color=INK2)
 ax2.set_ylim(0, 1.05); ax2.grid(True, color=GRID, lw=0.7)
 ax2.legend(frameon=False, fontsize=9, loc="lower left")
 ax2.set_title("(b) Robustesse a la sous-declaration", fontsize=11, color=INK, pad=8)
-fig.suptitle("K2 : donnees necessaires et robustesse du protocole",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.94])
 p2 = os.path.join(outdir, "K2_calibration_diagnostics.png")
 fig.savefig(p2, dpi=200, bbox_inches="tight"); print("figure ecrite :", p2)

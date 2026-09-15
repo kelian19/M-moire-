@@ -177,8 +177,6 @@ for ax in (ax0, ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z10 : P2/P3, la détection comme courbe de survie ; un point observé, le reste borné",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.92])
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

@@ -183,8 +183,6 @@ axB.set_title("(B)  Contribution de chaque pilier a la non-conformite (OpRisk)",
               fontsize=10, color=INK, pad=6)
 axB.grid(alpha=0.25, lw=0.5, axis="x")
 
-fig.suptitle("Vasicek multi-etats PAR PILIER : coherence et decomposition du Delta_DORA",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.95])
 
 outdir = os.path.join(HERE, "figures")

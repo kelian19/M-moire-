@@ -282,8 +282,8 @@ INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT = "#a6002e"
 BL = ["#7baafd", "#4c79c7", "#204993"]
 
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 9.9),
-                                    gridspec_kw={"height_ratios": [1, 1.15, 1]})
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.6, 3.3),
+                                    gridspec_kw={"width_ratios": [1, 1.15, 1]})
 
 # (a) detenir vs transferer, en tout ou rien
 labs = ["détenir\n(CoC 6,00 %)", "détenir\n(CoC 4,75 %)", "sinistralité\nattendue"]
@@ -292,10 +292,10 @@ cols = [BL[2], BL[1], MUTED]
 ax1.bar(range(3), vals, color=cols, edgecolor="#fcfcfb", width=0.6)
 for i, v in enumerate(vals):
     ax1.text(i, v * 1.03, f"{v:,.1f}", ha="center", fontsize=9.5, color=INK2)
-ax1.set_xticks(range(3)); ax1.set_xticklabels(labs, fontsize=9)
+ax1.set_xticks(range(3)); ax1.set_xticklabels(labs, fontsize=8)
 ax1.set_ylabel("coût annuel (M€)", color=INK2)
 ax1.set_title(f"(a)  Le capital coûte {COC_REVISE*scr0/esp0:.1f} fois\nla sinistralité attendue",
-              fontsize=11, color=INK, pad=8)
+              fontsize=9.5, color=INK, pad=8)
 for s_ in ("top", "right"):
     ax1.spines[s_].set_visible(False)
 
@@ -308,12 +308,12 @@ for lab, coc, col in (("CoC 6,00 %", COC_ACTUEL, BL[2]), ("CoC 4,75 %", COC_REVI
     ax2.annotate(f"$L^*={grid[i]:,.0f}$", (grid[i], cc[i]), textcoords="offset points",
                  xytext=(8, 10), fontsize=8.5, color=ACCENT)
 ax2.axvline(scr0, color=INK, ls="--", lw=1.3)
-ax2.text(scr0 * 1.02, ax2.get_ylim()[1] * 0.92, f"SCR = {scr0:,.0f}", fontsize=8.5, color=INK)
+ax2.text(scr0 * 1.05, ax2.get_ylim()[1] * 0.55, f"SCR = {scr0:,.0f}", fontsize=8.5, color=INK)
 ax2.set_xlabel("portée du traité en excès de perte $L$ (M€)", color=INK2)
 ax2.set_ylabel("coût annuel total (M€)", color=INK2)
 ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=9)
 ax2.set_title("(b)  Prime + coût du capital résiduel :\nun optimum intérieur",
-              fontsize=11, color=INK, pad=8)
+              fontsize=9.5, color=INK, pad=8)
 for s_ in ("top", "right"):
     ax2.spines[s_].set_visible(False)
 
@@ -338,24 +338,22 @@ ax3.text(1, c_ + 3 * _pas, f"{c_/c0_-1:+.0%}", ha="center", fontsize=10,
          color=ACCENT, fontweight="bold")
 ax3.set_ylim(0, c0_ * 1.28)          # de la place pour les deux etiquettes empilees
 ax3.set_xticks([0, 1])
-ax3.set_xticklabels(["tout détenir", f"traité optimal\n$L^*={grid[i]:,.0f}$ M€"], fontsize=9)
+ax3.set_ylim(0, max(c0_, c_) * 1.45)
+ax3.set_xticklabels(["tout détenir", f"traité optimal\n$L^*={grid[i]:,.0f}$ M€"], fontsize=8)
 ax3.set_ylabel("coût annuel (M€)", color=INK2)
 # legende en HAUT A DROITE : la barre de gauche monte jusqu'au sommet de l'axe, la
 # legende y recouvrait son etiquette de valeur.
 ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5, loc="upper right")
-ax3.set_title("(c)  Ce que le dimensionnement fait gagner", fontsize=11, color=INK, pad=8)
+ax3.set_title("(c)  Ce que le dimensionnement fait gagner", fontsize=9.5, color=INK, pad=8)
 for s_ in ("top", "right"):
     ax3.spines[s_].set_visible(False)
 
-fig.suptitle("S19 : détenir ou transférer, le SCR confronté au prix de marché du risque",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
 # titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
 # figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
 # reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
 _top = 1.0 - 0.26 / fig.get_figheight()
-fig.suptitle_y = _top
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "S19_detenir_ou_transferer.png")

@@ -260,8 +260,6 @@ axB.set_title("(B)  La photo : perte unique dominante en queue ;\nla Student for
               fontsize=9.8, color=INK, pad=6)
 axB.grid(alpha=0.25, lw=0.5, axis="y")
 
-fig.suptitle("Benchmark copule : la dependance n'est pas le mecanisme",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
 fig.tight_layout(rect=[0, 0, 1, 0.94])
 
 outdir = os.path.join(HERE, "figures")

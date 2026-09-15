@@ -305,7 +305,7 @@ mpl.rcParams.update({
 INK, INK2, MUTED = "#1b1e30", "#223e55", "#595959"
 ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(7.2, 10.1))
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(9.6, 3.4))
 
 # (a) matrice des transitions codees
 im = ax1.imshow(M, cmap="Blues", vmin=0, vmax=max(1, M.max()))
@@ -314,10 +314,10 @@ ax1.set_yticks(range(5)); ax1.set_yticklabels([f"P{j}" for j in PIL])
 for a in range(5):
     for b in range(5):
         if M[a, b] > 0:
-            ax1.text(b, a, f"{M[a,b]:.0f}", ha="center", va="center", fontsize=11,
+            ax1.text(b, a, f"{M[a,b]:.0f}", ha="center", va="center", fontsize=10,
                      color="white" if M[a, b] > M.max() * 0.6 else INK)
 ax1.set_xlabel("cible $j$", color=INK2); ax1.set_ylabel("source $k$", color=INK2)
-ax1.set_title("(a)  Transitions codées $k\\to j$\n(7 post-mortems officiels)", fontsize=11,
+ax1.set_title("(a)  Transitions codées $k\\to j$\n(7 post-mortems officiels)", fontsize=9.5,
               color=INK, pad=8)
 
 # (b) placebo
@@ -329,7 +329,7 @@ ax2.set_xlabel("asymétrie $\\|M-M^\\top\\|_1/2$", color=INK2)
 ax2.set_ylabel("fréquence (permutations)", color=INK2)
 ax2.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5)
 ax2.set_title(f"(b)  Placebo directionnel : $z={z:+.1f}$, $p={p_perm:.4f}$\n"
-              f"(OpRisk annuel : $z=-0{{,}}33$)", fontsize=11, color=INK, pad=8)
+              f"(OpRisk annuel : $z=-0{{,}}33$)", fontsize=9.5, color=INK, pad=8)
 
 # (c) sources vs puits
 xs = np.arange(5)
@@ -339,25 +339,21 @@ ax3.bar(xs + wd / 2, [inn[j] for j in PIL], width=wd, color=BLUE, alpha=0.9, lab
 ax3.set_xticks(xs); ax3.set_xticklabels([f"P{j}" for j in PIL])
 ax3.set_ylabel("nombre de transitions", color=INK2)
 ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8.5)
-ax3.annotate("jamais\nune cible", (0 + wd / 2, 0.15), textcoords="offset points", xytext=(6, 18),
+ax3.annotate("jamais\nune cible", (0 + wd / 2, 0.15), textcoords="offset points", xytext=(2, 34),
              fontsize=8, color=ACCENT, ha="left")
 ax3.set_title("(c)  P1 est source pure, P2 est puits :\nla structure du classeur, retrouvée",
-              fontsize=11, color=INK, pad=8)
+              fontsize=9.5, color=INK, pad=8)
 
 for ax in (ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z17 : la direction de $W$ identifiée par codage de post-mortems officiels,\n"
-             "là où les bases agrégées échouaient",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.995)
 # RESERVE EN POUCES, PAS EN FRACTION. Un rect a 0,90 reserve 10 % de la HAUTEUR au
 # titre : correct sur une figure large de 5 pouces de haut, deux fois trop sur une
 # figure empilee de 10 pouces, ou cela creait un bandeau blanc sous le titre. On
 # reserve donc une hauteur FIXE de 0,42 pouce, quelle que soit la taille de la figure.
 _top = 1.0 - 0.26 / fig.get_figheight()
-fig.suptitle_y = _top
-fig.tight_layout(rect=[0, 0, 1, _top], h_pad=1.6)
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z17_postmortem_direction.png")

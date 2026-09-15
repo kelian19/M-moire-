@@ -206,7 +206,7 @@ ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 # etiquette de 9 points s'imprimait a 3,2, illisible. En 2 x 2 sur 9,4 pouces la
 # reduction tombe a 1,29 et la meme etiquette sort a 7 points. La largeur de
 # PANNEAU passe de 1,8 pouce imprime a 3,6, ce qui est le vrai gain.
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(9.4, 8.2))
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(9.0, 4.3))
 
 # (a) les deux regimes cote a cote
 ax1.bar([0], [scr_exp], width=0.5, color=ACCENT, alpha=0.85)
@@ -218,7 +218,7 @@ ax1.scatter([1, 1], [lo, hi], marker="_", s=420, color=INK, zorder=6)
 ax1.set_xticks([0, 1])
 ax1.set_xticklabels(["A : $W$ posé", "B : en couches"])
 ax1.set_ylabel("SCR (VaR 99,5 %, M€)", color=INK2)
-ax1.set_title("(a)  Un point, ou un socle et des bornes", fontsize=11, color=INK, pad=8)
+ax1.set_title("(a)  Un point, ou un socle et des bornes", fontsize=10, color=INK, pad=6)
 ax1.legend(frameon=False, fontsize=8.5, loc="lower right")
 for s in ("top", "right"):
     ax1.spines[s].set_visible(False)
@@ -273,9 +273,7 @@ ax4.set_title("(d)  Ce que l'élicitation doit\ndépartager, et rien de plus", f
 for s in ("top", "right"):
     ax4.spines[s].set_visible(False)
 
-fig.suptitle("Z2 : poser $W$ ou le borner, comparés AVANT l'élicitation",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.95])
+fig.tight_layout()
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z2_comparaison_regimes.png")

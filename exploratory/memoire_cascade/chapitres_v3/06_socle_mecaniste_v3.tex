@@ -43,16 +43,10 @@ de la queue est \emph{héritée} d'un théorème, et non ajustée librement sur 
 
 \section{Estimer l'indice de queue, et savoir ce que vaut l'estimation}
 
-\noindent Chiffres de cette section : script~\texttt{47} (adéquation, couverture réelle de
-l'intervalle de confiance), \texttt{63} (calibration figée) et \texttt{67} (formes fermées de
-la VaR et de la TVaR, jusqu'ici calculées à la main).
+% SOURCES-SCRIPTS: 47 63 67
 
 \paragraph{L'estimateur de Hill.}
-Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) repose sur les statistiques d'ordre. Soit $X_{(1)} \ge X_{(2)} \ge \dots \ge X_{(n)}$ l'échantillon ordonné de manière décroissante. L'estimateur de Hill fondé sur les $k$ plus grandes observations est défini par :
-\begin{equation}
-\hat{\xi}_{Hill}(k) = \frac{1}{k} \sum_{i=1}^{k} \ln X_{(i)} - \ln X_{(k+1)}
-\end{equation}
-Bien que cet estimateur soit asymptotiquement convergent et sans biais sous la stricte condition que la distribution sous-jacente appartienne exactement au domaine d'attraction de Fréchet, il présente en pratique un biais d'échantillon fini majeur. En effet, si la composante à variation lente de la queue de distribution ne converge pas assez vite, $\hat{\xi}_{Hill}$ devient instable.
+Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) estime l'indice de queue à partir des $k$ plus grandes statistiques d'ordre, sans passer par l'ajustement d'une loi paramétrique. Asymptotiquement convergent et sans biais lorsque la loi appartient au domaine d'attraction de Fréchet, il présente en échantillon fini un biais majeur : si la composante à variation lente de la queue ne converge pas assez vite, $\hat{\xi}_{\text{Hill}}$ devient instable.
 
 \paragraph{Le Maximum de Vraisemblance (MLE).}
 Pour pallier le biais de l'estimateur de Hill hors du régime asymptotique strict, ce mémoire privilégie l'estimation par Maximum de Vraisemblance (MLE) sur les excès de la GPD. La log-vraisemblance pour un échantillon de $N_u$ excès $y_i$ au-delà du seuil $u$ s'écrit (pour $\xi \neq 0$) :
@@ -114,13 +108,14 @@ charge \emph{annuelle agrégée}, et elle vaut plusieurs milliers de millions d'
 sectorielle : l'écart avec les $663$~M\euro\ ci-dessus ne traduit aucune incohérence, il traduit
 l'agrégation. À $\lambda\simeq21{,}6$ sinistres matériels par an, atteindre le quantile annuel à
 $99{,}5\,\%$ demande un quantile \emph{par sinistre} de l'ordre de $99{,}98\,\%$, bien plus haut
-dans la queue. Le pont entre les deux échelles est chiffré au chapitre~\ref{chap:resultats} et
-imprimé par le script~\texttt{67}. Réserver $\VaR$ et $\TVaR$ à $L$, et $\qsev$ et $\qbarsev$ à
+dans la queue. Le pont entre les deux échelles est chiffré au chapitre~\ref{chap:resultats}.
+% SOURCES-SCRIPTS: 67
+Réserver $\VaR$ et $\TVaR$ à $L$, et $\qsev$ et $\qbarsev$ à
 $X$, n'est donc pas une coquetterie de notation : c'est ce qui empêche de lire une différence
 d'échelle comme une contradiction.
 \end{attention}
 
-\noindent La Proposition~\ref{soc:prop:varestvar} éclaire par ailleurs le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en \textbf{régime d'espérance infinie} : la moyenne de queue, et donc tout Expected Shortfall bâti sur elle, y est mathématiquement indéfinie. C'est ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable, et c'est aussi le premier argument contre l'usage d'une mesure de queue comme \emph{niveau de couverture} : sur l'une de nos deux sources, cette mesure n'existe pas.
+\noindent La Proposition~\ref{soc:prop:varestvar} éclaire par ailleurs le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en régime d'espérance infinie : la moyenne de queue, et donc tout Expected Shortfall bâti sur elle, y est mathématiquement indéfinie. C'est ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable, et c'est aussi le premier argument contre l'usage d'une mesure de queue comme \emph{niveau de couverture} : sur l'une de nos deux sources, cette mesure n'existe pas.
 
 %--------------------------------------------------------------
 
@@ -129,11 +124,11 @@ d'échelle comme une contradiction.
 
 \begin{attention}
 \textbf{Deux grilles coexistent dans ce chapitre, et elles ne sont pas concurrentes.} La
-première décrit \emph{comment} un incident entre : par \textbf{vecteur d'attaque} (hameçonnage,
+première décrit \emph{comment} un incident entre : par vecteur d'attaque (hameçonnage,
 exploitation de vulnérabilité, chaîne d'approvisionnement). La seconde décrit \emph{quel
-contrôle} a cédé : par \textbf{pilier} DORA. Un vecteur n'est pas un pilier, et il serait faux
+contrôle} a cédé : par pilier DORA. Un vecteur n'est pas un pilier, et il serait faux
 de les apparier terme à terme. Leur articulation est de type \emph{entrée puis propagation} :
-le vecteur gouverne l'\textbf{amorce}, c'est-à-dire la fréquence d'arrivée d'un sinistre et le
+le vecteur gouverne l'amorce, c'est-à-dire la fréquence d'arrivée d'un sinistre et le
 pilier sur lequel il tombe ; la cascade du chapitre~\ref{chap:cascade} gouverne ensuite la
 \textbf{propagation} entre piliers. Le présent chapitre calibre donc l'amorce et rien d'autre.
 La grille par vecteur ne réapparaît plus après lui, et aucun résultat de capital ne dépend de
@@ -143,8 +138,9 @@ son appariement à un pilier.
 \section{La brique de fréquence}
 
 \paragraph{Décomposition par vecteur d'attaque.} Une fréquence de référence
-$\lambda_{ref}$, lue sur le périmètre \textbf{financier} de la base PRC
-($\lambda_{ref} = 341$ notifications/an ; script~\texttt{62}), est décomposée en
+$\lambda_{ref}$, lue sur le périmètre financier de la base PRC
+($\lambda_{ref} = 341$ notifications/an), est décomposée en
+% SOURCES-SCRIPTS: 62
 sous-fréquences par vecteur d'attaque,
 pondérées par la structure observée dans la base Hackmageddon :
 \begin{equation}
@@ -205,7 +201,7 @@ vaut $1+\lambda/r$, donc il croît avec le niveau de fréquence auquel on le lit
 $14\,944$ cellules firme-année du panel, où la fréquence moyenne est de l'ordre de quatre
 centièmes d'incident par cellule, on mesure $\Var/\E=1{,}19$. Sur la série annuelle sectorielle
 détendancée, où $\lambda$ vaut $21{,}6$, on mesure $2{,}24$. Le moteur, lui, retient $9{,}20$,
-qui est un \textbf{choix de prudence posé} et non une mesure. Une échelle de lecture, une
+qui est un choix de prudence posé et non une mesure. Une échelle de lecture, une
 agrégation de cellules corrélées, puis une marge prudentielle assumée : les trois écarts
 s'expliquent l'un après l'autre, et aucun ne contredit les autres.
 Le modèle porte, à trois échelles distinctes, trois mesures de surdispersion qu'il faut
@@ -232,17 +228,13 @@ commun, la dispersion de Pearson résiduelle vaut $\varphi=2{,}24$
 (IC~$95\,\%$ $[1{,}24\,;5{,}18]$, dix-huit points seulement), soit une charge empirique
 $a=0{,}122$ (IC~$95\,\%$ $[0{,}054\,;0{,}223]$). La valeur posée $a=0{,}60$ dépasse donc la
 \textbf{borne haute} de cet intervalle, et le $\varphi=9{,}20$ retenu au niveau du moteur
-dépasse de loin le $2{,}24$ mesuré : l'un comme l'autre sont un \textbf{choix de prudence sur
-la queue de fréquence, non une calibration}, à assumer comme tel. La conclusion
+dépasse de loin le $2{,}24$ mesuré : l'un comme l'autre sont un choix de prudence sur
+la queue de fréquence, non une calibration, à assumer comme tel. La conclusion
 \og{}le calage posé est conservateur\fg{} résiste ainsi à l'incertitude d'estimation, ce qui
-est la seule chose que dix-huit points autorisent à affirmer. La dispersion mesurée sur les cellules firme-année vient du script~\texttt{47}~;
-la dispersion résiduelle annuelle et son
-intervalle sont produits par le script~\texttt{08b}, les parts par vecteur d'attaque par le
-script~\texttt{67}, qui les imprime en pourcentage autant qu'en fraction. Le quantile du
-nombre annuel sous les trois lois de mélange et la charge systémique équivalente sont produits
-par le script~\texttt{41}.
+est la seule chose que dix-huit points autorisent à affirmer.
+% SOURCES-SCRIPTS: 47 08b 67 41
 
-\subsection{La dynamique du facteur systémique, et pourquoi il faut deux échelles d'aléa}
+\subsection{La dynamique du facteur systémique et la nécessité de deux échelles d'aléa}
 \label{sec:dynamique-Y}
 
 Le facteur commun $Y_{j,t}$ a été posé centré et réduit sans que sa \emph{dynamique} soit
@@ -254,18 +246,20 @@ tombent \emph{ensemble}, ce qui est l'objet même de ce mémoire.
 Un système d'information subit en permanence un grand nombre de petites atteintes dont aucune
 ne déplace seule un état de conformité : la somme normalisée de ces contributions converge, par
 le théorème central limite sous la condition de Lindeberg, vers une gaussienne, et son
-accumulation en temps continu est donc un \textbf{mouvement brownien}. Ce n'est pas un choix de
-commodité, c'est la limite imposée par la structure de l'aléa. À l'autre extrémité se trouvent
+accumulation en temps continu est donc un mouvement brownien. Cette forme est imposée par la
+structure de l'aléa. À l'autre extrémité se trouvent
 les campagnes qui touchent simultanément de nombreuses entités par une vulnérabilité partagée,
-et la condition de Lindeberg y échoue précisément parce qu'\textbf{un seul événement domine la
-somme de l'année} : un brownien ne peut pas les représenter, ses accroissements étant sans
-atome. Elles demandent une composante de \textbf{sauts}. On pourrait objecter qu'une gaussienne
+et la condition de Lindeberg y échoue précisément parce qu'un seul événement domine la
+somme de l'année : un brownien ne peut pas les représenter, ses accroissements étant sans
+atome. Elles demandent une composante de sauts. On pourrait objecter qu'une gaussienne
 de variance suffisante engloberait les deux régimes ; la donnée l'interdit de façon mesurable,
 puisqu'un facteur purement brownien impose un indice de dispersion égal à $1$ quand on mesure
-$1{,}19$ sur les cellules firme-année (script~\texttt{47}) et $2{,}24$ sur la série annuelle
-détendancée (script~\texttt{08b}). La seconde
-échelle n'est donc pas ajoutée pour enrichir le modèle, elle est \textbf{identifiée par la
-surdispersion}.
+$1{,}19$ sur les cellules firme-année et $2{,}24$ sur la série annuelle
+% SOURCES-SCRIPTS: 47
+détendancée. La seconde
+% SOURCES-SCRIPTS: 08b
+échelle n'est donc pas ajoutée pour enrichir le modèle, elle est identifiée par la
+surdispersion.
 
 \paragraph{L'écriture, et le paramètre interprétable qu'elle fait apparaître.}
 Pour chaque pilier,
@@ -298,7 +292,8 @@ il ne subit que des campagnes.
 \textbf{aucune probabilité marginale, donc aucun capital publié} : le probit ne voit
 $Y_{j,t}$ qu'à travers sa loi centrée réduite, et la normalisation \eqref{eq:norm-Y} impose
 $\E[Y_{j,t}]=0$ et $\Var[Y_{j,t}]=1$ par construction, de sorte que l'incidence de fond reste
-$\Phi(-1{,}7)$, valeur imprimée par le script~\texttt{03}. Elle change la \textbf{dépendance de
+$\Phi(-1{,}7)$. Elle change la \textbf{dépendance de
+% SOURCES-SCRIPTS: 03
 queue}, et c'est tout son objet : le
 coefficient de dépendance de queue supérieure d'une gaussienne de corrélation $r<1$ est
 \emph{nul}, celui d'un mélange à choc commun est strictement positif. Et elle ne dégrade pas le
@@ -307,8 +302,8 @@ co-occurrence, donc dans la partie symétrique de la matrice de propagation, et 
 partie antisymétrique qui reste bornée.
 \end{cle}
 
-\paragraph{L'hypothèse retenue, déclarée plutôt que supposée.} On publie la \textbf{forme à
-renouvellement}, $\kappa_j\to\infty$, où le facteur est l'accroissement normalisé de la période
+\paragraph{L'hypothèse retenue, déclarée plutôt que supposée.} On publie la forme à
+renouvellement, $\kappa_j\to\infty$, où le facteur est l'accroissement normalisé de la période
 sans mémoire d'un exercice à l'autre. Cela revient à poser $\theta_j=\kappa_j\times$ (durée
 d'une grappe) $=\infty$, donc à supposer que le regroupement intra-annuel n'a aucun effet, et
 cette hypothèse doit être écrite plutôt que laissée au lecteur. Trois motifs la soutiennent, et
@@ -324,10 +319,12 @@ faire, pas s'il faut le faire.
 \begin{attention}
 \textbf{Le regroupement est réel, mesuré, et il ne mesure pas ce qu'on croit.} La charge
 journalière du secteur financier a un indice de Gini de $0{,}69$ et une vague de mai 2023 porte
-$191$ victimes en cinq jours (script~\texttt{08g}) ; l'excitation lue sur les dates au jour est
-intra-journalière, avec un pic à $3{,}3$~heures (script~\texttt{08h}). Mais ces $191$ victimes
+$191$ victimes en cinq jours ; l'excitation lue sur les dates au jour est
+% SOURCES-SCRIPTS: 08g
+intra-journalière, avec un pic à $3{,}3$~heures. Mais ces $191$ victimes
+% SOURCES-SCRIPTS: 08h
 sont $191$ \emph{entités distinctes} atteintes par une cause commune, non une entité subissant
-$191$ sinistres : ce que le Gini mesure est de la dépendance \textbf{en coupe}, pas une
+$191$ sinistres : ce que le Gini mesure est de la dépendance en coupe, pas une
 accumulation intra-annuelle pour une entité donnée. Or le besoin de capital calculé est celui
 d'une entité, et à cette échelle la question est presque vide puisque la quasi-totalité des
 années y sont sans aucun incident matériel. Le regroupement observé est un phénomène de
@@ -339,7 +336,8 @@ années y sont sans aucun incident matériel. Le regroupement observé est un ph
 \caption{La loi de comptage négative binomiale, simulée et réconciliée. (a)~à moyenne égale,
 la queue du nombre annuel diffère selon la loi de mélange. (b)~la charge lognormale $a$ et le
 facteur $\varphi$ tracent la même surdispersion agrégée ; les deux valeurs posées quasi
-coïncident. (c)~le comptage déplace la VaR, pas la moyenne. Source : script~\texttt{41}.}
+coïncident. (c)~le comptage déplace la VaR, pas la moyenne.}
+% SOURCES-SCRIPTS: 41
 \label{soc:fig:nb}
 \end{figure}
 
@@ -362,9 +360,7 @@ $\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
 \section{La brique de sévérité, calibrée sur OpRisk}
 \label{soc:sec:severite}
 
-\noindent Chiffres de cette section : scripts~\texttt{07} (marge de sévérité) et
-\texttt{47} (validation), \texttt{63} (calibration figée) et \texttt{67} (concentration de la
-queue sur la population calibrée).
+% SOURCES-SCRIPTS: 07 47 63 67
 
 \paragraph{Choix de la loi de Pareto généralisée.} La sévérité des sinistres
 cyber présente une signature de queue lourde documentée au chapitre~\ref{chap:donnees} : sur
@@ -384,7 +380,7 @@ seuil $u$, selon l'approche \emph{peaks-over-threshold}.
 \qquad
 \qsev_{99{,}5\%}(X) = 663~\text{M\euro}.
 \end{equation}
-Le dernier terme est un quantile de \textbf{sévérité}, c'est-à-dire le montant d'\emph{un}
+Le dernier terme est un quantile de sévérité, c'est-à-dire le montant d'\emph{un}
 sinistre, et non un besoin de capital. L'intervalle de confiance bootstrap qui l'entoure,
 $[411\,;\,1037]$~M\euro, matérialise à lui seul un facteur~2{,}5 entre les bornes, uniquement
 imputable à l'incertitude de paramètre.
@@ -394,7 +390,7 @@ s'appuie sur deux diagnostics, à condition de ne leur faire dire ni plus ni aut
 qu'ils disent. Le \emph{diagnostic GPD} (figure~\ref{soc:fig:diagnostic-gpd}) établit un point,
 et un seul : le seuil retenu se situe à la frontière où le paramètre de forme quitte la zone
 instable ($\xi \geq 1$, où l'espérance n'existe pas) pour un régime de moments finis, tout en
-conservant assez d'excès pour estimer ($n = 91 > 30$). C'est un argument de \textbf{voisinage},
+conservant assez d'excès pour estimer ($n = 91 > 30$). C'est un argument de voisinage,
 et il ne s'étend pas à toute la plage : en portant le seuil au percentile $90$ puis au percentile
 $95$ des données, l'indice descend de $0{,}60$ à $0{,}53$ puis $0{,}38$. Écrire que
 $\hat\xi$ est \emph{stable} quand on fait varier le seuil serait donc inexact ; ce qui est
@@ -430,8 +426,6 @@ que la calibration retenue produit elle-même : l'écart est ce qu'il devrait ê
 donnée corrobore la calibration par un chemin indépendant des tests d'adéquation. Le
 protocole et les six valeurs sont dans la version longue de ce mémoire.
 
-\noindent Sources : scripts~\texttt{47}, \texttt{63} et~\texttt{67}.
-
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/hill_plot_ic90_oprisk.png}
@@ -463,7 +457,7 @@ lit dans celle qui est déjà déclarée. En descendant au contraire sous le seu
 remonte jusqu'à $0{,}98$ et sort de cet intervalle par le haut, ce qui est le biais de seuil
 attendu lorsqu'on ajuste une loi de queue à des pertes qui n'y appartiennent pas encore, et ce
 qui justifie de ne pas descendre plus bas. Les tests formels
-ne rejettent pas l'ajustement, avec une $p$-value obtenue par \textbf{bootstrap paramétrique}
+ne rejettent pas l'ajustement, avec une $p$-value obtenue par bootstrap paramétrique
 les valeurs critiques tabulées ne valant pas lorsque les paramètres sont estimés :
 Anderson-Darling $p=0{,}96$, Kolmogorov-Smirnov $p=0{,}89$. Ces deux tests portent sur la
 \emph{famille} GPD, paramètres réajustés à chaque tirage. On teste séparément le couple
@@ -471,10 +465,10 @@ $(\hat\xi,\hat\sigma)$ \emph{effectivement publié}, paramètres imposés, seule
 le chiffre plutôt que le choix de loi : Anderson-Darling $p=0{,}99$, Kolmogorov-Smirnov
 $p=0{,}89$, sans rejet non plus. Le seuil retenu ne porte pas la conclusion : au percentile
 $85$ des données plutôt qu'au seuil publié, $\hat\xi$ ne bouge que de $0{,}5\,\%$. Enfin,
-la \textbf{couverture réelle}
+la couverture réelle
 de l'intervalle de confiance à $90\,\%$ de $\xi$, mesurée par simulation à $n$ fini, vaut
 $86\,\%$. Le mot juste n'est pas \og{}proche du nominal\fg{} : un intervalle annoncé à
-$90\,\%$ qui n'en couvre que $86$ est \textbf{trop étroit}, donc l'incertitude reportée sur
+$90\,\%$ qui n'en couvre que $86$ est trop étroit, donc l'incertitude reportée sur
 $\xi$ est sous-estimée et non l'inverse. Sous l'approximation normale, atteindre le nominal
 demanderait d'élargir la demi-largeur d'environ $10\,\%$. L'écart est petit, mais son sens
 compte, et il rejoint celui du taux de dépassement gelé au \S\ref{sec:pu-coherence} ainsi que
@@ -490,12 +484,12 @@ artefact, et la NB épouse la queue des comptes là où le Poisson s'effondre.
 
 \begin{figure}[htbp]\centering
 \figover{J3_validation_adequation.png}
-\caption{Validation du socle. \textbf{(a-b)} QQ-plot et PP-plot de la sévérité contre la GPD
-ajustée. \textbf{(c)} vie résiduelle moyenne, linéaire au-delà de $u$. \textbf{(d)} stabilité
-de $\hat\xi$ au seuil. \textbf{(e)} test d'Anderson-Darling, loi nulle par bootstrap
-paramétrique et statistique observée ($p=0{,}96$). \textbf{(f)} adéquation de la fréquence :
-la NB colle aux comptes firme-année, le Poisson rate la queue. Sources : scripts~\texttt{47}
-et~\texttt{93} (règles de sélection du seuil).}
+\caption{Validation du socle. (a-b) QQ-plot et PP-plot de la sévérité contre la GPD
+ajustée. (c) vie résiduelle moyenne, linéaire au-delà de $u$. (d) stabilité
+de $\hat\xi$ au seuil. (e) test d'Anderson-Darling, loi nulle par bootstrap
+paramétrique et statistique observée ($p=0{,}96$). (f) adéquation de la fréquence :
+la NB colle aux comptes firme-année, le Poisson rate la queue.}
+% SOURCES-SCRIPTS: 47 93
 \label{soc:fig:validation}
 \end{figure}
 
@@ -566,7 +560,7 @@ donne douze années notées hors échantillon. Deux précautions en conditionnen
 fenêtre est choisie sur la donnée et non par commodité : avant $2004$ la base porte de un à neuf
 incidents par an contre treize à trente-neuf ensuite, et l'année $2026$ n'en porte que cinq, si
 bien qu'une fenêtre plus large fabriquerait un faux régime calme au début et un faux
-effondrement à la fin. Et le seuil est \textbf{ré-estimé} sur chaque échantillon d'apprentissage
+effondrement à la fin. Et le seuil est ré-estimé sur chaque échantillon d'apprentissage
 par la règle du percentile $85$, plutôt que lu dans la calibration figée : un seuil calculé sur
 toute la période ferait passer l'information de test dans l'apprentissage, et le test cesserait
 de mesurer quoi que ce soit.
@@ -577,7 +571,7 @@ dispersion de $2{,}39$, sans tendance significative ($-0{,}092$ incident par an,
 une loi sans mémoire n'est donc pas mal spécifiée sur ce point. Sur les douze années notées, un
 intervalle de prévision annoncé à $90\,\%$ en couvre $91{,}7\,\%$ sous la binomiale négative
 contre $75{,}0\,\%$ sous le Poisson. La couverture ne suffit pourtant pas à trancher, un
-intervalle inutilement large pouvant couvrir sans rien valoir. Le \textbf{log-score prédictif}
+intervalle inutilement large pouvant couvrir sans rien valoir. Le log-score prédictif
 cumulé, qui pénalise la largeur autant que l'étroitesse, désigne le même gagnant :
 $-41{,}334$ contre $-44{,}388$, soit $3{,}054$ nats sur douze années. Le paramètre
 supplémentaire de la binomiale négative est donc gagné hors échantillon, et la surdispersion
@@ -620,7 +614,7 @@ L'échelle est ensuite rendue non stationnaire, $\sigma_t = \sigma\,e^{\,b\,(t-t
 dérive de la queue vaut alors $4{,}00\,\%$ par an, d'écart-type $1{,}84\,\%$, et le rapport de
 vraisemblance la déclare significative ($4{,}28$, $p=0{,}0386$). Le quantile évalué en fin de
 période passe à $819{,}40$~M\euro, soit $162$~M\euro{} et $24{,}7\,\%$ de plus. Cet écart est une
-borne \textbf{basse} : le taux de dépassement est tenu commun aux deux branches, alors qu'une
+borne basse : le taux de dépassement est tenu commun aux deux branches, alors qu'une
 échelle qui monte fait aussi monter le nombre d'excès au-dessus d'un seuil fixe.
 
 \paragraph{Mais la dérive n'est pas la même selon l'endroit de la distribution, ce qui modère le
@@ -665,8 +659,8 @@ simulation de $731$~M\euro, donc un déplacement non résolu. Il serait pourtant
 que l'écart est robuste à la sévérité : la composante de forme seule le ramènerait à
 $9\,393$~M\euro{} et celle d'échelle seule le porterait à $20\,041$. L'écart est donc très
 sensible à la sévérité prise \emph{composante par composante}, et presque insensible à la seule
-combinaison que la dérive produit. Ce qui survit sans réserve est le \textbf{signe} et
-l'\textbf{ordre}, avec une marge large, et la direction est favorable : sous la sévérité dérivée
+combinaison que la dérive produit. Ce qui survit sans réserve est le signe et
+l'ordre, avec une marge large, et la direction est favorable : sous la sévérité dérivée
 l'écart comme le facteur sont plus \emph{petits}, donc le chiffre publié n'est pas gonflé par la
 dérive. La structure est celle du taux de dépassement gelé, un même défaut rendant le niveau
 anti-conservateur et la thèse légèrement prudente, et seul le premier engage la solvabilité.
@@ -690,7 +684,7 @@ qu'elle s'accumule. C'est ce que la mesure donne : la transformée intégrale va
 six premières années notées contre $0{,}857$ sur les six dernières, un écart que le test de
 Mann-Whitney situe à $p = 0{,}0130$. La charge observée passe en moyenne de $363$ à
 $1\,255$~M\euro{} entre les deux moitiés, quand la médiane prédictive ne passe que de $183$ à
-$248$. \textbf{Aucune limite nouvelle ne s'ajoute donc à l'inventaire} du
+$248$. Aucune limite nouvelle ne s'ajoute donc à l'inventaire du
 chapitre~\ref{ch:robustesse} : la même s'y lit plus fort, l'agrégat cumulant la dérive de
 l'échelle et celle du taux de dépassement quand chaque marginale n'en portait qu'une.
 
@@ -723,7 +717,7 @@ queue sous la calibration PRC.
 \textbf{Ce que ce dispositif ne peut pas tester, dit en années plutôt qu'en précaution de style.}
 Détecter un taux de dépassement \emph{double} du nominal avec une puissance de $80\,\%$
 demanderait $1\,811$ années au niveau de $99{,}5\,\%$, $905$ à $99\,\%$, et $78$ même à
-$90\,\%$. Le quantile qui porte le capital n'est donc backtestable sur \textbf{aucun} historique
+$90\,\%$. Le quantile qui porte le capital n'est donc backtestable sur aucun historique
 de risque opérationnel existant, et sur douze années le test ne renseigne que le centre et le
 corps de la loi de l'agrégat. Le niveau de capital reste adossé à l'ajustement paramétrique,
 dont la queue est corroborée par trois chemins indépendants et bornée par l'intervalle de
@@ -736,15 +730,16 @@ validation.
 \textbf{Ce que le backtest établit, et il y a un seul défaut derrière trois symptômes.} La loi de
 fréquence est validée hors échantillon, sur deux critères dont un que la largeur n'achète pas. La
 forme de la queue survit au test de probabilité intégrale. L'indépendance entre fréquence et
-sévérité tient sur la population que le modèle tire. \textbf{Un seul mécanisme est en défaut,
-l'échelle de la sévérité, qui dérive de $4{,}00\,\%$ par an dans la queue}, et les trois symptômes
+sévérité tient sur la population que le modèle tire. Un seul mécanisme est en défaut,
+l'échelle de la sévérité, qui dérive de $4{,}00\,\%$ par an dans la queue, et les trois symptômes
 qui restent en découlent : les quantiles de sévérité dépassés trois fois trop souvent, la charge
 agrégée rejetée, et un quantile publié anti-conservateur d'au moins $24{,}7\,\%$. La valeur reste
 gelée et l'écart est inscrit au registre des limites (\S\ref{sec:pu-coherence}), du même
-traitement que le taux de dépassement. \textbf{Sur la thèse, la formule à retenir est
-l'invariance d'échelle et non l'invariance à la dérive} : le facteur entre états ne bouge pas
+traitement que le taux de dépassement. Sur la thèse, la formule à retenir est
+l'invariance d'échelle et non l'invariance à la dérive : le facteur entre états ne bouge pas
 d'une variation d'échelle, mais il baisse de $6{,}6\,\%$ sous la sévérité dérivée, dont la forme
-est plus légère. Sources : scripts~\texttt{89}, \texttt{90} et~\texttt{91}.
+est plus légère.
+% SOURCES-SCRIPTS: 89 90 91
 \end{cle}
 
 %--------------------------------------------------------------

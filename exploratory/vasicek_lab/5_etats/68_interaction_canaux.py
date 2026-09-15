@@ -382,7 +382,7 @@ fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10.66, 3.55),
                                     gridspec_kw={"width_ratios": [1.05, 1.0, 1.15]})
 
 # (a) reconciliation en cascade
-lab_a = ["conforme", "ordre 1\n(4 canaux)", "ordre 2\n(6 paires)", "ordre 3\n(4 triplets)",
+lab_a = ["conforme", "ordre 1", "ordre 2", "ordre 3",
          "ordre 4", "non\nconforme"]
 ax1.bar(0, scr_C, color=GREEN, alpha=0.9, width=0.62)
 ax1.text(0, scr_C + 350, f"{scr_C:.0f}", ha="center", fontsize=8.5, color=GREEN)
@@ -402,7 +402,7 @@ for k, o in enumerate(range(1, N + 1), start=1):
 ax1.bar(5, scr_NC, color=ACCENT, alpha=0.9, width=0.62)
 ax1.text(5, scr_NC + 350, f"{scr_NC:.0f}", ha="center", fontsize=8.5, color=ACCENT)
 ax1.set_xticks(range(6))
-ax1.set_xticklabels(lab_a, fontsize=8)
+ax1.set_xticklabels(lab_a, fontsize=7.5, rotation=18, ha="right")
 ax1.set_ylabel("SCR (VaR 99,5 %, M€)", color=INK2)
 ax1.set_ylim(0, scr_NC * 1.24)
 ax1.set_title("(a)  La table boucle : les quinze termes\nsomment à l'écart, exactement",
@@ -411,9 +411,9 @@ ax1.set_title("(a)  La table boucle : les quinze termes\nsomment à l'écart, ex
 # (b) trois lectures d'un meme canal
 y = np.arange(N)[::-1]
 h = 0.26
-ax2.barh(y + h, iso, height=h, color=MUTED, alpha=0.9, label="isolé (depuis conforme)")
-ax2.barh(y, phi, height=h, color=BLUE, alpha=0.85, label="Shapley (somme au total)")
-ax2.barh(y - h, ferm, height=h, color=ACCENT, alpha=0.85, label="fermeture (depuis non conforme)")
+ax2.barh(y + h, iso, height=h, color=MUTED, alpha=0.9, label="isolé")
+ax2.barh(y, phi, height=h, color=BLUE, alpha=0.85, label="Shapley")
+ax2.barh(y - h, ferm, height=h, color=ACCENT, alpha=0.85, label="fermeture")
 # LES TROIS BARRES SONT CHIFFREES, PAS UNE SEULE. Le propos du panneau est que les trois
 # lectures diffèrent : n'en etiqueter qu'une laisse le lecteur estimer l'ecart a l'oeil.
 for k in range(N):
@@ -423,6 +423,7 @@ ax2.set_yticks(y)
 ax2.set_yticklabels([f"{AFFICHE[i]}\n({CANAUX[i][2]})" for i in range(N)], fontsize=8.5)
 ax2.set_xlabel("capital en jeu (M€)", color=INK2)
 ax2.set_xlim(0, max(ferm) * 1.30)
+ax2.set_xlim(0, ax2.get_xlim()[1] * 1.28)
 ax2.legend(fontsize=7.4, loc="lower right", frameon=True, framealpha=0.92,
            edgecolor="#dcdcdc")
 ax2.set_title("(b)  Trois lectures d'un même canal,\net elles ne sont pas interchangeables",
@@ -442,10 +443,10 @@ for k, i in enumerate(o2):
 ax3.axvline(0, color=INK2, lw=0.8)
 ax3.set_yticks(yc)
 ax3.set_yticklabels(lab_c, fontsize=8.5)
-ax3.set_xlabel("effet croisé d'ordre 2 (M€), barre = écart-type de simulation", color=INK2)
+ax3.set_xlabel("effet croisé d'ordre 2 (M€)", color=INK2)
 lo, hi = min(val_p) - max(sig_p), max(val_p) + max(sig_p)
 ax3.set_xlim(lo - 0.22 * (hi - lo), hi + 0.30 * (hi - lo))
-ax3.set_title("(c)  Où vit l'interaction : les trois paires porteuses\npassent par la fréquence, "
+ax3.set_title("(c)  Où vit l'interaction : trois paires\npassent par la fréquence, "
               "une seule paire est négative",
               fontsize=10.5, color=INK, pad=8)
 
@@ -456,12 +457,9 @@ for ax in (ax1, ax2, ax3):
 # LE SEPARATEUR DE MILLIERS SE POSE SUR LE NOMBRE, PAS SUR LA PHRASE. Un .replace pose
 # sur la chaine entiere avait mange la virgule du titre : deuxieme fois dans ce script.
 _mille = f"{inter_tot:,.0f}".replace(",", " ")
-fig.suptitle("S24 : la table complète des quatre canaux, et où vivent les "
-             f"{_mille} M€ d'interaction",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "S24_interaction_canaux.png")
-fig.savefig(path, dpi=200)
+fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)
