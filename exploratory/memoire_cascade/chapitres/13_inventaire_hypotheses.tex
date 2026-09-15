@@ -102,8 +102,9 @@ multi-piliers domine celle qui pèse sur l'\emph{écart}, sans jamais en renvers
 L'incertitude sur le SCR ne se réduit pas au paramètre. Elle se répartit sur trois étages, qu'il
 faut nommer plutôt que confondre (figure~\ref{fig:bande-modele}). Le premier est l'incertitude
 de \textbf{paramètre} : l'intervalle de confiance de $\xi$ à lui seul dilate la VaR d'un facteur
-$2{,}5$ (calibration figée, script~\texttt{63} ; le bootstrap du script~\texttt{46} le retrouve
-à la précision près). Le deuxième est l'incertitude d'\textbf{identification} :
+$2{,}5$ sur la calibration figée, valeur que le bootstrap retrouve à la précision près.
+% SOURCES-SCRIPTS: 63 46
+Le deuxième est l'incertitude d'\textbf{identification} :
 la direction de $W$ n'étant pas identifiable, la contagion se lit en bande
 (chapitre~\ref{chap:partielle}). Le troisième, le plus souvent passé sous silence, est
 l'incertitude de \textbf{modèle} : le choix de la \emph{famille} elle-même.
@@ -128,7 +129,8 @@ $[5{,}3\,;9{,}8]$ Md\euro. \textbf{(b)}~axe famille de queue : la queue lourde d
 l'incertitude ($\times 5{,}5$). \textbf{(c)}~les trois étages (paramètre, identification,
 modèle) tels que le script les cumule ; la bande \emph{reportée} par le mémoire n'en retient que
 les deux premiers, le troisième étant publié comme axe de sensibilité
-(\S\ref{sec:etage-modele-hors-bande}). Source : script~\texttt{48}.}
+(\S\ref{sec:etage-modele-hors-bande}).}
+% SOURCES-SCRIPTS: 48
 \label{fig:bande-modele}
 \end{figure}
 
@@ -147,7 +149,8 @@ les deux autres vivent sur la \emph{charge annuelle agrégée}. Les rapprocher t
 comparerait deux échelles, ce qui est précisément l'erreur que ce mémoire s'interdit ailleurs.
 Porté sur l'agrégat, l'intervalle bootstrap de $\xi$ donne $[3\,042\,;\,27\,152]$~M\euro, soit un
 facteur $8{,}93$ : le quantile annuel \textbf{amplifie} l'incertitude de paramètre, et le facteur
-$2{,}5$ ne mesure donc pas ce que le paramètre fait au \emph{capital} (script~\texttt{71}).
+$2{,}5$ ne mesure donc pas ce que le paramètre fait au \emph{capital}.
+% SOURCES-SCRIPTS: 71
 
 \begin{center}\footnotesize
 \renewcommand{\arraystretch}{1.25}
@@ -230,7 +233,8 @@ peut en tirer. Le rejet lui-même ne repose que sur le test du présent travail.
 
 \paragraph{Ce que ce test établit réellement : une équivalence observationnelle, et c'est plus
 fort qu'un rejet.} Le mot \og rejet \fg{} suppose que la donnée départage les deux modèles. Elle
-ne les départage pas, et le mesurer valait mieux que de l'espérer (script~\texttt{85}).
+ne les départage pas, et le mesurer valait mieux que de l'espérer.
+% SOURCES-SCRIPTS: 85
 
 L'argument se pose d'abord \emph{sans} rien simuler. Si chaque pilier touché est un événement
 enregistrable, la fraction d'événements qui sont des \emph{enfants} vaut
@@ -374,7 +378,8 @@ en profil et en bande.}
 borne haute. \textbf{(b)}~l'échelle des postures, du point ($657$) au pire-cas de modèle
 ($1\,331$~M\euro), \textbf{chacune avec son écart-type de simulation}. Les deux extrémités n'en
 portent aucun, étant déterministes ; la barre la plus longue est celle de $\beta=99\,\%$, la
-posture la plus prudente et la moins précise. Source : script~\texttt{51}.}
+posture la plus prudente et la moins précise.}
+% SOURCES-SCRIPTS: 51
 \label{fig:robuste}
 \end{figure}
 
@@ -389,9 +394,7 @@ SCR se cite avec sa bande, ou par un point qui assume l'incertitude, jamais nu.
 \subsection*{La posture retenue, et les trois raisons de ce choix}
 \label{sec:posture-retenue}
 
-\noindent Chiffres de cette sous-section : scripts~\texttt{46} (VaR prédictive et sa précision),
-\texttt{51} (échelle des six postures et bruit de simulation de chacune) et~\texttt{63}
-(intervalle publié de la calibration figée).
+% SOURCES-SCRIPTS: 46 51 63
 
 \paragraph{Un fait qui rend le choix moins tranché qu'il n'y paraît : la robuste à
 $\beta=95\,\%$ \emph{est} la borne haute de l'intervalle déjà publié.} La robuste au niveau
@@ -546,7 +549,8 @@ le rapport des effets sur les deux états valant $0{,}9984$ pour des niveaux qui
 $46\,\%$. Elle est \emph{fausse} pour un changement de \emph{forme} de queue, qui déplace le
 facteur de $-6{,}1\,\%$, et la dérive mesurée en contient un. La formule juste est donc
 l'\textbf{invariance d'échelle}, qui vaut pour toute amplitude, et non l'invariance à la dérive,
-qui ne vaut pas. Source : script~\texttt{90}.
+qui ne vaut pas.
+% SOURCES-SCRIPTS: 90
 
 \vspace{2pt}
 \noindent \textbf{Une limite du dispositif de validation, distincte des limites du modèle.} La
@@ -558,7 +562,8 @@ dépassement double du nominal avec une puissance de $80\,\%$ demanderait $1\,81
 niveau de $99{,}5\,\%$. \textbf{Le quantile qui porte le capital n'est donc backtestable sur aucun
 historique de risque opérationnel existant}, et ce que le backtest valide est le centre et le
 corps de la loi. Le niveau reste adossé à l'ajustement paramétrique et borné par l'intervalle de
-$\xi$. Source : script~\texttt{91} (\S\ref{soc:sec:backtest}).
+$\xi$. Le détail figure au \S\ref{soc:sec:backtest}.
+% SOURCES-SCRIPTS: 91
 
 \paragraph{Les deux lignes de périmètre sont d'une autre nature, et vont en sens contraire.} Ce ne
 sont ni des défauts d'estimation ni des choix de prudence, mais les deux bornes du périmètre, et
@@ -629,7 +634,8 @@ couper en deux. Pour la plus grande, le besoin ne demande que $0{,}095\,\%$, loi
 plafond discutable. \textbf{La borne inférieure de validité se dérive donc d'une hypothèse
 économique} et non plus d'une propriété de la descente d'échelle : quelle fraction de son bilan
 un assureur peut-il perdre sur un seul sinistre informatique. La question se débat en une phrase,
-ce qui n'était pas le cas de l'argument qu'elle remplace. Source : script~\texttt{78}.
+ce qui n'était pas le cas de l'argument qu'elle remplace.
+% SOURCES-SCRIPTS: 78
 
 \begin{attention}
 \textbf{Un mécanisme découvert en le mesurant, et qui interdit un raccourci.} On attendait que

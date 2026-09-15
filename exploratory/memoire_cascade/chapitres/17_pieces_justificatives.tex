@@ -407,7 +407,7 @@ mesure, et c'est une hypothèse à assumer plutôt qu'un ancrage.
 \section{La CTE au niveau agrégé, et à quel niveau elle égale la VaR réglementaire}
 \label{sec:ann-cte}
 
-\noindent Chiffres de cette section : script~\texttt{73}.
+% SOURCES-SCRIPTS: 73
 
 Le chapitre~\ref{chap:resultats} établit que la mesure de queue sert à \emph{mesurer} et non à
 \emph{couvrir}. Cette pièce en donne les nombres, qui manquaient : la CTE n'était calculée que sur
@@ -456,7 +456,8 @@ déplacerait le niveau d'exigence de moitié sans que ce soit une décision.
 Le rapport $\mathrm{CTE}/\VaR$ agrégé vaut $2{,}17$ à $99{,}5\,\%$, sous l'asymptote
 $1/(1-\xi) = 2{,}47$ de la sévérité : l'agrégat s'en approche par le principe de la perte unique
 dominante mais reste en deçà à niveau fini. C'est le \emph{rapport} qui informe, non les deux
-montants. Source : script~\texttt{73}.
+montants.
+% SOURCES-SCRIPTS: 73
 
 \subsection*{L'existence, montrée plutôt qu'invoquée, et sur la bonne quantité}
 
@@ -491,7 +492,8 @@ où un estimateur classique donnerait $0{,}25$. \emph{Aucune} des deux séries n
 référence, et c'est attendu : à $\xi = 0{,}5954$ la \textbf{variance} de la sévérité est déjà
 infinie même si son espérance existe, donc aucun estimateur de ce modèle ne converge au rythme
 classique. Cela vaut aussi pour la VaR, et c'est une raison de plus de publier les grandeurs
-simulées avec leur bruit. Source : script~\texttt{73}.
+simulées avec leur bruit.
+% SOURCES-SCRIPTS: 73
 \end{attention}
 
 \subsection*{Sur le périmètre à queue plus lourde, le plafond vide la mesure de son contenu}
@@ -501,7 +503,8 @@ l'espérance finie artificiellement. En faisant varier ce plafond, on constate q
 CTE et la VaR du \emph{même} facteur, $1{,}67$ contre $1{,}66$ pour un plafond quadruplé : il agit
 comme une échelle sur toute la loi et ne distingue pas la CTE. L'information est donc dans le
 rapport, et il vaut $1{,}05$ sous PRC contre $2{,}17$ sur la calibration publiée. Le plafond a
-retiré la queue que la CTE est censée mesurer. Source : script~\texttt{73}.
+retiré la queue que la CTE est censée mesurer.
+% SOURCES-SCRIPTS: 73
 
 \begin{cle}
 \textbf{L'alternative qui ferme la question du niveau de couverture.} Sur un périmètre d'indice
@@ -516,7 +519,7 @@ diagnostic de forme de queue, et un noyau d'allocation qui répartit un niveau d
 \section{Le niveau de l'intervalle reporté : de 90 à 95 pour cent}
 \label{sec:ann-intervalle95}
 
-\noindent Chiffres de cette section : script~\texttt{72}.
+% SOURCES-SCRIPTS: 72
 
 Le niveau de confiance de l'intervalle reporté est une \textbf{convention de report} et non un
 résultat : il se choisit. \textbf{Le niveau retenu reste $90\,\%$}, et cette pièce donne
@@ -533,7 +536,8 @@ normale} que celle dont le moteur se sert déjà pour propager l'incertitude de 
 demi-largeurs publiées sont mises à l'échelle par $1{,}96 / 1{,}645 = 1{,}1915$, séparément, de
 sorte que l'asymétrie de l'intervalle publié est conservée. \textbf{La calibration ne bouge pas} :
 le point, $\sigma$, $u$ et le taux de dépassement sont inchangés, donc tous les capitaux publiés
-aussi. Seul le niveau change. Source : script~\texttt{72}.
+aussi. Seul le niveau change.
+% SOURCES-SCRIPTS: 72
 
 \begin{center}\footnotesize
 \renewcommand{\arraystretch}{1.25}
@@ -554,7 +558,8 @@ passe de $2{,}52$ à $3{,}05$. Et l'élargissement du capital est \textbf{très 
 borne basse ne descend que de $315$~M\euro{} quand la haute monte de $7\,790$. C'est la convexité
 du capital en $\xi$, et c'est une propriété à annoncer plutôt qu'à subir : sur une queue lourde,
 élargir un intervalle de confiance sur l'indice de queue ne l'élargit pas symétriquement sur le
-capital. Source : script~\texttt{72}.
+capital.
+% SOURCES-SCRIPTS: 72
 
 \subsection*{Ce que le changement de niveau ne corrige pas}
 
@@ -578,7 +583,8 @@ l'estimateur donnerait au lecteur une inquiétude que les nombres ne justifient 
 
 La réserve déjà publiée au \S\ref{soc:sec:validation} reste donc due, au nouveau niveau comme à
 l'ancien : annoncer $95\,\%$ sans la répéter remplacerait un défaut \emph{déclaré} par un défaut
-\emph{caché}, ce qui serait un mauvais échange. Source : script~\texttt{72}.
+\emph{caché}, ce qui serait un mauvais échange.
+% SOURCES-SCRIPTS: 72
 
 \subsection*{Le maintien du niveau de 90 pour cent}
 
@@ -602,8 +608,7 @@ donc celui que ce mémoire applique partout ailleurs : \emph{déclarer plutôt q
 \section{Martingalisation, tests conduits et tests impossibles}
 \label{sec:ann-martingalisation}
 
-\noindent Chiffres de cette section : scripts~\texttt{40} (chaîne de saut, courant, hypothèses
-mesurées) et~\texttt{64} (loi nulle exacte du test d'asymétrie).
+% SOURCES-SCRIPTS: 40 64
 
 Le mot \emph{martingalisation} a été employé dans les présentations orales de ce travail, et il
 appelle une mise au point : un test de martingalité suppose que l'on identifie explicitement la
@@ -619,8 +624,8 @@ ligne, donc c'est un authentique noyau de Markov, ce que $W$ n'est pas. Les hypo
 soutiennent tout ce qui suit sont mesurées et non postulées : la diagonale est nulle, les
 \textbf{vingt} entrées hors diagonale sont strictement positives, la chaîne est donc
 \textbf{irréductible} et \textbf{apériodique}, ce qui garantit l'existence et l'unicité de la loi
-stationnaire $\pi = (0{,}131\,;\,0{,}263\,;\,0{,}200\,;\,0{,}192\,;\,0{,}214)$. Source :
-script~\texttt{40}.
+stationnaire $\pi = (0{,}131\,;\,0{,}263\,;\,0{,}200\,;\,0{,}192\,;\,0{,}214)$.
+% SOURCES-SCRIPTS: 40
 
 \subsection*{La martingale, nommée}
 
@@ -634,7 +639,8 @@ physique}. Sa variation quadratique prévisible, en régime stationnaire, est la
 de l'\eqref{eq:dirichlet} du chapitre~\ref{ch:identifiabilite}. \emph{Martingaliser} désigne donc ici l'opération de
 \textbf{retirer le compensateur} $\sum(Pf-f)$ pour ne garder que $M^f$, et le résultat
 d'identification est que la variation quadratique ne dépend que de la partie symétrique, le
-compensateur portant seul la direction. Source : script~\texttt{40}.
+compensateur portant seul la direction.
+% SOURCES-SCRIPTS: 40
 
 \subsection*{Ce qui est effectivement testé, et ce n'est pas la martingale}
 
@@ -644,7 +650,8 @@ volet porte sur un tout autre objet, la statistique d'asymétrie du corpus de po
 confrontée à une loi nulle \textbf{exacte} de permutation dans laquelle chaque arête change de
 sens indépendamment avec probabilité $\tfrac12$. Son résultat est publié et négatif :
 l'asymétrie observée vaut $119$ contre $128 \pm 27$ sous le nul, soit $z = -0{,}33$. Ce test ne
-fait intervenir aucune martingale. Sources : scripts~\texttt{40} et~\texttt{64}.
+fait intervenir aucune martingale.
+% SOURCES-SCRIPTS: 40 64
 
 \subsection*{Pourquoi aucun test de martingalité n'est possible, et c'est la réponse de fond}
 
@@ -694,8 +701,7 @@ ne peut pas révéler de la direction, indépendamment du nombre de pas effectiv
 \section{La structure de la dépendance entre états et son absence d'effet}
 \label{sec:ann-dependance-etats}
 
-\noindent Chiffres de cette section : scripts~\texttt{69} (dépendance des états)
-et~\texttt{30} (largeur de la bande d'identification, prise ici comme échelle de comparaison).
+% SOURCES-SCRIPTS: 69 30
 
 Cette pièce accompagne le \S\ref{sec:dependance-etats}, qui établit que la \emph{structure} de la
 dépendance entre états de conformité ne déplace pas le capital espéré. La figure en donne les
@@ -709,8 +715,8 @@ est presque linéaire : les incréments vont de $2\,075$ à $2\,403$~M\euro, soi
 leur moyenne, et leur ordre n'est même pas monotone à cette résolution. \textbf{(b)}~l'écart au
 capital espéré quand on ajoute un surcroît de corrélation aux deux paires concernées, tracé
 \emph{à l'échelle de la largeur de la bande d'identification}. Les barres sont invisibles, et
-c'est le résultat : $2$~M\euro{} au maximum contre $1\,839$ de largeur déclarée. Source :
-script~\texttt{69}.}
+c'est le résultat : $2$~M\euro{} au maximum contre $1\,839$ de largeur déclarée.}
+% SOURCES-SCRIPTS: 69
 \label{fig:dependance-etats}
 \end{figure}
 
@@ -723,7 +729,7 @@ c'est l'inverse du réflexe habituel qui consiste à cadrer un graphique sur ce 
 \section{Défaillances simultanées et coût de l'additivité}
 \label{sec:ann-additivite}
 
-\noindent Chiffres de cette section : script~\texttt{74}.
+% SOURCES-SCRIPTS: 74
 
 Cette pièce accompagne le \S\ref{sec:additivite-couts}, qui distingue les trois énoncés
 d'additivité du modèle et retient que celui portant sur les coûts d'un sinistre est le plus lourd
@@ -739,8 +745,8 @@ du nombre de piliers touchés, en échelle logarithmique pour que les cardinaux 
 visibles : la défaillance multiple devient majoritaire dès que la propagation s'ouvre.
 \textbf{(b)}~le relâchement de l'additivité. L'écart parcourt $76\,\%$ de sa valeur publiée sans
 jamais changer de signe, et les deux pentes diffèrent d'un facteur $2{,}42$ parce que l'exposant ne
-mord que sur les sinistres multi-piliers, majoritaires au seul état non conforme. Source :
-script~\texttt{74}.}
+mord que sur les sinistres multi-piliers, majoritaires au seul état non conforme.}
+% SOURCES-SCRIPTS: 74
 \label{fig:additivite-couts}
 \end{figure}
 
@@ -773,7 +779,8 @@ $5$ & $0{,}04\,\%$ & $0{,}69\,\%$ \\
 \noindent Le passage de $1{,}380$ à $1{,}931$ pilier par sinistre, soit un facteur $1{,}40$, est ce
 qui commande toute la suite : ce qui touche au coût des sinistres \emph{multi-piliers} frappe l'état
 non conforme deux fois plus que l'état conforme, donc déplace l'\emph{écart} et pas seulement le
-niveau. Source : script~\texttt{74}.
+niveau.
+% SOURCES-SCRIPTS: 74
 
 \subsection*{Le relâchement de l'additivité, et la table complète des exposants}
 
@@ -826,13 +833,14 @@ C'est pourquoi l'amplitude $[0{,}70\,;1{,}30]$ est \textbf{posée} et non estim�
 grandeur à retenir est l'\emph{élasticité} plutôt que la plage : une élasticité vaut pour toute
 amplitude qu'un lecteur jugera plausible, une plage ne vaut que pour celle qu'on a choisie. C'est
 aussi la seule ligne du registre des écarts du \S\ref{sec:pu-coherence} dont le \emph{sens} ne se
-déclare pas, les sept autres ayant une direction connue. Source : script~\texttt{74}.
+déclare pas, les sept autres ayant une direction connue.
+% SOURCES-SCRIPTS: 74
 
 % =====================================================================
 \section{Deux corrections d'instrument : le tornado et l'objet de l'invariance}
 \label{sec:ann-corrections-instrument}
 
-\noindent Chiffres de cette section : scripts~\texttt{76} et~\texttt{77}.
+% SOURCES-SCRIPTS: 76 77
 
 Cette pièce documente deux corrections apportées à des résultats déjà publiés. Aucune ne
 renverse une conclusion, toutes deux en changent la portée ou le statut, et il vaut mieux les
@@ -875,7 +883,8 @@ La correction ne change pas la conclusion, elle la met à l'abri : lue en \textb
 même perturbation relative pour tous et un paramètre à la fois, la propagation reste le plus
 faible des leviers substantiels, $0{,}37$ contre $3{,}79$ pour l'indice de queue. Ce rapport de
 dix ne dépend d'aucune convention d'affichage, alors que l'ancienne formulation pouvait être
-retournée en changeant une plage. Source : script~\texttt{76}.
+retournée en changeant une plage.
+% SOURCES-SCRIPTS: 76
 
 \begin{figure}[htbp]\centering
 \figover{S32_tornado_normalise.png}
@@ -883,7 +892,8 @@ retournée en changeant une plage. Source : script~\texttt{76}.
 avec le statut de chaque paramètre : deux des leviers sont \emph{posés} et n'ont donc aucun
 intervalle d'estimation, si bien que leur barre d'origine était un choix d'affichage.
 \textbf{(b)}~la décomposition du levier \og seuil\fg{} : l'indice de queue seul dépasse le paquet
-entier, ce qui n'est possible que si les composantes se compensent. Source : script~\texttt{76}.}
+entier, ce qui n'est possible que si les composantes se compensent.}
+% SOURCES-SCRIPTS: 76
 \label{fig:tornado-normalise}
 \end{figure}
 
@@ -920,7 +930,8 @@ ordre que le bruit de tirage. \textbf{L'invariance n'y est donc pas démontrée,
 non détectée}, ce qui est un énoncé strictement plus faible que sur l'espérance. Dans les deux
 lectures le déplacement reste petit devant l'incertitude déjà déclarée, ces $334$~M\euro{} valant
 $18\,\%$ de la largeur de la bande d'identification. La conclusion de gestion ne change pas ;
-c'est son statut qui change. Source : script~\texttt{77}.
+c'est son statut qui change.
+% SOURCES-SCRIPTS: 77
 
 \begin{figure}[htbp]\centering
 \figover{S33_var_melange.png}
@@ -930,7 +941,8 @@ loi mélangée diffèrent de $9{,}3\,\%$, ce qui impose de dire lequel est publi
 ordre que le bruit de tirage, sans être monotone : il n'est pas résolu. L'échelle est celle de la
 bande
 d'identification déjà publiée, faute de quoi des écarts de quelques centaines de millions
-paraîtraient considérables. Source : script~\texttt{77}.}
+paraîtraient considérables.}
+% SOURCES-SCRIPTS: 77
 \label{fig:var-melange}
 \end{figure}
 
@@ -938,7 +950,7 @@ paraîtraient considérables. Source : script~\texttt{77}.}
 \section{Le plafond de sévérité, mesuré sur les quatre bilans réels}
 \label{sec:ann-plafond}
 
-\noindent Chiffres de cette section : script~\texttt{78}.
+% SOURCES-SCRIPTS: 78
 
 Cette pièce accompagne la limite déclarée au \S\ref{sec:pu-coherence} sur l'absence de plafond de
 sévérité à l'échelle d'entité. Elle donne la figure ; le raisonnement et les nombres sont dans le
@@ -952,8 +964,8 @@ qu'à plafond \emph{lâche} : plafonner détruit la queue lourde que ce principe
 charge redevient un cumul. \textbf{(b)}~en gris, la fraction du bilan qu'un sinistre unique
 devrait détruire pour que le besoin publié soit atteignable ; en orange, le plafond qui ampute ce
 besoin de moitié. L'écart entre les deux barres est ce qui met la plus petite entité hors
-domaine, et l'entité la plus grande n'est amputée par aucun plafond discutable. Source :
-script~\texttt{78}.}
+domaine, et l'entité la plus grande n'est amputée par aucun plafond discutable.}
+% SOURCES-SCRIPTS: 78
 \label{fig:plafond-exposition}
 \end{figure}
 
@@ -973,7 +985,7 @@ sommer n'étant pas plafonner la somme. Il fallait redescendre au niveau du sini
 \section{Les deux horloges du modèle et le coût de leur séparation}
 \label{sec:ann-horloges}
 
-\noindent Chiffres de cette section : script~\texttt{79}.
+% SOURCES-SCRIPTS: 79
 
 Le modèle sépare une horloge \emph{lente}, l'année qui porte la fréquence et sur laquelle le
 capital se mesure, d'une horloge \emph{rapide}, la propagation à l'intérieur d'un sinistre. Deux
@@ -1032,7 +1044,7 @@ $0{,}39$ ne sont pas un artefact de $\theta$.
 \section{Le plafond et la saturation, mesurés conjointement}
 \label{sec:ann-plafond-saturation}
 
-\noindent Chiffres de cette section : script~\texttt{86}.
+% SOURCES-SCRIPTS: 86
 
 Deux réserves du mémoire déplacent le capital en sens contraire : le \textbf{plafond} de sévérité
 adossé à l'exposition le fait baisser, et la \textbf{saturation} des coûts, relâchée par
@@ -1041,7 +1053,8 @@ monter. Les lire séparément laisse ouverte une question de gouvernance : se co
 sorte que l'une dispenserait de discuter l'autre ? Cette section les mesure sur le même moteur.
 
 Le contrôle passe d'abord : sans plafond et sans saturation, la VaR de l'entité notionnelle vaut
-$179{,}1$~M\euro, du même ordre que les $177{,}1$ publiés par le script~\texttt{78} et que les
+$179{,}1$~M\euro, du même ordre que les $177{,}1$ publiés au \S\ref{sec:ann-plafond} et que les
+% SOURCES-SCRIPTS: 78
 $169$ de l'évaluateur d'identification partielle. Tout ce qui suit est rapporté à cette valeur,
 dans ce seul moteur.
 
@@ -1072,7 +1085,7 @@ craignait.
 \section{Les séquences ordonnées du corpus et leur absence de pouvoir identifiant}
 \label{sec:ann-sequences}
 
-\noindent Chiffres de cette section : script~\texttt{75}.
+% SOURCES-SCRIPTS: 75
 
 Cette pièce accompagne le \S\ref{sec:sequences-ordonnees}. L'idée examinée est légitime : des
 marges par paires ne déterminent pas une loi sur les permutations, donc un triplet ordonné porte
@@ -1103,7 +1116,8 @@ P5 $\to$ P3 $\to$ P2 & $1$ & Equifax \\
 
 \vspace{4pt}
 \noindent Quatre incidents sur dix n'en fournissent aucune, leurs arêtes partant toutes du même
-pilier ou se réduisant à une seule. Source : script~\texttt{75}.
+pilier ou se réduisant à une seule.
+% SOURCES-SCRIPTS: 75
 
 \subsection*{La comparaison demandée a un support vide, et c'est structurel}
 
@@ -1124,8 +1138,8 @@ direct}, c'est-à-dire que le rapport établit que $j$ a précédé \emph{et} co
 code pas la \emph{précédence}. La clôture transitive le montre : elle ajoute deux paires,
 (P1,\,P2) impliquée par six incidents et (P5,\,P2) par un, qu'aucun rapport ne code directement.
 Pour $W$ c'est correct, $W$ étant un transfert direct ; mais lire $p_{jk}$ comme une précédence
-serait une faute, et le $p_{12}=0$ du script~\texttt{59} ne dit rien de l'ordre d'arrivée.
-% SOURCES-SCRIPTS: 75
+serait une faute, et le $p_{12}=0$ de la matrice ne dit rien de l'ordre d'arrivée.
+% SOURCES-SCRIPTS: 75 59
 
 \subsection*{L'acyclicité n'est pas un résultat, et le mauvais nul la ferait croire}
 
@@ -1142,7 +1156,8 @@ transition change de sens indépendamment, la proportion tombe à $0{,}00\,\%$ e
 paraîtrait écrasante, mais ce nul détruit la \emph{constance} du codage : une paire vue cinq fois
 pourrait recevoir cinq directions différentes. Il mesure la fiabilité du codeur, non l'existence
 d'une direction. C'est le même travers que celui déjà rencontré sur le harnais, où l'exemption
-indexée sur la valeur mesurait autre chose que ce qu'elle prétendait. Source : script~\texttt{75}.
+indexée sur la valeur mesurait autre chose que ce qu'elle prétendait.
+% SOURCES-SCRIPTS: 75
 
 \subsection*{Le modèle prédit les séquences : il n'est pas sans mémoire}
 
@@ -1170,7 +1185,8 @@ P5 $\to$ P3 $\to$ P2 & $0{,}3571$ & $0{,}4545$ & $1{,}273$ \\
 \noindent Gonflement moyen $1{,}211$, et ce sont des \emph{bornes basses} : le calcul suppose que
 le triplet démarre la cascade, alors qu'un triplet précédé subit une exclusion plus large. Les
 triplets portent donc une prédiction testable, et la loi exacte des séquences du modèle est
-publiée pour la première fois par le script~\texttt{75}, les chemins de longueur deux pesant
+publiée ici pour la première fois, les chemins de longueur deux pesant
+% SOURCES-SCRIPTS: 75
 $18{,}29\,\%$ de la masse. Le rapprochement avec les comptages du corpus n'est toutefois
 \textbf{pas un test} : le corpus n'est pas un échantillon tiré au hasard mais un ensemble de
 post-mortems d'incidents notables, avec le biais de sélection que mesure le \S\ref{sec:biais-narration}.
@@ -1212,7 +1228,8 @@ son volume : il faut un pilier à la fois atteint et observé avec deux successe
 volume nécessaire se chiffre ensuite, sur les écarts que le modèle prédit lui-même : de $158$ à
 $589$ chemins passant par un même pilier selon la séquence visée, pour séparer au seuil de
 $5\,\%$ avec $80\,\%$ de puissance. Le corpus en fournit $9$, tous piliers confondus. L'écart est
-d'un à deux ordres de grandeur, et il porte d'abord sur la structure. Source : script~\texttt{75}.
+d'un à deux ordres de grandeur, et il porte d'abord sur la structure.
+% SOURCES-SCRIPTS: 75
 
 \begin{figure}[htbp]\centering
 \figover{S31_sequences_ordonnees.png}
@@ -1221,7 +1238,8 @@ d'un à deux ordres de grandeur, et il porte d'abord sur la structure. Source : 
 d'incidents, P1 est source pure et P2 puits pur, et l'ordre est presque total.
 \textbf{(b)}~les deux conditions d'un test de dépendance au prédécesseur, côte à côte. P1 a trois
 cibles mais n'est jamais atteint ; les trois autres émetteurs sont atteints mais n'ont qu'une
-cible. Les deux conditions ne se rencontrent sur aucun pilier. Source : script~\texttt{75}.}
+cible. Les deux conditions ne se rencontrent sur aucun pilier.}
+% SOURCES-SCRIPTS: 75
 \label{fig:sequences-ordonnees}
 \end{figure}
 

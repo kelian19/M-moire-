@@ -228,8 +228,10 @@ l'échelle de lecture d'une entité soumise à DORA. \\
 \vspace{2pt}
 Le facteur $3\,719$ entre les extrêmes n'est donc pas une incohérence : c'est l'écart entre
 un comptage de notifications, un comptage de pertes matérielles sectorielles et un comptage
-de pertes matérielles par entité, et le script~\texttt{67} l'imprime pour qu'il ne se
-désynchronise plus des trois fréquences dont il découle. \textbf{Seul $\lambda$ alimente le
+de pertes matérielles par entité. Il est recalculé à chaque exécution du pipeline, de sorte
+qu'il ne peut plus se désynchroniser des trois fréquences dont il découle.
+% SOURCES-SCRIPTS: 67
+\textbf{Seul $\lambda$ alimente le
 moteur}, et c'est lui
 seul qui doit être invoqué quand le mémoire parle de \og{}la fréquence du modèle\fg{}.
 \end{attention}
@@ -239,7 +241,8 @@ seul qui doit être invoqué quand le mémoire parle de \og{}la fréquence du mo
 
 Déclarer un biais ne coûte rien ; le mesurer engage. Les deux limites les plus souvent
 opposées à une calibration sur OpRisk, le biais de taille et la troncature à droite, sont
-ici chiffrées (script~\texttt{57}, figure~\ref{fig:biais}).
+ici chiffrées (figure~\ref{fig:biais}).
+% SOURCES-SCRIPTS: 57
 
 \paragraph{Le biais de taille est réel, mais bien plus faible qu'annoncé.} OpRisk
 sur-représente les grandes institutions, et l'on en déduit d'ordinaire que sa sévérité
@@ -262,8 +265,9 @@ firme médiane de la base ($112$~Md\$ d'actifs) à l'entité notionnelle, la sé
 multipliée par $0{,}85$, soit $-14{,}5\,\%$. Le biais de taille n'explique pas un facteur dix ; il
 explique un septième. \textbf{Ce n'est pas la sévérité qui rend le niveau non transposable,
 c'est la fréquence}, ce que la table~\ref{tab:echelle} établit par ailleurs. Le multiplicateur
-et sa variation sont imprimés par le script~\texttt{67}, qui les trace précisément pour qu'ils
-ne puissent plus se désynchroniser de l'élasticité dont ils découlent.
+et sa variation sont recalculés à chaque exécution, de sorte qu'ils ne peuvent plus se
+désynchroniser de l'élasticité dont ils découlent.
+% SOURCES-SCRIPTS: 67
 
 \paragraph{La troncature à droite se corrige, au lieu de coûter trois années.} Les comptes
 s'effondrent après 2022 ($34$ en 2023, $39$ en 2024 contre $70$ à $100$ auparavant), ce qui
@@ -283,7 +287,8 @@ remonté.} Les années récentes cessent d'être une perte sèche.
 que la taille de la firme, et la pente brute est encore aplatie par le seuil de collecte.
 \textbf{(b)}~les années récentes ne baissent pas, elles ne sont pas remontées : l'ultime
 chain-ladder les ramène au-dessus de la moyenne historique. \textbf{(c)}~les deux corrections
-jouent en sens opposés. Source : script~\texttt{57}.}
+jouent en sens opposés.}
+% SOURCES-SCRIPTS: 57
 \label{fig:biais}
 \end{figure}
 

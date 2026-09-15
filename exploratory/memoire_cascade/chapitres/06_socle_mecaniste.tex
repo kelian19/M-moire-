@@ -108,9 +108,7 @@ L'estimation de l'indice de queue $\xi$ est un enjeu critique, car une infime va
 
 \section{Estimer l'indice de queue, et savoir ce que vaut l'estimation}
 
-\noindent Chiffres de cette section : script~\texttt{47} (adéquation, couverture réelle de
-l'intervalle de confiance), \texttt{63} (calibration figée) et \texttt{67} (formes fermées de
-la VaR et de la TVaR, jusqu'ici calculées à la main).
+% SOURCES-SCRIPTS: 47 63 67
 
 \paragraph{L'estimateur de Hill.}
 Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) estime l'indice de queue à partir des $k$ plus grandes statistiques d'ordre, sans passer par l'ajustement d'une loi paramétrique. Sa définition est donnée par l'équation~\eqref{soc:eq:hill}, à l'endroit où il sert de diagnostic. Asymptotiquement convergent et sans biais lorsque la loi appartient au domaine d'attraction de Fréchet, il présente en échantillon fini un biais majeur : si la composante à variation lente de la queue ne converge pas assez vite, $\hat{\xi}_{\text{Hill}}$ devient instable.
@@ -175,8 +173,9 @@ charge \emph{annuelle agrégée}, et elle vaut plusieurs milliers de millions d'
 sectorielle : l'écart avec les $663$~M\euro\ ci-dessus ne traduit aucune incohérence, il traduit
 l'agrégation. À $\lambda\simeq21{,}6$ sinistres matériels par an, atteindre le quantile annuel à
 $99{,}5\,\%$ demande un quantile \emph{par sinistre} de l'ordre de $99{,}98\,\%$, bien plus haut
-dans la queue. Le pont entre les deux échelles est chiffré au chapitre~\ref{chap:resultats} et
-imprimé par le script~\texttt{67}. Réserver $\VaR$ et $\TVaR$ à $L$, et $\qsev$ et $\qbarsev$ à
+dans la queue. Le pont entre les deux échelles est chiffré au chapitre~\ref{chap:resultats}.
+% SOURCES-SCRIPTS: 67
+Réserver $\VaR$ et $\TVaR$ à $L$, et $\qsev$ et $\qbarsev$ à
 $X$, n'est donc pas une coquetterie de notation : c'est ce qui empêche de lire une différence
 d'échelle comme une contradiction.
 \end{attention}
@@ -205,7 +204,8 @@ son appariement à un pilier.
 
 \paragraph{Décomposition par vecteur d'attaque.} Une fréquence de référence
 $\lambda_{ref}$, lue sur le périmètre \textbf{financier} de la base PRC
-($\lambda_{ref} = 341$ notifications/an ; script~\texttt{62}), est décomposée en
+($\lambda_{ref} = 341$ notifications/an), est décomposée en
+% SOURCES-SCRIPTS: 62
 sous-fréquences par vecteur d'attaque,
 pondérées par la structure observée dans la base Hackmageddon :
 \begin{equation}
@@ -296,12 +296,8 @@ $a=0{,}122$ (IC~$95\,\%$ $[0{,}054\,;0{,}223]$). La valeur posée $a=0{,}60$ dé
 dépasse de loin le $2{,}24$ mesuré : l'un comme l'autre sont un \textbf{choix de prudence sur
 la queue de fréquence, non une calibration}, à assumer comme tel. La conclusion
 \og{}le calage posé est conservateur\fg{} résiste ainsi à l'incertitude d'estimation, ce qui
-est la seule chose que dix-huit points autorisent à affirmer. La dispersion mesurée sur les cellules firme-année vient du script~\texttt{47}~;
-la dispersion résiduelle annuelle et son
-intervalle sont produits par le script~\texttt{08b}, les parts par vecteur d'attaque par le
-script~\texttt{67}, qui les imprime en pourcentage autant qu'en fraction. Le quantile du
-nombre annuel sous les trois lois de mélange et la charge systémique équivalente sont produits
-par le script~\texttt{41}.
+est la seule chose que dix-huit points autorisent à affirmer.
+% SOURCES-SCRIPTS: 47 08b 67 41
 
 \subsection{La dynamique du facteur systémique et la nécessité de deux échelles d'aléa}
 \label{sec:dynamique-Y}
@@ -323,8 +319,10 @@ somme de l'année} : un brownien ne peut pas les représenter, ses accroissement
 atome. Elles demandent une composante de \textbf{sauts}. On pourrait objecter qu'une gaussienne
 de variance suffisante engloberait les deux régimes ; la donnée l'interdit de façon mesurable,
 puisqu'un facteur purement brownien impose un indice de dispersion égal à $1$ quand on mesure
-$1{,}19$ sur les cellules firme-année (script~\texttt{47}) et $2{,}24$ sur la série annuelle
-détendancée (script~\texttt{08b}). La seconde
+$1{,}19$ sur les cellules firme-année et $2{,}24$ sur la série annuelle
+% SOURCES-SCRIPTS: 47
+détendancée. La seconde
+% SOURCES-SCRIPTS: 08b
 échelle n'est donc pas ajoutée pour enrichir le modèle, elle est \textbf{identifiée par la
 surdispersion}.
 
@@ -359,7 +357,8 @@ il ne subit que des campagnes.
 \textbf{aucune probabilité marginale, donc aucun capital publié} : le probit ne voit
 $Y_{j,t}$ qu'à travers sa loi centrée réduite, et la normalisation \eqref{eq:norm-Y} impose
 $\E[Y_{j,t}]=0$ et $\Var[Y_{j,t}]=1$ par construction, de sorte que l'incidence de fond reste
-$\Phi(-1{,}7)$, valeur imprimée par le script~\texttt{03}. Elle change la \textbf{dépendance de
+$\Phi(-1{,}7)$. Elle change la \textbf{dépendance de
+% SOURCES-SCRIPTS: 03
 queue}, et c'est tout son objet : le
 coefficient de dépendance de queue supérieure d'une gaussienne de corrélation $r<1$ est
 \emph{nul}, celui d'un mélange à choc commun est strictement positif. Et elle ne dégrade pas le
@@ -385,8 +384,10 @@ faire, pas s'il faut le faire.
 \begin{attention}
 \textbf{Le regroupement est réel, mesuré, et il ne mesure pas ce qu'on croit.} La charge
 journalière du secteur financier a un indice de Gini de $0{,}69$ et une vague de mai 2023 porte
-$191$ victimes en cinq jours (script~\texttt{08g}) ; l'excitation lue sur les dates au jour est
-intra-journalière, avec un pic à $3{,}3$~heures (script~\texttt{08h}). Mais ces $191$ victimes
+$191$ victimes en cinq jours ; l'excitation lue sur les dates au jour est
+% SOURCES-SCRIPTS: 08g
+intra-journalière, avec un pic à $3{,}3$~heures. Mais ces $191$ victimes
+% SOURCES-SCRIPTS: 08h
 sont $191$ \emph{entités distinctes} atteintes par une cause commune, non une entité subissant
 $191$ sinistres : ce que le Gini mesure est de la dépendance \textbf{en coupe}, pas une
 accumulation intra-annuelle pour une entité donnée. Or le besoin de capital calculé est celui
@@ -424,9 +425,7 @@ $\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
 \section{La brique de sévérité, calibrée sur OpRisk}
 \label{soc:sec:severite}
 
-\noindent Chiffres de cette section : scripts~\texttt{07} (marge de sévérité) et
-\texttt{47} (validation), \texttt{63} (calibration figée) et \texttt{67} (concentration de la
-queue sur la population calibrée).
+% SOURCES-SCRIPTS: 07 47 63 67
 
 \paragraph{Choix de la loi de Pareto généralisée.} La sévérité des sinistres
 cyber présente une signature de queue lourde documentée au chapitre~\ref{chap:donnees} : sur
@@ -483,7 +482,7 @@ minimum de $30$ requis pour une estimation robuste.}
 
 \section{Hill contre maximum de vraisemblance : deux estimateurs confrontés}
 
-\noindent Chiffres de cette section : scripts~\texttt{47}, \texttt{63} et \texttt{67}.
+% SOURCES-SCRIPTS: 47 63 67
 
 \paragraph{L'estimateur de Hill : définition et rôle diagnostique.}
 Introduit par \citet{Hill1975}, l'estimateur de Hill fournit une estimation
@@ -570,7 +569,8 @@ Deux dérives de sens contraire achèvent de le montrer. Un indice de queue auth
 $0{,}93$ à $k=30$ jusqu'à $1{,}72$ à $k=200$, c'est-à-dire qu'il monte à mesure qu'on descend
 dans le corps de la loi. Le balayage de seuil va exactement dans l'autre sens, puisque $\hat\xi$
 \emph{décroît} de $0{,}60$ à $0{,}38$ quand on remonte dans la queue. Si la queue valait
-réellement $1{,}32$, les deux dérives seraient inversées. Source : script~\texttt{47}.
+réellement $1{,}32$, les deux dérives seraient inversées.
+% SOURCES-SCRIPTS: 47
 
 \begin{figure}[htbp]
 \centering
@@ -654,8 +654,8 @@ artefact, et la NB épouse la queue des comptes là où le Poisson s'effondre.
 ajustée. \textbf{(c)} vie résiduelle moyenne, linéaire au-delà de $u$. \textbf{(d)} stabilité
 de $\hat\xi$ au seuil. \textbf{(e)} test d'Anderson-Darling, loi nulle par bootstrap
 paramétrique et statistique observée ($p=0{,}96$). \textbf{(f)} adéquation de la fréquence :
-la NB colle aux comptes firme-année, le Poisson rate la queue. Sources : scripts~\texttt{47}
-et~\texttt{93} (règles de sélection du seuil).}
+la NB colle aux comptes firme-année, le Poisson rate la queue.}
+% SOURCES-SCRIPTS: 47 93
 \label{soc:fig:validation}
 \end{figure}
 
@@ -904,7 +904,8 @@ gelée et l'écart est inscrit au registre des limites (\S\ref{sec:pu-coherence}
 traitement que le taux de dépassement. \textbf{Sur la thèse, la formule à retenir est
 l'invariance d'échelle et non l'invariance à la dérive} : le facteur entre états ne bouge pas
 d'une variation d'échelle, mais il baisse de $6{,}6\,\%$ sous la sévérité dérivée, dont la forme
-est plus légère. Sources : scripts~\texttt{89}, \texttt{90} et~\texttt{91}.
+est plus légère.
+% SOURCES-SCRIPTS: 89 90 91
 \end{cle}
 
 %--------------------------------------------------------------
