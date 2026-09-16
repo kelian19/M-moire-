@@ -12,51 +12,44 @@
 % copule ni la latente comme LE modèle.
 %==============================================================
 
-La quantification du capital requis au titre de la non-conformité au règlement DORA
-s'inscrit dans un écosystème prudentiel dont l'architecture est retracée ci-dessous.
-Le risque que nous cherchons à modéliser (le risque opérationnel d'origine
-technologique, et le risque de manquement aux exigences de résilience numérique)
-se situe à l'intersection de trois cadres réglementaires construits successivement,
-selon des philosophies distinctes mais convergentes : le dispositif bancaire de Bâle,
-la directive Solvabilité~II propre à l'assurance, et le règlement transsectoriel DORA.
-Cette section retrace cette construction, identifie le \emph{pont quantitatif} que DORA
-permet d'établir entre exigence de capital et résilience opérationnelle, et pose la
-non-conformité comme un état par domaine de contrôle, gradué et évolutif, dont le
-chapitre~\ref{chap:multietats} tire la dynamique et le chapitre~\ref{chap:resultats} le coût
-en capital.
+Le risque modélisé ici, risque opérationnel d'origine technologique et manquement aux
+exigences de résilience numérique, se situe à l'intersection de trois cadres construits
+successivement selon des philosophies distinctes : le dispositif bancaire de Bâle, la directive
+Solvabilité~II propre à l'assurance, et le règlement transsectoriel DORA. Leur articulation
+ouvre un \emph{pont quantitatif} entre exigence de capital et résilience opérationnelle, et
+permet de poser la non-conformité comme un état par domaine de contrôle, gradué et évolutif,
+dont le chapitre~\ref{chap:multietats} tire la dynamique et le chapitre~\ref{chap:resultats}
+le coût en capital.
 
 %--------------------------------------------------------------
 
 %--------------------------------------------------------------
 
 \paragraph{Le risque opérationnel : une définition partagée, des traitements divergents.}
-Le risque opérationnel a connu, au cours des deux dernières décennies, une mutation
-profonde marquée par une recherche de convergence entre les secteurs bancaire et
+Le risque opérationnel reçoit la même définition dans les secteurs bancaire et
 assurantiel. Défini par le Comité de Bâle puis repris par la directive Solvabilité~II,
 il désigne le risque de perte résultant de l'inadaptation ou de la défaillance de
 procédures internes, de personnels et de systèmes, ou d'événements extérieurs. Cette
 définition inclut le risque juridique mais exclut les risques stratégiques et de
 réputation.
 
-Si la définition est partagée, les modes de quantification ont divergé. Le secteur
-bancaire a progressivement abandonné les modèles internes au profit d'une approche
-standardisée, tandis que l'assurance a conservé une liberté méthodologique. Cette
-asymétrie, que nous détaillons ci-après, éclaire le choix méthodologique du présent
-mémoire : c'est précisément parce que Solvabilité~II laisse subsister un espace de
-modélisation interne que la quantification du risque cyber sous forme d'une distribution
-de pertes y conserve toute sa pertinence.
+Si la définition est partagée, les modes de quantification ont divergé. Le secteur bancaire a
+abandonné les modèles internes au profit d'une approche standardisée, tandis que l'assurance a
+conservé une liberté méthodologique. Cette asymétrie commande le choix méthodologique du
+mémoire : Solvabilité~II laisse subsister un espace de modélisation interne, où la
+quantification du risque cyber par une distribution de pertes reste recevable.
 
 \paragraph{Bâle III/IV : du modèle interne AMA à la standardisation SMA.}
 Sous le régime de Bâle~II, les établissements bancaires d'envergure internationale
 étaient encouragés à développer des modèles internes complexes, regroupés sous
 l'appellation d'approche de mesure avancée (\emph{Advanced Measurement Approaches},
 AMA). Ces modèles reposaient principalement sur l'approche par distribution des pertes
-(\emph{Loss Distribution Approach}, LDA) ou sur des approches par scénarios. Le présent
-mémoire en reprend les deux marges, fréquence et sévérité, mais en remplace l'agrégation
-par une cascade dirigée (chapitre~\ref{chap:cascade}). S'ils offraient une grande flexibilité
-théorique, ils ont engendré une variabilité excessive et difficilement justifiable des
-actifs pondérés par le risque d'un établissement à l'autre, érodant la confiance des
-superviseurs dans les ratios de solvabilité déclarés.
+(\emph{Loss Distribution Approach}, LDA) ou sur des approches par scénarios. Leur flexibilité
+théorique a engendré une variabilité excessive et difficilement justifiable des actifs pondérés
+par le risque d'un établissement à l'autre, érodant la confiance des superviseurs dans les
+ratios de solvabilité déclarés. Le présent mémoire reprend les deux marges de la LDA, fréquence
+et sévérité, mais en remplace l'agrégation par une cascade dirigée
+(chapitre~\ref{chap:cascade}).
 
 La finalisation des réformes de Bâle~III, communément désignée sous le nom de Bâle~IV,
 a acté le retrait des modèles internes AMA pour le calcul du capital de Pilier~1, à
@@ -81,19 +74,18 @@ significatives des dix dernières années. Lorsque la sinistralité historique e
 relativement à l'activité ($LC < BIC$), l'$ILM$ est inférieur à l'unité et réduit
 l'exigence ; lorsqu'elle est élevée, il agit comme une pénalité en fonds propres.
 
-\paragraph{Enseignement pour notre démarche.} Le retrait de l'AMA n'invalide nullement
-l'approche LDA en tant qu'outil de modélisation : il en restreint l'usage \emph{pour le
-calcul réglementaire de Pilier~1 dans le secteur bancaire}. La logique de la composante
-$LC$, qui fait dépendre le capital de l'historique réel des pertes, demeure
-parfaitement pertinente, et c'est cette logique, transposée à l'assurance et enrichie de
-la théorie des valeurs extrêmes, que nous mettons en oeuvre.
+\paragraph{Ce que le retrait de l'AMA ne retire pas.} Le retrait de l'AMA n'invalide pas
+l'approche LDA comme outil de modélisation : il en restreint l'usage \emph{pour le calcul
+réglementaire de Pilier~1 dans le secteur bancaire}. La logique de la composante $LC$, qui fait
+dépendre le capital de l'historique réel des pertes, reste valide ; c'est elle, transposée à
+l'assurance et enrichie de la théorie des valeurs extrêmes, que le mémoire met en oeuvre.
 
 \paragraph{Solvabilité II : l'asymétrie réglementaire et le maintien du choix méthodologique.}
 Contrairement au secteur bancaire, le secteur de l'assurance conserve sous Solvabilité~II
 une liberté de choix pour la quantification du risque opérationnel : formule standard,
 paramètres propres à l'entreprise (USP), ou modèle interne, partiel ou global, approuvé
 par l'autorité de contrôle. Dans la formule standard, l'exigence pour risque opérationnel
-($SCR_{Op}$) s'ajoute de manière additive au capital de solvabilité requis de base
+($SCR_{Op}$) s'ajoute au capital de solvabilité requis de base
 ($BSCR$), ajusté de la capacité d'absorption des pertes :
 \begin{equation}
 SCR = BSCR + Adj + SCR_{Op},
@@ -101,28 +93,26 @@ SCR = BSCR + Adj + SCR_{Op},
 SCR_{Op} = \min(0{,}3 \times BSCR,\ Op) + 0{,}25 \times Exp_{ul},
 \end{equation}
 où $Op = \max(Op_{premiums}, Op_{provisions})$ est calculé à partir de coefficients
-forfaitaires appliqués aux primes et provisions, vie et non-vie. Nous en donnons ici la
-forme simplifiée ; la formule complète de l'Article~204 du règlement délégué~2015/35
+forfaitaires appliqués aux primes et provisions, vie et non-vie. La forme donnée ici est
+simplifiée ; la formule complète de l'Article~204 du règlement délégué~2015/35
 comporte en outre des termes de croissance, sous la forme
 $\max\!\left(0;\, 0{,}04 \times \Delta\!\right)$, pénalisant les hausses de primes
 supérieures à $20\,\%$ d'un exercice à l'autre.
 
-Cette approche présente une faiblesse conceptuelle majeure pour l'actuaire. En se fondant
-exclusivement sur des indicateurs de volume, elle pose l'hypothèse implicite que deux
-assureurs gérant le même volume de primes présentent une exposition identique au risque
-opérationnel, indépendamment de la qualité de leur infrastructure informatique, du
-degré d'automatisation de leurs processus, ou de leur dépendance à des prestataires
-d'externalisation critiques. Or c'est précisément cette dépendance technologique que DORA
-vient encadrer, et dont nous cherchons à mesurer l'effet sur le capital.
+Fondée sur les seuls indicateurs de volume, cette approche pose que deux assureurs gérant le
+même volume de primes ont la même exposition au risque opérationnel, quelles que soient la
+qualité de leur infrastructure informatique, l'automatisation de leurs processus ou leur
+dépendance à des prestataires d'externalisation critiques. C'est cette dépendance
+technologique que DORA encadre, et dont le mémoire mesure l'effet sur le capital.
 
 \paragraph{Pilier 1 et Pilier 2.} Le $SCR_{Op}$ relève du Pilier~1, quantitatif et
 forfaitaire. Mais Solvabilité~II comporte un second pilier, l'évaluation interne des
 risques et de la solvabilité (\emph{Own Risk and Solvency Assessment}, ORSA), qui impose
 à l'assureur une évaluation prospective de l'adéquation entre son profil de risque réel
 et ses besoins de solvabilité. C'est dans le cadre de l'ORSA, et non du forfait de
-Pilier~1 plafonné à $30\,\%$ du $BSCR$, que notre modélisation trouve sa place
-naturelle : l'ORSA autorise, et même encourage, le recours à des scénarios de stress
-stochastiques que la formule standard ne sait pas produire.
+Pilier~1 plafonné à $30\,\%$ du $BSCR$, que se situe la modélisation du
+mémoire : l'ORSA admet, et encourage, les scénarios de stress stochastiques que la formule
+standard ne sait pas produire.
 
 L'additivité que l'équation ci-dessus donne à la charge opérationnelle n'est pas un détail
 de présentation. Elle décide de ce que le capital total retient d'un besoin de nature
@@ -141,10 +131,9 @@ l'information et de la communication (TIC) à travers vingt-et-une catégories
 d'entités financières : banques, entreprises d'assurance et de réassurance,
 intermédiaires, ainsi que les prestataires tiers critiques de services TIC.
 
-Le postulat de DORA est que la résilience opérationnelle ne saurait se réduire à
-l'allocation de tampons de fonds propres. Le règlement impose un cadre proactif, articulé
-autour de la capacité à \emph{résister, absorber, récupérer et s'adapter} face aux
-perturbations informatiques majeures.
+DORA pose que la résilience opérationnelle ne se réduit pas à des tampons de fonds propres.
+Le règlement impose un cadre articulé autour de la capacité à \emph{résister, absorber,
+récupérer et s'adapter} face aux perturbations informatiques majeures.
 
 \paragraph{Position dans l'écosystème.} La progression Bâle~$\rightarrow$~Solvabilité~II
 $\rightarrow$~DORA traduit un déplacement du centre de gravité prudentiel : de la
@@ -184,7 +173,7 @@ entités identifiées comme significatives sont soumises à des tests de
 pénétration guidés par la menace (\emph{Threat-Led Penetration Testing},
 TLPT), à mener au moins tous les trois ans, en conditions proches du réel.
 
-\paragraph{Pilier 4 : Gestion du risque lié aux prestataires tiers ICT.}
+\paragraph{Pilier 4 : Gestion du risque lié aux prestataires tiers TIC.}
 Ce pilier est central dans un environnement marqué par l'externalisation et le
 recours au cloud. Il impose une cartographie exhaustive des contrats
 critiques via un Registre d'Informations harmonisé, une gouvernance
@@ -225,11 +214,10 @@ critiques \\
 \end{tabular}
 \end{center}
 
-Le \emph{Registre d'Informations} (ROI) mérite une attention particulière. En imposant
-le recensement exhaustif et structuré des contrats TIC critiques et de leurs chaînes de
-sous-traitance, DORA produit, pour la première fois, une donnée exploitable pour modéliser
-quantitativement le risque de concentration technologique, donnée qui faisait
-précisément défaut à l'ORSA traditionnel.
+Le \emph{Registre d'Informations} pèse plus que les autres exigences pour la modélisation. En
+imposant le recensement exhaustif des contrats TIC critiques et de leurs chaînes de
+sous-traitance, DORA produit une donnée exploitable pour modéliser le risque de concentration
+technologique, donnée qui faisait défaut à l'ORSA traditionnel.
 
 %--------------------------------------------------------------
 
@@ -249,9 +237,8 @@ rarement modélisée de manière dynamique.
 pas de base standardisée permettant d'alimenter les modèles de sévérité pour les
 événements cyber de faible fréquence et de forte sévérité. L'étalonnage des distributions
 à queue lourde restait hautement incertain et sujet à une forte volatilité de modèle,
-difficulté que notre travail aborde frontalement en mobilisant plusieurs sources
-indépendantes (PRC, SAS~OpRisk~Global, Hackmageddon) et en assumant explicitement
-l'incertitude résiduelle.
+difficulté que le mémoire traite en mobilisant plusieurs sources indépendantes
+(PRC, SAS~OpRisk~Global, Hackmageddon) et en déclarant l'incertitude résiduelle.
 
 \textbf{La non-prise en compte des interdépendances de la chaîne de valeur.} Les
 politiques d'externalisation sous Solvabilité~II se limitaient à des audits documentaires

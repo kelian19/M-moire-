@@ -35,7 +35,7 @@ sans origine déclarée.
 Un mémoire de cette taille publie plusieurs milliers de nombres, et le risque n'est pas qu'un
 calcul soit faux : c'est qu'un nombre juste au moment où il a été écrit cesse de l'être quand la
 valeur amont bouge, sans que personne ne s'en aperçoive. Ce mémoire s'est donc doté d'un
-\textbf{harnais de vérification}, et il en rend compte ici parce que la portée des résultats
+harnais de vérification, et il en rend compte ici parce que la portée des résultats
 dépend de ce que ce dispositif garantit et, tout autant, de ce qu'il ne garantit pas.
 
 \paragraph{Le principe, et il tient en une phrase.} Pour chaque section, le harnais relève les
@@ -116,7 +116,7 @@ valeur amont a bougé.
 
 \begin{cle}
 \textbf{État du contrôle au 17 août 2026}, tous chapitres : 1\,865 nombres publiés,
-\textbf{1\,831} confirmés, soit $98{,}2\,\%$, pour une couverture de
+1\,831 confirmés, soit $98{,}2\,\%$, pour une couverture de
 $100\,\%$ : aucun nombre du mémoire n'est hors contrôle sans déclaration motivée. Les
 trente-quatre non confirmés ont été dépouillés un par un et relèvent des trois classes non
 fautives. Le dispositif s'appuie sur 93 sorties de scripts versionnées, et il tourne
@@ -187,7 +187,7 @@ surcoût PRC se déplace plus qu'elle ne s'élargit.}
 \label{sec:ann-parametres}
 
 Trois natures sont distinguées : calibré sur données (avec son incertitude),
-\textbf{posé} par jugement d'expert ou choix normatif (non identifiable, cf.\
+\emph{posé} par jugement d'expert ou choix normatif (non identifiable, cf.\
 chapitre~\ref{ch:identifiabilite}), et semi-ancré sur un proxy externe non
 spécifique au périmètre.
 
@@ -238,7 +238,7 @@ Plafond de sévérité & $40$ M\euro{} & \textbf{posé} & capacité de réassura
 
 \textbf{Ce que la table rend visible.} Les seuls paramètres à forte sensibilité sont
 soit calibrés sur données (la queue $\xi$, dont on assume et chiffre l'incertitude), soit des
-\textbf{leviers voulus} ($g$, $q$) qui traduisent précisément l'objet du mémoire, l'effet de
+\emph{leviers voulus} ($g$, $q$) qui traduisent précisément l'objet du mémoire, l'effet de
 la conformité et de la contagion sur le capital. Les paramètres purement posés qui
 ne sont pas des leviers ($\theta$ de copule, $\gamma$, $\theta_{\text{crise}}$, probas d'état,
 matérialité) ont une influence faible à modérée et documentée. Aucune conclusion ne
@@ -622,8 +622,8 @@ $P_{jk} = \mathrm{TRANS}_{jk} / \sum_{k}\mathrm{TRANS}_{jk}$ : la probabilité, 
 propagation quitte le pilier $j$, qu'elle aille vers $k$. Cette matrice est stochastique en
 ligne, donc c'est un authentique noyau de Markov, ce que $W$ n'est pas. Les hypothèses qui
 soutiennent tout ce qui suit sont mesurées et non postulées : la diagonale est nulle, les
-\textbf{vingt} entrées hors diagonale sont strictement positives, la chaîne est donc
-\textbf{irréductible} et apériodique, ce qui garantit l'existence et l'unicité de la loi
+\emph{vingt} entrées hors diagonale sont strictement positives, la chaîne est donc
+\emph{irréductible} et apériodique, ce qui garantit l'existence et l'unicité de la loi
 stationnaire $\pi = (0{,}131\,;\,0{,}263\,;\,0{,}200\,;\,0{,}192\,;\,0{,}214)$.
 % SOURCES-SCRIPTS: 40
 
@@ -637,7 +637,7 @@ Pour une fonction test $f$ sur les cinq piliers, la décomposition de Dynkin
 est une martingale pour la filtration naturelle de la chaîne et sous la mesure
 physique. Sa variation quadratique prévisible, en régime stationnaire, est la forme de Dirichlet
 de l'\eqref{eq:dirichlet} du chapitre~\ref{ch:identifiabilite}. \emph{Martingaliser} désigne donc ici l'opération de
-\textbf{retirer le compensateur} $\sum(Pf-f)$ pour ne garder que $M^f$, et le résultat
+retirer le compensateur $\sum(Pf-f)$ pour ne garder que $M^f$, et le résultat
 d'identification est que la variation quadratique ne dépend que de la partie symétrique, le
 compensateur portant seul la direction.
 % SOURCES-SCRIPTS: 40
@@ -645,7 +645,7 @@ compensateur portant seul la direction.
 \subsection*{Ce qui est effectivement testé, et ce n'est pas la martingale}
 
 Aucune hypothèse n'est testée sur $M^f$, et il n'y en a pas à tester : \eqref{eq:dynkin} est une
-\textbf{identité algébrique}, vraie pour toute chaîne de Markov. Le seul test statistique de ce
+\emph{identité algébrique}, vraie pour toute chaîne de Markov. Le seul test statistique de ce
 volet porte sur un tout autre objet, la statistique d'asymétrie du corpus de post-mortems,
 confrontée à une loi nulle exacte de permutation dans laquelle chaque arête change de
 sens indépendamment avec probabilité $\tfrac12$. Son résultat est publié et négatif :
@@ -980,7 +980,7 @@ sommer n'étant pas plafonner la somme. Il fallait redescendre au niveau du sini
 Le modèle sépare une horloge \emph{lente}, l'année qui porte la fréquence et sur laquelle le
 capital se mesure, d'une horloge \emph{rapide}, la propagation à l'intérieur d'un sinistre. Deux
 approximations en découlent et elles ne vont pas dans le même sens : la cascade est traitée comme
-\textbf{instantanée}, et l'état de conformité comme figé sur toute l'année. Cette section
+\emph{instantanée}, et l'état de conformité comme figé sur toute l'année. Cette section
 les mesure séparément, car un lecteur est en droit de demander ce que la commodité coûte.
 
 \paragraph{La cascade instantanée : une approximation neutre, et non prudente.} On donne une
@@ -1006,7 +1006,7 @@ produise, et allonger la fenêtre au-delà n'ajoute plus grand-chose.
 
 \begin{cle}
 \textbf{Deux lectures de gestion, et aucune n'est celle que l'intuition suggère.} Un
-\textbf{trimestre} de non-conformité porte déjà $33\,\%$ du surcoût de l'année entière : une
+\emph{trimestre} de non-conformité porte déjà $33\,\%$ du surcoût de l'année entière : une
 fenêtre courte n'est pas une petite exposition. Symétriquement, remédier à mi-exercice ne capture
 que $44\,\%$ du bénéfice annuel et non la moitié : un plan qui proratise le gain se
 trompe, et se trompe du côté optimiste.
@@ -1178,7 +1178,7 @@ triplets portent donc une prédiction testable, et la loi exacte des séquences 
 publiée ici pour la première fois, les chemins de longueur deux pesant
 % SOURCES-SCRIPTS: 75
 $18{,}29\,\%$ de la masse. Le rapprochement avec les comptages du corpus n'est toutefois
-\textbf{pas un test} : le corpus n'est pas un échantillon tiré au hasard mais un ensemble de
+pas un test : le corpus n'est pas un échantillon tiré au hasard mais un ensemble de
 post-mortems d'incidents notables, avec le biais de sélection que mesure le \S\ref{sec:biais-narration}.
 Tout ce qu'on peut en dire est qu'il n'y a pas de contradiction criante, les deux séquences les
 plus fréquentes du corpus occupant les rangs $6$ et $3$ du modèle sur $60$ chemins.
@@ -1186,7 +1186,7 @@ plus fréquentes du corpus occupant les rangs $6$ et $3$ du modèle sur $60$ che
 \subsection*{Pourquoi le test n'a aucune puissance, et à quelle condition il en aurait}
 
 Un test de dépendance au prédécesseur exige deux choses \emph{du même pilier} : qu'il soit
-\textbf{atteint}, sans quoi il n'y a pas de prédécesseur sur quoi conditionner, et qu'il ait au
+\emph{atteint}, sans quoi il n'y a pas de prédécesseur sur quoi conditionner, et qu'il ait au
 moins deux successeurs distincts, sans quoi la loi conditionnelle égale la marginale par
 construction.
 

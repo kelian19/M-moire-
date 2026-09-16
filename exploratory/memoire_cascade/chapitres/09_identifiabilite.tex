@@ -19,7 +19,7 @@ le doute sur chacun de ses coefficients. On aboutit donc à une frontière en tr
 niveaux, que ce chapitre établit puis assume : la structure est revendiquée, la direction paire
 par paire ne l'est pas, l'amplitude ne le sera jamais par cette voie. Le capital est en
 conséquence lu en bornes, et la donnée manquante devient une spécification de reporting
-\textbf{chiffrée et hiérarchisée}.
+chiffrée et hiérarchisée.
 \end{cle}
 
 \section{Ce qu'identifier $W$ exigerait}
@@ -45,7 +45,7 @@ aucun pilier. La date de \emph{survenance} n'est exploitable que dans 49,6\,\% d
 cas, et son caractère manquant n'est pas aléatoire : il varie par type d'incident, si bien
 qu'ordonner par survenance élimine des catégories entières du panel. Ordonner par
 \emph{déclaration}, l'autre date disponible, ne mesure pas la contagion mais le
-\textbf{délai de détection}. Résultat : une fois restreint aux types informatifs et aux
+délai de détection. Résultat : une fois restreint aux types informatifs et aux
 trimestres consécutifs, il ne reste que 71 transitions $k(t\!-\!1)\to j(t)$ (soit
 $3{,}6$ observations par cellule hors-diagonale), et 34 dans le seul secteur
 financier. La direction n'y est pas estimable, faute de matière.
@@ -98,7 +98,7 @@ prévoit exactement les bons champs. C'est le cas du schéma \textsc{veris}, ré
 profession et support du \emph{Data Breach Investigations Report}, dont la base publique
 compte $10\,591$ incidents ($980$ en secteur financier, \textsc{naics}~52). Son schéma porte
 littéralement les deux objets manquants : un champ \texttt{control\_failure}, qui nomme le
-\textbf{domaine de contrôle} défaillant, et une chronologie en quatre étapes
+domaine de contrôle défaillant, et une chronologie en quatre étapes
 (compromission, exfiltration, découverte, confinement), qui porte l'antériorité.
 
 Le verdict est sans appel, et il porte sur le \emph{remplissage} et non sur la conception.
@@ -135,7 +135,7 @@ symétrique $S=(W+W^\top)/2$ et antisymétrique $A=(W-W^\top)/2$, et ces deux pa
 \emph{orthogonales} au sens de Frobenius : la séparation de l'identifié et du non-identifié est
 exacte, sans recouvrement. Sur la chaîne de Markov des sauts inter-piliers construite à partir
 du jugement dirigé (de loi stationnaire $\pi$), $S$ est la partie réversible et $A$ le
-\textbf{courant} de probabilité $J_{jk}=\pi_j P_{jk}-\pi_k P_{kj}$, antisymétrique et nul si et
+\emph{courant} de probabilité $J_{jk}=\pi_j P_{jk}-\pi_k P_{kj}$, antisymétrique et nul si et
 seulement si l'équilibre détaillé est satisfait. Le renversement du temps laisse $S$ invariante
 et retourne le signe de $A$.
 
@@ -181,15 +181,15 @@ la variation quadratique de la martingale associée à la fonction test $f$. Il 
 moment d'une mesure risque-neutre, d'un actif répliqué, ni d'un \og{}test de
 martingalité\fg{} au sens des générateurs de scénarios économiques. Ce mémoire ne valorise
 rien : aucune hypothèse de non-arbitrage n'y est faite ni requise, et aucun changement de
-mesure n'y intervient. La confusion est facile et elle mérite d'être écartée explicitement,
-parce que le même mot désigne, en tarification, un objet qui n'aurait ici aucun sens. Le
+mesure n'y intervient. La confusion est facile, et elle est écartée ici
+parce que le même mot désigne, en tarification, un objet qui n'aurait aucun sens. Le
 \S\ref{sec:ann-martingalisation} nomme la martingale, sa filtration et sa mesure, énumère les
 hypothèses de la chaîne, distingue ce qui est \emph{testé} de ce qui est \emph{décomposé}, et
 dit pourquoi aucun test de martingalité n'est possible sur un facteur latent.
 
 \begin{cle}
 \textbf{Le placebo, relu.} Le non-rejet $z=-0{,}33$ se lit alors comme une donnée
-\textbf{compatible avec $\sigma=0$} (équilibre détaillé) : une statistique invariante par
+compatible avec $\sigma=0$ (équilibre détaillé) : une statistique invariante par
 renversement du temps, et la co-occurrence en est une, ne \emph{peut pas} identifier un
 courant qui, lui, change de signe sous ce renversement. C'est la raison de principe derrière le
 caractère dégénéré du test du \og temps inversé \fg{} : $S$, la partie identifiée, est ce que la
@@ -280,7 +280,7 @@ direction établie par l'enquête, et c'est la qualité du codage qui donne la p
 du codage, non l'\emph{exogénéité} de la direction. Or une enquête officielle est \emph{mandatée}
 pour établir une cause racine et des responsabilités, et conclut très souvent à une
 \og{}défaillance de gouvernance\fg{} : que P1 ressorte comme source pure peut donc refléter la
-\textbf{convention d'écriture des rapports} autant que la causalité opérationnelle. S'y ajoutent
+convention d'écriture des rapports autant que la causalité opérationnelle. S'y ajoutent
 un codeur unique, des sources en partie secondaires, et un échantillon raisonné d'incidents
 notoires. Ce corpus corrobore donc la structure ; il ne la \emph{calibre} pas. Le
 codage à juge unique est à ce titre une limite déclarée de ce mémoire, et non une étape
@@ -376,7 +376,7 @@ ne donnait que le signe de $A$.
 \begin{attention}
 \textbf{Le résultat est asymétrique, et c'est lui qu'il faut retenir.} Sur les vingt liens
 ordonnés, douze ont un crédible à $90\,\%$ entièrement \emph{sous} $0{,}5$, et
-\textbf{aucun} entièrement au-dessus. Le corpus établit donc très bien \emph{où la contagion ne
+\emph{aucun} entièrement au-dessus. Le corpus établit donc très bien \emph{où la contagion ne
 va pas}, et pas du tout où elle va fort : même les liens les plus élevés, $P_3\to P_2$
 ($0{,}77$, crédible $[0{,}48\,;0{,}95]$) et $P_1\to P_4$ ($0{,}68$, $[0{,}40\,;0{,}89]$),
 recouvrent encore $0{,}5$. Les douze liens faibles comprennent en revanche les cinq
@@ -394,7 +394,7 @@ ajoutant des défaillances non propagées au dénominateur, pour tenir compte de
 documente mal les contrôles qui cèdent sans conséquence, le \emph{niveau} de $p_{jk}$ s'effondre
 (de $0{,}27$ à $0{,}07$ en moyenne) tandis que la part de direction
 $\lVert A\rVert/\lVert W\rVert$ ne bouge pas (elle reste à $60\,\%$). Le corpus établit un
-\textbf{ordre, pas une magnitude}, et l'extension confirme la frontière à trois niveaux sur un
+ordre, pas une magnitude, et l'extension confirme la frontière à trois niveaux sur un
 objet plus riche au lieu de la déplacer.
 \end{cle}
 
@@ -476,7 +476,7 @@ Les $7$ \emph{rapports} concernés retirés & $3$ transitions & $0{,}50$ \\
 
 \vspace{2pt}
 La deuxième ligne donne le point de rupture : il faudrait que la convention narrative ait
-\textbf{inversé} quatre des onze arêtes, et dans l'agencement le plus défavorable, pour perdre
+\emph{inversé} quatre des onze arêtes, et dans l'agencement le plus défavorable, pour perdre
 la significativité. La troisième est plus instructive encore : aucun nombre de retraits
 ne suffit. En supprimant la totalité du rôle de la gouvernance, donc la moitié du corpus, la
 direction reste significative, portée par les seules chaînes $P_3\to P_2$ et $P_4\to P_2$, les
@@ -491,7 +491,7 @@ biais ne concerne pas, les chaînes $P_3\to P_2$ documentées dans les \emph{mê
 biais sur la désignation de la cause racine n'invalide pas la séquence technique que le même
 rapport établit par ailleurs. La borne pertinente est celle du retrait des arêtes ; celle du
 retrait des rapports est une borne de pure forme, et elle est publiée ici pour que personne
-n'ait à la reconstituer contre nous.
+n'ait à la reconstituer contre le travail.
 \end{attention}
 
 \begin{cle}
@@ -524,10 +524,10 @@ du mémoire sans borne.
 
 Le dispositif est préparé et disponible, et c'est à ce titre qu'il est décrit ici. Le
 kit couvre les dix récits du corpus étendu, chacun réduit aux faits établis par le
-rapport, sans aucune de nos flèches, et les entités y sont anonymisées pour que le codeur ne
+rapport, sans aucune des flèches du modèle, et les entités y sont anonymisées pour que le codeur ne
 reconnaisse pas le cas et ne se souvienne pas de la cause racine publiée. La grille qu'il remplit
 porte les mêmes étiquettes anonymes que les récits : la nommer aurait rompu l'aveuglement par le
-fichier de réponse lui-même. Sur les $10 \times 10 = 100$ cellules, notre codage de référence en
+fichier de réponse lui-même. Sur les $10 \times 10 = 100$ cellules, le codage de référence en
 compte $22$ directionnelles, ce qui fixe la base d'accord sur laquelle le $\kappa$ de Cohen se
 calcule. En l'absence de second jeu, le script ne fabrique aucune donnée et s'arrête :
 un dispositif qui produirait un coefficient sans second codeur vaudrait moins que son absence.
@@ -702,10 +702,10 @@ que tout le monde \emph{postule} n'est pas \emph{mesurable} sur les données agr
 en donner la raison théorique l'est davantage ; aller ensuite chercher, dans une source d'un
 autre genre, de quoi en corroborer la structure sans sur-vendre le résultat est ce qui distingue
 une limite \emph{assumée} d'une limite \emph{subie}. Il en sort quatre acquis : une
-\textbf{frontière d'identification} à trois niveaux, une discipline sur l'usage de $W$
+\emph{frontière d'identification} à trois niveaux, une discipline sur l'usage de $W$
 (ordre partiel revendiqué, coefficients bornés, jamais présentés comme calibrés), une
-\textbf{formalisation} bayésienne qui reproduit cette frontière au lieu de la postuler, et une
-\textbf{spécification de reporting hiérarchisée} qui donne au travail une portée réglementaire
+\emph{formalisation} bayésienne qui reproduit cette frontière au lieu de la postuler, et une
+spécification de reporting hiérarchisée qui donne au travail une portée réglementaire
 au-delà du modèle.
 \end{cle}
 

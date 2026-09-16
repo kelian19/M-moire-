@@ -50,10 +50,10 @@ remerciements, un chapitre d'enseignements du stage et les deux notes de synthè
 
 | Document | Total | Corps | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **190 pages** | **136, annexes en 137** | **6, ligne de base** | 2 217 sur 2 217 |
-| `main.pdf`, version 1 | 173 pages | 126, annexes en 127 | 15, ligne de base | mêmes chapitres |
-| `main_v2.pdf`, version 2 | 179 pages | 129, annexes en 130 | 6, ligne de base | mêmes chapitres |
-| `main_v3.pdf`, version courte | 152 pages | 102, annexes en 103 | 5, ligne de base | mêmes chapitres, quatorze sections retirées |
+| **`main_ensae.pdf`, le mémoire déposé** | **189 pages** | **135, annexes en 136** | **6, ligne de base** | 2 219 sur 2 219 |
+| `main.pdf`, version 1 | 172 pages | 125, annexes en 126 | 15, ligne de base | mêmes chapitres |
+| `main_v2.pdf`, version 2 | 178 pages | 128, annexes en 129 | 6, ligne de base | mêmes chapitres |
+| `main_v3.pdf`, version courte | 151 pages | 101, annexes en 102 | 5, ligne de base | mêmes chapitres, quatorze sections retirées |
 | `rapport_ensae.pdf` | 52 pages | 36, références comprises | 0 | 373 confirmés sur 373 |
 
 Découpage de `main_ensae` : Introduction en 9, Données en 23, Modélisation en 36, Résultats
@@ -65,7 +65,7 @@ aucune figure n'est posée seule sur sa page, et trois figures inutilisées ont 
 Les trois reprises le 16 sont deux sections neuves, l'agrégation au capital total au chapitre 12
 et la triangulation du moteur au chapitre 13. Voir les entrées du journal.
 
-**Harnais du mémoire : 2 217 nombres, 2 217 confirmés, 100 %**, et **0 hors contrôle non déclaré
+**Harnais du mémoire : 2 219 nombres, 2 219 confirmés, 100 %**, et **0 hors contrôle non déclaré
 sur les dix-neuf chapitres**, 93 nombres étant déclarés hors script avec leur motif (état de
 l'art, cadre réglementaire, démonstrations, pièces justificatives).
 
@@ -550,8 +550,9 @@ propagation sur des sources prudentielles, et l'élicitation.
    façon été supprimée le 15. **Et il reste un point à moitié** : le titre général de `S17` n'a
    pas été retiré alors que ceux de Z6 et S16 l'ont été dans le même lot, l'arrêt ayant été
    demandé entre les deux ;
-3. **purger le `\textbf{}` à l'intérieur des phrases**, en le gardant pour les têtes de
-   paragraphe. Un mémoire d'actuariat de l'Institut n'a presque pas de gras dans son corps ;
+3. ~~**purger le `\textbf{}` à l'intérieur des phrases**~~ : **FAIT le 16 septembre**, avec
+   la révision stylistique. Quarante-quatre passages en italique, trente-six dégraissés,
+   plus huit `\mathbf` sur des nombres ; le gras ne sert plus qu'aux têtes et aux tableaux ;
 4. **compléter `\fondateurnexialog`** dans `remerciements.tex`, qui imprime
    `Ali [NOM À COMPLÉTER]` en gras tant qu'il est vide, donc un dépôt incomplet est impossible par
    inadvertance. C'est à Kélian.
@@ -667,6 +668,93 @@ Chacun a coûté du temps au moins une fois.
 Kélian a déposé les deux fichiers de `data/raw` sur le PC, ce qui débloque seize scripts d'un
 coup, et la journée s'est terminée sur un axe de validation que le mémoire annonçait sans
 l'avoir tenu.
+
+### La révision stylistique des vingt-deux chapitres
+
+Demande de Kélian : réviser le mémoire entier sur le style, l'orthographe et la rédaction, à
+l'étalon des mémoires de l'Institut ayant obtenu les meilleures distinctions. Consigne de
+méthode en cours de route : cesser de demander validation et appliquer ce qu'un actuaire
+certifié aurait fait, sur tous les fichiers.
+
+**LES DEUX CHAPITRES MIGRÉS DE L'ANCIEN MÉMOIRE ÉTAIENT LES SEULS À TRAHIR LEUR ORIGINE.** Un
+relevé de la première personne le montre sans discussion : $8$ occurrences pour $2\,312$ mots au
+chapitre 04 et $9$ pour $1\,722$ au chapitre 03, contre $0{,}1$ à $0{,}7$ pour mille dans les
+vingt autres fichiers. Le reste du document était déjà à la voix impersonnelle des mémoires
+publiés ; il s'agissait d'y aligner ces deux-là, plus une vingtaine d'occurrences résiduelles
+ailleurs. **Le chapitre 19 n'est pas touché** : il n'est appelé que par `main_ensae`, et le
+barème de l'école exige explicitement le recul personnel.
+
+**LE DÉFAUT DE REGISTRE LE PLUS VOYANT ÉTAIT UN ENCADRÉ AU \og{} JE \fg{}.** Le chapitre 03
+portait, entre guillemets, un paragraphe de défense orale : \og{} Je n'invente pas une nouvelle
+loi de sévérité... Ma contribution est le mécanisme... que je traduis en capital \fg{}. Un
+mémoire de l'Institut n'argumente pas à la première personne du singulier, et le titre de
+l'encadré, \og{} La revendication de nouveauté, défendable \fg{}, se donnait en outre un
+satisfecit. Le fond est conservé, la voix change. Deux passages du même type au chapitre 13,
+dont un \og{} je sais précisément de quoi mon SCR dépend \fg{}, ont reçu le même traitement.
+
+**SIX DÉFAUTS DE FOND, QUE LE HARNAIS NE POUVAIT PAS VOIR.**
+
+- **L'abstract anglais contredisait le résumé français.** Le français donne un facteur $22$ pour
+  la seule source de sévérité et $41$ en y ajoutant l'échelle de fréquence ; l'anglais donnait
+  \og{} a factor of forty with the severity source \fg{}, soit le mauvais facteur attribué à la
+  mauvaise cause. Le harnais ne lit pas un nombre écrit en lettres. Un jury bilingue, si.
+- **\og{} La base sera exhaustive \fg{}** annonçait le chapitre 05 à propos du futur registre
+  DORA. C'est faux : la notification ne porte que sur les incidents \emph{majeurs}, donc
+  au-dessus d'un seuil de matérialité. Le biais de déclaration change de nature, il ne disparaît
+  pas. Le passage le dit maintenant.
+- **Deux passages de survente**, au même endroit : \og{} prend toute sa valeur \fg{}, \og{} le
+  moteur de calcul absorbera ces entrées qualifiées \fg{}, \og{} un SCR cyber d'une précision
+  inédite \fg{}. La note d'honnêteté du dossier dit exactement l'inverse.
+- **\og{} élicitée \fg{}** qualifiait la matrice de contagion aux chapitres 02 et 03, alors que
+  l'annexe du protocole de Cooke dit elle-même que l'élicitation a été \emph{préparée et non
+  exécutée}. La matrice est posée à dire d'expert, puis bornée.
+- **Une hypothèse lourde posée en passant** au chapitre 05 : \og{} nous assumons que les bases
+  commerciales intègrent une homogénéisation monétaire \fg{}, sans son sens d'erreur. Elle est
+  désormais déclarée avec sa direction : si elle est fausse, elle minore la queue et le capital.
+- **Le compte des cinq mouvements ne tombait pas** au chapitre 02 : le quatrième empaquetait la
+  trajectoire et les résultats, si bien que \og{} les deux derniers mouvements, la trajectoire et
+  les résultats \fg{} ne désignait pas les deux derniers. Découpage rétabli.
+
+**TROIS DÉFAUTS DE SYNTAXE OU DE STRUCTURE.** Deux pronoms sans antécédent au résumé, dont un
+\og{} il \fg{} qui renvoyait grammaticalement au schéma \textsc{veris} là où c'est le mémoire qui
+caractérise l'ensemble des matrices. Une référence rompue au chapitre 04, où une phrase sur le
+mémoire s'était intercalée entre la description des modèles AMA et le \og{} S'ils offraient \fg{}
+qui y renvoie. Et un `\textbf` **coupé en deux par un commentaire** `SOURCES-SCRIPTS` inséré en
+milieu de macro au chapitre 06 : cela compilait, mais toute édition ultérieure de ce bloc aurait
+cassé la commande.
+
+**LE GRAS DANS LE CORPS, ET POURQUOI LES PREMIERS RELEVÉS ÉTAIENT FAUX.** Le document porte $564$
+occurrences de `\textbf`, dont $219$ en cellules de tableau et $64$ en tête de paragraphe, toutes
+légitimes. Les premiers comptages annonçaient cinq gras en pleine prose ; il y en avait $84$. Le
+motif de l'erreur est instructif : un gras qui **ouvre une ligne du source** n'ouvre pas pour
+autant un paragraphe, le retour à la ligne de la source n'ayant aucune valeur typographique.
+Règle appliquée, sur l'étalon des mémoires primés où le gras ne sert qu'aux têtes : un syntagme
+d'un ou deux mots devient de l'italique, marque des termes techniques ; une clause de trois mots
+ou plus perd son balisage, la structure de la phrase la portant déjà ; un nombre se dégraisse
+sans prendre l'italique, qui ne marque pas une quantité. Soit **$44$ passages en italique et
+$36$ dégraissés**, plus huit `\mathbf` qui mettaient un chiffre en gras au milieu d'une phrase.
+
+**DIVERS DE TYPOGRAPHIE ET DE NOMENCLATURE.** Le sigle `ROI` désignait le \emph{Registre
+d'Informations} au chapitre 04 et le retour sur investissement au chapitre 12b : le premier
+usage, unique, est retiré. `ICT` subsistait trois fois contre treize `TIC`, la forme du règlement
+en français. Six nombres du chapitre 03 étaient hors mode mathématique, seuls du document à
+l'être. Dix espaces de fin de ligne retirées. Et la frontière Pilier~1 / Pilier~2 est tenue là où
+elle ne l'était pas : \og{} une trajectoire de SCR \fg{} devient \og{} une trajectoire de besoin
+de capital \fg{}, aucun module DORA n'existant en Formule Standard.
+
+**L'OUTIL, ET LE GARDE-FOU QUI COMPTE.** Les corrections passent par `revision.py`, qui vérifie
+chaque ancre **unique** avant de l'appliquer et compare, avant et après, le compte des commandes
+de structure (`\section`, `\begin`, `\end`, `\label`, `\ref`, `\caption`, `\item`, `\figover`...).
+Si l'une bouge sans avoir été déclarée, **rien n'est écrit**. Un compte de mots ne sait pas
+distinguer un resserrage d'une troncature ; celui-ci le sait, et il a d'ailleurs refusé deux
+écritures, dont une qui n'ajoutait qu'un renvoi de chapitre légitime.
+
+**Contrôles.** Harnais **$2\,219$ nombres, $2\,219$ confirmés, $100\,\%$**, hors contrôle non
+déclaré à zéro sur les dix-neuf chapitres. `main_ensae` $189$ pages dont $135$ de corps, `main`
+$172$, `main_v2` $178$, `main_v3` $151$ : la révision rend **une page à chaque version**, sans
+qu'aucun contenu soit retiré. Débordements exactement aux quatre lignes de base ($6$, $15$, $6$,
+$5$), $0$ vbox, $0$ annotation hors page, $0$ page tournée, $0$ \og{} ?? \fg{}. Une page a été
+rendue en image et relue pour juger le rendu après la purge du gras.
 
 ### `data/raw` arrive, et la première chose à faire est de ne rien croire
 

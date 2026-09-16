@@ -22,7 +22,7 @@ pour qu'aucun chiffre du mémoire ne soit sans origine déclarée.
 
 \begin{cle}
 \textbf{Thèse.} Les conclusions du modèle ne reposent pas sur les paramètres non calibrés.
-Je le montre en deux temps : (i)~elles sont insensibles aux choix de modélisation
+La démonstration se fait en deux temps : (i)~elles sont insensibles aux choix de modélisation
 innocents (structure de la cascade, famille de dépendance, couche temporelle, source de
 sévérité) ; (ii)~elles ne réagissent qu'aux leviers qui doivent compter (conformité,
 contagion), ce qui est une \emph{qualité}, pas un défaut, c'est la sensibilité au risque que
@@ -115,9 +115,9 @@ la direction de $W$ n'étant pas identifiable, la contagion se lit en bande
 l'incertitude de modèle : le choix de la \emph{famille} elle-même.
 
 On la chiffre en recalculant le SCR sous des familles concurrentes. Sur l'axe de la
-\textbf{dépendance}, à marges par pilier fixées, le SCR va de $5\,322$ M\euro{} (indépendance) à
+\emph{dépendance}, à marges par pilier fixées, le SCR va de $5\,322$ M\euro{} (indépendance) à
 $9\,806$ M\euro{} (comonotone, borne de Fréchet), soit un facteur $1{,}8$, la formule standard
-Solvabilité~II et les copules gaussienne et de Gumbel se plaçant entre les deux ; notre cascade
+Solvabilité~II et les copules gaussienne et de Gumbel se plaçant entre les deux ; la cascade
 dirigée ($8\,318$ M\euro) tombe dans cette bande, entre une dépendance gaussienne et une
 dépendance de Gumbel. Sur l'axe de la famille de queue, l'écart est bien plus large :
 d'une lognormale ($4\,330$ M\euro) à une GPD à queue lourde ($\xi=0{,}90$ ; $24\,016$ M\euro),
@@ -230,7 +230,7 @@ c'est le point le plus exposé du mémoire. Ces auteurs ne testent pas l'auto-ex
 leur cascade : ils \emph{posent} le graphe acyclique, et leur mention du processus auto-excité
 tient en une ligne d'un tableau de positionnement où il figure comme une représentation mature
 parmi d'autres, mieux adaptée à un autre régime d'observation. Ce qui converge est donc le
-\textbf{choix de modélisation et son motif}, pas une réfutation. Deux équipes qui ne disposent
+choix de modélisation et son motif, pas une réfutation. Deux équipes qui ne disposent
 pas de la chronologie fine d'un événement écartent le même outil pour la même raison, ce qui
 déplace ce parti d'une préférence vers une contrainte d'observation, et c'est tout ce que l'on
 peut en tirer. Le rejet lui-même ne repose que sur le test du présent travail.
@@ -303,7 +303,7 @@ Le nombre $K$ de pertes non nulles d'une année se construit en trois étages to
 amorces suivent la binomiale négative, chaque amorce touche un ensemble de piliers dont les
 tables de cascade énumèrent la loi, et chaque pilier touché ne produit une perte qu'avec la
 probabilité de dépassement du seuil. Sa fonction génératrice s'écrit donc en forme fermée, ce qui
-ouvre deux voies étrangères au Monte-Carlo. L'\textbf{inversion par transformée de Fourier} donne
+ouvre deux voies étrangères au Monte-Carlo. L'inversion par transformée de Fourier donne
 la loi agrégée sans aucun aléa : c'est la réalisation numériquement stable de la récursion de
 Panjer, laquelle est inexploitable telle quelle à l'indice de queue publié, où elle demanderait
 de plusieurs millions de points parcourue de proche en proche. L'\textbf{approximation par perte
@@ -450,8 +450,8 @@ l'amplitude est posée plutôt qu'estimée sont au \S\ref{sec:ann-additivite}.
 \textbf{La double lecture.} \og Insensible aux choix innocents, sensible aux leviers réels \fg :
 le modèle n'est ni sur-ajusté ni fragile, il est piloté par ce qui doit le piloter.
 Et la seule grande incertitude, la queue, est nommée et bornée, pas cachée. C'est ce qui
-transforme \og je n'ai pas tout calibré \fg{} en \og je sais précisément de quoi mon SCR
-dépend, et de quoi il ne dépend pas \fg.
+sépare un modèle dont tout n'est pas calibré d'un modèle dont on ignore de quoi il dépend :
+ici, la dépendance du capital est établie levier par levier, et son absence aussi.
 \end{cle}
 
 % =====================================================================

@@ -27,8 +27,8 @@ le modèle classique $K_i=\Phi^{-1}(1-\mathrm{PD}_i)$.
 \begin{attention}
 \textbf{Deux hypothèses de ce modèle sont fausses pour le cyber sous DORA.} D'abord, la
 dépendance y est symétrique (un seul $Y$, un seul $\rho$) : le modèle ne peut pas dire
-\og P1 entraîne P2 plus que l'inverse\fg{}, alors que nos données d'expert sont dirigées à
-\textbf{81\,\%}. Ensuite, le seuil $\Phi^{-1}(\mathrm{PD})$ suppose une PD stable, mesurable et
+\og P1 entraîne P2 plus que l'inverse\fg{}, alors que les données d'expert mobilisées ici
+sont dirigées à $81\,\%$. Ensuite, le seuil $\Phi^{-1}(\mathrm{PD})$ suppose une PD stable, mesurable et
 une valeur de firme sous-jacente, dont rien n'existe en cyber. Les deux généralisations qui
 suivent lèvent ces deux limites.
 \end{attention}
@@ -104,7 +104,7 @@ propagation d'un choc sur un sous-réseau.}
 \textbf{Brancher la matrice d'expert TRANS telle quelle est une erreur de catégorie.}
 $(I-W)^{-1}$ ne représente une cascade que si la série $I+W+W^2+\cdots$ converge, soit
 $\rho(W)<1$. Or $\rho(\mathrm{TRANS})=1{,}461>1$, et $(I-\mathrm{TRANS})^{-1}$ contient
-\textbf{21 entrées négatives sur 25} : un choc positif produirait un stress négatif ailleurs.
+21 entrées négatives sur 25 : un choc positif produirait un stress négatif ailleurs.
 TRANS n'a jamais été une matrice de parts.
 \end{attention}
 
@@ -112,7 +112,7 @@ La discipline vient du modèle entrées-sorties de Leontief, dont l'inverse
 $B=(I-A)^{-1}=\sum_{k\ge0}A^k$ n'explose jamais parce que $A$ est une matrice de parts :
 les colonnes somment à moins de un, la différence étant la valeur ajoutée, strictement positive.
 On applique la même règle en lisant la ligne $j$ de $W$ comme les parts du stress que $j$
-\textbf{émet} vers les autres piliers :
+\emph{émet} vers les autres piliers :
 \begin{equation}
 \label{eq:norm}
 \boxed{\;W \;=\; g \cdot \frac{\mathrm{TRANS}}{\max_j \sum_k \mathrm{TRANS}_{jk}}\;,
@@ -150,7 +150,7 @@ M_{jk}\;=\;\Phi(\text{base}_j+W_{jk})-\Phi(\text{base}_j).
 simultané (il doit être $<1$ pour que $(I-W)^{-1}$ existe) ; $R_0=\rho(M)$ gouverne la cascade
 d'incidents, qui s'éteint si et seulement si $R_0<1$ (le $R_0$ des épidémiologistes). Avec une
 incidence de fond de $4{,}5\,\%$ et $g=0{,}9$, on obtient $\rho(W)=0{,}506$ et
-$R_0=\mathbf{0{,}054}$ : les deux lectures sont stables, mais pas du même ordre.
+$R_0=0{,}054$ : les deux lectures sont stables, mais pas du même ordre.
 \end{cle}
 
 \begin{figure}[htbp]\centering
@@ -173,7 +173,7 @@ valeur de $g$.
 \begin{attention}
 \textbf{Cohérence interne, et non validation externe.} ROOT et TRANS sont issus du jugement du
 même expert ; retrouver ROOT à partir de TRANS n'est pas une validation externe mais un test de
-\textbf{cohérence interne} du jugement, réussi. Sa portée réelle est une réduction de
+\emph{cohérence interne} du jugement, réussi. Sa portée réelle est une réduction de
 paramètres : ROOT se déduit de TRANS au lieu d'être posé, soit cinq paramètres d'expert en
 moins.
 \end{attention}
@@ -185,7 +185,7 @@ moins.
 Il faut distinguer deux seuils vivant dans deux espaces : $u_j$, le seuil de matérialité
 (DORA art.~18), dans l'espace des sévérités observables (euros, clients, heures) ; et $K_j$, le
 seuil sur la variable latente, sans unité. On ne peut pas prendre l'un pour l'autre : on
-\textbf{apparie leurs probabilités}, en choisissant $K_j$ pour que l'événement latent
+apparie leurs probabilités, en choisissant $K_j$ pour que l'événement latent
 $\{X_{ij}\ge K_j\}$ ait la même probabilité que l'incident majeur observable
 $\{S_{ij}\ge u_j\}$ :
 \begin{equation}
@@ -233,7 +233,7 @@ disponibles, il échoue, et il échoue pour des raisons qui tiennent aux \emph{d
 la méthode. Le chapitre~\ref{ch:identifiabilite} le démontre sur deux sources qui échouent pour
 des raisons opposées et en tire la frontière d'identification ; le
 chapitre~\ref{chap:partielle} en tire les conséquences sur le capital. Une précision de méthode
-mérite d'être posée dès ici : le test intuitif du \og temps inversé \fg{} est dégénéré
+s'impose dès ici : le test intuitif du \og temps inversé \fg{} est dégénéré
 sur des comptages, puisque la matrice obtenue en renversant la chronologie vaut, par
 construction, la transposée. Il ne prouve rien, et seul le placebo par permutation est valide.
 \end{attention}
@@ -359,7 +359,7 @@ requise est minimale : il suffit que $\mathrm{TRANS}$ soit asymétrique, sans qu
 
 \begin{cle}
 \textbf{Ce qui n'est pas revendiqué, et pourquoi le dire.} Une propriété plus forte, la
-\textbf{non-transitivité} de la dominance entre piliers, a été testée dans trois formulations :
+\emph{non-transitivité} de la dominance entre piliers, a été testée dans trois formulations :
 la transitivité des corrélations qu'impose un modèle à facteur unique, la positivité de la
 dépendance symétrisée, et l'existence de cycles de dominance par paire. Aucune ne se
 vérifie : zéro violation de l'inégalité de transitivité sur $420$ triplets, valeur propre

@@ -11,7 +11,7 @@ et l'intervalle interquartile, la variance de la sévérité étant infinie ($\x
 
 \begin{attention}
 \textbf{Comment lire les niveaux de ce chapitre.} Les montants qui suivent sont
-\textbf{illustratifs} et ne doivent pas être lus comme la mesure du capital d'une entité réelle.
+\emph{illustratifs} et ne doivent pas être lus comme la mesure du capital d'une entité réelle.
 Le chapitre~\ref{chap:partielle} le démontre : en ne faisant varier que la loi de sévérité et la
 fréquence, c'est-à-dire des \emph{entrées} du modèle qui dépendent d'un périmètre de collecte
 non transposable, le niveau se déplace d'un facteur $41$, tandis que les rapports au socle
@@ -67,7 +67,7 @@ abaisse l'état conforme et relève le non conforme), l'état partiel n'étant p
 Le tableau qui précède n'est pas le seul protocole du mémoire à chiffrer \og l'écart entre l'état
 conforme et l'état non conforme \fg{}. Quatre le font, et ils donnent quatre résultats. Aucun
 n'est faux : ils ne relâchent pas le même nombre de canaux entre les deux états, et rien
-d'autre ne les sépare. Les publier sans le dire serait laisser le lecteur choisir à notre place.
+d'autre ne les sépare. Les publier sans le dire reviendrait à laisser le lecteur trancher sans les éléments.
 
 \begin{center}\footnotesize
 \renewcommand{\arraystretch}{1.25}
@@ -132,7 +132,7 @@ partagent le même moteur et les mêmes graines.
 
 \noindent\textbf{Où chaque lecture continue de servir.} Les trajectoires du
 \S\ref{sec:res-traj} et la priorisation du \S\ref{sec:res-prio} restent conduites en
-\textbf{lecture~B}. Ce n'est pas une indécision résiduelle mais un choix d'objet : elles portent
+\emph{lecture~B}. Ce n'est pas une indécision résiduelle mais un choix d'objet : elles portent
 sur l'\emph{ordre} de remédiation, dont le chapitre~\ref{ch:robustesse} montre qu'il est
 invariant aux leviers testés, de sorte que le canal ajouté déplacerait leurs niveaux sans
 déplacer leur conclusion. Les rejouer relèverait par ailleurs de la recalibration, que le gel
@@ -214,7 +214,7 @@ Sa mesure exige toutefois de la prudence : une interaction est une différence d
 l'estimateur Monte-Carlo le plus fragile qui soit en queue lourde. Sur la VaR à $99{,}5\,\%$
 OpRisk, son \emph{signe n'est pas résolu} : sur six graines à résolution égale
 ($60\,000$ années chacune), il va de $-137$ à $+1\,395$~M\euro{} et n'est positif que dans
-\textbf{quatre cas sur six}, la graine de référence donnant $+1\,395$~M\euro{}. Un estimateur
+quatre cas sur six, la graine de référence donnant $+1\,395$~M\euro{}. Un estimateur
 qui change de signe avec la graine interdit d'en tirer quoi que ce soit. La super-additivité
 est en revanche robuste partout où le bruit de queue ne domine pas : en \emph{perte moyenne}
 elle est positive sur les six graines ($+532$ à $+659$~M\euro{} OpRisk, $+827$
@@ -451,7 +451,7 @@ au \S\ref{sec:inverse}.
 
 Le niveau du capital bouge fortement selon les leviers non calibrés (l'indice de queue $\xi$
 domine, facteur $\sim 6$), mais la direction ($\Delta_{\text{DORA}}>0$) et la
-\textbf{priorité} (P1 en tête) tiennent sur tous les réglages testés (figure~\ref{fig:robust}).
+\emph{priorité} (P1 en tête) tiennent sur tous les réglages testés (figure~\ref{fig:robust}).
 
 \begin{figure}[htbp]\centering
 \figover{S14_robustesse_multietats.png}
@@ -524,7 +524,7 @@ non une variance conditionnelle : elle est définie sans hypothèse de moment.
 \paragraph{Le niveau de propagation est le levier le \emph{moins} sensible des quatre.} Le
 tornado déplace chaque entrée du modèle vers le bas et vers le haut, à structure fixée. Le gain
 $g$ y va de $0{,}5$ à $1{,}0$, ce qui déplace le surcoût de $5\,517$ à $6\,579$~M\euro. Le
-\textbf{seuil} de la loi de queue, lui, le déplace de $4\,862$ à $12\,944$~M\euro{} entre les
+\emph{seuil} de la loi de queue, lui, le déplace de $4\,862$ à $12\,944$~M\euro{} entre les
 percentiles $90$ et $80$, et la fréquence de $4\,056$ à $8\,684$~M\euro{} en la divisant puis en
 la multipliant par $1{,}5$ ; la surdispersion, de $6\,449$ à $6\,834$. La fragilité du
 capital n'est donc pas dans la propagation, elle est dans l'ajustement de valeurs extrêmes,
@@ -731,7 +731,7 @@ la sévérité est une GPD de variance infinie et la queue domine tout.
 \textbf{Les deux classements sont donc corrects, chacun dans son modèle, et ce qui les sépare est
 l'indice de queue et non l'architecture.} La conséquence de citation est la même que celle déjà
 posée pour l'échelle des quantiles au \S\ref{sec:benchmark} : ce préprint se cite sur le
-\textbf{protocole}, jamais sur l'ordre d'un résultat en queue. Un lecteur qui ouvrirait
+\emph{protocole}, jamais sur l'ordre d'un résultat en queue. Un lecteur qui ouvrirait
 le préprint et y trouverait la propagation en tête n'a donc pas trouvé une contradiction, il a
 trouvé un modèle sans queue lourde.
 \end{cle}
@@ -888,7 +888,7 @@ confrontations suffisent.
 
 \paragraph{Contre la Formule Standard, sur la même entité.} Pour l'entité notionnelle
 ($15\,000$~M\euro{} de provisions), la charge opérationnelle de la Formule Standard plafonne
-à $0{,}03\times 15\,000 \approx \mathbf{450}$~M\euro. Le socle de la cascade
+à $0{,}03\times 15\,000 \approx 450$~M\euro. Le socle de la cascade
 ($5\,275$~M\euro, chapitre~\ref{chap:partielle}) lui est une dizaine de fois
 supérieur. Deux lectures cohabitent, et aucune ne se tranche sans donnée d'entité : soit la
 charge générique \emph{sous-capte massivement} le cyber, ce que le benchmark
@@ -905,7 +905,7 @@ notionnelle, ne saurait être lu comme le capital d'une entité réelle.
 
 \paragraph{Au niveau du sinistre unique, l'ordre de grandeur est en revanche crédible.} Le
 constat précédent porte sur l'\emph{agrégat} annuel. À l'échelle du \emph{sinistre unique},
-nos quantiles tombent exactement dans la fourchette des grandes pertes cyber réelles
+les quantiles du modèle tombent dans la fourchette des grandes pertes cyber réelles
 (figure~\ref{fig:benchmark-externe}) : le quantile de sévérité $\qsev_{99{,}5\,\%}(X)$
 ($663$~M\euro) et sa moyenne de queue $\qbarsev_{99{,}5\,\%}(X)$ ($1\,752$~M\euro) encadrent
 Merck-NotPetya ($\sim$1,3~Md\euro), Equifax ($\sim$1,3) et Change
@@ -1081,7 +1081,7 @@ Sévérité & $0{,}087$, IC $[0{,}026\,;0{,}148]$ & contient presque zéro \\
 suppose, et le second est le plus frappant : la sévérité ne se met pratiquement pas à l'échelle
 de la taille, d'où le multiplicateur de $0{,}8545$, soit $-14{,}6\,\%$ seulement, appliqué en
 descendant de la population de calibration à l'entité cible. La méthode retenue est donc
-\textbf{à deux canaux séparés}, la fréquence par le lien logarithmique du modèle de comptage et
+à deux canaux séparés, la fréquence par le lien logarithmique du modèle de comptage et
 la sévérité par son élasticité mesurée, et non un facteur unique.
 
 \begin{attention}
@@ -1090,7 +1090,7 @@ puisqu'elle rétrécirait la sévérité alors que la donnée dit qu'elle ne ré
 modèle retenu fait l'inverse : en ne plafonnant pas la sévérité à l'échelle d'entité, il affirme
 qu'une entité de quelques milliards subit à peu près la sévérité d'une institution mondiale, ce
 qui \emph{majore}. C'est exactement pourquoi le chiffre d'entité est publié comme une
-\textbf{borne supérieure d'ordre de grandeur} et pourquoi la méthode déclare une borne inférieure
+borne supérieure d'ordre de grandeur et pourquoi la méthode déclare une borne inférieure
 de validité en taille (\S\ref{sec:entites-reelles}). Substituer la proportionnalité ne
 supprimerait pas le problème, elle en changerait le signe sans le déclarer.
 \end{attention}
@@ -1098,7 +1098,7 @@ supprimerait pas le problème, elle en changerait le signe sans le déclarer.
 \begin{figure}[htbp]\centering
 \figover{J5_benchmark_externe.png}
 \caption{Benchmark externe : la confrontation au réel, à deux échelles
-qu'il ne faut pas confondre. (a)~au niveau du \emph{sinistre unique}, nos quantiles
+qu'il ne faut pas confondre. (a)~au niveau du \emph{sinistre unique}, les quantiles du modèle
 (quantile de sévérité $663$~M\euro{} et moyenne de queue $1\,752$~M\euro{} à $99{,}5\,\%$, et non
 des capitaux) s'insèrent parmi les grandes pertes
 cyber réelles, encadrant Merck-NotPetya, Equifax et Change Healthcare tout en restant sous le
@@ -1318,7 +1318,7 @@ complet de calibration.
 Les trois confrontations qui précèdent portent sur le \emph{niveau}. Il en manque une sur le
 \emph{prix}. Un SCR n'est pas une perte : c'est du capital immobilisé, et le capital coûte.
 Solvabilité~II chiffre ce coût explicitement par le taux de coût du capital de la marge de
-risque, historiquement $6\,\%$ et ramené à $\mathbf{4{,}75\,\%}$ par la directive
+risque, historiquement $6\,\%$ et ramené à $4{,}75\,\%$ par la directive
 (UE)~2025/2, dont la transposition est due pour janvier 2027. Détenir le risque coûte donc
 $\mathrm{CoC}\times\mathrm{SCR}$ par an. En face, le \emph{transférer} coûte une prime, que le
 marché cyber facture avec un chargement : à un ratio de sinistralité de l'ordre de
@@ -1345,7 +1345,7 @@ excès de perte annuel de portée $L$, en minimisant le coût total
 \]
 Le capital résiduel vaut $\max(\mathrm{SCR}-L,0)$, de sorte que l'optimum tombe exactement en
 $L^\star=\mathrm{SCR}=169$~M\euro{} : au-delà, la portée ne rachète plus aucun capital. Le
-coût total passe de $8{,}0$ à $\mathbf{2{,}9}$~M\euro{} par an, soit $\mathbf{-64\,\%}$, en
+coût total passe de $8{,}0$ à $2{,}9$~M\euro{} par an, soit $-64\,\%$, en
 cédant $38\,\%$ de la sinistralité. Le mécanisme est transparent : près de l'optimum, un euro
 de portée supplémentaire coûte $1{,}04\,\%$ de prime et libère $4{,}75\,\%$ de coût du capital.
 
@@ -1356,12 +1356,12 @@ une couverture agrégée de l'ordre de $170$~M\euro{} reste plaçable, mais elle
 plusieurs lignes sur un marché cyber dont la capacité par risque est bornée. Le risque
 de base : les polices excluent la guerre et les
 infrastructures essentielles, donc une part de la queue modélisée n'est pas assurable. La
-\textbf{contrepartie} : sous Solvabilité~II, céder ne supprime pas l'exigence, cela substitue
+\emph{contrepartie} : sous Solvabilité~II, céder ne supprime pas l'exigence, cela substitue
 au risque cyber un risque de défaut de contrepartie sur les créances de réassurance. En
 résumant les trois par un coefficient d'inefficacité $\kappa$, le capital résiduel devient
 $\max(\mathrm{SCR}-L,0)+\kappa L$, et le transfert reste avantageux tant que le taux marginal
 de prime reste sous $\mathrm{CoC}\times(1-\kappa)$. Le seuil critique vaut
-$\kappa^\star=1-0{,}0103/0{,}0475=\mathbf{78\,\%}$ : il faudrait que plus des trois quarts de
+$\kappa^\star=1-0{,}0103/0{,}0475=78\,\%$ : il faudrait que plus des trois quarts de
 la couverture soient inefficaces pour que la détention redevienne préférable. La conclusion
 qualitative est donc robuste, le chiffre ne l'est pas.
 \end{attention}
@@ -1411,14 +1411,14 @@ cinq piliers avec une même brique de sévérité et une même détection. Les t
 objets distincts (queue par pilier, accumulation par tiers pour P4, canal de détection
 propre) est possible, et c'est l'objet de l'annexe~\ref{chap:adaptations}. Le verdict y est
 constant sur les six adaptations testées : chacune relève le niveau, aucune ne
-\textbf{renverse le classement}. C'est pourquoi ce matériel est reporté en annexe plutôt que
+renverse le classement. C'est pourquoi ce matériel est reporté en annexe plutôt que
 présenté ici : il renforce la lecture du chapitre sans la modifier.
 \end{cle}
 
 \begin{cle}
 \textbf{Pourquoi le niveau ne peut pas être une mesure.} La confrontation ne calibre pas le
 niveau, elle le
-\textbf{disqualifie comme mesure} et confirme, par un chemin externe, la lecture que tout le
+disqualifie comme mesure et confirme, par un chemin externe, la lecture que tout le
 mémoire adopte : ce sont le rapport au socle, la largeur de la bande
 d'ignorance et la hiérarchie des piliers qui portent les conclusions, jamais le
 montant en euros. Loin d'affaiblir le travail, cette mise à l'épreuve montre que sa

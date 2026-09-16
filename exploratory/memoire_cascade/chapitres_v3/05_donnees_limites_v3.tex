@@ -14,22 +14,17 @@
 % (élasticité de taille corrigée par troncature, chain-ladder de remontée).
 %==============================================================
 
-La modélisation développée dans ce mémoire ne repose sur aucune base de
-données unique. Chaque source mobilisée présente un périmètre, un biais et un
-niveau de granularité distincts, et c'est précisément leur articulation,
-plutôt que le choix d'une source \og privilégiée\fg{}, qui constitue la
-démarche méthodologique retenue. Cette partie présente successivement les
-trois sources utilisées, avant de formaliser un cadre épistémique explicite
-sur les limites de l'exercice.
+La modélisation ne repose sur aucune base unique. Chaque source mobilisée a son périmètre,
+son biais et sa granularité, et c'est leur articulation, non le choix d'une source
+privilégiée, qui fait la démarche.
 
 %--------------------------------------------------------------
 \section{Cartographie des sources et de leurs rôles}
 \label{sec:carto}
 %--------------------------------------------------------------
 
-Un point de clarification méthodologique central structure l'ensemble de
-cette partie : aucune base n'est utilisée seule. Chaque source
-alimente une composante précise du modèle, selon ses propriétés propres.
+Aucune base n'est utilisée seule : chaque source alimente une composante précise du modèle,
+selon ce qu'elle sait porter.
 
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
@@ -50,19 +45,24 @@ Ne calibre pas le modèle : ajuste $\lambda$ selon le niveau de conformité \\
 \end{tabular}
 \end{center}
 
-Cette répartition des rôles évite un écueil fréquent dans la modélisation du
-risque cyber : traiter une base généraliste comme si elle pouvait, à elle
-seule, calibrer l'ensemble d'un modèle fréquence-sévérité. Chaque source est
-au contraire mobilisée là où elle est la plus fiable, et ses limites propres
-sont explicitement documentées dans les sous-sections suivantes.
+Cette répartition écarte un écueil fréquent : traiter une base généraliste comme si elle
+pouvait, seule, calibrer un modèle fréquence-sévérité. Chaque source est mobilisée là où elle
+est la plus fiable, et ses limites sont déclarées.
 
 %--------------------------------------------------------------
 
 %--------------------------------------------------------------
 
-L'utilisation d'un modèle interne, même partiel, est strictement encadrée par la directive Solvabilité II. L'Article 19 du Règlement Délégué (UE) 2015/35 impose que les données utilisées pour le calcul de la distribution de probabilité prévisionnelle respectent trois critères cumulatifs : l'exactitude, l'exhaustivité et la pertinence. 
+L'usage d'un modèle interne, même partiel, est encadré par la directive Solvabilité~II.
+L'Article~19 du Règlement Délégué (UE) 2015/35 impose que les données servant au calcul de la
+distribution de probabilité prévisionnelle respectent trois critères cumulatifs : exactitude,
+exhaustivité et pertinence.
 
-Dans le domaine du risque cyber, aucune base de données publique ou commerciale ne satisfait pleinement ces trois critères. L'actuaire est donc contraint de documenter rigoureusement les biais inhérents aux données historiques et de justifier les retraitements appliqués. La validité du SCR calculé ne repose pas sur la perfection de la donnée (qui n'existe pas), mais sur la transparence des limites épistémiques et la robustesse du modèle mathématique face à ces biais.
+Sur le risque cyber, aucune base publique ou commerciale ne satisfait ces trois critères.
+L'actuaire doit donc documenter les biais des données historiques et justifier les
+retraitements. La validité du capital calculé ne tient pas à la perfection de la donnée, qui
+n'existe pas, mais à la déclaration des limites et à la robustesse du modèle face à ces
+biais.
 
 %--------------------------------------------------------------
 
@@ -75,12 +75,19 @@ Dans le domaine du risque cyber, aucune base de données publique ou commerciale
 L'utilisation conjointe des bases \textit{Privacy Rights Clearinghouse} (PRC) et SAS OpRisk Global permet de croiser les perspectives, mais nécessite d'identifier trois biais statistiques majeurs qui altèrent l'estimation de l'indice de queue $\xi$.
 
 \paragraph{1. Le biais de sélection (Selection Bias).}
-Ce biais affecte particulièrement la base OpRisk Global, qui se nourrit principalement d'événements rendus publics dans la presse financière ou les rapports annuels. Par construction, un incident cyber n'atteint ce seuil de visibilité que s'il frappe une entité d'une certaine taille (généralement des institutions systémiques ou de grandes banques internationales) ou si son montant est exceptionnellement élevé. 
-Ce biais de taille (size bias) conduit à une sur-représentation des événements extrêmes et une sous-représentation de la sinistralité d'attrition. Si l'on calibre directement un modèle sur cette base pour une entité de taille moyenne (ex: une mutuelle régionale), la probabilité de subir une perte extrême sera mécaniquement surestimée. C'est pour cette raison que notre approche conditionne la fréquence d'occurrence au profil de l'entité via le modèle de Vasicek (chapitre~\ref{chap:cascade}).
+Ce biais affecte particulièrement la base OpRisk Global, qui se nourrit principalement d'événements rendus publics dans la presse financière ou les rapports annuels. Par construction, un incident cyber n'atteint ce seuil de visibilité que s'il frappe une entité d'une certaine taille (généralement des institutions systémiques ou de grandes banques internationales) ou si son montant est exceptionnellement élevé.
+Ce biais de taille sur-représente les événements extrêmes et sous-représente la sinistralité
+d'attrition. Calibrer directement sur cette base un modèle destiné à une entité de taille
+moyenne, une mutuelle régionale par exemple, surestime mécaniquement la probabilité de perte
+extrême. C'est pourquoi la fréquence d'occurrence est ici conditionnée au profil de l'entité
+par le modèle de Vasicek (chapitre~\ref{chap:cascade}).
 
 \paragraph{2. Le biais de déclaration (Reporting Bias).}
-La base PRC est soumise à un biais de déclaration lié aux asymétries réglementaires. Aux États-Unis, la notification des fuites de données personnelles (Data Breaches) est obligatoire dans la plupart des États, ce qui rend la base PRC très riche sur ce vecteur d'attaque. En revanche, un rançongiciel (Ransomware) qui paralyse les serveurs de l'entreprise mais n'exfiltre aucune donnée personnelle peut ne déclencher aucune obligation de notification légale (avant l'entrée en vigueur d'actes récents comme le CIRCIA). 
-Par conséquent, calibrer une fréquence globale sur la PRC tend à sous-estimer le risque d'interruption d'activité (Business Interruption) au profit du seul risque de compromission de données. C'est précisément pour corriger ce biais que nous avons superposé la structure des vecteurs d'attaque de la base Hackmageddon (qui capte l'ensemble du spectre, y compris les ransomwares) sur la fréquence de base issue de la PRC.
+La base PRC est soumise à un biais de déclaration lié aux asymétries réglementaires. Aux États-Unis, la notification des fuites de données personnelles (Data Breaches) est obligatoire dans la plupart des États, ce qui rend la base PRC très riche sur ce vecteur d'attaque. En revanche, un rançongiciel (Ransomware) qui paralyse les serveurs de l'entreprise mais n'exfiltre aucune donnée personnelle peut ne déclencher aucune obligation de notification légale (avant l'entrée en vigueur d'actes récents comme le CIRCIA).
+Calibrer une fréquence globale sur la PRC sous-estime donc le risque d'interruption
+d'activité au profit du seul risque de compromission de données. Pour corriger ce biais, la
+structure des vecteurs d'attaque de la base Hackmageddon, qui couvre l'ensemble du spectre,
+rançongiciels compris, est superposée à la fréquence de base issue de la PRC.
 
 \paragraph{3. Le biais de survie (Survivorship Bias).}
 Dans les bases de pertes opérationnelles, la sévérité maximale observée est paradoxalement bornée par la capacité de survie de l'entité. Une cyberattaque ayant entraîné la faillite pure et simple de l'entreprise (ruine) disparaît souvent des bases de pertes opérationnelles classiques, car il n'y a plus d'entité survivante pour reporter la perte financière finale et les coûts de remédiation à long terme. Ce biais tronque artificiellement l'extrême queue de distribution. La Théorie des Valeurs Extrêmes (EVT), en ajustant une loi de Pareto Généralisée (GPD) qui permet d'extrapoler au-delà du maximum historique observé, est la réponse mathématique adéquate à ce biais de survie.
@@ -91,7 +98,9 @@ Dans les bases de pertes opérationnelles, la sévérité maximale observée est
 
 \section{L'hétérogénéité temporelle et l'actualisation des sinistres}
 
-L'hétérogénéité temporelle des bases de données constitue une autre infraction potentielle au critère d'exactitude de Solvabilité II. La base OpRisk Global agrège des pertes allant de l'année 2000 à 2026. Utiliser un montant de perte de 2018 tel quel dans un modèle de capital en 2026 constitue une erreur actuarielle sévère, l'inflation cyber ne se comportant pas comme l'inflation macroéconomique classique (IPC).
+L'hétérogénéité temporelle des bases de données constitue une autre infraction potentielle au critère d'exactitude de Solvabilité II. La base OpRisk Global agrège des pertes de $2000$ à $2026$. Employer un montant de $2018$ tel
+quel dans un modèle de capital de $2026$ fausse le résultat, l'inflation des sinistres
+technologiques ne suivant pas l'indice des prix à la consommation.
 
 Le coût d'un sinistre cyber est principalement tiré par trois facteurs :
 \begin{itemize}
@@ -104,9 +113,16 @@ Pour respecter les exigences de l'Article 19, les sinistres historiques doivent 
 \begin{equation}
 \tilde{L}_{2026} = L_t \times \prod_{k=t}^{2025} (1 + i_k^{cyber})
 \end{equation}
-où $i_k^{cyber}$ est un taux d'inflation spécifique aux sinistres technologiques (souvent estimé par des indices sectoriels entre 5\,\% et 10\,\% annuels). Dans le cadre de ce mémoire, nous assumons que les bases commerciales traitées intègrent une homogénéisation monétaire, mais soulignons que la construction d'un indice d'inflation cyber robuste demeure un défi majeur pour la place financière.
+où $i_k^{cyber}$ est un taux d'inflation propre aux sinistres technologiques, que les indices
+sectoriels situent entre $5$ et $10\,\%$ par an. Le mémoire \emph{suppose} que les bases
+commerciales employées intègrent déjà cette homogénéisation monétaire. L'hypothèse n'est pas
+vérifiable sur la donnée disponible ; si elle est fausse, elle minore les sinistres anciens
+ramenés en euros courants, donc minore la queue et le capital. Aucun indice d'inflation
+spécifique au cyber ne fait aujourd'hui consensus.
 
-Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de Jacobs. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log présente la limite de \og lisser\fg{} la variance et de minorer les extrêmes, justifiant notre décision de ne pas plafonner la calibration issue directement d'OpRisk (où les montants sont observés de bout en bout).
+Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de Jacobs. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log lisse la variance et minore les extrêmes. C'est le motif de
+ne pas plafonner la calibration issue directement d'OpRisk, où les montants sont observés de
+bout en bout.
 
 %--------------------------------------------------------------
 
@@ -116,14 +132,27 @@ Les limites épistémiques et statistiques exposées ci-dessus contraignent aujo
 
 DORA impose aux entités financières de reporter à leur autorité compétente (l'ACPR en France) les incidents majeurs selon une taxonomie standardisée (causes, vecteurs, temps de résolution, pertes financières directes et indirectes). À terme, le règlement prévoit la centralisation de ces rapports au sein d'un pôle de l'Union européenne (EU Hub).
 
-La constitution de ce registre européen résoudra structurellement les trois failles actuelles des bases de données :
+Ce registre atténuerait les trois failles actuelles sans les faire disparaître :
 \begin{itemize}
-    \item \textbf{Suppression du biais de déclaration :} Le \textit{reporting} étant réglementairement obligatoire, la base sera exhaustive.
-    \item \textbf{Suppression du biais de sélection :} Le registre couvrira toutes les strates du marché financier (grandes banques, mais aussi courtiers, mutuelles et sociétés de gestion), offrant enfin une granularité suffisante pour conditionner la sévérité par taille d'entité.
-    \item \textbf{Visibilité sur les tiers :} Le registre DORA cartographiera l'implication des prestataires tiers ICT. C'est exactement la donnée qui manque pour identifier la direction de la contagion, et le chapitre~\ref{chap:partielle} chiffre en euros de capital ce que son obtention ferait gagner.
+    \item \textbf{Biais de déclaration :} la notification étant obligatoire, la base couvrirait
+      les incidents \emph{majeurs} au sens du règlement. Elle resterait donc tronquée au seuil
+      de matérialité, et non exhaustive : le biais change de nature plutôt qu'il ne disparaît.
+    \item \textbf{Biais de sélection :} le registre couvrirait toutes les strates du marché
+      financier, courtiers, mutuelles et sociétés de gestion compris, ce qui donnerait la
+      granularité nécessaire pour conditionner la sévérité par taille d'entité.
+    \item \textbf{Visibilité sur les tiers :} le registre cartographierait l'implication des
+      prestataires tiers TIC. C'est exactement la donnée qui manque pour identifier la direction
+      de la contagion, et le chapitre~\ref{chap:partielle} chiffre en euros de capital ce que
+      son obtention ferait gagner.
 \end{itemize}
 
-Dès lors, l'architecture du Modèle Interne Partiel développée dans ce mémoire (LDA, théorie des valeurs extrêmes, facteurs de Vasicek, allocation d'Euler) prend toute sa valeur. Le modèle mathématique et les scripts de simulation construits sont intégralement agnostiques à la source de données. Lorsqu'une base d'incidents DORA harmonisée sera rendue disponible à la profession actuarielle, il suffira de substituer ces nouvelles données aux actuelles bases PRC et OpRisk. Le moteur de calcul absorbera ces entrées qualifiées pour produire un SCR cyber d'une précision inédite, répondant simultanément aux exigences qualitatives de DORA et aux contraintes quantitatives de Solvabilité II.
+L'architecture retenue ici (approche par distribution des pertes, théorie des valeurs
+extrêmes, facteur de Vasicek, allocation d'Euler) ne dépend pas de la source : le modèle et les
+scripts sont agnostiques aux données d'entrée. Substituer une base d'incidents DORA harmonisée
+aux bases PRC et OpRisk ne demanderait donc aucune réécriture. Le gain porterait sur la qualité
+des entrées, non sur la structure du modèle, et il resterait borné par ce que le registre ne
+couvrira pas : les incidents sous le seuil de matérialité, et la direction de la contagion tant
+que le registre ne l'horodate pas.
 
 \paragraph{Automatisation du reclassement par NLP.} En attendant ce registre harmonisé, une
 partie du travail de fiabilisation peut déjà être outillée. Le reclassement manuel par grille
@@ -198,7 +227,7 @@ jamais être comparées terme à terme.
 Il en découle une règle de lecture qui vaut pour tout le mémoire. Le taux
 $\lambda$ est une propriété d'entité, lisible sur un panel
 firme-année ; la charge systémique commune, elle, ne se lit qu'au niveau
-\textbf{agrégé} et après retrait de tendance, car la surdispersion d'un panel
+\emph{agrégé} et après retrait de tendance, car la surdispersion d'un panel
 firme-année est dominée par l'hétérogénéité de taille des firmes, non par un
 choc commun. Confondre les deux niveaux d'observation reviendrait à imputer au
 risque systémique ce qui n'est qu'un effet de taille. Cette séparation
@@ -218,7 +247,7 @@ confondre serait une faute de lecture, et l'on prend donc soin de les nommer sé
 \textbf{Symbole} & \textbf{Source} & \textbf{Valeur} & \textbf{Ce qu'il compte} \\
 \midrule
 $\lambda_{ref}$ & PRC & $341$/an & notifications de violation de données des
-\textbf{organisations financières} de la base PRC (code \texttt{BSF}), et non de la base
+\emph{organisations financières} de la base PRC (code \texttt{BSF}), et non de la base
 entière, qui en compte $2\,150$ par an. Sert à \emph{répartir} par vecteur d'attaque, pas à
 fixer un niveau de capital. \\
 $\lambda$ & OpRisk & $21{,}6$/an & incidents \textsc{tic} \emph{matériels} du secteur
@@ -353,7 +382,7 @@ regroupés en familles et reliés directement aux articles DORA :
 \midrule
 Phishing / Ingénierie sociale & 38{,}8~\% & Art.~13, sensibilisation \& formation \\
 Exploitation vuln.\ exposée & 33{,}8~\% & Art.~26, tests TLPT ; Art.~8--10 \\
-Supply chain / Tiers ICT & 15{,}8~\% & Art.~28--44, gestion du risque tiers \\
+Chaîne d'approvisionnement / tiers TIC & 15{,}8~\% & Art.~28--44, gestion du risque tiers \\
 Identifiants compromis & 6{,}3~\% & Art.~9, contrôle d'accès \& MFA \\
 \bottomrule
 \end{tabular}
@@ -414,11 +443,11 @@ d'une base de ce type.
 
 \paragraph{Nature et périmètre.} OpRisk Global est la base de référence
 historique du risque opérationnel au sens de Bâle~2/3, comptant
-\textbf{41\,975 incidents} après nettoyage d'une aberration de saisie. Le
+41\,975 incidents après nettoyage d'une aberration de saisie. Le
 risque cyber n'y constitue pas une catégorie native : il est reconstruit à
 partir des catégories \og Systems Security\fg{} et \og Business Disruption and
 System Failures\fg{}. Le périmètre cyber $\times$ finance retenu compte
-\textbf{582 incidents} sur la période 2000--2026.
+582 incidents sur la période 2000--2026.
 
 \paragraph{Lien avec l'approche AMA.} Cette base est historiquement celle
 qui alimentait les modèles internes de type \emph{Advanced Measurement

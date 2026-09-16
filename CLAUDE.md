@@ -44,15 +44,15 @@ faut comparer pour savoir si un débordement est nouveau. `main.pdf` est version
 `main_v2.pdf` est gitignoré, ce qui ne dispense pas de le régénérer : un PDF périmé sur le
 poste est exactement ce qui a fait présenter du travail antérieur comme récent le 21 août.
 
-État au **16 septembre 2026** : **`main_ensae` à 190 pages dont 136 de corps** (annexes
-en 137), v1 à **173 pages dont 126 de corps** (annexes en 127), v2 à **179 pages dont 129 de
-corps** (annexes en 130), v3 à **152 pages dont 102 de corps** (annexes en 103), branche
-`exploratory`. Les trois pages gagnées depuis le 15 sont la section d'agrégation au capital
+État au **16 septembre 2026 au soir**, après la révision stylistique des vingt-deux
+chapitres : **`main_ensae` à 189 pages dont 135 de corps** (annexes en 136), v1 à **172 pages
+dont 125 de corps** (annexes en 126), v2 à **178 pages dont 128 de corps** (annexes en 129),
+v3 à **151 pages dont 101 de corps** (annexes en 102), branche `exploratory`. Les trois pages gagnées depuis le 15 sont la section d'agrégation au capital
 total (chapitre 12, script 95) et celle de triangulation du moteur (chapitre 13, script 96). Les huit pages gagnées ce soir-là sont des figures, non
 du texte : **`\figcle` ne sert plus nulle part**, donc plus aucune figure n'est seule sur sa
 page, et trois figures inutilisées ont été retirées. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 16 septembre : **2 217 nombres, 2 217 confirmés, 100 %**, et **0 hors
+Harnais au 16 septembre : **2 219 nombres, 2 219 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Les six pages gagnées dans le corps le
 9 septembre sont la lecture de marché de l'introduction, demandée par Kélian : voir la section
 « La page de garde et la lecture de marché » plus bas. Ce

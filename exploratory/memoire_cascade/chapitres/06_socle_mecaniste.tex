@@ -18,7 +18,7 @@ seul élément que la cascade remplace.
 % (a = 0,122 [0,054 ; 0,223] ; phi = 2,24), l'ancien "a ~ 0,30 / phi ~ 3" était faux.
 %--------------------------------------------------------------
 
-Là où le Théorème Central Limite s'intéresse au comportement asymptotique des sommes de variables aléatoires, la Théorie des Valeurs Extrêmes (EVT) étudie le comportement asymptotique de leurs maxima. 
+Là où le Théorème Central Limite s'intéresse au comportement asymptotique des sommes de variables aléatoires, la Théorie des Valeurs Extrêmes (EVT) étudie le comportement asymptotique de leurs maxima.
 
 Soit une séquence $(X_1, X_2, \dots, X_n)$ de variables aléatoires indépendantes et identiquement distribuées (i.i.d.) de fonction de répartition $F$, représentant la sévérité des cyberattaques. L'approche initiale de l'EVT, dite des \textit{Block Maxima}, s'intéresse au maximum sur des blocs de taille $n$ (par exemple, le sinistre cyber maximal annuel) :
 \begin{equation}
@@ -37,15 +37,15 @@ M_n = \max(X_1, X_2, \dots, X_n)
 \end{equation}
 Alors, $H$ appartient nécessairement à la famille des distributions des extrêmes généralisées (GEV - \textit{Generalized Extreme Value}), dont la fonction de répartition s'écrit :
 \begin{equation}
-H_{\xi}(x) = 
-\begin{cases} 
+H_{\xi}(x) =
+\begin{cases}
 \exp\left(-\left(1 + \xi x \right)^{-1/\xi}\right) & \text{si } \xi \neq 0 \\
-\exp\left(-\exp(-x)\right) & \text{si } \xi = 0 
+\exp\left(-\exp(-x)\right) & \text{si } \xi = 0
 \end{cases}
 \end{equation}
 définie sur l'ensemble $\{x : 1 + \xi x > 0\}$. Le paramètre $\xi$ (indice de queue) définit trois grands domaines d'attraction :
 \begin{itemize}
-    \item \textbf{$\xi > 0$ (Loi de Fréchet) :} La distribution présente une queue lourde à décroissance polynomiale. C'est le régime critique qui nous intéresse pour les sinistres cyber majeurs.
+    \item \textbf{$\xi > 0$ (Loi de Fréchet) :} La distribution présente une queue lourde à décroissance polynomiale. C'est le régime qui décrit les sinistres cyber les plus lourds.
     \item \textbf{$\xi = 0$ (Loi de Gumbel) :} La distribution présente une queue légère à décroissance exponentielle (domaine d'attraction des lois Normale, Lognormale, Gamma).
     \item \textbf{$\xi < 0$ (Loi de Weibull) :} La distribution a un support fini supérieur (queue courte).
 \end{itemize}
@@ -64,7 +64,10 @@ La loi limite $H$ est nécessairement \emph{max-stable} : pour tout $n$, $H^n(a_
 
 %--------------------------------------------------------------
 
-Bien que rigoureuse, l'approche \textit{Block Maxima} (GEV) présente une limite majeure en actuariat pratique : elle induit un immense gaspillage d'information. En ne retenant que le maximum de chaque bloc, elle occulte potentiellement le deuxième plus grand sinistre d'une année extrême, qui pourrait pourtant être supérieur au maximum d'une année calme. Dans le contexte du risque cyber, où les données historiques fiables et quantifiées sont particulièrement rares, un tel gaspillage statistique fragiliserait la modélisation.
+L'approche \textit{Block Maxima} (GEV) est rigoureuse mais coûteuse en information. En ne
+retenant que le maximum de chaque bloc, elle écarte le deuxième plus grand sinistre d'une année
+extrême, lequel peut dépasser le maximum d'une année calme. Sur une donnée cyber aussi peu
+fournie, ce rejet d'observations fragiliserait l'ajustement.
 
 Pour contourner ce problème, ce mémoire privilégie l'approche \textit{Peaks-Over-Threshold} (POT). Au lieu de ne garder que les maxima, cette méthode exploite toutes les observations excédant un seuil élevé $u$. On s'intéresse alors à la distribution des excès $Y = X - u$.
 
@@ -80,10 +83,10 @@ F_u(y) = \mathbb{P}(X - u \le y \mid X > u) = \frac{F(u+y) - F(u)}{1 - F(u)}
 
 Où la fonction de répartition de la GPD s'écrit :
 \begin{equation}
-G_{\xi, \sigma}(y) = 
-\begin{cases} 
+G_{\xi, \sigma}(y) =
+\begin{cases}
 1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1/\xi} & \text{si } \xi \neq 0 \\
-1 - \exp\left(-\frac{y}{\sigma}\right) & \text{si } \xi = 0 
+1 - \exp\left(-\frac{y}{\sigma}\right) & \text{si } \xi = 0
 \end{cases}
 \end{equation}
 avec $y \ge 0$ si $\xi \ge 0$, et $0 \le y \le -\sigma/\xi$ si $\xi < 0$. Le paramètre de forme $\xi$ de la GPD est strictement le même que celui de la loi GEV correspondante. Dans le contexte du risque cyber, un indice de queue $\xi > 0$ traduit une distribution à queue lourde de type Fréchet, impliquant des moments potentiellement infinis (l'espérance est infinie si $\xi \ge 1$, la variance si $\xi \ge 0.5$). Le résultat s'énonce formellement ainsi.
@@ -119,9 +122,9 @@ Pour pallier le biais de l'estimateur de Hill hors du régime asymptotique stric
 \ell(\xi, \sigma) = -N_u \ln(\sigma) - \left(1 + \frac{1}{\xi}\right) \sum_{i=1}^{N_u} \ln\left(1 + \frac{\xi y_i}{\sigma}\right)
 \label{soc:eq:loglik-gpd}
 \end{equation}
-La maximisation numérique de cette fonction fournit des estimateurs $(\hat{\xi}_{MLE}, \hat{\sigma}_{MLE})$ qui, bien que nécessitant des méthodes d'optimisation (telles que l'algorithme de Nelder-Mead utilisé dans nos scripts Python), offrent une robustesse supérieure face à la variance d'échantillonnage des bases de sinistres cyber comme OpRisk ou PRC.
+La maximisation numérique de cette fonction fournit des estimateurs $(\hat{\xi}_{MLE}, \hat{\sigma}_{MLE})$ qui, bien que nécessitant des méthodes d'optimisation (algorithme de Nelder-Mead), offrent une robustesse supérieure face à la variance d'échantillonnage des bases de sinistres cyber comme OpRisk ou PRC.
 
-\paragraph{Loi asymptotique et information de Fisher.} La qualité d'un intervalle de confiance sur $\xi$ conditionne toute l'interprétation du SCR. Nous en donnons ici le fondement théorique, qui servira de contrôle indépendant du bootstrap employé au chapitre~\ref{chap:resultats}.
+\paragraph{Loi asymptotique et information de Fisher.} La qualité d'un intervalle de confiance sur $\xi$ conditionne toute la lecture du capital. Le fondement théorique en est donné ici ; il sert de contrôle indépendant du bootstrap employé au chapitre~\ref{chap:resultats}.
 
 \begin{proposition}[Normalité asymptotique de l'EMV de la GPD]\label{soc:prop:fisher}
 Pour $\xi > -\tfrac{1}{2}$, l'estimateur du maximum de vraisemblance $(\hat\xi,\hat\sigma)$ de la GPD est consistant et asymptotiquement normal :
@@ -180,7 +183,7 @@ $X$, n'est donc pas une coquetterie de notation : c'est ce qui empêche de lire 
 d'échelle comme une contradiction.
 \end{attention}
 
-\noindent La Proposition~\ref{soc:prop:varestvar} éclaire par ailleurs le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en régime d'espérance infinie : la moyenne de queue, et donc tout Expected Shortfall bâti sur elle, y est mathématiquement indéfinie. C'est ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable, et c'est aussi le premier argument contre l'usage d'une mesure de queue comme \emph{niveau de couverture} : sur l'une de nos deux sources, cette mesure n'existe pas.
+\noindent La Proposition~\ref{soc:prop:varestvar} éclaire par ailleurs le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en régime d'espérance infinie : la moyenne de queue, et donc tout Expected Shortfall bâti sur elle, y est mathématiquement indéfinie. C'est ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable, et c'est aussi le premier argument contre l'usage d'une mesure de queue comme \emph{niveau de couverture} : sur l'une des deux sources, cette mesure n'existe pas.
 
 %--------------------------------------------------------------
 
@@ -195,7 +198,7 @@ contrôle} a cédé : par pilier DORA. Un vecteur n'est pas un pilier, et il ser
 de les apparier terme à terme. Leur articulation est de type \emph{entrée puis propagation} :
 le vecteur gouverne l'amorce, c'est-à-dire la fréquence d'arrivée d'un sinistre et le
 pilier sur lequel il tombe ; la cascade du chapitre~\ref{chap:cascade} gouverne ensuite la
-\textbf{propagation} entre piliers. Le présent chapitre calibre donc l'amorce et rien d'autre.
+\emph{propagation} entre piliers. Le présent chapitre calibre donc l'amorce et rien d'autre.
 La grille par vecteur ne réapparaît plus après lui, et aucun résultat de capital ne dépend de
 son appariement à un pilier.
 \end{attention}
@@ -261,7 +264,7 @@ n'est pas lui-même observé, faute d'historique de crise DORA.
 Avant les trois mesures de forme, un mot sur celle que l'on observe directement, car un lecteur
 qui parcourt ce chapitre rencontre \emph{quatre} nombres de surdispersion et pourrait les croire
 en concurrence. Ils ne le sont pas, ils vivent à des échelles différentes, et
-\textbf{l'indice de dispersion n'est pas invariant d'échelle} : pour un mélange de Poisson il
+l'indice de dispersion n'est pas invariant d'échelle : pour un mélange de Poisson il
 vaut $1+\lambda/r$, donc il croît avec le niveau de fréquence auquel on le lit. Sur les
 $14\,944$ cellules firme-année du panel, où la fréquence moyenne est de l'ordre de quatre
 centièmes d'incident par cellule, on mesure $\Var/\E=1{,}19$. Sur la série annuelle sectorielle
@@ -292,7 +295,7 @@ détrendée, le rapport $\Var/\E$ brut confondant la croissance tendancielle ave
 commun, la dispersion de Pearson résiduelle vaut $\varphi=2{,}24$
 (IC~$95\,\%$ $[1{,}24\,;5{,}18]$, dix-huit points seulement), soit une charge empirique
 $a=0{,}122$ (IC~$95\,\%$ $[0{,}054\,;0{,}223]$). La valeur posée $a=0{,}60$ dépasse donc la
-\textbf{borne haute} de cet intervalle, et le $\varphi=9{,}20$ retenu au niveau du moteur
+\emph{borne haute} de cet intervalle, et le $\varphi=9{,}20$ retenu au niveau du moteur
 dépasse de loin le $2{,}24$ mesuré : l'un comme l'autre sont un choix de prudence sur
 la queue de fréquence, non une calibration, à assumer comme tel. La conclusion
 \og{}le calage posé est conservateur\fg{} résiste ainsi à l'incertitude d'estimation, ce qui
@@ -352,14 +355,13 @@ indépendantes. La part $\pi_j$ de variance systémique portée par les sauts es
 interprétable de cette écriture : nulle, le pilier ne subit que du bruit de fond ; égale à un,
 il ne subit que des campagnes.
 
+% SOURCES-SCRIPTS: 03
 \begin{cle}
 \textbf{Ce que cette écriture change, et ce qu'elle ne change pas.} Elle ne déplace
-\textbf{aucune probabilité marginale, donc aucun capital publié} : le probit ne voit
+aucune probabilité marginale, donc aucun capital publié : le probit ne voit
 $Y_{j,t}$ qu'à travers sa loi centrée réduite, et la normalisation \eqref{eq:norm-Y} impose
 $\E[Y_{j,t}]=0$ et $\Var[Y_{j,t}]=1$ par construction, de sorte que l'incidence de fond reste
-$\Phi(-1{,}7)$. Elle change la \textbf{dépendance de
-% SOURCES-SCRIPTS: 03
-queue}, et c'est tout son objet : le
+$\Phi(-1{,}7)$. Elle change la \emph{dépendance de queue}, et c'est tout son objet : le
 coefficient de dépendance de queue supérieure d'une gaussienne de corrélation $r<1$ est
 \emph{nul}, celui d'un mélange à choc commun est strictement positif. Et elle ne dégrade pas le
 résultat d'identification partielle, la composante de sauts se manifestant par de la
@@ -659,7 +661,7 @@ la NB colle aux comptes firme-année, le Poisson rate la queue.}
 \label{soc:fig:validation}
 \end{figure}
 
-\paragraph{Le seuil est-il un choix ou une règle ? La question mérite d'être posée à l'envers.}
+\paragraph{Le seuil est-il un choix ou une règle ?}
 Tout ce qui précède décrit le comportement de l'ajustement autour du seuil retenu. Un lecteur
 demande autre chose : pourquoi \emph{ce} seuil, et qu'aurait choisi une règle écrite. Deux règles
 sont donc mises en \oe uvre sur dix percentiles candidats, du $70^{\text{e}}$ au $95^{\text{e}}$.
@@ -702,7 +704,7 @@ estimé sur $30$ excès seulement, donc lui-même mal connu.
 
 \begin{cle}
 \textbf{Ce que la validation établit, et ce qu'elle n'établit pas.} Les tests portent sur la
-\textbf{forme} des lois, pas sur le \emph{niveau} du capital : ils confirment que la GPD et la
+\emph{forme} des lois, pas sur le \emph{niveau} du capital : ils confirment que la GPD et la
 NB sont les bons objets, mais laissent entière l'incertitude sur $\xi$ et donc sur la VaR (la
 bande du chapitre~\ref{chap:resultats}). Adéquation n'est pas certitude : c'est précisément
 pourquoi le SCR se lit en intervalle, jamais en point.
@@ -766,7 +768,7 @@ rapport de $1{,}80$ que le test binomial situe à $p=2{,}35\cdot 10^{-7}$. La d�
 d'ailleurs directement sur le seuil, qui est un quantile de l'apprentissage et passe de
 $8{,}56$ à $18{,}20$~M\euro{} en onze ans, ainsi que sur la médiane annuelle des pertes, qui
 monte de $13{,}0\,\%$ par an en logarithme ($p=0{,}0003$). Le défaut est donc un défaut de
-\textbf{stationnarité de l'échelle}, non un défaut de famille.
+stationnarité de l'échelle, non un défaut de famille.
 
 \paragraph{Ce que cette dérive coûte, chiffré plutôt que corrigé.} Mesurer une dérive ne dit pas
 ce qu'elle déplace sur le nombre publié. Le calcul porte sur la donnée complète de la chaîne

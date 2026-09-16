@@ -63,7 +63,7 @@ Au lieu d'un unique seuil de défaut, on en pose deux, ordonnés, qui découpent
 Les seuils sont fixés par les probabilités d'état ancrées sur les enquêtes de
 conformité (fin 2025), $K_{\text{bas}}=\Phi^{-1}(p_{\text{NC}})$ et
 $K_{\text{haut}}=\Phi^{-1}(p_{\text{NC}}+p_{\text{PC}})$. Ce dispositif est un
-\textbf{ordered-probit} posé sur la structure de Merton-Vasicek : il réutilise la machinerie de
+\emph{ordered-probit} posé sur la structure de Merton-Vasicek : il réutilise la machinerie de
 seuil du chapitre~\ref{chap:cascade} (le seuil $K_j$) et généralise la variable latente de
 défaut, binaire, en une variable latente de conformité à trois niveaux.
 
@@ -133,7 +133,7 @@ déduit la décomposition du surcoût de non-conformité par pilier, en basculan
 
 % SOURCES-SCRIPTS: 69 77 94
 
-Une objection métier mérite d'être traitée explicitement, parce qu'elle est juste : le
+Une objection métier se pose ici, et elle est juste : le
 recouvrement des dispositifs de contrôle fait qu'être conforme aux piliers~1 et~2 confère
 indirectement une conformité partielle au pilier~3, les mêmes preuves d'audit servant aux trois.
 Le modèle ne représente pas ce mécanisme, et il faut dire à la fois ce qu'il porte déjà et ce que
@@ -208,7 +208,7 @@ La loi des configurations ne porte que $32$ atomes, et le plus haut en concentre
 au-delà du niveau de $93{,}17\,\%$, son quantile \emph{est} la configuration intégralement non
 conforme et ne peut plus bouger. Un \og{}quantile à $99{,}5\,\%$ de la loi des
 configurations\fg{} n'aurait donc aucun contenu, et l'immobilité des niveaux hauts est une
-\textbf{saturation}, non une invariance. On ne demande pas à une loi à $32$ atomes la résolution
+\emph{saturation}, non une invariance. On ne demande pas à une loi à $32$ atomes la résolution
 qu'on demande à une loi de perte.
 
 \emph{Et cette grandeur n'est pas une mesure de capital.} Elle porte sur l'incertitude d'état,
@@ -266,7 +266,7 @@ d'incertitude de la trajectoire.
 \noindent Cette architecture est celle, éprouvée, du risque de crédit à migration de
 rating : la chaîne de Markov joue le rôle de la migration d'un \og rating de conformité DORA\fg{}
 (la qualité change lentement, d'année en année), et le Vasicek multi-états celui du modèle de
-\textbf{défaut conditionnel au rating} (rapide, dans l'année, pour un rating donné). Transposer
+défaut conditionnel au rating (rapide, dans l'année, pour un rating donné). Transposer
 cette structure à deux étages au risque cyber n'est pas une invention fragile mais l'application
 d'un cadre reconnu, ce qui en fait un argument de robustesse et non un pari.
 
