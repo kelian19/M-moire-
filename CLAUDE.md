@@ -25,17 +25,26 @@ ou `KADDOURI_Kelian_3A25_CONF.pdf` si la confidentialité est demandée.
 |---|---|
 | Format Times 12, interligne 1,5 | **fait** le 16 septembre |
 | Nom du fondateur de Nexialog aux remerciements | **fait** : Ali BEHBAHANI |
-| Bibliographie en français (« et » entre auteurs) | **fait** : style local `plainnat-fr.bst` |
+| Bibliographie en français | **faite** : « et », formules, accents, capitales et mois corrigés |
 | Révision stylistique des vingt-deux chapitres | **faite** le 16 septembre |
 | Harnais | 2 219 nombres, 2 219 confirmés, hors contrôle non déclaré à zéro |
 | **Confidentialité** | **à trancher plus tard par Kélian**, décision Nexialog. Elle fixe le nom du fichier et, si elle est demandée, la ligne `\pgeconf` de `page_de_garde_ensae.tex` |
 | **Courriel au service des stages** (dispositions voie actuariat) | **non attesté** dans le dossier ; les consignes le disent impératif |
 | Génération du fichier au nom imposé | **à faire** une fois la confidentialité tranchée |
 
-**UN DÉFAUT RELEVÉ ET NON TRAITÉ, À SIGNALER À KÉLIAN AVANT LE DÉPÔT.** Plusieurs entrées de
-`references.bib` s'impriment sans accents (« Autorites europeennes de surveillance », « lies »,
-« etablissements », « designes », « pourcent ») et la mention de type « Technical report » reste
-en anglais. C'est dans les données de la bibliographie, pas dans le style.
+**LA BIBLIOGRAPHIE A ÉTÉ CORRIGÉE LE 16 SEPTEMBRE, ET TROIS RÈGLES EN SORTENT POUR TOUTE ENTRÉE
+NOUVELLE DE `references.bib`.** Défauts traités : accents absents dans trois entrées, noms propres
+mis en minuscules par le style, formules anglaises, mois en chiffres, espace française devant les
+deux-points des références anglaises. Pour ne pas les réintroduire :
+
+- **protéger par des accolades les noms propres et sigles des titres d'articles**, et eux seuls :
+  `{H}awkes`, `{P}areto`, `{U}nited {S}tates`, `{LUCY}`, `{DORA}`, `{TIC}`, `{UE}`, `{II}`. Le
+  style met le reste du titre en minuscules, et c'est voulu pour les mots communs ;
+- **écrire les accents** (`{\'e}` ou directement en UTF-8) et **les mois en toutes lettres**
+  (`month = {avril}`), jamais en chiffres ;
+- **ne pas retirer `\NoAutoSpacing`** autour de `\bibliography` dans les quatre fichiers maîtres :
+  sans lui, babel-french insère une espace devant chaque deux-points et imprime « arXiv :2311 »,
+  « doi : 10.1016 », « 15(1) :14–39 ».
 
 **LE REGISTRE D'ÉCRITURE EST FIXÉ, ET UNE RÉVISION ENTIÈRE L'A APPLIQUÉ LE 16 SEPTEMBRE.** Toute
 rédaction nouvelle doit s'y tenir, sans quoi le document se désaligne à nouveau :
@@ -57,9 +66,11 @@ rédaction nouvelle doit s'y tenir, sans quoi le document se désaligne à nouve
 - **la matrice de contagion est « posée à dire d'expert, puis bornée »**, jamais « élicitée » :
   l'annexe du protocole de Cooke dit l'élicitation préparée et non exécutée.
 
-**ET LA BIBLIOGRAPHIE PASSE PAR `plainnat-fr.bst`, UNE COPIE LOCALE.** Elle ne diffère de
-`plainnat` que par la conjonction entre auteurs, « et » au lieu de « and », et par l'absence de la
-virgule anglaise qui la précédait (« A, B et C »). Les quatre fichiers maîtres l'appellent. Les
+**ET LA BIBLIOGRAPHIE PASSE PAR `plainnat-fr.bst`, UNE COPIE LOCALE.** Elle diffère de
+`plainnat` par la conjonction entre auteurs, « et » au lieu de « and », sans la virgule anglaise
+qui la précédait (« A, B et C »), et par la traduction de ses formules : « Rapport technique »,
+« Dans », « éditeurs », « numéro … de la collection », « Volume … de », « chapitre », « édition »,
+« Mémoire de master », « Thèse de doctorat ». Les quatre fichiers maîtres l'appellent. Les
 « and » qui subsistent dans le PDF sont dans des **titres anglais de revues** (*Insurance:
 Mathematics and Economics*…) et dans la catégorie bâloise *Business Disruption and System
 Failures* : ils doivent rester. Supprimer les `.bbl` avant de recompiler après toute modification

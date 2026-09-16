@@ -678,8 +678,17 @@ Williams ». Les quatre fichiers maîtres l'appellent. Les « and » restants so
 anglais de revues et dans une catégorie bâloise, et doivent rester.
 
 **La confidentialité est laissée à plus tard**, décision de Kélian : elle appartient à Nexialog
-et fixe le nom du fichier déposé. **Un défaut relevé et non traité** : plusieurs entrées de
-`references.bib` s'impriment sans accents, et « Technical report » reste en anglais.
+et fixe le nom du fichier déposé.
+
+**Puis la bibliographie est corrigée entièrement**, sur relevé du PDF imprimé : accents absents dans
+trois entrées jusque dans le nom des auteurs (« Autorites europeennes », « Reglement
+d'execution »), noms propres mis en minuscules par le style (« hawkes », « pareto », « united
+states », « lucy », « Solvabilité ii », « dora »), formules anglaises du style (« Technical
+report », « In », « editors », « number 28 in »), mois imprimés en chiffres (« Marsh, 4 2025 »), et
+espace française devant les deux-points des références anglaises (« arXiv :2311 », « doi :
+10.1016 »), neutralisée par `\NoAutoSpacing` autour de la bibliographie. Vingt-cinq motifs de
+défaut recherchés sur le nouveau PDF, tous à zéro ; les trois pages relues à l'œil. Aucune donnée
+bibliographique n'est inventée, seules l'orthographe, la casse et la mise en forme changent.
 
 **`CLAUDE.md` porte désormais en tête un bloc « À lire d'abord »** avec l'état de dépôt, le
 registre d'écriture fixé par la révision et le style bibliographique, et ses chemins du PC ont
