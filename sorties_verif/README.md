@@ -30,6 +30,45 @@ récapitulatif, qui n'imprime pas la couverture.
 
 ### Ce qui s'est ajouté depuis le 14 août
 
+- `96.txt` **contrôle le moteur d'agrégation lui-même**, et c'est le seul endroit du dossier qui
+  le fasse. Tout le reste du dispositif valide le modèle **contre la donnée** ; rien ne regardait
+  la machine qui transforme une loi de fréquence et une loi de sévérité en un quantile annuel, et
+  un diagnostic de convergence n'y supplée pas : il dit que l'estimateur est **stable**, jamais
+  qu'il est **juste**. Le script recalcule les deux capitaux publiés par **trois chemins de
+  plus** : inversion de Fourier de la génératrice composée, qui est la réalisation numériquement
+  stable de la **récursion de Panjer** (inexploitable telle quelle à cet indice de queue, où elle
+  demanderait une grille de plusieurs millions de points parcourue de proche en proche), et
+  approximation par **perte unique** aux premier et second ordres, qui n'utilise ni simulation ni
+  inversion. Quatre choses à savoir avant d'y toucher. La charge annuelle du modèle est
+  **exactement une somme composée**, ce qui est ce qui rend les quatre chemins comparables : la
+  génératrice du nombre de pertes non nulles s'écrit en forme fermée en composant la binomiale
+  négative des amorces, la loi exacte des piliers touchés et l'amincissement par le seuil. La
+  fonction qui reconstruit cette loi **retombe au dix-millième sur les nombres du script 74**
+  (1,380 pilier et 31,15 % à l'état conforme, 1,931 et 62,31 % à propagation seule), contrôle
+  croisé gratuit contre un chemin indépendant. **L'écart entre l'inversion exacte et le
+  Monte-Carlo n'est PAS résolu** : il vaut 0,75 et 0,59 erreur type de la référence, donc le
+  citer en relatif (−1,7 %) sans le bruit qui l'encadre le ferait lire comme un désaccord. Et les
+  deux garde-fous numériques sont **mesurés et imprimés**, pas supposés : la masse repliée par la
+  transformée circulaire et l'écart de discrétisation de la sévérité. Aucune donnée nouvelle,
+  aucune figure, **aucune dépendance à `data/raw`** : il tourne sur les deux postes.
+
+- `95.txt` **dit ce que l'agrégation réglementaire fait de l'écart DORA**, et c'est le seul
+  endroit du dossier qui le dise. Le risque opérationnel entrant **hors de la matrice de
+  corrélation** du BSCR, un besoin ORSA se transmet au capital total sans aucun bénéfice de
+  diversification : un euro d'écart coûte un euro de capital. Le contrefactuel corrélé sert à
+  mesurer cette convention, jamais à en proposer une autre : le taux de reconnaissance vaut
+  tau(rho, d) = (racine(1 + 2 rho d + d^2) - 1) / d, dont le développement donne
+  **tau = rho + (d/2)(1 - rho^2)**, donc **tau tend vers rho** pour un montant petit devant le
+  BSCR. À rho = 0,25, la convention additive reconnaît de **3,4 à 3,9 fois** ce qu'un traitement
+  corrélé retiendrait. Second résultat, sur le **plafond** de 0,3 BSCR : sur l'assureur non-vie A,
+  la marge restante de 50,8 M€ ne couvre pas le besoin de 112,1 M€, donc **un forfait rendu
+  sensible à la conformité saturerait avant de l'exprimer**. Trois choses à savoir avant d'y
+  toucher. Le script **ne lit que `65.txt`** et n'y saisit aucune valeur à la main ; il
+  **s'arrête** si l'une des huit valeurs publiées au chapitre 12 y dérive, garde-fou testé sur
+  cinq cas dont trois dérives ; et il ne produit **aucune figure**, les quatre lignes de résultat
+  tenant dans une table. Aucune donnée nouvelle, aucune recalibration, **aucune dépendance à
+  `data/raw`** : il tourne donc sur les deux postes.
+
 - `63.txt` **porte désormais un bloc LUCY 2026**, sous la même étiquette de **citation externe
   non recalculable** que Hackmageddon. Source : l'étude LUCY de l'AMRAE sur l'exercice 2025, et
   l'analyse Nexialog dont Kélian est co-auteur avec son tuteur. Elle n'entre dans **aucune**

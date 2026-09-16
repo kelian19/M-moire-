@@ -232,9 +232,12 @@ names = list(dep.keys()); vals = list(dep.values())
 yp = np.arange(len(names))[::-1]
 ax1.barh(yp, vals, color=BLUE, alpha=0.85)
 ax1.axvline(scr_cascade, color=ACCENT, lw=1.8, ls="--")
-ax1.text(scr_cascade, len(names) - 0.4, f" cascade\n {scr_cascade:.0f}", color=ACCENT, fontsize=8)
+ax1.set_ylim(-0.75, len(names) - 0.25)
+ax1.text(scr_cascade, len(names) - 0.45, f" cascade {scr_cascade:.0f}", color=ACCENT,
+         fontsize=8, va="center")
 for y_, v in zip(yp, vals):
-    ax1.text(v, y_, f" {v:.0f}", va="center", fontsize=8.5, color=INK2)
+    ax1.text(v, y_, f" {v:.0f}", va="center", fontsize=8.5, color=INK2, zorder=5,
+             bbox=dict(facecolor="#fcfcfb", edgecolor="none", pad=0.8))
 ax1.set_yticks(yp); ax1.set_yticklabels(names, fontsize=8.5)
 ax1.set_xlabel("SCR (VaR 99,5 %, M€)", color=INK2)
 ax1.set_title("(a)  Axe dépendance\n(marges fixées)", fontsize=11, color=INK, pad=6)
@@ -254,28 +257,25 @@ ax2.set_title("(b)  Axe famille de sévérité\n(la queue lourde domine)", fonts
 ax3.axis("off"); ax3.set_xlim(0, 1); ax3.set_ylim(0, 1)
 ax3.set_title("(c)  Les trois étages d'incertitude", fontsize=11, color=INK, pad=6)
 floors = [
-    ("Paramètre", "bootstrap sur ξ", "VaR ×2,6 (script 46)", GREEN),
+    ("Paramètre", "bootstrap sur ξ", "VaR ×2,6", GREEN),
     ("Identification", "bornes sur la direction W", "cascade [6,9 ; 8,7] Md (chap. 10)", BLUE),
     ("Modèle", "famille de loi / dépendance", f"[{lo:.0f} ; {hi:.0f}] M€, ×{hi/lo:.1f} (ici)", ACCENT),
 ]
-yy = 0.88
+yy = 0.94
 for name, what, num, col in floors:
     ax3.add_patch(plt.Rectangle((0.03, yy - 0.025), 0.05, 0.05, color=col, alpha=0.8))
     ax3.text(0.12, yy, name, fontsize=10.5, color=col, fontweight="bold", va="center")
-    ax3.text(0.12, yy - 0.065, what, fontsize=8.5, color=INK2, va="center")
-    ax3.text(0.12, yy - 0.115, num, fontsize=8, color=MUTED, va="center", style="italic")
+    ax3.text(0.12, yy - 0.075, what, fontsize=8.5, color=INK2, va="center")
+    ax3.text(0.12, yy - 0.140, num, fontsize=8, color=MUTED, va="center", style="italic")
     yy -= 0.27
-ax3.text(0.03, 0.05, "Le SCR se cite en intervalle, jamais en point :\nles trois étages se cumulent.",
-         fontsize=8.5, color=INK, style="italic")
+ax3.text(0.03, 0.12, "Le SCR se cite en intervalle, jamais en point :\nles trois étages se cumulent.",
+         fontsize=8.5, color=INK, style="italic", va="top")
 
 for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("J4 : la bande de modèle, troisième étage d'incertitude ; le niveau bouge selon la "
-             "famille, l'ordre d'amorce ne bouge pas",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.93])
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "J4_bande_modele.png")

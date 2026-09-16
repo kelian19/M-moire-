@@ -45,7 +45,7 @@ for _p in (_REPO, HERE):
         sys.path.insert(0, _p)
 import euro_cascade_model as ec                              # noqa: E402
 from euro_cascade_model import PARAMS, var                   # noqa: E402
-from src.severity.prc_analysis import load_prc, USD_EUR      # noqa: E402
+from src.severity.prc_analysis import load_prc, chemin_prc, USD_EUR   # noqa: E402
 
 W = 74
 ETATS = ["C", "PC", "NC"]
@@ -94,7 +94,7 @@ print(f"  source primaire : a = {A_HAT} (SE {SE_A}), b = {B_HAT} (SE {SE_B}), "
       f"n = {N_OBS}, RSE = {RSE}")
 print(f"  centroide deduit des SE publies : x_bar = {X_BAR:.2f} "
       f"(~{np.exp(X_BAR):,.0f} enregistrements, coherent Ponemon)")
-X_ALL = load_prc(os.path.join(_REPO, "data", "raw", "Data_Breach_Chronology.xlsx"))[
+X_ALL = load_prc(chemin_prc(_REPO))[
     "total_affected"].values.astype(float)
 
 axes_b = {"bas (-1,645 SE)": B_HAT - 1.645 * SE_B,
@@ -231,9 +231,7 @@ axC.set_title("(C)  Ancrage NC/PC/C : le melange bouge,\nle SCR par etat jamais"
 axC.legend(fontsize=8.0, frameon=False, loc="lower right")
 axC.grid(alpha=0.25, lw=0.5, axis="y")
 
-fig.suptitle("Sensibilites des hypotheses restantes : coefficients Jacobs, gamma, ancrage",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=1.00)
-fig.tight_layout(rect=[0, 0, 1, 0.94])
+fig.tight_layout(w_pad=1.8)
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

@@ -383,8 +383,9 @@ ax1.set_xscale("log"); ax1.set_yscale("log")
 # recouvraient l'une l'autre en haut a gauche ; elles se posent maintenant
 # au-dessus du dernier point, chacune de son cote de la verticale.
 ax1.set_ylim(top=ymax * 60)
-ax1.text(ACTIFS_NOTIONNELS * 1.3, ymax * 1.8, "entité\nnotionnelle",
-         fontsize=9, color=INK, va="bottom")
+ax1.text(ACTIFS_NOTIONNELS * 1.3, 0.58, "entité\nnotionnelle",
+         fontsize=9, color=INK, va="center", transform=ax1.get_xaxis_transform(),
+         bbox=dict(facecolor="#fcfcfb", edgecolor="none", pad=1.0))
 ax1.set_xlabel(f"{best} de la firme (M USD)", color=INK2)
 ax1.set_ylabel("perte (M USD)", color=INK2)
 ax1.legend(frameon=False, fontsize=9, loc="upper left")

@@ -265,10 +265,7 @@ for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("J7 : le SCR robuste, borne haute de la VaR sur l'ambiguïté ; la prudence sur le risque "
-             "d'estimation et de modèle, assumée",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.93])
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "J7_scr_robuste.png")

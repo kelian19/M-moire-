@@ -36,7 +36,9 @@ for p in (REPO, HERE):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-PRC_PATH = os.path.join(REPO, "data", "raw", "Data_Breach_Chronology.xlsx")
+from src.severity.prc_analysis import chemin_prc              # noqa: E402
+
+PRC_PATH = chemin_prc(REPO)
 W = 84
 Y0, Y1 = 2019, 2025          # meme periode que la calibration de severite PRC
 

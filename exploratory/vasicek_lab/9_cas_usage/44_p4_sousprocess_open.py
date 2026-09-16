@@ -149,21 +149,21 @@ labs = ["OpRisk\nVendors &\nSuppliers", "VCDB\nactor.\nPartner"]
 vals = [vs_n, VCDB_PARTNER]
 ax1.bar(labs, vals, color=[MUTED, BLUE], alpha=0.9, width=0.55)
 ax1.axhline(SEUIL_CELL, color=ACCENT, ls="--", lw=1.6)
-ax1.text(1.45, SEUIL_CELL + 1.5, f"seuil d'estimation ~{SEUIL_CELL}", fontsize=8.5,
-         color=ACCENT, ha="right")
+ax1.text(1.45, SEUIL_CELL - 6.0, f"seuil d'estimation ~{SEUIL_CELL}", fontsize=8.5,
+         color=ACCENT, ha="right", va="center")
 for i, v in enumerate(vals):
     ax1.text(i, v + 1.2, str(v), ha="center", fontsize=9.5, color=INK2)
-ax1.annotate("→ 0 au sous-process\n(deux crans plus bas)", (1, VCDB_PARTNER),
-             textcoords="offset points", xytext=(-4, -34), fontsize=8, color=ACCENT, ha="center")
+ax1.text(1.0, SEUIL_CELL + 9.0, "→ 0 au sous-process\n(deux crans plus bas)",
+         fontsize=8, color=ACCENT, ha="center", va="center")
 ax1.set_ylabel("incidents tiers (finance, open data)", color=INK2, fontsize=9)
 ax1.set_ylim(0, 70)
-ax1.set_title("(a)  Taxonomie fine du tiers : rare.\nLe registre DORA de Mehdi reste requis",
+ax1.set_title("(a)  Taxonomie fine du tiers : rare.\nLe registre DORA reste requis",
               fontsize=10.5, color=INK, pad=8)
 
 # (b) concentration : exposition (ECB) et sinistralite (notre donnee, 08g)
 bars = [("10 fourn.\n(ECB)", ECB_CONC[0][1], ACCENT),
         ("30 fourn.\n(ECB)", ECB_CONC[1][1], ACCENT),
-        (f"1,7 % jours\n(08g)", SHARE_08G[1], BLUE)]
+        (f"1,7 % jours\n(observé)", SHARE_08G[1], BLUE)]
 for i, (lab, v, c) in enumerate(bars):
     ax2.bar(i, v, color=c, alpha=0.9, width=0.6)
     ax2.text(i, v + 0.015, f"{100*v:.0f} %", ha="center", fontsize=9, color=INK2)
@@ -171,7 +171,7 @@ ax2.set_xticks(range(len(bars))); ax2.set_xticklabels([b[0] for b in bars], font
 ax2.set_ylim(0, 0.62)
 ax2.set_ylabel("part concentrée", color=INK2, fontsize=9)
 ax2.text(0.5, 0.55, "exposition", ha="center", fontsize=8, color=ACCENT, style="italic")
-ax2.text(2.0, 0.24, "sinistralité", ha="center", fontsize=8, color=BLUE, style="italic")
+ax2.text(2.0, 0.30, "sinistralité", ha="center", fontsize=8, color=BLUE, style="italic")
 ax2.set_title("(b)  Concentration tiers : peu de fournisseurs\net de jours portent l'essentiel",
               fontsize=10.5, color=INK, pad=8)
 
@@ -186,19 +186,17 @@ rows = [
     ("  → accumulation γ (modèle)", f"γ = {GAMMA_MODELE}", "ancré, non plus proxy"),
     ("Fournisseurs critiques", f"{N_CTPP} désignés (CTPP)", "ESAs, nov. 2025"),
 ]
-y = 0.87
+y = 0.94
 for lab, val, src_ in rows:
     is_arrow = lab.strip().startswith("→")
-    ax3.text(0.02, y, lab, fontsize=9, color=GREEN if is_arrow else INK,
-             fontweight="normal" if is_arrow else "bold")
-    ax3.text(0.55, y, val, fontsize=8.5, color=INK2)
-    ax3.text(0.55, y - 0.05, src_, fontsize=7, color=MUTED, style="italic")
-    y -= 0.175
+    x0 = 0.08 if is_arrow else 0.02
+    ax3.text(x0, y, lab.strip(), fontsize=8.5, color=GREEN if is_arrow else INK,
+             fontweight="normal" if is_arrow else "bold", va="center")
+    ax3.text(x0 + 0.03, y - 0.075, f"{val}  ({src_})", fontsize=7.5, color=INK2,
+             va="center", style="italic")
+    y -= 0.195
 
-fig.suptitle("Z14 : le sous-process tiers P4 sur donnée ouverte : taxonomie rare (registre requis), "
-             "origination et concentration ancrées",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z14_p4_sousprocess_open.png")

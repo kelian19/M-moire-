@@ -225,17 +225,18 @@ x = np.arange(len(ETATS))
 ya = [scr_det[("OPRISK", "A", e)] for e in ETATS]
 yb = [scr_det[("OPRISK", "B", e)] for e in ETATS]
 ycc = [scr_det[("OPRISK", "C", e)] for e in ETATS]
-axA.plot(x, ya, "-o", color=BLUE, lw=2.0, ms=6, label="A frequence seule")
+axA.plot(x, ya, "-o", color=BLUE, lw=2.0, ms=6, label="A  fréquence seule")
 axA.plot(x, yb, "-s", color=GREEN, lw=2.0, ms=6, label="B + propagation")
-axA.plot(x, ycc, "-^", color=ACCENT, lw=2.0, ms=6, label="C + detection")
+axA.plot(x, ycc, "-^", color=ACCENT, lw=2.0, ms=6, label="C  + détection")
 _lo = min(min(ya), min(yb), min(ycc))
 _hi = max(max(ya), max(yb), max(ycc))
 axA.set_ylim(_lo - 0.10 * (_hi - _lo), _hi + 0.10 * (_hi - _lo))
 axA.set_xlim(-0.25, len(ETATS) - 0.75)
 axA.set_xticks(x)
-axA.set_xticklabels([LABEL[e] for e in ETATS], fontsize=9)
-axA.set_ylabel("SCR_DORA (M€)", fontsize=9.5, color=INK2)
-axA.set_title("(A)  SCR par etat, 3 canaux emboites (OpRisk)", fontsize=10, color=INK, pad=6)
+ETIQ = {"C": "Conforme", "PC": "Partiellement\nconforme", "NC": "Non conforme"}
+axA.set_xticklabels([ETIQ[e] for e in ETATS], fontsize=9)
+axA.set_ylabel("SCR (VaR 99,5 %, M€)", fontsize=9.5, color=INK2)
+axA.set_title("(A)  SCR par état, trois canaux emboîtés", fontsize=10, color=INK, pad=6)
 axA.legend(fontsize=8.2, frameon=False, loc="upper left")
 axA.grid(alpha=0.25, lw=0.5)
 
@@ -245,7 +246,7 @@ wbar = 0.38
 pn_v = [pn[e] for e in ETATS]
 pc_v = [pc[e] for e in ETATS]
 axB.bar(xb - wbar / 2, pn_v, wbar, color=BLUE, alpha=0.85, label="normal (marginale)")
-axB.bar(xb + wbar / 2, pc_v, wbar, color=ACCENT, alpha=0.85, label="crise (Theta=-2,5)")
+axB.bar(xb + wbar / 2, pc_v, wbar, color=ACCENT, alpha=0.85, label="crise (Θ = −2,5)")
 for xi_, v in zip(xb - wbar / 2, pn_v):
     axB.annotate(f"{v:.0%}", (xi_, v), textcoords="offset points", xytext=(0, 3),
                  ha="center", fontsize=8, color=BLUE)
@@ -253,17 +254,15 @@ for xi_, v in zip(xb + wbar / 2, pc_v):
     axB.annotate(f"{v:.0%}", (xi_, v), textcoords="offset points", xytext=(0, 3),
                  ha="center", fontsize=8, color=ACCENT)
 axB.set_xticks(xb)
-axB.set_xticklabels([LABEL[e] for e in ETATS], fontsize=9)
-axB.set_ylabel("probabilite d'etat", fontsize=9.5, color=INK2)
+axB.set_xticklabels([ETIQ[e] for e in ETATS], fontsize=9)
+axB.set_ylabel("probabilité d'état", fontsize=9.5, color=INK2)
 axB.set_ylim(0, max(pc_v) * 1.25)
-axB.set_title("(B)  1.1 latente -> etats : la crise bascule vers Non conforme",
+axB.set_title("(B)  En crise, la latente bascule vers « non conforme »",
               fontsize=10, color=INK, pad=6)
 axB.legend(fontsize=8.2, frameon=False, loc="upper left")
 axB.grid(alpha=0.25, lw=0.5, axis="y")
 
-fig.suptitle("Vasicek multi-etats : latente a seuils ordonnes, 3 canaux, SCR_DORA par etat",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.95])
+fig.tight_layout(w_pad=1.8)
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

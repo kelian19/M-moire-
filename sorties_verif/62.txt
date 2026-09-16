@@ -13,7 +13,7 @@ organisations FINANCIERES (organization_type = BSF). Un relecteur qui recalcule 
 la base entiere trouve six fois plus et conclut que le nombre est faux.
 
 perimetre                                       incidents    par an
-toute la base PRC (tous acteurs)                   15,053   2,150.4
+toute la base PRC (tous acteurs)                   15,053    2150.4
   dont organisations financieres (BSF)              2,427     346.7   <<< le 341 publie
   dont autres entreprises (BSO)                     5,635     805.0
   dont sante (MED)                                  1,830     261.4
@@ -64,7 +64,7 @@ mobilisee pour la STRUCTURE et non pour le niveau.
 Verdict
 ====================================================================================
 lambda_ref, perimetre financier       : 346.7 / an contre 341 publie (+1.7 %)  -> VERIFIABLE
-lambda_ref, toute la base PRC         : 2,150.4 / an  -> ce n'est PAS
+lambda_ref, toute la base PRC         : 2150.4 / an  -> ce n'est PAS
    le nombre du memoire. La mention 'tous acteurs confondus' etait fausse et a ete
    corrigee en 'organisations financieres'.
 1 041 et 840 (Hackmageddon)           : source non versionnee -> A REQUALIFIER

@@ -273,7 +273,8 @@ ax1.text(LAM * 1.06, ax1.get_ylim()[0] * 2.0, f"moyenne {LAM:.0f}",
          fontsize=9, color=INK2, va="bottom")
 ax1.set_xlabel("nombre d'amorces par an", color=INK2)
 ax1.set_ylabel("densité (log)", color=INK2)
-ax1.legend(frameon=False, fontsize=9, loc="upper right")
+ax1.set_ylim(top=ax1.get_ylim()[1] * 700)
+ax1.legend(frameon=False, fontsize=8.5, loc="upper right", handlelength=1.4)
 ax1.set_title("(a)  Même moyenne, queues très différentes", fontsize=11, color=INK, pad=8)
 
 # (b) reconciliation a <-> phi
@@ -304,7 +305,7 @@ means = [r[3] for r in res]
 x = np.arange(len(res))
 ax3.bar(x - 0.19, scrs, width=0.36, color=BLUE, alpha=0.9, label="SCR (VaR 99,5 %)")
 ax3.bar(x + 0.19, means, width=0.36, color=GREEN, alpha=0.9, label="moyenne")
-ax3.set_xticks(x); ax3.set_xticklabels(names, fontsize=9)
+ax3.set_xticks(x); ax3.set_xticklabels(names, fontsize=8)
 ax3.set_ylim(0, max(scrs) * 1.30)                  # bande libre pour la legende
 ax3.set_ylabel("M€", color=INK2)
 ax3.legend(frameon=False, fontsize=9, loc="upper center", ncol=2,

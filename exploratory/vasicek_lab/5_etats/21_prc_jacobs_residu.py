@@ -47,7 +47,8 @@ for _p in (_REPO, HERE):
         sys.path.insert(0, _p)
 import euro_cascade_model as ec                              # noqa: E402
 from euro_cascade_model import PARAMS, MEMOIRE_DELTA, var    # noqa: E402
-from src.severity.prc_analysis import (load_prc, JACOBS_A, JACOBS_B,   # noqa: E402
+from src.severity.prc_analysis import (load_prc, chemin_prc,           # noqa: E402
+                                       JACOBS_A, JACOBS_B,
                                        USD_EUR)
 
 W = 74
@@ -85,9 +86,9 @@ def fit_tail(L, u):
 
 
 # ============================================================ donnees
-PRC_PATH = os.path.join(_REPO, "data", "raw", "Data_Breach_Chronology.xlsx")
-if not os.path.exists(PRC_PATH):
-    sys.exit("Data_Breach_Chronology.xlsx absent de data/raw : script indisponible.")
+PRC_PATH = chemin_prc(_REPO)
+if not PRC_PATH:
+    sys.exit("Data_Breach_Chronology absente de data/raw : script indisponible.")
 X_ALL = load_prc(PRC_PATH)["total_affected"].values.astype(float)
 sp = PARAMS["PRC"]
 U = sp["u"]
@@ -205,9 +206,7 @@ axB.set_xlabel("Delta_DORA NC vs C (M€, PRC) : mediane et IC90", fontsize=9.3,
 axB.set_title("(B)  IC90 PRC : de sur-precis a honnete", fontsize=10, color=INK, pad=6)
 axB.grid(alpha=0.25, lw=0.5, axis="x")
 
-fig.suptitle("Le residu de la conversion Jacobs (RSE 0,523) : l'IC PRC cesse d'etre sur-precis",
-             fontsize=12.3, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.95])
+fig.tight_layout(w_pad=1.8)
 
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)

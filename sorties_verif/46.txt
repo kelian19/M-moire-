@@ -28,6 +28,9 @@ VaR par branchement vs VaR predictive vs intervalle
       ecart sur la borne haute : 0.2 % ; sur la borne basse : 1.8 %
       C'est du bruit de bootstrap, pas un desaccord de methode. Le facteur PUBLIE est 2.5.
     - VaR PREDICTIVE        = 648 M€  (-1 % vs plug-in)
+      NB : grandeur SIMULEE, ecart-type de simulation 7 M EUR (mesure par le script 51).
+      A B = 3000 le meme estimateur donne 645 : c'est le meme nombre, pas un desaccord.
+      Ne pas citer son troisieme chiffre significatif.
   Enseignement, plus subtil que prevu : a 99,5 % la VaR predictive est QUASI EGALE a la
   plug-in. Le risque d'estimation ne cree pas un biais de POINT ici ; il gonfle la
   LARGEUR de la bande (facteur 2.5, valeur publiee). Le chargement predictif n'apparait

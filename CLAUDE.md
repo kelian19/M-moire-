@@ -44,14 +44,15 @@ faut comparer pour savoir si un débordement est nouveau. `main.pdf` est version
 `main_v2.pdf` est gitignoré, ce qui ne dispense pas de le régénérer : un PDF périmé sur le
 poste est exactement ce qui a fait présenter du travail antérieur comme récent le 21 août.
 
-État au **15 septembre 2026 au soir**, après la passe des figures : **`main_ensae` à 187 pages
-dont 134 de corps** (annexes en 135), v1 à **171 pages dont 124 de corps** (annexes en 125),
-v2 à **177 pages dont 128 de corps** (annexes en 129), v3 à **150 pages dont 101 de corps**
-(annexes en 102), branche `exploratory`. Les huit pages gagnées ce soir-là sont des figures, non
+État au **16 septembre 2026** : **`main_ensae` à 190 pages dont 136 de corps** (annexes
+en 137), v1 à **173 pages dont 126 de corps** (annexes en 127), v2 à **179 pages dont 129 de
+corps** (annexes en 130), v3 à **152 pages dont 102 de corps** (annexes en 103), branche
+`exploratory`. Les trois pages gagnées depuis le 15 sont la section d'agrégation au capital
+total (chapitre 12, script 95) et celle de triangulation du moteur (chapitre 13, script 96). Les huit pages gagnées ce soir-là sont des figures, non
 du texte : **`\figcle` ne sert plus nulle part**, donc plus aucune figure n'est seule sur sa
 page, et trois figures inutilisées ont été retirées. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 15 septembre : **2 157 nombres, 2 157 confirmés, 100 %**, et **0 hors
+Harnais au 16 septembre : **2 217 nombres, 2 217 confirmés, 100 %**, et **0 hors
 contrôle non déclaré sur les dix-neuf chapitres**. Les six pages gagnées dans le corps le
 9 septembre sont la lecture de marché de l'introduction, demandée par Kélian : voir la section
 « La page de garde et la lecture de marché » plus bas. Ce
@@ -407,6 +408,8 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 62, 63 | comptages du chapitre données, calibration figée rendue citable |
 | 64 | biais de narration : loi nulle exacte, jackknife, point de rupture |
 | 65 | besoin ORSA sur quatre bilans SFCR réels, borne inférieure de validité |
+| 95 | **agrégation au capital total** : le risque opérationnel n'entrant pas dans la matrice de corrélation, l'écart DORA est reconnu en entier ; contrefactuel corrélé où le taux de reconnaissance tend vers ρ, et plafond 0,3 BSCR qui borne ce qu'un forfait saurait exprimer. **Ne lit que `65.txt`**, s'arrête si une valeur publiée y dérive, et ne produit aucune figure |
+| 96 | **triangulation du moteur d'agrégation** : le même quantile par quatre chemins, Monte-Carlo, inversion de Fourier de la génératrice composée (réalisation stable de la récursion de Panjer), et approximation par perte unique aux deux ordres. Ferme le seul axe que le chapitre 13 annonçait sans l'avoir testé. **L'écart Fourier / Monte-Carlo tient sous une erreur type**, donc non résolu : ne jamais citer le $-1{,}7\,\%$ sans le bruit qui l'encadre. Contrôle d'instrument, pas un test contre la donnée |
 | 66 | invariance de la thèse aux valeurs de g |
 | 46, 51 | VaR prédictive et échelle des six postures — **51 est le dépositaire du bruit de simulation de chaque posture** ; 46 recalcule la prédictive à `B = 2000`, 51 à `B = 3000`, d'où deux valeurs du même nombre |
 | 43 | KPI DORA en leviers de capital : les quatre canaux, leur attribution, l'interaction, le facteur 3,34 entre états |

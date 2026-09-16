@@ -307,7 +307,7 @@ ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 # reduction qui faisait tomber ses etiquettes sous 6 points. Le rapport
 # largeur sur hauteur est conserve, donc la figure occupe la meme place
 # sur la page ; c'est son texte qui y prend plus de place.
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.9, 3.21))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.4, 3.75))
 
 # (a) la prediction, verifiee
 ks = [k for k, *_ in verif]
@@ -318,11 +318,10 @@ ax1.plot(ks, [p for *_, p in verif], "s--", color=BLUE, lw=1.6, ms=7,
 ax1.axhline(v_libre, color=MUTED, lw=1.2, ls=":")
 ax1.text(ks[0], v_libre * 1.03, f"VaR sans plafond, {v_libre:.0f} M€", fontsize=8.5, color=INK2)
 ax1.set_xscale("log")
-ax1.set_xlabel("κ, fraction du bilan qu'un sinistre unique peut détruire", color=INK2)
-ax1.set_ylabel("VaR 99,5 % de la charge annuelle (M€)", color=INK2)
+ax1.set_xlabel("κ, fraction du bilan détruite (log)", color=INK2)
+ax1.set_ylabel("VaR 99,5 % annuelle (M€)", color=INK2)
 ax1.legend(fontsize=9, frameon=False, loc="lower right")
-ax1.set_title("(a)  La prédiction ne tient qu'à plafond lâche :\nplafonner détruit la queue "
-              "qu'elle suppose",
+ax1.set_title("(a)  La prédiction ne tient\nqu'à plafond lâche",
               fontsize=10.5, color=INK, pad=8)
 
 # (b) le plafond MESURE par entite, contre le rapport brut qui le surestime
@@ -344,39 +343,38 @@ for y, v in zip(ys, brut):
 for y, v in zip(ys, mes):
     if not np.isnan(v):
         ax2.text(v * 1.10, y - h / 2, f"{v:.3f}".replace(".", ",") + " %", va="center",
-                 fontsize=8.5, color=ACCENT)
+                 fontsize=8.5, color=ACCENT, zorder=5,
+                 bbox=dict(facecolor="#fcfcfb", edgecolor="none", pad=0.8))
 ax2.axvline(0.5, color=INK2, lw=1.2, ls="--")
 # Annotation remontee DANS le cadre : a y = -0,72 elle chevauchait l'etiquette 10^0 de l'axe.
-ax2.text(0.53, 0.45, "0,5 % du bilan,\nseuil déjà généreux", fontsize=8.5, color=INK,
+ax2.text(0.53, -0.72, "0,5 % du bilan,\nseuil déjà généreux", fontsize=8.5, color=INK,
          va="center")
 for y, v in zip(ys, mes):
     if np.isnan(v):
-        ax2.text(0.105, y - h / 2, "aucun plafond plausible ne l'ampute",
+        ax2.text(0.135, y - h / 2, "aucun plafond plausible",
                  va="center", fontsize=8, color=MUTED, style="italic")
 ax2.set_xscale("log")
 ax2.set_yticks(ys)
 ax2.set_yticklabels(noms, fontsize=9)
-ax2.set_xlabel("fraction du bilan qu'un sinistre unique devrait détruire (%, log)", color=INK2)
+ax2.set_xlabel("fraction du bilan à détruire (%, log)", color=INK2)
 # Le titre annoncait « orange » : les barres sont ACCENT depuis le passage a la charte
 # Nexialog. Une legende qui nomme une couleur que la figure ne porte pas est un defaut du
 # meme genre que celui de S15, et il se corrige en ne nommant plus la couleur du tout.
-ax2.set_title("(b)  Quelle fraction du bilan un sinistre unique devrait détruire\npour que le plafond morde",
+ax2.set_title("(b)  Ce qu'un sinistre unique devrait\ndétruire pour que le plafond morde",
               fontsize=10.5, color=INK, pad=8)
 # En bas a droite la legende recouvrait les barres de l'assureur non-vie A et leurs etiquettes ;
 # en haut a droite sans marge elle touchait l'etiquette de la premiere ligne. On DEGAGE donc de
 # la hauteur au-dessus de la premiere barre, et la legende s'y loge sans rien recouvrir.
-ax2.set_ylim(-0.75, len(noms) + 0.25)
+ax2.set_ylim(-1.05, len(noms) + 0.95)
 ax2.legend(loc="upper right", fontsize=8.5, frameon=False)
 
 for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("S34 : le plafond de sévérité adossé à l'exposition, chiffré plutôt qu'implémenté",
-             fontsize=12.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "S34_plafond_exposition.png")
-fig.savefig(path, dpi=200)
+fig.savefig(path, dpi=200, bbox_inches="tight")
 print("\nfigure ecrite :", path)

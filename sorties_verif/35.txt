@@ -12,7 +12,7 @@
     traite   :  188 orgs, pre 0.064 -> post 0.149  (delta +0.085)
     controle :  194 orgs, pre 1.139 -> post 0.057  (delta -1.082)
     DiD = +1.168 jour-breche/org
-    IC bootstrap 95 % : [+1.067 ; +1.268]  (significatif)
+    IC bootstrap 95 % : [+1.066 ; +1.269]  (significatif)
 
 ================================================================================
 3. Placebo : meme dispositif sur une fausse date, un an plus tot
@@ -42,7 +42,7 @@
 ================================================================================
 5. Verdict
 ================================================================================
-  DiD MOVEit    : +1.168  [+1.067 ; +1.268]
+  DiD MOVEit    : +1.168  [+1.066 ; +1.269]
   DiD placebo   : +1.106  (fausse date, aucun choc reel)
   EFFET NET (MOVEit - placebo) : +0.062 jour-breche/org
 

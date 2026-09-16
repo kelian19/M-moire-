@@ -426,7 +426,7 @@ ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 # un titre de panneau de 11 points s'imprime a 8,8. La hauteur suit le meme
 # rapport : la figure passe de 10,3 a 9,7 cm imprimes, six panneaux ne remplissant
 # pas une page de memoire.
-fig, axs = plt.subplots(2, 3, figsize=(9.1, 4.78))
+fig, axs = plt.subplots(2, 3, figsize=(9.8, 4.50))
 
 # (a) QQ-plot
 theo = genpareto.ppf((np.arange(1, n + 1) - 0.5) / n, xi, scale=sig)
@@ -504,7 +504,10 @@ axs[1, 2].set_yscale("log")
 axs[1, 2].set_xticks(xs); axs[1, 2].set_xticklabels([str(k) for k in range(kmax)] + [f"{kmax}+"])
 axs[1, 2].set_xlabel("événements TIC par firme et par an", color=INK2)
 axs[1, 2].set_ylabel("probabilité", color=INK2)
-axs[1, 2].legend(frameon=False, fontsize=9)
+axs[1, 2].set_ylim(top=axs[1, 2].get_ylim()[1] * 300)
+axs[1, 2].set_yticks([1e-7, 1e-5, 1e-3, 1e-1, 1e0])
+axs[1, 2].legend(frameon=False, fontsize=9, loc="upper right",
+                 handlelength=1.4, borderaxespad=0.2)
 _mant, _expo = f"{p_lr:.0e}".split("e")          # meme valeur, meme arrondi qu'avant
 axs[1, 2].set_title("(f)  Fréquence : la NB colle,\nle Poisson rate la queue "
                     f"($p={_mant}\\cdot10^{{{int(_expo)}}}$)",

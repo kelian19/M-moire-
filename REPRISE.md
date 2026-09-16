@@ -40,7 +40,7 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 15 septembre 2026
+## L'état mesuré, au 16 septembre 2026
 
 **`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, décision de Kélian le 15 septembre.** Les trois autres
 fichiers maîtres restent au dépôt et se compilent, mais **tout ajustement demandé se fait sur
@@ -50,10 +50,10 @@ remerciements, un chapitre d'enseignements du stage et les deux notes de synthè
 
 | Document | Total | Corps | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **187 pages** | **134, annexes en 135** | **6, ligne de base** | 2 157 sur 2 157 |
-| `main.pdf`, version 1 | 171 pages | 124, annexes en 125 | 15, ligne de base | mêmes chapitres |
-| `main_v2.pdf`, version 2 | 177 pages | 128, annexes en 129 | 6, ligne de base | mêmes chapitres |
-| `main_v3.pdf`, version courte | 150 pages | 101, annexes en 102 | 5, ligne de base | mêmes chapitres, quatorze sections retirées |
+| **`main_ensae.pdf`, le mémoire déposé** | **190 pages** | **136, annexes en 137** | **6, ligne de base** | 2 217 sur 2 217 |
+| `main.pdf`, version 1 | 173 pages | 126, annexes en 127 | 15, ligne de base | mêmes chapitres |
+| `main_v2.pdf`, version 2 | 179 pages | 129, annexes en 130 | 6, ligne de base | mêmes chapitres |
+| `main_v3.pdf`, version courte | 152 pages | 102, annexes en 103 | 5, ligne de base | mêmes chapitres, quatorze sections retirées |
 | `rapport_ensae.pdf` | 52 pages | 36, références comprises | 0 | 373 confirmés sur 373 |
 
 Découpage de `main_ensae` : Introduction en 9, Données en 23, Modélisation en 36, Résultats
@@ -62,9 +62,10 @@ et 185**.
 
 **Les huit pages gagnées le 15 septembre au soir sont les figures**, non du texte retiré : plus
 aucune figure n'est posée seule sur sa page, et trois figures inutilisées ont été supprimées.
-Voir l'entrée du journal.
+Les trois reprises le 16 sont deux sections neuves, l'agrégation au capital total au chapitre 12
+et la triangulation du moteur au chapitre 13. Voir les entrées du journal.
 
-**Harnais du mémoire : 2 157 nombres, 2 157 confirmés, 100 %**, et **0 hors contrôle non déclaré
+**Harnais du mémoire : 2 217 nombres, 2 217 confirmés, 100 %**, et **0 hors contrôle non déclaré
 sur les dix-neuf chapitres**, 93 nombres étant déclarés hors script avec leur motif (état de
 l'art, cadre réglementaire, démonstrations, pièces justificatives).
 
@@ -543,9 +544,12 @@ propagation sur des sources prudentielles, et l'élicitation.
    « du script 47 », « par le script 67 »). Les 165 formes mécaniques sont traitées ; celles-ci
    demandent de **réécrire la phrase**, une substitution automatique sur de la prose détruirait le
    sens. Le rattachement au harnais doit être conservé en `% SOURCES-SCRIPTS: NN` à chaque fois ;
-2. **les six figures encore sous 6,5 pt effectifs**, listées au journal du 15 septembre. Cinq sont
-   rejouables ici ; `M_faisabilite` ne l'est que sur le Mac, faute du `.csv` de la chronologie
-   PRC ;
+2. **les six figures encore sous 6,5 pt effectifs**, listées au journal du 15 septembre. Elles
+   sont toutes rejouables ici depuis que `data/raw` est sur le poste ; la réserve sur
+   `M_faisabilite` n'a plus d'objet, la chronologie PRC y est en `.csv` et la figure a de toute
+   façon été supprimée le 15. **Et il reste un point à moitié** : le titre général de `S17` n'a
+   pas été retiré alors que ceux de Z6 et S16 l'ont été dans le même lot, l'arrêt ayant été
+   demandé entre les deux ;
 3. **purger le `\textbf{}` à l'intérieur des phrases**, en le gardant pour les têtes de
    paragraphe. Un mémoire d'actuariat de l'Institut n'a presque pas de gras dans son corps ;
 4. **compléter `\fondateurnexialog`** dans `remerciements.tex`, qui imprime
@@ -657,6 +661,115 @@ Chacun a coûté du temps au moins une fois.
 ---
 
 # Journal
+
+## 16 septembre 2026
+
+Kélian a déposé les deux fichiers de `data/raw` sur le PC, ce qui débloque seize scripts d'un
+coup, et la journée s'est terminée sur un axe de validation que le mémoire annonçait sans
+l'avoir tenu.
+
+### `data/raw` arrive, et la première chose à faire est de ne rien croire
+
+**LES DEUX FICHIERS NE SONT PAS CEUX QU'ON ATTENDAIT, ET L'UN A CHANGÉ DE FORMAT.**
+`SAS_OpRisk_Global_Data_June_2026.xlsx` est bien là, mais la chronologie PRC arrive en `.csv`,
+le format que `CLAUDE.md` attribuait au Mac, quand tous les scripts codaient en dur le `.xlsx`.
+La règle du dossier interdit de fabriquer un format depuis l'autre, et elle a raison ; mais elle
+n'interdit pas de **lire celui qui est là**, à condition de le prouver. La preuve est venue en
+deux temps : le `.csv` donne **exactement 15 053 incidents** à `total_affected > 0` sur
+2019-2025, le compte que publient les sorties versionnées 21, 22 et 62 ; et les scripts 21, 22,
+35 et 62 relancés dessus reproduisent leur sortie **ligne pour ligne**. Un résolveur de chemin
+partagé, `chemin_prc()` dans `src/severity/prc_analysis.py`, prend désormais le format présent,
+`.xlsx` d'abord parce que c'est lui qui a produit les sorties versionnées.
+
+**LE PREMIER CONTRÔLE À PASSER N'EST PAS LA FIGURE, C'EST LA SORTIE.** Onze scripts ont été
+relancés avant toute modification, et **neuf reproduisent leur fichier versionné au caractère
+près** : 16, 21, 22, 41, 44, 47, 48, 51, 57, 60, 78. C'est ce contrôle, et lui seul, qui
+autorisait à toucher ensuite à leurs figures. Les deux autres ont révélé des **sorties
+versionnées périmées**, et aucune n'était une dérive de calcul :
+
+- `46.txt` ne portait pas les trois lignes que le script imprime depuis le 10 août sur le bruit
+  de la VaR prédictive. Ajout pur, aucun nombre publié ne bouge ;
+- `62.txt` portait des séparateurs de milliers que le commit `780cd0d` avait retirés du script
+  **pour le harnais**, sans régénérer la sortie. Même valeur, `2 150,4` contre `2150.4`.
+
+**Et un troisième écart, celui-là réel, sur le script 35.** Son bootstrap tirait avec
+`RNG.choice` dans l'ordre du tableau : deux exports de la même base rangés autrement donnaient
+deux intervalles, `[+1,067 ; +1,268]` contre `[+1,072 ; +1,268]`, pour un estimateur ponctuel
+identique au millième. Un bootstrap porte sur un **multi-ensemble**, pas sur un ordre : le
+tableau est trié avant tirage, la sortie devient la même sur les deux postes, et l'intervalle
+publié au chapitre 09, arrondi à `[+1,07 ; +1,27]`, ne bouge pas.
+
+### Les figures que `data/raw` débloque
+
+Treize figures étaient gelées faute de données. **Dix sont reprises** : les cinq titres à code
+interne restants sont retirés (J2, J4, J7, S34, Z14), plus Z6 et S16 ; S10 perd un titre général
+qui portait le **nom de la variable du code**, `SCR_DORA`, et repasse en français accentué ;
+J3 descend de 10,3 à 8,2 cm, la dernière figure au-dessus de la limite de 9. Les chevauchements
+trouvés en les regardant une par une ont été corrigés sur J2, J4, N2, S20, S21, S34 et Z14.
+
+**Deux défauts qui ne sont pas de mise en page, et qui comptent davantage.** Le titre du panneau
+(a) de Z14 nommait **« le registre DORA de Mehdi »** : un prénom dans une figure d'un mémoire que
+l'Institut met en ligne. Et deux figures portaient encore un renvoi de script dans l'image même,
+`(script 46)` sur J4 et `(08g)` sur Z14, alors que le PDF n'en porte plus nulle part depuis le
+15. Les trois sont retirés. Même famille pour la légende LaTeX de S34, qui annonçait des barres
+« en orange » quand elles sont cramoisies depuis le passage à la charte : le script avait corrigé
+son propre titre pour ce motif, la légende était restée en arrière ; elle renvoie désormais à la
+légende de la figure, qui ne peut pas se périmer avec la palette.
+
+**Reste S17**, dont le titre général n'a pas été retiré : Kélian a demandé d'arrêter les figures
+pour passer à l'analyse de l'ancien mémoire. C'est le seul point resté à moitié.
+
+### `96` : le moteur d'agrégation cesse d'être le seul étage non contrôlé
+
+Kélian a demandé ce qu'il y avait à prendre dans `memoire/main.pdf`, la version abandonnée
+pré-cascade, pour comparer des méthodes. Il y avait trois choses ; il en a retenu une, et c'est
+celle qui ferme un trou.
+
+**LE TROU ÉTAIT DÉCLARÉ DANS LE MÉMOIRE LUI-MÊME.** L'encadré « Oui, chaque brique a des
+alternatives » du chapitre 13 liste les concurrents par axe, dont « agrégation (formule standard,
+**Panjer**) », puis affirme « on a testé les concurrents les plus sérieux ». Sur cet axe-là
+c'était une promesse : tout ce que le mémoire valide, il le valide **contre la donnée**, et rien
+ne regardait la machine qui transforme une loi de fréquence et une loi de sévérité en un quantile
+annuel. Un diagnostic de convergence n'y supplée pas, il dit **stable** et non **juste**.
+
+**L'ancien mémoire documente la méthode complètement** : dérivation de l'approximation par perte
+unique en annexe A.3, récursion de Panjer et le motif de ne pas l'employer en A.4, algorithme
+FFT en quatre lignes en annexe C. Et surtout, son annexe D montre que **sa calibration de
+sévérité OpRisk est exactement celle qui est gelée aujourd'hui** (ξ = 0,595, σ = 57,97,
+u = 20,03, 91 excès, VaR mono-perte 663) : la transposition ne touche donc pas au gel.
+
+**L'adaptation rend le résultat plus fort que l'original.** L'ancienne version devait restreindre
+sa comparaison à sa brique dominante, parce que sa surcharge systémique multiplicative faisait
+sortir la charge de la classe composée. Le modèle actuel n'a pas ce défaut : la charge annuelle
+est **exactement** une somme composée, dont la génératrice du nombre de pertes non nulles s'écrit
+en forme fermée en composant la binomiale négative des amorces, la loi exacte des piliers touchés
+et l'amincissement par le seuil. La triangulation porte donc sur **les 6 049 et 20 188 M€
+publiés eux-mêmes**.
+
+**Le résultat, et sa lecture.** Inversion de Fourier 5 945 et 19 890, perte unique au second
+ordre 5 448 et 18 632, au premier 4 989 et 14 933. L'écart de l'inversion vaut −1,7 et −1,5 % en
+relatif, **mais 0,75 et 0,59 erreur type de la référence**, donc **il n'est pas résolu** : deux
+chemins qui ne partagent ni code ni aléa ne se séparent pas à la résolution disponible, ce qui
+est le meilleur résultat que ce contrôle pouvait rendre. Ne jamais citer le −1,7 % sans le bruit
+qui l'encadre, il se lirait comme un désaccord.
+
+**Un contrôle croisé gratuit est tombé en chemin.** La fonction qui reconstruit la loi du nombre
+de piliers touchés retombe **au dix-millième** sur les nombres du script 74 : 1,3799 pour 1,380
+et 31,15 % à l'état conforme, 1,9311 pour 1,931 et 62,31 % à propagation seule. Elle a aussi
+démenti un commentaire écrit d'avance, qui comparait le 1,931 à l'état non conforme **complet** :
+celui-ci vaut 2,436, l'écart venant du canal d'accumulation et non de la propagation. Septième
+fois que la sortie corrige une prose écrite avant elle.
+
+**Les deux pièges numériques sont mesurés, pas supposés.** Le repliement de la transformée
+circulaire, qui sur une queue en ξ = 0,60 renverrait la masse du bout de grille dans les petits
+montants et gonflerait le quantile : masse résiduelle 1,65·10⁻⁸, quatre ordres de grandeur sous
+le niveau de dépassement. Et la discrétisation par les masses et non par la densité, contrôlée
+contre la moyenne analytique à 0,063 % près.
+
+**Contrôles.** `main_ensae` 190 pages dont 136 de corps, `main` 173, `main_v2` 179, `main_v3`
+152 ; débordements exactement aux quatre lignes de base (6, 15, 6, 5), 0 vbox, 0 annotation hors
+page, 0 page tournée, 0 « ?? » dans les quatre PDF. Harnais **2 217 nombres, 2 217 confirmés,
+100 %**, 0 hors contrôle non déclaré sur les dix-neuf chapitres.
 
 ## 15 septembre 2026
 

@@ -401,7 +401,7 @@ LEG = dict(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88)
 # LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Trois panneaux traces
 # sur seize pouces puis imprimes sur 7,27 donnent 1,6 pouce par panneau et
 # des etiquettes sous 5 points. Le rapport largeur sur hauteur est conserve.
-fig, axes = plt.subplots(1, 3, figsize=(8.9, 3.5))
+fig, axes = plt.subplots(1, 3, figsize=(9.6, 3.5))
 
 # (a) lambda en fonction de la taille
 ax = axes[0]
@@ -424,6 +424,8 @@ ax.set_xscale("log"); ax.set_yscale("log")
 ax.set_xlabel("actifs de la firme (M USD, échelle log)")
 ax.set_ylabel("incidents TIC matériels / an")
 ax.set_title("(a)  $\\lambda$ lu à la taille cible,\nnon choisi dans un seau", fontsize=10.5)
+ax.set_xlim(right=pa.actifs.max() * 5)
+ax.set_ylim(top=ax.get_ylim()[1] * 4.0)
 ax.legend(fontsize=8.4, loc="upper left", **LEG)
 
 # (b) la cascade des corrections
@@ -436,7 +438,7 @@ bars = ax.bar(range(4), vv, color=cols, width=0.62, alpha=0.9, edgecolor="#fcfcf
 for i, (b, v) in enumerate(zip(bars, vv)):
     ax.text(b.get_x() + b.get_width() / 2, v * 1.02, f"{v:,.0f}", ha="center",
             va="bottom", fontsize=9, color=INK2)
-ax.set_xticks(range(4)); ax.set_xticklabels(labs, fontsize=8.4)
+ax.set_xticks(range(4)); ax.set_xticklabels(labs, fontsize=7.2)
 ax.set_ylabel("SCR 99,5 % (M€)")
 ax.set_title("(b)  Les deux corrections composées,\net le repère réglementaire", fontsize=10.5)
 
@@ -449,6 +451,7 @@ ax.axvline(scr_r, color=ACC, lw=1.8, ls="--", label=f"matrice d'expert : {scr_r:
 ax.axvline(scr_socle, color=GRN, lw=1.8, ls=":", label=f"socle $W=0$ : {scr_socle:,.0f}")
 ax.set_xlabel("SCR 99,5 % de l'entité (M€)")
 ax.set_ylabel("sommets admissibles")
+ax.set_ylim(top=ax.get_ylim()[1] * 1.45)
 ax.set_title(f"(c)  Le résultat d'entité est une bande\n[{vals.min():,.0f} ; {vals.max():,.0f}]"
              " M€", fontsize=10.5)
 ax.legend(fontsize=8.4, loc="upper left", **LEG)

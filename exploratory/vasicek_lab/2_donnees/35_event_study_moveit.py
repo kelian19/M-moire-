@@ -43,10 +43,16 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RAW = os.path.abspath(os.path.join(HERE, "..", "..", "data", "raw"))
-SRC = os.path.join(RAW, "Data_Breach_Chronology.xlsx")
-if not os.path.exists(SRC):
-    sys.exit(f"donnee absente : {SRC} (sources brutes non versionnees)")
+_REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
+for _p in (_REPO, HERE):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+from src.severity.prc_analysis import chemin_prc, charger_chronologie   # noqa: E402
+
+SRC = chemin_prc(_REPO)
+if not SRC:
+    sys.exit("donnee absente : data/raw/Data_Breach_Chronology.(xlsx|csv) "
+             "(sources brutes non versionnees)")
 
 WID = 80
 RNG = np.random.default_rng(20260721)
@@ -58,9 +64,8 @@ def titre(s):
     print("\n" + "=" * WID + f"\n{s}\n" + "=" * WID)
 
 
-d = pd.read_excel(SRC, sheet_name="Data_Breach_Chronology",
-                  usecols=["normalized_org_name", "breach_date", "breach_type",
-                           "organization_type"])
+d = charger_chronologie(SRC, ["normalized_org_name", "breach_date", "breach_type",
+                               "organization_type"])
 d["bd"] = pd.to_datetime(d.breach_date.astype(str).str.strip(), errors="coerce")
 bsf = d[(d.organization_type == "BSF") & d.bd.notna() & d.normalized_org_name.notna()].copy()
 bsf["jour"] = bsf.bd.dt.normalize()
@@ -102,8 +107,11 @@ def did(ev0, ev1, label, verbose=True):
 
 
 def bootstrap_did(df, n=2000):
-    gt = df[df.grp == "traite"].delta.values
-    gc = df[df.grp == "controle"].delta.values
+    # Tri avant tirage : RNG.choice parcourt le tableau dans son ordre, donc deux exports de
+    # la meme base ranges differemment (xlsx et csv) donnaient deux IC pour un meme estimateur
+    # ponctuel. Un bootstrap porte sur un multi-ensemble, pas sur un ordre.
+    gt = np.sort(df[df.grp == "traite"].delta.values)
+    gc = np.sort(df[df.grp == "controle"].delta.values)
     b = np.empty(n)
     for i in range(n):
         b[i] = (RNG.choice(gt, len(gt)).mean() - RNG.choice(gc, len(gc)).mean())
@@ -240,9 +248,7 @@ for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("Z6 : event-study MOVEit, un signal agrégé et une cible que la donnée n'attribue pas",
-             fontsize=13, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "Z6_event_study_moveit.png")

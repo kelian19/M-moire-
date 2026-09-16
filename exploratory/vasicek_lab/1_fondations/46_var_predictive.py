@@ -223,7 +223,9 @@ ax1.axvline(1.0, color=MUTED, ls=":", lw=1)
 ax1.text(1.02, ax1.get_ylim()[1]*0.6, "ξ=1\n(TVaR indéf.)", fontsize=7.5, color=MUTED)
 ax1.set_xlabel("indice de queue $\\xi$ (bootstrap)", color=INK2)
 ax1.set_ylabel("fréquence", color=INK2)
-ax1.legend(frameon=False, fontsize=8)
+ax1.set_ylim(0, ax1.get_ylim()[1] * 1.34)
+ax1.legend(loc="upper left", fontsize=8, frameon=True, framealpha=1,
+           facecolor="#fcfcfb", edgecolor="none", borderpad=0.4)
 ax1.set_title("(a)  Le paramètre est incertain :\nle quantile en hérite", fontsize=10.5, color=INK, pad=8)
 
 # (b) survie conditionnelle : plug-in vs predictive ; divergence dans la queue profonde
@@ -260,10 +262,7 @@ for ax in (ax1, ax2, ax3):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
 
-fig.suptitle("J2 : le SCR est un quantile d'un objet incertain ; la VaR prédictive intègre le "
-             "risque d'estimation, le capital se lit en bande",
-             fontsize=11.5, fontweight="bold", color=INK, x=0.02, ha="left", y=0.99)
-fig.tight_layout(rect=[0, 0, 1, 0.92])
+fig.tight_layout(w_pad=1.8)
 outdir = os.path.join(HERE, "figures")
 os.makedirs(outdir, exist_ok=True)
 path = os.path.join(outdir, "J2_var_predictive.png")

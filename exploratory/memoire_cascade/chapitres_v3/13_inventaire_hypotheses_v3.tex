@@ -287,6 +287,77 @@ Le niveau est illustratif, l'ordre résiste : c'est, chiffrée sur un troisième
 mémoire, et la réponse à qui demanderait \og et si vous aviez pris une autre méthode~?\fg.
 \end{cle}
 
+\section{Le moteur d'agrégation, contrôlé par trois chemins indépendants}
+\label{sec:triangulation-agregation}
+
+Tout ce que les sections précédentes valident, elles le valident \emph{contre la donnée} :
+adéquation, balayage de seuil, bootstrap, transformation intégrale de probabilité, test hors
+échantillon. Aucun de ces contrôles ne regarde le moteur qui transforme une loi de fréquence et
+une loi de sévérité en un quantile annuel. Un diagnostic de convergence de Monte-Carlo n'y
+supplée pas : il établit que l'estimateur est \emph{stable}, jamais qu'il est \emph{juste}, et un
+biais systématique de l'agrégation lui resterait invisible. La charge annuelle du modèle étant
+exactement une somme composée, $S=X_1+\dots+X_K$ avec $X_i = u + \mathrm{GPD}(\xi,\sigma)$, elle
+se calcule aussi sans simuler, et c'est ce que fait cette section.
+
+Le nombre $K$ de pertes non nulles d'une année se construit en trois étages tous exacts : les
+amorces suivent la binomiale négative, chaque amorce touche un ensemble de piliers dont les
+tables de cascade énumèrent la loi, et chaque pilier touché ne produit une perte qu'avec la
+probabilité de dépassement du seuil. Sa fonction génératrice s'écrit donc en forme fermée, ce qui
+ouvre deux voies étrangères au Monte-Carlo. L'\textbf{inversion par transformée de Fourier} donne
+la loi agrégée sans aucun aléa : c'est la réalisation numériquement stable de la récursion de
+Panjer, laquelle est inexploitable telle quelle à l'indice de queue publié, où elle demanderait
+de plusieurs millions de points parcourue de proche en proche. L'\textbf{approximation par perte
+unique} exploite la sous-exponentialité de la sévérité, sous laquelle la survie de la somme vaut
+asymptotiquement $\mathbb{E}[K]$ fois celle d'une perte isolée : elle donne une forme fermée,
+raffinée au second ordre par une correction de moyenne.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l r r@{}}
+\toprule
+\textbf{Méthode} & \textbf{Nature} & \textbf{Conforme} & \textbf{Non conforme} \\
+\midrule
+Monte-Carlo (moteur publié) & stochastique & $6\,049$ & $20\,188$ \\
+Inversion par Fourier & numérique exacte & $5\,945$ & $19\,890$ \\
+Perte unique, second ordre & analytique & $5\,448$ & $18\,632$ \\
+Perte unique, premier ordre & analytique & $4\,989$ & $14\,933$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent En M\euro, $\VaR$ à $99{,}5\,\%$ de la charge annuelle. Écarts à la référence
+Monte-Carlo : $-1{,}7$ et $-1{,}5\,\%$ pour l'inversion, $-9{,}9$ et $-7{,}7\,\%$ au second ordre
+analytique, $-17{,}5$ et $-26{,}0\,\%$ au premier.
+
+\textbf{Lecture, et elle ne se fait pas contre zéro.} La référence est elle-même une grandeur
+simulée : sa moyenne sur quatre graines porte une erreur type de $139$ et $500$~M\euro{} selon
+l'état. L'écart de l'inversion vaut $0{,}75$ et $0{,}59$ erreur type, donc \textbf{il n'est pas
+résolu}. Deux chemins qui ne partagent ni code ni aléa, l'un tirant des années et l'autre
+composant des transformées, ne se séparent pas à la résolution disponible : c'est le meilleur
+résultat que ce contrôle pouvait rendre, et c'est aussi la raison de ne pas citer le $-1{,}7\,\%$
+seul, qui se lirait comme un désaccord. L'approximation analytique, qui n'utilise ni simulation
+ni inversion, reste à moins de dix pour cent au second ordre contre plus du double au premier :
+la correction de moyenne rattrape l'essentiel, comportement que la théorie annonce pour une
+approximation asymptotique lue à un niveau fini.
+
+Deux garde-fous numériques sont mesurés plutôt que supposés, parce qu'ils décideraient du
+résultat. La transformée discrète étant circulaire, la masse qui dépasse la grille revient dans
+les petits montants et gonfle le quantile : elle vaut ici $1{,}65\cdot 10^{-8}$, soit quatre ordres
+de grandeur sous le niveau de dépassement. Et la sévérité est discrétisée par les masses et non
+par la densité, ce qui laisse un écart de $0{,}063\,\%$ sur sa moyenne.
+
+\begin{cle}
+\textbf{Ce que ce contrôle établit, et ce qu'il n'établit pas.} Les quatre chemins partagent la
+loi de fréquence, la loi de sévérité et les tables de cascade : ils contrôlent
+l'\emph{agrégation}, jamais la vérité du modèle. C'est un contrôle d'instrument, du même genre
+que celui qui impose au test de l'additivité des coûts de redonner les deux capitaux publiés à
+exposant neutre, et il ne remplace aucun test contre la donnée. Sa portée est précise : le
+quantile publié n'est pas un artefact du moteur de simulation.
+\end{cle}
+
+% SOURCES-SCRIPTS: 96
+
 \section{Quelle grandeur reporter}
 % PONT v3 : la section complete est dans main_v2, version
 % longue et non modifiee. Genere par construire_v3.py.

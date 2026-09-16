@@ -42,6 +42,40 @@ PERIOD_MIN_YEAR = 2019
 PERIOD_MAX_YEAR = 2025
 
 
+def chemin_prc(racine: str) -> str:
+    """Chemin de la chronologie PRC sur ce poste, quel que soit le format present.
+
+    Les deux postes ne portent pas le meme export : le PC a longtemps eu le `.xlsx` et le
+    Mac le `.csv`. Les deux fichiers portent la MEME donnee, ce qui se verifie et non se
+    suppose : charges l'un et l'autre, ils donnent 15 053 incidents a total_affected > 0
+    sur 2019-2025, le compte que publient les sorties versionnees 21, 22 et 62. On ne
+    fabrique donc jamais un format depuis l'autre, on lit celui qui est la.
+
+    Le `.xlsx` passe en premier parce que c'est lui qui a produit les sorties versionnees.
+    Retourne une chaine vide si aucun des deux n'est present, au lieu de lever : c'est a
+    l'appelant de decider s'il s'arrete ou s'il saute la section.
+    """
+    import os
+    for nom in ("Data_Breach_Chronology.xlsx", "Data_Breach_Chronology.csv"):
+        chemin = os.path.join(racine, "data", "raw", nom)
+        if os.path.exists(chemin):
+            return chemin
+    return ""
+
+
+def charger_chronologie(path: str, colonnes: list) -> "pd.DataFrame":
+    """Charge les colonnes demandees de la chronologie PRC, xlsx ou csv.
+
+    L'export brut est delimite par des barres verticales et ses champs, qui contiennent des
+    retours a la ligne, sont entre guillemets ; l'en-tete porte un BOM. On ne charge que les
+    colonnes utiles : le fichier complet fait 660 Mo.
+    """
+    if str(path).lower().endswith(".csv"):
+        return pd.read_csv(path, sep="|", encoding="utf-8-sig", usecols=colonnes,
+                           dtype=str, engine="c")
+    return pd.read_excel(path, sheet_name="Data_Breach_Chronology", usecols=colonnes)
+
+
 def load_prc(path: str,
              year_min: int = PERIOD_MIN_YEAR,
              year_max: int = PERIOD_MAX_YEAR) -> pd.DataFrame:
@@ -54,7 +88,11 @@ def load_prc(path: str,
         # Export PRC brut : délimiteur pipe « | », champs entre guillemets
         # pouvant contenir des retours à la ligne. On ne charge que les
         # colonnes utiles pour éviter de matérialiser les 660 Mo en mémoire.
-        df = pd.read_csv(path, sep="|", usecols=["breach_date", "total_affected"],
+        _voulues = ["breach_date", "total_affected", "organization_type",
+                    "reported_date", "breach_type", "normalized_org_name"]
+        _entete = pd.read_csv(path, sep="|", encoding="utf-8-sig", nrows=0).columns
+        df = pd.read_csv(path, sep="|", encoding="utf-8-sig",
+                         usecols=[c for c in _voulues if c in _entete],
                          dtype=str, engine="c")
     else:
         df = pd.read_excel(path)
