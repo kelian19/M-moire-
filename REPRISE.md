@@ -478,8 +478,12 @@ soit presque la page entière.
 
 ### Kélian, et cela ne peut pas être fait à sa place
 
-- **La réponse de Mehdi Cherkaoui au formulaire de relecture**, arrivée le 16 septembre et **pas
-  encore récupérée**. Deux tentatives ont échoué ce soir-là : le connecteur Google Drive avait
+- **La seconde réponse au formulaire de relecture est RETROUVÉE le 17 septembre et NON intégrée.**
+  Elle date du 10 septembre à 9 h 35 et vit dans la feuille créée le 3 août à 9 h 07
+  (`1yltQ8ghx02xNsyRMjQEz5gO2tan7ZylPA6W7oa84aek`), le répondant ayant reçu un ancien lien.
+  Attribution à Mehdi Cherkaoui à confirmer, le formulaire n'ayant pas de champ nom. Les lignes
+  qui suivent décrivent l'état du 16 au soir, avant qu'elle soit retrouvée. **Au 16 septembre, elle
+  n'était pas encore récupérée**. Deux tentatives ont échoué ce soir-là : le connecteur Google Drive avait
   expiré puis a été retiré de la session, et le lien Teams transmis ne s'ouvre pas sans connexion
   Microsoft (la page ne renvoie que « Join conversation »). **Le plus simple est de coller la
   réponse, ou l'export CSV de l'onglet Réponses, dans la session.** Le formulaire en diffusion
