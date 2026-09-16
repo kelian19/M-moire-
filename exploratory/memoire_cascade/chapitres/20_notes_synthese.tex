@@ -1,159 +1,340 @@
 % =====================================================================
 % LES DEUX NOTES DE SYNTHÈSE, FRANÇAISE PUIS ANGLAISE
 %
-% PIÈCES PROPRES À LA VERSION ENSAE. Seul main_ensae.tex les appelle. Les
-% consignes de l'école les exigent, autonomes, d'une à deux pages chacune, et
-% lisibles par un non-spécialiste ; elles imposent aussi leur PLACE dans le
-% fichier unique déposé, en toute fin de document. L'Institut des Actuaires ne
-% demande ni l'une ni l'autre : le mémoire porte un résumé et un abstract, qui
-% sont d'un autre genre, plus techniques et plus courts.
+% PIÈCES PROPRES À LA VERSION ENSAE. Seul main_ensae.tex les appelle, EN TÊTE du
+% document, après le sommaire et le glossaire, et non plus en fin.
 %
-% Texte repris de l'ancien rapport de stage raccourci
-% (exploratory/rapport_ensae/rapport_ensae.tex), où il avait été validé. Aucun
-% nombre n'y a été modifié.
+% POURQUOI CE FORMAT, décision du 16 septembre 2026. Le seul précédent validé pour
+% cette filière est le mémoire de F. Dountio (ENSAE, soutenu le 18 mars 2026, même
+% cabinet, même tuteur) : notes de neuf pages chacune, en tête, organisées comme le
+% mémoire (contexte, objectif, démarche par étapes, résultats, limites, conclusion),
+% avec figures et tableaux. Le courriel de l'école du 16 septembre aligne le dépôt
+% ENSAE sur la version Institut des actuaires, qui porte ce type de note. Les
+% consignes du rapport de stage (une à deux pages, en fin) valaient pour l'ancien
+% rapport distinct. Revenir à l'autre placement ne demande que de déplacer une
+% ligne \input dans main_ensae.tex.
+%
+% Chaque nombre est une valeur publiée dans le corps, où il porte sa citation de
+% script ; la note n'en calcule aucun.
 % =====================================================================
 
+\providecommand*{\notesec}[1]{\par\medskip\noindent{\large\bfseries #1}\par\smallskip}
+
 \chapter*{Note de synthèse}
-\addcontentsline{toc}{chapter}{Note de synthèse (français)}
+\addcontentsline{toc}{chapter}{Note de synthèse}
 % UN \chapter* NE MET PAS LA MARQUE DE TITRE COURANT A JOUR, et fancyhdr garde
-% alors celle du dernier \chapter numerote : les deux notes s'imprimaient sous
-% un titre courant << Bibliographie >>. Vu sur le PDF rendu, pas sur la source.
+% alors celle du dernier \chapter numerote. Vu sur le PDF rendu, pas sur la source.
 \markboth{Note de synthèse}{}
 
 % HARNAIS-HORS-SECTION: note de synthese autonome, destinee a un lecteur non
-% specialiste. Elle reprend, en les arrondissant, des grandeurs etablies et
-% verifiees dans le corps du memoire, ou elles portent leurs citations de script.
+% specialiste. Elle reprend des grandeurs etablies et verifiees dans le corps du
+% memoire, ou elles portent leurs citations de script.
 
-\textbf{Le problème.} Depuis janvier 2025, le règlement européen DORA impose aux
-banques et aux assureurs la maîtrise de cinq domaines de résilience informatique :
-gouvernance du risque technologique, gestion des incidents, tests de résilience,
-maîtrise des prestataires tiers, partage d'informations sur les menaces. Le
-règlement dit ce qu'il faut mettre en place. Il ne dit pas ce que coûte de ne pas
-le faire, et le cadre prudentiel qui fixe le capital d'un assureur,
-Solvabilité~II, ne le dit pas non plus : sa charge de risque opérationnel est un
-pourcentage des primes, identique pour un assureur exemplaire et pour un assureur
-défaillant. Un dirigeant qui arbitre un budget de conformité ne dispose donc
-d'aucun chiffre.
+\notesec{Contexte}
+Depuis janvier 2025, le règlement européen DORA impose aux banques et aux assureurs la maîtrise de
+cinq domaines de résilience opérationnelle numérique, appelés ici piliers : la gouvernance du
+risque lié aux technologies de l'information et de la communication (P1), la gestion et la
+notification des incidents (P2), les tests de résilience (P3), la gestion du risque lié aux
+prestataires tiers (P4) et le partage d'informations sur les menaces (P5). Le règlement dit ce
+qu'il faut mettre en place. Il ne dit pas ce que coûte de ne pas le faire, et Solvabilité~II ne le
+dit pas davantage : sa charge de risque opérationnel en Formule Standard est un pourcentage des
+primes ou des provisions, identique pour un assureur exemplaire et pour un assureur défaillant.
+Un dirigeant qui arbitre un budget de conformité ne dispose donc d'aucun chiffre.
 
-\textbf{La difficulté, qui n'est pas celle qu'on croit.} Les cinq domaines ne sont
-pas des cases indépendantes. Une gouvernance défaillante retarde la détection des
-incidents, et un prestataire mal maîtrisé ouvre une porte que les tests n'ont pas
-explorée : la défaillance se propage, et dans un sens. Un domaine en entraîne
-d'autres, et il vaut mieux corriger une cause qu'un symptôme. Les outils
-statistiques habituels représentent le fait que plusieurs domaines cèdent
-ensemble, mais pas lequel a entraîné l'autre, alors que c'est ce sens qui devrait
-dicter l'ordre des travaux.
+Le marché français de la cyberassurance, observé par l'étude LUCY de l'AMRAE, confirme la
+difficulté de mesure : les sinistres les plus lourds y sont trop rares pour estimer une queue de
+distribution, alors que c'est là que se joue un capital de solvabilité. Le travail a été conduit
+chez Nexialog Consulting, sous la direction de Hugo Rapior.
 
-\textbf{Ce qui a été construit.} Le travail représente la propagation par une
-\emph{cascade dirigée} : un incident naît sur un domaine, puis se transmet aux
-autres selon une matrice d'influence asymétrique, posée à dire d'expert, corroborée par un corpus
-de rapports d'incidents officiels et normalisée de sorte que la cascade s'éteigne
-toujours. L'état de conformité, domaine par domaine, pilote alors quatre
-paramètres de la loi des pertes : combien d'incidents surviennent par an, quelle
-proportion échappe à la détection, avec quelle force ils se propagent, et dans
-quelle mesure un prestataire commun les fait converger. Le capital est recalculé à
-partir de cette loi, sans pénalité ajoutée.
+\notesec{Objectif}
+Chiffrer en capital ce que coûte à une entité financière l'écart entre un état conforme et un état
+non conforme à DORA, en dire l'attribution entre piliers et entre mécanismes, et établir jusqu'où
+ce chiffre peut être affirmé compte tenu des données disponibles. La grandeur produite est un
+besoin de capital au sens de l'ORSA, l'évaluation interne des risques et de la solvabilité, et non
+un SCR réglementaire : aucun module DORA n'existe en Formule Standard.
 
-\textbf{Le résultat principal.} Entre un état pleinement conforme et un état
-pleinement défaillant, le besoin de capital est multiplié par $3{,}3$. Surtout,
-les quatre canaux ne s'additionnent pas : pris séparément ils expliquent les deux
-tiers de l'écart, et le tiers restant, environ $35\,\%$, vient de leurs
-interactions. Conséquence directe : corriger un domaine rapporte davantage à une
-entité défaillante partout qu'à une entité déjà saine par ailleurs, parce que la
-correction ferme aussi les interactions que ce domaine portait. Le chiffre à citer
-dans un plan d'action est donc l'effet de fermeture, de $1{,}5$ à $3$~fois plus
-grand que l'effet isolé.
+\notesec{Démarche}
+\textbf{1. Les données, chacune là où elle est fiable.} La sévérité est calibrée sur la base SAS
+OpRisk Global, qui porte des montants de pertes réels : $582$ pertes du périmètre cyber et finance
+sur $27$ années. La base Privacy Rights Clearinghouse ($15\,053$ notifications de violation de
+données entre $2019$ et $2025$) sert de source de fréquence et de sévérité alternative, la base
+Hackmageddon de structure par vecteur d'attaque. La direction de la propagation entre piliers est
+confrontée à un corpus de $10$ rapports post-incident officiels, dans lesquels $22$ transitions
+dirigées sont codées. Quatre rapports publics d'assureurs (SFCR) servent à ramener le résultat
+à l'échelle d'une entité.
 
-\textbf{L'apport de méthode, et il est plus important que le chiffre.} La donnée
-disponible ne permet pas d'observer le \emph{sens} de la propagation, et ce n'est
-pas un manque de volume : la grandeur observable y est mathématiquement
-insensible, donc une matrice et son symétrique sont indiscernables pour la donnée
-tout en conduisant à des décisions différentes. Un schéma d'incidents standard de
-la profession porte les deux champs nécessaires et ne les renseigne ensemble que
-dans un incident sur $10\,591$. Le travail ne pose donc pas une valeur
-arbitraire : il calcule l'\emph{ensemble} des matrices compatibles avec la donnée
-et publie le capital en fourchette. L'ignorance a ainsi un coût connu d'avance et
-plafonné, et l'essentiel du surcoût vient de la co-occurrence des défaillances,
-qui est observable, non du sens de la propagation. Ce sens manquant déplace la
-\emph{priorité} de remédiation plus que le montant, d'où une hiérarchie de
-domaines plutôt qu'un chiffre.
+\textbf{2. La loi des pertes.} Le nombre annuel d'incidents suit une loi binomiale négative, qui
+rend compte de la surdispersion observée. Au-dessus d'un seuil de $20{,}03$~M\euro{}, la sévérité
+suit une loi de Pareto généralisée ajustée sur $91$ excès, d'indice de queue $0{,}5954$ : la
+variance des pertes est infinie, leur espérance finie. Le seuil n'est pas choisi à la main : la
+règle de stabilité appliquée à dix seuils candidats le retrouve à moins de $1\,\%$ près. Le capital
+est le quantile à $99{,}5\,\%$ de la charge annuelle simulée.
 
-\textbf{Les limites, publiées avec le résultat.} Le niveau absolu du capital est
-illustratif : il varie fortement selon la base de sinistres retenue, et c'est le
-rapport entre les deux états qui est défendu. Un backtest hors échantillon valide
-la loi du nombre d'incidents et la forme de la queue des pertes, mais montre que
-le niveau des pertes extrêmes dérive plus vite que le modèle ne le suppose, donc
-que le capital est sous-estimé. Ce même backtest chiffre enfin sa propre
-puissance : détecter une anomalie sur le quantile réglementaire demanderait plus
-de mille huit cents années d'observations, donc aucun historique existant ne
-permet de valider ce niveau.
+\textbf{3. La cascade dirigée.} Un incident naît sur un pilier puis se transmet aux autres selon
+une matrice d'influence asymétrique, posée à dire d'expert et corroborée par le corpus. Sa
+normalisation, empruntée à l'analyse entrées-sorties de Leontief, garantit que la cascade
+s'éteint : le rayon spectral vaut $0{,}506$, sous le seuil critique de un. Un sinistre touche en
+moyenne $1{,}380$ pilier à l'état conforme et $1{,}931$ à l'état non conforme.
+
+\textbf{4. La conformité comme état.} La non-conformité n'ajoute aucune pénalité au capital : elle
+déplace quatre paramètres de la loi des pertes, présentés au tableau ci-dessous. Le capital est
+recalculé dans chaque état.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l l r r r r@{}}
+\toprule
+\textbf{Canal} & \textbf{Paramètre} & \textbf{Conforme} & \textbf{Non conforme} &
+\textbf{Effet isolé} & \textbf{Effet de fermeture} \\
+\midrule
+Fréquence & incidents par an & $21{,}6$ & $53{,}6$ & $4\,328$ & $8\,775$ \\
+Détection & part non détectée & $0{,}128$ & $0{,}181$ & $1\,448$ & $4\,562$ \\
+Propagation & gain de la cascade & $0{,}45$ & $0{,}90$ & $1\,633$ & $2\,402$ \\
+Accumulation & prestataire commun & $0$ & $0{,}68$ & $1\,728$ & $3\,402$ \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Besoin de capital} (M\euro)} & $6\,049$ & $20\,188$ & & \\
+\bottomrule
+\end{tabular}
+
+\vspace{3pt}
+{\footnotesize\itshape Effet isolé : capital ajouté par le seul canal à partir de l'état conforme.
+Effet de fermeture : capital retiré en corrigeant le seul canal à partir de l'état non conforme.
+Montants en M\euro, échelle du secteur.}
+\end{center}
+
+\textbf{5. Ce que la donnée ne permet pas d'estimer.} Les données publiques montrent quels piliers
+cèdent ensemble, pas lequel a entraîné l'autre. Ce n'est pas un défaut de volume : la grandeur
+observable est mathématiquement insensible au sens de la propagation, de sorte qu'une matrice et sa
+transposée sont indiscernables pour la donnée tout en conduisant à des décisions différentes. Le
+schéma d'incidents de référence de la profession, VERIS, porte les deux champs nécessaires et ne
+les renseigne ensemble que dans un incident sur $10\,591$. Plutôt que de poser une direction, le
+travail calcule le capital sur l'ensemble des matrices compatibles avec la donnée, soit les
+$1\,024$ sommets de cet ensemble. Dans la configuration retenue pour ce calcul, distincte
+des deux états du tableau, il se situe entre $6\,858$ et $8\,697$~M\euro{}, et la largeur
+de $1\,839$~M\euro{} est le coût maximal de l'ignorance de la direction, connu d'avance.
+
+\textbf{6. La validation.} Un backtest hors échantillon, à origine glissante sur $2004$--$2025$,
+confronte le modèle à des années qu'il n'a pas vues. La loi binomiale négative couvre $91{,}7\,\%$
+des années pour un intervalle annoncé à $90\,\%$, et la forme de la queue passe le test de
+probabilité intégrale. Le niveau de la charge annuelle, en revanche, n'est couvert qu'à
+$75{,}0\,\%$ : l'échelle des pertes dérive dans le temps, de $4{,}00\,\%$ par an dans la queue.
+Le moteur d'agrégation est enfin vérifié par inversion de Fourier de la loi composée, dont
+l'écart à la simulation reste inférieur à une erreur type.
+
+\notesec{Résultats}
+Entre l'état conforme et l'état non conforme, le besoin de capital passe de $6\,049$ à
+$20\,188$~M\euro{}, soit un facteur $3{,}34$ et un écart de $14\,139$~M\euro{}. Trois résultats
+en découlent.
+
+\begin{center}
+\includegraphics[width=\textwidth]{S24_interaction_canaux.png}
+
+\vspace{2pt}
+{\footnotesize\itshape (a) Passage de l'état conforme à l'état non conforme, par ordre
+d'interaction entre canaux ; (b) effet isolé, attribution de Shapley et effet de fermeture de
+chaque canal ; (c) effets croisés des paires de canaux.}
+\end{center}
+
+\textbf{Les canaux ne s'additionnent pas.} Pris isolément, ils expliquent $9\,138$~M\euro{} de
+l'écart ; leurs interactions en portent $5\,001$, soit $35\,\%$. Corriger un canal rapporte donc
+davantage à une entité défaillante partout qu'à une entité déjà conforme par ailleurs, parce que
+la correction ferme aussi les interactions que ce canal portait. Le chiffre à citer dans un plan de
+remédiation est l'effet de fermeture, et non l'effet isolé.
+
+\textbf{La fréquence commande.} Le seul canal de fréquence porte le besoin de capital à
+$10\,377$~M\euro{}, quand les trois autres canaux réunis n'atteignent que $11\,413$~M\euro{}. Toute
+cible de capital au-delà de ce second seuil exige donc de maîtriser le nombre d'incidents.
+
+\textbf{La hiérarchie des piliers résiste mieux que le niveau.} La gouvernance (P1) et la gestion
+des tiers (P4) dominent les trois autres piliers, mais leur ordre relatif dépend de la direction
+de propagation que la donnée ne fixe pas. À l'échelle d'une entité notionnelle, le besoin de
+capital vaut au plus $169$~M\euro{}, borne supérieure d'ordre de grandeur et non mesure ; le coût
+annuel de détention de ce capital vaut $2{,}78$ fois le prix de marché de son transfert.
+
+\notesec{Limites}
+Le niveau absolu du capital est illustratif : il varie d'un facteur $22$ avec la seule source de
+sévérité, et c'est l'écart relatif entre états qui est défendu. Les niveaux de propagation sont
+posés et non calibrés ; la thèse n'en dépend pas, le capital étant croissant en ce paramètre, de
+sorte que toute correspondance qui en respecte l'ordre reproduit l'écart. L'additivité des coûts
+entre piliers touchés est l'hypothèse la plus lourde : son élasticité vaut $0{,}95$ à l'état non
+conforme contre $0{,}39$ à l'état conforme, et le signe de l'écart résiste à toute la plage
+étudiée, non son amplitude. La dérive de l'échelle des pertes rend le niveau anti-conservateur.
+Les sinistres courants, sous le seuil de collecte, sont absents de la donnée. Enfin, le quantile à
+$99{,}5\,\%$ n'est testable sur aucun historique existant : $1\,811$ années d'observation seraient
+nécessaires pour y détecter un taux de dépassement double du nominal.
+
+\notesec{Recommandations}
+\textbf{Pour l'entité.} Prioriser la maîtrise du nombre d'incidents, chiffrer toute remédiation par
+son effet de fermeture, et mettre en regard les trois leviers disponibles, remédier, détenir le
+capital ou transférer le risque, sur un même axe en euros par an.
+
+\textbf{Pour le régulateur.} La donnée qui rendrait la direction mesurable se déduit des échecs
+constatés : un registre d'incidents horodatant la survenance à la semaine, catégorisant par domaine
+de contrôle plutôt que par vecteur d'attaque, et consolidant une cause commune en un seul
+événement. Les deux premiers champs existent déjà dans VERIS ; il s'agit d'en rendre le
+remplissage obligatoire, ce que la notification des incidents majeurs sous DORA peut imposer.
+
+\notesec{Conclusion}
+Le travail traduit la conformité à DORA en capital, là où la Formule Standard n'en exprime rien :
+un facteur $3{,}34$ entre états, porté pour un tiers par l'interaction des mécanismes et commandé
+par la fréquence des incidents. Sa contribution de méthode est d'établir ce que la donnée ne
+permet pas d'estimer, de publier le capital en bornes plutôt que sur une hypothèse invérifiable, et
+de chiffrer la valeur de la donnée manquante. Chaque nombre du mémoire est confronté aux sorties
+des scripts qui le calculent.
+
+% =====================================================================
 
 \chapter*{Executive summary}
-\addcontentsline{toc}{chapter}{Note de synthèse (English)}
+\addcontentsline{toc}{chapter}{Executive summary}
 \markboth{Executive summary}{}
 
 % HARNAIS-HORS-SECTION: stand-alone executive summary for a non-specialist
-% reader. Figures restate, in rounded form, quantities established and verified
-% in the body of the memoir, where they carry their script citations.
+% reader. It restates quantities established and checked in the body, where they
+% carry their script citations.
 
-\textbf{The problem.} Since January 2025, the European DORA regulation has
-required banks and insurers to master five areas of digital operational
-resilience: technology risk governance, incident management, resilience testing,
-third-party provider risk, and cyber threat information sharing. The regulation
-states what must be put in place. It does not state what failing to do so costs.
-Nor does Solvency~II, the prudential framework that sets an insurer's capital: its
-operational risk charge is a percentage of premiums, identical for an exemplary
-insurer and for a failing one. An executive weighing a compliance budget therefore
-has no figure to work with.
+\notesec{Context}
+Since January 2025, the European DORA regulation has required banks and insurers to master five
+areas of digital operational resilience, called pillars here: governance of information and
+communication technology risk (P1), incident management and reporting (P2), resilience testing
+(P3), third-party provider risk (P4) and threat information sharing (P5). The regulation states
+what must be put in place. It does not state what failing to do so costs, and neither does
+Solvency~II: its Standard Formula operational risk charge is a percentage of premiums or
+provisions, identical for an exemplary insurer and for a failing one. An executive weighing a
+compliance budget therefore has no figure to work with.
 
-\textbf{The difficulty is not the obvious one.} The five areas are not independent
-boxes to tick. Weak governance delays incident detection; an unmanaged provider
-opens a door that testing never explored. Failure propagates, and it propagates in
-a \emph{direction}: one area drags others down, and fixing a cause is worth more
-than fixing a symptom. Standard statistical tools can represent the fact that
-several areas fail together, but not which one dragged the others. Yet it is
-precisely that direction which should dictate the order of remediation work.
+The French cyber insurance market, as observed by the AMRAE LUCY study, confirms the measurement
+problem: the heaviest losses are too rare to estimate a distribution tail, which is precisely where
+solvency capital is determined. The work was carried out at Nexialog Consulting under the
+supervision of Hugo Rapior.
 
-\textbf{What was built.} The work represents propagation as a \emph{directed
-cascade}: an incident starts in one area, then transmits to others through an
-asymmetric influence matrix posited by expert judgement and corroborated by a corpus of official
-post-incident reports. The matrix is normalised so that the cascade always dies out, a property
-guaranteed by construction rather than checked afterwards. The firm's compliance
-state, area by area, then drives four parameters of the loss distribution: how
-many incidents occur per year, what share escapes detection, how strongly they
-propagate, and how far a shared provider makes them converge. Capital is recomputed
-from that distribution, with no penalty added on top.
+\notesec{Objective}
+To express in capital terms what the gap between a DORA-compliant and a non-compliant state costs a
+financial firm, to attribute it across pillars and mechanisms, and to establish how far that figure
+can be asserted given the available data. The quantity produced is a capital need in the ORSA
+sense, the firm's own risk and solvency assessment, not a regulatory SCR: the Standard Formula has
+no DORA module.
 
-\textbf{The headline result.} Between a fully compliant state and a fully failing
-one, the capital requirement is multiplied by $3{,}3$. More importantly, the four
-channels are not additive: taken separately they account for two thirds of the gap,
-and the remaining third, about $35\,\%$, comes from their interactions. One direct
-consequence for a remediation plan: fixing one area is worth more to a firm that
-fails everywhere than to a firm otherwise sound, because the fix also closes the
-interactions that area carried. The figure to quote in an action plan is therefore
-not the area's standalone effect but its closure effect, which is $1{,}5$ to $3$
-times larger.
+\notesec{Approach}
+\textbf{1. Each data source where it is reliable.} Severity is calibrated on the SAS OpRisk Global
+database, which records actual loss amounts: $582$ losses in the cyber and finance scope over
+$27$ years. The Privacy Rights Clearinghouse database ($15\,053$ breach notifications from $2019$
+to $2025$) provides an alternative frequency and severity source, and Hackmageddon the breakdown by
+attack vector. The direction of propagation between pillars is confronted with a corpus of $10$
+official post-incident reports, in which $22$ directed transitions are coded. Four public insurer
+reports (SFCR) bring the result down to the scale of a single firm.
 
-\textbf{The methodological contribution, which matters more than the figure.} The
-available data does not allow the \emph{direction} of propagation to be observed.
-This is not a matter of sample size: the observable quantity is mathematically
-insensitive to direction, so that a matrix and its symmetric counterpart are
-indistinguishable to the data even though they lead to different decisions. An
-industry-standard incident schema carries the two required fields and populates
-both in only one incident out of $10\,591$. Faced with this, the work does not
-posit an arbitrary value. It computes the \emph{set} of matrices consistent with
-the data and reports capital as a range over that set. Ignorance thus has a cost
-known in advance and capped, and most of the additional capital comes from the
-co-occurrence of failures, which is observable, not from the direction of
-propagation, which is not. The missing direction shifts the remediation
-\emph{priority} more than the amount, which is the reason for publishing a ranking
-of areas rather than a single number.
+\textbf{2. The loss distribution.} The annual incident count follows a negative binomial
+distribution, which captures the observed overdispersion. Above a threshold of $20.03$~M\euro,
+severity follows a generalised Pareto distribution fitted on $91$ exceedances, with tail index
+$0.5954$: the variance of losses is infinite, their mean finite. The threshold is not hand-picked:
+the stability rule applied to ten candidate thresholds recovers it to within $1\,\%$. Capital is
+the $99.5\,\%$ quantile of the simulated annual loss.
 
-\textbf{Limitations, published alongside the result.} The absolute capital level is
-illustrative: it varies widely with the loss database used, and what is defended is
-the ratio between the two compliance states. An out-of-sample backtest validates
-the incident count distribution and the shape of the loss tail, but shows that the
-level of extreme losses drifts faster than the model assumes, so that capital is
-understated. The same backtest finally quantifies its own power: detecting an
-anomaly at the regulatory quantile would require more than one thousand eight
-hundred years of observations, so no existing history can validate that level.
+\textbf{3. The directed cascade.} An incident starts in one pillar, then spreads to others through
+an asymmetric influence matrix, posited by expert judgement and corroborated by the corpus. Its
+Leontief input-output normalisation guarantees that the cascade dies out: the spectral radius is
+$0.506$, below the critical value of one. A loss hits $1.380$ pillars on average in the compliant
+state and $1.931$ in the non-compliant one.
+
+\textbf{4. Compliance as a state.} Non-compliance adds no penalty to capital: it shifts four
+parameters of the loss distribution, shown in the table below. Capital is recomputed in each state.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l l r r r r@{}}
+\toprule
+\textbf{Channel} & \textbf{Parameter} & \textbf{Compliant} & \textbf{Non-compliant} &
+\textbf{Standalone} & \textbf{Closure} \\
+\midrule
+Frequency & incidents per year & $21.6$ & $53.6$ & $4\,328$ & $8\,775$ \\
+Detection & undetected share & $0.128$ & $0.181$ & $1\,448$ & $4\,562$ \\
+Propagation & cascade gain & $0.45$ & $0.90$ & $1\,633$ & $2\,402$ \\
+Accumulation & shared provider & $0$ & $0.68$ & $1\,728$ & $3\,402$ \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Capital need} (M\euro)} & $6\,049$ & $20\,188$ & & \\
+\bottomrule
+\end{tabular}
+
+\vspace{3pt}
+{\footnotesize\itshape Standalone effect: capital added by that channel alone, starting from the
+compliant state. Closure effect: capital removed by fixing that channel alone, starting from the
+non-compliant state. Amounts in M\euro, sector scale.}
+\end{center}
+
+\textbf{5. What the data cannot identify.} Public data show which pillars fail together, not which
+one dragged the others. This is not a sample-size issue: the observable quantity is mathematically
+insensitive to the direction of propagation, so a matrix and its transpose are indistinguishable to
+the data while leading to different decisions. The industry-standard incident schema, VERIS,
+carries both required fields but populates them together in only one incident out of $10\,591$.
+Rather than positing a direction, the work computes capital over the whole set of matrices
+consistent with the data, the $1\,024$ vertices of that set. In the configuration used for this computation, distinct
+from the two states in the table, it lies between $6\,858$ and
+$8\,697$~M\euro, and the width of $1\,839$~M\euro{} is the maximum cost of ignoring the
+direction, known in advance.
+
+\textbf{6. Validation.} A rolling-origin out-of-sample backtest over $2004$--$2025$ confronts the
+model with years it has not seen. The negative binomial covers $91.7\,\%$ of years for a stated
+$90\,\%$ interval, and the tail shape passes the probability integral transform test. The level of
+the annual loss, however, is covered only $75.0\,\%$ of the time: the loss scale drifts over time,
+by $4.00\,\%$ a year in the tail. The aggregation engine is finally checked by Fourier inversion
+of the compound distribution, which stays within one standard error of the simulation.
+
+\notesec{Results}
+Between the compliant and the non-compliant state, the capital need rises from $6\,049$ to
+$20\,188$~M\euro, a factor of $3.34$ and a gap of $14\,139$~M\euro. Three results follow.
+
+\begin{center}
+\includegraphics[width=\textwidth]{S24_interaction_canaux.png}
+
+\vspace{2pt}
+{\footnotesize\itshape (a) From the compliant to the non-compliant state, by order of interaction
+between channels; (b) standalone effect, Shapley attribution and closure effect of each channel;
+(c) pairwise cross effects.}
+\end{center}
+
+\textbf{Channels are not additive.} Taken separately, they explain $9\,138$~M\euro{} of the gap;
+their interactions carry $5\,001$, or $35\,\%$. Fixing a channel is therefore worth more to a firm
+failing everywhere than to a firm otherwise compliant, because the fix also closes the interactions
+that channel carried. The figure to quote in a remediation plan is the closure effect, not the
+standalone effect.
+
+\textbf{Frequency is the controlling lever.} The frequency channel alone takes the capital need to
+$10\,377$~M\euro, while the three other channels together reach only $11\,413$~M\euro. Any capital
+target above that second threshold therefore requires controlling the number of incidents.
+
+\textbf{The pillar ranking holds better than the level.} Governance (P1) and third-party management
+(P4) dominate the other three pillars, but their relative order depends on the direction of
+propagation that the data leaves open. For a notional firm, the capital need is at most
+$169$~M\euro, an order-of-magnitude upper bound rather than a measurement; the annual cost of
+holding that capital is $2.78$ times the market price of transferring it.
+
+\notesec{Limitations}
+The absolute capital level is illustrative: it varies by a factor of $22$ with the severity source
+alone, and what is defended is the relative gap between states. Propagation levels are posited, not
+calibrated; the thesis does not depend on them, since capital increases with that parameter, so any
+mapping that preserves their order reproduces the gap. Additivity of costs across affected pillars
+is the heaviest assumption: its elasticity is $0.95$ in the non-compliant state against $0.39$ in
+the compliant one, and the sign of the gap holds over the whole range studied, not its size. The
+drift in loss scale makes the level anti-conservative. Attritional losses below the collection
+threshold are absent from the data. Finally, the $99.5\,\%$ quantile cannot be tested on any
+existing history: $1\,811$ years of observations would be needed to detect an exceedance rate twice
+the nominal one.
+
+\notesec{Recommendations}
+\textbf{For the firm.} Give priority to controlling the number of incidents, cost any remediation by
+its closure effect, and compare the three available levers, remediating, holding capital or
+transferring the risk, on a single axis in euros per year.
+
+\textbf{For the regulator.} The data that would make the direction measurable follow from the
+observed failures: an incident register timestamping occurrence to the week, categorising by
+control domain rather than attack vector, and consolidating a common cause into a single event. The
+first two fields already exist in VERIS; what is needed is to make them mandatory, which major
+incident reporting under DORA can impose.
+
+\notesec{Conclusion}
+The work translates DORA compliance into capital, where the Standard Formula expresses nothing: a
+factor of $3.34$ between states, one third of it carried by interaction between mechanisms and
+driven by incident frequency. Its methodological contribution is to establish what the data cannot
+identify, to report capital as bounds rather than on an unverifiable assumption, and to price the
+missing data. Every number in the thesis is checked against the outputs of the scripts that
+compute it.

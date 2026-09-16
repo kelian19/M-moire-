@@ -20,6 +20,40 @@ propage.
 
 % SOURCES-SCRIPTS: 29
 
+\section{Le risque cyber en quelques cas}
+% HARNAIS-HORS-SECTION: section descriptive sans valeur chiffree ; les seuls nombres
+% sont des millesimes d'incidents publics.
+
+Le risque cyber désigne les pertes liées à une défaillance des systèmes d'information, qu'elle
+soit malveillante ou non. Quatre familles d'incidents se distinguent : le rançongiciel, qui
+chiffre les systèmes et conditionne leur restitution à une rançon ; la fuite ou le vol de
+données ; le déni de service, qui rend un service indisponible ; et la défaillance d'un
+prestataire ou d'un logiciel tiers, qui atteint simultanément tous ses clients. DORA ne se limite
+pas aux attaques : il vise tout incident lié aux technologies de l'information et de la
+communication, y compris une panne sans intention de nuire. Trois cas publics montrent pourquoi
+les cinq piliers ne cèdent pas indépendamment.
+
+\paragraph{NotPetya, 2017.} Un logiciel destructeur diffusé par la mise à jour d'un logiciel
+comptable ukrainien s'est propagé aux réseaux de groupes internationaux et en a paralysé
+l'activité pendant plusieurs semaines. L'incident naît chez un prestataire (P4), se propage faute
+de cloisonnement et de gouvernance des accès (P1), et met à l'épreuve la gestion de crise (P2).
+Son traitement assurantiel a en outre donné lieu à des contentieux sur l'exclusion de guerre des
+contrats.
+
+\paragraph{MOVEit, 2023.} Une vulnérabilité d'un logiciel de transfert de fichiers, exploitée par
+un groupe criminel, a permis de dérober des données chez des milliers d'organisations, souvent
+atteintes à travers leurs propres prestataires. C'est un choc de cause commune : une seule
+défaillance tierce produit de nombreux sinistres simultanés. Le mémoire l'utilise comme
+expérience naturelle au chapitre~\ref{ch:identifiabilite}.
+
+\paragraph{CrowdStrike, 2024.} Une mise à jour défectueuse d'un logiciel de sécurité a bloqué des
+millions de postes de travail dans le transport aérien, la banque et la santé. Aucune attaque
+n'est en cause : l'incident relève de la dépendance à un prestataire (P4) et de l'absence de
+tests progressifs avant déploiement (P3), et il entre pleinement dans le champ de DORA.
+
+Ces trois cas ont une structure commune : un incident naît sur un domaine de contrôle et en
+dégrade d'autres, dans un ordre. C'est cette structure que le mémoire modélise.
+
 \section{Le vide que ce mémoire comble}
 Aucun dispositif prudentiel ne traduit aujourd'hui ce niveau de maîtrise en capital. La
 Formule Standard de Solvabilité~II charge le risque opérationnel par un pourcentage de primes

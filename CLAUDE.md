@@ -138,9 +138,15 @@ vérifié. Quatre choses à savoir avant d'y toucher :
   `\openbox` définis deux fois. La branche ENSAE du préambule le fait ;
 - **les tableaux restent en interligne simple**, par `\AtBeginEnvironment`, comme dans toute thèse
   composée à 1,5 : étirés de moitié ils débordent leur page. L'interligne vaut pour le texte ;
-- **les notes de synthèse tiennent toujours en deux pages chacune**, comme la consigne l'exige,
-  et c'est à revérifier après toute modification de `20_notes_synthese.tex`. Attention en le
-  vérifiant : les numéros du sommaire sont des folios, décalés d'une page sur les pages du PDF.
+- **les notes de synthèse sont EN TÊTE et font quatre pages chacune depuis le 16 septembre au
+  soir**, précédées d'un glossaire (`00_glossaire.tex`), sur le modèle du mémoire de F. Dountio
+  (ENSAE, soutenu le 18 mars 2026, même cabinet, même tuteur, Caroline Hillairet au jury), seul
+  précédent validé pour cette filière. Elles suivent son plan : contexte, objectif, démarche en six
+  étapes, tableau des quatre canaux, figure S24, résultats, limites, recommandations, conclusion.
+  L'ancienne règle (deux pages, en fin) venait des consignes du rapport de stage distinct. Revenir
+  en fin ne demande que de déplacer la ligne `\input` dans `main_ensae.tex`. Le même soir :
+  section « Le risque cyber en quelques cas » dans l'introduction (NotPetya, MOVEit, CrowdStrike,
+  partagée par les quatre versions) et paragraphe d'usage de l'IA générative au chapitre 19.
 
 État au **16 septembre 2026 au soir**, après la révision stylistique des vingt-deux
 chapitres et le passage de la version ENSAE au format de l'école : **`main_ensae` à 219 pages dont
