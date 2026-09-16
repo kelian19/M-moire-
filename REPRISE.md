@@ -48,17 +48,22 @@ fichiers maîtres restent au dépôt et se compilent, mais **tout ajustement dem
 autres, donc une modification de chapitre les touche tous, et il ajoute la couverture ENSAE, les
 remerciements, un chapitre d'enseignements du stage et les deux notes de synthèse.
 
+**SON FORMAT EST IMPOSÉ PAR L'ÉCOLE, ET IL DIFFÈRE DES TROIS AUTRES.** Courriel de Fallou, le
+16 septembre : **pas de limite de trente pages**, le mémoire ENSAE étant « une version à peu près
+définitive du mémoire Institut », mais **Times New Roman 12 et interligne 1,5**. Il est obtenu par
+l'interrupteur `\formatensae` du préambule partagé ; le détail et ses pièges sont dans `CLAUDE.md`.
+
 | Document | Total | Corps | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **189 pages** | **135, annexes en 136** | **6, ligne de base** | 2 219 sur 2 219 |
-| `main.pdf`, version 1 | 172 pages | 125, annexes en 126 | 15, ligne de base | mêmes chapitres |
-| `main_v2.pdf`, version 2 | 178 pages | 128, annexes en 129 | 6, ligne de base | mêmes chapitres |
-| `main_v3.pdf`, version courte | 151 pages | 101, annexes en 102 | 5, ligne de base | mêmes chapitres, quatorze sections retirées |
+| **`main_ensae.pdf`, le mémoire déposé** | **219 pages** | **156, annexes en 157** | **5, ligne de base** | 2 219 sur 2 219 |
+| `main.pdf`, version 1 | 172 pages | 125, annexes en 126 | 13, ligne de base | mêmes chapitres |
+| `main_v2.pdf`, version 2 | 178 pages | 128, annexes en 129 | 4, ligne de base | mêmes chapitres |
+| `main_v3.pdf`, version courte | 151 pages | 101, annexes en 102 | 4, ligne de base | mêmes chapitres, quatorze sections retirées |
 | `rapport_ensae.pdf` | 52 pages | 36, références comprises | 0 | 373 confirmés sur 373 |
 
-Découpage de `main_ensae` : Introduction en 9, Données en 23, Modélisation en 36, Résultats
-en 85, Robustesse en 110, **Le stage en 129**, Annexes en 135, **notes de synthèse en 183
-et 185**.
+Découpage de `main_ensae` (folios du sommaire) : Contexte en 10, Données en 25, Modélisation
+en 39, Résultats en 91, Robustesse en 127, **Le stage en 151**, Annexes en 157, **notes de
+synthèse en 215 et 217**, deux pages chacune.
 
 **Les huit pages gagnées le 15 septembre au soir sont les figures**, non du texte retiré : plus
 aucune figure n'est posée seule sur sa page, et trois figures inutilisées ont été supprimées.
@@ -662,6 +667,42 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 16 septembre 2026
+
+### Le soir : la version ENSAE passe au format de l'école
+
+**CE QUI A CHANGÉ DANS LA CONSIGNE.** Courriel de Fallou : la limite de trente pages ne vaut pas
+pour le mémoire déposé à l'ENSAE, qui est « une version à peu près définitive du mémoire
+Institut des actuaires ». La police et l'interligne restent imposés, Times New Roman 12 et 1,5.
+La version déposée était en Palatino 11 et interligne 1,05, héritée du préambule de la v2.
+
+**LE PRÉAMBULE ÉTANT PARTAGÉ, LE FORMAT PASSE PAR UN INTERRUPTEUR.** `main_ensae.tex` définit
+`\formatensae` avant d'appeler `preambule_v2.tex`, qui charge alors Times et l'interligne 1,5.
+Les trois autres versions ne définissent pas la commande : leurs pages et leurs polices sont
+inchangées, ce qui a été contrôlé sur les PDF. Deux arrêts de compilation en chemin, tous deux
+connus de `newtxmath`, qui exige `amsmath` et `amsthm` avant lui et refuse `amssymb`.
+
+**UNE POLICE CHOISIE POUR UNE RAISON QUI NE SE VOIT PAS.** La Times retenue est `newtx`, et non la
+Times New Roman du système : cette dernière n'a pas de vraies petites capitales, et les soixante
+acronymes composés en `\textsc{}` à partir de minuscules (`scr`, `dora`, `tic`...) se seraient
+imprimés en minuscules dans le texte. Le PDF embarque TeX Gyre Termes, Times métriquement.
+
+**DEUX DÉBORDEMENTS ANCIENS, RENDUS VISIBLES PAR LE CORPS 12, SUPPRIMÉS À LA SOURCE.** Une équation
+à trois membres du chapitre 09, passée sur deux lignes, et une définition en ligne insécable au
+chapitre 17, passée en formule centrée. **La première tentative sur la seconde visait la mauvaise
+formule** : le paragraphe en porte deux, et c'est le relevé des fins de ligne sur la page
+imprimée, non la lecture du source, qui a désigné la bonne. Les deux corrections valent pour les
+quatre versions et abaissent leurs lignes de base : **ENSAE 5, v1 13, v2 4, v3 4**.
+
+**Contrôles.** `main_ensae` 219 pages dont 156 de corps ; les notes de synthèse tiennent en deux
+pages chacune, une première lecture en annonçant trois pour la note anglaise, faute d'avoir tenu
+compte du décalage d'une page entre les folios du sommaire et les pages du PDF. Harnais inchangé,
+2 219 nombres confirmés. 0 vbox, 0 annotation hors page, 0 « ?? » dans les quatre PDF. Couverture,
+page de texte courant, page à tableau et page de l'équation corrigée rendues et relues.
+
+**Ce qui reste avant le dépôt, et qui appartient à Kélian** : le nom du fondateur de Nexialog,
+imprimé « Ali [NOM À COMPLÉTER] » page 3 ; la décision de confidentialité de Nexialog, qui fixe le
+nom du fichier (`KADDOURI_Kelian_3A25.pdf` ou `_CONF`) ; et le style de la bibliographie, qui
+imprime « and » entre deux auteurs dans un texte français.
 
 Kélian a déposé les deux fichiers de `data/raw` sur le PC, ce qui débloque seize scripts d'un
 coup, et la journée s'est terminée sur un axe de validation que le mémoire annonçait sans

@@ -610,11 +610,14 @@ c'est-à-dire $W$ symétrique. Si le corpus documente $n_{lo}$ chaînes allant d
 $n_{hi}$ dans l'autre sens, la vraisemblance est binomiale et la conjugaison beta-binomiale
 donne un posterieur explicite :
 \begin{equation}
+  \begin{gathered}
   \theta \sim \mathrm{Beta}(\alpha_0,\beta_0),
   \qquad
   n_{lo}\mid\theta \sim \mathcal{B}\mathrm{in}(n_{lo}+n_{hi},\,\theta)
-  \qquad\Longrightarrow\qquad
+  \\
+  \Longrightarrow\qquad
   \theta \mid \text{données} \;\sim\; \mathrm{Beta}\bigl(\alpha_0+n_{lo},\;\beta_0+n_{hi}\bigr).
+  \end{gathered}
   \label{eq:posterieur-beta}
 \end{equation}
 Aucune simulation par chaînes de Markov n'est nécessaire, et aucun prior d'expert n'intervient.

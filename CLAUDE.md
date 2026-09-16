@@ -39,15 +39,42 @@ plus bas.
 d'un chapitre vaut pour les deux versions, donc `main_v2.pdf` se périme dès qu'on touche au
 contenu. La règle est désormais : après toute modification de chapitre, compiler `main.tex`
 **et** `main_v2.tex`, et passer les contrôles sur les deux. Leurs lignes de base diffèrent :
-**15 Overfull `\hbox` distincts pour la v1, 6 pour la v2**, et c'est à ces deux nombres qu'il
+**13 Overfull `\hbox` distincts pour la v1, 4 pour la v2**, et c'est à ces deux nombres qu'il
 faut comparer pour savoir si un débordement est nouveau. `main.pdf` est versionné,
 `main_v2.pdf` est gitignoré, ce qui ne dispense pas de le régénérer : un PDF périmé sur le
 poste est exactement ce qui a fait présenter du travail antérieur comme récent le 21 août.
 
+**LE FORMAT DE `main_ensae` N'EST PAS CELUI DES TROIS AUTRES, ET C'EST L'ÉCOLE QUI L'IMPOSE.**
+Courriel de Fallou (ENSAE), le 16 septembre 2026 : la limite de **trente pages ne s'applique
+pas** au mémoire déposé à l'école, qui est « une version à peu près définitive du mémoire
+Institut des actuaires ». **La police et l'interligne restent imposés : Times New Roman 12,
+interligne 1,5.** Le préambule étant partagé avec `main_v2`, le format passe par un
+**interrupteur** et non par une copie : `main_ensae.tex` définit `\formatensae` avant d'appeler
+`preambule_v2.tex`, qui charge alors Times et l'interligne 1,5, et Palatino sinon. Les trois autres
+versions ne définissent pas la commande et restent identiques, pagination comprise, ce qui a été
+vérifié. Quatre choses à savoir avant d'y toucher :
+
+- **la Times est `newtx`, pas la Times New Roman du système**, et c'est voulu. Le mémoire compose
+  soixante acronymes en petites capitales écrits en minuscules dans le source (`\textsc{scr}`,
+  `\textsc{dora}`...), et la Times New Roman de Windows n'a pas de vraies petites capitales :
+  chargée par fontspec, elle imprimerait « scr » en minuscules. `newtx` a les métriques de Times,
+  de vraies petites capitales et des mathématiques assorties ;
+- **`newtxmath` impose un ordre de chargement** : `amsmath` et `amsthm` avant lui, `amssymb`
+  jamais (il en fournit les symboles). Sinon la compilation s'arrête sur `\Bbbk` puis sur
+  `\openbox` définis deux fois. La branche ENSAE du préambule le fait ;
+- **les tableaux restent en interligne simple**, par `\AtBeginEnvironment`, comme dans toute thèse
+  composée à 1,5 : étirés de moitié ils débordent leur page. L'interligne vaut pour le texte ;
+- **les notes de synthèse tiennent toujours en deux pages chacune**, comme la consigne l'exige,
+  et c'est à revérifier après toute modification de `20_notes_synthese.tex`. Attention en le
+  vérifiant : les numéros du sommaire sont des folios, décalés d'une page sur les pages du PDF.
+
 État au **16 septembre 2026 au soir**, après la révision stylistique des vingt-deux
-chapitres : **`main_ensae` à 189 pages dont 135 de corps** (annexes en 136), v1 à **172 pages
-dont 125 de corps** (annexes en 126), v2 à **178 pages dont 128 de corps** (annexes en 129),
-v3 à **151 pages dont 101 de corps** (annexes en 102), branche `exploratory`. Les trois pages gagnées depuis le 15 sont la section d'agrégation au capital
+chapitres et le passage de la version ENSAE au format de l'école : **`main_ensae` à 219 pages dont
+156 de corps** (annexes en 157), en Times 12 et interligne 1,5 ; v1 à **172 pages dont 125 de
+corps** (annexes en 126), v2 à **178 pages dont 128 de corps** (annexes en 129), v3 à **151 pages
+dont 101 de corps** (annexes en 102), branche `exploratory`. **Lignes de base des débordements :
+ENSAE 5, v1 13, v2 4, v3 4**, deux débordements anciens ayant été supprimés à la source (une
+équation trop large au chapitre 09, une définition en ligne insécable au chapitre 17). Les trois pages gagnées depuis le 15 sont la section d'agrégation au capital
 total (chapitre 12, script 95) et celle de triangulation du moteur (chapitre 13, script 96). Les huit pages gagnées ce soir-là sont des figures, non
 du texte : **`\figcle` ne sert plus nulle part**, donc plus aucune figure n'est seule sur sa
 page, et trois figures inutilisées ont été retirées. Les comptes de ce

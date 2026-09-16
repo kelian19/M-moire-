@@ -40,8 +40,28 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[sc]{mathpazo}          % Palatino, avec vraies petites capitales
-\linespread{1.05}                  % obligatoire avec Palatino : grande hauteur d'x
+% FORMAT ENSAE. La version deposee a l'ecole impose Times New Roman 12 et un interligne de
+% 1,5, consigne maintenue par l'ecole le 16 septembre 2026 (qui a en revanche leve la limite de
+% trente pages). main_ensae.tex definit \formatensae AVANT d'appeler ce preambule ; les trois
+% autres versions ne la definissent pas et gardent Palatino, a l'identique.
+% newtx plutot que la Times New Roman du systeme : celle-ci n'a pas de vraies petites capitales,
+% et les soixante \textsc{} du memoire (scr, dora, tic...) s'imprimeraient en minuscules.
+\ifdefined\formatensae
+  \usepackage{amsmath}             % newtxmath exige amsmath AVANT lui
+  \usepackage{amsthm}              % et amsthm aussi : sinon \openbox est defini deux fois
+  \usepackage{newtxtext,newtxmath} % Times : petites capitales et mathematiques assorties
+  \usepackage{setspace}
+  \onehalfspacing                  % l'interligne 1,5 au sens du traitement de texte
+  \usepackage{etoolbox}
+  % Les tableaux restent en interligne simple : etires de moitie, ils debordent leur page
+  % sans rien gagner en lisibilite. L'interligne vaut pour le texte courant.
+  \AtBeginEnvironment{tabular}{\setstretch{1}}
+  \AtBeginEnvironment{tabularx}{\setstretch{1}}
+  \AtBeginEnvironment{longtable}{\setstretch{1}}
+\else
+  \usepackage[sc]{mathpazo}        % Palatino, avec vraies petites capitales
+  \linespread{1.05}                % obligatoire avec Palatino : grande hauteur d'x
+\fi
 \usepackage[french]{babel}
 \usepackage[margin=2.4cm]{geometry}
 \usepackage{microtype}
@@ -57,7 +77,9 @@
 \usepackage{array}
 \usepackage[table]{xcolor}
 \usepackage{amsmath}
-\usepackage{amssymb}
+% amssymb n'est pas charge avec newtxmath, qui en fournit deja tous les symboles : le charger
+% apres redefinirait \Bbbk et arreterait la compilation.
+\ifdefined\formatensae\else\usepackage{amssymb}\fi
 \usepackage{mathtools}
 \usepackage{enumitem}
 \usepackage[most]{tcolorbox}
