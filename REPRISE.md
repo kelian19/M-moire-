@@ -481,7 +481,8 @@ soit presque la page entière.
 - **La seconde réponse au formulaire de relecture est RETROUVÉE le 17 septembre et NON intégrée.**
   Elle date du 10 septembre à 9 h 35 et vit dans la feuille créée le 3 août à 9 h 07
   (`1yltQ8ghx02xNsyRMjQEz5gO2tan7ZylPA6W7oa84aek`), le répondant ayant reçu un ancien lien.
-  Attribution à Mehdi Cherkaoui à confirmer, le formulaire n'ayant pas de champ nom. Les lignes
+  C'est la réponse de **Mehdi Cherkaoui** (jeudi 10 septembre), attribution confirmée par Kélian ; la ligne
+  « xw » du 9 septembre dans la feuille du 8 est un test de Kélian, et Nathanaël n'a pas répondu. Les lignes
   qui suivent décrivent l'état du 16 au soir, avant qu'elle soit retrouvée. **Au 16 septembre, elle
   n'était pas encore récupérée**. Deux tentatives ont échoué ce soir-là : le connecteur Google Drive avait
   expiré puis a été retiré de la session, et le lien Teams transmis ne s'ouvre pas sans connexion
