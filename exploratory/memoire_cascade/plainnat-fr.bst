@@ -261,8 +261,8 @@ FUNCTION {format.editors}
     { "" }
     { editor format.names
       editor num.names$ #1 >
-        { ", editors" * }
-        { ", editor" * }
+        { ", {\'e}diteurs" * }
+        { ", {\'e}diteur" * }
       if$
     }
   if$
@@ -451,7 +451,7 @@ FUNCTION {format.bvolume}
     { "volume" volume tie.or.space.connect
       series empty$
         'skip$
-        { " of " * series emphasize * }
+        { " de " * series emphasize * }
       if$
       "volume and number" number either.or.check
     }
@@ -463,13 +463,13 @@ FUNCTION {format.number.series}
     { number empty$
         { series field.or.null }
         { output.state mid.sentence =
-            { "number" }
-            { "Number" }
+            { "num{\'e}ro" }
+            { "Num{\'e}ro" }
           if$
           number tie.or.space.connect
           series empty$
             { "there's a number but no series in " cite$ * warning$ }
-            { " in " * series * }
+            { " de la collection " * series * }
           if$
         }
       if$
@@ -482,8 +482,8 @@ FUNCTION {format.edition}
 { edition empty$
     { "" }
     { output.state mid.sentence =
-        { edition "l" change.case$ " edition" * }
-        { edition "t" change.case$ " edition" * }
+        { edition "l" change.case$ " {\'e}dition" * }
+        { edition "t" change.case$ " {\'e}dition" * }
       if$
     }
   if$
@@ -575,7 +575,7 @@ FUNCTION {format.chapter.pages}
 { chapter empty$
     'format.pages
     { type empty$
-        { "chapter" }
+        { "chapitre" }
         { type "l" change.case$ }
       if$
       chapter tie.or.space.connect
@@ -591,8 +591,8 @@ FUNCTION {format.in.ed.booktitle}
 { booktitle empty$
     { "" }
     { editor empty$
-        { "In " booktitle emphasize * }
-        { "In " format.editors * ", " * booktitle emphasize * }
+        { "Dans " booktitle emphasize * }
+        { "Dans " format.editors * ", " * booktitle emphasize * }
       if$
     }
   if$
@@ -619,7 +619,7 @@ FUNCTION {format.thesis.type}
 
 FUNCTION {format.tr.number}
 { type empty$
-    { "Technical Report" }
+    { "Rapport technique" }
     'type
   if$
   number empty$
@@ -638,7 +638,7 @@ FUNCTION {format.article.crossref}
         { "In \emph{" journal * "}" * }
       if$
     }
-    { "In " }
+    { "Dans " }
   if$
   " \citet{" * crossref * "}" *
 }
@@ -646,10 +646,10 @@ FUNCTION {format.article.crossref}
 FUNCTION {format.book.crossref}
 { volume empty$
     { "empty volume in " cite$ * "'s crossref of " * crossref * warning$
-      "In "
+      "Dans "
     }
     { "Volume" volume tie.or.space.connect
-      " of " *
+      " de " *
     }
   if$
   editor empty$
@@ -685,10 +685,10 @@ FUNCTION {format.incoll.inproc.crossref}
             { "In \emph{" booktitle * "}" * }
           if$
         }
-        { "In " }
+        { "Dans " }
       if$
     }
-    { "In " }
+    { "Dans " }
   if$
   " \citet{" * crossref * "}" *
 }
@@ -911,7 +911,7 @@ FUNCTION {mastersthesis}
   new.block
   format.title "title" output.check
   new.block
-  "Master's thesis" format.thesis.type output.nonnull
+  "M{\'e}moire de master" format.thesis.type output.nonnull
   school "school" output.check
   address output
   format.date "year" output.check
@@ -945,7 +945,7 @@ FUNCTION {phdthesis}
   new.block
   format.btitle "title" output.check
   new.block
-  "PhD thesis" format.thesis.type output.nonnull
+  "Th{\`e}se de doctorat" format.thesis.type output.nonnull
   school "school" output.check
   address output
   format.date "year" output.check
