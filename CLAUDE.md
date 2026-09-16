@@ -28,9 +28,9 @@ ou `KADDOURI_Kelian_3A25_CONF.pdf` si la confidentialité est demandée.
 | Bibliographie en français | **faite** : « et », formules, accents, capitales et mois corrigés |
 | Révision stylistique des vingt-deux chapitres | **faite** le 16 septembre |
 | Harnais | 2 208 nombres, 2 208 confirmés, hors contrôle non déclaré à zéro |
-| **Confidentialité** | **à trancher plus tard par Kélian**, décision Nexialog. Elle fixe le nom du fichier et, si elle est demandée, la ligne `\pgeconf` de `page_de_garde_ensae.tex` |
+| **Confidentialité** | **tranchée le 16 septembre 2026 : le mémoire n'est PAS confidentiel.** La couverture ne porte aucune mention et le fichier déposé n'a pas de suffixe |
 | **Courriel au service des stages** (dispositions voie actuariat) | **non attesté** dans le dossier ; les consignes le disent impératif |
-| Génération du fichier au nom imposé | **à faire** une fois la confidentialité tranchée |
+| Génération du fichier au nom imposé | **faite** : `exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf`, copie de `main_ensae.pdf`, gitignorée et à régénérer après toute recompilation |
 
 **LA BIBLIOGRAPHIE A ÉTÉ CORRIGÉE LE 16 SEPTEMBRE, ET TROIS RÈGLES EN SORTENT POUR TOUTE ENTRÉE
 NOUVELLE DE `references.bib`.** Défauts traités : accents absents dans trois entrées, noms propres

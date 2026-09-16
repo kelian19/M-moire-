@@ -112,3 +112,6 @@ exploratory/memoire_cascade/main_v3.pdf
 # l'identique. C'est un arbitrage, et il appartient a Kelian de le renverser :
 # retirer cette ligne suffit.
 exploratory/memoire_cascade/main_ensae.pdf
+# Le fichier au nom impose par l'ecole est une copie de main_ensae.pdf, regeneree
+# a chaque depot : meme traitement.
+exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf
