@@ -489,9 +489,6 @@ soit presque la page entière.
   dans ce Drive : une feuille vide ne prouve rien.
 - **Le courriel au service des stages** sur les dispositions prises pour la voie actuariat, que
   les consignes qualifient d'impératif. Non attesté dans le dossier.
-- **L'accord de Hugo pour les trois figures du rapport LUCY 2026**, reproduites dans
-  l'introduction d'un mémoire mis en ligne par l'Institut. **Un repli existe** s'il refuse : le
-  script 97 les redessine depuis la transcription contrôlée (voir le journal).
 - **Le dépôt GitHub est public.** Rien de confidentiel n'y est poussé (`data/raw` est gitignoré),
   mais le mémoire, les sorties et les notes y sont lisibles. Le passer en privé est une décision de
   Kélian.
@@ -505,7 +502,6 @@ soit presque la page entière.
 
 - **Le second codage en aveugle** du corpus de post-mortems. La réception est prête, le script 54
   ne fabrique rien sans donnée.
-- **L'accord sur les figures LUCY**, voir ci-dessus.
 
 ### Faisable par l'assistant, si Kélian le demande
 
@@ -524,7 +520,7 @@ matrice, le gel de la calibration, la convention sur les mesures de risque, le d
 contradictions entre scripts, les séquences ordonnées, l'ancrage du gain de propagation sur des
 sources prudentielles, l'élicitation, **la confidentialité (non confidentiel)**, **le placement des
 notes de synthèse (en tête, sur le modèle du mémoire de F. Dountio)** et **la bibliographie en
-français**.
+français** et **la reproduction des figures LUCY (validée par Hugo le 17 septembre)**.
 
 ---
 
@@ -551,11 +547,8 @@ réserve se déclare. Puis recompiler les quatre versions, passer les contrôles
 
 **2. Envoyer le courriel au service des stages**, s'il ne l'est pas.
 
-**3. Obtenir l'accord de Hugo sur les figures LUCY.** S'il refuse : passe de mise en page du
-script 97, remplacement des trois `\figover{figures_externes/...}` du chapitre 02 et de
-l'`\includegraphics` de la note de synthèse par les figures L1 à L3, captions réécrites en
-« reconstruit depuis la transcription du rapport », puis recompilation et régénération du fichier
-déposé.
+**3. ~~Obtenir l'accord de Hugo sur les figures LUCY~~ : ACCORDÉ le 17 septembre 2026.** Les
+figures du rapport restent en place, rien à recompiler pour ce point.
 
 **4. Déposer** `KADDOURI_Kelian_3A25.pdf` avant le 30 septembre, après avoir vérifié qu'il est la
 copie exacte du dernier `main_ensae.pdf` (`cmp` les deux fichiers).

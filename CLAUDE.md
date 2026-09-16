@@ -541,7 +541,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 65 | besoin ORSA sur quatre bilans SFCR réels, borne inférieure de validité |
 | 95 | **agrégation au capital total** : le risque opérationnel n'entrant pas dans la matrice de corrélation, l'écart DORA est reconnu en entier ; contrefactuel corrélé où le taux de reconnaissance tend vers ρ, et plafond 0,3 BSCR qui borne ce qu'un forfait saurait exprimer. **Ne lit que `65.txt`**, s'arrête si une valeur publiée y dérive, et ne produit aucune figure |
 | 96 | **triangulation du moteur d'agrégation** : le même quantile par quatre chemins, Monte-Carlo, inversion de Fourier de la génératrice composée (réalisation stable de la récursion de Panjer), et approximation par perte unique aux deux ordres. Ferme le seul axe que le chapitre 13 annonçait sans l'avoir testé. **L'écart Fourier / Monte-Carlo tient sous une erreur type**, donc non résolu : ne jamais citer le $-1{,}7\,\%$ sans le bruit qui l'encadre. Contrôle d'instrument, pas un test contre la donnée |
-| 97 | **les trois figures de marché LUCY redessinées depuis la transcription**, EN REPLI SEULEMENT : aucun chapitre ne l'appelle, le mémoire gardant les figures du rapport, dont Kélian est co-auteur. Il rejoue trois contrôles d'identité avant de tracer (0,0105 sur les ratios, 3 M€ sur les classes, sommet tarifaire en 2023). À utiliser si Hugo refuse la reproduction des figures, après une passe de mise en page : deux étiquettes se chevauchent sur L1 et une passe sous la légende sur L2. Pas de sortie versionnée tant qu'il n'est pas cité |
+| 97 | **les trois figures de marché LUCY redessinées depuis la transcription**, EN REPLI SEULEMENT, et sans usage prévu depuis que Hugo a validé les figures du rapport le 17 septembre : aucun chapitre ne l'appelle, le mémoire gardant les figures du rapport, dont Kélian est co-auteur. Il rejoue trois contrôles d'identité avant de tracer (0,0105 sur les ratios, 3 M€ sur les classes, sommet tarifaire en 2023). À utiliser si Hugo refuse la reproduction des figures, après une passe de mise en page : deux étiquettes se chevauchent sur L1 et une passe sous la légende sur L2. Pas de sortie versionnée tant qu'il n'est pas cité |
 | 66 | invariance de la thèse aux valeurs de g |
 | 46, 51 | VaR prédictive et échelle des six postures — **51 est le dépositaire du bruit de simulation de chaque posture** ; 46 recalcule la prédictive à `B = 2000`, 51 à `B = 3000`, d'où deux valeurs du même nombre |
 | 43 | KPI DORA en leviers de capital : les quatre canaux, leur attribution, l'interaction, le facteur 3,34 entre états |
@@ -1262,9 +1262,9 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - **les trois champs de la page de garde du mémoire** : la date de soutenance, la case de
   confidentialité (obligatoire au dépôt, décision Nexialog) et les membres du jury. Voir la
   section « La page de garde et la lecture de marché » ;
-- **l'autorisation de reproduire trois figures du rapport LUCY 2026** dans un mémoire destiné à
-  être mis en ligne par l'Institut. Question à poser à Hugo : citer des chiffres était déjà
-  acquis, reproduire des figures entières est un pas de plus ;
+- ~~l'autorisation de reproduire trois figures du rapport LUCY 2026~~ : **ACCORDÉE par Hugo
+  Rapior le 17 septembre 2026.** Les trois figures du rapport restent dans le mémoire telles
+  quelles, et le script 97 de repli n'a plus d'usage prévu ;
 - **l'erratum du rapport LUCY 2026** : la section 7.1 publie un multiplicateur de charge à 2,53
   là où les deux montants qui l'encadrent donnent 3,55 et où la section 7.6 donne 3,53. Le
   rapport est co-signé, donc c'est à ses auteurs de décider quoi en faire ;
@@ -2466,11 +2466,10 @@ de divergence, dont les cartouches se chevauchent : elle est recadrée et rempla
 lecture **par position**, dont l'ordre a été vérifié contre les trois valeurs que le corps du
 rapport donne en clair.
 
-**Deux questions qui appartiennent à Kélian et qui ne sont pas tranchées ici :** le rapport
-LUCY 2026 est-il **publié** au sens où l'on peut en reproduire les figures dans un mémoire mis en
-ligne par l'Institut, et Nexialog l'autorise-t-elle ? Le mémoire citait déjà ses chiffres depuis
-le 8 septembre, mais reproduire trois figures entières est un pas de plus. À poser à Hugo avant
-le dépôt.
+**La question de l'autorisation est TRANCHÉE le 17 septembre 2026 : Hugo Rapior, co-auteur du
+rapport et maître de stage, a validé la reproduction des trois figures** dans le mémoire mis en
+ligne par l'Institut. Ne pas rouvrir, et ne pas remplacer ces figures par celles du script 97,
+qui reste un repli sans usage prévu.
 
 ### 5. Coût et contrôles
 

@@ -66,6 +66,13 @@ légende commune déclare **six** millésimes quand deux de ses trois panneaux e
 visible. Les trois séries sont donc **reproduites en tableau** dans le mémoire, depuis la
 transcription du script 63, ce qui donne la même information sans importer le défaut.
 
+## L'autorisation de reproduction
+
+**Accordée le 17 septembre 2026 par Hugo Rapior**, co-auteur du rapport LUCY 2026 et maître de
+stage, pour un mémoire mis en ligne par l'Institut des Actuaires. Le script 97
+(`exploratory/vasicek_lab/2_donnees/97_figures_lucy.py`), qui redessine ces trois figures depuis
+la transcription, avait été écrit en repli au cas d'un refus : il n'a plus d'usage prévu.
+
 ## Ce qu'il ne faut pas en faire
 
 - **ne pas les recolorier** pour les accorder à la charte Nexialog du mémoire : une figure
