@@ -40,59 +40,47 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 16 septembre 2026
+## L'état mesuré, au 16 septembre 2026 au soir
 
-**`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, décision de Kélian le 15 septembre.** Les trois autres
-fichiers maîtres restent au dépôt et se compilent, mais **tout ajustement demandé se fait sur
-`main_ensae`** : c'est lui qui part le 30 septembre. Il partage les mêmes chapitres que les
-autres, donc une modification de chapitre les touche tous, et il ajoute la couverture ENSAE, les
-remerciements, un chapitre d'enseignements du stage et les deux notes de synthèse.
+**`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, et il est prêt à partir.** Les trois autres fichiers
+maîtres restent au dépôt et se compilent, mais tout ajustement demandé se fait sur `main_ensae`.
+Ils partagent les chapitres : une modification de chapitre les touche tous.
 
-**SON FORMAT EST IMPOSÉ PAR L'ÉCOLE, ET IL DIFFÈRE DES TROIS AUTRES.** Courriel de Fallou, le
-16 septembre : **pas de limite de trente pages**, le mémoire ENSAE étant « une version à peu près
-définitive du mémoire Institut », mais **Times New Roman 12 et interligne 1,5**. Il est obtenu par
-l'interrupteur `\formatensae` du préambule partagé ; le détail et ses pièges sont dans `CLAUDE.md`.
+**LE FICHIER DÉPOSÉ EXISTE** : `exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf`, copie
+exacte à l'octet de `main_ensae.pdf`, **sans suffixe `_CONF`, le mémoire n'étant pas
+confidentiel** (décision de Kélian le 16 septembre). Il est gitignoré comme `main_ensae.pdf`.
+**Il se périme à la moindre recompilation** : après toute modification, recompiler
+`main_ensae.tex` puis recopier le PDF sous ce nom, sinon c'est une version antérieure qui part.
 
-| Document | Total | Corps | Débordements | Harnais |
+**SON FORMAT EST IMPOSÉ PAR L'ÉCOLE.** Courriel de Fallou, le 16 septembre : pas de limite de
+trente pages, mais **Times New Roman 12 et interligne 1,5**, obtenus par l'interrupteur
+`\formatensae` du préambule partagé. Couverture ENSAE complète : année 2025-2026, Nexialog
+Consulting, Paris, maître de stage Hugo RAPIOR, stage du 1er juin au 27 novembre 2026, dates
+confirmées par Kélian.
+
+| Document | Total | Avant annexes | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **219 pages** | **156, annexes en 157** | **5, ligne de base** | 2 219 sur 2 219 |
-| `main.pdf`, version 1 | 172 pages | 125, annexes en 126 | 13, ligne de base | mêmes chapitres |
-| `main_v2.pdf`, version 2 | 178 pages | 128, annexes en 129 | 4, ligne de base | mêmes chapitres |
-| `main_v3.pdf`, version courte | 151 pages | 101, annexes en 102 | 4, ligne de base | mêmes chapitres, quatorze sections retirées |
-| `rapport_ensae.pdf` | 52 pages | 36, références comprises | 0 | 373 confirmés sur 373 |
+| **`main_ensae.pdf`, le mémoire déposé** | **222 pages** | **annexes au folio 172** | **5, ligne de base** | 2 208 sur 2 208 |
+| `main.pdf`, version 1 | 172 pages | annexes au folio 131 | 13, ligne de base | mêmes chapitres |
+| `main_v2.pdf`, version 2 | 177 pages | annexes au folio 133 | 4, ligne de base | mêmes chapitres |
+| `main_v3.pdf`, version courte | 150 pages | annexes au folio 106 | 4, ligne de base | mêmes chapitres |
+| `rapport_ensae.pdf` | 52 pages | 36 de corps | 0 | ne part plus |
 
-Découpage de `main_ensae` (folios du sommaire) : Contexte en 10, Données en 25, Modélisation
-en 39, Résultats en 91, Robustesse en 127, **Le stage en 151**, Annexes en 157, **notes de
-synthèse en 215 et 217**, deux pages chacune.
+**Ordre des pièces de `main_ensae`** (folios du sommaire) : couverture, remerciements, résumé et
+sommaire, **glossaire en 11**, **note de synthèse en 13**, **executive summary en 17**, Contexte en
+21, Données en 40, Modélisation en 54, Résultats en 106, Robustesse en 142, Le stage en 166,
+Annexes en 172, bibliographie en fin.
 
-**Les huit pages gagnées le 15 septembre au soir sont les figures**, non du texte retiré : plus
-aucune figure n'est posée seule sur sa page, et trois figures inutilisées ont été supprimées.
-Les trois reprises le 16 sont deux sections neuves, l'agrégation au capital total au chapitre 12
-et la triangulation du moteur au chapitre 13. Voir les entrées du journal.
+**Harnais : 2 208 nombres, 2 208 confirmés, 100 %**, et **0 hors contrôle non déclaré**. Le compte
+a baissé de 2 219 à 2 208 avec la réduction de l'annexe : des nombres ont disparu avec le texte
+coupé, aucun n'a cessé d'être confirmé.
 
-**Harnais du mémoire : 2 219 nombres, 2 219 confirmés, 100 %**, et **0 hors contrôle non déclaré
-sur les dix-neuf chapitres**, 93 nombres étant déclarés hors script avec leur motif (état de
-l'art, cadre réglementaire, démonstrations, pièces justificatives).
+**Contrôles au vert sur les quatre PDF** : 0 `??`, 0 `Overfull \vbox`, 0 annotation hors page,
+0 page tournée, débordements horizontaux aux lignes de base. Arbre git propre, tout est poussé
+sur `origin/exploratory`.
 
-**LES LIGNES « Sources : scripts… » NE S'IMPRIMENT PLUS, ET LE HARNAIS TIENT QUAND MÊME.** Depuis
-le 15 septembre elles vivent dans un commentaire LaTeX, `% SOURCES-SCRIPTS: NN`, que
-`verif_chiffres.py` lit comme **second canal** à côté des `\texttt{NN}`. Ne pas retirer ces
-commentaires en croyant faire du ménage : ils sont ce qui rattache chaque section à ses scripts,
-et sans eux la couverture tombe de 100 % à zéro.
-
-**Harnais du rapport ENSAE : 373 nombres sous contrôle sur 399 publiés**, soit 93,5 % de
-couverture, **373 confirmés sur 373**, et **26 déclarés hors script** avec leur motif, donc
-**0 hors contrôle non déclaré**. C'est ce dernier chiffre qui est l'indicateur, pas la couverture
-brute : un document qui déclare légitimement des nombres hors script affiche une couverture sous
-100 % sans que rien n'aille mal.
-
-**Contrôles au vert sur les trois PDF** : 0 `??`, 0 `Overfull \vbox`, 0 annotation hors page,
-0 page tournée. Arbre git propre.
-
-**Le corps du rapport ENSAE est à 36 pages pour une cible d'environ 30.** C'est 20 % au-dessus, et
-c'est un arbitrage assumé : ce qui pouvait partir est déjà en annexe, et les annexes ne comptent
-pas dans les 30 pages. Si Kélian veut descendre, les deux blocs les moins coûteux à déplacer sont
-**la trajectoire et la durée de non-conformité**, et **la mise en regard des cadres existants**.
+**Les lignes « Sources : scripts… » vivent dans des commentaires `% SOURCES-SCRIPTS: NN`**, que
+le harnais lit. Ne pas les retirer en croyant faire du ménage : sans elles la couverture tombe.
 
 ---
 
@@ -490,101 +478,92 @@ soit presque la page entière.
 
 ### Kélian, et cela ne peut pas être fait à sa place
 
-- **Les trois champs de la page de garde du mémoire** : la date de soutenance, qui s'imprime
-  `[jj/mm/2026]` en gras tant qu'elle est vide, la **case de confidentialité**, obligatoire au
-  dépôt et qui relève de Nexialog, et les membres du jury, que le gabarit laisse vides.
-- **Les champs équivalents du rapport ENSAE**, dont la mention de confidentialité.
+- **La réponse de Mehdi Cherkaoui au formulaire de relecture**, arrivée le 16 septembre et **pas
+  encore récupérée**. Deux tentatives ont échoué ce soir-là : le connecteur Google Drive avait
+  expiré puis a été retiré de la session, et le lien Teams transmis ne s'ouvre pas sans connexion
+  Microsoft (la page ne renvoie que « Join conversation »). **Le plus simple est de coller la
+  réponse, ou l'export CSV de l'onglet Réponses, dans la session.** Le formulaire en diffusion
+  est sur le compte **keliankaddouripro@gmail.com**, identifiant
+  `1uBKaP_3dj6blEsHqVHgJQp-Rf7rViu2PwYjxI8uIpyY`, inscrit en tête de
+  `exploratory/vasicek_lab/notes/form_relecture_praticien.gs`. Sept formulaires homonymes vivent
+  dans ce Drive : une feuille vide ne prouve rien.
 - **Le courriel au service des stages** sur les dispositions prises pour la voie actuariat, que
-  les consignes qualifient d'**impératif**.
-- **L'autorisation de reproduire trois figures du rapport LUCY** dans un mémoire mis en ligne par
-  l'Institut. À poser à Hugo.
-- **L'erratum du rapport LUCY** : la section 7.1 publie un multiplicateur de charge à 2,53 là où
-  les deux montants qui l'encadrent donnent 3,55 et où la section 7.6 donne 3,53. Le rapport est
-  co-signé, donc la décision est à ses auteurs.
-- **Relire trois passages du rapport ENSAE**, parce qu'une erreur de fait y serait défendue
-  oralement devant les deux encadrants : le cadre de la mission, la table des enseignements de
-  l'ENSAE, et surtout **la table qui répartit les demandes entre Hugo Rapior et Caroline
-  Hillairet**.
-- **La passe d'orthographe** sur les 52 pages du rapport ENSAE, jamais faite, alors que les
-  consignes notent le style et l'orthographe.
-- **La bibliographie en `plainnat`**, style anglais : seize citations à deux auteurs impriment
-  « and » et non « et ». Corriger touche toutes les citations, donc c'est une décision.
-- **Le formulaire de relecture** : lancer la fonction qui greffe les trois questions ajoutées sur
-  le formulaire du 8 septembre, **vérifier que Mehdi et Nathanaël détiennent le même lien** que la
-  première répondante, et recoller le fichier du dépôt dans le projet Apps Script avant toute
-  nouvelle diffusion, la version en ligne étant antérieure. **Sept exemplaires du formulaire
-  vivent dans le Drive**, donc une feuille de réponses vide ne prouve rien.
-- **La date limite du Prix SCOR**, signalée six fois et toujours inconnue.
-- **Le retrait de la version 1**, si la v2 devient la référence de style : échange d'une ligne de
-  préambule.
+  les consignes qualifient d'impératif. Non attesté dans le dossier.
+- **L'accord de Hugo pour les trois figures du rapport LUCY 2026**, reproduites dans
+  l'introduction d'un mémoire mis en ligne par l'Institut. **Un repli existe** s'il refuse : le
+  script 97 les redessine depuis la transcription contrôlée (voir le journal).
+- **Le dépôt GitHub est public.** Rien de confidentiel n'y est poussé (`data/raw` est gitignoré),
+  mais le mémoire, les sorties et les notes y sont lisibles. Le passer en privé est une décision de
+  Kélian.
+- **La page de garde de la version Institut** (`page_de_garde.tex`, partagée par `main`, `main_v2`
+  et `main_v3`, pas par `main_ensae`) : date de soutenance, case de confidentialité et membres du
+  jury restent à remplir pour le dépôt Institut.
+- **L'erratum du rapport LUCY** (2,53 pour 3,53 en section 7.1) : décision des auteurs.
+- **La date limite du Prix SCOR**, toujours inconnue.
 
 ### Hugo Rapior
 
-- **Le second codage en aveugle** du corpus de post-mortems, annoncé pour la fin de la semaine du
-  2 septembre. La réception est prête et testée, le script 54 ne fabrique rien sans donnée.
+- **Le second codage en aveugle** du corpus de post-mortems. La réception est prête, le script 54
+  ne fabrique rien sans donnée.
+- **L'accord sur les figures LUCY**, voir ci-dessus.
 
 ### Faisable par l'assistant, si Kélian le demande
 
-- **La construction du support de soutenance**, le prompt étant prêt.
-- **La banque de questions et la préparation de l'oral** : 6 points de barème, rien de fait.
-- **La réduction du corps du rapport ENSAE** de 36 à 30 pages.
-- **L'agrégation avec les autres modules de SCR**, jamais traitée.
-- **Les 7 % de blanc résiduels** sous trois titres de figures : cosmétique, refusé deux fois.
+- **Intégrer la réponse de Mehdi** dès qu'elle est collée : voir la prochaine étape.
+- **La passe de mise en page du script 97** (deux étiquettes se chevauchent sur L1, une passe sous
+  la légende sur L2), à ne faire que si les figures redessinées doivent remplacer celles du rapport.
+- **Réduire encore l'annexe** : la table des notations (5 pages, en partie redondante avec le
+  glossaire), la relecture de praticien (2 pages), la table des proxys (2 pages, demandée par Hugo).
+- **La construction du support de soutenance ENSAE**, le prompt étant prêt.
 
 ### Clos, à ne pas rouvrir
 
-Le statut de citation de la source de comptage d'incidents, le processus auto-excité, la
-non-transitivité, le périmètre, l'anonymisation, les decks des 7, 14 et 21 août, la convention de
-normalisation de la matrice, le gel de la calibration, la convention sur les mesures de risque,
-le détecteur de contradictions entre scripts, les séquences ordonnées, l'ancrage du gain de
-propagation sur des sources prudentielles, et l'élicitation.
+Le statut de citation de Hackmageddon, le processus auto-excité, la non-transitivité, le
+périmètre, l'anonymisation, les decks des 7, 14 et 21 août, la convention de normalisation de la
+matrice, le gel de la calibration, la convention sur les mesures de risque, le détecteur de
+contradictions entre scripts, les séquences ordonnées, l'ancrage du gain de propagation sur des
+sources prudentielles, l'élicitation, **la confidentialité (non confidentiel)**, **le placement des
+notes de synthèse (en tête, sur le modèle du mémoire de F. Dountio)** et **la bibliographie en
+français**.
 
 ---
 
 ## La prochaine étape immédiate
 
-**Sur `main_ensae`, qui est le document déposé, dans cet ordre :**
+**1. Récupérer la réponse de Mehdi Cherkaoui et l'intégrer.** Kélian la colle dans la session.
+Ce qu'il faut en lire, dans cet ordre :
 
-1. **les 173 citations de script encore enchâssées dans une phrase** (« le script 67 imprime »,
-   « du script 47 », « par le script 67 »). Les 165 formes mécaniques sont traitées ; celles-ci
-   demandent de **réécrire la phrase**, une substitution automatique sur de la prose détruirait le
-   sens. Le rattachement au harnais doit être conservé en `% SOURCES-SCRIPTS: NN` à chaque fois ;
-2. **les six figures encore sous 6,5 pt effectifs**, listées au journal du 15 septembre. Elles
-   sont toutes rejouables ici depuis que `data/raw` est sur le poste ; la réserve sur
-   `M_faisabilite` n'a plus d'objet, la chronologie PRC y est en `.csv` et la figure a de toute
-   façon été supprimée le 15 ;
-3. ~~**purger le `\textbf{}` à l'intérieur des phrases**~~ : **FAIT le 16 septembre**, avec
-   la révision stylistique. Quarante-quatre passages en italique, trente-six dégraissés,
-   plus huit `\mathbf` sur des nombres ; le gras ne sert plus qu'aux têtes et aux tableaux ;
-4. **compléter `\fondateurnexialog`** dans `remerciements.tex`, qui imprime
-   `Ali [NOM À COMPLÉTER]` en gras tant qu'il est vide, donc un dépôt incomplet est impossible par
-   inadvertance. C'est à Kélian.
+- sa réponse à la phrase qui oppose **la contagion à une cause extérieure commune**, la seule qui
+  touche au résultat. S'il ne les distingue pas, il corrobore la **frontière** d'identifiabilité,
+  comme la première répondante ; ce n'est jamais une corroboration de la matrice ;
+- ses six autres réponses, à comparer à celles de la première (deux accords pleins, cinq accords
+  avec nuance, aucune contradiction) ;
+- son **consentement de citation**. La règle en vigueur est de ne **pas nommer** les praticiens ;
+- s'il a vu les trois questions à choix forcé ajoutées le 9 septembre, ou seulement les sept
+  phrases d'origine (le formulaire en ligne est la version du 8).
 
-**Facultatif, et c'est un arbitrage de Kélian** : déplacer en annexe la théorie des valeurs
-extrêmes du chapitre socle, qui est du manuel et non de la contribution, soit 5 à 7 pages de corps
-rendues.
+Où l'écrire : l'encadré du **chapitre 09** qui annonce les deux dispositifs, et la section
+`sec:relecture-praticien` de l'annexe du protocole de Cooke (`18_elicitation_protocole.tex`), qui
+parlent aujourd'hui d'**une** réponse. Les comptes s'y écrivent **en lettres**, le harnais ne les
+voyant pas. **Aucune recalibration**, même si la réponse le suggère : le gel l'interdit, et la
+réserve se déclare. Puis recompiler les quatre versions, passer les contrôles, **régénérer
+`KADDOURI_Kelian_3A25.pdf`**, commiter et pousser.
 
-**Le support de soutenance devant l'Institut est fait**, au gabarit de présentation Nexialog :
-`exploratory/slides/soutenance_memoire_DORA.pptx`, généré par `build_soutenance_ppt.py`, contrôlé
-dans `controle_soutenance.md`, notes orales dans `notes_orales_soutenance.md`. Ce qui reste sur ce
-support appartient à Kélian : la **date de soutenance**, qui s'imprime `[jj / mm / 2026]` sur la
-couverture tant qu'elle n'est pas renseignée, et l'arbitrage entre le titre du mémoire et le titre
-de soutenance recommandé sur cette même couverture.
+**2. Envoyer le courriel au service des stages**, s'il ne l'est pas.
 
-**Reste à construire le support de la soutenance ENSAE**, qui est un document distinct. Le prompt
-est dans `exploratory/slides/prompt_soutenance_ensae.md`, prêt à coller avec les deux PDF joints.
-Trois choses à savoir avant de lancer :
+**3. Obtenir l'accord de Hugo sur les figures LUCY.** S'il refuse : passe de mise en page du
+script 97, remplacement des trois `\figover{figures_externes/...}` du chapitre 02 et de
+l'`\includegraphics` de la note de synthèse par les figures L1 à L3, captions réécrites en
+« reconstruit depuis la transcription du rapport », puis recompilation et régénération du fichier
+déposé.
 
-- **la soutenance dure 45 minutes, dont 15 d'exposé et 25 à 30 de questions.** La partie questions
-  vaut donc deux fois l'exposé, d'où quinze diapositives de repli en plus des treize de l'exposé ;
-- **le barème donne 12 points sur 20 à ce que le support porte**, et la diapositive qui rapporte le
-  plus pour le moins de contenu disponible est celle des enseignements de l'ENSAE, de la part de
-  l'encadrement et du recul. Le mémoire ne porte rien de tout cela, le rapport ENSAE oui ;
-- **deux pièges de figure sont écrits dans le prompt et ne doivent pas être contournés.** La figure
-  10.1 porte la lecture à **trois** canaux emboîtés, donc ses niveaux ne sont pas ceux du chiffre
-  de tête à quatre canaux. Les figures 10.2 et 10.3 portent l'interaction entre les cinq
-  **piliers**, pas celle entre les quatre **canaux**. Les diapositives du chiffre central et de
-  l'interaction se font donc **en table, sans figure**.
+**4. Déposer** `KADDOURI_Kelian_3A25.pdf` avant le 30 septembre, après avoir vérifié qu'il est la
+copie exacte du dernier `main_ensae.pdf` (`cmp` les deux fichiers).
+
+**Le support de soutenance devant l'Institut est fait** (`exploratory/slides/`, généré par
+`build_soutenance_ppt.py`) ; il reste la date de soutenance sur sa couverture. **Le support de la
+soutenance ENSAE reste à construire**, le prompt est dans
+`exploratory/slides/prompt_soutenance_ensae.md`.
 
 ---
 
@@ -667,6 +646,70 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 16 septembre 2026
+
+### Le soir, tard : le mémoire prêt au dépôt, et ce qui a changé depuis l'audit ENSAE
+
+**Le fil de la soirée est parti d'une question, « est-ce qu'il passe ? », et de deux
+comparaisons.** Le mémoire a été comparé à un mémoire cyber publié par l'Institut (A. Ranguin,
+ISUP, 2024), puis au mémoire de **Franck Dountio** (ENSAE, soutenu le 18 mars 2026, même cabinet,
+même tuteur, Caroline Hillairet au jury), seul précédent validé pour cette filière. Verdict : au
+fond actuariel le mémoire est au-dessus des deux ; le format et les pièces d'accueil étaient en
+dessous. Tout ce qui suit en découle.
+
+**Trois défauts de fond trouvés en relisant les pages qu'un jury lit en premier.** Le résumé et la
+conclusion ne citaient pas le chiffre de tête ; la conclusion écrivait la queue de sévérité à
+« ξ ≈ 0,9 », valeur du pire cas posé, au lieu de 0,5954 ; et elle parlait de « rejet » du Hawkes
+et d'un panel « à constituer ». Résumé, introduction (encadré « Le résultat en bref » et guide de
+lecture) et conclusion portent désormais le chiffre, son statut non réglementaire, l'interaction
+de 35 %, le seuil de la fréquence, le fait que g est posé mais que seul son ordre compte, et le
+backtest.
+
+**Trois travaux sur les mêmes sources n'étaient pas cités** : Ranguin (2024), Kher, Lopez et
+Rapior (2023), l'article du tuteur, dont l'entrée bibliographique était un gabarit à auteur « ? »,
+et Dountio (2026). Deux paragraphes de l'état de l'art les positionnent.
+
+**Ce qui a été repris du mémoire de Franck, dans `main_ensae` :**
+
+- **notes de synthèse en tête**, quatre pages en français et quatre en anglais au lieu de deux et
+  deux en fin, sur son plan : contexte, objectif, démarche en six étapes, tableau des quatre
+  canaux, figure S24, résultats, limites, recommandations, conclusion. Elles portaient une erreur
+  corrigée au passage : la matrice y était dite « calibrée » au lieu de « posée à dire d'expert,
+  corroborée par un corpus » ;
+- **un glossaire de sigles** en tête (`00_glossaire.tex`) ;
+- **une section « Le risque cyber en quelques cas »** en début d'introduction, NotPetya, MOVEit et
+  CrowdStrike reliés aux piliers, sans chiffre, partagée par les quatre versions ;
+- **un paragraphe d'usage de l'IA générative** au chapitre 19, seul chapitre à la première
+  personne. Il engage Kélian personnellement : à relire ;
+- **les trois figures du rapport LUCY 2026 remises dans l'introduction**, retirées le 15 lors de
+  la coupe de la section marché, avec une lecture courte chacune, et la figure primes et sinistres
+  en tête de la note de synthèse. Tous les chiffres ajoutés sont imprimés par le script 63.
+
+**L'annexe est passée de 58 à 50 pages, à résultats constants**, sur demande de Kélian. Neuf
+sections réécrites (détail dans `CLAUDE.md`). Rien n'a été retiré de ce qui est un résultat, une
+limite déclarée ou un renvoi. Deux garde-fous rencontrés : la tolérance du harnais doit rester en
+formule hors texte, sinon le paragraphe déborde de 32,7 pt ; et la section du test inversé doit
+citer le script 84, faute de quoi cinq nombres sortent du contrôle.
+
+**Dépôt ENSAE tranché** : mémoire **non confidentiel**, dates de stage confirmées, fichier
+`KADDOURI_Kelian_3A25.pdf` généré.
+
+**Script 97, en repli seulement.** Il redessine les trois figures LUCY depuis la transcription de
+`config.py`, avec trois contrôles d'identité rejoués. Le mémoire ne l'appelle pas : Kélian garde
+les figures du rapport, dont il est co-auteur. Deux défauts de mise en page connus, à corriger avant
+tout usage.
+
+**La réponse de Mehdi Cherkaoui au formulaire est arrivée et n'est pas récupérée**, faute d'accès :
+connecteur Drive expiré puis retiré, lien Teams inaccessible sans connexion. C'est la première
+chose à faire à la reprise.
+
+**Note donnée au mémoire ce soir-là, à titre indicatif** : 16,5 sur 20. Ce qui coûte le plus : les
+paramètres posés (matrice, niveaux de g), le niveau non utilisable à l'échelle d'une entité, la
+densité. Ce qui fait monter : la traçabilité, l'honnêteté des limites, les résultats négatifs
+publiés avec leur motif.
+
+Contrôles en fin de soirée : quatre versions recompilées, débordements aux lignes de base
+(5, 13, 4, 4), 0 vbox, 0 annotation hors page, 0 « ?? », harnais 2 208 sur 2 208, tout poussé.
+
 
 ### Le soir, en dernier : fondateur, « et », et ce qui reste avant le dépôt
 
