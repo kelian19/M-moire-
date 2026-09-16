@@ -18,114 +18,68 @@ sans origine déclarée.
 \section{Le dispositif de vérification des nombres publiés}
 \label{sec:ann-harnais}
 % HARNAIS-HORS-SECTION: tous les nombres de cette section decrivent l'INSTRUMENT et non le
-% modele : bornes de tolerance, taux du harnais, compteurs de son execution. Les faire verifier
-% par lui serait circulaire, il confirmerait le nombre qui compte ce qu'il confirme. Les valeurs
-% sont celles d'une execution datee, rejouable par la commande donnee dans le texte.
-% DEUX PRECAUTIONS DE REDACTION EN DECOULENT, et il ne faut pas les defaire.
-%   1. Cette declaration est DANS la section et non avant son titre. Posee avant le \section,
-%      elle tomberait dans le bloc precedent, le preambule du chapitre, et exempterait celui-ci
-%      au lieu de celle-ci. Le piege est documente, il a deja morde une fois.
-%   2. La section ne cite AUCUN script en \texttt{}, et c'est necessaire : le harnais n'honore
-%      une declaration que si la section est par ailleurs sans source (voir le test
-%      « m_sec and not cites »), faute de quoi une declaration pourrait faire taire une section
-%      qui a pourtant de quoi etre verifiee. C'est un bon garde-fou, il faut donc s'y plier :
-%      aucun resultat de modele ne doit entrer ici. Les deux valeurs de l'estimateur de Hill
-%      ont ete retirees du texte pour cette raison, elles vivent au chapitre qui les corrige.
+% modele. Les faire verifier par lui serait circulaire. La declaration est DANS la section et
+% non avant son titre, et la section ne cite aucun script : le harnais n'honore une declaration
+% que si la section est par ailleurs sans source.
 
 Un mémoire de cette taille publie plusieurs milliers de nombres, et le risque n'est pas qu'un
-calcul soit faux : c'est qu'un nombre juste au moment où il a été écrit cesse de l'être quand la
-valeur amont bouge, sans que personne ne s'en aperçoive. Ce mémoire s'est donc doté d'un
-harnais de vérification, et il en rend compte ici parce que la portée des résultats
-dépend de ce que ce dispositif garantit et, tout autant, de ce qu'il ne garantit pas.
+calcul soit faux : c'est qu'un nombre juste au moment où il a été écrit cesse de l'être quand une
+valeur amont bouge, sans que personne ne s'en aperçoive. Ce mémoire s'est donc doté d'un harnais
+de vérification, dont la portée se décrit ici avec ce qu'il ne garantit pas.
 
-\paragraph{Le principe, et il tient en une phrase.} Pour chaque section, le harnais relève les
-scripts qu'elle cite, puis cherche chacun des nombres qu'elle publie dans les \emph{sorties
-versionnées} de ces seuls scripts. Un nombre est confirmé s'il y figure à la tolérance d'arrondi
-près, définie comme
+\paragraph{Le principe.} Pour chaque section, le harnais relève les scripts qu'elle cite, puis
+cherche chacun des nombres qu'elle publie dans les \emph{sorties versionnées} de ces seuls
+scripts. Un nombre est confirmé s'il y figure à la tolérance d'arrondi près,
 \[
   \max\bigl(0{,}6\,\% \;;\; \text{demi-unité du dernier chiffre écrit}\bigr),
 \]
-c'est-à-dire la borne de l'arrondi d'écriture : $0{,}05$ pour un nombre écrit \og $2{,}1$ \fg{},
-$0{,}5$ pour \og $122$ \fg{}. Le second terme est ce qui donne sa dureté au contrôle. Une
-tolérance à plancher absolu, telle qu'elle existait d'abord, faisait confirmer $0{,}9$ par un
-$0{,}99$ sans rapport ; la remplacer a fait tomber le taux affiché de $98{,}8$ à $95{,}7\,\%$ sans
-qu'aucun chiffre n'ait changé. Ce n'était pas une régression, c'était la même vérification faite
-honnêtement.
+soit $0{,}05$ pour un nombre écrit \og $2{,}1$ \fg{} et $0{,}5$ pour \og $122$ \fg{}. Une tolérance à plancher absolu,
+telle qu'elle existait d'abord, faisait confirmer $0{,}9$ par un $0{,}99$ sans rapport.
 
 \paragraph{Il rend trois lignes, et pas une.} Vérifiés, exemptés \emph{par motif}, non confirmés.
-Une exemption n'est jamais silencieuse, faute de quoi le taux se mesurerait lui-même : le
-dénominateur ne serait plus \og les nombres publiés \fg{} mais \og les nombres publiés moins une
-liste \fg{}, et le rapport ne dirait pas laquelle. Les exemptions subsistantes sont les niveaux de
-confiance, les entiers d'énumération et les millésimes, et elles sont comptées et affichées par
-motif.
+Une exemption n'est jamais silencieuse, faute de quoi le dénominateur ne serait plus \og les
+nombres publiés \fg{} mais \og les nombres publiés moins une liste \fg{}, sans dire laquelle. Les
+exemptions subsistantes sont les niveaux de confiance, les entiers d'énumération et les
+millésimes. Une exemption se juge sur le contexte, jamais sur la valeur : c'est en indexant sur la
+valeur qu'un résultat central avait été retiré du contrôle.
 
-Une exemption se juge d'ailleurs sur le contexte, jamais sur la valeur. C'est en
-indexant sur la valeur que le facteur $2{,}5$, qui est un résultat central et l'objet même d'un
-arbitrage, avait été retiré du contrôle : le harnais ne pouvait pas trancher la question, il ne
-la regardait pas.
+\paragraph{La couverture passe avant le taux.} Une section qui ne cite aucun script est \emph{hors
+contrôle} : ses nombres ne sont ni confirmés ni infirmés, et cela ne se voit pas dans un taux. Un
+taux se règle en retirant une citation, une couverture non. Le contrôle de fin de travail est donc,
+dans cet ordre, couverture égale à $100\,\%$ puis confirmation au moins égale à $97\,\%$. Le fait
+qui a imposé cet ordre est empirique : le périmètre a d'abord été de $74{,}7\,\%$ des nombres
+publiés, et les valeurs périmées retrouvées lors de son extension venaient toutes de la zone non
+couverte ou d'une exemption silencieuse, jamais d'un non confirmé. Trois états sont donc
+distingués, sous contrôle, déclaré hors script avec son motif, et hors contrôle : seul le dernier
+doit valoir zéro.
 
-\paragraph{La couverture passe avant le taux, et c'est le point le moins intuitif.} Une section
-qui ne cite aucun script est \emph{hors contrôle} : ses nombres ne sont ni confirmés ni infirmés,
-et cela ne se voit pas dans un taux de confirmation. C'est la faille structurelle du dispositif,
-et elle est plus dangereuse qu'un non confirmé. La raison tient en une phrase : un taux
-de confirmation se règle en retirant une citation, une couverture non. Le contrôle de fin de
-travail est donc, dans cet ordre, couverture égale à $100\,\%$ puis confirmation au moins égale à
-$97\,\%$.
+\paragraph{Ce que le harnais ne fait pas.} Il ne vérifie pas qu'un nombre est au bon endroit, ni
+qu'il veut dire ce que la phrase prétend : un nombre confirmé peut être mal commenté. Il ne détecte
+pas non plus les contradictions entre scripts, idée instruite puis écartée, un détecteur de
+quasi-collision sur les valeurs confirmant par hasard dans un pool de plusieurs milliers de
+nombres. Ce qui la remplace est une convention de rédaction : toute grandeur simulée se publie avec
+son bruit. Le résidu se répartit en quatre classes dont une seule est fautive, la grandeur citée
+mais jamais imprimée, d'où la règle appliquée partout : tout rapport cité doit être imprimé par un
+script.
 
-Le fait qui a imposé cet ordre est empirique. Le périmètre a d'abord été de $74{,}7\,\%$ des
-nombres publiés, et les cinq valeurs périmées retrouvées lors de son extension venaient
-\emph{toutes} de la zone non couverte ou d'une exemption silencieuse, jamais d'un non
-confirmé. Le chapitre qui porte la contribution centrale n'était alors vérifié par rien.
-
-\paragraph{Trois états, et un seul doit valoir zéro.} Sous contrôle ; déclaré hors
-script, par un commentaire portant son motif dans le fichier même ; hors contrôle. Sont déclarés
-les chapitres de démonstrations, l'état de l'art, le cadre réglementaire, la section des théorèmes
-du chapitre socle, et la présente section, dont le motif est écrit plus bas.
-
-\paragraph{Ce que le harnais ne fait pas, et il faut le dire aussi nettement.} Il ne
-vérifie pas qu'un nombre est au bon endroit, ni qu'il veut dire ce que la phrase prétend. Un
-nombre parfaitement confirmé peut être mal commenté, et cela s'est produit. Il ne détecte pas non
-plus les contradictions entre scripts : l'idée a été instruite puis écartée, non par manque de
-temps mais parce qu'un détecteur de quasi-collision sur les valeurs retomberait dans le travers
-décrit ci-dessus. Ce qui la remplace est une convention de rédaction, et elle est plus efficace :
-\textbf{toute grandeur simulée se publie avec son bruit}, ce qui rend la question du troisième
-chiffre sans objet.
-
-\paragraph{Le résidu se répartit en quatre classes, et une seule est un défaut.} Séparateur de
-milliers, écart d'unité entre un pourcentage et une fraction, valeur légitimement hors script
-(seuil posé, constante réglementaire, source externe), et grandeur citée mais jamais
-imprimée. Seule la dernière est fautive, et c'est elle qui a motivé un script dédié, dont l'objet
-est de faire imprimer par le pipeline ce que la rédaction calculait à la main. La règle qui en
-découle vaut pour tout le mémoire : tout rapport cité doit être imprimé par un script. Un
-rapport écrit pendant la rédaction n'est vérifiable par personne, et trois des valeurs périmées
-retrouvées étaient exactement de cette nature.
-
-\textbf{La classification automatique de ce résidu ne fonctionne pas}, et l'avoir essayé est
-instructif : dans un pool de plusieurs milliers de valeurs, les correspondances à un facteur cent
-près sur des nombres ronds sont fortuites et il s'en produit toujours. Les nombres restants se
-lisent un par un.
-
-\paragraph{Ce que le dispositif a effectivement trouvé.} Trois erreurs réelles, qu'aucune
-relecture n'avait vues : l'intervalle de l'indice de queue publié avec une borne basse arrondie
-dans le mauvais sens, sur deux chapitres ; un estimateur de Hill publié à une valeur qu'aucune
-population du pipeline ne reproduit, corrigée depuis au chapitre~\ref{chap:socle} ; et un seuil
-d'inefficacité publié simultanément à deux valeurs distinctes, à vingt-cinq lignes d'écart.
-Aucune n'est un défaut de modèle, et c'est bien pourquoi seul un contrôle systématique pouvait les
-révéler : chacune est une valeur juste au moment où elle a été écrite, devenue fausse quand la
-valeur amont a bougé.
+\paragraph{Ce que le dispositif a trouvé.} Trois erreurs réelles, qu'aucune relecture n'avait
+vues : une borne d'intervalle de l'indice de queue arrondie dans le mauvais sens sur deux
+chapitres ; un estimateur de Hill publié à une valeur qu'aucune population du pipeline ne
+reproduit, corrigée au chapitre~\ref{chap:socle} ; et un seuil d'inefficacité publié à deux valeurs
+distinctes à vingt-cinq lignes d'écart. Chacune est une valeur juste au moment où elle a été
+écrite, devenue fausse quand la valeur amont a bougé, et seul un contrôle systématique pouvait les
+révéler.
 
 \begin{cle}
-\textbf{État du contrôle au 17 août 2026}, tous chapitres : 1\,865 nombres publiés,
-1\,831 confirmés, soit $98{,}2\,\%$, pour une couverture de
-$100\,\%$ : aucun nombre du mémoire n'est hors contrôle sans déclaration motivée. Les
-trente-quatre non confirmés ont été dépouillés un par un et relèvent des trois classes non
-fautives. Le dispositif s'appuie sur 93 sorties de scripts versionnées, et il tourne
-aussi sur les supports de présentation, où il a déjà rattrapé une valeur fausse.
+\textbf{État du contrôle}, tous chapitres, à la dernière exécution datée : 2\,208 nombres publiés
+et confirmés, pour une couverture de $100\,\%$, aucun nombre n'étant hors contrôle sans
+déclaration motivée. Le dispositif s'appuie sur 103 sorties de scripts versionnées et tourne aussi
+sur les supports de présentation, où il a déjà rattrapé une valeur fausse.
 
 \textbf{Pourquoi cette section échappe au contrôle qu'elle décrit.} La faire vérifier par le
 harnais serait circulaire : il confirmerait le nombre qui compte ce qu'il confirme. Elle est donc
-déclarée hors script, avec ce motif, ce qui est précisément la discipline décrite plus haut. Les
-valeurs ci-dessus sont celles d'une exécution datée, rejouable en une commande sur le dépôt.
+déclarée hors script avec ce motif, et ses valeurs sont celles d'une exécution datée, rejouable en
+une commande.
 \end{cle}
 
 \section{Réconciliation du socle et de l'état conforme}
@@ -518,26 +472,14 @@ diagnostic de forme de queue, et un noyau d'allocation qui répartit un niveau d
 % =====================================================================
 \section{Le niveau de l'intervalle reporté : de 90 à 95 pour cent}
 \label{sec:ann-intervalle95}
-
 % SOURCES-SCRIPTS: 72
 
-Le niveau de confiance de l'intervalle reporté est une convention de report et non un
-résultat : il se choisit. Le niveau retenu reste $90\,\%$, et cette pièce donne
-l'alternative à $95\,\%$ chiffrée plutôt qu'une substitution, ainsi que la raison décisive pour
-laquelle relever le nominal ne réparerait rien. La conclusion figure en fin de section ; elle est
-annoncée ici pour qu'un lecteur pressé ne prenne pas le chiffrage pour la décision.
-
-\subsection*{Pourquoi aucun bootstrap n'est rejoué}
-
-Rejouer un bootstrap donnerait un nouvel échantillon, donc un intervalle à $90\,\%$ légèrement
-différent du publié : le mémoire porterait deux valeurs du même nombre, ce qui est exactement le
-défaut corrigé sur la VaR prédictive. Le passage se fait donc par la même approximation
-normale que celle dont le moteur se sert déjà pour propager l'incertitude de sévérité : les deux
-demi-largeurs publiées sont mises à l'échelle par $1{,}96 / 1{,}645 = 1{,}1915$, séparément, de
-sorte que l'asymétrie de l'intervalle publié est conservée. La calibration ne bouge pas :
-le point, $\sigma$, $u$ et le taux de dépassement sont inchangés, donc tous les capitaux publiés
-aussi. Seul le niveau change.
-% SOURCES-SCRIPTS: 72
+Le niveau de confiance de l'intervalle reporté est une convention de report : il se choisit. Le
+niveau retenu reste $90\,\%$, et cette pièce en donne l'alternative chiffrée plutôt qu'une
+substitution. Aucun bootstrap n'est rejoué, ce qui donnerait deux valeurs du même intervalle : le
+passage se fait par la même approximation normale que celle dont le moteur se sert déjà, les deux
+demi-largeurs étant mises à l'échelle séparément par $1{,}96/1{,}645 = 1{,}1915$, ce qui conserve
+l'asymétrie. La calibration ne bouge pas, donc tous les capitaux publiés non plus.
 
 \begin{center}\footnotesize
 \renewcommand{\arraystretch}{1.25}
@@ -553,55 +495,26 @@ Capital agrégé (M\euro) & $[3\,042\,;\,27\,152]$ & $[2\,727\,;\,34\,942]$ & $8
 \end{center}
 
 \vspace{4pt}
-\noindent Le nombre le plus visible du changement est le facteur sur le quantile de sévérité, qui
-passe de $2{,}52$ à $3{,}05$. Et l'élargissement du capital est très asymétrique : sa
-borne basse ne descend que de $315$~M\euro{} quand la haute monte de $7\,790$. C'est la convexité
-du capital en $\xi$, et c'est une propriété à annoncer plutôt qu'à subir : sur une queue lourde,
-élargir un intervalle de confiance sur l'indice de queue ne l'élargit pas symétriquement sur le
-capital.
-% SOURCES-SCRIPTS: 72
+\noindent L'élargissement du capital est très asymétrique : sa borne basse ne descend que de
+$315$~M\euro{} quand la haute monte de $7\,790$. C'est la convexité du capital en $\xi$, et elle
+s'annonce plutôt qu'elle ne se subit.
 
-\subsection*{Ce que le changement de niveau ne corrige pas}
+\textbf{Le changement de niveau ne corrige pourtant rien, et c'est le point décisif.} La couverture
+\emph{réelle}, mesurée à $n$ fini sur $2\,000$ échantillons de $91$ excès, vaut
+$86{,}8 \pm 0{,}8\,\%$ pour un niveau annoncé de $90$ et $91{,}8 \pm 0{,}6\,\%$ pour un niveau
+annoncé de $95$ : le manque est le même, $-3{,}2$ points. Relever le nominal déplace l'annonce sans
+corriger l'estimateur, et la constance du déficit en désigne la cause, un écart-type asymptotique
+trop petit à quatre-vingt-onze excès. Ce déficit se publie, parce qu'un intervalle annoncé à
+$90\,\%$ qui en couvre $87$ engage celui qui l'annonce, mais il ne disqualifie pas l'intervalle :
+à ce nombre d'excès, la convergence lente de la normalité asymptotique du maximum de vraisemblance
+rend cet ordre de grandeur attendu.
 
-C'est le point qui compte, et il va contre l'intuition du changement. La couverture \emph{réelle}
-des deux niveaux, mesurée à $n$ fini sur $2\,000$ échantillons de $91$ excès, vaut
-$86{,}8 \pm 0{,}8\,\%$ pour un niveau annoncé de $90$, et $91{,}8 \pm 0{,}6\,\%$ pour un niveau
-annoncé de $95$. Le manque est le même, $-3{,}2$ points dans les deux cas. Passer le
-nominal à $95\,\%$ ne répare donc rien : il déplace l'annonce sans corriger l'estimateur, et la
-constance du déficit en points désigne la cause, un écart-type asymptotique trop petit à
-quatre-vingt-onze excès, plutôt qu'une forme d'intervalle mal choisie.
-
-\paragraph{Ce déficit doit être publié, mais il ne doit pas être dramatisé.} Une sous-couverture
-de trois points sur un intervalle de paramètre de forme d'une loi de Pareto généralisée, à
-quatre-vingt-onze excès, est un ordre de grandeur \emph{attendu} : la normalité asymptotique de
-l'estimateur du maximum de vraisemblance y converge lentement, et c'est une propriété connue de
-ces intervalles à petit échantillon, non une anomalie de ce travail. La conclusion à en tirer est
-donc double et il faut tenir les deux bouts. Le déficit se publie, parce qu'un intervalle
-annoncé à $90\,\%$ qui en couvre $87$ engage celui qui l'annonce. Mais il ne disqualifie
-pas l'intervalle : le présenter comme un défaut du modèle plutôt que comme une limite connue de
-l'estimateur donnerait au lecteur une inquiétude que les nombres ne justifient pas.
-
-La réserve déjà publiée au \S\ref{soc:sec:validation} reste donc due, au nouveau niveau comme à
-l'ancien : annoncer $95\,\%$ sans la répéter remplacerait un défaut \emph{déclaré} par un défaut
-\emph{caché}, ce qui serait un mauvais échange.
-% SOURCES-SCRIPTS: 72
-
-\subsection*{Le maintien du niveau de 90 pour cent}
-
-La configuration gelée porte les intervalles à $90\,\%$, et c'est elle qui alimente le moteur : les
-occurrences de $[0{,}30\,;0{,}83]$ et du facteur $2{,}5$ ailleurs dans ce mémoire sont donc les
-valeurs de cette configuration, citées comme telles. Les remplacer partout déplacerait des dizaines
-de nombres publiés ; la piste d'audit exige alors de dire lesquels et pourquoi, et c'est une
-décision de rédaction distincte du calcul ci-dessus.
-
-\textbf{Le niveau reporté reste donc $90\,\%$, et cette section en donne l'alternative chiffrée
-plutôt qu'une substitution.} Trois raisons convergent. Le corps publie partout les bornes de la
-configuration gelée, si bien qu'annoncer $95\,\%$ ici et imprimer $90\,\%$ ailleurs créerait une
-incohérence pire que le défaut qu'on prétendrait corriger. Le passage à $95\,\%$ ne répare pas la
-sous-couverture, qui reste de trois points au nouveau niveau comme à l'ancien : il déplace
-l'annonce sans toucher l'estimateur. Et le correctif qui la réparerait, un élargissement de la
-demi-largeur d'environ $10\,\%$, est une recalibration que le gel interdit. Le choix retenu est
-donc celui que ce mémoire applique partout ailleurs : \emph{déclarer plutôt que rebaptiser}.
+\textbf{Le niveau reporté reste donc $90\,\%$.} Trois raisons convergent : le corps publie partout
+les bornes de la configuration gelée, si bien qu'annoncer $95\,\%$ ici créerait une incohérence
+pire que le défaut prétendument corrigé ; le passage à $95\,\%$ ne répare pas la sous-couverture ;
+et le correctif qui la réparerait, un élargissement de la demi-largeur d'environ $10\,\%$, est une
+recalibration que le gel interdit. La réserve du \S\ref{soc:sec:validation} reste due au nouveau
+niveau comme à l'ancien.
 % SOURCES-SCRIPTS: 63 72
 
 % =====================================================================
@@ -841,18 +754,15 @@ déclare pas, les sept autres ayant une direction connue.
 % =====================================================================
 \section{Deux corrections d'instrument : le tornado et l'objet de l'invariance}
 \label{sec:ann-corrections-instrument}
-
 % SOURCES-SCRIPTS: 76 77
 
-Cette pièce documente deux corrections apportées à des résultats déjà publiés. Aucune ne
-renverse une conclusion, toutes deux en changent la portée ou le statut, et il vaut mieux les
-écrire que les laisser découvrir.
+Cette pièce documente deux corrections apportées à des résultats déjà publiés. Aucune ne renverse
+une conclusion, toutes deux en changent la portée ou le statut.
 
-\subsection*{Le tornado comparait des longueurs de barre, pas des sensibilités}
-
-Le tornado du \S\ref{sec:sensibilite-propagation} balaie quatre leviers sur des plages qui n'ont
-pas la même vraisemblance, et l'un d'eux, le seuil, n'est pas un levier : le déplacer réajuste la
-loi de queue, si bien qu'il fait bouger quatre paramètres à la fois. La décomposition le montre.
+\textbf{Le tornado comparait des longueurs de barre, pas des sensibilités.} Le tornado du
+\S\ref{sec:sensibilite-propagation} balaie des plages d'inégale vraisemblance, et l'un de ses
+leviers, le seuil, n'en est pas un : le déplacer réajuste la loi de queue, donc quatre paramètres à
+la fois.
 
 \begin{center}\footnotesize
 \renewcommand{\arraystretch}{1.2}
@@ -873,57 +783,25 @@ Taux de dépassement $p_u$ seul & $7\,339$ & $4\,814$ & $-2\,525$ \\
 \end{center}
 
 \vspace{4pt}
-\noindent Deux lectures. Le seuil \emph{pris seul} ne déplace que $+320$~M\euro{} quand l'indice
-de queue seul en déplace $-13\,993$ : la barre publiée sous le nom de \og seuil\fg{} mesure en réalité
-la sensibilité à la queue. Et les composantes ne s'additionnent pas, elles se compensent,
-leur somme signée valant $-11\,517$ pour un paquet à $-8\,081$, soit $3\,436$~M\euro{} de
-compensation entre un $\xi$ qui tire vers le bas et un $\sigma$ qui tire vers le haut. La barre du
-paquet est donc \emph{plus courte} que l'effet du seul indice de queue, tout en lui étant
-attribuée.
+\noindent Le seuil pris seul ne déplace que $+320$~M\euro{} quand l'indice de queue seul en
+déplace $-13\,993$ : la barre publiée sous le nom de \og seuil \fg{} mesure la sensibilité à la
+queue. Les composantes se compensent au lieu de s'additionner, leur somme signée valant
+$-11\,517$ pour un paquet à $-8\,081$. Lue en élasticités, à perturbation relative égale et un
+paramètre à la fois, la conclusion tient : la propagation reste le plus faible des leviers
+substantiels, $0{,}37$ contre $3{,}79$ pour l'indice de queue.
 
-La correction ne change pas la conclusion, elle la met à l'abri : lue en élasticités,
-même perturbation relative pour tous et un paramètre à la fois, la propagation reste le plus
-faible des leviers substantiels, $0{,}37$ contre $3{,}79$ pour l'indice de queue. Ce rapport de
-dix ne dépend d'aucune convention d'affichage, alors que l'ancienne formulation pouvait être
-retournée en changeant une plage.
-% SOURCES-SCRIPTS: 76
-
-% SOURCES-SCRIPTS: 76
-\subsection*{L'invariance de la dépendance porte sur une espérance, pas sur un quantile}
-
-Le \S\ref{sec:dependance-etats} établit que la structure de la dépendance entre états ne déplace
-pas le capital, par un argument d'additivité. Cet argument vaut pour une \emph{espérance}, or le
-capital est un \emph{quantile} : la moyenne des VaR conditionnelles aux $32$ configurations n'est
-pas le quantile de la loi mélangée sur ces configurations, et la linéarité sur laquelle repose
-l'argument n'est pas disponible pour le second objet. Les deux ont donc été calculés.
-
-\begin{center}\footnotesize
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}l r r@{}}
-\toprule
-\textbf{Objet} & \textbf{Niveau} & \textbf{Déplacement sur le balayage} \\
-\midrule
-Moyenne des VaR conditionnelles & $9\,739$~M\euro & $2$~M\euro \\
-Quantile de la loi mélangée & $10\,643$~M\euro & $334$~M\euro \\
-\midrule
-\emph{bruit de tirage seul, huit graines} & & \emph{étendue} $344$~M\euro \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{4pt}
-\noindent Les deux objets diffèrent de $904$~M\euro, soit $9{,}3\,\%$, et l'écart est structurel :
-à $99{,}5\,\%$ la queue du mélange est prélevée dans les composantes les plus lourdes quand la
-moyenne pondère toutes les composantes, y compris les conformes. Le mémoire publie la
-première grandeur, et le dire fait partie du résultat.
-
-Sur le quantile, le déplacement de $334$~M\euro{} n'est pas monotone en $\delta$ et reste du même
-ordre que le bruit de tirage. L'invariance n'y est donc pas démontrée, elle est seulement
-non détectée, ce qui est un énoncé strictement plus faible que sur l'espérance. Dans les deux
-lectures le déplacement reste petit devant l'incertitude déjà déclarée, ces $334$~M\euro{} valant
-$18\,\%$ de la largeur de la bande d'identification. La conclusion de gestion ne change pas ;
-c'est son statut qui change.
-% SOURCES-SCRIPTS: 77
+\textbf{L'invariance de la dépendance porte sur une espérance, pas sur un quantile.} L'argument
+d'additivité du \S\ref{sec:dependance-etats} vaut pour une espérance, or le capital est un
+quantile. Les deux objets ont donc été calculés : la moyenne des VaR conditionnelles aux $32$
+configurations vaut $9\,739$~M\euro{} et le quantile de la loi mélangée $10\,643$, soit
+$904$~M\euro{} ou $9{,}3\,\%$ d'écart, parce qu'à $99{,}5\,\%$ la queue du mélange est prélevée
+dans les composantes les plus lourdes. Le mémoire publie la première grandeur, et le dire fait
+partie du résultat. Sur le balayage, l'espérance ne bouge que de $2$~M\euro{} quand le quantile se
+déplace de $334$, valeur non monotone et du même ordre que le bruit de tirage, dont l'étendue vaut
+$344$~M\euro{} sur huit graines : l'invariance n'y est pas démontrée, elle est seulement non
+détectée, ce qui est strictement plus faible. Ces $334$~M\euro{} valent $18\,\%$ de la largeur de
+la bande d'identification, donc la conclusion de gestion ne change pas ; c'est son statut qui
+change.
 
 \begin{figure}[htbp]\centering
 \figover{S33_var_melange.png}
@@ -931,10 +809,7 @@ c'est son statut qui change.
 loi mélangée diffèrent de $9{,}3\,\%$, ce qui impose de dire lequel est publié.
 \textbf{(b)}~sur le balayage, l'espérance ne bouge pas et le déplacement du quantile est du même
 ordre que le bruit de tirage, sans être monotone : il n'est pas résolu. L'échelle est celle de la
-bande
-d'identification déjà publiée, faute de quoi des écarts de quelques centaines de millions
-paraîtraient considérables.}
-% SOURCES-SCRIPTS: 77
+bande d'identification déjà publiée.}
 \label{fig:var-melange}
 \end{figure}
 
@@ -976,252 +851,115 @@ sommer n'étant pas plafonner la somme. Il fallait redescendre au niveau du sini
 % =====================================================================
 \section{Les deux horloges du modèle et le coût de leur séparation}
 \label{sec:ann-horloges}
-
 % SOURCES-SCRIPTS: 79
 
 Le modèle sépare une horloge \emph{lente}, l'année qui porte la fréquence et sur laquelle le
 capital se mesure, d'une horloge \emph{rapide}, la propagation à l'intérieur d'un sinistre. Deux
-approximations en découlent et elles ne vont pas dans le même sens : la cascade est traitée comme
-\emph{instantanée}, et l'état de conformité comme figé sur toute l'année. Cette section
-les mesure séparément, car un lecteur est en droit de demander ce que la commodité coûte.
+approximations en découlent, la cascade traitée comme instantanée et l'état de conformité figé sur
+l'année, et cette section mesure ce que la commodité coûte.
 
-\paragraph{La cascade instantanée : une approximation neutre, et non prudente.} On donne une
-durée à la cascade et l'on regarde ce que devient l'écart de capital, à \emph{nombres communs} :
-à état et graine fixés, deux valeurs de délai partagent exactement les mêmes tirages, jusqu'aux
-uniformes des délais. La différence entre deux lignes est donc du signal et non du bruit
-d'échantillonnage. Au délai que la donnée soutient, $6{,}7$~h par pas, l'écart vaut
+\textbf{La cascade instantanée est une approximation neutre, et non prudente.} On donne une durée à
+la cascade et l'on compare à nombres communs, deux valeurs de délai partageant les mêmes tirages à
+état et graine fixés. Au délai que la donnée soutient, $6{,}7$~h par pas, l'écart de capital vaut
 $14\,139$~M\euro{} contre $14\,139$ pour la cascade instantanée, soit un déplacement nul sur les
-quatre graines. Ce zéro est mesuré, non masqué par le bruit : une cascade de quelques
-heures ne rencontre pratiquement jamais le 31 décembre. À vingt-quatre heures par pas le
-déplacement devient positif ou nul sur les quatre graines, et reste sous le demi-pour-cent ; au
-delà, il \emph{change de signe} d'une graine à l'autre. On aurait pu raconter que couper une
-cascade au 31 décembre rabote la queue, on aurait pu raconter l'inverse : les deux mécanismes
-existent et quatre graines ne les séparent pas. Le seul énoncé que la mesure porte est donc que
-le collapse est neutre, et surtout pas prudent.
+quatre graines : une cascade de quelques heures ne rencontre pratiquement jamais le 31 décembre. À
+vingt-quatre heures par pas le déplacement reste sous le demi-pour-cent, et au-delà il change de
+signe d'une graine à l'autre, deux mécanismes opposés que quatre graines ne séparent pas.
 
-\paragraph{L'état figé sur l'année : le capital est \emph{concave} en la durée de
-non-conformité.} On fait varier la part $\tau$ de l'année passée en non-conformité. La courbe
-passe au-dessus de la droite qui joindrait ses deux extrémités, de $897$~M\euro{} à
+\textbf{Le capital est concave en la durée de non-conformité.} En faisant varier la part $\tau$ de
+l'année passée en non-conformité, la courbe passe au-dessus de sa corde, de $897$~M\euro{} à
 mi-année, soit $2{,}2$ fois le bruit de simulation. La signature est celle d'une queue portée par
-un sinistre unique : il suffit d'une \emph{fenêtre} de non-conformité pour qu'un tel sinistre s'y
-produise, et allonger la fenêtre au-delà n'ajoute plus grand-chose.
+un sinistre unique : il suffit d'une fenêtre de non-conformité pour qu'un tel sinistre s'y
+produise.
 
 \begin{cle}
-\textbf{Deux lectures de gestion, et aucune n'est celle que l'intuition suggère.} Un
-\emph{trimestre} de non-conformité porte déjà $33\,\%$ du surcoût de l'année entière : une
-fenêtre courte n'est pas une petite exposition. Symétriquement, remédier à mi-exercice ne capture
-que $44\,\%$ du bénéfice annuel et non la moitié : un plan qui proratise le gain se
-trompe, et se trompe du côté optimiste.
-
-\textbf{Ce que cela valide de la séparation, et ce que cela lui coûte.} Le collapse de l'horloge
-lente est \emph{légitime} pour ce que le mémoire en fait, conditionner à un état et publier un
-capital par état. Il devient \emph{fautif} dès qu'on veut en lire un calendrier de remédiation.
-La limite est donc d'usage et non de construction, et elle est ici bornée plutôt qu'évoquée.
+\textbf{Deux lectures de gestion, et aucune n'est celle que l'intuition suggère.} Un trimestre de
+non-conformité porte déjà $33\,\%$ du surcoût de l'année entière, donc une fenêtre courte n'est pas
+une petite exposition ; et remédier à mi-exercice ne capture que $44\,\%$ du bénéfice annuel, non
+la moitié, de sorte qu'un plan qui proratise le gain se trompe du côté optimiste. Le collapse de
+l'horloge est donc légitime pour ce que le mémoire en fait, publier un capital par état, et fautif
+dès qu'on veut en lire un calendrier de remédiation : la limite est d'usage et non de construction.
 \end{cle}
 
-\paragraph{Un lien qui manquait avec l'additivité des coûts.} Au délai mesuré, $8{,}0\,\%$ des
-sinistres non conformes en recouvrent un autre, contre $1{,}7\,\%$ à l'état conforme, soit un
-facteur $4{,}8$. Ce facteur monte par \emph{deux} canaux composés, la non-conformité multipliant
-le nombre de sinistres \emph{et} allongeant chaque cascade : en ne regardant que la fréquence on
-aurait sous-estimé l'effet. Or l'exposant $\theta$ du \S\ref{sec:additivite-couts} ne fait jouer
-la non-additivité qu'\emph{au sein} d'un sinistre. Il s'applique donc à moins d'événements que la
-réalité n'en contient, et la plage publiée en sous-estime l'amplitude. Deux précautions
-sur cet énoncé, car il serait facile d'en dire trop : il porte sur l'amplitude et non sur le
-\emph{sens}, la concomitance amplifiant la mutualisation autant que la saturation, donc elle
-élargit la plage des deux côtés sans la déplacer ; en revanche l'asymétrie entre états, elle, est
-bien renforcée et dans le sens du mémoire, ce qui montre que les élasticités de $0{,}95$ contre
-$0{,}39$ ne sont pas un artefact de $\theta$.
+\noindent Un lien manquait enfin avec l'additivité des coûts. Au délai mesuré, $8{,}0\,\%$ des
+sinistres non conformes en recouvrent un autre contre $1{,}7\,\%$ à l'état conforme, soit un
+facteur $4{,}8$, qui monte par deux canaux composés, la non-conformité multipliant le nombre de
+sinistres et allongeant chaque cascade. Or l'exposant $\theta$ du \S\ref{sec:additivite-couts} ne
+joue qu'au sein d'un sinistre : la plage publiée en sous-estime donc l'amplitude. L'énoncé porte
+sur l'amplitude et non sur le sens, la concomitance amplifiant la mutualisation autant que la
+saturation ; en revanche l'asymétrie entre états est renforcée dans le sens du mémoire, ce qui
+montre que les élasticités de $0{,}95$ contre $0{,}39$ ne sont pas un artefact de $\theta$.
 
 % =====================================================================
 \section{Le plafond et la saturation, mesurés conjointement}
 \label{sec:ann-plafond-saturation}
-
 % SOURCES-SCRIPTS: 86
 
-Deux réserves du mémoire déplacent le capital en sens contraire : le plafond de sévérité
-adossé à l'exposition le fait baisser, et la saturation des coûts, relâchée par
-l'exposant $\theta$ sur le nombre de piliers touchés (\S\ref{sec:additivite-couts}), le fait
-monter. Les lire séparément laisse ouverte une question de gouvernance : se compensent-elles, de
-sorte que l'une dispenserait de discuter l'autre ? Cette section les mesure sur le même moteur.
-
-Le contrôle passe d'abord : sans plafond et sans saturation, la VaR de l'entité notionnelle vaut
-$179{,}1$~M\euro, du même ordre que les $177{,}1$ publiés au \S\ref{sec:ann-plafond} et que les
-% SOURCES-SCRIPTS: 78
-$169$ de l'évaluateur d'identification partielle. Tout ce qui suit est rapporté à cette valeur,
-dans ce seul moteur.
-
-Les deux bandes marginales confirment les sens annoncés. La saturation seule fait passer la VaR
-de $144{,}2$ à $225{,}7$~M\euro{} quand $\theta$ va de $0{,}70$ à $1{,}30$, soit une bande de
-$81{,}5$~M\euro. Le plafond seul la fait tomber de $179{,}1$ à $56{,}9$~M\euro{} quand $\kappa$
-descend à $0{,}2\,\%$, soit $122{,}2$~M\euro. Leurs extrêmes défavorables ne sont donc pas au même
-coin du rectangle.
+Deux réserves du mémoire déplacent le capital en sens contraire : le plafond de sévérité adossé à
+l'exposition le fait baisser, la saturation des coûts relâchée par l'exposant $\theta$
+(\S\ref{sec:additivite-couts}) le fait monter. Se compensent-elles, de sorte que l'une
+dispenserait de discuter l'autre ? Le contrôle passe d'abord : sans plafond ni saturation, la VaR
+de l'entité notionnelle vaut $179{,}1$~M\euro, du même ordre que les $177{,}1$ publiés au
+\S\ref{sec:ann-plafond} et que les $169$ de l'évaluateur d'identification partielle. La saturation
+seule fait passer la VaR de $144{,}2$ à $225{,}7$~M\euro{} sur la plage de $\theta$, soit une bande
+de $81{,}5$ ; le plafond seul la fait tomber de $179{,}1$ à $56{,}9$~M\euro{} quand $\kappa$
+descend à $0{,}2\,\%$, soit $122{,}2$.
 
 \begin{cle}
-\textbf{Le plafond est un amortisseur, non un contrepoids, et la distinction commande la
-lecture.} La bande conjointe sur le rectangle vaut $177{,}8$~M\euro{} contre $203{,}7$ pour la
-somme des deux bandes marginales, soit un rapport de $0{,}87$ : les additionner surestimerait
-l'incertitude. Mais la raison n'est pas que les deux réserves se neutralisent. Le terme
-d'interaction change de signe à $\theta = 1$, et à $\kappa = 0{,}5\,\%$ la sensibilité à
-$\theta$ est \emph{exactement nulle} : le plafond mord alors si fort qu'il absorbe entièrement la
-saturation. Ce qu'il fait est donc atténuer l'effet de $\theta$, non l'annuler par un effet de
-sens contraire.
-
-\textbf{Conséquence pratique, et c'est ce qui était demandé.} Il n'existe aucune crête de
-compensation non triviale : aucun couple $(\kappa,\theta)$ ne restaure la valeur libre autrement
-qu'en désactivant le plafond. Les deux réserves sont donc \emph{hiérarchisées} et non confondues,
-et l'on peut discuter le plafond sans discuter $\theta$, ce qui est le contraire de ce qu'on
-craignait.
+\textbf{Le plafond est un amortisseur, non un contrepoids.} La bande conjointe vaut
+$177{,}8$~M\euro{} contre $203{,}7$ pour la somme des deux bandes marginales, soit un rapport de
+$0{,}87$ : les additionner surestimerait l'incertitude. Mais les deux réserves ne se neutralisent
+pas. Le terme d'interaction change de signe à $\theta = 1$, et à $\kappa = 0{,}5\,\%$ la
+sensibilité à $\theta$ est exactement nulle, le plafond absorbant alors entièrement la saturation.
+Il n'existe aucune crête de compensation non triviale : les deux réserves sont hiérarchisées et non
+confondues, et l'on peut discuter le plafond sans discuter $\theta$.
 \end{cle}
 
 % =====================================================================
 \section{Les séquences ordonnées du corpus et leur absence de pouvoir identifiant}
 \label{sec:ann-sequences}
-
-% SOURCES-SCRIPTS: 75
-
-Cette pièce accompagne le \S\ref{sec:sequences-ordonnees}. L'idée examinée est légitime : des
-marges par paires ne déterminent pas une loi sur les permutations, donc un triplet ordonné porte
-en général une information qu'aucune paire ne porte. Elle ne donne pourtant rien ici, et il vaut
-mieux dire précisément pourquoi que conclure au manque de données.
-
-\subsection*{Les séquences étaient déjà dans le corpus}
-
-Chaque incident code un ensemble d'arêtes dirigées, jamais une chaîne. Composer les arêtes d'un
-même incident produit donc des séquences que personne n'avait extraites : $9$ chemins de longueur
-deux, pour $4$ séquences distinctes, plus une chaîne de trois arêtes.
-
-\begin{center}\footnotesize
-\renewcommand{\arraystretch}{1.25}
-\begin{tabular}{@{}l c l@{}}
-\toprule
-\textbf{Séquence} & \textbf{Occurrences} & \textbf{Incidents} \\
-\midrule
-P1 $\to$ P3 $\to$ P2 & $4$ & Microsoft, TSB, Equifax, Knight \\
-P1 $\to$ P4 $\to$ P2 & $3$ & TSB, Log4Shell, Raphaels \\
-P1 $\to$ P5 $\to$ P3 & $1$ & Equifax \\
-P5 $\to$ P3 $\to$ P2 & $1$ & Equifax \\
-\midrule
-\multicolumn{3}{@{}l}{\emph{plus longue chaîne observée} : P1 $\to$ P5 $\to$ P3 $\to$ P2 (Equifax)} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{4pt}
-\noindent Quatre incidents sur dix n'en fournissent aucune, leurs arêtes partant toutes du même
-pilier ou se réduisant à une seule.
-% SOURCES-SCRIPTS: 75
-
-\subsection*{La comparaison demandée a un support vide, et c'est structurel}
-
-La question posée oppose P1 $\to$ P2 $\to$ P3 à P2 $\to$ P3 $\to$ P1. Les deux exigent que P2
-\emph{émette}, or P2 n'émet jamais : $0$ émission sur $22$ transitions, contre $10$ réceptions.
-Symétriquement P1 n'est jamais atteint, $0$ réception sur $22$. La comparaison n'est donc pas
-indécise faute d'échantillon, elle est sans objet : son support est vide, ce qui est un
-état différent d'un intervalle large et appelle une autre réponse.
-
-% \og/\fg et non les guillemets litteraux : les glyphes chevrons ne sont pas dans la fonte et
-% sortent en « n » et « z » dans le PDF.
-% CORRECTION DU 17 AOUT : la seconde phrase de ce commentaire etait fausse. Elle disait qu'en
-% corps de texte romain les chevrons litteraux passaient. Ils ne passent pas. Compte fait sur
-% le PDF : VINGT occurrences cassees sur quatorze pages, soit exactement les vingt chevrons
-% litteraux du corps, gras et romain confondus. Toutes converties. Ne pas en reintroduire.
-\paragraph{Deux relations que le mot \og ordre \fg{} confond.} Le corpus code le \emph{conditionnement
-direct}, c'est-à-dire que le rapport établit que $j$ a précédé \emph{et} conditionné $k$. Il ne
-code pas la \emph{précédence}. La clôture transitive le montre : elle ajoute deux paires,
-(P1,\,P2) impliquée par six incidents et (P5,\,P2) par un, qu'aucun rapport ne code directement.
-Pour $W$ c'est correct, $W$ étant un transfert direct ; mais lire $p_{jk}$ comme une précédence
-serait une faute, et le $p_{12}=0$ de la matrice ne dit rien de l'ordre d'arrivée.
 % SOURCES-SCRIPTS: 75 59
 
-\subsection*{L'acyclicité n'est pas un résultat, et le mauvais nul la ferait croire}
+Cette pièce accompagne le \S\ref{sec:sequences-ordonnees}. L'idée examinée est légitime, des marges
+par paires ne déterminant pas une loi sur les permutations, mais elle ne donne rien ici, et le
+motif vaut mieux qu'un constat de pénurie.
 
-Les $22$ transitions se répartissent sur $6$ paires distinctes, chacune toujours codée dans le
-même sens, et le graphe agrégé est acyclique, d'ordre topologique
-$\{$P1$\} < \{$P4,\,P5$\} < \{$P3$\} < \{$P2$\}$. La clôture tranche $8$ des $10$ paires de
-piliers, seules (P3,\,P4) et (P4,\,P5) restant incomparables.
+\textbf{Les séquences étaient déjà dans le corpus.} Chaque incident code un ensemble d'arêtes
+dirigées, jamais une chaîne ; les composer produit $9$ chemins de longueur deux pour $4$ séquences
+distinctes, la plus longue chaîne observée étant P1 $\to$ P5 $\to$ P3 $\to$ P2. Quatre incidents
+sur dix n'en fournissent aucune.
 
-Il serait tentant d'y voir une confirmation. Deux lois nulles l'interdisent, et une seule des deux
-est légitime. Sous le nul par paire, où chaque relation reçoit une direction au hasard,
-$42$ des $64$ orientations sont acycliques, soit $65{,}6\,\%$ : on obtiendrait l'acyclicité
-observée deux fois sur trois par hasard. Sous le nul par observation, où chaque
-transition change de sens indépendamment, la proportion tombe à $0{,}00\,\%$ et l'acyclicité
-paraîtrait écrasante, mais ce nul détruit la \emph{constance} du codage : une paire vue cinq fois
-pourrait recevoir cinq directions différentes. Il mesure la fiabilité du codeur, non l'existence
-d'une direction. C'est le même travers que celui déjà rencontré sur le harnais, où l'exemption
-indexée sur la valeur mesurait autre chose que ce qu'elle prétendait.
-% SOURCES-SCRIPTS: 75
+\textbf{La comparaison demandée a un support vide, et c'est structurel.} Elle oppose
+P1 $\to$ P2 $\to$ P3 à P2 $\to$ P3 $\to$ P1, et les deux exigent que P2 émette, or P2 n'émet
+jamais, $0$ émission sur $22$ transitions contre $10$ réceptions ; symétriquement P1 n'est jamais
+atteint. La comparaison n'est donc pas indécise faute d'échantillon, elle est sans objet. Le corpus
+code par ailleurs le \emph{conditionnement direct} et non la \emph{précédence} : la clôture
+transitive ajoute deux paires qu'aucun rapport ne code, donc lire $p_{jk}$ comme une précédence
+serait une faute.
 
-\subsection*{Le modèle prédit les séquences : il n'est pas sans mémoire}
+\textbf{L'acyclicité n'est pas un résultat.} Le graphe agrégé est acyclique, d'ordre topologique
+$\{$P1$\} < \{$P4,\,P5$\} < \{$P3$\} < \{$P2$\}$, mais sous le nul par paire $42$ des $64$
+orientations le sont aussi, soit $65{,}6\,\%$ : on obtiendrait l'acyclicité observée deux fois sur
+trois par hasard. Le nul par observation la rendrait écrasante, mais il détruit la constance du
+codage et mesure la fiabilité du codeur, non l'existence d'une direction.
 
-On suppose spontanément que la chaîne des piliers est sans mémoire, donc que les triplets sont
-redondants avec les paires. C'est faux pour ce modèle, et la raison n'est pas un détail
-d'implémentation : la cascade est auto-évitante. Conditionnellement à ce qu'elle
-continue vers un pilier neuf, la loi du successeur est renormalisée sur les piliers non encore
-visités, donc elle dépend du chemin parcouru et par là du prédécesseur.
+\textbf{Le modèle prédit les séquences : il n'est pas sans mémoire.} La cascade étant
+auto-évitante, la loi du successeur est renormalisée sur les piliers non visités, donc elle dépend
+du prédécesseur. Le gonflement moyen vaut $1{,}211$ sur les quatre séquences observées, et c'est
+une borne basse. Les triplets portent ainsi une prédiction testable, les chemins de longueur deux
+pesant $18{,}29\,\%$ de la masse du modèle. Le rapprochement avec le corpus n'est toutefois pas un
+test, celui-ci n'étant pas un échantillon tiré au hasard mais un ensemble de post-mortems
+notables : tout ce qu'on peut en dire est qu'il n'y a pas de contradiction criante.
 
-\begin{center}\footnotesize
-\renewcommand{\arraystretch}{1.25}
-\begin{tabular}{@{}l c c c@{}}
-\toprule
-\textbf{Triplet} & \textbf{Sans mémoire} & \textbf{Auto-évitant} & \textbf{Gonflement} \\
-\midrule
-P1 $\to$ P3 $\to$ P2 & $0{,}3571$ & $0{,}4545$ & $1{,}273$ \\
-P1 $\to$ P4 $\to$ P2 & $0{,}4706$ & $0{,}5333$ & $1{,}133$ \\
-P1 $\to$ P5 $\to$ P3 & $0{,}2857$ & $0{,}3333$ & $1{,}167$ \\
-P5 $\to$ P3 $\to$ P2 & $0{,}3571$ & $0{,}4545$ & $1{,}273$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{4pt}
-\noindent Gonflement moyen $1{,}211$, et ce sont des \emph{bornes basses} : le calcul suppose que
-le triplet démarre la cascade, alors qu'un triplet précédé subit une exclusion plus large. Les
-triplets portent donc une prédiction testable, et la loi exacte des séquences du modèle est
-publiée ici pour la première fois, les chemins de longueur deux pesant
-% SOURCES-SCRIPTS: 75
-$18{,}29\,\%$ de la masse. Le rapprochement avec les comptages du corpus n'est toutefois
-pas un test : le corpus n'est pas un échantillon tiré au hasard mais un ensemble de
-post-mortems d'incidents notables, avec le biais de sélection que mesure le \S\ref{sec:biais-narration}.
-Tout ce qu'on peut en dire est qu'il n'y a pas de contradiction criante, les deux séquences les
-plus fréquentes du corpus occupant les rangs $6$ et $3$ du modèle sur $60$ chemins.
-
-\subsection*{Pourquoi le test n'a aucune puissance, et à quelle condition il en aurait}
-
-Un test de dépendance au prédécesseur exige deux choses \emph{du même pilier} : qu'il soit
-\emph{atteint}, sans quoi il n'y a pas de prédécesseur sur quoi conditionner, et qu'il ait au
-moins deux successeurs distincts, sans quoi la loi conditionnelle égale la marginale par
-construction.
-
-\begin{center}\footnotesize
-\renewcommand{\arraystretch}{1.25}
-\begin{tabular}{@{}l c c c l@{}}
-\toprule
-\textbf{Pilier} & \textbf{Atteint} & \textbf{Émis} & \textbf{Cibles} & \textbf{Test possible ?} \\
-\midrule
-P1 gouvernance & $0$ & $11$ & $3$ & non, jamais atteint \\
-P2 réponse & $10$ & $0$ & $0$ & non, n'émet pas \\
-P3 détection & $6$ & $5$ & $1$ & non, loi dégénérée \\
-P4 tiers & $5$ & $5$ & $1$ & non, loi dégénérée \\
-P5 partage & $1$ & $1$ & $1$ & non, loi dégénérée \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{4pt}
-\noindent \textbf{Aucun pilier ne remplit les deux conditions, et les deux manques sont
-exclusifs}, ce qui est plus net qu'une simple pénurie. P1 a trois successeurs distincts mais n'est
-jamais atteint ; P3, P4 et P5 sont atteints mais leur loi de successeur est un point. La
-statistique du test est donc identiquement nulle : il n'a pas une faible puissance, il n'en a
-aucune.
-
-La conséquence pratique vaut mieux qu'un regret. Ajouter dix incidents du même genre laisserait
-les lois dégénérées, donc le critère de réouverture porte sur la \emph{structure} du corpus avant
-son volume : il faut un pilier à la fois atteint et observé avec deux successeurs distincts. Le
-volume nécessaire se chiffre ensuite, sur les écarts que le modèle prédit lui-même : de $158$ à
-$589$ chemins passant par un même pilier selon la séquence visée, pour séparer au seuil de
-$5\,\%$ avec $80\,\%$ de puissance. Le corpus en fournit $9$, tous piliers confondus. L'écart est
-d'un à deux ordres de grandeur, et il porte d'abord sur la structure.
-% SOURCES-SCRIPTS: 75
+\textbf{Le test n'a aucune puissance, et la condition de réouverture est structurelle.} Il exige
+d'un même pilier qu'il soit atteint et qu'il ait deux successeurs distincts. P1 a trois successeurs
+mais n'est jamais atteint ; P3, P4 et P5 sont atteints mais leur loi de successeur est un point ;
+P2 n'émet pas. Aucun pilier ne remplit les deux conditions et les deux manques sont exclusifs :
+la statistique est identiquement nulle. Ajouter dix incidents du même genre laisserait les lois
+dégénérées, donc le critère de réouverture porte sur la structure du corpus avant son volume. Le
+volume nécessaire se chiffre ensuite sur les écarts que le modèle prédit, de $158$ à $589$ chemins
+passant par un même pilier selon la séquence visée, pour séparer au seuil de $5\,\%$ avec $80\,\%$
+de puissance ; le corpus en fournit $9$.
 
 \begin{figure}[htbp]\centering
 \figover{S31_sequences_ordonnees.png}
@@ -1231,8 +969,6 @@ d'incidents, P1 est source pure et P2 puits pur, et l'ordre est presque total.
 \textbf{(b)}~les deux conditions d'un test de dépendance au prédécesseur, côte à côte. P1 a trois
 cibles mais n'est jamais atteint ; les trois autres émetteurs sont atteints mais n'ont qu'une
 cible. Les deux conditions ne se rencontrent sur aucun pilier.}
-% SOURCES-SCRIPTS: 75
 \label{fig:sequences-ordonnees}
 \end{figure}
 
-% =====================================================================

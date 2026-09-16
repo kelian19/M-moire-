@@ -288,139 +288,79 @@ détection, borné sur l'élasticité.}
 
 \section{Cas d'usage : des adaptations aux KPI pilotables}
 \label{sec:kpi}
+% SOURCES-SCRIPTS: 43 68 82 88
 
-Les adaptations qui précèdent se lisent enfin comme un tableau de bord opérationnel,
-opposable à un souscripteur ou à un superviseur. Chaque KPI observable, de la fréquence
-d'entrée au délai de notification (P2), au délai de confinement (P3) et à la concentration
-tiers (P4), est rattaché à
-un canal du moteur, et l'on mesure le capital en jeu derrière lui : l'écart de SCR
-entre l'état conforme (cible DORA) et l'état non conforme. Sur OpRisk cet écart total vaut
-$14\,139$~M\euro{} ($6\,049\to20\,188$).
+Les adaptations qui précèdent se lisent enfin comme un tableau de bord opérationnel, opposable à
+un souscripteur ou à un superviseur. Chaque KPI observable, de la fréquence d'entrée au délai de
+notification (P2), au délai de confinement (P3) et à la concentration tiers (P4), est rattaché à un
+canal du moteur, et l'on mesure le capital en jeu derrière lui : l'écart de capital entre l'état
+conforme et l'état non conforme, soit $14\,139$~M\euro{} ($6\,049 \to 20\,188$).
 
-\paragraph{Un canal se lit de trois façons, et elles ne sont pas interchangeables.} Mesurer
-\og le capital en jeu derrière un KPI\fg{} n'est pas une opération univoque, et c'est le premier
-résultat de cette section. On peut partir de l'état conforme et n'y dégrader que ce canal
-(lecture \emph{isolée}) ; partir de l'état non conforme et n'y remédier que ce canal (marginal
-de \emph{fermeture}) ; ou moyenner sur les vingt-quatre ordres d'entrée possibles (valeur de
-\emph{Shapley}). Les trois répondent à des questions distinctes et une seule somme à l'écart
-total.
-
-\begin{center}\footnotesize
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}l r r r l@{}}
-\toprule
-\textbf{Canal} & \textbf{isolé} & \textbf{fermeture} & \textbf{Shapley} & \textbf{statut} \\
-\midrule
-Fréquence & $4\,328\pm463$ & $\mathbf{8\,775}\pm1\,004$ & $6\,546\pm457$ & calibrable \\
-Détection P2/P3 & $1\,448\pm277$ & $4\,562\pm819$ & $2\,928\pm343$ & calibrable \\
-Accumulation P4 & $1\,728\pm210$ & $3\,402\pm493$ & $2\,576\pm222$ & borné \\
-Propagation $W$ & $1\,633\pm188$ & $2\,402\pm442$ & $2\,088\pm152$ & borné \\
-\midrule
-\textbf{Somme} & \emph{$9\,138$} & \emph{$19\,141$} & $\mathbf{14\,139}$ & \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{4pt}
-\noindent En M\euro ; la valeur centrale est celle de la chaîne publiée, à quatre graines, et
-l'incertitude est l'écart-type de simulation \emph{par graine} mesuré sur seize.
-% SOURCES-SCRIPTS: 68
-Les deux ne viennent donc pas de la même résolution, et il faut le savoir
-pour lire les rapports : le $\pm$ est l'étendue d'un tirage, non l'incertitude de la moyenne
-affichée, qui vaut environ la moitié. La lecture isolée \emph{manque} $5\,001$~M\euro, soit
-$35\,\%$ de l'écart ; la lecture de fermeture le \emph{dépasse} d'autant. Le rapport entre les
-deux va de $1{,}5$ à $3{,}1$ selon le canal, et son sens est le point utile pour une direction
-des risques : remédier un canal rapporte davantage à une entité défaillante partout qu'à
-une entité déjà conforme, puisque ce canal ferme aussi les effets croisés qu'il portait. Seule
-la seconde lecture correspond à une entité réelle en début de remédiation.
+\paragraph{Un canal se lit de trois façons, et elles ne sont pas interchangeables.} On peut partir
+de l'état conforme et n'y dégrader que ce canal (lecture \emph{isolée}), partir de l'état non
+conforme et n'y remédier que ce canal (marginal de \emph{fermeture}), ou moyenner sur les
+vingt-quatre ordres d'entrée (valeur de \emph{Shapley}). Les trois colonnes sont publiées au
+tableau~\ref{tab:shapley} et une seule somme à l'écart total : la lecture isolée manque
+$5\,001$~M\euro{} et celle de fermeture le dépasse d'autant, le rapport des deux allant de
+$1{,}5$ à $3{,}1$ selon le canal. Le sens de cet écart est le point utile pour une direction des
+risques : remédier un canal rapporte davantage à une entité défaillante partout qu'à une entité
+déjà conforme, puisque ce canal ferme aussi les effets croisés qu'il portait. Seule la lecture de
+fermeture correspond donc à une entité réelle en début de remédiation.
 
 \begin{attention}
-\textbf{Deux des trois sommes de cette table sont en italique, et ce n'est pas une coquetterie
-typographique : elles ne mesurent rien.} La question a été posée en séance, sous la forme d'un
-soupçon de double comptage, la somme des fermetures paraissant proche du double de celle des
-effets isolés. Il n'y a pas de double comptage, et l'argument est une identité plutôt qu'une
-intuition. En notant $m(S)$ les coefficients de Möbius, chaque colonne somme des termes
-différents :
+\textbf{Deux des trois sommes ne mesurent rien, et il ne faut pas les resommer.} La question a été
+posée en séance sous la forme d'un soupçon de double comptage, la somme des fermetures paraissant
+proche du double de celle des effets isolés. Il n'y a pas de double comptage, et c'est une
+identité : en notant $m(S)$ les coefficients de Möbius,
 \[
   \sum_i \text{isolé}(i) = \!\!\sum_{|S|=1}\!\! m(S), \qquad
   \sum_i \text{fermeture}(i) = \sum_S |S|\,m(S), \qquad
   \sum_i \varphi_i = \sum_S m(S) = \Delta .
 \]
-Fermer un canal lui fait porter l'\emph{intégralité} des croisés auxquels il participe ; un
-croisé d'ordre $k$ ayant $k$ participants, il est compté $k$ fois quand on somme la colonne.
-L'identité se vérifie terme à terme :
-% SOURCES-SCRIPTS: 82
-$1\times 9\,138 + 2\times 5\,345 + 3\times(-691) + 4\times 346 = 19\,141$, à la précision
-machine. La somme des fermetures n'est donc ni un capital, ni un écart, ni un budget, et le
-soupçon portait juste : ce qui était fautif n'était pas le calcul mais le fait d'imprimer une
-ligne \og somme\fg{} sous une colonne qui ne s'additionne pas. Elle est conservée ici parce qu'elle
-sert l'\emph{encadrement} ci-dessous, et signalée comme non additive.
-
-\textbf{Ce qui, en revanche, est une propriété} :
-$9\,138 \leq 14\,139 \leq 19\,141$. Les effets isolés minorent l'écart, les fermetures le
-majorent, et l'encadrement vaut dès que la fonction de capital est sur-modulaire, ce que la
-cascade est. Shapley est la seule lecture qui répartisse l'interaction sans la perdre ni la
-dupliquer, mais c'est une \emph{convention} d'attribution et non une prévision : deux des quatre
-canaux sont bornés et non calibrés, de sorte que leur part n'est pas un budget actionnable.
-
-Le défaut de la première colonne n'est d'ailleurs pas propre à ce modèle. C'est celui que
-l'analyse de sensibilité rencontre dès que les entrées cessent d'être indépendantes : les
-indices de Sobol, qui sont des effets isolés, ne somment alors plus au total et perdent leur
-interprétation, tandis que la valeur de Shapley y somme par construction
-\citep{Owen2014, IoossPrieur2019}. Le remède retenu ici est donc le remède usuel, et non un
-arrangement de circonstance. Avec une réserve qu'il faut poser : ces travaux
-décomposent une \emph{variance} de sortie, quand la fonction caractéristique de ce mémoire est
-un \emph{écart de capital}. C'est la même valeur de Shapley appliquée à deux jeux différents,
-et l'argument se transpose, pas le résultat.
+Fermer un canal lui fait porter l'intégralité des croisés auxquels il participe, et un croisé
+d'ordre $k$ est donc compté $k$ fois :
+$1\times 9\,138 + 2\times 5\,345 + 3\times(-691) + 4\times 346 = 19\,141$, à la précision machine.
+Ce qui est en revanche une propriété est l'encadrement $9\,138 \leq 14\,139 \leq 19\,141$, valable
+dès que la fonction de capital est sur-modulaire, ce que la cascade est. Shapley est la seule
+lecture qui répartisse l'interaction sans la perdre ni la dupliquer, mais c'est une
+\emph{convention} d'attribution et non une prévision : deux des quatre canaux sont bornés, de
+sorte que leur part n'est pas un budget actionnable. Le défaut de la colonne isolée est celui que
+l'analyse de sensibilité rencontre dès que les entrées cessent d'être indépendantes, les indices
+de Sobol ne sommant alors plus au total quand la valeur de Shapley y somme par construction
+\citep{Owen2014, IoossPrieur2019} ; ces travaux décomposent toutefois une \emph{variance} quand la
+fonction caractéristique employée ici est un \emph{écart de capital}, donc l'argument se transpose,
+pas le résultat.
 \end{attention}
 
-\paragraph{L'état non conforme est le \emph{coin supérieur} du pavé, et ce n'est pas une évidence
-mais une propriété testée.} Le treillis autorise une question plus utile que l'attribution :
-suffit-il d'évaluer un seul point pour majorer le capital sur toutes les configurations
-intermédiaires ? La réponse est oui, et elle est vérifiée plutôt que supposée. Sur les
-\emph{soixante-cinq} paires emboîtées des seize configurations, relâcher un canal de plus ne
-fait jamais baisser le capital, graine par graine et non seulement en moyenne.
-% SOURCES-SCRIPTS: 88
-Le maximum est donc atteint au coin haut, et un test de résistance sur le
-pavé des quatre canaux se réduit à une seule évaluation. C'est la forme que prend ici le résultat
-de statique comparative monotone du préprint cité au chapitre~\ref{ch:positionnement}
-\citep{ccrn2026}, dont c'est la contribution analytique principale.
+\paragraph{L'état non conforme est le \emph{coin supérieur} du pavé, et c'est une propriété
+testée.} Sur les soixante-cinq paires emboîtées des seize configurations, relâcher un canal de plus
+ne fait jamais baisser le capital, graine par graine et non seulement en moyenne. Le maximum est
+donc atteint au coin haut, et un test de résistance sur le pavé des quatre canaux se réduit à une
+seule évaluation. C'est la forme que prend ici le résultat de statique comparative monotone du
+préprint cité au chapitre~\ref{ch:positionnement} \citep{ccrn2026}.
 
 \begin{attention}
-\textbf{Deux réserves, et la seconde est celle qui commande la lecture du chiffre de tête.}
-
-\emph{La borne vaut au sens du quantile, pas trajectoire par trajectoire.} Le préprint démontre
-son résultat à aléas communs et \emph{pour chaque tirage}, énoncé strictement plus fort. Il ne
-transporte pas en l'état : à uniformes communs, la perte d'une année donnée baisse dans
-$16{,}2\,\%$ des cas quand on relâche la propagation et dans $30{,}7\,\%$ quand on relâche la
-détection. Le motif n'est pas une propriété du modèle mais son échantillonneur, et il diffère
-selon le canal, ce qui n'était pas attendu : pour la propagation, l'ensemble atteint est tiré par
-inversion sur une table dont les sous-ensembles ne sont pas ordonnés par inclusion ; pour la
-détection, qui viole le plus, le taux de dépassement entre dans la \emph{transformation} de
-sévérité et non dans une table, de sorte qu'une sévérité individuelle peut baisser quand la loi
-monte. Obtenir la version trajectorielle demanderait un couplage monotone sur les deux mécanismes,
-donc d'autres tirages et d'autres nombres publiés : c'est une recalibration, le gel l'interdit, et
-le gain serait un renforcement d'énoncé sans déplacement de conclusion.
-
-\emph{Un coin peut être infaisable, et la borne est alors trompeusement large.} C'est la mise en
-garde que les auteurs joignent à leur théorème, et elle vaut ici. Deux des quatre canaux sont
-bornés et non calibrés, la propagation et l'accumulation tiers : leur niveau non conforme
-est une borne posée, pas une valeur observée. Rien ne garantit qu'une entité réelle présente les
-quatre canaux à leur maximum simultanément. La lecture correcte du coin est donc un
-majorant du capital sur le pavé déclaré, non la description d'une entité, et c'est exactement le
-statut que le \S\ref{sec:chiffre-de-tete} donne déjà à l'état non conforme.
+\textbf{Deux réserves, et la seconde commande la lecture du chiffre de tête.} La borne vaut au sens
+du quantile et non trajectoire par trajectoire : à uniformes communs, la perte d'une année donnée
+baisse dans $16{,}2\,\%$ des cas quand on relâche la propagation et dans $30{,}7\,\%$ quand on
+relâche la détection, pour un motif qui diffère selon le canal, la table des sous-ensembles dans le
+premier cas et la transformation de sévérité dans le second. Obtenir la version trajectorielle
+demanderait un couplage monotone, donc d'autres tirages, ce que le gel interdit pour un
+renforcement d'énoncé sans déplacement de conclusion. Et un coin peut être \emph{infaisable} :
+deux des quatre canaux sont des bornes posées et non des valeurs observées, donc rien ne garantit
+qu'une entité présente les quatre canaux à leur maximum simultanément. Le coin est un majorant sur
+un pavé déclaré, non la description d'une entité.
 \end{attention}
 
+% =====================================================================
 \subsection{Le test de résistance inversé}
 \label{sec:inverse}
+% SOURCES-SCRIPTS: 68 84 88 92
 
-La monotonie qui précède autorise la question réciproque, et c'est celle qu'un dispositif ORSA
-pose aussi. Jusqu'ici un état est fixé et un capital est lu ; l'exercice inverse fixe le
-\emph{capital} et cherche les états du monde qui le produisent. Sans monotonie, il faudrait
-balayer tout le pavé. Avec elle, l'ensemble des configurations atteignant une cible est un
-ensemble \emph{croissant}, donc entièrement décrit par ses éléments minimaux, et il n'en
-compte jamais plus de quatre sur les seize. Le théorème du coin supérieur cesse ainsi d'être une
-propriété de confort pour devenir l'instrument de l'exercice.
+La monotonie qui précède autorise la question réciproque, celle qu'un dispositif ORSA pose aussi :
+au lieu de fixer un état et de lire un capital, on fixe le \emph{capital} et l'on cherche les états
+qui le produisent. L'ensemble des configurations atteignant une cible est alors \emph{croissant},
+donc entièrement décrit par ses éléments minimaux, qui ne sont jamais plus de quatre sur seize.
 
 \begin{center}\footnotesize
 \renewcommand{\arraystretch}{1.2}
@@ -438,91 +378,59 @@ $18\,000$ & les quatre canaux & $4$ \\
 \end{center}
 
 \vspace{4pt}
-\noindent \textbf{Deux nombres résument le tableau, et ils sont le résultat de gestion de cette
-sous-section.} Le canal de fréquence \emph{seul} atteint $10\,377$~M\euro, soit $1{,}72$ fois
-l'état conforme, quand les trois autres canaux \emph{réunis} n'atteignent que $11\,413$, soit
-$1{,}89$ fois, et l'ordre de ces deux bornes est du même signe sur les quatre graines. Toute
-cible sous le premier seuil se produit donc par un canal unique ; toute cible au-dessus du second
-\emph{exige} la fréquence, aucune combinaison des trois autres ne l'atteignant. Entre les deux
-elle n'est ni suffisante seule ni nécessaire. Et aucun autre canal, seul et dans sa plage
-déclarée, n'atteint même la cible la plus basse : la détection plafonne à $7\,497$~M\euro, la
-propagation à $7\,682$ et l'accumulation à $7\,777$. Une exposition à un canal unique est donc,
-dans ce modèle, une exposition à la fréquence et à rien d'autre.
+\noindent \textbf{Deux nombres résument le tableau.} Le canal de fréquence seul atteint
+$10\,377$~M\euro, soit $1{,}72$ fois l'état conforme, quand les trois autres canaux réunis
+n'atteignent que $11\,413$, soit $1{,}89$ fois, et l'ordre de ces deux bornes tient sur les quatre
+graines. Toute cible sous le premier seuil se produit donc par un canal unique ; toute cible
+au-dessus du second exige la fréquence. Aucun autre canal seul n'atteint même la cible la plus
+basse, la détection plafonnant à $7\,497$~M\euro, la propagation à $7\,682$ et l'accumulation à
+$7\,777$ : une exposition à un canal unique est, dans ce modèle, une exposition à la fréquence.
 
 \begin{attention}
 \textbf{Le canal d'accumulation n'admet pas d'inversion continue, et son effet isolé est un
-\emph{net}.} À l'état conforme, le pilier des tiers est un n\oe{}ud de cascade ordinaire ; à
-l'état non conforme il devient un choc commun de paramètre $\varphi_{cs}$. Ce ne sont pas les deux
-extrémités d'un continuum mais deux \emph{structures} de table, si bien que $\varphi_{cs}=0$ n'est
-pas l'état conforme et qu'un test inverse ne peut pas demander à ce canal jusqu'où il doit se
-dégrader. La bascule de structure à paramètre nul fait d'ailleurs baisser le capital de
-$239$~M\euro, résolu sur les quatre graines, parce qu'elle retire la propagation propre du pilier
-avant d'ajouter le choc commun. L'effet isolé publié de $1\,728$~M\euro{} est donc le net d'un
-retrait de $239$ et d'un ajout de $1\,967$, et non une addition : une raison de plus de ne jamais
-sommer les quatre canaux.
+\emph{net}.} À l'état conforme, le pilier des tiers est un n\oe{}ud de cascade ordinaire ; à l'état
+non conforme il devient un choc commun. Ce sont deux structures de table et non les extrémités d'un
+continuum, si bien qu'un test inverse ne peut pas demander à ce canal jusqu'où il doit se dégrader.
+La bascule à paramètre nul fait d'ailleurs baisser le capital de $239$~M\euro, résolu sur les
+quatre graines, parce qu'elle retire la propagation propre du pilier avant d'ajouter le choc
+commun : l'effet isolé publié de $1\,728$~M\euro{} est le net d'un retrait de $239$ et d'un ajout
+de $1\,967$, une raison de plus de ne jamais sommer les quatre canaux.
 \end{attention}
 
-\noindent \textbf{Deux réserves, de nature différente.} L'inatteignabilité porte sur un pavé
-\textbf{déclaré} et jamais sur une entité, puisque deux canaux sur quatre sont des bornes posées :
-c'est le garde-fou de l'infaisabilité d'un coin, appliqué dans l'autre sens. Et une configuration
-proche d'une cible n'est pas \emph{classée}, son appartenance à l'ensemble dépendant de la graine ;
-le script les nomme cible par cible. Une frontière non résolue est un résultat, non un défaut :
-elle dit que la cible tombe dans le bruit de simulation d'une configuration. En M\euro.
-% SOURCES-SCRIPTS: 92
+\noindent Deux réserves, de nature différente. L'inatteignabilité porte sur un pavé \emph{déclaré}
+et jamais sur une entité, deux canaux sur quatre étant des bornes posées. Et une configuration
+proche d'une cible n'est pas classée, son appartenance dépendant de la graine : une frontière non
+résolue est un résultat, elle dit que la cible tombe dans le bruit de simulation.
 
 \paragraph{L'interaction n'est plus un résidu : elle se décompose, et elle vit aux paires.} La
-somme des quatre effets isolés laissait $+5\,001$~M\euro{} sans emploi. La décomposition de
-Möbius sur le treillis des seize configurations en rend compte terme par terme : quatre effets
-principaux ($9\,138$~M\euro), six croisés de paires ($5\,345$), quatre de triplets ($-691$) et un
-croisé des quatre ($+346$). La somme des quinze termes vaut $14\,139$~M\euro{} \emph{à la
-précision machine}, ce qui n'est pas une vérification statistique mais une identité : ce qu'elle
-atteste, c'est que la table est complète, aucun euro de l'écart ne vivant hors de ces
-quinze termes. L'interaction est donc un phénomène de paires et non un effet diffus ;
-aucun des cinq termes d'ordre supérieur n'est d'ailleurs résolu individuellement, si bien que
-leur quasi-annulation ne doit pas se lire comme cinq mesures.
+décomposition de Möbius sur le treillis des seize configurations rend compte des $+5\,001$~M\euro{}
+terme par terme : quatre effets principaux ($9\,138$~M\euro), six croisés de paires ($5\,345$),
+quatre de triplets ($-691$) et un croisé des quatre ($+346$), dont la somme vaut $14\,139$ à la
+précision machine. Ce n'est pas une vérification statistique mais une identité : elle atteste que
+la table est complète. Les trois paires porteuses passent toutes par la fréquence et font
+$86\,\%$ de l'ordre~2, fréquence\,$\times$\,détection $1\,739\pm708$,
+fréquence\,$\times$\,accumulation $1\,666\pm354$ et fréquence\,$\times$\,propagation
+$1\,182\pm444$~M\euro. Ces $\pm$ sont des étendues de \emph{simulation} à paramètres fixés, et une
+loi d'échelle le montre : l'écart-type tombe de $1\,785$ à $339$~M\euro{} lorsque le nombre
+d'années simulées passe de $10\,000$ à $160\,000$, soit une pente de $-0{,}60$ contre $-0{,}50$
+attendu pour du Monte-Carlo. Cette largeur s'achète en temps de machine ; celle qui ne s'achète pas
+est dix fois plus grande, le même croisé allant de $429$ à $7\,998$~M\euro{} aux deux bornes de
+l'\textsc{ic}90 de $\hat\xi$. Le classement des deux premières paires n'est pas résolu et n'a pas à
+l'être, elles se tiennent à $73$~M\euro{} et leur ordre s'inverse en perte moyenne.
 
-\paragraph{Une objection à lever avant d'aller plus loin : ce treillis évalue des états
-incohérents.} Sur les seize configurations, quatorze mélangent des canaux conformes et non
-conformes, par exemple une fréquence de conformité avec une propagation de non-conformité.
-Aucune entité réelle ne se trouve dans un tel état, et le mémoire écarte par ailleurs un
-chiffrage concurrent pour cette raison même. La distinction qui lève l'objection est la
-suivante, et elle doit être explicite plutôt que supposée. Ici les états mixtes sont des
-intermédiaires de calcul : ils servent à répartir un total dont les \emph{deux
-extrémités} sont, elles, des états cohérents, et la décomposition de Möbius les fait disparaître
-par construction puisque la somme des quinze termes redonne exactement l'écart entre ces deux
-extrémités. Un chiffrage qui \emph{reporterait} un état mixte comme un scénario ferait tout
-autre chose : il présenterait comme atteignable une situation qui ne l'est pas. La règle qui en
-découle tient en une phrase : un état mixte peut servir à décomposer, jamais à
-reporter.
-
-Les trois paires porteuses passent \emph{toutes} par la fréquence et font $86\,\%$ de l'ordre~2 :
-fréquence\,$\times$\,détection $1\,739\pm708$, fréquence\,$\times$\,accumulation
-$1\,666\pm354$, fréquence\,$\times$\,propagation $1\,182\pm444$~M\euro. Ce que ces
-$\pm$ mesurent doit être dit, sans quoi le rapport de $41\,\%$ du premier se lit comme un aveu de
-fragilité. Ce sont des étendues de \emph{simulation} à paramètres fixés, donc ni un manque de
-données ni une incertitude de paramètre, et une loi d'échelle le montre :
-% SOURCES-SCRIPTS: 84
-l'écart-type tombe de $1\,785$ à $339$~M\euro{} lorsque le nombre d'années simulées passe de
-$10\,000$ à $160\,000$, soit une pente de $-0{,}60$ contre $-0{,}50$ attendu pour du
-Monte-Carlo et $0$ pour une incertitude de donnée. Cette largeur-là s'achète donc en temps de
-machine. L'incertitude qui ne s'achète pas est ailleurs et elle est plus grande : rejoué aux deux
-bornes de l'\textsc{ic}90 de $\hat\xi$, le même croisé va de $429$ à $7\,998$~M\euro, soit
-une plage de $7\,569$, dix fois le bruit de simulation. Le classement des deux
-premières paires n'est pas résolu et n'a pas à l'être : elles se tiennent à $73$~M\euro{} l'une de
-l'autre et leur ordre s'inverse lorsqu'on lit la même décomposition en perte moyenne. Le
-mécanisme, lui, est clair : le choc commun de P4 fait tomber plusieurs piliers sur le
-\emph{même} sinistre, la fréquence multiplie le nombre de sinistres exposés à ce choc, et à
-queue lourde le quantile est porté par un sinistre unique, si bien que multiplier les tirages et
-épaissir chaque tirage ne produit pas deux effets qui s'ajoutent mais un seul effet composé.
+\paragraph{Les états mixtes décomposent, ils ne se reportent pas.} Sur les seize configurations,
+quatorze mélangent des canaux conformes et non conformes, et aucune entité ne se trouve dans un tel
+état. Ce sont ici des intermédiaires de calcul : ils répartissent un total dont les deux extrémités
+sont cohérentes, et la décomposition les fait disparaître par construction. Un chiffrage qui
+\emph{reporterait} un état mixte présenterait comme atteignable une situation qui ne l'est pas.
 
 \paragraph{Une seule paire est négative, et elle borne ce qu'on peut attribuer à la contagion.}
-Propagation\,$\times$\,accumulation vaut $-330\pm242$~M\euro, négative sur les seize graines
-\emph{et} sur les deux métriques. Les deux canaux sont substituts et non compléments :
-la cascade par $W$ et le choc commun de P4 sont deux façons de faire tomber plusieurs piliers sur
-un même sinistre, et le premier actif, il reste moins à gagner au second, un pilier déjà touché
-ne pouvant l'être deux fois. La cascade est donc super-additive prise en bloc mais
-\emph{sous}-additive entre ses deux canaux de co-occurrence : les deux canaux bornés ne
-s'empilent pas, et c'est une limite à l'amplitude qu'on peut imputer à la contagion en général.
+Propagation\,$\times$\,accumulation vaut $-330\pm242$~M\euro, négative sur les seize graines et sur
+les deux métriques. Les deux canaux sont substituts et non compléments : la cascade et le choc
+commun sont deux façons de faire tomber plusieurs piliers sur un même sinistre, et le premier
+actif, il reste moins à gagner au second. La cascade est donc super-additive en bloc mais
+sous-additive entre ses deux canaux de co-occurrence, ce qui borne l'amplitude imputable à la
+contagion prise en général.
 
 \begin{figure}[htbp]\centering
 \figover{S24_interaction_canaux.png}
@@ -530,17 +438,14 @@ s'empilent pas, et c'est une limite à l'amplitude qu'on peut imputer à la cont
 de Möbius somment à l'écart, exactement. (b)~les trois lectures d'un même canal, isolée, Shapley
 et fermeture. (c)~les six croisés de paires avec leur écart-type de simulation ; une seule est
 négative.}
-% SOURCES-SCRIPTS: 68
 \label{fig:interaction-canaux}
 \end{figure}
 
 \begin{cle}
 \textbf{Classer par capital \emph{et} par statut.} Les KPI à fort capital et calibrables
-(fréquence, détection) sont les leviers de remédiation à activer en priorité ; ceux à fort
-capital mais bornés (propagation, accumulation) mesurent surtout une incertitude, à
-résorber par la donnée, c'est-à-dire par le registre DORA, plutôt que par une action directe. C'est l'aval
-du fil du mémoire : la même discipline conforme\,/\,non conforme, bande, identification, cette
-fois déclinée en indicateurs observables (figure~\ref{fig:kpi}).
+(fréquence, détection) sont les leviers de remédiation à activer en priorité ; ceux à fort capital
+mais bornés (propagation, accumulation) mesurent surtout une incertitude, à résorber par la donnée,
+c'est-à-dire par le registre DORA, plutôt que par une action directe (figure~\ref{fig:kpi}).
 \end{cle}
 
 \begin{figure}[htbp]\centering
@@ -548,58 +453,44 @@ fois déclinée en indicateurs observables (figure~\ref{fig:kpi}).
 \caption{Des KPI descriptifs aux KPI pilotables. (a)~l'écart de capital DORA attribué par KPI,
 chaque canal isolé (bleu : calibrable ; gris : borné), avec l'interaction qui referme la
 cascade. (b)~le tableau de bord de remédiation, les KPI classés par capital libéré.}
-% SOURCES-SCRIPTS: 43
 \label{fig:kpi}
 \end{figure}
 
+% =====================================================================
 \subsection{Le retour sur investissement de la conformité}
 \label{sec:roi}
+% SOURCES-SCRIPTS: 50 58 83
 
-Le tableau de bord se lit enfin en euros. Deux mots doivent y être définis avant tout calcul,
-faute de quoi le résultat se lit à l'envers.
+Le tableau de bord se lit enfin en euros, et deux mots doivent y être définis avant tout calcul.
+Le \emph{portage} d'abord : détenir du capital n'est pas gratuit, et sous Solvabilité~II son coût
+de détention se lit dans la marge de risque, un pourcentage par an du capital immobilisé. Au taux
+de $6\,\%$ du règlement délégué, les $14\,139$~M\euro{} que libère la conformité totale valent donc
+$848$~M\euro{} par an, et non une fois, la fréquence en portant à elle seule près de la moitié.
 
-\paragraph{Le portage.} Détenir du capital n'est pas gratuit : sous Solvabilité~II le coût de
-détention se lit dans la \emph{marge de risque}, un pourcentage par an du capital immobilisé.
-Libérer du $\Delta\mathrm{SCR}$ économise donc ce pourcentage chaque année, et non une
-fois. Au taux de $6\,\%$ du règlement délégué, les $14\,139$~M\euro{} que libère la conformité
-totale valent $848$~M\euro/an, et ce capital est concentré : la fréquence à elle seule
-en porte près de la moitié (figure~\ref{fig:roi}).
+\paragraph{Le plancher porte sur le bénéfice, non sur la durée.} Le bénéfice a deux composantes et
+le calcul ci-dessus n'en monétise qu'une : le portage économisé vaut $848$~M\euro/an quand la
+sinistralité évitée en vaut $3\,247$, la charge annuelle moyenne passant de $3\,869$ à
+$622$~M\euro. La composante laissée de côté vaut $3{,}8$ fois celle qui est retenue, donc le
+portage seul minore le bénéfice. Il en résulte que le retour de $6$ à $35$ ans, calculé face à un
+coût de remédiation de $25$ à $150$~M\euro{} par grande entité, soit $5$ à $30$~Md\euro{} pour deux
+cents entités, est un \emph{majorant} : le compte réel est plus court, jamais plus long. Les deux
+composantes réunies donnent $4\,095$~M\euro/an, soit un retour de $1$ à $7$ ans, mais cette
+addition mêle un flux de compte de résultat à un coût du capital : c'est une convention de retour
+sur investissement, non une sortie du modèle, et le chiffre de référence reste le portage seul avec
+le sens de sa borne.
 
-\paragraph{Le plancher, et il porte sur le bénéfice, non sur la durée.} Le bénéfice de la
-conformité a deux composantes et le calcul ci-dessus n'en monétise qu'une. Le portage économisé
-vaut $848$~M\euro/an ; la charge de sinistralité évitée en vaut $3\,247$, la charge annuelle
-moyenne passant de $3\,869$ à $622$~M\euro. La composante laissée de côté est donc $3{,}8$ fois
-celle qui est retenue, de sorte que le portage seul constitue un plancher du
-bénéfice.
-
-\paragraph{D'où le sens de la borne, qui est l'inverse de ce qu'on lit d'abord.} Face à un coût de
-remédiation de $25$ à $150$~M\euro{} par grande entité, soit $5$ à $30$~Md\euro{} pour deux cents
-entités, le retour sur le \emph{seul} portage est de $6$ à $35$ ans. Le bénéfice retenu étant
-minoré, ces durées sont des majorants : le compte réel est plus court, jamais plus long.
-Les deux composantes réunies donnent $4\,095$~M\euro/an, soit un retour de $1$ à $7$ ans, mais
-cette addition mêle un flux de compte de résultat à un coût du capital : c'est une convention de
-retour sur investissement, courante et défendable, et non une sortie du modèle, lequel produit les
-deux termes séparément. Le chiffre de référence reste donc le retour au portage seul, assorti du
-sens de sa borne.
-
-\paragraph{Ce taux n'est pas un critère de décision d'investissement.}
-Le taux employé ici est le coût du capital \emph{réglementaire} au titre de la marge de risque.
-Il rémunère l'immobilisation de fonds propres sous Solvabilité~II ; il n'est ni le coût moyen
-pondéré du capital de l'entité, ni son taux d'exigence sur un projet. Exprimer une durée de
-retour en unités de coût du capital réglementaire est donc une grandeur de comparaison
-prudentielle, non un test d'opportunité : une remédiation dont le retour ainsi mesuré dépasse
-l'horizon d'un plan peut parfaitement se justifier par ailleurs, et l'inverse est vrai aussi. La
-confusion entre les deux est fréquente en pratique et il vaut mieux la fermer ici que la laisser
-au lecteur.
+\paragraph{Ce taux n'est pas un critère de décision d'investissement.} Il rémunère l'immobilisation
+de fonds propres sous Solvabilité~II ; il n'est ni le coût moyen pondéré du capital de l'entité, ni
+son taux d'exigence sur un projet. Une durée de retour exprimée dans cette unité est une grandeur
+de comparaison prudentielle, non un test d'opportunité, et la confusion entre les deux est
+fréquente en pratique.
 
 \paragraph{Une réserve sur le taux, déclarée plutôt que corrigée.} Le taux de $6\,\%$ est celui du
-règlement délégué~2015/35. La directive~(UE)~2025/2 le ramène à $4{,}75\,\%$, et c'est ce taux
-révisé que les calculs d'échelle d'entité emploient. Au taux révisé le portage monétisé tombe à
-$672$~M\euro/an, soit une baisse de $21\,\%$, et le majorant du retour passe de $35$ à $45$ ans. Aucune
-conclusion ne bascule, la durée demeurant un majorant et la composante dominante du bénéfice
-n'étant pas monétisée. La chaîne publiée reste au taux historique, la calibration étant gelée :
-la rejouer pour un écart qui ne renverse rien déplacerait des dizaines de nombres publiés sans
-qu'aucun déplacement soit imputable à la correction.
+règlement délégué~2015/35 ; la directive~(UE)~2025/2 le ramène à $4{,}75\,\%$, taux qu'emploient
+les calculs d'échelle d'entité. Le portage monétisé tombe alors à $672$~M\euro/an, soit une baisse
+de $21\,\%$, et le majorant du retour passe de $35$ à $45$ ans. Aucune conclusion ne bascule, la
+durée demeurant un majorant et la composante dominante du bénéfice n'étant pas monétisée ; la
+chaîne publiée reste au taux historique, la calibration étant gelée.
 
 \begin{figure}[htbp]\centering
 \figover{J6_roi_conformite.png}
@@ -607,19 +498,17 @@ qu'aucun déplacement soit imputable à la correction.
 annuelle à $6\,\%$ (bleu : calibrable, gris : borné). (b)~coût de remédiation \emph{one-off}
 contre économie \emph{récurrente} de portage du capital ; le retour sur le portage seul est de
 $6$ à $35$ ans, et c'est un majorant, la perte évitée n'étant pas monétisée ici.}
-% SOURCES-SCRIPTS: 50 67
 \label{fig:roi}
 \end{figure}
 
 \begin{cle}
-\textbf{La conformité comme levier de capital.} Le bénéfice (le capital libéré) est issu du
-modèle ; le coût est externe et incertain, affiché comme tel. Mais la conclusion tient : la
-conformité n'est pas un pur coût, c'est un levier de capital, à prioriser par capital
-libéré : les leviers \emph{calibrables} (fréquence, détection) d'abord. On passe ainsi du
-score de criticité abstrait à un arbitrage économique chiffré, opposable à une direction
-financière.
+\textbf{La conformité comme levier de capital.} Le bénéfice, le capital libéré, est issu du modèle ;
+le coût est externe et incertain, affiché comme tel. La conclusion tient : la conformité n'est pas
+un pur coût mais un levier de capital, à prioriser par capital libéré, les leviers calibrables
+d'abord.
 \end{cle}
 
+% =====================================================================
 \section{Ce qui reste en perspective : P1 et P5}
 \label{sec:perspectives-pilier}
 

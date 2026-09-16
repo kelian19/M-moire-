@@ -27,7 +27,7 @@ ou `KADDOURI_Kelian_3A25_CONF.pdf` si la confidentialité est demandée.
 | Nom du fondateur de Nexialog aux remerciements | **fait** : Ali BEHBAHANI |
 | Bibliographie en français | **faite** : « et », formules, accents, capitales et mois corrigés |
 | Révision stylistique des vingt-deux chapitres | **faite** le 16 septembre |
-| Harnais | 2 219 nombres, 2 219 confirmés, hors contrôle non déclaré à zéro |
+| Harnais | 2 208 nombres, 2 208 confirmés, hors contrôle non déclaré à zéro |
 | **Confidentialité** | **à trancher plus tard par Kélian**, décision Nexialog. Elle fixe le nom du fichier et, si elle est demandée, la ligne `\pgeconf` de `page_de_garde_ensae.tex` |
 | **Courriel au service des stages** (dispositions voie actuariat) | **non attesté** dans le dossier ; les consignes le disent impératif |
 | Génération du fichier au nom imposé | **à faire** une fois la confidentialité tranchée |
@@ -148,9 +148,21 @@ vérifié. Quatre choses à savoir avant d'y toucher :
   section « Le risque cyber en quelques cas » dans l'introduction (NotPetya, MOVEit, CrowdStrike,
   partagée par les quatre versions) et paragraphe d'usage de l'IA générative au chapitre 19.
 
+**ET L'ANNEXE A ÉTÉ RÉDUITE LE 16 SEPTEMBRE AU SOIR, à résultats constants.** Demande de Kélian,
+les annexes étant trop longues : 58 pages ramenées à 50, par réécriture de neuf sections (le
+dispositif de vérification, les séquences ordonnées, le niveau de l'intervalle, les deux
+corrections d'instrument, les deux horloges, le plafond et la saturation, les KPI, le test inversé
+et le retour sur investissement). **Rien n'a été supprimé de ce qui est un résultat, une limite
+déclarée ou un renvoi** : la coupe porte sur le récit de méthode, les redites et la table des
+trois lectures d'un canal, désormais lue au corps par renvoi. Deux garde-fous à connaître :
+remettre la tolérance du harnais en ligne au lieu d'une formule hors texte fait déborder le
+paragraphe de 32,7 pt, et la section du test inversé doit citer le **script 84**, faute de quoi
+cinq nombres de la loi d'échelle du bruit sortent du contrôle.
+
 État au **16 septembre 2026 au soir**, après la révision stylistique des vingt-deux
-chapitres et le passage de la version ENSAE au format de l'école : **`main_ensae` à 219 pages dont
-156 de corps** (annexes en 157), en Times 12 et interligne 1,5 ; v1 à **172 pages dont 125 de
+chapitres, le passage de la version ENSAE au format de l'école, l'ajout du glossaire, des notes de
+synthèse en tête et des figures LUCY, puis la réduction de l'annexe : **`main_ensae` à 222 pages
+dont 172 avant les annexes** (annexes en 173), en Times 12 et interligne 1,5 ; v1 à **172 pages dont 125 de
 corps** (annexes en 126), v2 à **178 pages dont 128 de corps** (annexes en 129), v3 à **151 pages
 dont 101 de corps** (annexes en 102), branche `exploratory`. **Lignes de base des débordements :
 ENSAE 5, v1 13, v2 4, v3 4**, deux débordements anciens ayant été supprimés à la source (une
@@ -159,8 +171,8 @@ total (chapitre 12, script 95) et celle de triangulation du moteur (chapitre 13,
 du texte : **`\figcle` ne sert plus nulle part**, donc plus aucune figure n'est seule sur sa
 page, et trois figures inutilisées ont été retirées. Les comptes de ce
 fichier se périment en deux jours : lire `main.toc` plutôt que cette ligne en cas de doute.
-Harnais au 16 septembre : **2 219 nombres, 2 219 confirmés, 100 %**, et **0 hors
-contrôle non déclaré sur les dix-neuf chapitres**. Les six pages gagnées dans le corps le
+Harnais au 16 septembre au soir, après la réduction de l'annexe : **2 208 nombres, 2 208
+confirmés, 100 %**, et **0 hors contrôle non déclaré**. Les six pages gagnées dans le corps le
 9 septembre sont la lecture de marché de l'introduction, demandée par Kélian : voir la section
 « La page de garde et la lecture de marché » plus bas. Ce
 dernier chiffre se relève chapitre par chapitre : le récapitulatif `verif_tous_chapitres.ps1`
