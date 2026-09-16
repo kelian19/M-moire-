@@ -133,6 +133,27 @@ Poisson composé retenu ici ; \citet{FarkasLopezThomas2021} tarifent par arbres 
 GPD. Le mémoire en retient la théorie des valeurs extrêmes (indice de queue $\xi$) et la
 structure de paquet.
 
+\textbf{Un mémoire d'actuariat sur les mêmes sources.} \citet{Ranguin2024} modélise le risque
+cyber des entreprises françaises pour la Caisse Centrale de Réassurance, à partir de bases
+d'incidents proches de celles du présent travail (PRC, VCDB, Hackmageddon) et de l'étude LUCY :
+sévérité construite à partir du volume de données compromises par arbres de régression GPD, dans
+la lignée de \citet{FarkasLopezThomas2021}, sinistralité annuelle simulée sur un portefeuille
+fictif d'entreprises françaises, attritionnels compris, puis reparamétrage des lois sur les
+observations du marché français dans un cadre bayésien. Ce travail décrit la sinistralité d'un
+portefeuille assuré et ne produit pas de mesure de capital à un quantile réglementaire. Le
+présent mémoire porte sur un autre objet, le besoin de capital d'une entité financière selon son
+état de conformité, et il s'en distingue sur deux choix : la sévérité est calibrée sur une base de
+pertes opérationnelles exprimées en montants, et la dépendance entre domaines de contrôle est
+modélisée en plus des lois marginales des sinistres.
+
+\textbf{La sévérité lue dans le texte des incidents.} Sur la base PRC, dont provient la source de
+sévérité alternative du présent travail, \citet{KherLopezRapior2023} estiment la gravité d'un
+incident à partir de sa seule description textuelle par réseaux de neurones, et
+\citet{Dountio2026} prolonge cette démarche par des architectures séquentielles, des règles
+expertes et un enrichissement de la classe rare par des rapports synthétiques. Ces travaux
+classent la sévérité d'un incident, mesurée en volume de dossiers compromis ; le présent mémoire
+n'en reprend pas l'objet et porte sur la charge de capital annuelle.
+
 \textbf{Cadre structurel.} Le squelette quantitatif emprunte au modèle à facteur de
 \citet{Vasicek2002} (risque de crédit) l'idée d'un stress latent à composante systémique, et
 à l'analyse entrées-sorties de \citet{Leontief1936} la normalisation qui garantit la
