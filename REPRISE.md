@@ -679,6 +679,17 @@ Contrôles : harnais sans nombre hors contrôle non déclaré sur les trois chap
 aux lignes de base (5, 13, 4, 4), 0 vbox, 0 « ?? », `main_ensae` à 223 pages, pages relues à
 l'œil, `KADDOURI_Kelian_3A25.pdf` régénéré et identique au dernier `main_ensae.pdf`.
 
+### Deux comptes du corpus de post-mortems rendus lisibles
+
+**Il n'y avait pas d'erreur, mais une ambiguïté.** Le chapitre 09 porte deux corpus : l'initial
+(script 53, sept rapports, dix-sept transitions, z = +3,93), qui trace la figure 8.3, et l'étendu
+(script 59, dix rapports, vingt-deux transitions, z = +5,12), que cite la note de synthèse. La
+légende de la figure citait le premier sans le nommer, et le tableau « La frontière, en trois
+niveaux » ne retenait que lui alors que le signal se renforce sur le second. La légende nomme
+désormais le corpus initial et renvoie à l'étendu, et le tableau donne les deux (section rattachée
+au script 59 en plus de 55 et 64). Chapitre 09 à 180 nombres sur 180, quatre versions aux lignes de
+base, fichier déposé régénéré.
+
 ## 16 septembre 2026
 
 ### Le soir, tard : le mémoire prêt au dépôt, et ce qui a changé depuis l'audit ENSAE
