@@ -60,7 +60,7 @@ confirmées par Kélian.
 
 | Document | Total | Avant annexes | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **222 pages** | **annexes au folio 172** | **5, ligne de base** | 2 208 sur 2 208 |
+| **`main_ensae.pdf`, le mémoire déposé** | **223 pages** | **annexes au folio 172** | **5, ligne de base** | 2 208 sur 2 208 |
 | `main.pdf`, version 1 | 172 pages | annexes au folio 131 | 13, ligne de base | mêmes chapitres |
 | `main_v2.pdf`, version 2 | 177 pages | annexes au folio 133 | 4, ligne de base | mêmes chapitres |
 | `main_v3.pdf`, version courte | 150 pages | annexes au folio 106 | 4, ligne de base | mêmes chapitres |
@@ -478,7 +478,10 @@ soit presque la page entière.
 
 ### Kélian, et cela ne peut pas être fait à sa place
 
-- **La seconde réponse au formulaire de relecture est RETROUVÉE le 17 septembre et NON intégrée.**
+- **La seconde réponse au formulaire de relecture est RETROUVÉE et INTÉGRÉE le 17 septembre**
+  (chapitre 09, annexe `sec:relecture-praticien`, chapitre 19), fichier déposé régénéré. **Reste la
+  réponse de Hugo Rapior**, annoncée : la citer à part comme regard de l'encadrant, et vérifier qu'il
+  remplit le formulaire le plus récent (phrases 8 à 10).
   Elle date du 10 septembre à 9 h 35 et vit dans la feuille créée le 3 août à 9 h 07
   (`1yltQ8ghx02xNsyRMjQEz5gO2tan7ZylPA6W7oa84aek`), le répondant ayant reçu un ancien lien.
   C'est la réponse de **Mehdi Cherkaoui** (jeudi 10 septembre), attribution confirmée par Kélian ; la ligne
@@ -642,6 +645,39 @@ Chacun a coûté du temps au moins une fois.
 ---
 
 # Journal
+
+## 17 septembre 2026
+
+### La seconde réponse de relecture, retrouvée et intégrée
+
+**Hugo Rapior a validé la reproduction des trois figures LUCY** : le point est clos, le script 97
+reste un repli sans usage prévu.
+
+**La réponse de Mehdi Cherkaoui, du jeudi 10 septembre, vivait dans la feuille créée le 3 août**,
+et non dans celle du formulaire en diffusion : il avait reçu un ancien lien. Le connecteur Google
+Drive, reconnecté, a permis de lire les **douze** feuilles homonymes, dont la date de modification ne
+suit pas les réponses. Trois lignes en tout : la première répondante (8 septembre), un test de
+Kélian (9 septembre, champs « xw ») et Mehdi. Nathanaël n'a pas répondu.
+
+**Ce qu'elle apporte.** Sur la phrase qui oppose la contagion à la cause commune, Mehdi avance de
+lui-même l'explication concurrente (manque de ressources, transformation mal pilotée, architecture
+vieillissante) et parle de dépendances plutôt que de causalité : c'est la corroboration la plus
+nette de la frontière d'identifiabilité. Il **conteste deux phrases**, la gouvernance source pure et
+la gestion des incidents puits, en décrivant des boucles de rétroaction. Lecture écrite au mémoire :
+la plupart de ses exemples sont une rétroaction corrective, qui relève des états de conformité et non
+de la propagation de pertes ; un seul est une dégradation en retour, de la gestion des incidents vers
+le partage d'information ; et le capital publié n'est pas déplacé, l'ensemble admissible ne fixant
+aucune direction. Il conditionne les indicateurs et le registre à des règles de qualification, et
+signale la gestion des changements et des vulnérabilités comme déclencheurs transversaux absents du
+modèle.
+
+**Où c'est écrit** : encadré du chapitre 09, section `sec:relecture-praticien` de l'annexe E (cinq
+paragraphes nouveaux et un statut réécrit), paragraphe du chapitre 19. Répondant non nommé, comptes
+en lettres, aucune recalibration.
+
+Contrôles : harnais sans nombre hors contrôle non déclaré sur les trois chapitres, quatre versions
+aux lignes de base (5, 13, 4, 4), 0 vbox, 0 « ?? », `main_ensae` à 223 pages, pages relues à
+l'œil, `KADDOURI_Kelian_3A25.pdf` régénéré et identique au dernier `main_ensae.pdf`.
 
 ## 16 septembre 2026
 
