@@ -547,9 +547,7 @@ propagation sur des sources prudentielles, et l'élicitation.
 2. **les six figures encore sous 6,5 pt effectifs**, listées au journal du 15 septembre. Elles
    sont toutes rejouables ici depuis que `data/raw` est sur le poste ; la réserve sur
    `M_faisabilite` n'a plus d'objet, la chronologie PRC y est en `.csv` et la figure a de toute
-   façon été supprimée le 15. **Et il reste un point à moitié** : le titre général de `S17` n'a
-   pas été retiré alors que ceux de Z6 et S16 l'ont été dans le même lot, l'arrêt ayant été
-   demandé entre les deux ;
+   façon été supprimée le 15 ;
 3. ~~**purger le `\textbf{}` à l'intérieur des phrases**~~ : **FAIT le 16 septembre**, avec
    la révision stylistique. Quarante-quatre passages en italique, trente-six dégraissés,
    plus huit `\mathbf` sur des nombres ; le gras ne sert plus qu'aux têtes et aux tableaux ;
@@ -804,8 +802,13 @@ l'Institut met en ligne. Et deux figures portaient encore un renvoi de script da
 son propre titre pour ce motif, la légende était restée en arrière ; elle renvoie désormais à la
 légende de la figure, qui ne peut pas se périmer avec la palette.
 
-**Reste S17**, dont le titre général n'a pas été retiré : Kélian a demandé d'arrêter les figures
-pour passer à l'analyse de l'ancien mémoire. C'est le seul point resté à moitié.
+**S17 a été annoncée à tort comme restée à moitié.** Son titre général était en fait retiré
+dans le même commit que ceux de Z6 et S16 (`fba5bd7`), ce qu'un contrôle du fichier versionné
+aurait montré avant de l'écrire. La figure gardait en revanche les défauts qu'avait S10 avant sa
+reprise, et ils sont corrigés le même jour : texte entièrement désaccentué alors que la légende
+LaTeX est accentuée, nom de variable `Delta_DORA` sur un axe, étiquettes d'abscisse illisibles
+dans deux panneaux (« gamma = 0.50gamma = 0.68 »), valeurs coupées par le cadre, et une légende
+qui traversait les barres. Sortie du script inchangée, 5,4 cm imprimés.
 
 ### `96` : le moteur d'agrégation cesse d'être le seul étage non contrôlé
 

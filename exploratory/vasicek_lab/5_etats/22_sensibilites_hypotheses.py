@@ -188,12 +188,16 @@ vals = [res_jacobs[k][5]["NC"] - res_jacobs[k][5]["C"] for k in labs]
 cols = [BLUE, GREY, ACCENT]
 axA.bar(range(3), vals, color=cols, alpha=0.9)
 for i, v in enumerate(vals):
-    axA.annotate(f"{v:.0f} M", (i, v), textcoords="offset points", xytext=(0, 4),
-                 ha="center", fontsize=8.5, color=INK2)
+    axA.annotate(f"{v:,.0f}".replace(",", " "), (i, v), textcoords="offset points",
+                 xytext=(0, 4), ha="center", fontsize=8.5, color=INK2)
+axA.set_ylim(0, max(vals) * 1.16)
 axA.set_xticks(range(3))
-axA.set_xticklabels([f"b = {axes_b[k]:.3f}" for k in labs], fontsize=8.5)
-axA.set_ylabel("Delta_DORA NC vs C (M€, PRC)", fontsize=9.3, color=INK2)
-axA.set_title("(A)  Coefficient b de Jacobs (+-1,645 SE,\npivote au centroide)",
+# Le prefixe << b = >> repete sur chaque barre faisait se chevaucher les trois etiquettes : la
+# variable passe dans le libelle d'axe, les graduations ne portent plus que la valeur.
+axA.set_xticklabels([f"{axes_b[k]:.3f}".replace(".", ",") for k in labs], fontsize=8.5)
+axA.set_xlabel("coefficient $b$ (borne basse, centrale, haute)", fontsize=8.8, color=INK2)
+axA.set_ylabel(r"$\Delta_{\mathrm{DORA}}$ NC contre C (M€, PRC)", fontsize=9.3, color=INK2)
+axA.set_title("(A)  Coefficient $b$ de Jacobs (± 1,645 écart-type,\npivoté au centroïde)",
               fontsize=9.6, color=INK, pad=6)
 axA.grid(alpha=0.25, lw=0.5, axis="y")
 
@@ -205,13 +209,14 @@ axB2 = axB.twinx()
 axB.bar([i - 0.19 for i in range(3)], pnc, 0.38, color=BLUE, alpha=0.85,
         label="P(NC | crise)")
 axB2.bar([i + 0.19 for i in range(3)], esps, 0.38, color=ACCENT, alpha=0.85,
-         label="SCR espere en crise")
+         label="SCR espéré en crise")
 axB.set_xticks(range(3))
-axB.set_xticklabels([f"gamma = {g:.2f}" for g in gammas], fontsize=8.5)
+axB.set_xticklabels([f"{g:.2f}".replace(".", ",") for g in gammas], fontsize=8.5)
+axB.set_xlabel(r"charge systémique $\gamma$", fontsize=8.8, color=INK2)
 axB.set_ylabel("P(NC | crise)", fontsize=9.3, color=BLUE)
-axB2.set_ylabel("SCR espere crise (M€)", fontsize=9.3, color=ACCENT)
+axB2.set_ylabel("SCR espéré en crise (M€)", fontsize=9.3, color=ACCENT)
 axB.set_ylim(0, 1.15)
-axB.set_title("(B)  gamma : la severite de la bascule\n(SCR espere normal invariant)",
+axB.set_title("(B)  $\\gamma$ : la sévérité de la bascule\n(SCR espéré en régime normal invariant)",
               fontsize=9.6, color=INK, pad=6)
 axB.grid(alpha=0.25, lw=0.5, axis="y")
 
@@ -221,14 +226,16 @@ vn = [res_anc[k][0] for k in labs_c]
 axC.bar(range(3), vn, color=[GREEN, GREY, ACCENT], alpha=0.9)
 axC.axhline(scr_o["C"], color=BLUE, lw=1.4, ls="--", label="SCR conforme (cible)")
 for i, v in enumerate(vn):
-    axC.annotate(f"{v:.0f} M", (i, v), textcoords="offset points", xytext=(0, 4),
-                 ha="center", fontsize=8.5, color=INK2)
+    axC.annotate(f"{v:,.0f}".replace(",", " "), (i, v), textcoords="offset points",
+                 xytext=(0, 4), ha="center", fontsize=8.5, color=INK2)
+axC.set_ylim(0, max(vn) * 1.32)
 axC.set_xticks(range(3))
 axC.set_xticklabels(["25/40/35", "35/35/30", "45/35/20"], fontsize=8.5)
-axC.set_ylabel("SCR espere normal (M€, OpRisk)", fontsize=9.3, color=INK2)
-axC.set_title("(C)  Ancrage NC/PC/C : le melange bouge,\nle SCR par etat jamais",
+axC.set_xlabel("parts NC / PC / C (%)", fontsize=8.8, color=INK2)
+axC.set_ylabel("SCR espéré, régime normal (M€, OpRisk)", fontsize=9.3, color=INK2)
+axC.set_title("(C)  Ancrage NC/PC/C : le mélange bouge,\nle SCR par état jamais",
               fontsize=9.6, color=INK, pad=6)
-axC.legend(fontsize=8.0, frameon=False, loc="lower right")
+axC.legend(fontsize=8.0, frameon=False, loc="upper left")
 axC.grid(alpha=0.25, lw=0.5, axis="y")
 
 fig.tight_layout(w_pad=1.8)
