@@ -668,6 +668,27 @@ Chacun a coûté du temps au moins une fois.
 
 ## 16 septembre 2026
 
+### Le soir, en dernier : fondateur, « et », et ce qui reste avant le dépôt
+
+**Le nom du fondateur est renseigné** : les remerciements impriment « Ali BEHBAHANI » et non plus
+« Ali [NOM À COMPLÉTER] ». **La bibliographie passe en français** par un style local,
+`plainnat-fr.bst`, copie de `plainnat` qui ne diffère que par la conjonction entre auteurs et par
+l'absence de virgule anglaise avant elle : « Hillairet et Lopez », « David Pym et Julian
+Williams ». Les quatre fichiers maîtres l'appellent. Les « and » restants sont dans des titres
+anglais de revues et dans une catégorie bâloise, et doivent rester.
+
+**La confidentialité est laissée à plus tard**, décision de Kélian : elle appartient à Nexialog
+et fixe le nom du fichier déposé. **Un défaut relevé et non traité** : plusieurs entrées de
+`references.bib` s'impriment sans accents, et « Technical report » reste en anglais.
+
+**`CLAUDE.md` porte désormais en tête un bloc « À lire d'abord »** avec l'état de dépôt, le
+registre d'écriture fixé par la révision et le style bibliographique, et ses chemins du PC ont
+été corrigés : l'ancien en-tête présentait encore comme livrable ENSAE le rapport de trente
+pages, qui ne part plus.
+
+Contrôles : quatre versions recompilées, débordements à leurs lignes de base (5, 13, 4, 4),
+0 vbox, 0 annotation hors page, 0 « ?? ».
+
 ### Le soir : la version ENSAE passe au format de l'école
 
 **CE QUI A CHANGÉ DANS LA CONSIGNE.** Courriel de Fallou : la limite de trente pages ne vaut pas
@@ -699,10 +720,10 @@ compte du décalage d'une page entre les folios du sommaire et les pages du PDF.
 2 219 nombres confirmés. 0 vbox, 0 annotation hors page, 0 « ?? » dans les quatre PDF. Couverture,
 page de texte courant, page à tableau et page de l'équation corrigée rendues et relues.
 
-**Ce qui reste avant le dépôt, et qui appartient à Kélian** : le nom du fondateur de Nexialog,
-imprimé « Ali [NOM À COMPLÉTER] » page 3 ; la décision de confidentialité de Nexialog, qui fixe le
-nom du fichier (`KADDOURI_Kelian_3A25.pdf` ou `_CONF`) ; et le style de la bibliographie, qui
-imprime « and » entre deux auteurs dans un texte français.
+**Ce qui reste avant le dépôt, et qui appartient à Kélian** : la décision de confidentialité de
+Nexialog, qui fixe le nom du fichier (`KADDOURI_Kelian_3A25.pdf` ou `_CONF`), et le courriel au
+service des stages. Le nom du fondateur et le « et » de la bibliographie ont été traités le même
+soir, voir l'entrée ci-dessus.
 
 Kélian a déposé les deux fichiers de `data/raw` sur le PC, ce qui débloque seize scripts d'un
 coup, et la journée s'est terminée sur un axe de validation que le mémoire annonçait sans

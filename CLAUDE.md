@@ -2,6 +2,69 @@
 
 Document de passation. À lire en entier avant de toucher quoi que ce soit.
 
+## À LIRE D'ABORD : l'état de dépôt au 16 septembre 2026 au soir
+
+Ce bloc prévaut sur tout ce qui suit quand ils divergent : plusieurs sections plus bas décrivent
+un état antérieur et sont conservées pour leur valeur historique.
+
+**LE DOCUMENT DÉPOSÉ À L'ENSAE EST `main_ensae.tex`, décision de Kélian le 15 septembre.** Ce
+n'est plus `exploratory/rapport_ensae/rapport_ensae.tex`, le rapport distinct d'environ trente
+pages décrit plus bas, qui reste au dépôt mais ne part pas. Tout ajustement demandé pour le dépôt
+se fait donc sur `main_ensae`. Il appelle les mêmes chapitres que les trois autres fichiers
+maîtres (`main`, `main_v2`, `main_v3`), plus la couverture ENSAE, les remerciements, le chapitre
+d'enseignements du stage (`19_enseignements_stage.tex`, appelé par lui seul) et les deux notes de
+synthèse.
+
+**SES CONSIGNES, TELLES QUE L'ÉCOLE LES A PRÉCISÉES LE 16 SEPTEMBRE** (courriel de Fallou) : **pas
+de limite de trente pages**, le mémoire ENSAE étant « une version à peu près définitive du mémoire
+Institut des actuaires » ; mais **Times New Roman 12 et interligne 1,5**, obtenus par
+l'interrupteur `\formatensae` décrit plus bas. Nom du fichier déposé : `KADDOURI_Kelian_3A25.pdf`,
+ou `KADDOURI_Kelian_3A25_CONF.pdf` si la confidentialité est demandée.
+
+| Point de dépôt | État |
+|---|---|
+| Format Times 12, interligne 1,5 | **fait** le 16 septembre |
+| Nom du fondateur de Nexialog aux remerciements | **fait** : Ali BEHBAHANI |
+| Bibliographie en français (« et » entre auteurs) | **fait** : style local `plainnat-fr.bst` |
+| Révision stylistique des vingt-deux chapitres | **faite** le 16 septembre |
+| Harnais | 2 219 nombres, 2 219 confirmés, hors contrôle non déclaré à zéro |
+| **Confidentialité** | **à trancher plus tard par Kélian**, décision Nexialog. Elle fixe le nom du fichier et, si elle est demandée, la ligne `\pgeconf` de `page_de_garde_ensae.tex` |
+| **Courriel au service des stages** (dispositions voie actuariat) | **non attesté** dans le dossier ; les consignes le disent impératif |
+| Génération du fichier au nom imposé | **à faire** une fois la confidentialité tranchée |
+
+**UN DÉFAUT RELEVÉ ET NON TRAITÉ, À SIGNALER À KÉLIAN AVANT LE DÉPÔT.** Plusieurs entrées de
+`references.bib` s'impriment sans accents (« Autorites europeennes de surveillance », « lies »,
+« etablissements », « designes », « pourcent ») et la mention de type « Technical report » reste
+en anglais. C'est dans les données de la bibliographie, pas dans le style.
+
+**LE REGISTRE D'ÉCRITURE EST FIXÉ, ET UNE RÉVISION ENTIÈRE L'A APPLIQUÉ LE 16 SEPTEMBRE.** Toute
+rédaction nouvelle doit s'y tenir, sans quoi le document se désaligne à nouveau :
+
+- **voix impersonnelle** partout, jamais « nous » ni « je », à une exception près :
+  `19_enseignements_stage.tex`, que seul `main_ensae` appelle et où le barème de l'école exige le
+  recul personnel ;
+- **le gras ne sert qu'aux têtes de paragraphe, aux étiquettes de liste et aux tableaux.** Dans une
+  phrase : un terme d'un ou deux mots passe en italique, une clause perd toute mise en relief, un
+  nombre n'est jamais en gras (`\mathbf` compris). Attention au comptage : un `\textbf` qui ouvre
+  une **ligne du source** n'ouvre pas pour autant un paragraphe ; c'est ce qui avait fait annoncer
+  cinq gras en pleine prose quand il y en avait quatre-vingt-quatre ;
+- **aucune annonce de plan** (« cette section présente », « mérite d'être relevé »), aucun
+  intensificateur sans mesure (« majeur », « considérable », « précision inédite »), aucune
+  conclusion artificielle de sous-section ;
+- **TIC**, jamais ICT ; **« besoin de capital »** dans le corps, « SCR » restant au titre ;
+- **aucune affirmation sur le futur registre DORA qui dépasse ce qu'il couvrira** : il notifiera
+  les incidents *majeurs*, donc au-dessus d'un seuil de matérialité, et ne sera pas exhaustif ;
+- **la matrice de contagion est « posée à dire d'expert, puis bornée »**, jamais « élicitée » :
+  l'annexe du protocole de Cooke dit l'élicitation préparée et non exécutée.
+
+**ET LA BIBLIOGRAPHIE PASSE PAR `plainnat-fr.bst`, UNE COPIE LOCALE.** Elle ne diffère de
+`plainnat` que par la conjonction entre auteurs, « et » au lieu de « and », et par l'absence de la
+virgule anglaise qui la précédait (« A, B et C »). Les quatre fichiers maîtres l'appellent. Les
+« and » qui subsistent dans le PDF sont dans des **titres anglais de revues** (*Insurance:
+Mathematics and Economics*…) et dans la catégorie bâloise *Business Disruption and System
+Failures* : ils doivent rester. Supprimer les `.bbl` avant de recompiler après toute modification
+du style, sans quoi l'ancien rendu est repris.
+
 ## Le projet
 
 Mémoire d'actuariat de Kélian Kaddouri (ENSAE / Nexialog Consulting) :
@@ -216,6 +279,14 @@ si une sortie versionnée dérive. **La tolérance de ce contrôle ne porte pas 
 le demi-pas se prend sur la dernière décimale écrite, sans quoi 0,5954 se confirme par 0,62. C'est
 le défaut déjà corrigé dans le harnais en août, reproduit puis retrouvé par un test.
 
+**MIS À JOUR LE 16 SEPTEMBRE 2026 : `data/raw` du PC porte désormais
+`SAS_OpRisk_Global_Data_June_2026.xlsx` et la chronologie PRC au format `.csv`, et les scripts qui
+la lisent (21, 22, 35, 62) passent par `chemin_prc()` de `src/severity/prc_analysis.py`, qui prend
+le format présent, `.xlsx` d'abord.** La parité a été **prouvée** et non supposée : le `.csv` donne
+exactement les 15 053 incidents des sorties versionnées, et les quatre scripts les reproduisent
+ligne pour ligne. Le bootstrap du 35 trie désormais avant de tirer, faute de quoi deux exports
+rangés autrement donnaient deux intervalles. Le paragraphe qui suit décrit l'état antérieur.
+
 **Et les deux postes ne portent pas le même format de la chronologie PRC, ce qui rend deux
 scripts complémentaires et non redondants.** Le PC a `Data_Breach_Chronology.xlsx` et pas le
 `.csv` ; le Mac a le `.csv` et pas le `.xlsx`. Donc **le script 35 ne tourne que sur le PC** et
@@ -237,10 +308,13 @@ la parité a été vérifiée le 6 août 2026 (voir plus bas).
 
 ```powershell
 # Python
-$py = "C:\Users\KélianKADDOURI\Projects\M-moire-\.venv\Scripts\python.exe"
+$py = "C:\Users\kelia\M-moire-\.venv\Scripts\python.exe"
+# Chemins du poste au 16 septembre 2026. L'ancien poste etait C:\Users\KélianKADDOURI\Projects\M-moire-.
 
 # LaTeX (tectonic, pas dans le PATH)
-$tec = "C:\Users\KélianKADDOURI\Projects\M-moire-\memoire\tectonic.exe"
+$tec = "C:\Users\kelia\miniconda3\Library\bin\tectonic.exe"
+# memoire\tectonic.exe n'existe pas sur ce poste. Le .venv a besoin de zz_dll_ffi.pth dans
+# .venv\Lib\site-packages pour trouver ffi.dll, sans quoi scipy et pip echouent.
 cd exploratory\memoire_cascade
 & $tec -X compile main.tex --keep-intermediates
 & $tec -X compile main_v2.tex --keep-intermediates   # OBLIGATOIRE, voir ci-dessous
