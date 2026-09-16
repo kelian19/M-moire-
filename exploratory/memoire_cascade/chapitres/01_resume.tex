@@ -21,8 +21,24 @@ compatibles avec la donnée et publie le capital en bornes. Un corpus de rapport
 officiels en corrobore la structure, qu'un traitement bayésien conjugué formalise sans
 élicitation.
 
-Le modèle produit le surcoût de non-conformité, son attribution par pilier et un ordre de
-remédiation.
+Entre l'état conforme et l'état non conforme sur les quatre canaux que la conformité déplace
+(nombre d'incidents, détection, propagation, accumulation par un prestataire commun), le besoin
+de capital passe de $6\,049$ à $20\,188$~M\euro{} à l'échelle du secteur, soit un facteur
+$3{,}34$. Ce montant est un besoin de capital au sens de l'ORSA, non un SCR réglementaire, aucun
+module DORA n'existant en Formule Standard. Les canaux ne s'additionnent pas : pris isolément ils
+expliquent $9\,138$~M\euro{} d'un écart de $14\,139$, l'interaction en portant $5\,001$, soit
+$35\,\%$. Le levier de gestion s'en déduit : la fréquence seule porte le besoin de capital à
+$10\,377$~M\euro{}, quand les trois autres canaux réunis n'atteignent que $11\,413$.
+
+Les niveaux de propagation sont posés et non calibrés. La thèse n'en dépend pas : le besoin de
+capital est croissant en ce paramètre, de sorte que toute correspondance qui en respecte l'ordre
+reproduit l'écart. Un backtest hors échantillon sur $2004$--$2025$ valide la loi de comptage,
+dont l'intervalle couvre $91{,}7\,\%$ des années, et la forme de la queue de sévérité ; il
+rejette le niveau de la charge annuelle, couverte à $75{,}0\,\%$, pour un motif mesuré et déclaré,
+la dérive de l'échelle de sévérité. Le quantile à $99{,}5\,\%$ lui-même n'est testable sur aucun
+historique existant : $1\,811$ années seraient nécessaires.
+
+Le modèle produit enfin l'attribution du surcoût par pilier et un ordre de remédiation.
 Résultat saillant, énoncé avec sa limite : le niveau absolu du capital est illustratif,
 variant d'un facteur $22$ avec la seule source de sévérité et jusqu'à $41$ en y ajoutant
 l'échelle de fréquence, tandis que le classement des piliers résiste. Gouvernance et gestion des tiers dominent les
@@ -39,7 +55,16 @@ non-compliance for a cyber-exposed insurer. Dependence across the five DORA pill
 by a directed cascade rather than an \emph{a posteriori} copula: a pillar-initiated
 incident propagates through an asymmetric, Leontief-normalised influence matrix, and the
 capital charge is made to depend on the firm's compliance state through a Markov-driven
-multi-state layer. The central contribution is not to measure this contagion but to establish
+multi-state layer. Moving the four channels that compliance shifts (incident count,
+detection, propagation, third-party accumulation) from the compliant to the non-compliant state
+raises the sector-level capital need from $6\,049$ to $20\,188$~M\euro, a factor of $3.34$. This
+is an ORSA-type capital need, not a regulatory SCR, since the Standard Formula has no DORA
+module. The channels are not additive: in isolation they explain $9\,138$~M\euro{} of a
+$14\,139$~M\euro{} gap, interactions carrying $5\,001$ ($35\,\%$). Propagation levels are posited,
+not calibrated, but the thesis only relies on their order, capital being increasing in them. An
+out-of-sample backtest over $2004$--$2025$ validates the count distribution and the tail shape,
+and rejects the level of the annual loss for a measured and disclosed reason, a drift in severity
+scale. The central contribution is not to measure this contagion but to establish
 its identifiability boundary: the \emph{direction} of propagation is shown to be
 non-identifiable from aggregated public data, across three sources that fail for distinct
 reasons and even under the best available natural experiment, whereas its co-occurrence is not.
@@ -58,4 +83,4 @@ leaves unidentified.}
 
 % =====================================================================
 
-% SOURCES-SCRIPTS: 28 39 33
+% SOURCES-SCRIPTS: 28 39 33 43 68 92 66 89 91

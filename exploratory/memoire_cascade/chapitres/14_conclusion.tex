@@ -7,13 +7,25 @@ résultat s'en dégagent, et ce qui est acquis se dit ici aussi nettement que ce
 ne l'est pas.
 
 \section{Ce qui est établi}
-Le mécanisme tient et se distingue formellement de ses concurrents : la criticité dépend de
+\paragraph{Le chiffre.} Entre l'état conforme et l'état non conforme sur les quatre canaux, le
+besoin de capital passe de $6\,049$ à $20\,188$~M\euro{} à l'échelle du secteur, soit un facteur
+$3{,}34$. Les canaux isolés en expliquent $9\,138$~M\euro{} et leur interaction $5\,001$, soit
+$35\,\%$ de l'écart : un plan de remédiation doit donc citer l'effet de fermeture d'un canal et
+non son effet isolé. La fréquence est le levier qui commande : seule, elle porte le besoin de
+capital à $10\,377$~M\euro{}, et toute cible au-delà de $11\,413$~M\euro{} l'exige. Ce montant
+reste un besoin de capital au sens de l'ORSA, non un SCR réglementaire.
+
+\paragraph{Le mécanisme.} Le mécanisme tient et se distingue formellement de ses concurrents : la criticité dépend de
 l'ordre de propagation, propriété qu'aucune dépendance symétrique ni aucun score
 additif ne peut reproduire, et la normalisation de Leontief garantit la stabilité de la
 contagion, cycles compris, par construction et non par calibration heureuse. Sur les marges
-que la donnée fixe, la queue de sévérité ($\xi \approx 0{,}9$), la fréquence d'entrée et
-l'accumulation par cause commune, l'ancrage empirique est solide, et le rejet du processus de
-Hawkes est argumenté plutôt que subi. Enfin, le modèle exprime intégralement l'effet de la
+que la donnée fixe, la queue de sévérité ($\hat\xi = 0{,}5954$ au seuil publié), la
+fréquence d'entrée et l'accumulation par cause commune, l'ancrage empirique est solide, et il est
+éprouvé hors échantillon : la loi de comptage et la forme de la queue passent le backtest, le
+niveau de la charge annuelle ne le passe pas pour une raison mesurée, la dérive de l'échelle de
+sévérité. Le processus de Hawkes n'est pas distinguable de la cascade à la résolution
+disponible ; il est écarté par un choix de parcimonie argumenté, non par un test qui le
+réfuterait. Enfin, le modèle exprime intégralement l'effet de la
 conformité sur le capital là où la Formule Standard n'en exprime rien.
 
 \paragraph{Un acquis de méthode, qu'il faut compter comme tel.} Chaque nombre publié dans ce
@@ -26,7 +38,7 @@ justes au moment où elles avaient été écrites et devenues fausses quand une 
 bougé. Il est décrit au \S\ref{sec:ann-harnais}, avec ce qu'il ne garantit pas, car il ne vérifie
 ni qu'un nombre est au bon endroit ni qu'il veut dire ce que la phrase prétend.
 
-% SOURCES-SCRIPTS: 28 39
+% SOURCES-SCRIPTS: 28 39 43 68 92 47 89 91 85
 
 \section{Ce qui est démontré comme non mesurable}
 La direction de la contagion n'est pas identifiable sur les données publiques. Le
@@ -78,13 +90,20 @@ sans être invariante.
 % SOURCES-SCRIPTS: 58 65 67
 
 \section{Limites, sans détour}
-Le panel d'élicitation reste à constituer, et tant qu'il ne l'est pas la lecture centrale de
-la direction repose sur un classeur qualitatif, non sur une agrégation d'experts pondérée. Le
+L'élicitation structurée est préparée et non exécutée (annexe~\ref{ch:elicitation}) : la
+lecture centrale de la direction repose donc sur un classeur qualitatif, non sur une agrégation
+d'experts pondérée. Deux hypothèses pèsent le plus sans être testables sur la donnée : les
+niveaux de propagation, posés, et l'additivité des coûts entre piliers touchés, dont
+l'élasticité vaut $0{,}95$ à l'état non conforme contre $0{,}39$ à l'état conforme
+(\S\ref{sec:additivite-couts}). Dans les deux cas le signe et l'ordre de l'écart résistent à
+toute la plage étudiée, non son amplitude. Le
 niveau absolu du SCR est illustratif et ne doit pas être cité hors de son cadrage relatif.
 L'incertitude de queue domine toute lecture ponctuelle, ce qui impose de présenter le capital
 en distribution. Et l'ordre de remédiation entre les deux piliers de tête, la gouvernance et
 la gestion des tiers, dépend de la direction non identifiée : le mémoire sait dire que ces
 deux-là dominent, pas lequel remédier d'abord sans un dire d'expert.
+
+% SOURCES-SCRIPTS: 74
 
 \section{Ouvertures}
 Trois prolongements se dessinent : mener l'élicitation structurée pour resserrer la bande
