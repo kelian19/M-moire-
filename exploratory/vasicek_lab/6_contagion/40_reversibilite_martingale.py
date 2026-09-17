@@ -282,8 +282,11 @@ def _signe(v):
 
 _fr = mticker.FuncFormatter(lambda v, _p: _signe(v))
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(7.4, 2.8), layout="constrained",
-                                    gridspec_kw=dict(width_ratios=[1.12, 0.92, 1.0]))
+# DEUX PANNEAUX ET NON TROIS, DEPUIS LE 17 SEPTEMBRE 2026. L'ancien panneau (b) tracait des
+# barres codees en dur (1 et 1, 1 et 0), et l'ancien (c) n'etait que du texte : aucun des deux
+# ne portait une donnee. Le (b) trace desormais les energies CALCULEES sur des fonctions test.
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.0, 3.0), layout="constrained",
+                               gridspec_kw=dict(width_ratios=[1.1, 1.0]))
 fig.get_layout_engine().set(w_pad=0.03, h_pad=0.03, wspace=0.06)
 
 # (a) le courant J : matrice divergente, valeurs dans les cases
@@ -311,50 +314,32 @@ cb.ax.yaxis.set_major_formatter(_fr)
 cb.outline.set_edgecolor("#dcdcdc")
 cb.outline.set_linewidth(0.6)
 
-# (b) la fluctuation ne voit que S ; production d'entropie
-labels = ["énergie de\nfluctuation\n$\\mathcal{E}(f,f)$", "production\nd'entropie\n$\\sigma$"]
-posee = [1.0, 1.0]                     # fluctuation et entropie de la chaine posee (base 1)
-sym = [1.0, 0.0]                       # symetrisee : meme fluctuation, entropie nulle
-x = np.arange(2)
-ax2.bar(x - 0.19, posee, width=0.36, color=BLUE, alpha=0.9, label="chaîne posée")
-ax2.bar(x + 0.19, sym, width=0.36, color=GREEN, alpha=0.9, label="chaîne symétrisée")
-ax2.set_xticks(x); ax2.set_xticklabels(labels)
-ax2.tick_params(axis="x", length=0, pad=3)
-ax2.set_ylabel("valeur (chaîne posée = 1)")
+# (b) la fluctuation ne voit que S : energies calculees, chaine posee contre symetrisee.
+# Generateur DISTINCT de celui des impressions, pour ne pas deplacer la sortie versionnee.
+rng_fig = np.random.default_rng(20260917)
+e_p, e_s = [], []
+for _ in range(300):
+    f = rng_fig.standard_normal(NP_)
+    e_p.append(dirichlet(P, pi, f))
+    e_s.append(dirichlet(Ps, pi, f))
+e_p, e_s = np.array(e_p), np.array(e_s)
+hi = 1.05 * max(e_p.max(), e_s.max())
+ax2.plot([0, hi], [0, hi], color="#dcdcdc", lw=1.2, zorder=1)
+ax2.scatter(e_s, e_p, s=9, color=BLUE, alpha=0.75, edgecolor="none", zorder=2,
+            label="300 fonctions test $f$")
+ax2.set_xlim(0, hi); ax2.set_ylim(0, hi)
+_virg = mticker.FuncFormatter(lambda v, _p: f"{v:.1f}".replace(".", ","))
+ax2.xaxis.set_major_formatter(_virg); ax2.yaxis.set_major_formatter(_virg)
+ax2.set_xlabel("énergie, chaîne symétrisée $\\mathcal{E}_{S}(f,f)$")
+ax2.set_ylabel("énergie, chaîne posée $\\mathcal{E}_{P}(f,f)$")
 ax2.spines["top"].set_visible(False)
 ax2.spines["right"].set_visible(False)
-# BANDE HAUTE DEGAGEE : les barres culminent a 1, chaque commentaire passe au-dessus de son
-# groupe et la legende encore au-dessus. Aucun texte ne recouvre une barre.
-ax2.set_ylim(0, 1.75)
-ax2.set_yticks([0.0, 0.5, 1.0])
-ax2.set_yticklabels(["0", "0,5", "1,0"])
-ax2.legend(frameon=False, fontsize=7.5, loc="upper center", ncol=1, handlelength=1.2,
-           handletextpad=0.45, borderaxespad=0.15, labelspacing=0.25)
-ax2.text(0, 1.05, "identique :\nne voit que $S$", ha="center", va="bottom",
-         fontsize=7.5, color=MUTED, style="italic")
-ax2.text(1, 1.05, "s'efface :\n$\\sigma \\to 0$", ha="center", va="bottom",
-         fontsize=7.5, color=MUTED, style="italic")
-ax2.set_title("(b)  La martingale ne voit\nque $S$, pas la direction $A$",
+ax2.text(0.04, 0.96,
+         f"production d'entropie\nchaîne posée : {sigma:.4f}\nchaîne symétrisée : 0".replace(".", ","),
+         transform=ax2.transAxes, ha="left", va="top", fontsize=7.8, color=INK2)
+ax2.legend(frameon=False, fontsize=7.5, loc="lower right", handletextpad=0.3)
+ax2.set_title("(b)  L'énergie ne voit que $S$ ;\nseule l'entropie voit la direction",
               fontsize=T_PAN, color=INK)
-
-# (c) le schema du renversement du temps
-ax3.axis("off")
-ax3.set_xlim(0, 1); ax3.set_ylim(0, 1)
-ax3.set_title("(c)  Renversement du temps :\n$S$ invariante, $A$ change de signe",
-              fontsize=T_PAN, color=INK)
-ax3.text(0.25, 0.97, "temps $t$", ha="center", va="top", fontsize=8, color=INK2)
-ax3.text(0.75, 0.97, "temps renversé", ha="center", va="top", fontsize=8, color=INK2)
-ax3.annotate("", xy=(0.43, 0.80), xytext=(0.07, 0.80),
-             arrowprops=dict(arrowstyle="->", color=INK2, lw=1.2))
-ax3.annotate("", xy=(0.57, 0.80), xytext=(0.93, 0.80),
-             arrowprops=dict(arrowstyle="->", color=INK2, lw=1.2))
-ax3.text(0.25, 0.60, "$P = S + A$", ha="center", va="center", fontsize=11, color=INK)
-ax3.text(0.75, 0.60, "$\\tilde{P} = S - A$", ha="center", va="center", fontsize=11, color=INK)
-ax3.text(0.5, 0.39, "$S$ = co-occurrence,  $A$ = direction", ha="center", va="center",
-         fontsize=8, color=INK2)
-ax3.text(0.5, 0.02, "$S$ : identifiée.  $A$ : placebo $z=-0{,}33$,\n"
-                    "compatible avec $\\sigma = 0$ (réversible).",
-         ha="center", va="bottom", fontsize=8, color=ACCENT)
 
 outdir = os.path.join(os.path.dirname(_HERE), "figures")
 os.makedirs(outdir, exist_ok=True)

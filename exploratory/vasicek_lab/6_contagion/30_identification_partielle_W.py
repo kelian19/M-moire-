@@ -245,7 +245,7 @@ ACCENT, BLUE, GREEN = "#a6002e", "#2b559f", "#009a94"
 
 # quatre panneaux : une grille 2x2 tient en portrait la ou une rangee de quatre
 # imposerait une page tournee (rapport h/l de 0,89 contre 0,24).
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(8.4, 4.0),
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(8.4, 4.8),
                                              gridspec_kw={"width_ratios": [1.1, 1]})
 ts = np.array(T_GRID)
 los = np.array([bounds[t][0] for t in T_GRID])
@@ -272,7 +272,7 @@ for v, c in [(lo1, INK2), (hi1, INK2), (SCR_EXPERT, ACCENT)]:
 ax2.set_xlabel("SCR (M€)", color=INK2)
 ax2.set_ylabel("tirages du prior", color=INK2)
 ax2.set_title("(b)  Lecture centrale dans les bornes", fontsize=11, color=INK, pad=8)
-ax2.text(0.02, 0.96, f"bornes  [{lo1:.0f} ; {hi1:.0f}]\nprior 90 % [{q05:.0f} ; {q95:.0f}]",
+ax2.text(0.06, 0.96, f"bornes  [{lo1:.0f} ; {hi1:.0f}]\nprior 90 % [{q05:.0f} ; {q95:.0f}]",
          transform=ax2.transAxes, fontsize=8.2, color=INK2, va="top")
 
 xs = np.arange(pid.NP_)
@@ -283,13 +283,14 @@ ax3.set_xticks(xs)
 ax3.set_xticklabels([f"P{p}" for p in pid.PIL])
 ax3.set_ylabel("M€ de SCR", color=INK2)
 ax3.set_title(f"(c)  Priorité robuste : P{pid.PIL[j1]} (minimax)", fontsize=11, color=INK, pad=8)
-ax3.legend(frameon=True, facecolor="#fcfcfb", edgecolor="none", framealpha=0.88, fontsize=8)
+ax3.set_ylim(0, 1.32 * max(maxreg.max(), benefits.mean(axis=0).max()))
+ax3.legend(frameon=False, fontsize=8, ncol=2, loc="upper left")
 
 im = ax4.imshow(np.where(np.eye(pid.NP_) == 1, np.nan, domin), cmap="RdBu_r", vmin=0, vmax=1)
 for j in range(pid.NP_):
     for k in range(pid.NP_):
         if j != k:
-            ax4.text(k, j, f"{domin[j, k]:.2f}", ha="center", va="center", fontsize=8,
+            ax4.text(k, j, f"{domin[j, k]:.2f}".replace(".", ","), ha="center", va="center", fontsize=6.8,
                      color=INK if 0.25 < domin[j, k] < 0.75 else "#fff")
 ax4.set_xticks(xs); ax4.set_xticklabels([f"P{p}" for p in pid.PIL])
 ax4.set_yticks(xs); ax4.set_yticklabels([f"P{p}" for p in pid.PIL])
