@@ -28,14 +28,14 @@ selon ce qu'elle sait porter.
 \rowcolor{lightblue}
 \textbf{Source} & \textbf{Rôle dans le modèle} & \textbf{Justification / limite} \\
 \midrule
-PRC 2025 & Fréquence ($\lambda$) ; sévérité indirecte via conversion Jacobs &
+PRC 2025 & Sévérité alternative via conversion Jacobs ; fréquence de référence $\lambda_{ref}$, sans rôle de niveau &
 Périmètre défini, mais sévérité dérivée d'un modèle log-log \\
 \addlinespace
-SAS OpRisk Global & Sévérité (montants réels) &
+SAS OpRisk Global & Sévérité (montants réels) et fréquence d'entrée du moteur ($\lambda$) &
 Montants observés, mais biais vers les grandes entités financières \\
 \addlinespace
-Hackmageddon & Multiplicateurs de scénario DORA (structure du risque) &
-Ne calibre pas le modèle : ajuste $\lambda$ selon le niveau de conformité \\
+Hackmageddon & Parts par vecteur d'attaque (structure du risque) &
+Ne fixe aucun niveau : pondère le multiplicateur qui fait passer $\lambda$ d'un état de conformité à l'autre \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -74,18 +74,23 @@ Ce biais affecte particulièrement la base OpRisk Global, qui se nourrit princip
 Ce biais de taille sur-représente les événements extrêmes et sous-représente la sinistralité
 d'attrition. Calibrer directement sur cette base un modèle destiné à une entité de taille
 moyenne, une mutuelle régionale par exemple, surestime mécaniquement la probabilité de perte
-extrême. C'est pourquoi la fréquence d'occurrence est ici conditionnée au profil de l'entité
-par le modèle de Vasicek (chapitre~\ref{chap:cascade}).
+extrême. C'est pourquoi la fréquence et la sévérité sont ramenées à la taille de l'entité par
+deux élasticités estimées (\S\ref{sec:biais-chiffres} et chapitre~\ref{chap:resultats}).
 
 \paragraph{2. Le biais de déclaration (Reporting Bias).}
 La base PRC est soumise à un biais de déclaration lié aux asymétries réglementaires. Aux États-Unis, la notification des fuites de données personnelles (Data Breaches) est obligatoire dans la plupart des États, ce qui rend la base PRC très riche sur ce vecteur d'attaque. En revanche, un rançongiciel (Ransomware) qui paralyse les serveurs de l'entreprise mais n'exfiltre aucune donnée personnelle peut ne déclencher aucune obligation de notification légale (avant l'entrée en vigueur d'actes récents comme le CIRCIA).
 Calibrer une fréquence globale sur la PRC sous-estime donc le risque d'interruption
-d'activité au profit du seul risque de compromission de données. Pour corriger ce biais, la
-structure des vecteurs d'attaque de la base Hackmageddon, qui couvre l'ensemble du spectre,
-rançongiciels compris, est superposée à la fréquence de base issue de la PRC.
+d'activité au profit du seul risque de compromission de données. C'est pourquoi la fréquence
+qui porte le capital n'est pas lue sur la PRC mais sur OpRisk, qui recense les pertes matérielles
+quel que soit le vecteur, et pourquoi la répartition par vecteur, rançongiciels compris, est prise
+dans la base Hackmageddon plutôt que dans la PRC.
 
 \paragraph{3. Le biais de survie (Survivorship Bias).}
-Dans les bases de pertes opérationnelles, la sévérité maximale observée est paradoxalement bornée par la capacité de survie de l'entité. Une cyberattaque ayant entraîné la faillite pure et simple de l'entreprise (ruine) disparaît souvent des bases de pertes opérationnelles classiques, car il n'y a plus d'entité survivante pour reporter la perte financière finale et les coûts de remédiation à long terme. Ce biais tronque artificiellement l'extrême queue de distribution. La Théorie des Valeurs Extrêmes (EVT), en ajustant une loi de Pareto Généralisée (GPD) qui permet d'extrapoler au-delà du maximum historique observé, est la réponse mathématique adéquate à ce biais de survie.
+Dans les bases de pertes opérationnelles, la sévérité maximale observée est paradoxalement bornée par la capacité de survie de l'entité. Une cyberattaque ayant entraîné la faillite pure et simple de l'entreprise (ruine) disparaît souvent des bases de pertes opérationnelles classiques, car il n'y a plus d'entité survivante pour reporter la perte financière finale et les coûts de remédiation à long terme. Ce biais tronque artificiellement l'extrême queue de distribution. La théorie des valeurs
+extrêmes ne le corrige pas : une loi de Pareto généralisée ajustée sur un échantillon tronqué
+hérite de la troncature, et si elle permet d'extrapoler au-delà du maximum observé, elle le fait
+à partir d'une queue allégée. Le biais de survie va donc dans le sens d'une sous-estimation de la
+queue, et il s'ajoute aux écarts anti-conservateurs déclarés au chapitre~\ref{ch:robustesse}.
 
 %--------------------------------------------------------------
 
@@ -168,11 +173,10 @@ pas été mise en \oe uvre ; elle constitue un prolongement direct.
 
 %--------------------------------------------------------------
 
-La base \emph{Privacy Rights Clearinghouse} (PRC) constitue le socle de
-calibration de la fréquence annuelle de référence $\lambda_{ref}$ utilisée
-dans le modèle. Son intérêt principal tient à son périmètre défini et à sa
-couverture longitudinale, qui permettent d'obtenir un niveau de fréquence
-directement exploitable pour une simulation actuarielle.
+La base \emph{Privacy Rights Clearinghouse} (PRC) fournit la fréquence de
+référence $\lambda_{ref}$, qui compte des notifications sans seuil de
+matérialité et ne porte donc aucun niveau de capital (\S suivante). Son intérêt
+tient à son périmètre défini et à sa couverture longitudinale.
 
 La PRC joue toutefois un second rôle, plus fragile : celui de source de
 sévérité indirecte, via une conversion dite de Jacobs, qui traduit un nombre
@@ -186,13 +190,12 @@ via la conversion Jacobs $\ln(L) = 7{,}68 + 0{,}76\,\ln(X)$, donne un
 paramètre de forme $\hat{\xi}_{\text{PRC}} = 1{,}03$ (IC90\%
 $[0{,}97~;~1{,}09]$), caractéristique d'une queue extrêmement lourde, à
 espérance infinie, résultat qui, pris seul, rendrait toute simulation
-numériquement instable et qui doit donc être discuté conjointement avec les
-corrections méthodologiques présentées au chapitre~\ref{chap:donnees}.
+numériquement instable et qui doit donc être lu avec le plafond de sévérité
+présenté au \S\ref{sec:portee-donnees}.
 
-La justification du recours à la PRC malgré ces limites tient à l'absence
-d'alternative comparable pour la fréquence : aucune des deux autres sources
-mobilisées (Hackmageddon, OpRisk Global) ne permet, seule, d'ancrer un niveau
-annuel de sinistralité directement transposable à un portefeuille assurantiel.
+La PRC reste utile malgré ces limites parce qu'elle est la seule source
+alternative de sévérité : elle éprouve la calibration OpRisk sur un autre
+périmètre, sans porter elle-même le niveau.
 
 % SOURCES-SCRIPTS: 57 62 63
 
@@ -349,8 +352,9 @@ deux limites qui bornent son usage.
 janvier--juin 2026, soit 1\,041 incidents. La couverture pluriannuelle initialement
 envisagée a été abandonnée : l'année 2024 est absente du jeu consulté, et 2025 n'est
 disponible que partiellement. La base est donc exploitée pour la \emph{structure} du risque,
-non pour son \emph{niveau} ou sa dynamique temporelle, ce qui explique pourquoi elle
-n'intervient pas dans la calibration de $\lambda_{ref}$, réservée à la PRC.
+non pour son \emph{niveau} ou sa dynamique temporelle : elle ne fixe aucune fréquence, et ses
+parts ne servent qu'à pondérer le multiplicateur de fréquence entre états
+(\S\ref{sec:quatre-canaux}).
 
 \begin{attention}
 \textbf{Ces deux décomptes sont une citation, non un résultat du dispositif.} Contrairement
@@ -359,10 +363,11 @@ jeu Hackmageddon a été consulté puis non conservé. Les $1\,041$ incidents et
 $840$ à vecteur identifié ne sont donc reproductibles par aucun script, et le contrôle de
 non-régression du dépôt les signale explicitement comme tels plutôt que de les compter parmi
 les sorties vérifiées. Ils sont à lire comme un chiffre de rapport de place, avec sa date de
-consultation, et non comme une sortie du modèle. Cette clause ne fragilise aucune conclusion :
-ces décomptes ne servent qu'à fixer les parts $\pi_v$ de répartition par vecteur, dont le
-chapitre~\ref{chap:socle} montre qu'elles n'alimentent pas le moteur de cascade. Les faire
-porter un niveau de capital serait en revanche indéfendable.
+consultation, et non comme une sortie du modèle. Ces décomptes fixent les parts $\pi_v$ de
+répartition par vecteur, qui ne portent aucun niveau mais pondèrent le multiplicateur de
+fréquence entre états de conformité (\S\ref{sec:quatre-canaux}) : leur statut de citation
+s'étend donc à ce multiplicateur, et c'est une limite déclarée. Les faire porter un niveau de
+capital serait en revanche indéfendable.
 \end{attention}
 
 \paragraph{Apport 1 : structure du risque et mapping DORA.} Sur les 1\,041
@@ -384,7 +389,7 @@ Identifiants compromis & 6{,}3~\% & Art.~9, contrôle d'accès \& MFA \\
 \end{tabular}
 \end{center}
 
-Deux chiffres sont structurants pour la construction des scénarios de la
+Deux chiffres sont structurants pour la construction des scénarios du
 chapitre~\ref{chap:multietats} : 15{,}8~\% des attaques empruntent le vecteur tiers/supply
 chain, coeur des articles~28--44 ; et 49{,}6~\% relèvent de vecteurs
 qu'un test TLPT (art.~26) est censé détecter en amont (exploitation et
@@ -434,6 +439,7 @@ d'une base de ce type.
 %--------------------------------------------------------------
 
 \section{OpRisk Global : la sévérité en euros}
+\label{sec:oprisk}
 
 % SOURCES-SCRIPTS: 07 47 63
 
@@ -453,11 +459,11 @@ non de calcul réglementaire de Pilier~1, avec la logique originelle de la LDA
 bancaire : calibrer une sévérité extrême à partir de pertes réellement
 observées plutôt qu'à partir d'un indicateur de volume forfaitaire.
 
-\paragraph{Statistiques de sévérité.} Elles portent sur la population que le mémoire calibre
-effectivement, et sur elle seule : secteur financier, catégories \textsc{tic}, fenêtre
-$2005$--$2022$, soit $1\,476$ observations. C'est le même filtre que celui de la descente
-d'échelle et de la calibration de fréquence, condition pour que le chapitre ne décrive pas un
-échantillon et n'en calibre pas un autre.
+\paragraph{Statistiques de sévérité.} Elles portent sur la population de la fréquence et de la
+descente d'échelle : secteur financier, catégories \textsc{tic}, fenêtre $2005$--$2022$, soit
+$1\,476$ observations. La loi de Pareto généralisée, elle, est ajustée sur le périmètre cyber
+$\times$ finance du paragraphe précédent, $582$ pertes sur $2000$--$2026$. Les deux populations
+ne coïncident pas, et la table ci-dessous décrit la première.
 
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
@@ -478,17 +484,7 @@ directement le recours à la théorie des valeurs extrêmes développée au
 chapitre~\ref{chap:cascade} : le décile supérieur porte $92{,}3\,\%$ de la perte totale, et le
 seul centile supérieur en porte $65{,}1\,\%$.
 
-\begin{attention}
-\textbf{Ces six valeurs ont été corrigées, et il faut dire pourquoi.} La version précédente de
-cette table (médiane $1{,}50$, moyenne $26{,}4$, P90 $51{,}5$, P99 $402$, maximum $1\,500$,
-total $15{,}4$~Md\$) provenait d'une migration automatique depuis la version pré-cascade du
-mémoire. Aucun filtre du dispositif actuel ne la reproduit : ni la base entière, ni le secteur
-financier, ni le sous-ensemble \textsc{tic}, ni aucune combinaison de fenêtres, et sa moyenne
-rapportée à son total impliquait $583$ observations, effectif qu'aucun sous-ensemble courant ne
-présente. Elle décrivait donc une population que le mémoire n'utilise plus. Le harnais de
-vérification l'a signalée comme non reproductible, ce qui est exactement ce qu'on lui demande.
 % SOURCES-SCRIPTS: 67
-\end{attention}
 
 \paragraph{Choix du seuil POT.} Le choix du seuil $u$ au-dessus duquel la loi
 de Pareto généralisée est calibrée résulte d'un compromis classique
@@ -521,10 +517,13 @@ $[411\,;\,1037]$~M\euro, soit un facteur~2{,}5 entre les bornes, une ampleur qui
 illustre que le SCR ne peut être présenté comme un point.
 
 La comparaison avec la PRC ($\hat{\xi}_{\text{PRC}} = 1{,}03$ contre
-$\hat{\xi}_{\text{OpRisk}} = 0{,}595$) révèle un écart de régime de queue,
-expliqué par le biais de taille d'OpRisk : les grandes entités financières y
-sont sur-représentées et absorbent mieux les chocs, d'où une queue
-apparemment plus légère. Les deux sources confirment néanmoins le même régime
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595$) ne se lit pas comme une différence de
+risque, car les deux indices ne portent pas sur le même objet. La sévérité PRC
+n'est pas observée : elle est une puissance du nombre d'enregistrements, de
+pente $0{,}76$ en logarithme, et une puissance multiplie l'indice de queue par
+son exposant, si bien que $\hat{\xi}_{\text{PRC}}$ décrit la queue des
+enregistrements transportée en euros. Le biais de taille d'OpRisk, mesuré faible
+au \S\ref{sec:biais-chiffres}, n'en rend pas compte. Les deux sources confirment néanmoins le même régime
 qualitatif de queue lourde ($\xi > 0$). Il n'existe donc pas de hiérarchie
 \og source primaire\fg{} en sévérité : OpRisk fournit des montants réels, la PRC
 un spectre de tailles plus large via la conversion Jacobs : deux
@@ -544,14 +543,15 @@ l'échantillon \og pannes\fg{} (28 excès), qui rend cette calibration indicativ
 %--------------------------------------------------------------
 
 \section{Portée et limites du dispositif de données}
+\label{sec:portee-donnees}
 
 La discipline méthodologique retenue dans ce mémoire consiste à ne jamais
 prétendre inférer davantage que ce que les données permettent réellement, ce
 qui impose d'expliciter aussi bien les capacités que les limites du dispositif.
 
-\paragraph{Ce que l'on sait faire.} On sait calibrer une fréquence de
-référence annuelle à partir d'un proxy sectoriel documenté (PRC), et la
-moduler selon une structure d'attaque observée empiriquement (Hackmageddon).
+\paragraph{Ce que l'on sait faire.} On sait lire une fréquence d'incidents
+matériels sur des pertes observées (OpRisk Global), et la moduler entre états de
+conformité selon une structure d'attaque citée (Hackmageddon).
 On sait calibrer une sévérité de queue lourde par la théorie des valeurs
 extrêmes à partir de pertes réellement observées (OpRisk Global), et
 confronter cette calibration à une source indépendante pour objectiver
@@ -570,9 +570,7 @@ faute d'historique suffisant sur les événements joints ; cette incertitude
 est traitée au chapitre~\ref{chap:cascade} par une structure de dépendance explicite plutôt que
 par une hypothèse d'indépendance non fondée.
 
-\paragraph{Deux corrections méthodologiques transparentes.} Ce cadre
-épistémique a conduit à identifier et corriger deux défauts du moteur de
-simulation en cours de travail. D'une part, avec $\hat{\xi}_{\text{PRC}} =
+\paragraph{Deux règles du moteur de simulation.} D'une part, avec $\hat{\xi}_{\text{PRC}} =
 1{,}03 \geq 1$, l'espérance de la sévérité PRC est infinie et la VaR simulée
 diverge numériquement ; un plafond de sévérité de 40~M\euro, ancré sur la
 capacité de réassurance cyber observable sur le marché, est appliqué à la
@@ -580,10 +578,9 @@ capacité de réassurance cyber observable sur le marché, est appliqué à la
 $\hat{\xi}_{\text{OpRisk}} = 0{,}595 < 1$ garantit une espérance finie, n'est
 en revanche pas plafonnée : ses montants étant observés de bout en bout, y
 appliquer un plafond tronquerait des pertes réelles et contredirait sa propre
-calibration. D'autre part, le moteur attribuait initialement une sévérité de
-queue (GPD) à l'intégralité des événements simulés, au lieu de la seule
-fraction $p_u$ dépassant le seuil de queue ; cette correction ramène les SCR
-simulés dans des ordres de grandeur cohérents avec les données observées.
+calibration. D'autre part, la sévérité de queue n'est tirée que pour la
+fraction $p_u$ des événements qui dépassent le seuil ; les autres reçoivent une
+sévérité nulle, ce qui fait du besoin publié un capital de queue.
 
 La conséquence directe de ce cadre épistémique est méthodologique autant que
 présentationnelle : le résultat final ne peut être livré comme un montant
@@ -595,21 +592,22 @@ informatifs, et ce principe structure tout le chapitre~\ref{chap:resultats}.
 
 %--------------------------------------------------------------
 
-Le dispositif retenu (PRC pour la fréquence, OpRisk Global pour la
-sévérité observée, Hackmageddon pour la structure du risque) appelle une
+Le dispositif retenu (OpRisk Global pour la sévérité observée et la fréquence
+d'entrée, PRC pour la sévérité alternative, Hackmageddon pour la structure du
+risque) appelle une
 question préalable à toute discussion de robustesse : ce triptyque est-il
 suffisant pour l'exercice mené dans ce mémoire ? La réponse tient à la nature
 même de l'exercice. L'objectif n'est pas de produire une formule
 réglementaire de Pilier~1, qui exigerait une base exhaustive et représentative
-du marché au sens de l'Article~19, base qui, comme l'a établi la
-chapitre~\ref{chap:donnees}, n'existe aujourd'hui pour aucun acteur, public ou privé, sur le
+du marché au sens de l'Article~19, base qui, comme établi plus haut, n'existe aujourd'hui
+pour aucun acteur, public ou privé, sur le
 risque cyber. L'objectif est de construire, dans l'esprit du Pilier~2 et de
 l'ORSA, une mesure prospective dont la valeur ajoutée actuarielle réside dans
 la transparence de ses limites autant que dans la précision de son résultat.
 Sous cet angle, les trois sources mobilisées couvrent exactement les trois
 rôles qu'exige une architecture fréquence-sévérité-structure, et leurs biais
 respectifs (sélection, déclaration, survie, visibilité, instabilité
-taxonomique) sont documentés plutôt que dissimulés (chapitre~\ref{chap:donnees}).
+taxonomique) sont documentés plutôt que dissimulés.
 
 % SOURCES-SCRIPTS: 05 63
 
@@ -619,8 +617,8 @@ Des bases
 supplémentaires existent (bases commerciales de sinistres cyber assurantiels,
 enquêtes sectorielles européennes) et pourraient, en principe, enrichir le
 dispositif. Mais chacune porterait ses propres biais de sélection et de
-représentativité, sans lever la limite structurelle identifiée dès la
-chapitre~\ref{chap:donnees} : l'absence, à ce jour, d'un registre harmonisé et exhaustif à
+représentativité, sans lever la limite structurelle identifiée plus haut :
+l'absence, à ce jour, d'un registre harmonisé et exhaustif à
 l'échelle du marché. Multiplier les sources déplacerait la difficulté sans la
 résoudre, et complexifierait un narratif dont la clarté (trois sources, trois
 rôles distincts, aucune hiérarchie de \og source primaire\fg{}) constitue
@@ -638,25 +636,25 @@ sinistralité.
 
 %--------------------------------------------------------------
 
-La structure du risque tirée de Hackmageddon (chapitre~\ref{chap:donnees}), bien que
+La structure du risque tirée de Hackmageddon (\S\ref{sec:hackmageddon}), bien que
 documentée quant à ses limites de visibilité et de taxonomie, gagne à être
 confrontée à une source indépendante, de nature différente et couvrant un
 périmètre réglementaire proche de celui du présent mémoire. Le rapport
-\emph{ENISA Threat Landscape 2025}, déjà mobilisé au chapitre~\ref{chap:multietats} pour ancrer les
+\emph{ENISA Threat Landscape 2025} \citep{enisa2025}, qui ancre au \S\ref{sec:quatre-canaux} les
 bornes du multiplicateur associé à l'exploitation de vulnérabilités, remplit
 ce rôle : constitué par l'agence européenne de cybersécurité elle-même à
 partir de 4\,875 incidents de périmètre européen, il repose sur une
 méthodologie de collecte distincte de celle, essentiellement médiatique, de
 Hackmageddon.
 
-La confrontation porte sur un point précis, déjà exploité au chapitre~\ref{chap:multietats} : ENISA
+La confrontation porte sur un point précis, celui qui ancre cette fourchette : ENISA
 mesure un taux de conversion tentative-vers-intrusion de 70~\% pour
 l'exploitation de vulnérabilités, contre seulement 27~\% pour le phishing.
 Cette asymétrie, mesurée par un organisme réglementaire sur un périmètre
 indépendant, confirme un résultat qu'Hackmageddon, par construction, ne peut
 révéler à partir du seul volume d'incidents observés : le phishing domine la
 structure en volume (38{,}8~\% contre 33{,}8~\% pour l'exploitation de
-vulnérabilités, chapitre~\ref{chap:donnees}), mais convertit nettement moins efficacement en
+vulnérabilités), mais convertit nettement moins efficacement en
 intrusion réussie. Les deux sources s'accordent ainsi, chacune sur son propre
 plan (structure des incidents rapportés pour Hackmageddon, taux de
 conversion pour ENISA) sur une même hiérarchie qualitative des vecteurs
@@ -668,19 +666,18 @@ Investigations Report} de Verizon, fondé sur des méthodologies de collecte
 distinctes à la fois de Hackmageddon et d'ENISA, constituerait une troisième
 confrontation naturelle. Il n'est pas mobilisé dans le présent mémoire, faute
 de statistiques suffisamment vérifiées dans le périmètre de ce travail pour
-en garantir l'exactitude des chiffres cités, une prudence identique à
-celle déjà retenue pour les références bibliographiques marquées comme à
-vérifier (cf.~\texttt{references.bib}). Cette confrontation constitue une
+en garantir l'exactitude des chiffres cités. Cette confrontation constitue une
 perspective directe de prolongement, dans le même esprit que l'automatisation
-du reclassement par NLP déjà évoquée au chapitre~\ref{chap:donnees}.
+du reclassement par NLP évoquée plus haut.
 
 %==============================================================
 
 \begin{cle}
 \textbf{Ce que ces données permettent, et ce qu'elles interdisent.} Elles fixent la queue de
-sévérité ($\xi \approx 0{,}9$), la fréquence d'entrée et l'accumulation par cause commune.
-Elles ne fixent \emph{pas} la direction de la contagion : le chapitre~\ref{ch:identifiabilite}
-le démontre sur deux sources qui échouent pour des raisons opposées, et le
+sévérité ($\hat\xi = 0{,}595$ sur OpRisk), la fréquence d'entrée et l'accumulation par cause
+commune. Elles ne fixent \emph{pas} la direction de la contagion : le
+chapitre~\ref{ch:identifiabilite} le montre sur trois sources qui échouent pour des raisons
+distinctes, et le
 chapitre~\ref{chap:partielle} en tire les conséquences en bornes de capital. Cette frontière
 est un résultat produit par le dispositif de données, non une lacune de celui-ci.
 \end{cle}

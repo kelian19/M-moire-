@@ -319,14 +319,16 @@ structure de l'aléa. À l'autre extrémité se trouvent
 les campagnes qui touchent simultanément de nombreuses entités par une vulnérabilité partagée,
 et la condition de Lindeberg y échoue précisément parce qu'un seul événement domine la
 somme de l'année : un brownien ne peut pas les représenter, ses accroissements étant sans
-atome. Elles demandent une composante de sauts. On pourrait objecter qu'une gaussienne
-de variance suffisante engloberait les deux régimes ; la donnée l'interdit de façon mesurable,
-puisqu'un facteur purement brownien impose un indice de dispersion égal à $1$ quand on mesure
-$1{,}19$ sur les cellules firme-année et $2{,}24$ sur la série annuelle
+atome. Elles demandent une composante de sauts. La surdispersion mesurée, $1{,}19$ sur les
+cellules firme-année et $2{,}24$ sur la série annuelle
 % SOURCES-SCRIPTS: 47
-détendancée. La seconde
+détendancée, établit l'existence d'un facteur commun, mais elle ne départage pas les deux
 % SOURCES-SCRIPTS: 08b
-échelle n'est donc pas ajoutée pour enrichir le modèle, elle est identifiée par la
+régimes : tout facteur commun non dégénéré, gaussien compris, produit un indice de dispersion
+supérieur à un. Ce qui motive la composante de sauts est ailleurs, dans la dépendance de queue :
+un facteur gaussien de corrélation inférieure à un donne un coefficient de dépendance de queue
+nul, quand les campagnes de masse font céder de nombreuses entités ensemble. La seconde échelle
+est donc une hypothèse de structure motivée par ces campagnes, non une conséquence de la
 surdispersion.
 
 \paragraph{L'écriture, et le paramètre interprétable qu'elle fait apparaître.}
@@ -431,7 +433,7 @@ $\rho_i$ élevé, dépasser le multiplicateur $S_2$ dès l'environnement normal.
 
 \paragraph{Choix de la loi de Pareto généralisée.} La sévérité des sinistres
 cyber présente une signature de queue lourde documentée au chapitre~\ref{chap:donnees} : sur
-OpRisk Global, sur la population effectivement calibrée, les $10\,\%$ d'incidents les plus
+OpRisk Global, sur la population de la fréquence et de la descente d'échelle, les $10\,\%$ d'incidents les plus
 graves concentrent $92{,}3\,\%$
 de la perte totale. Cette concentration extrême justifie le recours à la
 théorie des valeurs extrêmes, et plus précisément à une modélisation de la
@@ -598,9 +600,10 @@ opérationnel, fixé à 40~M\euro{} et ancré sur la capacité de réassurance c
 observable sur le marché, pour que la simulation reste numériquement
 stable ; ce plafond ne s'applique qu'à la source PRC, la calibration OpRisk
 ($\xi < 1$, espérance finie) demeurant non plafonnée. L'écart entre
-les deux calibrations s'explique par le biais de taille d'OpRisk : les
-grandes entités financières y sont sur-représentées et absorbent mieux les
-chocs, d'où une queue apparemment plus légère. Les deux sources confirment
+les deux calibrations ne mesure pas une différence de risque : la sévérité PRC
+est une puissance du nombre d'enregistrements, et une puissance multiplie
+l'indice de queue par son exposant, si bien que les deux indices ne portent pas
+sur le même objet (\S\ref{sec:oprisk}). Les deux sources confirment
 néanmoins le même régime qualitatif de queue lourde ($\xi > 0$), et aucune
 hiérarchie de type \og source primaire\fg{} n'est retenue entre elles : leur
 écart est traité comme une composante de l'incertitude totale du modèle,

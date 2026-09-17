@@ -3,11 +3,13 @@
 
 Ce chapitre livre le \og combien \fg{} de la question du mémoire, sous la discipline posée
 aux chapitres~\ref{ch:identifiabilite} et~\ref{chap:partielle} : les niveaux sont
-illustratifs, les écarts et les ordres sont ce qui résiste. Tous les résultats sont ancrés,
-comme dans l'ancien mémoire, sur une entité type de $15\,000$~M\euro{} de provisions, avec
+illustratifs, les écarts et les ordres sont ce qui résiste. Les capitaux sont calculés à
+l'échelle du secteur financier, l'entité type de $15\,000$~M\euro{} de provisions servant de
+repère forfaitaire et de cible à la descente d'échelle du \S\ref{sec:ancrage}, avec
 deux périmètres de sévérité : OpRisk (grandes pertes opérationnelles, queue lourde)
 et PRC (sévérité plafonnée à $40$~M\euro). Sauf mention contraire, on lit la médiane
-et l'intervalle interquartile, la variance de la sévérité étant infinie ($\xi\approx0{,}9$).
+et l'intervalle interquartile, la variance de la sévérité étant infinie ($\hat\xi=0{,}595$ sur
+OpRisk, $1{,}03$ sur PRC).
 
 \begin{attention}
 \textbf{Comment lire les niveaux de ce chapitre.} Les montants qui suivent sont
@@ -17,8 +19,9 @@ fréquence, c'est-à-dire des \emph{entrées} du modèle qui dépendent d'un pé
 non transposable, le niveau se déplace d'un facteur $41$, tandis que les rapports au socle
 varient d'au plus $33\,\%$ et que le groupe de tête du classement des piliers ne change pas. Le
 tableau~\ref{tab:scretat} en donne d'ailleurs l'illustration immédiate : le même état conforme
-vaut $8\,301$~M\euro{} sous OpRisk et $2\,589$~M\euro{} sous PRC, soit un facteur~$3{,}2$ pour
-un seul changement de périmètre de sévérité. Ce chapitre établit donc des écarts, des
+vaut $8\,301$~M\euro{} sous OpRisk et $2\,589$~M\euro{} sous PRC en lecture~A, soit un
+facteur~$3{,}2$ pour un seul changement de périmètre de sévérité, facteur qui n'est pas une
+constante et grandit sur le socle sans contagion du chapitre~\ref{chap:partielle}. Ce chapitre établit donc des écarts, des
 rapports et des ordres, et c'est sur eux, jamais sur un niveau, que reposent ses conclusions.
 \end{attention}
 
@@ -38,7 +41,7 @@ pont terme à terme comme l'écart résiduel de Monte-Carlo sont établis au
 
 Le SCR croît de façon monotone de l'état conforme à l'état non conforme
 (figure~\ref{fig:multietats}). Le tableau~\ref{tab:scretat} donne les trois lectures emboîtées :
-la lecture~A (fréquence seule) est directement comparable au mémoire ; la lecture~B ajoute la
+la lecture~A porte sur la fréquence seule ; la lecture~B ajoute la
 propagation de la cascade ; la lecture~C ajoute le canal détection.
 
 \begin{table}[htbp]\centering\small
@@ -100,12 +103,10 @@ restent au niveau non conforme. Une entité conforme sur un canal et non conform
 n'est pas un état conforme, c'est une \emph{remédiation partielle}, et la nommer conforme
 sous-estime l'écart par construction.
 
-\textbf{Ce qui a changé depuis, et qui permet de trancher.} La version précédente de cet encadré
-excluait le canal détection tant que son ampleur n'était pas validée. Elle l'est : il pèse
+\textbf{Le canal de détection y est inclus parce que son effet est résolu} : il pèse
 $2\,928 \pm 343$~M\euro{} en valeur de Shapley et
 $4\,562 \pm 819$ en marginal de fermeture, signe résolu sur seize graines.
-% SOURCES-SCRIPTS: 68 La réserve qui
-justifiait l'attente a donc expiré.
+% SOURCES-SCRIPTS: 68
 
 \textbf{Les trois autres lectures ne sont pas retirées}, et c'est délibéré : ce sont des
 remédiations \emph{partielles}, ce qui est un objet utile en soi, et leur emboîtement chiffre ce
@@ -148,28 +149,26 @@ systémique.}
 
 Le surcoût de non-conformité $\Delta_{\text{DORA}}=\mathrm{SCR}(\text{NC})-\mathrm{SCR}(\text{C})$,
 à graine Monte-Carlo commune (l'écart ne vient que du changement d'état, non du bruit),
-s'obtient par bootstrap deux niveaux (multiplicateurs $+$ sévérité). Il ressort du même ordre
-que celui du mémoire, amplifié par la propagation, et $100\,\%$ des tirages sont
-positifs.
+s'obtient par bootstrap deux niveaux (multiplicateurs $+$ sévérité), et $100\,\%$ des tirages
+sont positifs.
 
 \begin{table}[htbp]\centering\small
 \renewcommand{\arraystretch}{1.25}
-\begin{tabular}{@{}l cc c c@{}}
+\begin{tabular}{@{}l cc@{}}
 \toprule
-& médiane & IC90\,\% & & mémoire (réf.) \\
+& médiane & IC90\,\% \\
 \midrule
-$\Delta_{\text{DORA}}$ NC vs C (OpRisk) & 7401 & $[2830\,;38793]$ & & 3879 \\
-$\Delta_{\text{DORA}}$ PC vs C (OpRisk) & 2556 & $[963\,;12768]$  & & --- \\
-$\Delta_{\text{DORA}}$ NC vs C (PRC)    & 3668 & $[3201\,;4094]$  & & 2015 \\
-$\Delta_{\text{DORA}}$ PC vs C (PRC)    & 1257 & $[1077\,;1466]$  & & --- \\
+$\Delta_{\text{DORA}}$ NC vs C (OpRisk) & 7401 & $[2830\,;38793]$ \\
+$\Delta_{\text{DORA}}$ PC vs C (OpRisk) & 2556 & $[963\,;12768]$  \\
+$\Delta_{\text{DORA}}$ NC vs C (PRC)    & 3668 & $[3201\,;4094]$  \\
+$\Delta_{\text{DORA}}$ PC vs C (PRC)    & 1257 & $[1077\,;1466]$  \\
 \bottomrule
 \end{tabular}
 \caption{Surcoût de non-conformité en euros (M\euro), lecture B (fréquence $+$ propagation),
 bootstrap deux niveaux. Côté OpRisk la sévérité de queue est ré-échantillonnée sur les
-$91$ excès réels, selon la méthode du mémoire, non tirée dans une approximation
+$91$ excès réels, non tirée dans une approximation
 % SOURCES-SCRIPTS: 14
-normale~; l'intervalle reste large parce que la queue l'est, non par artefact de méthode.
-Le surcoût intermédiaire (PC vs C) est chiffré pour la première fois.}
+normale~; l'intervalle reste large parce que la queue l'est, non par artefact de méthode.}
 % SOURCES-SCRIPTS: 16
 \label{tab:delta}
 \end{table}
@@ -194,8 +193,10 @@ de la conversion déterministe.
 
 En basculant un pilier à la fois de conforme à non conforme, le surcoût se décompose
 (figure~\ref{fig:decomp}). Le classement obtenu, $P1>P4>P2>P3>P5$, reproduit exactement
-le classement ROOT du modèle qualitatif, établi indépendamment par jugement d'expert : deux
-voies de construction distinctes convergent sur la même hiérarchie de piliers.
+le classement ROOT du modèle qualitatif. La convergence n'est pas une validation
+indépendante : les amorces de la cascade sont semées selon ROOT (\S\ref{sec:allocation}), et ROOT
+se déduit de la même matrice d'expert que $W$ (\S\ref{sec:branch}). Elle atteste la cohérence
+du modèle avec son jugement d'origine.
 
 \begin{figure}[htbp]\centering
 \figover{S11_decomp_par_pilier.png}
@@ -209,7 +210,7 @@ voies de construction distinctes convergent sur la même hiérarchie de piliers.
 \textbf{Une interaction super-additive, établie là où l'estimateur est fiable.} Les surcoûts
 isolés ne somment pas au surcoût total : il reste un terme d'\emph{interaction}, signature de la
 cascade (un pilier non conforme amplifie aussi les contagions amorcées ailleurs qui le
-traversent), qu'un modèle sans propagation (le LDA à copule du mémoire) ne peut pas produire.
+traversent), qu'un modèle sans propagation (un LDA à copule) ne peut pas produire.
 Sa mesure exige toutefois de la prudence : une interaction est une différence de différences,
 l'estimateur Monte-Carlo le plus fragile qui soit en queue lourde. Sur la VaR à $99{,}5\,\%$
 OpRisk, son \emph{signe n'est pas résolu} : sur six graines à résolution égale
@@ -425,10 +426,10 @@ pire ordre et l'optimal atteint $21\,\%$.
 \begin{cle}
 \textbf{Le myope n'est pas l'optimal.} Remédier au coup par coup le pilier au plus fort gain
 immédiat (l'ordre glouton) coûte plus cher que l'ordre optimal, parce que les interactions de
-cascade imposent de raisonner sur l'horizon entier. Que l'optimum coïncide avec le classement
-ROOT, obtenu par une voie qualitative indépendante, est la troisième convergence
-euro~$\leftrightarrow$~ordinal du mémoire, après la stabilité de la progéniture
-(\S\ref{sec:branch}) et la décomposition par pilier.
+cascade imposent de raisonner sur l'horizon entier. L'optimum coïncide avec le classement
+ROOT, comme la progéniture (\S\ref{sec:branch}) et la décomposition par pilier ; ces trois
+convergences attestent la cohérence du modèle avec le jugement dont il procède, non une
+validation indépendante, ROOT entrant dans les amorces.
 \end{cle}
 
 \paragraph{La question réciproque donne un autre classement, et c'est celui qu'un plan de
@@ -650,8 +651,8 @@ maximal est connu d'avance. À ignorance totale le capital reste enfermé dans u
 $1{,}27$ entre ses bornes, alors que le socle sans aucune contagion vaut $5\,275$~M\euro{} : la
 contagion ajoute entre $30$ et $65\,\%$ à ce socle, et l'on sait exactement de combien cette
 fourchette rétrécirait si la direction était mieux connue. À titre de repère, la direction nulle
-($W$ symétrique) donne $7\,993$~M\euro{} et le point du classeur d'expert $8\,110$, soit un écart
-soit respectivement $+51{,}5\,\%$ et $+53{,}7\,\%$ au-dessus du socle : le point d'expert
+($W$ symétrique) donne $7\,993$~M\euro{} et le point du classeur d'expert $8\,110$, soit
+respectivement $+51{,}5\,\%$ et $+53{,}7\,\%$ au-dessus du socle : le point d'expert
 est un point de cet ensemble, pas sa mesure, et l'essentiel du surcoût de contagion ne vient pas
 de la direction mais de la co-occurrence, qui est identifiée.
 
@@ -750,8 +751,8 @@ et c'est là que le mémoire concentre ses réserves déclarées.
 \section{Comparaison de modèles : la dépendance n'est pas le mécanisme}
 \label{sec:benchmark}
 
-Le mémoire a remplacé le LDA à copule par la cascade dirigée. Ce que ce remplacement
-apporte se mesure en confrontant la cascade à des jumeaux copule construits pour lui
+La cascade dirigée remplace ici l'agrégation par copule d'un modèle LDA. Ce que ce
+remplacement apporte se mesure en confrontant la cascade à des jumeaux copule construits pour lui
 ressembler (figure~\ref{fig:benchmark}, périmètre OpRisk, graines
 % SOURCES-SCRIPTS: 23
 Monte-Carlo communes). Cette section compare les modèles sur l'axe de la \emph{structure de
@@ -912,8 +913,8 @@ constat précédent porte sur l'\emph{agrégat} annuel. À l'échelle du \emph{s
 les quantiles du modèle tombent dans la fourchette des grandes pertes cyber réelles
 (figure~\ref{fig:benchmark-externe}) : le quantile de sévérité $\qsev_{99{,}5\,\%}(X)$
 ($663$~M\euro) et sa moyenne de queue $\qbarsev_{99{,}5\,\%}(X)$ ($1\,752$~M\euro) encadrent
-Merck-NotPetya ($\sim$1,3~Md\euro), Equifax ($\sim$1,3) et Change
-Healthcare 2024 ($\sim$2,2), tout en restant sous le choc systémique NotPetya ($\sim$9~Md\euro
+Merck-NotPetya ($\sim$1,3~Md\euro) et Equifax ($\sim$1,3), et restent sous Change
+Healthcare 2024 ($\sim$2,2) comme sous le choc systémique NotPetya ($\sim$9~Md\euro
 au total). La brique de sévérité est donc crédible \emph{à l'échelle de l'événement} ; c'est
 son agrégation à une fréquence systémique ($\sim$21,6 incidents matériels par an, à
 l'échelle du secteur financier mondial) qui porte l'agrégat annuel, de l'ordre du marché
