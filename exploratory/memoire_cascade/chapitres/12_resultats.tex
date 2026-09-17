@@ -577,10 +577,10 @@ Seuil $u$ seul & choix de méthode & $0{,}03$ \\
 \end{center}
 
 \vspace{4pt}
-\noindent \textbf{La conclusion tient, et elle est désormais plus forte qu'avant.} La propagation
+\noindent \textbf{La conclusion tient.} La propagation
 a l'élasticité la plus faible des leviers substantiels, $0{,}37$ contre $3{,}79$ pour l'indice de
-queue, soit un rapport de dix. Ce classement ne dépend d'aucune convention d'affichage, alors que
-l'ancienne formulation comparait des amplitudes et pouvait être retournée en changeant une plage.
+queue, soit un rapport de dix. Ce classement ne dépend d'aucune convention d'affichage, alors
+qu'une comparaison d'amplitudes pouvait être retournée en changeant une plage.
 Deux précisions l'accompagnent. Le seuil \emph{pris seul} a une élasticité plus faible encore,
 $0{,}03$, ce qui confirme que tout ce qu'on lui attribuait venait de l'indice de queue qu'il
 entraîne. Et une élasticité est \emph{locale} : elle ne dit pas ce qui se passe loin du point de
@@ -852,8 +852,9 @@ Cascade dirigée & $10\,927$~M\euro{} & $100\,\%$ (référence) \\
 \end{table}
 
 \textbf{La Formule Standard est structurellement aveugle.} La charge de risque opérationnel
-$\mathrm{SCR}_{\text{op}} = \min(0{,}3\,\mathrm{BSCR}\,;\,0{,}03\,\max(\text{primes},
-\text{provisions}))$ ne dépend que du volume : elle est \emph{identique} pour une entité
+de l'équation~\eqref{reg:eq:scrop}, maximum d'une branche assise sur les primes et d'une branche
+assise sur les provisions, à coefficients distincts en vie et en non-vie, dans la limite d'un
+plafond assis sur le BSCR, ne dépend que du volume : elle est \emph{identique} pour une entité
 exemplaire et pour une entité défaillante sur DORA. Sa réponse à la conformité est nulle par
 construction. La copule en capte $62\,\%$ (les canaux fréquence et détection) mais rate la
 propagation, faute de direction. Seule la cascade exprime l'effet complet. La valeur du
@@ -888,8 +889,10 @@ réel, non pour le valider mais pour vérifier qu'il ne \emph{peut} pas l'être.
 confrontations suffisent.
 
 \paragraph{Contre la Formule Standard, sur la même entité.} Pour l'entité notionnelle
-($15\,000$~M\euro{} de provisions), la charge opérationnelle de la Formule Standard plafonne
-à $0{,}03\times 15\,000 \approx 450$~M\euro. Le socle de la cascade
+($15\,000$~M\euro{} de provisions), la branche provisions de la charge opérationnelle vaut
+$0{,}03\times 15\,000 \approx 450$~M\euro{} si ces provisions sont non-vie. Ce repère n'est pas la
+charge réglementaire, qui retient le maximum des branches primes et provisions sous le plafond
+assis sur le BSCR, et il n'en est pas une borne ; il en donne l'ordre de grandeur. Le socle de la cascade
 ($5\,275$~M\euro, chapitre~\ref{chap:partielle}) lui est une dizaine de fois
 supérieur. Deux lectures cohabitent, et aucune ne se tranche sans donnée d'entité : soit la
 charge générique \emph{sous-capte massivement} le cyber, ce que le benchmark
@@ -978,11 +981,11 @@ par le nombre d'entités, et le lire ainsi conduirait à le sous-estimer netteme
 
 Ensuite, et c'est le point à ne pas maquiller, la coïncidence avec la Formule Standard
 ne survit pas à la correction. Lue au seuil \og{}$\geq 10$ événements\fg{}, l'entité ressortait
-à $488$~M\euro, soit l'ordre de grandeur exact de la charge forfaitaire ($450$~M\euro), et
+à $488$~M\euro, soit l'ordre de grandeur exact du repère forfaitaire ($450$~M\euro), et
 l'on pouvait croire l'écart refermé. Une fois la fréquence lue à la bonne taille et la
-sévérité transposée, le modèle donne $169$~M\euro, soit $0{,}38$ fois le forfait. La
+sévérité transposée, le modèle donne $169$~M\euro, soit $0{,}38$ fois ce repère. La
 convergence apparente venait donc du \emph{choix du seuil}, pas du modèle. La conclusion à en
-tirer n'est pas que le modèle est faux : c'est que le niveau du forfait ne dit rien
+tirer n'est pas que le modèle est faux : c'est que le niveau de ce repère ne dit rien
 et que seule son insensibilité est en cause, ce que le paragraphe suivant chiffre.
 
 Enfin, la lecture d'entité doit être une bande. La direction de $W$ n'étant pas
@@ -1032,8 +1035,9 @@ propagation sur ses trois valeurs d'état ($0{,}45$, $0{,}68$, $0{,}90$) à fré
 cibles, le SCR d'entité passe de $116$ à $143$ puis $169$~M\euro{}, soit $+45\,\%$ entre le
 profil conforme et le profil défaillant, et ce par le seul canal de contagion, les canaux
 fréquence et détection n'étant pas mobilisés ici : l'écart lu est donc un plancher. Sur les
-mêmes trois profils, la charge de Formule Standard vaut $450$~M\euro{} et ne bouge pas d'un
-euro. C'est la thèse du mémoire, lue à l'échelle où une entité la vit.
+mêmes trois profils, le repère forfaitaire vaut $450$~M\euro{} et ne bouge pas d'un euro, pas
+plus que la charge réglementaire elle-même, qui ne dépend d'aucun état. C'est la thèse du
+mémoire, lue à l'échelle où une entité la vit.
 
 Ces trois nombres sont un scénario d'écartement, non une mesure : la correspondance
 état $\to g$ est posée et non calibrée, faute d'entité publiant son état de conformité. Ce qui
@@ -1177,12 +1181,15 @@ est publié, l'identité se vérifie au million près.
 \vspace{2pt}
 \noindent \textbf{Un résultat en sort, sur le repère forfaitaire lui-même.} Les deux états
 \textsc{s.25.01} publient le module de risque \emph{opérationnel} de Formule Standard, ce qui
-rend le forfait de $3\,\%$ des provisions confrontable pour la première fois : il vaut $54{,}1$
-contre un module publié de $59$ sur la première entité non-vie, et $62{,}1$ contre $39{,}7$ sur
-la seconde. Le forfait n'est donc pas une borne : il se trompe dans les deux sens, de
-$-8\,\%$ d'un côté et de $+56\,\%$ de l'autre. Il doit être cité comme un ordre de grandeur de
-comparaison, jamais comme un majorant ni comme un minorant de la charge opérationnelle
-réglementaire. Deux entités ne déterminent pas un biais, elles suffisent à réfuter la monotonie.
+permet de confronter le repère de $3\,\%$ des provisions employé dans ce chapitre à la charge
+effectivement calculée : il vaut $54{,}1$ contre un module publié de $59$ sur la première entité
+non-vie, et $62{,}1$ contre $39{,}7$ sur la seconde, soit des écarts de $-8\,\%$ et de
+$+56\,\%$. L'écart ne vient pas du règlement mais de l'approximation : le repère ne retient que la
+branche provisions de l'équation~\eqref{reg:eq:scrop}, sans la branche primes dont la formule prend
+le maximum, sans le plafond assis sur le BSCR, et sur une assiette qui mêle parfois provisions et
+autres passifs. Il ne se cite donc que comme un ordre de grandeur de comparaison, jamais comme la
+charge réglementaire ni comme l'une de ses bornes, et le module publié lui est préféré chaque fois
+qu'il existe.
 % SOURCES-SCRIPTS: 65
 
 \vspace{4pt}
@@ -1228,8 +1235,10 @@ Deux réserves enfin, à ne pas reléguer en note. Aucune de ces entités ne pub
 conformité \textsc{dora} : on mesure une \emph{exposition} sous un état supposé, jamais une
 non-conformité constatée, et c'est pourquoi les trois états sont donnés côte à côte sans qu'aucun
 soit désigné. Et deux des quatre entités publient \og provisions techniques et autres passifs\fg{}
-sans les séparer, ce qui surestime l'assiette du forfait pour elles et sous-estime donc leur
-rapport à la charge forfaitaire ; le rapport au \textsc{scr} publié, lui, n'est pas concerné.
+sans les séparer, ce qui surestime l'assiette du repère forfaitaire pour elles ; pour les deux
+assureurs vie, la branche provisions de la formule applique de surcroît un coefficient plus faible
+que celui du repère, qui ne vaut donc pas pour elles. Le rapport au \textsc{scr} publié, lui,
+n'est pas concerné.
 
 % SOURCES-SCRIPTS: 65
 

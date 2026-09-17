@@ -21,8 +21,8 @@ La démonstration se fait en deux temps : (i)~elles sont insensibles aux choix d
 innocents (structure de la cascade, famille de dépendance, couche temporelle, source de
 sévérité) ; (ii)~elles ne réagissent qu'aux leviers qui doivent compter (conformité,
 contagion), ce qui est une \emph{qualité}, pas un défaut, c'est la sensibilité au risque que
-la Formule Standard n'a pas. Reste une incertitude irréductible, la queue de sévérité, que
-j'assume en présentant le SCR comme une distribution, jamais un point.
+la Formule Standard n'a pas. Reste une incertitude irréductible, la queue de sévérité, qui est
+assumée en présentant le besoin de capital comme une distribution, jamais un point.
 \end{cle}
 
 \section{L'argument de robustesse, en une table}
@@ -41,9 +41,9 @@ Priorité de remédiation P1 puis P4 (les \emph{sources}) &
 cadre de dépendance (cascade vs copule), branchement vs marche &
 P1 et P4 en tête dans tous les cadres ; SCR $\pm 4\,\%$ (branchement) &
 \rob \\
-C'est l'\textbf{asymétrie} de $W$ qui porte le résultat &
+L'\emph{asymétrie} de $W$ départage les deux piliers de tête &
 knockout de l'asymétrie (3\,000 tirages), placebo directionnel &
-sans la direction, le signal tombe sous le bruit du placebo &
+sans la direction, P1 et P4 ne se distinguent plus ; l'essentiel du surcoût de contagion reste porté par la partie symétrique &
 \rob \\
 Pas de couche de Hawkes &
 noyau exponentiel puis à retard, logique two-phase &
@@ -57,7 +57,7 @@ sa faveur ; forme de queue non rejetée ($p=0{,}4087$) &
 \rob \\
 Le SCR \emph{réagit} à la conformité et à la contagion &
 score de conformité $q\in[0,1]$, gain $g\in[0{,}05\,;0{,}90]$ &
-$-53\,\%$ de NC à C ; $\times 1{,}6$ sur la plage de $g$ &
+facteur $3{,}34$ de C à NC sur les quatre canaux ($-53\,\%$ sur le seul score) ; $\times 1{,}6$ sur la plage de $g$ &
 \feat \\
 Le SCR est une distribution large, pas un point &
 incertitude de paramètre (bootstrap deux niveaux) &
@@ -416,13 +416,11 @@ cela interdit de la citer à trois chiffres significatifs. Sur quatre rééchant
 $\beta=95\,\%$ n'est donc pas résolu ici et n'a pas à l'être, seul le saut vers $\beta=99\,\%$
 est net.
 
-\textbf{Une conséquence de rédaction, appliquée ici.} La VaR prédictive était publiée à $648$~M\euro{}
-dans ce chapitre et affichée à $645$ sur la figure, sans que rien ne signalât laquelle des deux
-lire. Les deux valeurs sortent du même estimateur appliqué à des ensembles bootstrap de tailles
-différentes ($2\,000$ contre $3\,000$), et leur écart de $3$~M\euro{} vaut moins d'un écart-type
-de simulation : c'était le même nombre, écrit deux fois avec un chiffre de trop. Toute grandeur
-simulée de cette section est désormais publiée avec son bruit, ce qui rend la question
-sans objet et donne au lecteur ce dont il a besoin, la précision plutôt que les décimales.
+\textbf{Une conséquence de rédaction.} Toute grandeur simulée de cette section est publiée avec son
+bruit. La VaR prédictive vaut ainsi $648$~M\euro{} sur un ensemble bootstrap de $2\,000$ tirages et
+$645$ sur un ensemble de $3\,000$, celui de la figure : même estimateur, et un écart de
+$3$~M\euro{} inférieur à un écart-type de simulation. Les deux valeurs sont un seul nombre, et le
+bruit publié dit la précision à laquelle le lire.
 
 \paragraph{Quelle posture le mémoire reporte-t-il.} La question mérite une réponse explicite,
 puisque six valeurs vont de $657$ à $1\,331$~M\euro. Tous les capitaux publiés dans ce mémoire
@@ -430,9 +428,9 @@ sont bâtis sur la calibration figée, donc sur le \emph{plug-in}, et ils sont c
 leur bande d'identification partielle. L'échelle des postures n'est pas une alternative à ce
 choix : c'est l'axe de sensibilité qui en donne le coût, et le passage du point au robuste
 $95\,\%$ multiplierait le capital par $1{,}6$. Le choix d'une posture reportée relève de la
-politique prudentielle de l'entité, non du modèle, et il reste \emph{ouvert} : c'est l'un des
-points à trancher, et le mémoire fournit la grille pour le faire plutôt que de le trancher à la
-place de son lecteur.
+politique prudentielle de l'entité, non du modèle : le mémoire en retient une pour ses propres
+chiffres, avec ses motifs (\S\ref{sec:posture-retenue}), et fournit la grille qui permet à une
+entité d'en retenir une autre.
 
 \begin{figure}[htbp]\centering
 \figover{J2_var_predictive.png}
@@ -572,8 +570,7 @@ Taux de dépassement gelé ($p_u$) & sous-estime & $+2{,}4\,\%$ de VaR manquante
 Couverture réelle de l'IC$_{90}$ de $\xi$ & sous-estime & $86\,\%$ au lieu de $90\,\%$ ; demi-largeur à élargir d'environ $10\,\%$ \\
 Échelle de sévérité non stationnaire & sous-estime & dérive de $4{,}00\,\%$ par an dans la queue ($p=0{,}0386$) ; au moins $+24{,}7\,\%$ sur le quantile, borne basse (\S\ref{soc:sec:backtest}) \\
 \midrule
-\multicolumn{3}{@{}l}{\emph{Choix posés, tous prudents}} \\
-Queue de sévérité de base $\xi$ & majore & $0{,}90$ posé contre $0{,}60$ estimé sur OpRisk \\
+\multicolumn{3}{@{}l}{\emph{Choix posés, tous deux prudents}} \\
 Charge systémique $a$ & majore & $0{,}60$ posé, au-delà de la borne haute empirique $0{,}22$ \\
 Sur-dispersion du moteur $\varphi$ & majore & $9{,}20$ posé contre $2{,}24$ mesuré \\
 \midrule
@@ -588,15 +585,16 @@ Additivité des coûts au sein d'un sinistre multi-piliers & \textbf{indétermin
 \end{center}
 
 \vspace{4pt}
-\noindent La lecture est nette sur les six premières lignes. Les trois écarts
-\emph{involontaires} d'estimation sous-estiment tous le capital ; les trois choix
-\emph{délibérés} le majorent tous, et de beaucoup plus. Le mémoire ne se protège donc pas
-derrière ses erreurs, il les déclare, et sa prudence vient d'ailleurs, de choix assumés qu'il
-nomme comme tels. C'est aussi pourquoi corriger les trois premiers ne renverserait aucune
-conclusion : ils restent dominés par les seconds.
+\noindent La lecture est nette sur les cinq premières lignes. Les trois écarts
+\emph{involontaires} d'estimation sous-estiment tous le capital ; les deux choix
+\emph{délibérés} le majorent. Le mémoire ne se protège donc pas derrière ses erreurs, il les
+déclare, et sa prudence vient de choix assumés qu'il nomme comme tels. L'indice de queue n'est
+pas de ces choix : le chiffre de tête repose sur la valeur estimée, et la valeur posée
+plus lourde n'intervient que comme pire cas de modèle dans l'échelle des postures
+(\S\ref{sec:predictive-robuste}), hors du capital reporté.
 
 \vspace{2pt}
-\noindent \textbf{Un mot sur la troisième ligne, qui est nouvelle et d'une autre taille.} Les deux
+\noindent \textbf{La troisième ligne est d'une autre taille.} Les deux
 premiers défauts pèsent quelques pour cent ; la dérive d'échelle en pèse un quart, soit un ordre
 de grandeur de plus, et elle est la seule des trois à avoir été trouvée par un test
 \emph{hors échantillon} plutôt que par un contrôle de cohérence interne. Son traitement est
@@ -733,7 +731,7 @@ synthétiques. Ce qui change est le statut de la limite : elle cesse d'être une
 devenir une piste référencée, dont la forme est écrite et le coût d'implémentation
 connu.
 
-\paragraph{La dernière ligne est la seule dont le sens ne se déclare pas.} Les sept précédentes ont
+\paragraph{La dernière ligne est la seule dont le sens ne se déclare pas.} Les six précédentes ont
 une direction connue, et c'est ce qui permet de les mettre en regard : on sait laquelle sous-estime
 et laquelle majore. L'additivité des coûts d'un sinistre multi-piliers n'a pas cette propriété, car
 les deux mécanismes qui la mettraient en défaut, la mutualisation de la remédiation et la

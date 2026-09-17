@@ -2,22 +2,18 @@
 \label{chap:multietats}
 
 \begin{cle}
-\textbf{Idée directrice.} Ce chapitre et le suivant sont l'\emph{application} du modèle
-construit et discipliné aux chapitres~\ref{chap:cascade}--\ref{chap:partielle} : ils
-répondent au \og combien \fg{} de la question du mémoire, sous la prudence qu'imposent les
-bornes du chapitre~\ref{chap:partielle}. Le SCR dépend de l'état de conformité de
-l'entité, objet ni binaire ni statique. On le modélise à deux échelles de temps
-(\emph{fast-slow}). À l'échelle rapide, un Vasicek multi-états définit l'état (non
-conforme, partiellement conforme, conforme) de chaque pilier et le fait piloter la cascade. À
-l'échelle lente, une chaîne de Markov fait progresser la conformité le long de la
-mise en conformité. C'est le remplacement \emph{dynamique} de la variable latente statique de
-l'ancien mémoire, et tout ce qui en sort se lit avec la même règle : le niveau est
-illustratif, l'écart et l'ordre sont ce qui est défendable.
+\textbf{Idée directrice.} Le besoin de capital dépend de l'état de conformité de l'entité,
+objet ni binaire ni statique. On le modélise à deux échelles de temps (\emph{fast-slow}). À
+l'échelle rapide, un Vasicek multi-états définit l'état (non conforme, partiellement conforme,
+conforme) de chaque pilier et le fait piloter la cascade. À l'échelle lente, une chaîne de Markov
+fait progresser la conformité le long de la mise en conformité. Tout ce qui en sort se lit avec
+la règle que les chapitres~\ref{ch:identifiabilite} et~\ref{chap:partielle} établissent : le
+niveau est illustratif, l'écart et l'ordre sont ce qui est défendable.
 \end{cle}
 
 \section{Le principe des deux échelles de temps}
 
-Le moteur des chapitres~\ref{chap:cascade}--\ref{chap:partielle} traite l'état de conformité
+Le moteur du chapitre~\ref{chap:cascade} traite l'état de conformité
 comme \emph{figé}, et les niveaux qui en découlent ne sont établis qu'en
 partie~\ref{part:resultats}. Or la
 conformité n'est ni un point ni un instantané : elle est graduelle (trois niveaux au moins) et
@@ -72,53 +68,84 @@ chaque état sachant l'environnement $\Theta$ s'écrit
 \end{equation}
 Intégrée sur $\Theta$, la marginale redonne exactement l'ancrage (contrôle de cohérence) ; en
 crise systémique, la masse bascule vers la non-conformité. C'est la version à trois états
-ordonnés de l'amplification systémique que portait l'ancienne variable latente, qu'on remplace
-ainsi proprement.
+ordonnés de l'amplification systémique d'un modèle à facteur unique.
 \end{cle}
 
 % SOURCES-SCRIPTS: 63
 
 
-\section{Les trois canaux : comment l'état pilote la cascade}
+\section{Les quatre canaux : comment l'état pilote la cascade}
+\label{sec:quatre-canaux}
 
-L'état de conformité agit sur la cascade par trois canaux, câblés sans réécrire
+L'état de conformité agit sur la cascade par quatre canaux, câblés sans réécrire
 l'agrégation du chapitre~\ref{chap:cascade} :
 \begin{enumerate}[leftmargin=1.5em,itemsep=2pt,topsep=2pt]
-\item \textbf{Fréquence} $\lambda$ : l'état module le nombre d'incidents amorcés, via les
-  multiplicateurs de scénario sourcés ($S_0$ conforme, $S_1$ partiel, $S_2$ non conforme).
-\item \textbf{Propagation} $g$ : une entité plus conforme contient mieux la contagion, donc un
-  gain plus faible. La propension à propager depuis un pilier reste $e_j=g(c_j)\,s_j/\max_k s_k$,
-  avec un gain indexé sur l'état du pilier source.
-\item \textbf{Détection} $p_u$ : le taux de matérialité (le seuil de détection du
+\item \textit{Fréquence} $\lambda$ : l'état module le nombre d'incidents amorcés, de $21{,}56$
+  incidents matériels par an à l'état conforme à $53{,}62$ à l'état non conforme, par le
+  multiplicateur de scénario décrit ci-dessous.
+\item \textit{Propagation} $g$ : une entité plus conforme contient mieux la contagion, donc un
+  gain plus faible, de $0{,}90$ à $0{,}45$. La propension à propager depuis un pilier reste
+  $e_j=g(c_j)\,s_j/\max_k s_k$, avec un gain indexé sur l'état du pilier source.
+\item \textit{Détection} $p_u$ : le taux de matérialité (le seuil de détection du
   chapitre~\ref{chap:cascade}). Une entité conforme intercepte et remédie tôt, de sorte qu'une
-  moindre fraction d'incidents atteint la sévérité matérielle.
+  moindre fraction d'incidents atteint la sévérité matérielle : $p_u$ est multiplié par $0{,}85$
+  à l'état conforme et par $1{,}20$ à l'état non conforme, deux valeurs posées.
+\item \textit{Accumulation par un prestataire commun} : à l'état non conforme, un incident amorcé
+  sur le pilier des tiers devient un choc commun qui touche chacun des autres piliers avec la
+  probabilité $0{,}68$, au lieu de se propager comme un nœud de cascade (\S\ref{sec:p4-accumulation}).
 \end{enumerate}
 On présente ces canaux en lectures emboîtées (fréquence seule ; $+$ propagation ; $+$
-détection), ce qui rend visible la contribution marginale de chacun et empêche qu'un canal
-domine en silence. Le canal détection, qui se compose avec la fréquence, est traité à part et
-présenté en sensibilité tant que son ampleur n'est pas tranchée.
+détection ; $+$ accumulation), ce qui rend visible la contribution marginale de chacun et
+empêche qu'un canal domine en silence. Le chiffre de tête du chapitre~\ref{chap:resultats}
+relâche les quatre.
 
-% SOURCES-SCRIPTS: 67
+\paragraph{D'où vient le multiplicateur de fréquence.} Il se compose vecteur d'attaque par
+vecteur d'attaque : $\lambda_{\text{NC}}=\lambda_{\text{C}}\sum_v \pi_v\,m_v$, où $\pi_v$ est la
+part du vecteur $v$ dans le recensement Hackmageddon (\S\ref{sec:hackmageddon}) et $m_v$ le centre
+d'une fourchette de multiplicateur propre au scénario non conforme.
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r c r r >{\raggedright\arraybackslash}p{5.2cm}@{}}
+\toprule
+\textbf{Vecteur} & \textbf{Part $\pi_v$} & \textbf{Fourchette} & \textbf{Centre} & \textbf{$\pi_v\,m_v$} & \textbf{Effet publié qui ancre la fourchette} \\
+\midrule
+Hameçonnage & $0{,}388$ & $[1{,}8\,;3{,}0]$ & $2{,}40$ & $0{,}9312$ & réduction du risque par la formation (Ponemon/IBM) \\
+Exploitation de vulnérabilité & $0{,}338$ & $[2{,}0\,;2{,}6]$ & $2{,}30$ & $0{,}7774$ & écart de conversion en intrusion entre exploitation et hameçonnage (ENISA) \\
+Chaîne d'approvisionnement & $0{,}158$ & $[1{,}9\,;2{,}6]$ & $2{,}25$ & $0{,}3555$ & surcoût et progression des brèches d'origine tierce (IBM, SecurityScorecard) \\
+Identifiants compromis & $0{,}063$ & $[3{,}0\,;8{,}0]$ & $5{,}50$ & $0{,}3465$ & réduction de compromission par l'authentification forte (Microsoft Research) \\
+Autres & $0{,}053$ & $[1{,}3\,;1{,}6]$ & $1{,}45$ & $0{,}0769$ & aucune source dédiée \\
+\midrule
+\multicolumn{4}{@{}l}{Multiplicateur agrégé, état non conforme} & $2{,}4875$ & $21{,}56\times 2{,}4875 = 53{,}62$ incidents par an \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Le multiplicateur est \emph{semi-ancré} et non calibré. Les parts sont une citation
+externe, et les bornes des fourchettes traduisent chacune un effet publié en multiplicateur
+prudent, sans estimation sur la donnée du projet : sa provenance est tracée, sa valeur est posée.
+Deux conséquences sont à garder. Aux bornes des fourchettes, le multiplicateur va de $1{,}933$ à
+$3{,}042$, soit une fréquence non conforme de $41{,}7$ à $65{,}6$ incidents par an. Et le vecteur
+des identifiants, qui ne compte que $6{,}3\,\%$ des incidents, porte $13{,}9\,\%$ du multiplicateur,
+sa fourchette étant la plus large.
+
+% SOURCES-SCRIPTS: 67 99 43
 
 
 \section{Les valeurs de \texorpdfstring{$g$}{g} sont posées, et la conclusion n'en dépend pas}
 \label{sec:invariance-g}
 
-Il faut ici s'arrêter sur ce qui est la faiblesse la plus sérieuse de tout le dispositif, et la
-traiter de front. Le canal par lequel la conformité agit est le gain de propagation $g$, et les
-trois valeurs retenues,
+Le gain de propagation $g$ est l'un des canaux par lesquels la conformité agit, et ses trois
+valeurs,
 \[
   g = 0{,}45 \ \text{(conforme)}, \qquad 0{,}68 \ \text{(partiellement conforme)},
   \qquad 0{,}90 \ \text{(non conforme)},
 \]
 sont posées. Elles ne sont calibrées sur aucune donnée, et pour une raison
 irréductible : aucune entité ne publie son état de conformité \textsc{dora}, si bien qu'il
-n'existe aucun échantillon d'où tirer la correspondance état $\to g$. Le code les marque
-\og non calibré\fg{} depuis l'origine, ce qui est honnête mais insuffisant. Tant que le résultat est
-énoncé comme \og le capital passe de $116$ à $169$~M\euro\fg{}, il hérite entièrement de ces trois
-décimales, et la première question d'un rapporteur sera : d'où vient le $0{,}90$ ?
-
-Elle n'est pas calibrée, et la conclusion n'en a pas besoin. Cela s'établit en deux temps.
+n'existe aucun échantillon d'où tirer la correspondance état $\to g$. Un écart énoncé comme
+\og le capital passe de $116$ à $169$~M\euro\fg{} hérite donc entièrement de ces trois décimales.
+Ce qui s'établit sans elles tient en deux temps.
 
 \paragraph{Le lemme, qui n'allait pas de soi.} Le capital est croissant en $g$. Ce
 n'est pas une évidence : le chapitre~\ref{chap:resultats} établit qu'à indice de queue élevé la
@@ -153,7 +180,7 @@ $+19{,}5\,\%$ & oui \\
 très étroite $(0{,}85 / 0{,}875 / 0{,}90)$ & $162{,}6$ & $166{,}7$ & $169{,}0$ & $+3{,}9\,\%$ &
 oui \\
 \midrule
-\emph{forfait de Formule Standard} & $450$ & $450$ & $450$ & $0\,\%$ & \emph{plat} \\
+\emph{repère forfaitaire de Formule Standard} & $450$ & $450$ & $450$ & $0\,\%$ & \emph{plat} \\
 \bottomrule
 \end{tabular}
 \end{center}
