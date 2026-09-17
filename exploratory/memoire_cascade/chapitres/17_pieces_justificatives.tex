@@ -552,20 +552,21 @@ Pour une fonction test $f$ sur les cinq piliers, la décomposition de Dynkin
 est une martingale pour la filtration naturelle de la chaîne et sous la mesure
 physique. Sa variation quadratique prévisible, en régime stationnaire, est la forme de Dirichlet
 de l'\eqref{eq:dirichlet} du chapitre~\ref{ch:identifiabilite}. \emph{Martingaliser} désigne donc ici l'opération de
-retirer le compensateur $\sum(Pf-f)$ pour ne garder que $M^f$, et le résultat
-d'identification est que la variation quadratique ne dépend que de la partie symétrique, le
-compensateur portant seul la direction.
+retirer le compensateur $\sum(Pf-f)$ pour ne garder que $M^f$, et l'énoncé du
+chapitre~\ref{ch:identifiabilite} est que la variation quadratique ne dépend que de la partie
+symétrique, le compensateur portant seul la direction.
 % SOURCES-SCRIPTS: 40
 
 \subsection*{Ce qui est effectivement testé, et ce n'est pas la martingale}
 
 Aucune hypothèse n'est testée sur $M^f$, et il n'y en a pas à tester : \eqref{eq:dynkin} est une
-\emph{identité algébrique}, vraie pour toute chaîne de Markov. Le seul test statistique de ce
-volet porte sur un tout autre objet, la statistique d'asymétrie du corpus de post-mortems,
-confrontée à une loi nulle exacte de permutation dans laquelle chaque arête change de
-sens indépendamment avec probabilité $\tfrac12$. Son résultat est publié et négatif :
-l'asymétrie observée vaut $119$ contre $128 \pm 27$ sous le nul, soit $z = -0{,}33$. Ce test ne
-fait intervenir aucune martingale.
+\emph{identité algébrique}, vraie pour toute chaîne de Markov. Les tests statistiques de ce
+volet portent sur un tout autre objet, la statistique d'asymétrie des transitions. Sur les
+transitions annuelles d'OpRisk, confrontée à un placebo qui permute les années à l'intérieur de
+chaque firme, elle ne détecte rien : l'asymétrie observée vaut $119$ contre $128 \pm 27$ sous le
+nul, soit $z = -0{,}33$. Sur le corpus de post-mortems, la loi nulle est exacte, chaque arête y
+changeant de sens indépendamment avec probabilité $\tfrac12$ (\S\ref{sec:biais-narration}). Aucun
+de ces tests ne fait intervenir une martingale.
 % SOURCES-SCRIPTS: 40 64
 
 \subsection*{Pourquoi aucun test de martingalité n'est possible, et c'est la réponse de fond}
@@ -608,8 +609,9 @@ générale que ce travail s'est donnée. Elle capture la \emph{direction des tra
 l'objet du chapitre, et le courant qui la mesure vaut $0{,}0443$ au maximum. Elle ne capture ni
 l'\emph{extinction} de la cascade, ni l'\emph{épuisement} des piliers déjà touchés. Ces deux
 mécanismes sont dans le moteur de simulation, ils ne sont pas dans la chaîne servant à l'argument
-d'identification, et l'argument n'en a pas besoin : il porte sur ce que la co-occurrence peut ou
-ne peut pas révéler de la direction, indépendamment du nombre de pas effectivement parcourus.
+d'identification. L'argument par la réversibilité vaut donc pour les statistiques de transition
+invariantes par renversement du temps ; la loi complète des ensembles de piliers touchés, que ces
+mécanismes façonnent, dépend au contraire de la direction (proposition~\ref{prop:nonid}).
 % SOURCES-SCRIPTS: 40
 
 % =====================================================================

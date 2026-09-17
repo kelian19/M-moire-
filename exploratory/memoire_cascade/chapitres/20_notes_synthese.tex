@@ -119,9 +119,11 @@ Montants en M\euro, échelle du secteur.}
 \end{center}
 
 \textbf{5. Ce que la donnée ne permet pas d'estimer.} Les données publiques montrent quels piliers
-cèdent ensemble, pas lequel a entraîné l'autre. Ce n'est pas un défaut de volume : la grandeur
-observable est mathématiquement insensible au sens de la propagation, de sorte qu'une matrice et sa
-transposée sont indiscernables pour la donnée tout en conduisant à des décisions différentes. Le
+cèdent ensemble, pas lequel a entraîné l'autre. Ce n'est pas un défaut de volume : les
+statistiques que ces sources permettent de construire ne voient pas le sens de la propagation, de
+sorte qu'une matrice et sa transposée y sont indiscernables tout en conduisant à des décisions
+différentes. Seul un relevé de l'ensemble des piliers touchés par chaque incident en porterait la
+trace. Le
 schéma d'incidents de référence de la profession, VERIS, porte les deux champs nécessaires et ne
 les renseigne ensemble que dans un incident sur $10\,591$. Plutôt que de poser une direction, le
 travail calcule le capital sur l'ensemble des matrices compatibles avec la donnée, soit les
@@ -186,8 +188,8 @@ capital ou transférer le risque, sur un même axe en euros par an.
 
 \textbf{Pour le régulateur.} La donnée qui rendrait la direction mesurable se déduit des échecs
 constatés : un registre d'incidents horodatant la survenance à la semaine, catégorisant par domaine
-de contrôle plutôt que par vecteur d'attaque, et consolidant une cause commune en un seul
-événement. Les deux premiers champs existent déjà dans VERIS ; il s'agit d'en rendre le
+de contrôle plutôt que par vecteur d'attaque, consolidant une cause commune en un seul
+événement et consignant tous les piliers touchés. Les deux premiers champs existent déjà dans VERIS ; il s'agit d'en rendre le
 remplissage obligatoire, ce que la notification des incidents majeurs sous DORA peut imposer.
 
 \notesec{Conclusion}
@@ -293,9 +295,10 @@ non-compliant state. Amounts in M\euro, sector scale.}
 \end{center}
 
 \textbf{5. What the data cannot identify.} Public data show which pillars fail together, not which
-one dragged the others. This is not a sample-size issue: the observable quantity is mathematically
-insensitive to the direction of propagation, so a matrix and its transpose are indistinguishable to
-the data while leading to different decisions. The industry-standard incident schema, VERIS,
+one dragged the others. This is not a sample-size issue: the statistics these sources allow are
+blind to the direction of propagation, so a matrix and its transpose are indistinguishable in them
+while leading to different decisions. Only a record of the full set of pillars hit by each
+incident would carry that information. The industry-standard incident schema, VERIS,
 carries both required fields but populates them together in only one incident out of $10\,591$.
 Rather than positing a direction, the work computes capital over the whole set of matrices
 consistent with the data, the $1\,024$ vertices of that set. In the configuration used for this computation, distinct
@@ -358,7 +361,8 @@ transferring the risk, on a single axis in euros per year.
 
 \textbf{For the regulator.} The data that would make the direction measurable follow from the
 observed failures: an incident register timestamping occurrence to the week, categorising by
-control domain rather than attack vector, and consolidating a common cause into a single event. The
+control domain rather than attack vector, consolidating a common cause into a single event, and
+recording every pillar hit. The
 first two fields already exist in VERIS; what is needed is to make them mandatory, which major
 incident reporting under DORA can impose.
 

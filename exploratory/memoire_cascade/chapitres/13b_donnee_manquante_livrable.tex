@@ -14,21 +14,28 @@ d'aucun prior.
 Puisque les trois sources agrégées échouent pour des raisons \emph{distinctes} (la première
 manque de taxonomie et de volume informatif, la deuxième de résolution temporelle, la troisième
 possède les bons champs mais ne les renseigne pas), la donnée qui identifierait $W$ se déduit
-par complémentarité. Un registre d'incidents \textsc{tic} l'identifiant devrait :
+par complémentarité, et la proposition~\ref{prop:nonid} y ajoute une exigence. Un registre
+d'incidents \textsc{tic} l'identifiant devrait :
 \begin{enumerate}[itemsep=2pt]
 \item horodater la survenance (et non la seule déclaration) au mois ou à la
       semaine, afin de porter une antériorité que le pas annuel efface ;
 \item catégoriser par domaine de contrôle (les piliers DORA), et non par vecteur
       d'attaque, afin qu'une transition soit interprétable comme un lien $k \to j$ ;
 \item consolider une cause commune comme \emph{un} événement à $N$ victimes, pour ne pas
-      confondre un lot de déclaration avec une contagion séquentielle.
+      confondre un lot de déclaration avec une contagion séquentielle ;
+\item consigner, pour chaque incident, l'ensemble des piliers qui ont cédé, y compris ceux qui
+      n'ont rien entraîné. Même sans horodatage, la loi jointe des piliers touchés distingue une
+      matrice de sa transposée : sur la matrice publiée, la part des sinistres touchant plus d'un
+      pilier vaut $62{,}31\,\%$ sous $W$ et $50{,}77\,\%$ sous $W^\top$.
 \end{enumerate}
 
-Ces trois exigences ne sont pas hors d'atteinte : le registre d'information imposé par
-l'\emph{implementing technical standard} du règlement d'exécution \citep{eu2024_2956} porte déjà
-l'identification des prestataires, la chaîne de sous-traitance et la criticité des fonctions. Ce
-qui manque relève du \emph{format} de l'horodatage et du \emph{choix de la taxonomie}, non d'une
-collecte nouvelle.
+Ces exigences ne sont pas hors d'atteinte, mais elles ne relèvent pas du même instrument. Le
+registre d'information du règlement d'exécution \citep{eu2024_2956} porte sur les accords
+contractuels avec les prestataires : il identifie les prestataires, la chaîne de sous-traitance et
+la criticité des fonctions, ce qui sert la troisième exigence en permettant de rattacher des
+incidents à un même prestataire. Les trois autres relèvent de la notification des incidents
+majeurs, dont il s'agit de fixer le \emph{format} de l'horodatage et le \emph{choix de la
+taxonomie} plutôt que d'organiser une collecte nouvelle.
 
 \begin{cle}
 \textbf{La spécification n'est même pas à écrire : elle existe et n'est pas remplie.} Les deux
@@ -47,7 +54,7 @@ déclarative volontaire ne l'a pas. C'est un coût de conception nul et un gain 
 chiffré à la section suivante.
 \end{cle}
 
-% SOURCES-SCRIPTS: 28 52 08b
+% SOURCES-SCRIPTS: 28 52 08b 98
 
 % SOURCES-SCRIPTS: 52 08b
 
@@ -80,10 +87,12 @@ riche ne pouvant pas valoir moins. Et elle est sans dimension, donc indépendant
 niveau de capital, ce qui la rend comparable d'une source de sévérité à l'autre alors même que
 ce niveau, lui, varie d'un facteur quarante.
 
-Le corpus de sept rapports post-incident du chapitre~\ref{ch:identifiabilite} établit le
-\emph{sens} de six des dix dépendances entre piliers. À lui seul, il fait tomber la largeur de la
-bande de $66\,\%$. C'est la valeur, en capital, de la lecture de sept documents publics,
-et elle donne l'ordre de grandeur de ce qu'un registre correctement spécifié apporterait.
+Le corpus de sept rapports post-incident du chapitre~\ref{ch:identifiabilite} documente le
+\emph{sens} de six des dix dépendances entre piliers, sens que le \S\ref{sec:bayes} ne revendique
+paire par paire que sur deux d'entre elles. Retenu sur les six, il ferait tomber la largeur de la
+bande de $66\,\%$. Ce chiffre est donc la valeur, en capital, d'une information de sens de cette
+étendue, non un acquis du mémoire, et il donne l'ordre de grandeur de ce qu'un registre
+correctement spécifié apporterait.
 
 \begin{attention}
 \textbf{Ce qu'aucune information de sens ne donnera.} Même les dix directions établies, une bande
@@ -103,8 +112,8 @@ tenir.
   \centering
   \figover{Z18_valeur_information.png}
   \caption{La valeur de l'information, chiffrée et hiérarchisée : la
-contribution réglementaire du travail. (a)~l'information rétrécit la bande de capital,
-$66\,\%$ étant acquis par la seule lecture de sept rapports publics, tandis qu'une bande
+contribution réglementaire du travail. (a)~l'information rétrécit la bande de capital, de
+$66\,\%$ si l'on retenait le sens que documentent sept rapports publics, tandis qu'une bande
 d'amplitude subsisterait \emph{même les dix sens connus} : l'identification partielle est
 structurelle, non provisoire. (b)~quelle dépendance documenter en priorité ; en bleu,
 celles que le corpus couvre déjà. L'écart va de $28{,}9\,\%$ d'ambiguïté levée

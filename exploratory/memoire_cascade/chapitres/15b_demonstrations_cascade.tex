@@ -84,7 +84,7 @@ en $A_{jk}$ n'a plus lieu, et l'optimum sur le pavé $\{|A_{jk}|\le t\,S_{jk}\}$
 cherché aux sommets sans garantie qu'ils le réalisent.
 \end{proof}
 
-\section*{Dépendance à l'ordre et non-identification (propositions~\ref{prop:ordre} et~\ref{prop:nonid})}
+\section*{Dépendance à l'ordre et co-occurrence (propositions~\ref{prop:ordre} et~\ref{prop:nonid})}
 
 \begin{proof}
 \emph{Ordre.} Soit $\sigma=(i_1,\dots,i_n)$ et $\sigma'$ une permutation de $\sigma$. Alors
@@ -96,15 +96,31 @@ implique l'existence d'une paire dont l'ordre change la vraisemblance, donc la c
 pas une fonction de l'ensemble. Toute copule et tout score additif étant symétriques en leurs
 arguments, aucun ne reproduit cette dépendance.
 
-\emph{Non-identification.} La décomposition $W=\tfrac12(W+W^\top)+\tfrac12(W-W^\top)=S+A$ est
+\emph{Co-occurrence.} La décomposition $W=\tfrac12(W+W^\top)+\tfrac12(W-W^\top)=S+A$ est
 unique car $S$ est symétrique, $A$ antisymétrique, et cette somme directe est celle des
-matrices en parties symétrique et antisymétrique. La co-occurrence observée d'une paire
-$\{j,k\}$ est, par échange des rôles, une fonction de $W_{jk}+W_{kj}=2S_{jk}$ seulement ; de
-même la statistique d'asymétrie du placebo compare $M$ à sa transposée et son espérance sous
-permutation ne dépend que de $S$. Donc $W$ et $W^\top=S-A$ induisent les mêmes lois observables
-de co-occurrence. Ils diffèrent par le signe de $A$, et la proposition~\ref{prop:mono} montre
-qu'un tel changement modifie l'ensemble atteint, donc le SCR, en général : la direction est non
-identifiée.
+matrices en parties symétrique et antisymétrique.
+
+(i) Pour que $j$ et $k$ soient tous deux atteints depuis une amorce $a\notin\{j,k\}$, il faut au
+moins deux arêtes vivantes, événement de probabilité $O(\lVert W\rVert^2)$. Depuis l'amorce $j$,
+le pilier $k$ est atteint par l'arête directe avec la probabilité $W_{jk}$, et par tout autre
+chemin, de longueur au moins deux, avec une probabilité $O(\lVert W\rVert^2)$ ; symétriquement
+depuis l'amorce $k$. En sommant sous l'amorce uniforme, la probabilité de co-occurrence vaut
+$r\,(W_{jk}+W_{kj})+O(\lVert W\rVert^2)$, et le terme d'ordre un, $2r\,S_{jk}$, est le même pour
+$W$ et pour $W^\top$.
+
+(ii) Deux contre-exemples suffisent. Sous une amorce non uniforme de poids $r_a$, le terme
+d'ordre un devient $r_j W_{jk}+r_k W_{kj}$, qui change par transposition dès que $r_j\neq r_k$ et
+$W_{jk}\neq W_{kj}$. Sous l'amorce uniforme, prenons trois piliers avec $W_{12}=W_{13}=w>0$ et
+toutes les autres entrées nulles. Sous $W$, une amorce en $1$ touche $2$ et $3$ ensemble avec la
+probabilité $w^2$, si bien que la paire $\{2,3\}$ co-occurre avec la probabilité $r\,w^2>0$. Sous
+$W^\top$, les seules arêtes vont de $2$ et de $3$ vers $1$, et aucun sinistre ne touche $2$ et $3$
+ensemble. Les deux matrices ont la même partie symétrique : la co-occurrence d'ordre deux
+distingue la fourche du collisionneur, ce qui est la structure en V de l'identification des
+graphes causaux \citep{verma1990equivalence}.
+
+(iii) Un changement de signe de $A$ modifie la loi de l'ensemble atteint, donc la loi de la perte
+et le SCR en général ; la section~\ref{sec:verif-proprietes} en donne la mesure sur la matrice
+publiée.
 \end{proof}
 
 \section*{Efficience de la valeur de Shapley}

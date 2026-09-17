@@ -11,9 +11,12 @@
 
 \begin{cle}
 \textbf{Thèse du chapitre.} La \emph{direction} de la contagion entre les cinq piliers DORA
-n'est pas identifiable sur les données publiques agrégées, quand sa co-occurrence
-l'est. C'est un résultat d'identification, dont la théorie des processus réversibles donne
-la raison de principe. Mais l'affaire ne s'arrête pas là : un corpus de rapports
+n'est pas identifiable sur les données publiques agrégées disponibles, quand sa co-occurrence
+l'est. C'est un résultat d'identification empirique : les trois sources échouent pour des raisons
+propres à leur contenu, et la théorie des processus réversibles en donne la raison de principe
+pour les statistiques invariantes par renversement du temps. Il ne vaut pas pour toute donnée, la
+loi complète des piliers touchés par incident portant de l'information sur la direction
+(proposition~\ref{prop:nonid}). Mais l'affaire ne s'arrête pas là : un corpus de rapports
 d'incidents officiels corrobore la \emph{structure} de cette direction, sans lever pour autant
 le doute sur chacun de ses coefficients. On aboutit donc à une frontière en trois
 niveaux, que ce chapitre établit puis assume : la structure est revendiquée, la direction paire
@@ -127,13 +130,13 @@ ne demande pas d'inventer des champs, elle demande d'en rendre deux obligatoires
 
 % SOURCES-SCRIPTS: 40 64
 
-\section{Pourquoi la direction est inidentifiable : la lecture par la réversibilité}
+\section{Pourquoi la direction échappe à la co-occurrence : la lecture par la réversibilité}
 
-Le placebo établit un fait ; la théorie des processus réversibles en donne la raison,
-et transforme l'aveu en théorème. Toute matrice se décompose de façon unique en $W=S+A$, part
+Le placebo établit un fait ; la théorie des processus réversibles en donne la raison de principe,
+sous une hypothèse qu'il faut écrire : que les sauts entre piliers se représentent par une chaîne
+de Markov stationnaire. Toute matrice se décompose de façon unique en $W=S+A$, part
 symétrique $S=(W+W^\top)/2$ et antisymétrique $A=(W-W^\top)/2$, et ces deux parts sont
-\emph{orthogonales} au sens de Frobenius : la séparation de l'identifié et du non-identifié est
-exacte, sans recouvrement. Sur la chaîne de Markov des sauts inter-piliers construite à partir
+\emph{orthogonales} au sens de Frobenius. Sur la chaîne de Markov des sauts inter-piliers construite à partir
 du jugement dirigé (de loi stationnaire $\pi$), $S$ est la partie réversible et $A$ le
 \emph{courant} de probabilité $J_{jk}=\pi_j P_{jk}-\pi_k P_{kj}$, antisymétrique et nul si et
 seulement si l'équilibre détaillé est satisfait. Le renversement du temps laisse $S$ invariante
@@ -188,28 +191,30 @@ hypothèses de la chaîne, distingue ce qui est \emph{testé} de ce qui est \emp
 dit pourquoi aucun test de martingalité n'est possible sur un facteur latent.
 
 \begin{cle}
-\textbf{Le placebo, relu.} Le non-rejet $z=-0{,}33$ se lit alors comme une donnée
-compatible avec $\sigma=0$ (équilibre détaillé) : une statistique invariante par
-renversement du temps, et la co-occurrence en est une, ne \emph{peut pas} identifier un
-courant qui, lui, change de signe sous ce renversement. C'est la raison de principe derrière le
-caractère dégénéré du test du \og temps inversé \fg{} : $S$, la partie identifiée, est ce que la
-martingalisation \emph{garde} ; $A$, la direction, ce qu'elle \emph{retire}. On assume l'emprunt
-(le produit scalaire propre est pondéré par $\pi$, dont le $S=(W+W^\top)/2$ euclidien est le cas
-$\pi$ uniforme ; $W$ n'est pas littéralement un générateur de Markov) : c'est une lecture qui
-\emph{fonde} la limite sur un théorème, non une hypothèse de plus.
+\textbf{Le placebo, relu, et la portée de cette lecture.} Le non-rejet $z=-0{,}33$ est
+compatible avec $\sigma=0$ (équilibre détaillé). Pour une chaîne stationnaire, une statistique
+invariante par renversement du temps a la même loi sous $P$ et sous le noyau renversé $\tilde P$ :
+elle ne \emph{peut pas} voir un courant qui change de signe sous ce renversement, et c'est ce qui
+rend dégénéré le test du \og temps inversé \fg{}. La statistique $T$ du placebo n'est pas de ce
+type, puisqu'elle compare les transitions à leur transposée : elle pouvait détecter un courant, et
+au pas annuel elle n'en détecte aucun. Deux limites bornent cette lecture. $W$ n'est pas
+littéralement un générateur de Markov, et le produit scalaire propre est pondéré par $\pi$, dont le
+$S=(W+W^\top)/2$ euclidien est le cas $\pi$ uniforme. Surtout, l'énoncé ne s'étend pas à la loi
+complète des ensembles de piliers touchés par un sinistre, qui dépend de la direction
+(proposition~\ref{prop:nonid}). La frontière est donc celle des statistiques que les sources
+fournissent, non une impossibilité de principe.
 \end{cle}
 
 \begin{figure}[htbp]
   \centering
   \figover{Z11_reversibilite_martingale.png}
   \caption{La direction $A$ comme courant irréversible, et
-pourquoi la donnée ne peut pas la voir. (a)~le courant $J_{jk}=\pi_jP_{jk}-\pi_kP_{kj}$
+pourquoi une statistique invariante par renversement ne peut pas la voir. (a)~le courant $J_{jk}=\pi_jP_{jk}-\pi_kP_{kj}$
 est non nul : le modèle porte bien une direction. (b)~l'énergie de fluctuation, c'est-à-dire
 la variation quadratique de la martingale, est \emph{identique} pour la chaîne posée et pour sa
 symétrisée : elle ne voit que $S$. La production d'entropie, elle, s'efface à la symétrisation.
-(c)~le renversement du temps laisse $S$ intacte et retourne le signe de $A$. C'est la
-raison de principe pour laquelle une statistique de co-occurrence, invariante par renversement,
-ne peut pas identifier un courant qui change de signe sous ce renversement.}
+(c)~le renversement du temps laisse $S$ intacte et retourne le signe de $A$ : pour une chaîne
+stationnaire, une statistique invariante par renversement ne peut pas identifier ce courant.}
   \label{fig:reversibilite}
 \end{figure}
 % SOURCES-SCRIPTS: 40

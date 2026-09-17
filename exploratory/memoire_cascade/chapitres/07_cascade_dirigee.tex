@@ -5,7 +5,7 @@
 \textbf{Idée directrice.} La dépendance entre les cinq piliers n'est pas ajoutée après coup par
 une copule : elle est \emph{produite} par la propagation d'un incident le long d'une matrice
 d'influence dirigée. La cascade est ainsi la vue structurelle (bottom-up) de la
-dépendance, en regard de la vue copule (top-down) de l'ancien mémoire. Le fil du
+dépendance, en regard de la vue par copule (top-down). Le fil du
 chapitre part du Vasicek à un facteur, l'ouvre en deux temps (systémique par pilier, puis
 propagation dirigée), et remplace le seuil de défaut du crédit par un seuil ancré sur la barre
 de matérialité du règlement.
@@ -230,8 +230,8 @@ en cause dans ce qui suit.
 \begin{attention}
 \textbf{Ce que ce protocole donne sur données réelles : rien.} Appliqué aux sources
 disponibles, il échoue, et il échoue pour des raisons qui tiennent aux \emph{données} et non à
-la méthode. Le chapitre~\ref{ch:identifiabilite} le démontre sur deux sources qui échouent pour
-des raisons opposées et en tire la frontière d'identification ; le
+la méthode. Le chapitre~\ref{ch:identifiabilite} le démontre sur trois sources qui échouent pour
+des raisons distinctes et en tire la frontière d'identification ; le
 chapitre~\ref{chap:partielle} en tire les conséquences sur le capital. Une précision de méthode
 s'impose dès ici : le test intuitif du \og temps inversé \fg{} est dégénéré
 sur des comptages, puisque la matrice obtenue en renversant la chronologie vaut, par
@@ -300,9 +300,18 @@ que $a$ atteigne \emph{tout} $A$ par les seules arêtes internes, vérifie $R(\{
 \[
   R(A)\;=\;1-\sum_{\substack{A'\subsetneq A\\ a\in A'}} R(A')\!\!\prod_{j\in A',\;k\in A\setminus A'}\!\!(1-W_{jk}).
 \]
-Le SCR du chapitre~\ref{chap:resultats} est calculé par cette récursion exacte, sans
-simulation de la cascade.
 \end{proposition}
+
+\noindent Le moteur qui produit les capitaux publiés n'emploie pas cette cascade mais sa variante
+à un successeur par pas, la marche auto-évitante : depuis le pilier courant $j$, la cascade passe
+au pilier $k$ avec la probabilité $W_{jk}$, et s'arrête sinon, ou dès qu'elle revient sur un
+pilier déjà touché. Les deux constructions ont la même matrice moyenne $W$ et le même nombre
+moyen de descendants directs, et la loi de l'ensemble atteint se calcule exactement dans les deux
+cas, sans simulation. Elles diffèrent par la forme de la loi de taille et non par le capital :
+passer de la marche au branchement déplace le SCR de $-4\,\%$. Les
+propositions~\ref{prop:reduite} à~\ref{prop:mono} sont énoncées pour la cascade indépendante,
+qui en donne la forme la plus simple ; pour la marche, la croissance du capital en $g$ est
+vérifiée numériquement au \S\ref{sec:invariance-g}.
 
 \begin{proposition}[Monotonie stochastique]
 \label{prop:mono}
@@ -323,16 +332,24 @@ $\mathrm{TRANS}$ est symétrique. Comme $\mathrm{TRANS}$ est asymétrique, la cr
 score additif, invariants par permutation, ne peut la reproduire.
 \end{proposition}
 
-\begin{proposition}[Non-identification directionnelle]
+\begin{proposition}[Ce que la co-occurrence voit de la direction]
 \label{prop:nonid}
-Dans la décomposition unique $W=S+A$ avec $S=\tfrac12(W+W^\top)$ et $A=\tfrac12(W-W^\top)$,
-la matrice de co-occurrence et la statistique du placebo par permutation ne dépendent de $W$
-que par sa partie symétrique $S$. Les matrices $W$ et $W^\top$, de même $S$, sont donc
-\emph{observationnellement équivalentes} sous les données de co-occurrence, alors que
-$\mathrm{SCR}(W)\neq\mathrm{SCR}(W^\top)$ en général : la direction est non identifiée.
+Soit la décomposition unique $W=S+A$, avec $S=\tfrac12(W+W^\top)$ et $A=\tfrac12(W-W^\top)$.
+\emph{(i)} Sous une amorce uniforme, de probabilité $r$ pour chaque pilier, la probabilité qu'un
+même sinistre touche à la fois $j$ et $k$ vaut
+\[
+  \sum_{a\in P} r\,\mathbb P\bigl(\{j,k\}\subseteq S_a\bigr)
+  \;=\; r\,(W_{jk}+W_{kj})+O\bigl(\lVert W\rVert^2\bigr)
+  \;=\; 2r\,S_{jk}+O\bigl(\lVert W\rVert^2\bigr) :
+\]
+au premier ordre, la co-occurrence ne dépend de $W$ que par $S$, et $W$ et $W^\top$ y sont
+indiscernables. \emph{(ii)} Au-delà du premier ordre, ou sous une amorce non uniforme, la loi de
+l'ensemble atteint dépend de $A$ en général : $W$ et $W^\top$ ne sont pas observationnellement
+équivalents pour la loi complète des ensembles de piliers touchés. \emph{(iii)}
+$\mathrm{SCR}(W)\neq\mathrm{SCR}(W^\top)$ en général.
 \end{proposition}
 
-% SOURCES-SCRIPTS: 32 61
+% SOURCES-SCRIPTS: 32 61 29 98
 
 \section{Vérification numérique des trois propriétés qui portent l'argument}
 \label{sec:verif-proprietes}
@@ -378,24 +395,34 @@ plusieurs chemins, que la forme linéaire compte plusieurs fois. Sur cinq pilier
 connectés il n'est pas négligeable, ce qui justifie de conserver le calcul exact par
 sous-ensembles (proposition~\ref{prop:loi}) plutôt que la seule forme close.
 
-\paragraph{La direction n'est pas identifiée, et cela coûte (proposition~\ref{prop:nonid}).} La
-co-occurrence observée est une fonction de la seule partie symétrique $S$, et le test
-directionnel ne rejette pas l'hypothèse $A=0$ (chapitre~\ref{ch:identifiabilite} : asymétrie
-observée $119$ contre un nul de permutation à $128 \pm 27$, soit $z=-0{,}33$, et aucune arête
-significative sur $18$). Retourner la matrice déplace pourtant le capital de $3{,}6\,\%$ et la
-perte moyenne de $7{,}9\,\%$ (les niveaux sont établis en partie~\ref{part:resultats} ; seuls les
-écarts importent ici), et surtout la priorité de remédiation bascule de P1 à P4. Sur
-l'ensemble admissible, l'écart entre une matrice et sa transposée atteint $1\,173$~M\euro{}.
+\paragraph{La direction échappe aux statistiques disponibles, et cela coûte
+(proposition~\ref{prop:nonid}).} Le test directionnel ne rejette pas l'hypothèse $A=0$
+(chapitre~\ref{ch:identifiabilite} : asymétrie observée $119$ contre un nul de permutation à
+$128 \pm 27$, soit $z=-0{,}33$, et aucune arête significative sur $18$). Retourner la matrice
+déplace pourtant le capital de $3{,}6\,\%$ et la perte moyenne de $7{,}9\,\%$ (les niveaux sont
+établis en partie~\ref{part:resultats} ; seuls les écarts importent ici), et surtout la priorité
+de remédiation bascule de P1 à P4. Sur l'ensemble admissible, l'écart entre une matrice et sa
+transposée atteint $1\,173$~M\euro{}.
+
+La loi complète des ensembles touchés, elle, distingue les deux matrices, ce que la partie (ii) de
+la proposition énonce. Sur la matrice publiée, avec l'amorce et la marche du moteur, un sinistre
+touche en moyenne $1{,}931$ pilier sous $W$ et $1{,}746$ sous $W^\top$, la part des sinistres
+multi-piliers passe de $62{,}31\,\%$ à $50{,}77\,\%$, et la probabilité que P2 et P5 cèdent
+ensemble tombe de $0{,}127$ à $0{,}066$. Sous amorce uniforme, l'écart entre les deux matrices
+s'efface avec l'intensité de la contagion : il ne vaut plus que $0{,}86\,\%$ quand $W$ est ramenée
+au cinquantième de sa valeur, ce qui est la partie (i).
 
 \begin{cle}
-\textbf{L'énoncé à retenir : observationnellement indistinguables, matériellement différentes.}
-C'est la formulation la plus nette de la frontière d'identification, et elle ne repose sur
+\textbf{L'énoncé à retenir : indiscernables pour les statistiques disponibles, matériellement
+différentes.} C'est la formulation exacte de la frontière d'identification, et elle ne repose sur
 \emph{aucun} dire d'expert. Elle chiffre en euros de capital, et en inversion de priorité, le
-prix de ne pas savoir dans quel sens la contagion circule. C'est ce qui fonde à la fois le
-modèle en couches (chapitre~\ref{chap:partielle}) et la spécification de reporting adressée au
-régulateur.
+prix de ne pas savoir dans quel sens la contagion circule. Elle désigne aussi la donnée qui
+réduirait cette ignorance : la direction n'est pas inaccessible par principe, elle est absente
+des sources, et un registre qui consignerait l'ensemble des piliers touchés par chaque incident
+en porterait une partie. C'est ce qui fonde à la fois le modèle en couches
+(chapitre~\ref{chap:partielle}) et la spécification de reporting adressée au régulateur.
 \end{cle}
 
 % =====================================================================
 
-% SOURCES-SCRIPTS: 40 03
+% SOURCES-SCRIPTS: 40 03 98
