@@ -780,25 +780,10 @@ protocole, même conclusion, sur un autre péril et par une autre équipe. Ce n'
 artefact du réglage retenu ici, mais une propriété du principe de la perte unique dominante,
 qui rend le niveau central aveugle à la structure de dépendance.
 
-\begin{attention}
-\textbf{Le $+0{,}1\,\%$ est une graine, et la coïncidence est plus fragile que le nombre ne le
-laisse croire.} La reprise du protocole sur quatre graines et un échantillon assez grand pour
-qu'un quantile à $99{,}95\,\%$ ait un sens donne, au même niveau
+Le $+0{,}1\,\%$ est cependant un tirage : sur quatre graines, l'écart moyen vaut $+4{,}8\,\%$
 % SOURCES-SCRIPTS: 80
-$99{,}5\,\%$, un écart moyen de $+4{,}8\,\%$ d'étendue $10$ points entre graines. Le
-$+0{,}1\,\%$ publié n'est donc pas faux, il est \emph{un tirage} : la conclusion à retenir n'est
-pas que la gaussienne retombe exactement sur la cascade, c'est que leur écart ne dépasse
-pas son propre bruit. L'énoncé faible est le seul qui tienne, et il suffit à l'argument.
-
-\textbf{Et la séparation en queue ne vaut que pour la Student.} Le même protocole, décliné sur
-huit niveaux de quantile de $50$ à $99{,}95\,\%$, marque d'une étoile les seules cases où l'écart
-dépasse l'étendue entre graines. Au-delà de $99\,\%$, seule la Student sort de son
-bruit, à $+20{,}4$, $+29{,}8$ puis $+31{,}2\,\%$ ; ni la gaussienne ni l'indépendance n'y
-parviennent, leurs étendues atteignant $13$ et $31$ points. La raison est structurelle : la
-Student est la seule des trois à porter une dépendance de queue \emph{asymptotique}. Le préprint
-doit donc être cité sur le protocole, jamais sur l'ordre du résultat en queue, qui
-dépend de l'indice de queue de la sévérité et non de l'architecture du modèle.
-\end{attention}
+et reste sous son propre bruit, et au-delà de $99\,\%$ seule la Student sort du sien. Le détail
+est au \S\ref{sec:ann-benchmark-graines}.
 
 \textbf{L'intervention.} Basculer un pilier en non-conformité est une intervention, pas un
 conditionnement. Le jumeau LDA-copule exprime les canaux fréquence et détection (les marges

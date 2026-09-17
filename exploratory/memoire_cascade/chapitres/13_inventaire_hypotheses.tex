@@ -358,8 +358,8 @@ quantile publié n'est pas un artefact du moteur de simulation.
 Quantifier l'incertitude (les trois étages) ne dit pas encore \emph{quel} nombre reporter.
 Prendre le quantile $99{,}5\,\%$ d'une loi estimée en un point (\emph{plug-in}) est fragile,
 car les données sont incertaines : \og{}le quantile d'un objet incertain est mauvais\fg{}
-(C.~Hillairet). Deux réponses complémentaires, selon la posture (figures~\ref{fig:predictive}
-et~\ref{fig:robuste}).
+(C.~Hillairet). Deux réponses complémentaires, selon la posture (figure~\ref{fig:robuste} et
+\S\ref{sec:ann-postures}).
 
 \textbf{La VaR prédictive} intègre l'incertitude de paramètre \emph{avant} de prendre le
 quantile : on prend le quantile de la loi \emph{prédictive}, mélange des GPD sur la distribution
@@ -400,26 +400,10 @@ Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille}, en poussant la 
 indépendants, à $3\,000$ tirages bootstrap chacun. Deux lectures s'imposent, et la seconde
 n'était pas attendue.
 
-\textbf{Les deux extrémités de l'échelle sont exactes, tout le bruit est au milieu.} Le point est
-le quantile d'un ajustement unique et le pire-cas celui d'un $\xi$ \emph{posé} : ni l'un ni
-l'autre ne comporte de simulation. Ce sont les postures intermédiaires, celles qui intègrent
-l'incertitude, qui en héritent un bruit propre. Une posture plus riche est donc, à ce titre
-précis, moins reproductible.
-
-\textbf{La posture la plus prudente est la moins précise.} À $\beta=99\,\%$ l'écart-type de
-simulation vaut $24$~M\euro, environ le double de celui des deux niveaux inférieurs, et la raison
-est structurelle : un percentile à $99\,\%$ de la loi bootstrap s'estime sur bien moins de
-tirages utiles que sa médiane, dans une queue lourde. Cela ne disqualifie pas la posture, mais
-cela interdit de la citer à trois chiffres significatifs. Sur quatre rééchantillonnages, un
-écart-type est lui-même connu à $40\,\%$ près : le classement de $\beta=90\,\%$ et
-$\beta=95\,\%$ n'est donc pas résolu ici et n'a pas à l'être, seul le saut vers $\beta=99\,\%$
-est net.
-
-\textbf{Une conséquence de rédaction.} Toute grandeur simulée de cette section est publiée avec son
-bruit. La VaR prédictive vaut ainsi $648$~M\euro{} sur un ensemble bootstrap de $2\,000$ tirages et
-$645$ sur un ensemble de $3\,000$, celui de la figure : même estimateur, et un écart de
-$3$~M\euro{} inférieur à un écart-type de simulation. Les deux valeurs sont un seul nombre, et le
-bruit publié dit la précision à laquelle le lire.
+Les deux extrémités de l'échelle sont exactes et tout le bruit est au milieu ; la posture la
+plus prudente est la moins précise. Les deux valeurs de la VaR prédictive, $648$ et $645$~M\euro,
+sont un seul nombre à la précision du bruit. Le détail est au \S\ref{sec:ann-postures}.
+% SOURCES-SCRIPTS: 46
 
 \paragraph{Quelle posture le mémoire reporte-t-il.} La question mérite une réponse explicite,
 puisque six valeurs vont de $657$ à $1\,331$~M\euro. Tous les capitaux publiés dans ce mémoire
@@ -430,15 +414,6 @@ $95\,\%$ multiplierait le capital par $1{,}6$. Le choix d'une posture reportée 
 politique prudentielle de l'entité, non du modèle : le mémoire en retient une pour ses propres
 chiffres, avec ses motifs (\S\ref{sec:posture-retenue}), et fournit la grille qui permet à une
 entité d'en retenir une autre.
-
-\begin{figure}[htbp]\centering
-\figover{J2_var_predictive.png}
-\caption{VaR prédictive. (a)~le paramètre $\xi$ est incertain. (b)~les queues
-\emph{plug-in} et prédictive ne divergent que loin dans la queue. (c)~le capital se lit
-en profil et en bande.}
-% SOURCES-SCRIPTS: 46
-\label{fig:predictive}
-\end{figure}
 
 \begin{figure}[htbp]\centering
 \figover{J7_scr_robuste.png}

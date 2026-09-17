@@ -439,42 +439,12 @@ que les enquêteurs concluent ainsi. L'enjeu n'est pas mince, puisque onze des v
 transitions codées partent de $P_1$. Jusqu'ici cette limite était écrite et non chiffrée, ce
 qui est la différence entre une réserve et un résultat. On la chiffre.
 
-\paragraph{Une loi nulle exacte.} L'asymétrie se
-décompose sur les paires non ordonnées,
-\[
-  T \;=\; \tfrac12\lVert M - M^\top\rVert_1
-    \;=\; \sum_{\{j,k\}} \bigl| m_{jk} - m_{kj} \bigr|,
-\]
-et sous $H_0$ chaque arête s'oriente indépendamment à pile ou face. Le solde d'une paire portant
-$n$ arêtes suit donc la loi de $2B-n$ avec $B$ binomiale $(n,1/2)$, et les paires étant
-indépendantes, la loi de $T$ s'obtient par convolution exacte, sans aucun tirage. On y
-gagne deux choses. La $p$-valeur n'est plus plafonnée par le nombre de permutations : elle vaut
-$1{,}53\cdot10^{-5}$, soit une chance sur $65\,536$, là où les $20\,000$ permutations butaient
-sur $10^{-4}$. Et rejouer le test des milliers de fois ne coûte plus rien, ce qui est
-exactement ce qu'exige la suite.
-
-\begin{attention}
-\textbf{Le $z$ cesse d'être le critère.} La loi nulle exacte est discrète et asymétrique. Dans
-la configuration la plus défavorable examinée ci-dessous, on lit $z=+1{,}85$, donc au-dessus du
-repère gaussien $1{,}645$, alors que la $p$-valeur exacte vaut $0{,}084$, donc au-dessus de
-$0{,}05$. Le $z$ y \emph{surestime} la significativité. Toutes les décisions de cette section
-sont donc prises sur la $p$-valeur exacte, le $z$ n'étant conservé que comme grandeur de
-lecture comparable à celle des sections précédentes.
-\end{attention}
-
-\paragraph{Aucun rapport ne porte le signal à lui seul.} Le jackknife retire un incident à la
-fois et rejoue le test exact. Le pire retrait, celui de TSB Bank 2018, laisse
-$p = 2{,}44\cdot10^{-4}$ ; les dix retraits restent sous $3\cdot10^{-4}$. Ce n'était pas
-surprenant vu la cohérence totale du corpus, mais ce n'est pas non plus ce qui le menace : le
-danger n'est pas un rapport aberrant, c'est un biais \emph{systématique} présent dans tous les
-rapports à la fois.
-
-\paragraph{Combien le biais devrait-il fabriquer pour renverser la conclusion ?} On suppose donc
-que la convention narrative a produit une partie des arêtes partant de $P_1$, et l'on cherche
-l'ampleur qu'il faudrait. Deux opérations, la seconde bien plus hostile : le retrait,
-où le rapport n'établissait rien, et le retournement, où l'arête allait en réalité dans
-l'autre sens. Dans les deux cas on énumère les $2^{11}$ sous-ensembles d'arêtes et on retient le
-\emph{pire}, jamais un tirage moyen : c'est une borne adverse, pas une espérance.
+On la chiffre par une loi nulle exacte, obtenue par convolution et sans tirage, sur laquelle
+toutes les décisions se prennent en $p$-valeur exacte plutôt qu'en $z$ ; un jackknife montre
+qu'aucun rapport ne porte le signal à lui seul. On cherche ensuite, en borne adverse sur les
+$2^{11}$ sous-ensembles d'arêtes partant de $P_1$, l'ampleur qu'il faudrait à la convention
+narrative pour renverser la conclusion, en \emph{retirant} ou en \emph{retournant} des arêtes.
+La construction et le jackknife sont au \S\ref{sec:ann-biais-narration}.
 
 \begin{center}\small
 \renewcommand{\arraystretch}{1.25}
@@ -499,16 +469,8 @@ direction reste significative, portée par les seules chaînes $P_3\to P_2$ et $
 tests qui ne détectent pas et les tiers qui entraînent la gestion d'incident. Ces deux chaînes
 ne doivent rien à la convention \og cause racine = gouvernance\fg{}, puisque $P_1$ n'y figure pas.
 
-\begin{attention}
-\textbf{La quatrième ligne ne passe pas, et il faut la donner quand même.} Retirer les sept
-\emph{rapports} où $P_1$ apparaît comme source, au lieu des seules arêtes, ne laisse que trois
-transitions et $p = 0{,}50$. Cette variante jette cependant avec l'eau du bain des arêtes que le
-biais ne concerne pas, les chaînes $P_3\to P_2$ documentées dans les \emph{mêmes} rapports : un
-biais sur la désignation de la cause racine n'invalide pas la séquence technique que le même
-rapport établit par ailleurs. La borne pertinente est celle du retrait des arêtes ; celle du
-retrait des rapports est une borne de pure forme, et elle est publiée ici pour que personne
-n'ait à la reconstituer contre le travail.
-\end{attention}
+La quatrième ligne, qui retire les rapports entiers et non les seules arêtes, jette aussi des
+chaînes que le biais ne concerne pas ; c'est une borne de forme, discutée au même endroit.
 
 \begin{cle}
 \textbf{Ce que le biais coûte en capital, et ce qu'il ne coûte pas.} Un $z$ n'est pas un
@@ -539,76 +501,23 @@ directionnelle déjà assumée. Ce qu'un second codage ajouterait est une mesure
 d'\emph{intersubjectivité}, non une correction de niveau, et son absence ne laisse aucun énoncé
 du mémoire sans borne.
 
-Le dispositif est préparé et disponible, et c'est à ce titre qu'il est décrit ici. Le
-kit couvre les dix récits du corpus étendu, chacun réduit aux faits établis par le
-rapport, sans aucune des flèches du modèle, et les entités y sont anonymisées pour que le codeur ne
-reconnaisse pas le cas et ne se souvienne pas de la cause racine publiée. La grille qu'il remplit
-porte les mêmes étiquettes anonymes que les récits : la nommer aurait rompu l'aveuglement par le
-fichier de réponse lui-même. Sur les $10 \times 10 = 100$ cellules, le codage de référence en
-compte $22$ directionnelles, ce qui fixe la base d'accord sur laquelle le $\kappa$ de Cohen se
-calcule. En l'absence de second jeu, le script ne fabrique aucune donnée et s'arrête :
-un dispositif qui produirait un coefficient sans second codeur vaudrait moins que son absence.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.99\textwidth]{Z22_biais_narration.png}
-  \caption{Le biais de narration, mesuré au lieu d'être déclaré.
-\textbf{(a)}~jackknife par incident : aucun rapport ne porte le signal à lui seul, les dix
-retraits laissant $p \leq 2{,}4\cdot10^{-4}$. (b)~point de rupture, en $p$-valeur
-exacte et non en $z$ : il faudrait quatre arêtes de $P_1$ retournées dans la pire configuration
-pour perdre la significativité, et aucun nombre de retraits n'y suffit. La courbe de
-retournement remonte au-delà de sept parce que retourner \emph{toutes} les arêtes n'efface pas
-l'asymétrie, elle l'inverse. (c)~le niveau de capital résiste, y compris avec $P_1$
-rendue muette, et la bande d'identification se resserre à mesure que l'émission de $P_1$
-disparaît.}
-  \label{fig:biais-narration}
-\end{figure}
+Le dispositif de second codage est préparé et décrit au \S\ref{sec:ann-biais-narration}.
 % SOURCES-SCRIPTS: 64
 
 \section{Les séquences ordonnées : une voie explorée et refermée}
 \label{sec:sequences-ordonnees}
 
-Une objection naturelle se présente ici, et elle est fondée. Les sections précédentes n'exploitent
-du corpus que des \emph{paires} ordonnées, or des marges par paires ne déterminent pas une loi sur
-les permutations : un triplet ordonné, du type P1 $\to$ P3 $\to$ P2, porte en général une
-information qu'aucune paire ne porte. La voie mérite donc d'être suivie, et elle l'a été.
+Des marges par paires ne déterminent pas une loi sur les permutations : un triplet ordonné,
+du type P1 $\to$ P3 $\to$ P2, porte en général une information qu'aucune paire ne porte. Composer
+les arêtes d'un même incident donne $9$ chemins de longueur deux. Le résultat est négatif pour
+trois raisons distinctes : la comparaison la plus naturelle a un support vide, P2 n'émettant
+jamais et P1 n'étant jamais atteint ; le test de dépendance au prédécesseur n'a aucune puissance,
+aucun pilier n'étant à la fois atteint et doté de deux successeurs ; et l'acyclicité du graphe
+agrégé s'obtiendrait deux fois sur trois par hasard, donc ne confirme rien. Un acquis subsiste
+sur le modèle : l'auto-évitement rend la chaîne des piliers dépendante du prédécesseur, de sorte
+que les triplets portent une prédiction testable. Le protocole et le volume requis, $158$ à
+$589$ chemins par un même pilier, sont au \S\ref{sec:ann-sequences}.
 
-Les séquences se trouvaient déjà dans le corpus, implicites : chaque incident code un ensemble
-d'arêtes dirigées, et composer les arêtes d'un même incident donne des chemins. Il en sort $9$
-chemins de longueur deux pour $4$ séquences distinctes, et une chaîne de trois arêtes chez
-Equifax. Le résultat est néanmoins négatif, de trois façons qu'il faut distinguer parce qu'elles
-n'appellent pas la même suite.
-
-D'abord, la comparaison la plus naturelle a un support vide. Opposer P1 $\to$ P2 $\to$ P3
-à P2 $\to$ P3 $\to$ P1 exige que P2 émette, or P2 n'émet jamais, $0$ fois sur $22$ transitions, et
-P1 n'est jamais atteint. Ce n'est pas un intervalle large, c'est un ensemble vide, et cela se
-répond en corrigeant la question plutôt qu'en réclamant des données.
-
-Ensuite, le test de dépendance au prédécesseur n'a aucune puissance, et la cause est
-structurelle. Il exige d'un même pilier qu'il soit atteint, sans quoi il n'y a pas de prédécesseur
-sur quoi conditionner, et qu'il ait au moins deux successeurs distincts, sans quoi la loi
-conditionnelle égale la marginale par construction. Aucun pilier ne remplit les deux, et les deux
-manques sont \emph{exclusifs} : P1 a trois successeurs mais n'est jamais atteint, P3, P4 et P5 sont
-atteints mais n'ont qu'un successeur. Un corpus dix fois plus grand du même genre n'y changerait
-rien ; le critère de réouverture porte sur sa structure avant son volume.
-
-Enfin, et c'est la précaution la plus importante, ce que les séquences apportent ne se
-convertit pas en identification. La clôture transitive des arêtes ordonne $8$ des $10$ paires de
-piliers, et le graphe agrégé est acyclique. On serait tenté d'y lire une confirmation de l'ordre
-partiel revendiqué plus haut : ce serait une faute. L'acyclicité s'obtiendrait deux fois sur trois
-par hasard sur un graphe aussi peu contraint, et une clôture transitive n'ajoute aucune
-observation indépendante, elle déduit des mêmes arêtes. La frontière d'identification de la
-section suivante ne bouge donc pas d'un cran.
-
-Un acquis positif subsiste, et il porte sur le modèle plutôt que sur la donnée : la chaîne
-des piliers n'est pas sans mémoire, l'auto-évitement renormalisant la loi du successeur sur les
-piliers non encore visités. Les triplets portent par conséquent une prédiction testable, gonflée
-de $1{,}211$ en moyenne par rapport à une chaîne sans mémoire, et l'idée qu'ils seraient redondants
-avec les paires est fausse. C'est un test à faire le jour où un corpus le permettra, et le
-\S\ref{sec:ann-sequences} en donne le protocole et le volume requis, $158$ à $589$ chemins par un
-même pilier.
-
-\vspace{2pt}
 % SOURCES-SCRIPTS: 75
 
 \section{La formalisation bayésienne, et sa prudence}
@@ -655,28 +564,12 @@ mémoire donne les deux : les bornes sont \emph{opposables} car sans prior, le c
 \emph{informatif}.
 \end{cle}
 
-Deux vérifications s'imposent, et elles vont dans des sens opposés. La première est rassurante :
-sous un prior sceptique $\mathrm{Beta}(4,4)$, qui tire vers $\theta=1/2$ donc vers
-l'absence de direction et qui est le plus défavorable à la thèse, la médiane ne se déplace que de
-$0{,}8\,\%$. La conclusion vient donc des comptes documentés, non du prior. La seconde est une
-mise en garde, et elle est décisive : par paire, seules deux des six paires documentées
-ont un intervalle de crédibilité à $90\,\%$ qui exclut $\theta=1/2$. Avec une à trois chaînes
-observées, l'espérance penche nettement mais la crédibilité ne suffit pas. Le test de signe de
-la section~\ref{sec:postmortems} répondait à une \emph{autre} question, celle de la cohérence
-d'ensemble des dix-sept transitions ; le posterieur juge chaque paire séparément et se montre
-plus prudent. Les deux lectures sont justes, et c'est la plus conservatrice qui doit être
-retenue.
-
-\begin{figure}[htbp]
-\centering
-\figover{Z19_bayes_direction.png}
-\caption{Reformulation bayésienne de la direction. (a)~posterieurs par paire : les paires
-documentées s'écartent de $\theta=1/2$, celles sans donnée restent uniformes. (b)~le capital
-devient une loi, plus informative que des bornes de pire cas. (c)~robustesse au prior : la
-médiane bouge de $0{,}8\,\%$, même sous prior sceptique.}
+Deux vérifications vont en sens opposés. Sous un prior sceptique, la médiane ne se déplace
+presque pas, donc la conclusion vient des comptes documentés. Mais par paire, seules deux des six
+paires documentées ont un intervalle de crédibilité à $90\,\%$ qui exclut $\theta=1/2$ : c'est
+cette lecture, la plus conservatrice, qui est retenue. Le détail et la figure sont au
+\S\ref{sec:ann-bayes}.
 % SOURCES-SCRIPTS: 56
-\label{fig:bayes}
-\end{figure}
 
 \section{La frontière, en trois niveaux}
 
