@@ -183,7 +183,7 @@ mémoire : le SCR est une distribution, pas un point.
 
 \paragraph{L'intervalle PRC est étroit, et il le reste quand on cesse de croire la conversion
 exacte.} La sévérité PRC est dérivée du nombre d'enregistrements compromis par la relation
-log-log de Jacobs (2014), dont le résidu vaut $0{,}523$ en logarithme naturel : à volume donné,
+log-log de \citet{jacobs2014}, dont le résidu vaut $0{,}523$ en logarithme naturel : à volume donné,
 le coût réel varie d'un facteur $2{,}4$ autour de la droite à $90\,\%$. Réinjecter ce résidu
 % SOURCES-SCRIPTS: 21
 enregistrement par enregistrement ne rouvre pourtant presque pas l'intervalle, le bruit se
@@ -262,8 +262,8 @@ $\sum_j \varphi_j = v(\text{tous}) = \Delta_{\text{DORA}}$ \emph{exactement} : l
 redistribue l'interaction que les marginaux isolés laissent de côté, quel que soit son signe.
 
 La construction est celle de \citet{Shapley1953}, dont l'efficience est la propriété
-axiomatique, et son usage actuariel en allocation de capital sous Solvabilité~II est déjà
-documenté \citep{Decupere2011}. Les cinq piliers autorisent l'énumération exacte des $5!$
+axiomatique ; son emploi en allocation de capital remonte à \citet{denault2001}, et son usage
+actuariel sous Solvabilité~II est documenté \citep{Decupere2011}. Les cinq piliers autorisent l'énumération exacte des $5!$
 ordres d'arrivée ; les algorithmes par échantillonnage des permutations
 \citep{CastroGomezTejada2009, SongNelsonStaum2016}, indispensables en grande dimension, ne
 sont donc pas nécessaires ici, et aucune approximation n'entre dans le tableau qui suit.
@@ -309,7 +309,7 @@ modèle additif.
 
 \subsection{Euler : allouer le niveau, et une limite d'estimation assumée}
 
-La règle d'Euler alloue $\mathrm{SCR}(\text{NC})$ par
+La règle d'Euler \citep{tasche1999} alloue $\mathrm{SCR}(\text{NC})$ par
 $C_j = \mathbb{E}\bigl[L_j \mid L \ge \mathrm{VaR}_{99{,}5\,\%}\bigr]$ (version TVaR, exacte
 par construction), où $L_j$ est la perte du pilier \emph{touché} $j$ dans la cascade. Côté
 PRC, l'allocation est stable et presque plate : P2 $23\,\%$, P4 $23\,\%$, P1 $20\,\%$,

@@ -120,7 +120,7 @@ vérifiable sur la donnée disponible ; si elle est fausse, elle minore les sini
 ramenés en euros courants, donc minore la queue et le capital. Aucun indice d'inflation
 spécifique au cyber ne fait aujourd'hui consensus.
 
-Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de Jacobs. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log lisse la variance et minore les extrêmes. C'est le motif de
+Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de \citet{jacobs2014}. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log lisse la variance et minore les extrêmes. C'est le motif de
 ne pas plafonner la calibration issue directement d'OpRisk, où les montants sont observés de
 bout en bout.
 
@@ -449,7 +449,8 @@ historique du risque opérationnel au sens de Bâle~2/3, comptant
 risque cyber n'y constitue pas une catégorie native : il est reconstruit à
 partir des catégories \og Systems Security\fg{} et \og Business Disruption and
 System Failures\fg{}. Le périmètre cyber $\times$ finance retenu compte
-582 incidents sur la période 2000--2026.
+582 incidents sur la période 2000--2026. La même base porte l'étude des coûts cyber de
+\citet{elingwirfs2019}, qui en extraient de même les pertes d'origine informatique.
 
 \paragraph{Lien avec l'approche AMA.} Cette base est historiquement celle
 qui alimentait les modèles internes de type \emph{Advanced Measurement

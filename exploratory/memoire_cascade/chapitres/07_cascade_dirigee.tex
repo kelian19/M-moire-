@@ -53,8 +53,8 @@ son pilier $\rho_j$ (pooling partiel).
 
 \begin{cle}
 \textbf{La partie A n'est pas une contribution.} Le Merton-Vasicek multifacteur à
-matrice de corrélation générale est celui de Li~(2000), employé tel quel dans les modèles de
-stress-test (Pineau et Zuñiga, 2023). La contribution propre ne commence qu'en partie~B, avec
+matrice de corrélation générale est celui de \citet{Li2000}, employé tel quel en risque de
+crédit de portefeuille. La contribution propre ne commence qu'en partie~B, avec
 la contagion dirigée. Le revendiquer clairement évite de se voir opposer une
 littérature qu'on aurait ignorée.
 \end{cle}
@@ -195,7 +195,7 @@ $\{S_{ij}\ge u_j\}$ :
 
 \begin{cle}
 \textbf{La littérature fait déjà exactement cela.} Dans la représentation CreditMetrics des
-matrices de transition (Morgan et coll., 1997), le seuil de migration vaut
+matrices de transition \citep{jpmorgan1997}, le seuil de migration vaut
 $L=\Phi^{-1}(\text{fréquence cumulée observée})$ : on inverse \emph{toujours} une répartition. Ce
 qu'on reproche à $\Phi^{-1}(\mathrm{PD})$ n'est pas l'inversion, ce sont ses deux entrées : une
 fréquence non mesurable (remplacée par $p_j$, définie par le règlement, donc stable et
@@ -261,7 +261,7 @@ atteint} est
 \[
   S_a \;=\; \{a\}\cup\{k\in P : \text{il existe un chemin dirigé } a\rightsquigarrow k \text{ dans } G\}.
 \]
-C'est la construction standard de la cascade indépendante, équivalente à une percolation
+C'est la construction standard de la cascade indépendante \citep{kempe2003}, équivalente à une percolation
 de liens sur le graphe dirigé pondéré par $W$.
 \end{definition}
 

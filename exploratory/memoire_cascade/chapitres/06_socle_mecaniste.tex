@@ -152,7 +152,8 @@ Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alo
 
 \noindent L'écart-type $\xi/\sqrt{k}$ décroît en $\sqrt{k}$ : d'où l'arbitrage biais--variance qui gouverne le choix de $k$ dans le \emph{Hill plot}, et qui explique l'instabilité signalée plus haut lorsque $k$ est pris trop grand (contamination par le corps de la loi) ou trop petit (variance explosive). La preuve, fondée sur la représentation de Rényi des espacements exponentiels, est esquissée en Annexe~\ref{soc:ann:hill}.
 
-\paragraph{Quantile de sévérité : formules fermées, et ce qu'elles ne donnent pas.} Le passage des paramètres $(\xi,\sigma)$ au quantile d'\emph{un} sinistre est explicite. Il faut dire tout de suite ce qu'il n'est pas : ce quantile n'est pas un besoin de capital, et l'on n'y accède au capital qu'après agrégation annuelle de la fréquence et de la sévérité, puis propagation dans la cascade (chapitre~\ref{chap:cascade}). Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil.
+\paragraph{Quantile de sévérité : formules fermées, et ce qu'elles ne donnent pas.} Le passage des paramètres $(\xi,\sigma)$ au quantile d'\emph{un} sinistre est explicite. Il faut dire tout de suite ce qu'il n'est pas : ce quantile n'est pas un besoin de capital, et l'on n'y accède au capital qu'après agrégation annuelle de la fréquence et de la sévérité, puis propagation dans la cascade (chapitre~\ref{chap:cascade}). Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil. Les formes qui suivent sont
+classiques \citep{mcneil2015}.
 
 \begin{proposition}[Quantile et moyenne de queue d'une sévérité GPD]\label{soc:prop:varestvar}
 Sous le modèle POT, pour $\alpha$ tel que $\qsev_\alpha(X)>u$ et $\xi\in(0,1)$ :
@@ -595,7 +596,8 @@ conversion Jacobs, donne $\hat{\xi}_{\text{PRC}} = 1{,}03$ (seuil
 $u = 4{,}18$~M\euro, 2\,258 excès), supérieur à
 $\hat{\xi}_{\text{OpRisk}} = 0{,}595$, les IC90\% des deux estimateurs ne se
 chevauchant pas. Ce paramètre correspond formellement à une espérance de
-sévérité infinie ($\xi \geq 1$), ce qui impose un plafond de sévérité
+sévérité infinie ($\xi \geq 1$), situation que la littérature du risque opérationnel
+traite explicitement \citep{neslehova2006}, ce qui impose un plafond de sévérité
 opérationnel, fixé à 40~M\euro{} et ancré sur la capacité de réassurance cyber
 observable sur le marché, pour que la simulation reste numériquement
 stable ; ce plafond ne s'applique qu'à la source PRC, la calibration OpRisk

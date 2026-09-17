@@ -130,8 +130,12 @@ chapitre~\ref{chap:donnees}.
 discrètes (binomiale négative) au nombre journalier de brèches ; \citet{LuZhangZhu2024}
 séparent fréquence et nombre de brèches par événement, structure de paquet qui soutient le
 Poisson composé retenu ici ; \citet{FarkasLopezThomas2021} tarifent par arbres de régression
-GPD. Le mémoire en retient la théorie des valeurs extrêmes (indice de queue $\xi$) et la
-structure de paquet.
+GPD. La lourdeur de la queue des pertes cyber est établie de longue date
+\citep{MaillartSornette2010, wheatley2016}, et \citet{elingloperfido2017} confrontent plusieurs
+familles de lois sur les brèches de données. \citet{elingwirfs2019} étudient les pertes cyber sur
+la base SAS OpRisk Global employée ici, par une approche de valeurs extrêmes, ce qui en fait le
+précédent le plus proche de la brique de sévérité de ce mémoire. Le mémoire en retient la théorie
+des valeurs extrêmes (indice de queue $\xi$) et la structure de paquet.
 
 \textbf{Un mémoire d'actuariat sur les mêmes sources.} \citet{Ranguin2024} modélise le risque
 cyber des entreprises françaises pour la Caisse Centrale de Réassurance, à partir de bases
@@ -165,8 +169,8 @@ stabilité d'une contagion
 d'une littérature économétrique distincte de la littérature cyber, celle des \emph{bornes} : on
 renonce à identifier un paramètre ponctuellement et l'on caractérise l'ensemble des valeurs
 compatibles avec les données, dont on déduit un intervalle pour la quantité d'intérêt. Cette
-tradition, initiée par les bornes de sélection de \citet{Manski1990} et systématisée par
-\citet{Tamer2010}, est courante en évaluation de politiques publiques et pratiquement absente
+tradition, initiée par les bornes de sélection de \citet{Manski1990}, exposée dans
+\citet{Manski1995} et systématisée par \citet{Tamer2010}, est courante en évaluation de politiques publiques et pratiquement absente
 de l'actuariat du cyber, où l'usage veut qu'un paramètre non observable soit \emph{posé} au
 jugement d'expert. Le mémoire l'y transpose : la direction de la contagion n'étant pas
 identifiée (chapitre~\ref{ch:identifiabilite}), le capital est publié en bornes sur l'ensemble
