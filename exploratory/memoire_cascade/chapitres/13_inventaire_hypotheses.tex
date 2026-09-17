@@ -516,18 +516,9 @@ pas par la prudence, elle se déclare. Du côté de la thèse, il va dans l'autr
 chiffre avancé n'est pas gonflé par ce défaut mais minoré. Les deux sont vrais, ils ne portent
 pas sur la même chose, et seul le premier engage.
 
-La valeur est néanmoins gelée. L'écart représente $2{,}5\,\%$ de la largeur de l'intervalle de
-confiance à $90\,\%$ de cette même VaR, $[411{,}5\,;1\,037{,}1]$~M\euro, c'est-à-dire un
-quarantième de la précision que le mémoire revendique déjà. Rejouer le pipeline pour le corriger
-réinjecterait, sur une grille bootstrap à $200$ tirages, un bruit de simulation du même ordre :
-plusieurs centaines de nombres publiés se déplaceraient sans qu'aucun déplacement puisse être
-attribué à la correction, et la piste d'audit serait perdue pour un gain immatériel. Le
-traitement retenu est celui qu'appelle un défaut de paramètre connu, quantifié, immatériel et
-découvert tard, et il vaut mieux que les deux autres postures possibles : on ne recale pas le
-modèle, et on ne requalifie pas le couple pour le rendre cohérent sur le papier, ce qui
-reviendrait à rendre la réserve moins visible. On inscrit l'écart au registre des limites, avec
-son signe et sa taille. Le contrôle qui le mesure est reconduit à chaque exécution, de sorte
-qu'il ne peut pas se périmer en silence si le seuil ou le périmètre bougent.
+La valeur est néanmoins gelée et l'écart inscrit au registre des limites : rejouer le pipeline
+déplacerait des centaines de nombres publiés sans qu'aucun déplacement soit attribuable à la
+correction (\S\ref{sec:ann-registre-limites}).
 
 \paragraph{Le sens des écarts, en deux colonnes.} Un défaut isolé se pardonne ; une série de
 défauts qui vont tous du même côté est un biais. Il vaut donc mieux mettre les deux colonnes
@@ -568,151 +559,14 @@ plus lourde n'intervient que comme pire cas de modèle dans l'échelle des postu
 (\S\ref{sec:predictive-robuste}), hors du capital reporté.
 
 \vspace{2pt}
-\noindent \textbf{La troisième ligne est d'une autre taille.} Les deux
-premiers défauts pèsent quelques pour cent ; la dérive d'échelle en pèse un quart, soit un ordre
-de grandeur de plus, et elle est la seule des trois à avoir été trouvée par un test
-\emph{hors échantillon} plutôt que par un contrôle de cohérence interne. Son traitement est
-néanmoins le même, et pour le même motif : la corriger supposerait de recalibrer la sévérité sur
-une fenêtre glissante, ce qui déplacerait tous les niveaux publiés sans qu'aucun déplacement soit
-attribuable à la correction. Deux atténuations la bornent sans l'effacer. La dérive de la queue
-vaut le tiers de celle du corps, si bien qu'une lecture rapide de la tendance des pertes
-\emph{surestimerait} l'effet d'un facteur trois. Et son effet sur l'\emph{écart} entre états de
-conformité est mesuré, non supposé : $-1{,}9\,\%$, soit un déplacement non résolu devant le bruit
-de simulation, quand le facteur entre états baisse de $6{,}6\,\%$. La direction est favorable
-dans les deux cas, le chiffre publié n'étant pas gonflé par la dérive. Le même backtest valide
-par ailleurs la loi de fréquence et la forme de la queue, de sorte que cette ligne est le prix
-d'un test dont le solde est favorable (\S\ref{soc:sec:backtest}).
-
-\vspace{2pt}
-\noindent \textbf{Et l'argument qui ne doit pas être employé, parce qu'il est faux sous cette
-forme.} On serait tenté d'écrire qu'une dérive commune aux deux états se simplifie dans un
-rapport, donc que la thèse est à l'abri par construction. La proposition n'est vraie que pour une
-variation de la seule \emph{échelle} de sévérité, où elle est d'ailleurs vérifiée,
-le rapport des effets sur les deux états valant $0{,}9984$ pour des niveaux qui montent de
-$46\,\%$. Elle est \emph{fausse} pour un changement de \emph{forme} de queue, qui déplace le
-facteur de $-6{,}1\,\%$, et la dérive mesurée en contient un. La formule juste est donc
-l'invariance d'échelle, qui vaut pour toute amplitude, et non l'invariance à la dérive,
-qui ne vaut pas.
-% SOURCES-SCRIPTS: 90
-
-\vspace{2pt}
-\noindent \textbf{Une limite du dispositif de validation, distincte des limites du modèle.} La
-même dérive fait rejeter la charge annuelle \emph{agrégée} hors échantillon, ce qui est plus
-sévère que sur les marginales puisque l'agrégat cumule la dérive de l'échelle et celle du taux de
-dépassement. Aucune limite nouvelle n'entre pour autant à la table, le mécanisme étant le même.
-Mais l'exercice révèle une borne de l'instrument qu'il faut déclarer : détecter un taux de
-dépassement double du nominal avec une puissance de $80\,\%$ demanderait $1\,811$ années au
-niveau de $99{,}5\,\%$. Le quantile qui porte le capital n'est donc backtestable sur aucun
-historique de risque opérationnel existant, et ce que le backtest valide est le centre et le
-corps de la loi. Le niveau reste adossé à l'ajustement paramétrique et borné par l'intervalle de
-$\xi$. Le détail figure au \S\ref{soc:sec:backtest}.
-% SOURCES-SCRIPTS: 91
-
-\paragraph{Les deux lignes de périmètre sont d'une autre nature, et vont en sens contraire.} Ce ne
-sont ni des défauts d'estimation ni des choix de prudence, mais les deux bornes du périmètre, et
-il vaut mieux les nommer ensemble parce qu'elles ne se compensent pas : elles s'additionnent en
-incertitude.
-
-La première tient à la donnée. La base de sévérité est tronquée à son seuil de collecte, si bien
-que l'attritionnel cyber, les incidents courants à quelques dizaines ou centaines de
-milliers d'euros, n'y figure pas du tout. Le besoin de capital publié est donc un capital de
-\emph{queue}, et il exclut cette composante non par choix de modèle mais par absence
-d'observation. Le sens est clair, il sous-estime, et la taille ne l'est pas : on ne chiffre pas
-ce que l'on n'observe pas. Deux remarques en atténuent la portée sans l'annuler. À un niveau de
-$99{,}5\,\%$, l'attritionnel pèse peu par construction, puisque le quantile est porté par un
-sinistre unique et non par un cumul de petits montants. Et à l'échelle d'une entité, la
-fréquence lue vaut $0{,}092$ par an, si bien que $98{,}8\,\%$ des années se passent sans aucun
-incident matériel : il n'y a pas, à cette échelle, de régime courant à modéliser. La limite est
-réelle au niveau sectoriel, marginale au niveau du quantile d'entité, et elle est ici déclarée
-plutôt qu'estimée.
-
-La seconde tient à la transposition. L'élasticité de la sévérité à la taille vaut $0{,}087$, avec
-un intervalle qui contient presque zéro : le modèle affirme donc qu'une entité de quelques
-milliards d'actifs subit à peu près la sévérité d'une institution mondiale. C'est exactement ce
-qui produit la borne inférieure de validité établie au
-chapitre~\ref{chap:resultats} et la requalification du niveau d'entité en borne supérieure. Le
-correctif est identifié, c'est un plafond de sévérité adossé à l'exposition propre de
-l'entité, du même type que celui qui rend le capital PRC calculable lorsque
-$\hat\xi>1$. Il n'est pas appliqué, et pour une raison de méthode plutôt que de temps :
-l'introduire déplacerait tous les résultats d'entité, ce qui relève de la recalibration et non
-de la correction d'erreur. La posture est celle déjà retenue pour $p_u$, une limite écrite et
-signée plutôt qu'une reprise silencieuse du pipeline. À noter que cette ligne n'affecte que le
-\emph{niveau} d'entité, jamais les écarts entre états de conformité, qui sont des rapports.
-
-\paragraph{Cette limite est désormais chiffrée, et le chiffre est plus parlant que le
-coefficient.} Dire que l'élasticité vaut $0{,}087$ énonce la faiblesse en langage de
-statisticien. On peut la dire en euros, et c'est le même fait. On plafonne la sévérité d'un
-sinistre à une fraction $\kappa$ de l'exposition de l'entité, puis on cherche le $\kappa$ qui
-ampute son besoin de moitié.
-
-\begin{center}\footnotesize
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}l r r r r@{}}
-\toprule
-\textbf{Entité} & \textbf{Exposition} & \textbf{Besoin} & $\boldsymbol{\kappa}$ \textbf{à $-50\,\%$} &
-\textbf{soit} \\
-\midrule
-assureur non-vie A & $2\,319$ & $112{,}1$ & $2{,}284\,\%$ & $53$~M\euro \\
-assureur non-vie B & $5\,305$ & $135{,}5$ & $1{,}056\,\%$ & $56$~M\euro \\
-assureur vie C & $37\,845$ & $195{,}8$ & $0{,}195\,\%$ & $74$~M\euro \\
-assureur vie D & $309\,800$ & $294{,}4$ & \multicolumn{2}{l}{\emph{aucun plafond plausible}} \\
-entité notionnelle & $19\,231$ & $169{,}0$ & $0{,}301\,\%$ & $58$~M\euro \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{4pt}
-\noindent \textbf{Le résultat est dans la dernière colonne.} Rapporté au bilan, le plafond
-critique varie d'un facteur $12$ entre entités. \emph{En euros}, il ne va que de $53$ à
-$74$~M\euro, un facteur $1{,}4$, sur un panel dont les tailles varient d'un facteur $134$. Le
-montant qui plafonne utilement est donc quasiment invariant, ce qui est exactement ce
-que l'élasticité de $0{,}087$ affirme, mais dit dans l'unité où un praticien le juge. La
-conséquence suit sans statistique : un plafond exprimé en pourcentage du bilan est serré pour une
-petite entité et lâche pour une grande.
-
-Et la comparaison qui tranche : pour la plus petite entité du panel, le besoin publié demande
-$4{,}83\,\%$ du bilan quand le plafond qui l'amputerait déjà de moitié est à $2{,}28\,\%$. Le
-chiffre publié exige donc un plafond deux fois plus lâche que celui qui suffirait à le
-couper en deux. Pour la plus grande, le besoin ne demande que $0{,}095\,\%$, loin sous tout
-plafond discutable. La borne inférieure de validité se dérive donc d'une hypothèse
-économique et non plus d'une propriété de la descente d'échelle : quelle fraction de son bilan
-un assureur peut-il perdre sur un seul sinistre informatique. La question se débat en une phrase,
-ce qui n'était pas le cas de l'argument qu'elle remplace.
-% SOURCES-SCRIPTS: 78
-
-\begin{attention}
-\textbf{Un mécanisme découvert en le mesurant, et qui interdit un raccourci.} On attendait que
-plafonner chaque sinistre à $\kappa E$ borne le quantile annuel au même niveau, par le principe
-de la perte unique dominante. C'est faux dès que le plafond mord : à $\kappa = 0{,}1\,\%$ le
-plafond vaut $19$~M\euro{} et le quantile simulé $38$, soit le double. La raison est que
-plafonner détruit la queue lourde, donc invalide le principe qui servait à prédire :
-la charge annuelle cesse d'être portée par un sinistre et redevient un \emph{cumul}. L'écart va
-dans le sens conservateur, le quantile restant au-dessus du plafond, mais un plafond ne fait pas
-tomber le capital à $\kappa E$ et il ne faut pas l'annoncer ainsi.
-\end{attention}
-
-\paragraph{Et le correctif a désormais une forme fonctionnelle publiée, ce qui change son
-statut.} Dire qu'un plafond est \og identifié \fg{} sans en donner la forme laisse le lecteur
-juge de la difficulté. Le préprint de cascade climatique cité au chapitre~\ref{ch:positionnement}
-\citep{ccrn2026} en propose une, et elle convient au besoin exprimé ici : une perte plafonnée où
-la sévérité est bornée par un paramètre d'exposition propre au n\oe ud, assortie d'un effet de
-saturation qui fait croître le coût unitaire lorsque plusieurs atteintes surviennent ensemble.
-Les deux ingrédients sont exactement ceux qui manquent, le plafond adossé à l'exposition et la
-non-linéarité de la simultanéité, cette seconde rejoignant l'hypothèse d'additivité des coûts
-discutée au \S\ref{sec:additivite-couts}. Elle n'est pas implémentée, le gel de la calibration
-l'interdisant, et aucune valeur de ce préprint n'est reprise, ses paramètres étant
-synthétiques. Ce qui change est le statut de la limite : elle cesse d'être une intention pour
-devenir une piste référencée, dont la forme est écrite et le coût d'implémentation
-connu.
-
-\paragraph{La dernière ligne est la seule dont le sens ne se déclare pas.} Les six précédentes ont
-une direction connue, et c'est ce qui permet de les mettre en regard : on sait laquelle sous-estime
-et laquelle majore. L'additivité des coûts d'un sinistre multi-piliers n'a pas cette propriété, car
-les deux mécanismes qui la mettraient en défaut, la mutualisation de la remédiation et la
-saturation de la capacité de réponse, tirent en sens contraire et ne sont pas séparables sur la
-donnée disponible. Elle ne peut donc pas entrer dans le bilan des directions, seulement dans celui
-des amplitudes, et elle y est la plus grande. Le \S\ref{sec:additivite-couts} la traite pour
-elle-même.
+\noindent La troisième ligne pèse un quart quand les deux premières pèsent quelques
+pour cent. Son effet sur l'écart entre états est mesuré, $-1{,}9\,\%$ et non résolu, et la moitié
+de la dérive de queue est monétaire. Les deux lignes de périmètre bornent le niveau en sens
+contraire : l'attritionnel absent de la donnée pèse peu au quantile d'entité, et le plafond de
+sévérité qui amputerait le besoin de moitié ne va que de $53$ à $74$~M\euro{} sur des entités
+dont la taille varie d'un facteur $134$. La dernière ligne, l'additivité des coûts, est la seule
+dont le sens ne se déclare pas (\S\ref{sec:additivite-couts}). Le motif du gel, la lecture de
+chaque ligne et le plafond chiffré sont au \S\ref{sec:ann-registre-limites}.
 
 \vspace{2pt}
 % SOURCES-SCRIPTS: 08b 47 57 60 63 65 74 78 89 90 91
