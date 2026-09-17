@@ -2,6 +2,14 @@
 
 Document de passation. À lire en entier avant de toucher quoi que ce soit.
 
+## DEPUIS LE 17 SEPTEMBRE 2026 : ON NE TRAVAILLE PLUS QUE SUR `main_ensae`
+
+Décision de Kélian. **La v3 est supprimée** (`main_v3.tex`, `chapitres_v3/` et ses fichiers de
+plan, retirés du dépôt). `main.tex` et `main_v2.tex` restent au dépôt mais ne se compilent plus à
+chaque modification : le contrôle de fin de tâche se fait sur **`main_ensae` seul**, ligne de base
+**5** débordements, puis régénération de `KADDOURI_Kelian_3A25.pdf`. Les mentions de la v3 et de la
+compilation des quatre versions, plus bas, sont historiques.
+
 ## À LIRE D'ABORD : l'état de dépôt au 16 septembre 2026 au soir
 
 Ce bloc prévaut sur tout ce qui suit quand ils divergent : plusieurs sections plus bas décrivent
