@@ -10,7 +10,7 @@ chaque modification : le contrôle de fin de tâche se fait sur **`main_ensae` s
 **5** débordements, puis régénération de `KADDOURI_Kelian_3A25.pdf`. Les mentions de la v3 et de la
 compilation des quatre versions, plus bas, sont historiques.
 
-**État au 17 septembre au soir** : rapport de jury simulé traité en entier (P0, P1, P2). `main_ensae` à **230 pages**, corps (parties I à V) aux folios 21 à 162, stage en 163, annexes en 169 ; harnais **2 282 sur 2 282**, 0 hors contrôle non déclaré. **Les montants SAS de la chaîne sont nominaux** (script 102) : ne plus écrire que les bases sont supposées homogénéisées.
+**État au 17 septembre, fin de soirée** : rapport de jury simulé traité en entier (P0, P1, P2). `main_ensae` à **236 pages**, corps (parties I à V) aux folios **21 à 132** (112 pages), stage en 133, annexes en 139 ; harnais **2 357 sur 2 357**, 0 hors contrôle non déclaré. **Nouvelle annexe E, `21_complements_corps.tex`** : le détail des sections du corps, qui gardent titre, label et résumé chiffré ; l'élicitation passe en F, les notations en G. Tout nouveau détail long va dans cette annexe, pas dans le corps. **Les montants SAS de la chaîne sont nominaux** (script 102) : ne plus écrire que les bases sont supposées homogénéisées.
 
 ## À LIRE D'ABORD : l'état de dépôt au 16 septembre 2026 au soir
 

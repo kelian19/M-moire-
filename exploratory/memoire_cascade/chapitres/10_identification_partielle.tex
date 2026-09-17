@@ -197,33 +197,13 @@ n'arrive jamais en tête, et P1 et P4 concentrent $81\,\%$ des configurations.}
 \end{figure}
 % SOURCES-SCRIPTS: 30 67
 
-\begin{figure}[htbp]
-\centering
-\figover{Z2_comparaison_regimes.png}
-\caption{Poser $W$ ou le borner, comparés avant élicitation. (a)~Un point contre un socle
-et des bornes. (b)~Seule la part supérieure dépend de l'élicitation. (c)~Le régime~A suit
-le biais du panel, la bande du régime~B ne bouge pas. (d)~Ce que l'élicitation doit
-départager, et rien de plus.}
-\label{fig:regimes}
-\end{figure}
-
 \section{L'échelle de repli sur la direction}
 \label{sec:echelle-u}
 
-La décomposition $W = S + A$ borne la direction en bloc. On peut faire mieux, en suivant
-la méthode d'attaque puis de repli : reparamétrer la propagation par
-\[
-  \operatorname{logit} p_{ij} \;=\; \operatorname{logit} p_j + u_{ij},
-\]
-où $p_j$ est l'attractivité de la cible (ce qui subsiste quand la source ne compte
-pas) et $u_{ij}$ l'excès propre à la source, c'est-à-dire la direction. La
-décomposition n'est identifiée qu'une fois posée la normalisation $\sum_{i\neq j} u_{ij}=0$
-pour chaque $j$ : c'est une convention de repérage, et non une information, ce que l'on
-vérifie numériquement (une translation compensée de $p_j$ et de $u$ laisse le SCR
-strictement inchangé). On descend alors une échelle de crans, du plus ambitieux au repli :
-$u$ libre, puis $u$ de rang $1$ ($u_{ij}=b_j(a_i-\bar a)$, qui capte $74\,\%$ de
-la direction posée et resserre les bornes de $25\,\%$ au prix d'une hypothèse de structure),
-puis $u$ élicité, puis $u=0$.
+La direction peut se reparamétrer par l'excès propre à la source, $u_{ij}$, et se descendre en
+crans, de $u$ libre au cran nul où aucune source ne se distingue ; un rang $1$ capte $74\,\%$ de la
+direction posée et resserre les bornes de $25\,\%$ au prix d'une hypothèse de structure
+(\S\ref{sec:ann-echelle-u}).
 
 \begin{cle}
 \textbf{Le cran nul, et ce qu'il révèle de la contribution.} À $u=0$, la propagation ne
@@ -235,16 +215,6 @@ précisément ce qui départage les deux piliers prioritaires : sans elle, on ne
 lequel remédier d'abord. La contribution du mémoire ne se lit pas sur le niveau d'un
 quantile, elle se lit ici, sur une décision qui bascule (figure~\ref{fig:echelle}).
 \end{cle}
-
-\begin{figure}[htbp]
-\centering
-\figover{Z5_echelle_repli.png}
-\caption{L'échelle de repli sur $u_{ij}$. (a)~Les bornes de capital se resserrent quand on
-recule d'un cran (hypothèse de structure). (b)~Un rang $1$ capte $74\,\%$ de la direction
-posée. (c)~Ce que la direction change à la décision : au cran nul, les gains de remédiation
-de P1 et P4 se rejoignent.}
-\label{fig:echelle}
-\end{figure}
 
 % SOURCES-SCRIPTS: 34
 

@@ -173,102 +173,22 @@ taille, et l'argument qui suit est d'une autre nature. Réserve à garder : ces 
 paramètre font varier $\xi$ seul, $\sigma$ restant à sa valeur publiée, alors que le bootstrap
 estime le couple conjointement ; ce sont donc des \emph{majorants}.
 
-\paragraph{Ce qui justifie le déplacement, et ce n'est pas une taille.} Les deux étages retenus
-sont de nature \emph{statistique} : ils mesurent ce que la donnée ne permet pas de trancher à
-modèle fixé, et un intervalle est l'objet qui convient pour les porter. Le troisième est
-\emph{épistémique} : il mesure l'effet d'un choix de famille, et un choix ne se moyenne pas.
+\paragraph{Pourquoi l'étage de modèle sort de la bande.} Les deux étages retenus sont
+statistiques, portables par un intervalle ; le troisième est épistémique, un choix de famille ne
+se moyennant pas. Sur l'axe de la famille de queue, il pousse l'indice de queue à une valeur
+posée hors de l'intervalle bootstrap, et le cumuler mettrait un scénario et une borne de
+confiance dans le même objet. Il reste publié deux fois, comme pire cas de modèle dans l'échelle
+des postures et comme bande de dépendance ci-dessus, et l'ordre d'amorce des piliers ne bouge
+pas (\S\ref{sec:ann-etages-hawkes}).
 
-Le point décisif est plus précis que cette opposition générale, et il se voit sur l'axe de la
-famille de queue. Cet axe pousse $\xi$ à $0{,}90$, tandis que l'étage de paramètre le fait varier
-jusqu'à $0{,}8313$ : c'est le même paramètre, et une bande doit dire \emph{une seule
-fois} jusqu'où on le laisse aller. Or $0{,}8313$ est une borne estimée, celle de
-l'intervalle bootstrap, quand $0{,}90$ est une valeur posée hors de cet intervalle. Les
-placer sur la même échelle met un scénario et une borne de confiance dans le même objet, et le
-lecteur ne sait plus si la borne haute est un aléa défavorable ou une autre théorie de la queue.
-Le retrait rend la bande homogène, ce qui est un motif plus fort que la lisibilité.
-
-À l'inverse, la borne \emph{basse} de cet axe, la lognormale à $4\,330$~M\euro, est une autre
-famille et non un autre $\xi$ : celle-là est un apport propre, et c'est pourquoi le
-recouvrement est asymétrique. Le déplacement porte donc sur ce que la bande \emph{annonce},
-non sur ce que le mémoire publie.
-
-\paragraph{Où cet étage est publié, désormais.} Il l'est deux fois, et rien n'est caché. Sur
-l'axe de la famille de queue, la sixième posture de la table du
-\S\ref{sec:predictive-robuste}, le pire cas de modèle à $\xi$ \emph{posé} à $0{,}90$, \emph{est}
-l'ambiguïté de famille : c'est le même objet, sous un autre nom, et il porte un chiffre.
-Sur l'axe de la dépendance, la bande de $5\,322$ à $9\,806$~M\euro{} reste publiée dans cette
-section, avec le repère qui compte, à savoir que la cascade dirigée s'y place entre une
-dépendance gaussienne et une dépendance de Gumbel.
-
-\paragraph{Et ce qui ne change pas.} L'ordre d'amorce des piliers reste invariant à la
-famille. Le déplacement porte sur la façon de \emph{reporter} le niveau, pas sur la thèse : le
-niveau bouge dans la bande, l'ordre résiste, et c'est vrai des trois étages qu'on les cumule
-ou non.
-
-\paragraph{Sur l'auto-excitation, une convergence de choix et non une corroboration.} Le parti de
-ne pas poser de couche de Hawkes est le plus discutable, l'auto-excitation étant
-devenue l'outil par défaut du cyber. Il est ici adossé à un test contre les variantes de noyau de
-la littérature. Le préprint de cascade climatique cité au chapitre~\ref{ch:positionnement}
-\citep{ccrn2026} arrive au même endroit, et \emph{pour la même raison de résolution temporelle} :
-il retient un graphe acyclique à l'échelle de l'événement, au motif que le processus ponctuel
-auto-excité devient naturel lorsque les instants exacts et la rétroaction récurrente sont au
-c\oe ur du problème, ce qui n'est pas le cas quand la propagation se joue à l'intérieur d'un
-événement dont on n'observe pas la chronologie fine. C'est exactement la situation du présent
-travail, et la convergence est d'autant plus notable qu'elle est indépendante : autre péril,
-autre équipe, et sans connaissance des travaux sur lesquels s'appuie le test conduit ici.
-
-\begin{attention}
-\textbf{Ce que cette convergence vaut, et ce qu'elle ne vaut pas.} Il serait commode de la lire
-comme une corroboration du rejet ; ce serait la surinterpréter, et la précision importe puisque
-c'est le point le plus exposé du mémoire. Ces auteurs ne testent pas l'auto-excitation contre
-leur cascade : ils \emph{posent} le graphe acyclique, et leur mention du processus auto-excité
-tient en une ligne d'un tableau de positionnement où il figure comme une représentation mature
-parmi d'autres, mieux adaptée à un autre régime d'observation. Ce qui converge est donc le
-choix de modélisation et son motif, pas une réfutation. Deux équipes qui ne disposent
-pas de la chronologie fine d'un événement écartent le même outil pour la même raison, ce qui
-déplace ce parti d'une préférence vers une contrainte d'observation, et c'est tout ce que l'on
-peut en tirer. Le rejet lui-même ne repose que sur le test du présent travail.
-\end{attention}
-
-\paragraph{Ce que ce test établit réellement : une équivalence observationnelle, et c'est plus
-fort qu'un rejet.} Le mot \og rejet \fg{} suppose que la donnée départage les deux modèles. Elle
-ne les départage pas, et le mesurer valait mieux que de l'espérer.
+\paragraph{Sur l'auto-excitation : une équivalence observationnelle.} Une cascade sans aucune
+auto-excitation, simulée puis ajustée comme une chronologie réelle, donne au jour un ratio de
+branchement de $0{,}480$, à comparer au $0{,}551$ mesuré. Le processus de Hawkes n'est donc pas
+distinguable de la cascade à la résolution disponible, et la cascade est retenue par parcimonie
+interprétative, puisqu'elle porte en outre la structure entre piliers. Dégrader la résolution
+fait monter le ratio estimé, et le préprint de cascade climatique converge sur ce choix sans le
+tester. Le détail est au \S\ref{sec:ann-etages-hawkes}.
 % SOURCES-SCRIPTS: 85
-
-L'argument se pose d'abord \emph{sans} rien simuler. Si chaque pilier touché est un événement
-enregistrable, la fraction d'événements qui sont des \emph{enfants} vaut
-$(\mathbb{E}[k]-1)/\mathbb{E}[k]$, où $\mathbb{E}[k]$ est le nombre moyen de piliers touchés par
-sinistre : c'est exactement ce qu'un ajustement de Hawkes appelle son ratio de branchement. Avec
-$\mathbb{E}[k]=1{,}931$ à l'état non conforme, une cascade sans aucune auto-excitation
-prédit $n=0{,}482$, à comparer au $0{,}551$ mesuré sur la chronologie réelle.
-
-Le test le confirme. On engendre soixante années de dates avec le moteur de cascade, dont la
-seule structure temporelle est la durée des pas de propagation \emph{à l'intérieur} d'un sinistre,
-puis on lui ajuste un Hawkes exponentiel comme on le ferait sur une chronologie réelle. À la
-résolution de la donnée disponible, le jour, l'ajustement trouve $n=0{,}480$, soit la prédiction
-analytique à trois millièmes. Il retrouve même l'horloge interne : la demi-vie estimée du noyau
-vaut $9{,}0$~h pour un lag de propagation vrai de $6{,}7$~h, et il l'appelle \og décroissance de
-l'excitation \fg{}. L'estimateur a été validé au préalable sur un Poisson pur, où il rend
-$0{,}004$, et sur trois processus de Hawkes simulés de ratios connus, qu'il retrouve.
-
-\begin{cle}
-\textbf{Conséquence, à assumer telle quelle.} Un ratio de branchement de l'ordre de $0{,}5$
-mesuré sur des dates réelles ne prouve pas l'auto-excitation : une cascade qui n'en
-contient aucune le produit. Les deux modèles sont \emph{observationnellement équivalents} à la
-résolution disponible. L'énoncé juste n'est donc pas \og le Hawkes est rejeté \fg{} mais \og le
-Hawkes n'est pas distinguable de la cascade, et la cascade est retenue par parcimonie
-interprétative \fg{} : elle rend compte du même regroupement temporel par un mécanisme qui porte
-en outre la structure inter-piliers et se traduit en capital. C'est une conclusion plus faible en
-apparence et plus solide en fait, puisqu'elle cesse de s'appuyer sur un départage que la donnée
-ne permet pas.
-
-\textbf{Attention au sens de l'effet de résolution.} Dégrader la résolution fait monter
-le ratio estimé, de $0{,}473$ à l'heure jusqu'à $0{,}739$ au mois, parce qu'agréger fabrique du
-regroupement apparent. C'est l'opération \emph{inverse} de celle conduite plus haut, qui fait
-tomber l'endogénéité en reclassant les co-occurrences du même jour en exogène. Les deux
-expériences ne se contredisent pas, elles déplacent deux choses différentes, et les confondre
-donnerait une conclusion opposée.
-\end{cle}
 
 \begin{cle}
 \textbf{Oui, chaque brique a des alternatives.} Fréquence (Poisson, Hawkes, Cox), sévérité

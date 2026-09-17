@@ -866,26 +866,11 @@ chapitre~\ref{chap:reglementaire}. Un besoin de nature opérationnelle porté en
 transmet donc au capital total sans aucun bénéfice de diversification, et cela vaut du
 niveau comme de l'écart entre états. Un euro d'écart \textsc{dora} coûte un euro de capital.
 
-\paragraph{Le contrefactuel, et ce qu'il mesure.} Pour dire ce que cette convention implique, on
-agrège le même montant $D$ comme un module de plus, corrélé à $\rho$ avec le \textsc{bscr} pris
-comme un bloc. Le taux de reconnaissance vaut alors
-\[
-  \tau(\rho, d) \;=\; \frac{\sqrt{1 + 2\rho d + d^{2}} - 1}{d},
-  \qquad d = \frac{D}{\mathrm{BSCR}},
-\]
-et son développement en $d = 0$ donne $\tau(\rho, d) = \rho + \tfrac{d}{2}\,(1 - \rho^{2}) +
-O(d^{2})$. Un montant petit devant le \textsc{bscr} est donc reconnu à hauteur de $\rho$,
-et de $\rho$ seulement, quand la convention additive le reconnaît en entier. L'écart entre les
-deux traitements vaut $1 - \rho$ : il ne dépend pas de la taille, et il ne se referme qu'à
-corrélation parfaite. Ce contrefactuel n'est pas ce que fait Solvabilité~II ; il sert à
-\emph{mesurer} la convention en vigueur, jamais à en proposer une autre.
-
-\paragraph{Ce que la donnée publiée suffit à établir.} Le \textsc{bscr} ne figure pas parmi les
-champs retenus, et il n'a pas besoin d'y figurer : $\mathrm{Adj} \le 0$ donne
-$\mathrm{BSCR} \ge \mathrm{SCR} - \mathrm{SCR}_{Op}$, et le plafond donne
-$\mathrm{BSCR} \ge \mathrm{SCR}/1{,}3$. Minorer le \textsc{bscr} \emph{majore} $\tau$ : les taux
-ci-dessous sont donc des majorants, et l'écart entre les deux conventions vaut au moins ce qu'on
-y lit.
+\paragraph{Le contrefactuel.} Pour mesurer cette convention, le même montant est agrégé comme un
+module de plus, corrélé à $\rho$ avec le \textsc{bscr} : un montant petit devant le \textsc{bscr}
+n'y est reconnu qu'à hauteur de $\rho$, quand la convention additive le reconnaît en entier. Sur
+les quatre bilans réels, le \textsc{bscr} n'étant que minoré, les taux lus sont des majorants
+(\S\ref{sec:ann-agregation}).
 
 \begin{center}\small
 \renewcommand{\arraystretch}{1.25}
@@ -911,16 +896,10 @@ que sur l'écart, où $d$ est plus grand, le facteur va de $2{,}6$ à $3{,}8$. R
 \textsc{scr} publié de chaque entité, l'écart entre états pèse de $0{,}58\,\%$ pour la plus grande
 à $8{,}21\,\%$ pour la plus petite, et ces points de \textsc{scr} sont acquis en entier.
 
-\paragraph{Le plafond, qui ajoute une borne à la cécité déjà établie.} La charge forfaitaire est
-plafonnée à $0{,}3 \times \mathrm{BSCR}$, quelle que soit l'exposition opérationnelle réelle. Sur
-l'assureur non-vie~A, dont l'état \textsc{s.25.01} publie un module opérationnel de
-$59{,}0$~M\euro, ce plafond vaut $109{,}8$~M\euro{} et la marge restante $50{,}8$~M\euro. Le
-besoin calculé, $112{,}1$~M\euro, en représente $2{,}21$ fois, et l'écart entre états,
-$34{,}9$~M\euro, en représente $0{,}69$ fois. Autrement dit, même un forfait rendu
-sensible à la conformité saturerait avant d'avoir exprimé ce besoin : la Formule Standard n'est
-pas seulement insensible, elle est bornée. La lecture $\mathrm{Adj} = 0$ est ici \emph{posée et
-déclarée}, un ajustement strictement négatif relevant le \textsc{bscr}, donc le plafond, donc la
-marge ; l'état \textsc{s.25.01} de l'entité permet de la lever au cas par cas.
+\paragraph{Le plafond borne en outre ce qu'un forfait saurait exprimer.} Sur l'assureur non-vie~A,
+le besoin calculé vaut $2{,}21$ fois la marge restante sous le plafond de $0{,}3 \times
+\mathrm{BSCR}$ : même un forfait rendu sensible à la conformité saturerait avant de l'exprimer
+(\S\ref{sec:ann-agregation}).
 
 \begin{cle}
 \textbf{La lecture décisionnelle, et elle renverse une intuition de gestion.} Un euro économisé

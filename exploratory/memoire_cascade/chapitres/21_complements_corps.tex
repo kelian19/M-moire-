@@ -51,7 +51,7 @@ entreprises moyennes. Reproduit du rapport LUCY 2026 de Nexialog Consulting
 \end{figure}
 
 \vspace{2pt}
-\noindent Un point de vocabulaire accompagne le tableau des deux régimes. La \emph{fréquence} désigne un nombre de
+\noindent Un point de vocabulaire accompagne le tableau des deux régimes du \S\ref{sec:lucy}. La \emph{fréquence} désigne un nombre de
 sinistres rapporté au nombre d'assurés, tandis que le \emph{nombre} de sinistres est un total. Ce
 sont deux grandeurs distinctes : la fréquence vaut $1{,}88$ pour $2025$ quand le nombre vaut
 $2{,}79$, la différence venant de l'\emph{exposition}, c'est-à-dire du volume d'assurés couverts,
@@ -196,6 +196,277 @@ bénéficier d'un régime DORA simplifié sans pour autant échapper aux exigenc
 trimestriels et annuels (QRT, SFCR, RSR). DORA impose une réactivité quasi temps réel,
 notamment par la notification des incidents majeurs sous quatre heures, contraignant
 l'assureur à des processus permanents de veille connectés aux canaux du régulateur.
+
+% =====================================================================
+\section{Les biais de taille et de troncature : les mesures}
+\label{sec:ann-biais-chiffres}
+
+% SOURCES-SCRIPTS: 57 67
+
+Complément du \S\ref{sec:biais-chiffres}.
+
+\paragraph{Le biais de taille est réel, mais bien plus faible qu'annoncé.} OpRisk
+sur-représente les grandes institutions, et l'on en déduit d'ordinaire que sa sévérité
+sur-estime celle d'une entité moyenne. La base portant les actifs, le chiffre d'affaires et
+l'effectif de la firme sinistrée, l'affirmation se teste. Une régression log-log de la perte
+sur la taille donne une élasticité quasi nulle : $0{,}042$ sur les actifs
+($R^2=0{,}005$), $0{,}020$ sur le chiffre d'affaires et $0{,}010$ sur l'effectif, ces deux
+dernières non significatives. Prise telle quelle, cette mesure \emph{réfuterait} l'explication
+usuelle.
+
+Elle est cependant elle-même biaisée, et par le mécanisme de la section précédente. Une
+petite firme n'entre dans la base que si elle subit une perte anormalement grande, quand une
+grande firme y entre avec des pertes de toutes tailles : la sélection relève artificiellement
+la sévérité observée des petites firmes et aplatit la pente. On corrige par un
+maximum de vraisemblance sur une lognormale tronquée à gauche au seuil de collecte
+($0{,}10$~M\$, $46\,\%$ des pertes de la base étant sous $1$~M\$). L'élasticité corrigée
+double, $b=0{,}087$ (IC~$95\,\%$ $[0{,}026\,;0{,}148]$), et devient significative. Le seuil de
+collecte était donc bien le confondant, mais l'effet reste modeste : transposée de la
+firme médiane de la base ($112$~Md\$ d'actifs) à l'entité notionnelle, la sévérité est
+multipliée par $0{,}85$, soit $-14{,}5\,\%$. Le biais de taille n'explique pas un facteur dix ; il
+explique un septième. Ce n'est pas la sévérité qui rend le niveau non transposable,
+c'est la fréquence, ce que la table~\ref{tab:echelle} établit par ailleurs. Le multiplicateur
+et sa variation sont recalculés à chaque exécution, de sorte qu'ils ne peuvent plus se
+désynchroniser de l'élasticité dont ils découlent.
+% SOURCES-SCRIPTS: 67
+
+\paragraph{La troncature à droite se corrige, au lieu de coûter trois années.} Les comptes
+s'effondrent après 2022 ($34$ en 2023, $39$ en 2024 contre $70$ à $100$ auparavant), ce qui
+conduisait à écarter ces années. La base portant la \emph{date de saisie} en plus de l'année
+de survenance, on construit le triangle survenance $\times$ délai de remontée et l'on applique
+un chain-ladder aux comptes. Le délai médian de remontée est de trois ans
+(neuvième décile : huit ans), et les facteurs de développement successifs valent $2{,}13$,
+$1{,}49$, $1{,}30$, $1{,}22$. À l'ultime, les $97$ événements observés sur 2023--2025
+deviennent $255$, soit $+163\,\%$. La moyenne annuelle ultime de ces trois années
+($85{,}0$) dépasse alors celle de la période pleine 2015--2022 ($74{,}1$) d'un facteur
+$1{,}15$. Le risque \textsc{tic} n'a pas baissé après 2022 : il n'est pas encore
+remonté. Les années récentes cessent d'être une perte sèche.
+
+\begin{figure}[htbp]\centering
+\figover{S20_biais_taille_troncature.png}
+\caption{Les deux biais, enfin chiffrés. (a)~la sévérité croît beaucoup moins vite
+que la taille de la firme, et la pente brute est encore aplatie par le seuil de collecte.
+\textbf{(b)}~les années récentes ne baissent pas, elles ne sont pas remontées : l'ultime
+chain-ladder les ramène au-dessus de la moyenne historique. (c)~les deux corrections
+jouent en sens opposés.}
+% SOURCES-SCRIPTS: 57
+\label{fig:biais}
+\end{figure}
+
+% =====================================================================
+\section{Le dispositif de sources : règles du moteur et confrontation à ENISA}
+\label{sec:ann-sources}
+
+% SOURCES-SCRIPTS: 05 62 63
+
+Complément du \S\ref{sec:portee-donnees}.
+
+\paragraph{Deux règles du moteur de simulation.} D'une part, avec $\hat{\xi}_{\text{PRC}} =
+1{,}03 \geq 1$, l'espérance de la sévérité PRC est infinie et la VaR simulée
+diverge numériquement ; un plafond de sévérité de 40~M\euro, ancré sur la
+capacité de réassurance cyber observable sur le marché, est appliqué à la
+\emph{seule source PRC}. La calibration OpRisk, dont l'indice de queue
+$\hat{\xi}_{\text{OpRisk}} = 0{,}595 < 1$ garantit une espérance finie, n'est
+en revanche pas plafonnée : ses montants étant observés de bout en bout, y
+appliquer un plafond tronquerait des pertes réelles et contredirait sa propre
+calibration. D'autre part, la sévérité de queue n'est tirée que pour la
+fraction $p_u$ des événements qui dépassent le seuil ; les autres reçoivent une
+sévérité nulle, ce qui fait du besoin publié un capital de queue.
+
+La conséquence directe de ce cadre épistémique est méthodologique autant que
+présentationnelle : le résultat final ne peut être livré comme un montant
+unique, mais doit être présenté comme une distribution large, conditionnelle
+à des hypothèses documentées et à des sources dont les écarts sont eux-mêmes
+informatifs, et ce principe structure tout le chapitre~\ref{chap:resultats}.
+
+%--------------------------------------------------------------
+
+%--------------------------------------------------------------
+
+Le dispositif retenu (OpRisk Global pour la sévérité observée et la fréquence
+d'entrée, PRC pour la sévérité alternative, Hackmageddon pour la structure du
+risque) appelle une
+question préalable à toute discussion de robustesse : ce triptyque est-il
+suffisant pour l'exercice mené dans ce mémoire ? La réponse tient à la nature
+même de l'exercice. L'objectif n'est pas de produire une formule
+réglementaire de Pilier~1, qui exigerait une base exhaustive et représentative
+du marché au sens de l'Article~19, base qui, comme établi plus haut, n'existe aujourd'hui
+pour aucun acteur, public ou privé, sur le
+risque cyber. L'objectif est de construire, dans l'esprit du Pilier~2 et de
+l'ORSA, une mesure prospective dont la valeur ajoutée actuarielle réside dans
+la transparence de ses limites autant que dans la précision de son résultat.
+Sous cet angle, les trois sources mobilisées couvrent exactement les trois
+rôles qu'exige une architecture fréquence-sévérité-structure, et leurs biais
+respectifs (sélection, déclaration, survie, visibilité, instabilité
+taxonomique) sont documentés plutôt que dissimulés.
+
+
+La structure du risque tirée de Hackmageddon (\S\ref{sec:hackmageddon}), bien que
+documentée quant à ses limites de visibilité et de taxonomie, gagne à être
+confrontée à une source indépendante, de nature différente et couvrant un
+périmètre réglementaire proche de celui du présent mémoire. Le rapport
+\emph{ENISA Threat Landscape 2025} \citep{enisa2025}, qui ancre au \S\ref{sec:quatre-canaux} les
+bornes du multiplicateur associé à l'exploitation de vulnérabilités, remplit
+ce rôle : constitué par l'agence européenne de cybersécurité elle-même à
+partir de 4\,875 incidents de périmètre européen, il repose sur une
+méthodologie de collecte distincte de celle, essentiellement médiatique, de
+Hackmageddon.
+
+La confrontation porte sur un point précis, celui qui ancre cette fourchette : ENISA
+mesure un taux de conversion tentative-vers-intrusion de 70~\% pour
+l'exploitation de vulnérabilités, contre seulement 27~\% pour le phishing.
+Cette asymétrie, mesurée par un organisme réglementaire sur un périmètre
+indépendant, confirme un résultat qu'Hackmageddon, par construction, ne peut
+révéler à partir du seul volume d'incidents observés : le phishing domine la
+structure en volume (38{,}8~\% contre 33{,}8~\% pour l'exploitation de
+vulnérabilités), mais convertit nettement moins efficacement en
+intrusion réussie. Les deux sources s'accordent ainsi, chacune sur son propre
+plan (structure des incidents rapportés pour Hackmageddon, taux de
+conversion pour ENISA) sur une même hiérarchie qualitative des vecteurs
+d'attaque, ce qui renforce la crédibilité du mapping vecteurs~$\rightarrow$~exigences
+DORA retenu au chapitre~\ref{chap:multietats} sans nécessiter de recalibration.
+
+\paragraph{Piste non mobilisée : Verizon DBIR.} Le \emph{Data Breach
+Investigations Report} de Verizon, fondé sur des méthodologies de collecte
+distinctes à la fois de Hackmageddon et d'ENISA, constituerait une troisième
+confrontation naturelle. Il n'est pas mobilisé dans le présent mémoire, faute
+de statistiques suffisamment vérifiées dans le périmètre de ce travail pour
+en garantir l'exactitude des chiffres cités. Cette confrontation constitue une
+perspective directe de prolongement, dans le même esprit que l'automatisation
+du reclassement par NLP évoquée plus haut.
+
+% =====================================================================
+\section{Les théorèmes des valeurs extrêmes, énoncés développés}
+\label{sec:ann-evt}
+
+% HARNAIS-HORS-SECTION: enonces de theoremes : constantes d'enonce, aucune valeur calculee par le pipeline.
+
+Là où le Théorème Central Limite s'intéresse au comportement asymptotique des sommes de variables aléatoires, la Théorie des Valeurs Extrêmes (EVT) étudie le comportement asymptotique de leurs maxima.
+
+Soit une séquence $(X_1, X_2, \dots, X_n)$ de variables aléatoires indépendantes et identiquement distribuées (i.i.d.) de fonction de répartition $F$, représentant la sévérité des cyberattaques. L'approche initiale de l'EVT, dite des \textit{Block Maxima}, s'intéresse au maximum sur des blocs de taille $n$ (par exemple, le sinistre cyber maximal annuel) :
+\begin{equation}
+M_n = \max(X_1, X_2, \dots, X_n)
+\end{equation}
+
+
+
+\paragraph{Théorème de Fisher-Tippett-Gnedenko (1928, 1943).} S'il existe des suites de constantes de normalisation $a_n > 0$ et $b_n \in \mathbb{R}$, et une distribution non dégénérée $H$ telles que :
+\begin{equation}
+\lim_{n \to \infty} \mathbb{P}\left( \frac{M_n - b_n}{a_n} \le x \right) = \lim_{n \to \infty} F^n(a_n x + b_n) = H(x)
+\end{equation}
+Alors, $H$ appartient nécessairement à la famille des distributions des extrêmes généralisées (GEV - \textit{Generalized Extreme Value}), dont la fonction de répartition s'écrit :
+\begin{equation}
+H_{\xi}(x) =
+\begin{cases}
+\exp\left(-\left(1 + \xi x \right)^{-1/\xi}\right) & \text{si } \xi \neq 0 \\
+\exp\left(-\exp(-x)\right) & \text{si } \xi = 0
+\end{cases}
+\end{equation}
+définie sur l'ensemble $\{x : 1 + \xi x > 0\}$. Le paramètre $\xi$ (indice de queue) définit trois grands domaines d'attraction :
+\begin{itemize}
+    \item \textbf{$\xi > 0$ (Loi de Fréchet) :} La distribution présente une queue lourde à décroissance polynomiale. C'est le régime qui décrit les sinistres cyber les plus lourds.
+    \item \textbf{$\xi = 0$ (Loi de Gumbel) :} La distribution présente une queue légère à décroissance exponentielle (domaine d'attraction des lois Normale, Lognormale, Gamma).
+    \item \textbf{$\xi < 0$ (Loi de Weibull) :} La distribution a un support fini supérieur (queue courte).
+\end{itemize}
+
+
+
+
+
+
+%--------------------------------------------------------------
+
+%--------------------------------------------------------------
+
+L'approche \textit{Block Maxima} (GEV) est rigoureuse mais coûteuse en information. En ne
+retenant que le maximum de chaque bloc, elle écarte le deuxième plus grand sinistre d'une année
+extrême, lequel peut dépasser le maximum d'une année calme. Sur une donnée cyber aussi peu
+fournie, ce rejet d'observations fragiliserait l'ajustement.
+
+Pour contourner ce problème, ce mémoire privilégie l'approche \textit{Peaks-Over-Threshold} (POT). Au lieu de ne garder que les maxima, cette méthode exploite toutes les observations excédant un seuil élevé $u$. On s'intéresse alors à la distribution des excès $Y = X - u$.
+
+La fonction de répartition conditionnelle des excès est donnée par :
+\begin{equation}
+F_u(y) = \mathbb{P}(X - u \le y \mid X > u) = \frac{F(u+y) - F(u)}{1 - F(u)}
+\end{equation}
+
+\paragraph{Théorème de Balkema-de Haan-Pickands (1974).} Ce théorème établit le pont mathématique entre la GEV et l'approche POT. Pour une large classe de distributions sous-jacentes $F$ (celles appartenant au domaine d'attraction d'une loi GEV $H_\xi$), il existe une fonction mesurable positive $\sigma(u)$ telle que, lorsque le seuil $u$ tend vers la limite supérieure du support de $F$ ($x_F$), la distribution des excès converge asymptotiquement vers une distribution de Pareto Généralisée (GPD) :
+\begin{equation}
+\lim_{u \to x_F} \sup_{0 \le y < x_F - u} \left| F_u(y) - G_{\xi, \sigma(u)}(y) \right| = 0
+\end{equation}
+
+Où la fonction de répartition de la GPD s'écrit :
+\begin{equation}
+G_{\xi, \sigma}(y) =
+\begin{cases}
+1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1/\xi} & \text{si } \xi \neq 0 \\
+1 - \exp\left(-\frac{y}{\sigma}\right) & \text{si } \xi = 0
+\end{cases}
+\end{equation}
+avec $y \ge 0$ si $\xi \ge 0$, et $0 \le y \le -\sigma/\xi$ si $\xi < 0$. Le paramètre de forme $\xi$ de la GPD est strictement le même que celui de la loi GEV correspondante. Dans le contexte du risque cyber, un indice de queue $\xi > 0$ traduit une distribution à queue lourde de type Fréchet, impliquant des moments potentiellement infinis (l'espérance est infinie si $\xi \ge 1$, la variance si $\xi \ge 0.5$).
+
+
+
+
+
+%--------------------------------------------------------------
+
+%--------------------------------------------------------------
+
+
+
+\begin{proof}[Éléments pour le théorème~\ref{soc:th:ftg}]
+La loi limite $H$ est nécessairement \emph{max-stable} : pour tout $n$, $H^n(a_nx+b_n)=H(x)$, car $M_{nk}$ est le maximum de $k$ blocs de taille $n$. L'équation fonctionnelle de max-stabilité, résolue via la théorie des fonctions à variation régulière, n'admet (à normalisation près) que la famille à un paramètre $H_\xi$. La correspondance queue de $F$ $\leftrightarrow$ signe de $\xi$ s'obtient en caractérisant les $F$ dont la fonction de survie est à variation régulière d'indice $-1/\xi$ (cas Fréchet). Le détail figure en Annexe~\ref{soc:ann:ftg}.
+\end{proof}
+
+\begin{proof}[Esquisse pour le théorème~\ref{soc:th:balkema}]
+L'appartenance de $F$ au domaine d'attraction de $H_\xi$ équivaut à une condition de variation régulière sur la fonction de survie $\bar F$. On montre que $\bar F(u+y\,a(u))/\bar F(u)\to(1+\xi y)^{-1/\xi}$ quand $u\to x_F$, pour une fonction d'échelle $a(u)$ adéquate ; ce membre de droite est exactement la fonction de survie GPD. La convergence uniforme découle de la monotonie des fonctions de répartition (théorème de Pólya). Détail et lien avec le Théorème~\ref{soc:th:ftg} en Annexe~\ref{soc:ann:balkema}.
+\end{proof}
+
+% =====================================================================
+\section{L'estimation de l'indice de queue : lois asymptotiques et démonstration}
+\label{sec:ann-estimation-queue}
+
+% SOURCES-SCRIPTS: 47 63 67
+
+\paragraph{L'estimateur de Hill.}
+Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) estime l'indice de queue à partir des $k$ plus grandes statistiques d'ordre, sans passer par l'ajustement d'une loi paramétrique. Asymptotiquement convergent et sans biais lorsque la loi appartient au domaine d'attraction de Fréchet, il présente en échantillon fini un biais majeur : si la composante à variation lente de la queue ne converge pas assez vite, $\hat{\xi}_{\text{Hill}}$ devient instable.
+
+\paragraph{Loi asymptotique et information de Fisher.} La qualité d'un intervalle de confiance sur $\xi$ conditionne toute la lecture du capital. Le fondement théorique en est donné ici ; il sert de contrôle indépendant du bootstrap employé au chapitre~\ref{chap:resultats}.
+
+\begin{proposition}[Normalité asymptotique de l'EMV de la GPD]\label{soc:prop:fisher}
+Pour $\xi > -\tfrac{1}{2}$, l'estimateur du maximum de vraisemblance $(\hat\xi,\hat\sigma)$ de la GPD est consistant et asymptotiquement normal :
+\begin{equation}
+\sqrt{N_u}\,\begin{pmatrix}\hat\xi-\xi\\[2pt]\hat\sigma-\sigma\end{pmatrix}
+\;\xrightarrow{\;d\;}\;
+\mathcal{N}\!\left(\mathbf{0},\; (1+\xi)\begin{pmatrix}1+\xi & -\sigma\\[2pt] -\sigma & 2\sigma^2\end{pmatrix}\right).
+\end{equation}
+En particulier, la variance asymptotique de l'indice de queue est
+$\Var(\hat\xi)\simeq (1+\xi)^2/N_u$.
+\end{proposition}
+
+\begin{proof}[Esquisse]
+La matrice de covariance limite est l'inverse de l'information de Fisher $\mathcal{I}(\xi,\sigma)$, obtenue en prenant l'espérance de l'opposé de la hessienne de $\ell$. Le détail du calcul de $\mathcal{I}$ (dérivées secondes de \eqref{soc:eq:loglik-gpd} et intégration contre la densité GPD, valide pour $\xi>-\tfrac12$ où l'information est finie) est reporté en Annexe~\ref{soc:ann:fisher}. Le résultat classique remonte à \citet{smith1987}.
+\end{proof}
+
+\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{soc:prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment au \S\ref{soc:sec:severite} : la concordance des deux approches, l'une paramétrique et asymptotique, l'autre par rééchantillonnage, renforce la fiabilité de l'incertitude reportée sur~$\xi$.
+
+\begin{proposition}[Loi asymptotique de l'estimateur de Hill]\label{soc:prop:hill}
+Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alors pour une suite $k=k(n)\to\infty$ avec $k/n\to0$,
+\begin{equation}
+\sqrt{k}\,\bigl(\hat\xi_{Hill}(k)-\xi\bigr)\;\xrightarrow{\;d\;}\;\mathcal{N}(0,\;\xi^2).
+\end{equation}
+\end{proposition}
+
+\noindent L'écart-type $\xi/\sqrt{k}$ décroît en $\sqrt{k}$ : d'où l'arbitrage biais--variance qui gouverne le choix de $k$ dans le \emph{Hill plot}, et qui explique l'instabilité signalée plus haut lorsque $k$ est pris trop grand (contamination par le corps de la loi) ou trop petit (variance explosive). La preuve, fondée sur la représentation de Rényi des espacements exponentiels, est esquissée en Annexe~\ref{soc:ann:hill}.
+
+\noindent Démonstration de la proposition~\ref{soc:prop:varestvar}.
+
+\begin{proof}
+Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\bigr)^{-1/\xi}$. En posant ce membre égal à $1-\alpha$ et en inversant, on obtient \eqref{soc:eq:var-gpd}. Pour \eqref{soc:eq:tvar-gpd}, la stabilité de la GPD par franchissement de seuil implique que l'excès au-delà de $\qsev_\alpha(X)$ suit encore une GPD de paramètre $\xi$ et d'échelle $\sigma+\xi(\qsev_\alpha(X)-u)$, d'espérance $\bigl(\sigma+\xi(\qsev_\alpha(X)-u)\bigr)/(1-\xi)$ pour $\xi<1$ ; en ajoutant $\qsev_\alpha(X)$ et en réarrangeant, on retrouve \eqref{soc:eq:tvar-gpd}. La divergence pour $\xi\ge1$ découle de $\E[X]=\int_u^\infty \Prob(X>x)\,\dd x=+\infty$ dès que $1/\xi\le1$. Détail en Annexe~\ref{soc:ann:varestvar}.
+\end{proof}
+
+\noindent La Proposition~\ref{soc:prop:varestvar} éclaire par ailleurs le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en régime d'espérance infinie : la moyenne de queue, et donc tout Expected Shortfall bâti sur elle, y est mathématiquement indéfinie. C'est ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable, et c'est aussi le premier argument contre l'usage d'une mesure de queue comme \emph{niveau de couverture} : sur l'une des deux sources, cette mesure n'existe pas.
 
 % =====================================================================
 \section{Hill contre maximum de vraisemblance : le détail}
@@ -543,6 +814,88 @@ de l'année ne rejettent rien non plus, et le rang est ici le bon outil : à $\h
 $0{,}6$ la variance de la sévérité est infinie, si bien qu'un test adossé à la variance de
 l'agrégat n'aurait pas d'objet, du même argument d'existence que celui qui écarte la mesure de
 queue sous la calibration PRC.
+
+% =====================================================================
+\section{Le corpus de post-mortems : les deux figures}
+\label{sec:ann-corpus}
+
+% SOURCES-SCRIPTS: 53 59
+
+Complément du \S\ref{sec:postmortems}.
+
+\begin{figure}[htbp]
+  \centering
+  \figover{Z17_postmortem_direction.png}
+  \caption{La direction corroborée par codage de post-mortems
+officiels, seule source où elle franchit le placebo. (a)~les $17$ transitions codées
+$k\to j$ sur les sept rapports d'enquête publique du corpus initial, aucune n'allant à contre-sens
+de la tendance dominante de sa paire ; le corpus étendu du \S\ref{sec:corpus-etendu} les porte à
+vingt-deux sur dix rapports. (b)~le placebo directionnel est franchi ($z=+3{,}93$,
+$p=0{,}0004$), là où le pas annuel d'OpRisk donnait $z=-0{,}33$ : c'est la qualité du codage,
+non le volume, qui donne la puissance. (c)~P1 (gouvernance) est source pure ($9$
+sorties, $0$ entrée) et P2 (gestion des incidents) est un puits ($0$ sortie, $7$ entrées) : la
+structure que le classeur posait par jugement, retrouvée par un chemin indépendant. Le
+confondant de narration reste déclaré et non levé.}
+  \label{fig:postmortem}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \figover{Z20_corpus_etendu_pij.png}
+  \caption{Le corpus étendu et la matrice ordonnée $p_{jk}$.
+\textbf{(a)}~la matrice complète des médianes a posteriori, ligne émettrice et colonne
+réceptrice : la ligne de $P_2$ et la colonne de $P_1$ sont vides, ce qui est la traduction
+chiffrée du puits et de la source pure. (b)~les dix premiers liens ordonnés avec leur
+crédible à $90\,\%$ : la direction ressort, l'amplitude reste large et aucun crédible ne passe
+entièrement au-dessus de $0{,}5$. (c)~sensibilité à la sous-documentation des
+défaillances non propagées : le niveau s'effondre, la part de direction tient.}
+  \label{fig:corpus-etendu}
+\end{figure}
+
+% =====================================================================
+\section{L'échelle de repli sur la direction : la reparamétrisation}
+\label{sec:ann-echelle-u}
+
+% SOURCES-SCRIPTS: 34
+
+Complément du \S\ref{sec:echelle-u}.
+
+La décomposition $W = S + A$ borne la direction en bloc. On peut faire mieux, en suivant
+la méthode d'attaque puis de repli : reparamétrer la propagation par
+\[
+  \operatorname{logit} p_{ij} \;=\; \operatorname{logit} p_j + u_{ij},
+\]
+où $p_j$ est l'attractivité de la cible (ce qui subsiste quand la source ne compte
+pas) et $u_{ij}$ l'excès propre à la source, c'est-à-dire la direction. La
+décomposition n'est identifiée qu'une fois posée la normalisation $\sum_{i\neq j} u_{ij}=0$
+pour chaque $j$ : c'est une convention de repérage, et non une information, ce que l'on
+vérifie numériquement (une translation compensée de $p_j$ et de $u$ laisse le SCR
+strictement inchangé). On descend alors une échelle de crans, du plus ambitieux au repli :
+$u$ libre, puis $u$ de rang $1$ ($u_{ij}=b_j(a_i-\bar a)$, qui capte $74\,\%$ de
+la direction posée et resserre les bornes de $25\,\%$ au prix d'une hypothèse de structure),
+puis $u$ élicité, puis $u=0$.
+
+
+\begin{figure}[htbp]
+\centering
+\figover{Z5_echelle_repli.png}
+\caption{L'échelle de repli sur $u_{ij}$. (a)~Les bornes de capital se resserrent quand on
+recule d'un cran (hypothèse de structure). (b)~Un rang $1$ capte $74\,\%$ de la direction
+posée. (c)~Ce que la direction change à la décision : au cran nul, les gains de remédiation
+de P1 et P4 se rejoignent.}
+\label{fig:echelle}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+\figover{Z2_comparaison_regimes.png}
+\caption{Poser $W$ ou le borner, comparés avant élicitation. (a)~Un point contre un socle
+et des bornes. (b)~Seule la part supérieure dépend de l'élicitation. (c)~Le régime~A suit
+le biais du panel, la bande du régime~B ne bouge pas. (d)~Ce que l'élicitation doit
+départager, et rien de plus.}
+\label{fig:regimes}
+\end{figure}
 
 % =====================================================================
 \section{La sensibilité aux probabilités de propagation : le détail}
@@ -1002,6 +1355,47 @@ non la sévérité, qui porte l'agrégat à une échelle de secteur.}
 \end{figure}
 
 % =====================================================================
+\section{L'agrégation au capital total : le contrefactuel et le plafond}
+\label{sec:ann-agregation}
+
+% SOURCES-SCRIPTS: 95 65
+
+Complément du \S\ref{sec:agregation-scr}.
+
+\paragraph{Le contrefactuel, et ce qu'il mesure.} Pour dire ce que cette convention implique, on
+agrège le même montant $D$ comme un module de plus, corrélé à $\rho$ avec le \textsc{bscr} pris
+comme un bloc. Le taux de reconnaissance vaut alors
+\[
+  \tau(\rho, d) \;=\; \frac{\sqrt{1 + 2\rho d + d^{2}} - 1}{d},
+  \qquad d = \frac{D}{\mathrm{BSCR}},
+\]
+et son développement en $d = 0$ donne $\tau(\rho, d) = \rho + \tfrac{d}{2}\,(1 - \rho^{2}) +
+O(d^{2})$. Un montant petit devant le \textsc{bscr} est donc reconnu à hauteur de $\rho$,
+et de $\rho$ seulement, quand la convention additive le reconnaît en entier. L'écart entre les
+deux traitements vaut $1 - \rho$ : il ne dépend pas de la taille, et il ne se referme qu'à
+corrélation parfaite. Ce contrefactuel n'est pas ce que fait Solvabilité~II ; il sert à
+\emph{mesurer} la convention en vigueur, jamais à en proposer une autre.
+
+\paragraph{Ce que la donnée publiée suffit à établir.} Le \textsc{bscr} ne figure pas parmi les
+champs retenus, et il n'a pas besoin d'y figurer : $\mathrm{Adj} \le 0$ donne
+$\mathrm{BSCR} \ge \mathrm{SCR} - \mathrm{SCR}_{Op}$, et le plafond donne
+$\mathrm{BSCR} \ge \mathrm{SCR}/1{,}3$. Minorer le \textsc{bscr} \emph{majore} $\tau$ : les taux
+ci-dessous sont donc des majorants, et l'écart entre les deux conventions vaut au moins ce qu'on
+y lit.
+
+
+\paragraph{Le plafond, qui ajoute une borne à la cécité déjà établie.} La charge forfaitaire est
+plafonnée à $0{,}3 \times \mathrm{BSCR}$, quelle que soit l'exposition opérationnelle réelle. Sur
+l'assureur non-vie~A, dont l'état \textsc{s.25.01} publie un module opérationnel de
+$59{,}0$~M\euro, ce plafond vaut $109{,}8$~M\euro{} et la marge restante $50{,}8$~M\euro. Le
+besoin calculé, $112{,}1$~M\euro, en représente $2{,}21$ fois, et l'écart entre états,
+$34{,}9$~M\euro, en représente $0{,}69$ fois. Autrement dit, même un forfait rendu
+sensible à la conformité saturerait avant d'avoir exprimé ce besoin : la Formule Standard n'est
+pas seulement insensible, elle est bornée. La lecture $\mathrm{Adj} = 0$ est ici \emph{posée et
+déclarée}, un ajustement strictement négatif relevant le \textsc{bscr}, donc le plafond, donc la
+marge ; l'état \textsc{s.25.01} de l'entité permet de la lever au cas par cas.
+
+% =====================================================================
 \section{Détenir ou transférer : le dimensionnement du traité}
 \label{sec:ann-detenir}
 
@@ -1076,6 +1470,111 @@ propre) est possible, et c'est l'objet de l'annexe~\ref{chap:adaptations}. Le ve
 constant sur les six adaptations testées : chacune relève le niveau, aucune ne
 renverse le classement. C'est pourquoi ce matériel est reporté en annexe plutôt que
 présenté ici : il renforce la lecture du chapitre sans la modifier.
+\end{cle}
+
+% =====================================================================
+\section{Les étages d'incertitude et l'auto-excitation : le détail}
+\label{sec:ann-etages-hawkes}
+
+% SOURCES-SCRIPTS: 48 71 85
+
+Complément du \S\ref{sec:etage-modele-hors-bande}.
+
+\paragraph{Ce qui justifie le déplacement, et ce n'est pas une taille.} Les deux étages retenus
+sont de nature \emph{statistique} : ils mesurent ce que la donnée ne permet pas de trancher à
+modèle fixé, et un intervalle est l'objet qui convient pour les porter. Le troisième est
+\emph{épistémique} : il mesure l'effet d'un choix de famille, et un choix ne se moyenne pas.
+
+Le point décisif est plus précis que cette opposition générale, et il se voit sur l'axe de la
+famille de queue. Cet axe pousse $\xi$ à $0{,}90$, tandis que l'étage de paramètre le fait varier
+jusqu'à $0{,}8313$ : c'est le même paramètre, et une bande doit dire \emph{une seule
+fois} jusqu'où on le laisse aller. Or $0{,}8313$ est une borne estimée, celle de
+l'intervalle bootstrap, quand $0{,}90$ est une valeur posée hors de cet intervalle. Les
+placer sur la même échelle met un scénario et une borne de confiance dans le même objet, et le
+lecteur ne sait plus si la borne haute est un aléa défavorable ou une autre théorie de la queue.
+Le retrait rend la bande homogène, ce qui est un motif plus fort que la lisibilité.
+
+À l'inverse, la borne \emph{basse} de cet axe, la lognormale à $4\,330$~M\euro, est une autre
+famille et non un autre $\xi$ : celle-là est un apport propre, et c'est pourquoi le
+recouvrement est asymétrique. Le déplacement porte donc sur ce que la bande \emph{annonce},
+non sur ce que le mémoire publie.
+
+\paragraph{Où cet étage est publié, désormais.} Il l'est deux fois, et rien n'est caché. Sur
+l'axe de la famille de queue, la sixième posture de la table du
+\S\ref{sec:predictive-robuste}, le pire cas de modèle à $\xi$ \emph{posé} à $0{,}90$, \emph{est}
+l'ambiguïté de famille : c'est le même objet, sous un autre nom, et il porte un chiffre.
+Sur l'axe de la dépendance, la bande de $5\,322$ à $9\,806$~M\euro{} reste publiée dans cette
+section, avec le repère qui compte, à savoir que la cascade dirigée s'y place entre une
+dépendance gaussienne et une dépendance de Gumbel.
+
+\paragraph{Et ce qui ne change pas.} L'ordre d'amorce des piliers reste invariant à la
+famille. Le déplacement porte sur la façon de \emph{reporter} le niveau, pas sur la thèse : le
+niveau bouge dans la bande, l'ordre résiste, et c'est vrai des trois étages qu'on les cumule
+ou non.
+
+\paragraph{Sur l'auto-excitation, une convergence de choix et non une corroboration.} Le parti de
+ne pas poser de couche de Hawkes est le plus discutable, l'auto-excitation étant
+devenue l'outil par défaut du cyber. Il est ici adossé à un test contre les variantes de noyau de
+la littérature. Le préprint de cascade climatique cité au chapitre~\ref{ch:positionnement}
+\citep{ccrn2026} arrive au même endroit, et \emph{pour la même raison de résolution temporelle} :
+il retient un graphe acyclique à l'échelle de l'événement, au motif que le processus ponctuel
+auto-excité devient naturel lorsque les instants exacts et la rétroaction récurrente sont au
+c\oe ur du problème, ce qui n'est pas le cas quand la propagation se joue à l'intérieur d'un
+événement dont on n'observe pas la chronologie fine. C'est exactement la situation du présent
+travail, et la convergence est d'autant plus notable qu'elle est indépendante : autre péril,
+autre équipe, et sans connaissance des travaux sur lesquels s'appuie le test conduit ici.
+
+\begin{attention}
+\textbf{Ce que cette convergence vaut, et ce qu'elle ne vaut pas.} Il serait commode de la lire
+comme une corroboration du rejet ; ce serait la surinterpréter, et la précision importe puisque
+c'est le point le plus exposé du mémoire. Ces auteurs ne testent pas l'auto-excitation contre
+leur cascade : ils \emph{posent} le graphe acyclique, et leur mention du processus auto-excité
+tient en une ligne d'un tableau de positionnement où il figure comme une représentation mature
+parmi d'autres, mieux adaptée à un autre régime d'observation. Ce qui converge est donc le
+choix de modélisation et son motif, pas une réfutation. Deux équipes qui ne disposent
+pas de la chronologie fine d'un événement écartent le même outil pour la même raison, ce qui
+déplace ce parti d'une préférence vers une contrainte d'observation, et c'est tout ce que l'on
+peut en tirer. Le rejet lui-même ne repose que sur le test du présent travail.
+\end{attention}
+
+\paragraph{Ce que ce test établit réellement : une équivalence observationnelle, et c'est plus
+fort qu'un rejet.} Le mot \og rejet \fg{} suppose que la donnée départage les deux modèles. Elle
+ne les départage pas, et le mesurer valait mieux que de l'espérer.
+% SOURCES-SCRIPTS: 85
+
+L'argument se pose d'abord \emph{sans} rien simuler. Si chaque pilier touché est un événement
+enregistrable, la fraction d'événements qui sont des \emph{enfants} vaut
+$(\mathbb{E}[k]-1)/\mathbb{E}[k]$, où $\mathbb{E}[k]$ est le nombre moyen de piliers touchés par
+sinistre : c'est exactement ce qu'un ajustement de Hawkes appelle son ratio de branchement. Avec
+$\mathbb{E}[k]=1{,}931$ à l'état non conforme, une cascade sans aucune auto-excitation
+prédit $n=0{,}482$, à comparer au $0{,}551$ mesuré sur la chronologie réelle.
+
+Le test le confirme. On engendre soixante années de dates avec le moteur de cascade, dont la
+seule structure temporelle est la durée des pas de propagation \emph{à l'intérieur} d'un sinistre,
+puis on lui ajuste un Hawkes exponentiel comme on le ferait sur une chronologie réelle. À la
+résolution de la donnée disponible, le jour, l'ajustement trouve $n=0{,}480$, soit la prédiction
+analytique à trois millièmes. Il retrouve même l'horloge interne : la demi-vie estimée du noyau
+vaut $9{,}0$~h pour un lag de propagation vrai de $6{,}7$~h, et il l'appelle \og décroissance de
+l'excitation \fg{}. L'estimateur a été validé au préalable sur un Poisson pur, où il rend
+$0{,}004$, et sur trois processus de Hawkes simulés de ratios connus, qu'il retrouve.
+
+\begin{cle}
+\textbf{Conséquence, à assumer telle quelle.} Un ratio de branchement de l'ordre de $0{,}5$
+mesuré sur des dates réelles ne prouve pas l'auto-excitation : une cascade qui n'en
+contient aucune le produit. Les deux modèles sont \emph{observationnellement équivalents} à la
+résolution disponible. L'énoncé juste n'est donc pas \og le Hawkes est rejeté \fg{} mais \og le
+Hawkes n'est pas distinguable de la cascade, et la cascade est retenue par parcimonie
+interprétative \fg{} : elle rend compte du même regroupement temporel par un mécanisme qui porte
+en outre la structure inter-piliers et se traduit en capital. C'est une conclusion plus faible en
+apparence et plus solide en fait, puisqu'elle cesse de s'appuyer sur un départage que la donnée
+ne permet pas.
+
+\textbf{Attention au sens de l'effet de résolution.} Dégrader la résolution fait monter
+le ratio estimé, de $0{,}473$ à l'heure jusqu'à $0{,}739$ au mois, parce qu'agréger fabrique du
+regroupement apparent. C'est l'opération \emph{inverse} de celle conduite plus haut, qui fait
+tomber l'endogénéité en reclassant les co-occurrences du même jour en exogène. Les deux
+expériences ne se contredisent pas, elles déplacent deux choses différentes, et les confondre
+donnerait une conclusion opposée.
 \end{cle}
 
 % =====================================================================

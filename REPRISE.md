@@ -40,7 +40,7 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 17 septembre 2026 au soir
+## L'état mesuré, au 17 septembre 2026, fin de soirée
 
 **`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, ET LE SEUL QUI SE COMPILE DÉSORMAIS.** La v3 est
 supprimée (décision de Kélian le 17 septembre) ; `main.tex` et `main_v2.tex` restent au dépôt,
@@ -56,14 +56,19 @@ interligne 1,5**, par l'interrupteur `\formatensae`. Couverture ENSAE complète.
 
 | Document | Total | Folios | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **230 pages** | corps (parties I à V) 21 à 162, stage 163, annexes 169 | **5, ligne de base** | **2 282 sur 2 282** |
+| **`main_ensae.pdf`, le mémoire déposé** | **236 pages** | corps (parties I à V) 21 à 132, stage 133, annexes 139 | **5, ligne de base** | **2 357 sur 2 357** |
 | `rapport_ensae.pdf` | 52 pages | 36 de corps | 0 | ne part plus |
 
 **Ordre des pièces** : couverture, remerciements, résumé et sommaire, glossaire en 11, note de
-synthèse en 13, executive summary en 17, Contexte en 21, Données en 40, Modélisation en 54,
-Résultats en 103, Robustesse en 139, Le stage en 163, Annexes en 169, bibliographie en fin.
+synthèse en 13, executive summary en 17, Contexte en 21, Données en 37, Modélisation en 49,
+Résultats en 88, Robustesse en 113, Le stage en 133, Annexes en 139, bibliographie en fin.
 
-**Harnais : 2 282 nombres, 2 282 confirmés**, et **0 hors contrôle non déclaré** chapitre par
+**Annexes depuis le 17 septembre au soir** : A et B démonstrations, C adaptations par pilier, D
+pièces justificatives, **E compléments aux chapitres du corps** (`21_complements_corps.tex`,
+nouvelle), F protocole d'élicitation (était E), G table des notations (était F). Les renvois
+passent tous par `\ref`, aucune lettre n'est écrite en dur.
+
+**Harnais : 2 357 nombres, 2 357 confirmés**, et **0 hors contrôle non déclaré** chapitre par
 chapitre (publiés = sous contrôle + déclarés partout). Contrôles `controles_memoire.py` au vert :
 0 `??`, 0 vbox, 0 annotation hors page, 0 page tournée, aucune figure seule ni trop haute.
 
@@ -531,8 +536,7 @@ de Hugo Rapior, à citer à part comme regard de l'encadrant.
 figures du rapport restent en place, rien à recompiler pour ce point.
 
 **4. Le rapport de jury simulé est traité en entier (P0, P1, P2).** Ce qui reste possible si
-Kélian le veut : raccourcir encore le corps, qui fait 142 pages contre les 110 visés (voir le
-journal du 17 septembre pour les candidats).
+Kélian le veut : rien. Le corps est à 112 pages, pour 110 visés.
 
 **5. Déposer** `KADDOURI_Kelian_3A25.pdf` avant le 30 septembre, après avoir vérifié qu'il est la
 copie exacte du dernier `main_ensae.pdf` (`cmp` les deux fichiers).
@@ -630,6 +634,38 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 17 septembre 2026
+
+### P2-11 mené jusqu'au bout : le corps passe de 142 à 112 pages
+
+**Kélian a validé la descente vers 110 pages.** Le principe est le même que pour les premiers
+déplacements : chaque section du corps garde son titre, son label et un résumé de ses résultats
+chiffrés, avec un renvoi ; le détail part dans une **nouvelle annexe E**, « Compléments aux
+chapitres du corps » (`chapitres/21_complements_corps.tex`, appelée par les trois fichiers maîtres
+après les pièces justificatives), rangée dans l'ordre des chapitres. **Aucun résultat, aucune limite
+déclarée ni aucun nombre n'a été retiré du mémoire.** Les annexes E et F deviennent F et G.
+
+Blocs déplacés, en quatre passes : détail de la lecture de marché LUCY et ses trois figures ; Bâle
+III/IV, table comparative et limites de l'ORSA (cadre réglementaire) ; mesures des biais de taille
+et de troncature ; règles du moteur et confrontation à ENISA ; énoncés développés des théorèmes des
+valeurs extrêmes, lois asymptotiques et démonstration du quantile GPD ; détail de Hill contre MLE ;
+règles de choix du seuil ; détail du backtest ; figures du corpus de post-mortems (les deux
+relectures de praticiens sont résumées, l'annexe du protocole les porte) ; échelle de repli sur la
+direction ; sensibilité aux probabilités de propagation (Sobol, tornado brut, gradation,
+ablation, préprint) ; figure du benchmark réglementaire ; épreuve du réel (descente d'échelle,
+mise à l'échelle proportionnelle écartée) ; contrefactuel et plafond de l'agrégation au capital
+total ; dimensionnement du traité ; motif épistémique de l'étage de modèle et équivalence
+Hawkes/cascade ; lecture ligne par ligne du registre des limites.
+
+**Piège rencontré** : la seule formule mise en ligne dans un résumé (intervalle delta-méthode du
+§5.2) a créé un débordement ; reformulée, retour à la ligne de base de 5. **Et une règle de
+harnais tenue** : chaque résumé du corps garde la ligne `% SOURCES-SCRIPTS` des nombres qu'il
+cite, chaque section d'annexe porte la sienne, et la section réglementaire de l'annexe est
+déclarée hors script.
+
+Contrôles : `main_ensae` 236 pages, corps 21 à 132, 5 débordements, 0 `??`, 0 vbox, aucune page
+d'image seule ; harnais 2 357 nombres confirmés (les résumés reprennent des nombres de l'annexe),
+aucun hors contrôle non déclaré ; deux pages rendues et relues ; fichier déposé régénéré.
+
 
 ### P1 et P2 du rapport de jury, traités en entier (commits f59d6e3 à la fin de journée)
 

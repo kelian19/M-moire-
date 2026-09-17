@@ -18,12 +18,9 @@ seul élément que la cascade remplace.
 % (a = 0,122 [0,054 ; 0,223] ; phi = 2,24), l'ancien "a ~ 0,30 / phi ~ 3" était faux.
 %--------------------------------------------------------------
 
-Là où le Théorème Central Limite s'intéresse au comportement asymptotique des sommes de variables aléatoires, la Théorie des Valeurs Extrêmes (EVT) étudie le comportement asymptotique de leurs maxima.
-
-Soit une séquence $(X_1, X_2, \dots, X_n)$ de variables aléatoires indépendantes et identiquement distribuées (i.i.d.) de fonction de répartition $F$, représentant la sévérité des cyberattaques. L'approche initiale de l'EVT, dite des \textit{Block Maxima}, s'intéresse au maximum sur des blocs de taille $n$ (par exemple, le sinistre cyber maximal annuel) :
-\begin{equation}
-M_n = \max(X_1, X_2, \dots, X_n)
-\end{equation}
+La théorie des valeurs extrêmes étudie le comportement asymptotique des maxima, comme le théorème
+central limite celui des sommes. Deux résultats autorisent l'extrapolation de queue sur laquelle
+repose la sévérité.
 
 \section{Les deux théorèmes qui autorisent l'extrapolation de queue}
 % HARNAIS-HORS-SECTION: enonces de theoremes. Les nombres y sont des constantes d'enonce
@@ -31,65 +28,15 @@ M_n = \max(X_1, X_2, \dots, X_n)
 %   par le pipeline ; les valeurs empiriques correspondantes sont verifiees dans les
 %   sections de calibration et de validation du meme chapitre.
 
-\paragraph{Théorème de Fisher-Tippett-Gnedenko (1928, 1943).} S'il existe des suites de constantes de normalisation $a_n > 0$ et $b_n \in \mathbb{R}$, et une distribution non dégénérée $H$ telles que :
-\begin{equation}
-\lim_{n \to \infty} \mathbb{P}\left( \frac{M_n - b_n}{a_n} \le x \right) = \lim_{n \to \infty} F^n(a_n x + b_n) = H(x)
-\end{equation}
-Alors, $H$ appartient nécessairement à la famille des distributions des extrêmes généralisées (GEV - \textit{Generalized Extreme Value}), dont la fonction de répartition s'écrit :
-\begin{equation}
-H_{\xi}(x) =
-\begin{cases}
-\exp\left(-\left(1 + \xi x \right)^{-1/\xi}\right) & \text{si } \xi \neq 0 \\
-\exp\left(-\exp(-x)\right) & \text{si } \xi = 0
-\end{cases}
-\end{equation}
-définie sur l'ensemble $\{x : 1 + \xi x > 0\}$. Le paramètre $\xi$ (indice de queue) définit trois grands domaines d'attraction :
-\begin{itemize}
-    \item \textbf{$\xi > 0$ (Loi de Fréchet) :} La distribution présente une queue lourde à décroissance polynomiale. C'est le régime qui décrit les sinistres cyber les plus lourds.
-    \item \textbf{$\xi = 0$ (Loi de Gumbel) :} La distribution présente une queue légère à décroissance exponentielle (domaine d'attraction des lois Normale, Lognormale, Gamma).
-    \item \textbf{$\xi < 0$ (Loi de Weibull) :} La distribution a un support fini supérieur (queue courte).
-\end{itemize}
-
-\noindent On peut énoncer formellement ce résultat fondateur, qui joue pour les maxima le rôle du théorème central limite pour les sommes.
-
 \begin{theorem}[Fisher--Tippett--Gnedenko]\label{soc:th:ftg}
 Soit $(X_i)_{i\ge1}$ i.i.d.\ de fonction de répartition $F$ et $M_n=\max(X_1,\dots,X_n)$. S'il existe des suites $a_n>0$, $b_n\in\R$ et une loi non dégénérée $H$ telles que $(M_n-b_n)/a_n \xrightarrow{d} H$, alors $H$ est, à un changement d'échelle et de position près, une loi GEV $H_\xi$. Le signe de $\xi$ détermine le domaine d'attraction : Fréchet ($\xi>0$, queue lourde), Gumbel ($\xi=0$) ou Weibull ($\xi<0$, support borné).
 \end{theorem}
 
-\begin{proof}[Éléments]
-La loi limite $H$ est nécessairement \emph{max-stable} : pour tout $n$, $H^n(a_nx+b_n)=H(x)$, car $M_{nk}$ est le maximum de $k$ blocs de taille $n$. L'équation fonctionnelle de max-stabilité, résolue via la théorie des fonctions à variation régulière, n'admet (à normalisation près) que la famille à un paramètre $H_\xi$. La correspondance queue de $F$ $\leftrightarrow$ signe de $\xi$ s'obtient en caractérisant les $F$ dont la fonction de survie est à variation régulière d'indice $-1/\xi$ (cas Fréchet). Le détail figure en Annexe~\ref{soc:ann:ftg}.
-\end{proof}
-
-%--------------------------------------------------------------
-
-%--------------------------------------------------------------
-
-L'approche \textit{Block Maxima} (GEV) est rigoureuse mais coûteuse en information. En ne
-retenant que le maximum de chaque bloc, elle écarte le deuxième plus grand sinistre d'une année
-extrême, lequel peut dépasser le maximum d'une année calme. Sur une donnée cyber aussi peu
-fournie, ce rejet d'observations fragiliserait l'ajustement.
-
-Pour contourner ce problème, ce mémoire privilégie l'approche \textit{Peaks-Over-Threshold} (POT). Au lieu de ne garder que les maxima, cette méthode exploite toutes les observations excédant un seuil élevé $u$. On s'intéresse alors à la distribution des excès $Y = X - u$.
-
-La fonction de répartition conditionnelle des excès est donnée par :
-\begin{equation}
-F_u(y) = \mathbb{P}(X - u \le y \mid X > u) = \frac{F(u+y) - F(u)}{1 - F(u)}
-\end{equation}
-
-\paragraph{Théorème de Balkema-de Haan-Pickands (1974).} Ce théorème établit le pont mathématique entre la GEV et l'approche POT. Pour une large classe de distributions sous-jacentes $F$ (celles appartenant au domaine d'attraction d'une loi GEV $H_\xi$), il existe une fonction mesurable positive $\sigma(u)$ telle que, lorsque le seuil $u$ tend vers la limite supérieure du support de $F$ ($x_F$), la distribution des excès converge asymptotiquement vers une distribution de Pareto Généralisée (GPD) :
-\begin{equation}
-\lim_{u \to x_F} \sup_{0 \le y < x_F - u} \left| F_u(y) - G_{\xi, \sigma(u)}(y) \right| = 0
-\end{equation}
-
-Où la fonction de répartition de la GPD s'écrit :
-\begin{equation}
-G_{\xi, \sigma}(y) =
-\begin{cases}
-1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1/\xi} & \text{si } \xi \neq 0 \\
-1 - \exp\left(-\frac{y}{\sigma}\right) & \text{si } \xi = 0
-\end{cases}
-\end{equation}
-avec $y \ge 0$ si $\xi \ge 0$, et $0 \le y \le -\sigma/\xi$ si $\xi < 0$. Le paramètre de forme $\xi$ de la GPD est strictement le même que celui de la loi GEV correspondante. Dans le contexte du risque cyber, un indice de queue $\xi > 0$ traduit une distribution à queue lourde de type Fréchet, impliquant des moments potentiellement infinis (l'espérance est infinie si $\xi \ge 1$, la variance si $\xi \ge 0.5$). Le résultat s'énonce formellement ainsi.
+\noindent L'approche par maxima de blocs ne retient qu'une observation par bloc. Le mémoire lui
+préfère l'approche par dépassement de seuil, qui exploite toutes les pertes au-delà d'un seuil $u$
+et repose sur le théorème suivant, où
+$G_{\xi,\sigma}(y)=1-\left(1+\xi y/\sigma\right)^{-1/\xi}$ désigne la loi de Pareto
+généralisée (GPD).
 
 \begin{theorem}[Pickands--Balkema--de Haan]\label{soc:th:balkema}
 Soit $F$ dans le domaine d'attraction d'une GEV $H_\xi$ (Théorème~\ref{soc:th:ftg}). Alors il existe une fonction $\sigma(u)>0$ telle que la loi des excès converge uniformément vers une GPD lorsque le seuil approche la borne supérieure $x_F$ du support :
@@ -99,22 +46,13 @@ Soit $F$ dans le domaine d'attraction d'une GEV $H_\xi$ (Théorème~\ref{soc:th:
 où $F_u(y)=\Prob(X-u\le y\mid X>u)$ et $G_{\xi,\sigma}$ est la fonction de répartition de la GPD. L'indice de queue $\xi$ est identique à celui de la GEV limite.
 \end{theorem}
 
-\begin{proof}[Esquisse]
-L'appartenance de $F$ au domaine d'attraction de $H_\xi$ équivaut à une condition de variation régulière sur la fonction de survie $\bar F$. On montre que $\bar F(u+y\,a(u))/\bar F(u)\to(1+\xi y)^{-1/\xi}$ quand $u\to x_F$, pour une fonction d'échelle $a(u)$ adéquate ; ce membre de droite est exactement la fonction de survie GPD. La convergence uniforme découle de la monotonie des fonctions de répartition (théorème de Pólya). Détail et lien avec le Théorème~\ref{soc:th:ftg} en Annexe~\ref{soc:ann:balkema}.
-\end{proof}
-
-%--------------------------------------------------------------
-
-%--------------------------------------------------------------
-
-L'estimation de l'indice de queue $\xi$ est un enjeu critique, car une infime variation de ce paramètre modifie massivement le Capital de Solvabilité Requis (SCR). Deux approches principales s'affrontent dans la littérature.
+\noindent Pour $\xi>0$ la queue est lourde : la variance de la sévérité est infinie dès
+$\xi\ge 1/2$, son espérance dès $\xi\ge 1$. Les énoncés développés et les éléments de
+démonstration sont au \S\ref{sec:ann-evt}.
 
 \section{Estimer l'indice de queue, et savoir ce que vaut l'estimation}
 
 % SOURCES-SCRIPTS: 47 63 67
-
-\paragraph{L'estimateur de Hill.}
-Pour $\xi > 0$, l'estimateur non paramétrique de Hill (1975) estime l'indice de queue à partir des $k$ plus grandes statistiques d'ordre, sans passer par l'ajustement d'une loi paramétrique. Asymptotiquement convergent et sans biais lorsque la loi appartient au domaine d'attraction de Fréchet, il présente en échantillon fini un biais majeur : si la composante à variation lente de la queue ne converge pas assez vite, $\hat{\xi}_{\text{Hill}}$ devient instable.
 
 \paragraph{Le Maximum de Vraisemblance (MLE).}
 Pour pallier le biais de l'estimateur de Hill hors du régime asymptotique strict, ce mémoire privilégie l'estimation par Maximum de Vraisemblance (MLE) sur les excès de la GPD. La log-vraisemblance pour un échantillon de $N_u$ excès $y_i$ au-delà du seuil $u$ s'écrit (pour $\xi \neq 0$) :
@@ -124,33 +62,10 @@ Pour pallier le biais de l'estimateur de Hill hors du régime asymptotique stric
 \end{equation}
 La maximisation numérique de cette fonction fournit des estimateurs $(\hat{\xi}_{MLE}, \hat{\sigma}_{MLE})$ qui, bien que nécessitant des méthodes d'optimisation (algorithme de Nelder-Mead), offrent une robustesse supérieure face à la variance d'échantillonnage des bases de sinistres cyber comme OpRisk ou PRC.
 
-\paragraph{Loi asymptotique et information de Fisher.} La qualité d'un intervalle de confiance sur $\xi$ conditionne toute la lecture du capital. Le fondement théorique en est donné ici ; il sert de contrôle indépendant du bootstrap employé au chapitre~\ref{chap:resultats}.
-
-\begin{proposition}[Normalité asymptotique de l'EMV de la GPD]\label{soc:prop:fisher}
-Pour $\xi > -\tfrac{1}{2}$, l'estimateur du maximum de vraisemblance $(\hat\xi,\hat\sigma)$ de la GPD est consistant et asymptotiquement normal :
-\begin{equation}
-\sqrt{N_u}\,\begin{pmatrix}\hat\xi-\xi\\[2pt]\hat\sigma-\sigma\end{pmatrix}
-\;\xrightarrow{\;d\;}\;
-\mathcal{N}\!\left(\mathbf{0},\; (1+\xi)\begin{pmatrix}1+\xi & -\sigma\\[2pt] -\sigma & 2\sigma^2\end{pmatrix}\right).
-\end{equation}
-En particulier, la variance asymptotique de l'indice de queue est
-$\Var(\hat\xi)\simeq (1+\xi)^2/N_u$.
-\end{proposition}
-
-\begin{proof}[Esquisse]
-La matrice de covariance limite est l'inverse de l'information de Fisher $\mathcal{I}(\xi,\sigma)$, obtenue en prenant l'espérance de l'opposé de la hessienne de $\ell$. Le détail du calcul de $\mathcal{I}$ (dérivées secondes de \eqref{soc:eq:loglik-gpd} et intégration contre la densité GPD, valide pour $\xi>-\tfrac12$ où l'information est finie) est reporté en Annexe~\ref{soc:ann:fisher}. Le résultat classique remonte à \citet{smith1987}.
-\end{proof}
-
-\noindent Appliquée à la calibration OpRisk ($\hat\xi=0{,}595$, $N_u=91$ excès), la Proposition~\ref{soc:prop:fisher} donne un écart-type asymptotique $\widehat{\mathrm{sd}}(\hat\xi)=(1+\hat\xi)/\sqrt{N_u}=0{,}167$, soit un intervalle de confiance à 90\,\% par la delta-méthode de $[0{,}320\,;\,0{,}870]$. Cet intervalle recoupe presque exactement l'intervalle bootstrap $[0{,}304\,;\,0{,}831]$ obtenu indépendamment au \S\ref{soc:sec:severite} : la concordance des deux approches, l'une paramétrique et asymptotique, l'autre par rééchantillonnage, renforce la fiabilité de l'incertitude reportée sur~$\xi$.
-
-\begin{proposition}[Loi asymptotique de l'estimateur de Hill]\label{soc:prop:hill}
-Si $F$ est à variation régulière d'indice $-1/\xi$ (domaine de Fréchet), alors pour une suite $k=k(n)\to\infty$ avec $k/n\to0$,
-\begin{equation}
-\sqrt{k}\,\bigl(\hat\xi_{Hill}(k)-\xi\bigr)\;\xrightarrow{\;d\;}\;\mathcal{N}(0,\;\xi^2).
-\end{equation}
-\end{proposition}
-
-\noindent L'écart-type $\xi/\sqrt{k}$ décroît en $\sqrt{k}$ : d'où l'arbitrage biais--variance qui gouverne le choix de $k$ dans le \emph{Hill plot}, et qui explique l'instabilité signalée plus haut lorsque $k$ est pris trop grand (contamination par le corps de la loi) ou trop petit (variance explosive). La preuve, fondée sur la représentation de Rényi des espacements exponentiels, est esquissée en Annexe~\ref{soc:ann:hill}.
+\noindent Par la delta-méthode, l'intervalle de confiance asymptotique à $90\,\%$ de l'indice de
+queue vaut $[0{,}320\,;0{,}870]$ ; il recoupe l'intervalle bootstrap $[0{,}304\,;0{,}831]$. Les
+lois asymptotiques de cet estimateur et de l'estimateur de Hill sont données au
+\S\ref{sec:ann-estimation-queue}.
 
 \paragraph{Quantile de sévérité : formules fermées, et ce qu'elles ne donnent pas.} Le passage des paramètres $(\xi,\sigma)$ au quantile d'\emph{un} sinistre est explicite. Il faut dire tout de suite ce qu'il n'est pas : ce quantile n'est pas un besoin de capital, et l'on n'y accède au capital qu'après agrégation annuelle de la fréquence et de la sévérité, puis propagation dans la cascade (chapitre~\ref{chap:cascade}). Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil. Les formes qui suivent sont
 classiques \citep{mcneil2015}.
@@ -164,9 +79,7 @@ Sous le modèle POT, pour $\alpha$ tel que $\qsev_\alpha(X)>u$ et $\xi\in(0,1)$ 
 Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\qbarsev_\alpha$ n'est pas définie.
 \end{proposition}
 
-\begin{proof}
-Pour $x>u$, la propriété POT donne $\Prob(X>x)=\zeta_u\bigl(1+\xi(x-u)/\sigma\bigr)^{-1/\xi}$. En posant ce membre égal à $1-\alpha$ et en inversant, on obtient \eqref{soc:eq:var-gpd}. Pour \eqref{soc:eq:tvar-gpd}, la stabilité de la GPD par franchissement de seuil implique que l'excès au-delà de $\qsev_\alpha(X)$ suit encore une GPD de paramètre $\xi$ et d'échelle $\sigma+\xi(\qsev_\alpha(X)-u)$, d'espérance $\bigl(\sigma+\xi(\qsev_\alpha(X)-u)\bigr)/(1-\xi)$ pour $\xi<1$ ; en ajoutant $\qsev_\alpha(X)$ et en réarrangeant, on retrouve \eqref{soc:eq:tvar-gpd}. La divergence pour $\xi\ge1$ découle de $\E[X]=\int_u^\infty \Prob(X>x)\,\dd x=+\infty$ dès que $1/\xi\le1$. Détail en Annexe~\ref{soc:ann:varestvar}.
-\end{proof}
+\noindent La démonstration est au \S\ref{sec:ann-estimation-queue}.
 
 \noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{soc:eq:var-gpd} un quantile de sévérité $\qsev_{99{,}5\%}(X)=663{,}0$~M\euro\ et par \eqref{soc:eq:tvar-gpd} une moyenne de queue $\qbarsev_{99{,}5\%}(X)=1\,752{,}4$~M\euro.
 
@@ -183,11 +96,6 @@ Réserver $\VaR$ et $\TVaR$ à $L$, et $\qsev$ et $\qbarsev$ à
 $X$, n'est donc pas une coquetterie de notation : c'est ce qui empêche de lire une différence
 d'échelle comme une contradiction.
 \end{attention}
-
-\noindent La Proposition~\ref{soc:prop:varestvar} éclaire par ailleurs le contraste entre sources : la calibration PRC affiche $\hat\xi=1{,}033>1$, ce qui place la sévérité en régime d'espérance infinie : la moyenne de queue, et donc tout Expected Shortfall bâti sur elle, y est mathématiquement indéfinie. C'est ce qui justifie \emph{a posteriori} le recours à un plafond de sévérité (capacité de réassurance) pour rendre le capital PRC calculable, et c'est aussi le premier argument contre l'usage d'une mesure de queue comme \emph{niveau de couverture} : sur l'une des deux sources, cette mesure n'existe pas.
-
-%--------------------------------------------------------------
-
 
 %--------------------------------------------------------------
 

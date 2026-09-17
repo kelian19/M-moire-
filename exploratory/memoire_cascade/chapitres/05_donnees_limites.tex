@@ -282,53 +282,13 @@ opposées à une calibration sur OpRisk, le biais de taille et la troncature à 
 ici chiffrées (figure~\ref{fig:biais}).
 % SOURCES-SCRIPTS: 57
 
-\paragraph{Le biais de taille est réel, mais bien plus faible qu'annoncé.} OpRisk
-sur-représente les grandes institutions, et l'on en déduit d'ordinaire que sa sévérité
-sur-estime celle d'une entité moyenne. La base portant les actifs, le chiffre d'affaires et
-l'effectif de la firme sinistrée, l'affirmation se teste. Une régression log-log de la perte
-sur la taille donne une élasticité quasi nulle : $0{,}042$ sur les actifs
-($R^2=0{,}005$), $0{,}020$ sur le chiffre d'affaires et $0{,}010$ sur l'effectif, ces deux
-dernières non significatives. Prise telle quelle, cette mesure \emph{réfuterait} l'explication
-usuelle.
-
-Elle est cependant elle-même biaisée, et par le mécanisme de la section précédente. Une
-petite firme n'entre dans la base que si elle subit une perte anormalement grande, quand une
-grande firme y entre avec des pertes de toutes tailles : la sélection relève artificiellement
-la sévérité observée des petites firmes et aplatit la pente. On corrige par un
-maximum de vraisemblance sur une lognormale tronquée à gauche au seuil de collecte
-($0{,}10$~M\$, $46\,\%$ des pertes de la base étant sous $1$~M\$). L'élasticité corrigée
-double, $b=0{,}087$ (IC~$95\,\%$ $[0{,}026\,;0{,}148]$), et devient significative. Le seuil de
-collecte était donc bien le confondant, mais l'effet reste modeste : transposée de la
-firme médiane de la base ($112$~Md\$ d'actifs) à l'entité notionnelle, la sévérité est
-multipliée par $0{,}85$, soit $-14{,}5\,\%$. Le biais de taille n'explique pas un facteur dix ; il
-explique un septième. Ce n'est pas la sévérité qui rend le niveau non transposable,
-c'est la fréquence, ce que la table~\ref{tab:echelle} établit par ailleurs. Le multiplicateur
-et sa variation sont recalculés à chaque exécution, de sorte qu'ils ne peuvent plus se
-désynchroniser de l'élasticité dont ils découlent.
+\paragraph{Les deux mesures.} Le biais de taille est réel mais faible : corrigée de la troncature
+au seuil de collecte, l'élasticité de la sévérité à la taille vaut $b=0{,}087$, et la sévérité
+transposée à l'entité notionnelle n'est multipliée que par $0{,}85$. La troncature à droite se
+corrige par chain-ladder : les $97$ événements observés sur 2023--2025 deviennent $255$ à
+l'ultime, et le risque \textsc{tic} n'a pas baissé après 2022, il n'est pas encore remonté. Les
+régressions, le triangle de développement et la figure sont au \S\ref{sec:ann-biais-chiffres}.
 % SOURCES-SCRIPTS: 67
-
-\paragraph{La troncature à droite se corrige, au lieu de coûter trois années.} Les comptes
-s'effondrent après 2022 ($34$ en 2023, $39$ en 2024 contre $70$ à $100$ auparavant), ce qui
-conduisait à écarter ces années. La base portant la \emph{date de saisie} en plus de l'année
-de survenance, on construit le triangle survenance $\times$ délai de remontée et l'on applique
-un chain-ladder aux comptes. Le délai médian de remontée est de trois ans
-(neuvième décile : huit ans), et les facteurs de développement successifs valent $2{,}13$,
-$1{,}49$, $1{,}30$, $1{,}22$. À l'ultime, les $97$ événements observés sur 2023--2025
-deviennent $255$, soit $+163\,\%$. La moyenne annuelle ultime de ces trois années
-($85{,}0$) dépasse alors celle de la période pleine 2015--2022 ($74{,}1$) d'un facteur
-$1{,}15$. Le risque \textsc{tic} n'a pas baissé après 2022 : il n'est pas encore
-remonté. Les années récentes cessent d'être une perte sèche.
-
-\begin{figure}[htbp]\centering
-\figover{S20_biais_taille_troncature.png}
-\caption{Les deux biais, enfin chiffrés. (a)~la sévérité croît beaucoup moins vite
-que la taille de la firme, et la pente brute est encore aplatie par le seuil de collecte.
-\textbf{(b)}~les années récentes ne baissent pas, elles ne sont pas remontées : l'ultime
-chain-ladder les ramène au-dessus de la moyenne historique. (c)~les deux corrections
-jouent en sens opposés.}
-% SOURCES-SCRIPTS: 57
-\label{fig:biais}
-\end{figure}
 
 \begin{cle}
 \textbf{Le résultat qui compte, et qui n'était pas prévisible.} Les deux corrections vont en
@@ -577,44 +537,9 @@ faute d'historique suffisant sur les événements joints ; cette incertitude
 est traitée au chapitre~\ref{chap:cascade} par une structure de dépendance explicite plutôt que
 par une hypothèse d'indépendance non fondée.
 
-\paragraph{Deux règles du moteur de simulation.} D'une part, avec $\hat{\xi}_{\text{PRC}} =
-1{,}03 \geq 1$, l'espérance de la sévérité PRC est infinie et la VaR simulée
-diverge numériquement ; un plafond de sévérité de 40~M\euro, ancré sur la
-capacité de réassurance cyber observable sur le marché, est appliqué à la
-\emph{seule source PRC}. La calibration OpRisk, dont l'indice de queue
-$\hat{\xi}_{\text{OpRisk}} = 0{,}595 < 1$ garantit une espérance finie, n'est
-en revanche pas plafonnée : ses montants étant observés de bout en bout, y
-appliquer un plafond tronquerait des pertes réelles et contredirait sa propre
-calibration. D'autre part, la sévérité de queue n'est tirée que pour la
-fraction $p_u$ des événements qui dépassent le seuil ; les autres reçoivent une
-sévérité nulle, ce qui fait du besoin publié un capital de queue.
-
-La conséquence directe de ce cadre épistémique est méthodologique autant que
-présentationnelle : le résultat final ne peut être livré comme un montant
-unique, mais doit être présenté comme une distribution large, conditionnelle
-à des hypothèses documentées et à des sources dont les écarts sont eux-mêmes
-informatifs, et ce principe structure tout le chapitre~\ref{chap:resultats}.
-
-%--------------------------------------------------------------
-
-%--------------------------------------------------------------
-
-Le dispositif retenu (OpRisk Global pour la sévérité observée et la fréquence
-d'entrée, PRC pour la sévérité alternative, Hackmageddon pour la structure du
-risque) appelle une
-question préalable à toute discussion de robustesse : ce triptyque est-il
-suffisant pour l'exercice mené dans ce mémoire ? La réponse tient à la nature
-même de l'exercice. L'objectif n'est pas de produire une formule
-réglementaire de Pilier~1, qui exigerait une base exhaustive et représentative
-du marché au sens de l'Article~19, base qui, comme établi plus haut, n'existe aujourd'hui
-pour aucun acteur, public ou privé, sur le
-risque cyber. L'objectif est de construire, dans l'esprit du Pilier~2 et de
-l'ORSA, une mesure prospective dont la valeur ajoutée actuarielle réside dans
-la transparence de ses limites autant que dans la précision de son résultat.
-Sous cet angle, les trois sources mobilisées couvrent exactement les trois
-rôles qu'exige une architecture fréquence-sévérité-structure, et leurs biais
-respectifs (sélection, déclaration, survie, visibilité, instabilité
-taxonomique) sont documentés plutôt que dissimulés.
+Deux règles du moteur de simulation, le plafond de sévérité propre à la source PRC et la
+sévérité nulle sous le seuil, ainsi que la suffisance des trois sources pour un exercice
+d'ORSA, sont précisées au \S\ref{sec:ann-sources}.
 
 % SOURCES-SCRIPTS: 05 63
 
@@ -642,39 +567,9 @@ sinistralité.
 
 %--------------------------------------------------------------
 
-La structure du risque tirée de Hackmageddon (\S\ref{sec:hackmageddon}), bien que
-documentée quant à ses limites de visibilité et de taxonomie, gagne à être
-confrontée à une source indépendante, de nature différente et couvrant un
-périmètre réglementaire proche de celui du présent mémoire. Le rapport
-\emph{ENISA Threat Landscape 2025} \citep{enisa2025}, qui ancre au \S\ref{sec:quatre-canaux} les
-bornes du multiplicateur associé à l'exploitation de vulnérabilités, remplit
-ce rôle : constitué par l'agence européenne de cybersécurité elle-même à
-partir de 4\,875 incidents de périmètre européen, il repose sur une
-méthodologie de collecte distincte de celle, essentiellement médiatique, de
-Hackmageddon.
-
-La confrontation porte sur un point précis, celui qui ancre cette fourchette : ENISA
-mesure un taux de conversion tentative-vers-intrusion de 70~\% pour
-l'exploitation de vulnérabilités, contre seulement 27~\% pour le phishing.
-Cette asymétrie, mesurée par un organisme réglementaire sur un périmètre
-indépendant, confirme un résultat qu'Hackmageddon, par construction, ne peut
-révéler à partir du seul volume d'incidents observés : le phishing domine la
-structure en volume (38{,}8~\% contre 33{,}8~\% pour l'exploitation de
-vulnérabilités), mais convertit nettement moins efficacement en
-intrusion réussie. Les deux sources s'accordent ainsi, chacune sur son propre
-plan (structure des incidents rapportés pour Hackmageddon, taux de
-conversion pour ENISA) sur une même hiérarchie qualitative des vecteurs
-d'attaque, ce qui renforce la crédibilité du mapping vecteurs~$\rightarrow$~exigences
-DORA retenu au chapitre~\ref{chap:multietats} sans nécessiter de recalibration.
-
-\paragraph{Piste non mobilisée : Verizon DBIR.} Le \emph{Data Breach
-Investigations Report} de Verizon, fondé sur des méthodologies de collecte
-distinctes à la fois de Hackmageddon et d'ENISA, constituerait une troisième
-confrontation naturelle. Il n'est pas mobilisé dans le présent mémoire, faute
-de statistiques suffisamment vérifiées dans le périmètre de ce travail pour
-en garantir l'exactitude des chiffres cités. Cette confrontation constitue une
-perspective directe de prolongement, dans le même esprit que l'automatisation
-du reclassement par NLP évoquée plus haut.
+La structure tirée de Hackmageddon est confrontée au rapport \emph{ENISA Threat Landscape 2025}
+\citep{enisa2025}, de méthodologie de collecte distincte, qui confirme la même hiérarchie des
+vecteurs d'attaque par leur taux de conversion en intrusion (\S\ref{sec:ann-sources}).
 
 %==============================================================
 
