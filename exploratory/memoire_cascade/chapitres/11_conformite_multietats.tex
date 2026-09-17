@@ -306,13 +306,20 @@ générateur $Q$ sur l'espace de phases par exponentielle de matrice :
 \big(\mathbb P(\text{NC},t),\mathbb P(\text{PC},t),\mathbb P(\text{C},t)\big)
 \;=\; \text{(sommes de phases de)}\;\; v_0\,\exp(Qt),
 \end{equation}
-où $v_0$ est la distribution initiale. À chaque horizon $t$, cette distribution agrège les SCR
-par état du Vasicek multi-états :
+où $v_0$ est la distribution initiale. À chaque horizon $t$, cette distribution pondère les
+besoins de capital par état du Vasicek multi-états :
 \begin{equation}
-\mathrm{SCR}(t)\;=\;\sum_{e\in\{\text{NC,PC,C}\}}\mathbb P(e,t)\,\mathrm{SCR}_e .
+\overline{\mathrm{SCR}}(t)\;=\;\sum_{e\in\{\text{NC,PC,C}\}}\mathbb P(e,t)\,\mathrm{SCR}_e .
 \end{equation}
+Cette grandeur est une \emph{moyenne de quantiles}, pondérée par la loi de l'état à l'horizon
+$t$. Ce n'est pas le quantile à $99{,}5\,\%$ de la perte d'une entité dont l'état est incertain,
+qui serait le quantile de la loi mélangée : la queue d'un mélange se prélève dans ses composantes
+les plus lourdes, et les deux objets ne coïncident pas. Sur le mélange des $32$ configurations de
+piliers, l'écart mesuré est de $9{,}3\,\%$ (\S\ref{sec:ann-corrections-instrument}). La
+trajectoire se lit donc comme l'espérance du besoin de capital sous l'incertitude d'état, qui est
+la convention retenue dans tout le mémoire.
 
-% SOURCES-SCRIPTS: 08b
+% SOURCES-SCRIPTS: 08b 77
 
 
 \section{Le couplage systémique et l'analogie de crédit}

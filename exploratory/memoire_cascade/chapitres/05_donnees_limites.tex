@@ -114,11 +114,17 @@ Pour respecter les exigences de l'Article 19, les sinistres historiques doivent 
 \tilde{L}_{2026} = L_t \times \prod_{k=t}^{2025} (1 + i_k^{cyber})
 \end{equation}
 où $i_k^{cyber}$ est un taux d'inflation propre aux sinistres technologiques, que les indices
-sectoriels situent entre $5$ et $10\,\%$ par an. Le mémoire \emph{suppose} que les bases
-commerciales employées intègrent déjà cette homogénéisation monétaire. L'hypothèse n'est pas
-vérifiable sur la donnée disponible ; si elle est fausse, elle minore les sinistres anciens
-ramenés en euros courants, donc minore la queue et le capital. Aucun indice d'inflation
-spécifique au cyber ne fait aujourd'hui consensus.
+sectoriels situent entre $5$ et $10\,\%$ par an. La base OpRisk porte deux montants pour chaque
+perte : le montant enregistré l'année de l'événement et sa valeur courante, corrigée de
+l'inflation générale. La chaîne publiée lit le premier, donc des montants \emph{nominaux}. Le
+rapport entre les deux colonnes vaut un pour les années récentes et $1{,}747$ en $2004$, ce qui
+fixe l'inflation implicite à $2{,}19\,\%$ par an. Cette homogénéisation n'est pas appliquée à la
+calibration gelée : elle minore les sinistres anciens ramenés en euros courants, donc la queue et
+le capital, et son effet sur la dérive des pertes est mesuré au \S\ref{soc:sec:backtest}. Aucun
+indice d'inflation spécifique au cyber ne fait aujourd'hui consensus, de sorte que la valeur
+courante de la base, fondée sur l'indice général, reste elle-même un minorant de l'actualisation
+que l'équation demande.
+% SOURCES-SCRIPTS: 102
 
 Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de \citet{jacobs2014}. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log lisse la variance et minore les extrêmes. C'est le motif de
 ne pas plafonner la calibration issue directement d'OpRisk, où les montants sont observés de

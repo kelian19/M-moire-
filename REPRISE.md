@@ -40,47 +40,35 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 16 septembre 2026 au soir
+## L'état mesuré, au 17 septembre 2026 au soir
 
-**`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, et il est prêt à partir.** Les trois autres fichiers
-maîtres restent au dépôt et se compilent, mais tout ajustement demandé se fait sur `main_ensae`.
-Ils partagent les chapitres : une modification de chapitre les touche tous.
+**`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, ET LE SEUL QUI SE COMPILE DÉSORMAIS.** La v3 est
+supprimée (décision de Kélian le 17 septembre) ; `main.tex` et `main_v2.tex` restent au dépôt,
+partagent les chapitres, mais ne sont plus recompilés ni contrôlés : leurs PDF sont périmés.
 
 **LE FICHIER DÉPOSÉ EXISTE** : `exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf`, copie
-exacte à l'octet de `main_ensae.pdf`, **sans suffixe `_CONF`, le mémoire n'étant pas
-confidentiel** (décision de Kélian le 16 septembre). Il est gitignoré comme `main_ensae.pdf`.
-**Il se périme à la moindre recompilation** : après toute modification, recompiler
-`main_ensae.tex` puis recopier le PDF sous ce nom, sinon c'est une version antérieure qui part.
+exacte de `main_ensae.pdf`, **sans suffixe `_CONF`** (mémoire non confidentiel, décision du
+16 septembre). Gitignoré. **Il se périme à la moindre recompilation** : recopier après chaque
+compilation.
 
-**SON FORMAT EST IMPOSÉ PAR L'ÉCOLE.** Courriel de Fallou, le 16 septembre : pas de limite de
-trente pages, mais **Times New Roman 12 et interligne 1,5**, obtenus par l'interrupteur
-`\formatensae` du préambule partagé. Couverture ENSAE complète : année 2025-2026, Nexialog
-Consulting, Paris, maître de stage Hugo RAPIOR, stage du 1er juin au 27 novembre 2026, dates
-confirmées par Kélian.
+**SON FORMAT EST IMPOSÉ PAR L'ÉCOLE** : pas de limite de trente pages, **Times New Roman 12 et
+interligne 1,5**, par l'interrupteur `\formatensae`. Couverture ENSAE complète.
 
-| Document | Total | Avant annexes | Débordements | Harnais |
+| Document | Total | Folios | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **223 pages** | **annexes au folio 172** | **5, ligne de base** | 2 208 sur 2 208 |
-| `main.pdf`, version 1 | 172 pages | annexes au folio 131 | 13, ligne de base | mêmes chapitres |
-| `main_v2.pdf`, version 2 | 177 pages | annexes au folio 133 | 4, ligne de base | mêmes chapitres |
-| `main_v3.pdf`, version courte | 150 pages | annexes au folio 106 | 4, ligne de base | mêmes chapitres |
+| **`main_ensae.pdf`, le mémoire déposé** | **230 pages** | corps (parties I à V) 21 à 162, stage 163, annexes 169 | **5, ligne de base** | **2 282 sur 2 282** |
 | `rapport_ensae.pdf` | 52 pages | 36 de corps | 0 | ne part plus |
 
-**Ordre des pièces de `main_ensae`** (folios du sommaire) : couverture, remerciements, résumé et
-sommaire, **glossaire en 11**, **note de synthèse en 13**, **executive summary en 17**, Contexte en
-21, Données en 40, Modélisation en 54, Résultats en 106, Robustesse en 142, Le stage en 166,
-Annexes en 172, bibliographie en fin.
+**Ordre des pièces** : couverture, remerciements, résumé et sommaire, glossaire en 11, note de
+synthèse en 13, executive summary en 17, Contexte en 21, Données en 40, Modélisation en 54,
+Résultats en 103, Robustesse en 139, Le stage en 163, Annexes en 169, bibliographie en fin.
 
-**Harnais : 2 208 nombres, 2 208 confirmés, 100 %**, et **0 hors contrôle non déclaré**. Le compte
-a baissé de 2 219 à 2 208 avec la réduction de l'annexe : des nombres ont disparu avec le texte
-coupé, aucun n'a cessé d'être confirmé.
+**Harnais : 2 282 nombres, 2 282 confirmés**, et **0 hors contrôle non déclaré** chapitre par
+chapitre (publiés = sous contrôle + déclarés partout). Contrôles `controles_memoire.py` au vert :
+0 `??`, 0 vbox, 0 annotation hors page, 0 page tournée, aucune figure seule ni trop haute.
 
-**Contrôles au vert sur les quatre PDF** : 0 `??`, 0 `Overfull \vbox`, 0 annotation hors page,
-0 page tournée, débordements horizontaux aux lignes de base. Arbre git propre, tout est poussé
-sur `origin/exploratory`.
-
-**Les lignes « Sources : scripts… » vivent dans des commentaires `% SOURCES-SCRIPTS: NN`**, que
-le harnais lit. Ne pas les retirer en croyant faire du ménage : sans elles la couverture tombe.
+**Les lignes « Sources : scripts… » vivent dans des commentaires `% SOURCES-SCRIPTS: NN`**, sur
+leur propre ligne (un commentaire posé en fin de ligne de prose avale le texte qui suit).
 
 ---
 
@@ -534,31 +522,19 @@ français** et **la reproduction des figures LUCY (validée par Hugo le 17 septe
 
 ## La prochaine étape immédiate
 
-**1. Récupérer la réponse de Mehdi Cherkaoui et l'intégrer.** Kélian la colle dans la session.
-Ce qu'il faut en lire, dans cet ordre :
-
-- sa réponse à la phrase qui oppose **la contagion à une cause extérieure commune**, la seule qui
-  touche au résultat. S'il ne les distingue pas, il corrobore la **frontière** d'identifiabilité,
-  comme la première répondante ; ce n'est jamais une corroboration de la matrice ;
-- ses six autres réponses, à comparer à celles de la première (deux accords pleins, cinq accords
-  avec nuance, aucune contradiction) ;
-- son **consentement de citation**. La règle en vigueur est de ne **pas nommer** les praticiens ;
-- s'il a vu les trois questions à choix forcé ajoutées le 9 septembre, ou seulement les sept
-  phrases d'origine (le formulaire en ligne est la version du 8).
-
-Où l'écrire : l'encadré du **chapitre 09** qui annonce les deux dispositifs, et la section
-`sec:relecture-praticien` de l'annexe du protocole de Cooke (`18_elicitation_protocole.tex`), qui
-parlent aujourd'hui d'**une** réponse. Les comptes s'y écrivent **en lettres**, le harnais ne les
-voyant pas. **Aucune recalibration**, même si la réponse le suggère : le gel l'interdit, et la
-réserve se déclare. Puis recompiler les quatre versions, passer les contrôles, **régénérer
-`KADDOURI_Kelian_3A25.pdf`**, commiter et pousser.
+**1. ~~Intégrer la réponse de Mehdi Cherkaoui~~ : FAIT le 17 septembre.** Reste la réponse
+de Hugo Rapior, à citer à part comme regard de l'encadrant.
 
 **2. Envoyer le courriel au service des stages**, s'il ne l'est pas.
 
 **3. ~~Obtenir l'accord de Hugo sur les figures LUCY~~ : ACCORDÉ le 17 septembre 2026.** Les
 figures du rapport restent en place, rien à recompiler pour ce point.
 
-**4. Déposer** `KADDOURI_Kelian_3A25.pdf` avant le 30 septembre, après avoir vérifié qu'il est la
+**4. Le rapport de jury simulé est traité en entier (P0, P1, P2).** Ce qui reste possible si
+Kélian le veut : raccourcir encore le corps, qui fait 142 pages contre les 110 visés (voir le
+journal du 17 septembre pour les candidats).
+
+**5. Déposer** `KADDOURI_Kelian_3A25.pdf` avant le 30 septembre, après avoir vérifié qu'il est la
 copie exacte du dernier `main_ensae.pdf` (`cmp` les deux fichiers).
 
 **Le support de soutenance devant l'Institut est fait** (`exploratory/slides/`, généré par
@@ -654,6 +630,52 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 17 septembre 2026
+
+### P1 et P2 du rapport de jury, traités en entier (commits f59d6e3 à la fin de journée)
+
+**P1.** Interaction relue comme une composition presque multiplicative (script 100 : produit des
+facteurs isolés 3,47 contre 3,34 publié) ; bibliographie complétée (58 entrées citées, Pineau et
+Zuñiga retirés faute de vérification, entrées marquées TODO dans `references.bib` à compléter par
+Kélian) ; note de synthèse avec une figure unique lisible (script 101, FR et EN) ; figures 9.1 et
+8.1 reprises (scripts 30 et 40) ; **plaidoyer retiré** : vingt-quatre formules d'auto-justification
+(« gage de rigueur », « il serait malhonnête », « Limites, sans détour »...) réécrites en énoncés
+simples, aucun nombre déplacé.
+
+**P2-11, le corps raccourci par déplacement en annexe D, à résultats constants.** Accord de Kélian.
+Sept blocs sont passés du corps à l'annexe D, le corps gardant un résumé et un renvoi : la
+dynamique du facteur systémique (`sec:dynamique-Y`), le quantile de la loi des configurations
+(`sec:ann-quantile-configurations`), le détail du biais de narration (`sec:ann-biais-narration`),
+les séquences ordonnées (le corps redisait `sec:ann-sequences`), les vérifications bayésiennes
+(`sec:ann-bayes`), les graines du benchmark copule (`sec:ann-benchmark-graines`) et la précision
+des postures (`sec:ann-postures`, avec la figure J2). **Corps 147 → 141 pages**, puis 142 avec les
+ajouts de P2-12 à 14. **La cible de 110 n'est pas atteinte** : les blocs nommés par le rapport ne
+pesaient que six pages. Candidats suivants si Kélian veut aller plus loin : la section de
+sensibilité aux probabilités de propagation (§10.7), la mise en regard réglementaire (§10.9), le
+défaut de calibration chiffré (§11.5), la lecture de marché LUCY de l'introduction.
+
+**P2-12, les montants SAS sont NOMINAUX, et c'est mesuré (script 102).** La chaîne publiée lit
+`Loss Amount ($M)` ; la base porte aussi `Current Value of Loss ($M)`, corrigée de l'inflation. Le
+rapport des deux vaut 1,747 en 2004 et 1,025 en 2025 : **inflation implicite 2,19 % par an**. Rejouée
+sur la valeur courante, la dérive de la médiane passe de 13,0 à 10,6 % par an (toujours
+significative : l'inflation n'en explique que 17 %), et **la dérive de queue tombe de 4,00 à 2,00 %
+par an et cesse d'être significative** (p = 0,211, 106 excès au seuil publié). La moitié de la
+dérive de queue est donc monétaire. Le chapitre 4 **supposait** jusqu'ici les bases déjà
+homogénéisées et déclarait l'hypothèse invérifiable : c'était la contradiction relevée entre les
+pages 44 et 72. Réécrit au chapitre 4, paragraphe ajouté au backtest du chapitre 5, mention dans la
+table de l'inventaire (chapitre 11). **Aucune recalibration** : le sens anti-conservateur de l'écart
+déclaré ne change pas pour un capital en euros courants, seule sa lecture change.
+
+**P2-13.** SCR(t) renommé en barre et nommé **moyenne de quantiles** pondérée par la loi d'état,
+distincte du quantile du mélange (écart de 9,3 % mesuré sur les 32 configurations, script 77).
+
+**P2-14, le « SCR » du titre : le titre est gardé**, il est inscrit sur les deux pages de garde et
+porte le mot-clé du domaine. Le risque est traité à la première page de l'introduction, dans
+l'encadré de la question centrale : quantile à 99,5 % de la charge annuelle, besoin de capital au
+sens de l'ORSA, pas un SCR réglementaire. Le résumé le disait déjà.
+
+Contrôles en fin de journée : `main_ensae` 230 pages, 5 débordements, 0 `??`, harnais 2 282 sur
+2 282 sans hors contrôle non déclaré, fichier déposé régénéré.
+
 
 ### Rapport de jury simulé, puis corrections P0 (quatre commits, 0eb637b à 82026f3)
 
