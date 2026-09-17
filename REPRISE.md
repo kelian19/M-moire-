@@ -603,6 +603,13 @@ Chacun a coûté du temps au moins une fois.
     comme un décimal en convention française. Imprimer les grands entiers **sans séparateur**.
 14. **Les nombres ronds d'un pool de plusieurs milliers se confirment mutuellement par hasard.**
     Ne jamais conclure d'une correspondance numérique seule.
+14b. **Un commentaire `% SOURCES-SCRIPTS:` posé sur une ligne de prose avale la fin de cette
+    ligne.** Deux phrases du PDF étaient coupées ainsi (« graines. justifiait l'attente »,
+    « renforcement. borne adverse »). Le commentaire va **seul sur sa ligne** ; contrôle :
+    rechercher `SOURCES-SCRIPTS:` suivi de lettres.
+14c. **La v3 ne lit pas les chapitres partagés** pour sept d'entre eux (`chapitres_v3/`). Une
+    correction de fond ne l'atteint pas, et un renvoi vers un label absent de ces copies y imprime
+    « ?? » : compiler la v3 à chaque fois.
 
 ### Figures et données
 
@@ -647,6 +654,54 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 17 septembre 2026
+
+### Rapport de jury simulé, puis corrections P0 (quatre commits, 0eb637b à 82026f3)
+
+Kélian a demandé une évaluation de jury Prix SCOR, face au mémoire de Franck Dountio Zaboue. Note
+rendue : 13/20 en l'état, 11,5 pour Franck, 16 à 17 atteignable après corrections. Les points P0,
+tous traités ce jour :
+
+- **La proposition 6.7 était fausse telle qu'écrite.** La co-occurrence ne dépend de W que par S
+  **au premier ordre et sous amorce uniforme** ; la loi complète des ensembles touchés distingue W
+  de sa transposée (fourche contre collisionneur, Verma et Pearl 1990, entrée ajoutée à la
+  bibliographie). **Script 98** : lois exactes de la marche (moteur publié) et de la cascade
+  indépendante, contrôlées contre `scr_engine` à 1e-16 ; sous W^T, la part des sinistres
+  multi-piliers passe de 62,31 % à 50,77 %. Réécrits : proposition, preuve (annexe A), §6.9,
+  §8.3 et encadré de thèse, résumé, notes de synthèse FR et EN, introduction, chapitre 9,
+  annexe D.9, annexe E. **Le chapitre 12 gagne une quatrième exigence** : consigner l'ensemble des
+  piliers touchés par incident.
+- **Le moteur publié n'est pas la cascade de la définition 6.1** mais la marche auto-évitante ; la
+  proposition 6.4 affirmait le contraire. Déclaré après la proposition (écart branchement −4 %,
+  script 29).
+- **Formule Standard** : le « forfait de 3 % des provisions » est requalifié en repère (branche
+  provisions non-vie) ; l'écart au module publié (−8 % et +56 %) vient de l'approximation, pas du
+  règlement. Équation du chapitre 2 labellisée `reg:eq:scrop`.
+- **Multiplicateur de fréquence sourcé, script 99** : λ NC = 21,56 × 2,4875 = 53,62, parts
+  Hackmageddon × centres des fourchettes S2 de `src/frequency/negbin.py`. Table au §7.3, qui passe
+  à **quatre canaux** ; ligne ajoutée à la table D.4. **Conséquence** : les parts Hackmageddon
+  entrent dans le moteur, contrairement à ce qu'écrivait le chapitre 4, corrigé.
+- **ξ = 0,90 n'est pas le ξ du chiffre de tête** (0,5954) : corrigé dans D.4, la table 11.5 (ligne
+  retirée des choix posés), la fin du chapitre 4 et l'ouverture du chapitre 10.
+- **Contradictions levées** : ordre des chapitres (introduction 1.4, chapitre 7), −53 % contre 3,34,
+  asymétrie « qui porte le résultat » contre co-occurrence, posture « ouverte » puis « retenue »,
+  « six des dix » sens au §12.2, architecture des données du chapitre 4, populations 582 et 1 476,
+  convergence avec ROOT dite indépendante, Change Healthcare, borne supérieure du gain de transfert.
+- **Affirmations fausses corrigées** : facteur brownien et dispersion (§5.3.1), EVT et biais de
+  survie (§4.2), écart ξ PRC / OpRisk (conversion en puissance, pas biais de taille), confusion
+  entre registre d'information et notification d'incidents (§12.1), test OpRisk attribué au corpus
+  de post-mortems (D.9).
+- **Traces de versions retirées** : « ancien mémoire », colonne « mémoire (réf.) », table corrigée
+  « migration pré-cascade », renvoi à `references.bib`, « la chapitre », titre courant du résumé.
+
+Contrôles : **harnais 2 255 nombres, 2 255 confirmés**, aucun hors contrôle non déclaré ; quatre
+versions aux lignes de base (5, 13, 4, 4), 0 « ?? », 0 vbox ; `main_ensae` à **227 pages**, notes
+de synthèse toujours à quatre pages chacune ; `KADDOURI_Kelian_3A25.pdf` régénéré.
+
+**Reste pour la suite, dans l'ordre du rapport** : P1 (réécrire l'interaction en multiplicativité,
+facteur 3,34 contre produit des facteurs isolés 3,47 ; bibliographie ; note de synthèse lisible ;
+figures 9.1(d) et 8.1(b)(c) ; plaidoyer), puis P2. **Et la v3 ne reçoit pas ces corrections** :
+elle lit sept chapitres dans `chapitres_v3/`, des copies. Arbitrage à faire par Kélian : la
+retirer, ou reporter les corrections.
 
 ### La seconde réponse de relecture, retrouvée et intégrée
 
