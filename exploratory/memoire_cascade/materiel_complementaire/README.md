@@ -15,7 +15,7 @@ cinquante et un `\matcomp` posés dans le corps (voir plus bas).
 | Fichier | Ancienne place | Contenu |
 |---|---|---|
 | `15_demonstrations.tex` | annexe B | démonstrations du socle : Fisher-Tippett, Balkema-de Haan, Hill, théorème des types, VaR contre espérance de VaR |
-| `17_pieces_justificatives.tex` | annexe D | vingt-deux sections de pièces justificatives : dispositif de vérification, table des paramètres, réconciliations, postures, corrections d'instrument, horloges, plafond et saturation, séquences ordonnées, quantile des configurations, registre des limites |
+| `17_pieces_justificatives.tex` | annexe D | vingt et une sections de pièces justificatives : dispositif de vérification, réconciliations, postures, corrections d'instrument, horloges, plafond et saturation, séquences ordonnées, quantile des configurations, registre des limites. **La table des paramètres en a été retirée le 18 septembre et remise dans le mémoire**, annexe D, `chapitres/17b_table_parametres.tex` |
 | `21_complements_corps.tex` | annexe E | dix-huit compléments aux sections du corps : lecture de marché LUCY, cadre réglementaire comparé, Hill, choix du seuil, backtest, sensibilité à la propagation, ancrage d'échelle, détenir contre transférer, corpus étendu, agrégation |
 
 ## Ce qu'il faut savoir avant de les compiler à part
@@ -54,12 +54,14 @@ sont déportées.
   troisième, la trajectoire primes, sinistres et ratio, reste : elle est appelée par les
   notes de synthèse. Hugo Rapior avait validé la reproduction des trois le 17 septembre ;
   l'autorisation tient, seul l'usage a changé ;
-- **la table des paramètres** avec sa colonne de statut (estimé, posé, gelé), que le
-  chapitre 11 annonçait comme l'endroit où aucun chiffre n'est sans origine déclarée ;
+- ~~la table des paramètres~~ : **remise dans le mémoire le 18 septembre**, comme annexe à part
+  entière (`chapitres/17b_table_parametres.tex`). Elle a été retirée d'ici, pas recopiée : le
+  même tableau à deux endroits divergerait. Le chapitre 11 la cite de nouveau par un vrai
+  `\ref` et non par `\matcomp` ;
 - **la description du dispositif de vérification**, que la conclusion et le chapitre du
   stage citaient.
 
-Ces trois pertes sont assumées et signalées ici parce qu'elles portent sur du matériel
+Ces pertes sont assumées et signalées ici parce qu'elles portent sur du matériel
 qu'un jury peut demander : le lien vers le dépôt doit être en état de marche au dépôt du
 30 septembre.
 
@@ -67,6 +69,6 @@ qu'un jury peut demander : le lien vers le dépôt doit être en état de marche
 
 Ces fichiers ne sont plus balayés par `verif_tous_chapitres.ps1`, qui ne lit que
 `chapitres/`. Leurs nombres ne sont donc plus sous contrôle. Au 18 septembre, le mémoire
-déposé est à **1 434 nombres publiés, 1 434 confirmés**, hors contrôle non déclaré à zéro.
+déposé est à **1 490 nombres publiés, 1 490 confirmés**, hors contrôle non déclaré à zéro.
 Si ces annexes reviennent dans le document, il faut repasser le harnais dessus : elles
 citaient leurs scripts section par section et étaient à 100 % avant le déport.

@@ -56,7 +56,7 @@ interligne 1,5**, par l'interrupteur `\formatensae`. Couverture ENSAE complète.
 
 | Document | Total | Folios | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **170 pages** | corps (parties I à V) 21 à 132, stage 133, annexes 139 | **1, nouvelle ligne de base** | **1 434 sur 1 434** |
+| **`main_ensae.pdf`, le mémoire déposé** | **172 pages** | corps (parties I à V) 21 à 132, stage 133, annexes 139 | **5, ligne de base** | **1 490 sur 1 490** |
 | `rapport_ensae.pdf` | 52 pages | 36 de corps | 0 | ne part plus |
 
 **Ordre des pièces** : couverture, remerciements, résumé et sommaire, glossaire en 10, note de
@@ -66,7 +66,8 @@ Résultats en 88, Robustesse en 113, Le stage en 133, Annexes en 139, bibliograp
 **Annexes depuis le 18 septembre, et les lettres ont toutes bougé** : une notice sans numéro
 « Organisation des annexes et matériel complémentaire » ouvre la partie, puis **A** démonstrations
 du modèle de cascade (`15b`), **B** adaptations par pilier (`12b`), **C** protocole d'élicitation
-(`18`), **D** table des notations (`16`). Les renvois passent tous par `\ref`, aucune lettre
+(`18`), **D** table des paramètres (`17b`, revenue du dossier déporté le 18 septembre au soir),
+**E** table des notations (`16`). Les renvois passent tous par `\ref`, aucune lettre
 n'est écrite en dur.
 
 **TROIS ANNEXES SONT DÉPORTÉES** dans `exploratory/memoire_cascade/materiel_complementaire/`,
@@ -678,6 +679,12 @@ déport), 0 vbox, 0 annotation hors page, 0 page tournée, 0 `??`, harnais 1 434
 contrôle non déclaré à zéro sur tous les chapitres. `main` et `main_v2` compilent (7 et 0
 débordements). Pages 135 à 137 et la notice relues à l'œil. `KADDOURI_Kelian_3A25.pdf` régénéré et
 identique à `main_ensae.pdf`.
+
+**La table des paramètres est revenue le soir même**, demande de Kélian. Elle forme l'annexe D à
+elle seule (`chapitres/17b_table_parametres.tex`), a été retirée du fichier déporté et non
+recopiée, et le chapitre 13 la cite de nouveau par un vrai `\ref`. Le mémoire repasse à
+**172 pages**, harnais **1 490 sur 1 490**, ligne de base des débordements de retour à **5**, les
+quatre de la table étant antérieurs et valant 2,47 pt chacun.
 
 **Reste à faire par Kélian** : renseigner l'adresse du dépôt externe et y publier les trois
 fichiers, puis recompiler.
