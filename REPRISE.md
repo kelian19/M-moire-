@@ -40,7 +40,7 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 17 septembre 2026, fin de soirée
+## L'état mesuré, au 18 septembre 2026
 
 **`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, ET LE SEUL QUI SE COMPILE DÉSORMAIS.** La v3 est
 supprimée (décision de Kélian le 17 septembre) ; `main.tex` et `main_v2.tex` restent au dépôt,
@@ -56,17 +56,26 @@ interligne 1,5**, par l'interrupteur `\formatensae`. Couverture ENSAE complète.
 
 | Document | Total | Folios | Débordements | Harnais |
 |---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **236 pages** | corps (parties I à V) 21 à 132, stage 133, annexes 139 | **5, ligne de base** | **2 357 sur 2 357** |
+| **`main_ensae.pdf`, le mémoire déposé** | **170 pages** | corps (parties I à V) 21 à 132, stage 133, annexes 139 | **1, nouvelle ligne de base** | **1 434 sur 1 434** |
 | `rapport_ensae.pdf` | 52 pages | 36 de corps | 0 | ne part plus |
 
-**Ordre des pièces** : couverture, remerciements, résumé et sommaire, glossaire en 11, note de
-synthèse en 13, executive summary en 17, Contexte en 21, Données en 37, Modélisation en 49,
+**Ordre des pièces** : couverture, remerciements, résumé et sommaire, glossaire en 10, note de
+synthèse en 12, executive summary en 16, Contexte en 21, Données en 37, Modélisation en 49,
 Résultats en 88, Robustesse en 113, Le stage en 133, Annexes en 139, bibliographie en fin.
 
-**Annexes depuis le 17 septembre au soir** : A et B démonstrations, C adaptations par pilier, D
-pièces justificatives, **E compléments aux chapitres du corps** (`21_complements_corps.tex`,
-nouvelle), F protocole d'élicitation (était E), G table des notations (était F). Les renvois
-passent tous par `\ref`, aucune lettre n'est écrite en dur.
+**Annexes depuis le 18 septembre, et les lettres ont toutes bougé** : une notice sans numéro
+« Organisation des annexes et matériel complémentaire » ouvre la partie, puis **A** démonstrations
+du modèle de cascade (`15b`), **B** adaptations par pilier (`12b`), **C** protocole d'élicitation
+(`18`), **D** table des notations (`16`). Les renvois passent tous par `\ref`, aucune lettre
+n'est écrite en dur.
+
+**TROIS ANNEXES SONT DÉPORTÉES** dans `exploratory/memoire_cascade/materiel_complementaire/`,
+avec leur `README.md` : démonstrations du socle EVT (`15_demonstrations`), pièces justificatives
+(`17_pieces_justificatives`) et compléments aux chapitres du corps (`21_complements_corps`).
+Aucun fichier maître ne les appelle. Les 54 renvois qui y pointaient portent la macro
+`\matcomp`, qui imprime « *(voir le Matériel Complémentaire en ligne)* » et ne contient aucun
+`\ref`. **L'adresse du dépôt externe reste à renseigner**, le gabarit
+`https://LIEN_VERS_LE_DEPOT.com` étant en clair dans les trois fichiers maîtres.
 
 **Harnais : 2 357 nombres, 2 357 confirmés**, et **0 hors contrôle non déclaré** chapitre par
 chapitre (publiés = sous contrôle + déclarés partout). Contrôles `controles_memoire.py` au vert :
@@ -632,6 +641,46 @@ Chacun a coûté du temps au moins une fois.
 ---
 
 # Journal
+
+## 18 septembre 2026
+
+### Trois annexes déportées, et le chapitre du stage réécrit
+
+**Le mémoire passe de 236 à 170 pages.** Les annexes B (démonstrations du socle EVT), D (pièces
+justificatives) et E (compléments aux chapitres du corps) sont sorties du document et vivent dans
+`exploratory/memoire_cascade/materiel_complementaire/`, destinées à un dépôt numérique pérenne.
+Une notice sans numéro ouvre la partie Annexes et explique le déport au jury. **L'adresse du dépôt
+reste à renseigner** : le gabarit `https://LIEN_VERS_LE_DEPOT.com` est en clair dans les trois
+fichiers maîtres.
+
+**Les annexes conservées se relettrent** : A démonstrations de la cascade, B adaptations par
+pilier, C protocole d'élicitation, D table des notations.
+
+**Les 54 renvois orphelins passent par une macro et non par un `\ref`.** `\matcomp` est définie
+dans les deux préambules et imprime « *(voir le Matériel Complémentaire en ligne)* ». Les phrases
+hôtes ont été réécrites une par une pour rester grammaticales. Zéro `??` dans le PDF.
+
+**Trois choses partent avec ces annexes** : deux des trois figures LUCY, la table des paramètres
+et la description du dispositif de vérification. Le `README.md` du dossier déporté les liste, avec
+ce qu'il faut pour recompiler ces annexes à part.
+
+**Le chapitre 14, sur le stage, est réécrit en entier.** Registre strictement factuel : le
+paragraphe « sept fois j'ai rédigé… » et les anecdotes de vérification sont supprimés, la section
+« Ce que j'en retiens » est refaite sur trois points de méthode (traduire un texte réglementaire
+en paramètres, séparer estimé, posé et non identifié, rendre un résultat vérifiable).
+**Aucune mention d'outils d'intelligence artificielle générative** : le paragraphe du 16 septembre
+est supprimé et ne doit pas revenir. L'encadrement est nommé, Hugo Rapior en entreprise et
+Caroline Hillairet à l'ENSAE ; les répondants au formulaire de relecture restent non nommés. Le
+chapitre ne publie plus aucun nombre.
+
+Contrôles : `main_ensae` 170 pages, **1 débordement** (nouvelle ligne de base, contre 5 avant le
+déport), 0 vbox, 0 annotation hors page, 0 page tournée, 0 `??`, harnais 1 434 sur 1 434 et hors
+contrôle non déclaré à zéro sur tous les chapitres. `main` et `main_v2` compilent (7 et 0
+débordements). Pages 135 à 137 et la notice relues à l'œil. `KADDOURI_Kelian_3A25.pdf` régénéré et
+identique à `main_ensae.pdf`.
+
+**Reste à faire par Kélian** : renseigner l'adresse du dépôt externe et y publier les trois
+fichiers, puis recompiler.
 
 ## 17 septembre 2026
 

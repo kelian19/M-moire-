@@ -48,7 +48,7 @@ où $F_u(y)=\Prob(X-u\le y\mid X>u)$ et $G_{\xi,\sigma}$ est la fonction de rép
 
 \noindent Pour $\xi>0$ la queue est lourde : la variance de la sévérité est infinie dès
 $\xi\ge 1/2$, son espérance dès $\xi\ge 1$. Les énoncés développés et les éléments de
-démonstration sont au \S\ref{sec:ann-evt}.
+démonstration sont déportés \matcomp.
 
 \section{Estimer l'indice de queue, et savoir ce que vaut l'estimation}
 
@@ -64,8 +64,8 @@ La maximisation numérique de cette fonction fournit des estimateurs $(\hat{\xi}
 
 \noindent Par la delta-méthode, l'intervalle de confiance asymptotique à $90\,\%$ de l'indice de
 queue vaut $[0{,}320\,;0{,}870]$ ; il recoupe l'intervalle bootstrap $[0{,}304\,;0{,}831]$. Les
-lois asymptotiques de cet estimateur et de l'estimateur de Hill sont données au
-\S\ref{sec:ann-estimation-queue}.
+lois asymptotiques de cet estimateur et de l'estimateur de Hill sont données
+\matcomp.
 
 \paragraph{Quantile de sévérité : formules fermées, et ce qu'elles ne donnent pas.} Le passage des paramètres $(\xi,\sigma)$ au quantile d'\emph{un} sinistre est explicite. Il faut dire tout de suite ce qu'il n'est pas : ce quantile n'est pas un besoin de capital, et l'on n'y accède au capital qu'après agrégation annuelle de la fréquence et de la sévérité, puis propagation dans la cascade (chapitre~\ref{chap:cascade}). Notons $\zeta_u=\Prob(X>u)$ la probabilité de dépassement du seuil. Les formes qui suivent sont
 classiques \citep{mcneil2015}.
@@ -79,7 +79,7 @@ Sous le modèle POT, pour $\alpha$ tel que $\qsev_\alpha(X)>u$ et $\xi\in(0,1)$ 
 Lorsque $\xi\ge 1$, l'espérance $\E[X]$ est infinie et $\qbarsev_\alpha$ n'est pas définie.
 \end{proposition}
 
-\noindent La démonstration est au \S\ref{sec:ann-estimation-queue}.
+\noindent La démonstration est déportée \matcomp.
 
 \noindent Numériquement, la calibration OpRisk ($u=20{,}03$, $\sigma=57{,}97$, $\xi=0{,}595$, $\zeta_u=0{,}151$) donne par \eqref{soc:eq:var-gpd} un quantile de sévérité $\qsev_{99{,}5\%}(X)=663{,}0$~M\euro\ et par \eqref{soc:eq:tvar-gpd} une moyenne de queue $\qbarsev_{99{,}5\%}(X)=1\,752{,}4$~M\euro.
 
@@ -212,7 +212,7 @@ est la seule chose que dix-huit points autorisent à affirmer.
 % SOURCES-SCRIPTS: 47 08b 67 41
 
 \paragraph{La dynamique du facteur systémique.} Le facteur commun $Y_{j,t}$ est posé centré
-et réduit. Sa dynamique, écrite au \S\ref{sec:dynamique-Y}, superpose un bruit de fond
+et réduit. Sa dynamique, détaillée \matcomp, superpose un bruit de fond
 brownien et une composante de sauts pour les campagnes de masse. Elle ne déplace aucune
 probabilité marginale, donc aucun capital publié, et n'agit que sur la dépendance de queue ; la
 forme retenue est la forme à renouvellement, sans mémoire d'un exercice à l'autre.
@@ -282,7 +282,7 @@ $95$ des données, l'indice descend de $0{,}60$ à $0{,}53$ puis $0{,}38$. Écri
 $\hat\xi$ est \emph{stable} quand on fait varier le seuil serait donc inexact ; ce qui est
 stable, c'est son voisinage, où il ne bouge que de $0{,}5\,\%$. Cette décroissance est mesurée
 au \S\ref{soc:sec:validation}, avec ce qu'elle change et ce qu'elle ne change pas. Quant au
-\emph{Hill plot} (figure~\ref{soc:fig:hill-ic}), il ne corrobore pas ce niveau par sa valeur,
+\emph{Hill plot} \matcomp, il ne corrobore pas ce niveau par sa valeur,
 qui en vaut plus du double : la section suivante établit que cet écart est exactement ce qu'un
 $\xi$ de $0{,}60$ produit en échantillon fini, ce qui en fait une corroboration d'un autre
 genre, et plus forte que la lecture d'un plateau.
@@ -313,8 +313,8 @@ observées de Hill tombent dans l'intervalle simulé à $90\,\%$. Hill croît en
 le balayage de seuil fait décroître $\hat\xi$, ce qui serait inversé si la queue valait $1{,}32$.
 La calibration sur la PRC donne $\hat\xi = 1{,}03$, un indice qui ne porte pas sur le même
 objet, la sévérité PRC étant une puissance du nombre d'enregistrements (\S\ref{sec:oprisk}). La
-définition de l'estimateur, la table des simulations, le tracé et la validation croisée sont au
-\S\ref{sec:ann-hill}.
+définition de l'estimateur, la table des simulations, le tracé et la validation croisée sont
+déportés \matcomp.
 
 \section{Validation et adéquation du socle}
 \label{soc:sec:validation}
@@ -376,7 +376,7 @@ percentiles candidats, retient $19{,}87$~M\euro{} contre $20{,}03$ publiés, ave
 identique, et ce seuil est aussi le mieux ajusté du balayage. La règle la plus permissive
 descendrait à $12{,}88$~M\euro{} et donnerait un quantile de sévérité supérieur de $16{,}0\,\%$ :
 le seuil publié n'est pas celui qui maximise le chiffre du mémoire. Les deux règles et l'absence
-de compromis entre biais et variance sur cette grandeur sont au \S\ref{sec:ann-seuil}.
+de compromis entre biais et variance sur cette grandeur sont exposées \matcomp.
 
 \begin{cle}
 \textbf{Ce que la validation établit, et ce qu'elle n'établit pas.} Les tests portent sur la
@@ -420,7 +420,7 @@ $+24{,}7\,\%$ sur le quantile de sévérité. Cette dérive ne gonfle pas la th�
 de $-1{,}9\,\%$, par compensation entre forme et échelle. Sur la charge annuelle agrégée le
 verdict est négatif, pour la même cause, le désalignement n'apparaissant que sur les dernières
 années notées. L'indépendance entre fréquence et sévérité tient sur les excès. Le détail de ces
-tests est au \S\ref{sec:ann-backtest}.
+tests est déporté \matcomp.
 % SOURCES-SCRIPTS: 89 90 91 102
 
 \begin{attention}

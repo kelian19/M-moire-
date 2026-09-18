@@ -109,12 +109,33 @@
 % de sommaire d'un \part*. La ligne explicite en ajouterait une seconde, defaut
 % constate sur la v2 le 9 septembre 2026.
 \part*{Annexes}
+
+% -----------------------------------------------------------------------------
+% NOTICE D'ORGANISATION DES ANNEXES. Les annexes B (demonstrations du socle EVT),
+% D (pieces justificatives) et E (complements aux chapitres du corps) ont ete
+% deportees le 18 septembre 2026 vers materiel_complementaire/ et ne sont plus
+% appelees. Leurs 78 etiquettes sont donc mortes : tous les renvois du corps qui
+% pointaient vers elles ont ete remplaces par la macro \matcomp, definie dans
+% preambule_v2.tex. Ne pas remettre un \ref vers ces etiquettes.
+% -----------------------------------------------------------------------------
+\chapter*{Organisation des annexes et matériel complémentaire}
+\addcontentsline{toc}{chapter}{Organisation des annexes et matériel complémentaire}
+
+Afin de faciliter la lecture de ce mémoire, seules les démonstrations de la contribution
+principale (le modèle de cascade), les adaptations spécifiques aux piliers \textsc{dora},
+ainsi que le protocole d'élicitation et ses retours de praticiens sont inclus dans ce
+document.
+
+L'ensemble du \textbf{matériel complémentaire}, comprenant les démonstrations des théorèmes
+standards des valeurs extrêmes, les pièces justificatives et les diagnostics de robustesse,
+ainsi que les compléments de chapitres, a été déporté dans un dépôt numérique pérenne.
+
+Il est consultable et téléchargeable à l'adresse suivante :
+\url{https://LIEN_VERS_LE_DEPOT.com}
+
 % =====================================================================
 \input{chapitres/15b_demonstrations_cascade}  % Démonstrations : cascade
-\input{chapitres/15_demonstrations}           % Démonstrations : socle
 \input{chapitres/12b_adaptations_pilier}      % Adaptations par pilier et cas d'usage
-\input{chapitres/17_pieces_justificatives}    % Réconciliations, inventaire, sensibilités
-\input{chapitres/21_complements_corps}       % Détail des sections du corps qui y renvoient
 \input{chapitres/18_elicitation_protocole}    % Protocole de Cooke, préparé et non exécuté
 \input{chapitres/16_notations}                % Table des notations
 

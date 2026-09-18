@@ -211,6 +211,17 @@
 \newcommand{\cascell}{}
 
 % ---------------------------------------------------------------------------
+% RENVOIS VERS LE MATERIEL COMPLEMENTAIRE, depuis le 18 septembre 2026.
+% Les annexes B (demonstrations du socle), D (pieces justificatives) et
+% E (complements aux chapitres du corps) sont deportees dans un depot numerique
+% et ne sont plus compilees : leurs etiquettes n'existent plus. Tout renvoi qui
+% pointait vers elles porte desormais \matcomp, mention statique et sans \ref,
+% donc insensible a la disparition des etiquettes. Ne pas la remplacer par un
+% \ref, et ne pas reintroduire les fichiers deportes dans un fichier maitre.
+% ---------------------------------------------------------------------------
+\newcommand{\matcomp}{\emph{(voir le Matériel Complémentaire en ligne)}}
+
+% ---------------------------------------------------------------------------
 % TITRES. Petites capitales et filets. Aucun gras coloré.
 % L'espacement resserré de la version 1 est CONSERVÉ : il économise environ un
 % quart de page par chapitre, et le style n'a pas de raison de le rendre.

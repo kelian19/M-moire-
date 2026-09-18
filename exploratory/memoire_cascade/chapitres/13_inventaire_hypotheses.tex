@@ -12,7 +12,7 @@
 (tornado, sensibilités, invariance de l'ordre de remédiation). Ce chapitre ne les refait pas.
 Il en donne la synthèse en une table, puis pose la question que ces tests laissent ouverte :
 une fois l'incertitude reconnue, \emph{quel} nombre reporter. L'inventaire exhaustif des
-paramètres, de leur nature et de leur sensibilité, est reporté au \S\ref{sec:ann-parametres}
+paramètres, de leur nature et de leur sensibilité, est déporté \matcomp,
 pour qu'aucun chiffre du mémoire ne soit sans origine déclarée.
 
 \begin{cle}
@@ -179,7 +179,7 @@ se moyennant pas. Sur l'axe de la famille de queue, il pousse l'indice de queue 
 posée hors de l'intervalle bootstrap, et le cumuler mettrait un scénario et une borne de
 confiance dans le même objet. Il reste publié deux fois, comme pire cas de modèle dans l'échelle
 des postures et comme bande de dépendance ci-dessus, et l'ordre d'amorce des piliers ne bouge
-pas (\S\ref{sec:ann-etages-hawkes}).
+pas \matcomp.
 
 \paragraph{Sur l'auto-excitation : une équivalence observationnelle.} Une cascade sans aucune
 auto-excitation, simulée puis ajustée comme une chronologie réelle, donne au jour un ratio de
@@ -187,7 +187,7 @@ branchement de $0{,}480$, à comparer au $0{,}551$ mesuré. Le processus de Hawk
 distinguable de la cascade à la résolution disponible, et la cascade est retenue par parcimonie
 interprétative, puisqu'elle porte en outre la structure entre piliers. Dégrader la résolution
 fait monter le ratio estimé, et le préprint de cascade climatique converge sur ce choix sans le
-tester. Le détail est au \S\ref{sec:ann-etages-hawkes}.
+tester. Le détail est déporté \matcomp.
 % SOURCES-SCRIPTS: 85
 
 \begin{cle}
@@ -278,8 +278,8 @@ quantile publié n'est pas un artefact du moteur de simulation.
 Quantifier l'incertitude (les trois étages) ne dit pas encore \emph{quel} nombre reporter.
 Prendre le quantile $99{,}5\,\%$ d'une loi estimée en un point (\emph{plug-in}) est fragile,
 car les données sont incertaines : \og{}le quantile d'un objet incertain est mauvais\fg{}
-(C.~Hillairet). Deux réponses complémentaires, selon la posture (figure~\ref{fig:robuste} et
-\S\ref{sec:ann-postures}).
+(C.~Hillairet). Deux réponses complémentaires, selon la posture (figure~\ref{fig:robuste}),
+le détail étant déporté \matcomp.
 
 \textbf{La VaR prédictive} intègre l'incertitude de paramètre \emph{avant} de prendre le
 quantile : on prend le quantile de la loi \emph{prédictive}, mélange des GPD sur la distribution
@@ -322,7 +322,7 @@ n'était pas attendue.
 
 Les deux extrémités de l'échelle sont exactes et tout le bruit est au milieu ; la posture la
 plus prudente est la moins précise. Les deux valeurs de la VaR prédictive, $648$ et $645$~M\euro,
-sont un seul nombre à la précision du bruit. Le détail est au \S\ref{sec:ann-postures}.
+sont un seul nombre à la précision du bruit. Le détail est déporté \matcomp.
 % SOURCES-SCRIPTS: 46
 
 \paragraph{Quelle posture le mémoire reporte-t-il.} La question mérite une réponse explicite,
@@ -438,7 +438,7 @@ pas sur la même chose, et seul le premier engage.
 
 La valeur est néanmoins gelée et l'écart inscrit au registre des limites : rejouer le pipeline
 déplacerait des centaines de nombres publiés sans qu'aucun déplacement soit attribuable à la
-correction (\S\ref{sec:ann-registre-limites}).
+correction \matcomp.
 
 \paragraph{Le sens des écarts, en deux colonnes.} Un défaut isolé se pardonne ; une série de
 défauts qui vont tous du même côté est un biais. Il vaut donc mieux mettre les deux colonnes
@@ -486,7 +486,7 @@ contraire : l'attritionnel absent de la donnée pèse peu au quantile d'entité,
 sévérité qui amputerait le besoin de moitié ne va que de $53$ à $74$~M\euro{} sur des entités
 dont la taille varie d'un facteur $134$. La dernière ligne, l'additivité des coûts, est la seule
 dont le sens ne se déclare pas (\S\ref{sec:additivite-couts}). Le motif du gel, la lecture de
-chaque ligne et le plafond chiffré sont au \S\ref{sec:ann-registre-limites}.
+chaque ligne et le plafond chiffré sont déportés \matcomp.
 
 \vspace{2pt}
 % SOURCES-SCRIPTS: 08b 47 57 60 63 65 74 78 89 90 91
@@ -496,7 +496,7 @@ chaque ligne et le plafond chiffré sont au \S\ref{sec:ann-registre-limites}.
 
 La cascade produit, pour chaque sinistre, un \emph{ensemble} de piliers touchés, si bien que la
 défaillance simultanée n'est pas un cas particulier resté de côté mais la sortie même du modèle. La
-loi exacte de ce nombre est donnée au \S\ref{sec:ann-additivite} : à l'état non conforme, la
+loi exacte de ce nombre est donnée \matcomp : à l'état non conforme, la
 défaillance multiple est majoritaire, $62{,}31\,\%$ des sinistres touchant plus d'un
 pilier contre $31{,}15\,\%$ à l'état conforme. Reste la question de l'agrégation
 des coûts, et elle demande de distinguer trois énoncés que le seul mot d'additivité recouvre.
@@ -506,7 +506,7 @@ des coûts, et elle demande de distinguer trois énoncés que le seul mot d'addi
 une hypothèse de construction, non testée, et c'est le seul des trois que la question met en cause.
 \item \textbf{En fonction des piliers non conformes}, le capital est \emph{presque additif},
 $R^2=0{,}9945$ sur les $32$ configurations : c'est une mesure, et elle explique qu'une structure de
-dépendance entre états ne déplace pas le capital espéré (\S\ref{sec:ann-dependance-etats}).
+dépendance entre états ne déplace pas le capital espéré \matcomp.
 \item \textbf{En fonction des quatre canaux}, il est \emph{franchement super-additif} en euros,
 $+5\,001$~M\euro{} d'interaction sur $14\,139$, soit $+35\,\%$ (chapitre~\ref{chap:resultats}) :
 c'est également une mesure, et elle traduit une composition quasi \emph{multiplicative} des
@@ -541,7 +541,7 @@ amplitude en dépend. C'est la structure d'argument déjà employée pour les va
 Le \emph{sens} de la non-additivité, lui, n'est pas déterminable : mutualisation de la remédiation
 et saturation de la capacité de réponse tirent en sens contraire, et aucune source ne les sépare. Le
 détail, la loi du nombre de piliers, la table complète des exposants et la raison pour laquelle
-l'amplitude est posée plutôt qu'estimée sont au \S\ref{sec:ann-additivite}.
+l'amplitude est posée plutôt qu'estimée sont déportés \matcomp.
 
 \vspace{2pt}
 % SOURCES-SCRIPTS: 74 68 69

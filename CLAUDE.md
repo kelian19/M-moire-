@@ -2,6 +2,69 @@
 
 Document de passation. À lire en entier avant de toucher quoi que ce soit.
 
+## DEPUIS LE 18 SEPTEMBRE 2026 : TROIS ANNEXES SONT DÉPORTÉES, ET LE CHAPITRE DU STAGE EST RÉÉCRIT
+
+Décision de Kélian. Ce bloc prévaut sur tout ce qui suit, y compris sur le bloc du 17 septembre.
+
+**LES ANNEXES B, D ET E SONT SORTIES DU DOCUMENT.** `15_demonstrations.tex` (démonstrations du
+socle EVT), `17_pieces_justificatives.tex` (les vingt-deux pièces justificatives) et
+`21_complements_corps.tex` (les dix-huit compléments aux sections du corps) vivent désormais dans
+`exploratory/memoire_cascade/materiel_complementaire/`, avec un `README.md` qui dit ce qu'ils
+contiennent et comment les recompiler. **Aucun fichier maître ne les appelle plus**, ni
+`main_ensae`, ni `main`, ni `main_v2`. Elles partent dans un dépôt numérique pérenne dont
+**l'adresse reste à renseigner** : le gabarit `https://LIEN_VERS_LE_DEPOT.com` est en clair dans
+les trois fichiers maîtres, juste après `\part*{Annexes}`.
+
+**LES ANNEXES CONSERVÉES SE RELETTRENT, ET LES ANCIENNES LETTRES NE VALENT PLUS** : A est
+désormais les démonstrations du modèle de cascade (`15b`), B les adaptations par pilier (`12b`),
+C le protocole d'élicitation (`18`), D la table des notations (`16`). Une notice sans numéro,
+« Organisation des annexes et matériel complémentaire », ouvre la partie et explique le déport au
+jury.
+
+**LES 54 RENVOIS ORPHELINS SONT TRAITÉS PAR UNE MACRO, PAS PAR UN `\ref`.** Les trois fichiers
+déportés définissaient **78 étiquettes**. Tout renvoi du corps qui pointait vers elles porte
+maintenant `\matcomp`, définie dans `preambule_v2.tex` **et** dans `preambule.tex` :
+
+```latex
+\newcommand{\matcomp}{\emph{(voir le Matériel Complémentaire en ligne)}}
+```
+
+Elle ne contient aucun `\ref`, donc elle survit à la disparition des étiquettes. **Ne pas la
+remplacer par un `\ref` tant que les annexes sont dehors**, et ne pas réintroduire un `\ref` vers
+une des 78 étiquettes : le contrôle des `??` le rattraperait, mais seulement après compilation.
+Les phrases hôtes ont été réécrites une par une pour rester grammaticales, « sont au \S\ref{x} »
+devenant « sont déportés \matcomp » et non « sont au \matcomp ».
+
+**TROIS CHOSES SONT PARTIES AVEC CES ANNEXES, et elles peuvent être demandées par un jury** :
+**deux des trois figures LUCY** (divergence prix contre risque, répartition par taille de
+sinistre), qui vivaient dans l'annexe E — la troisième reste, appelée par les notes de synthèse,
+et l'autorisation de Hugo du 17 septembre tient, seul l'usage a changé ; **la table des
+paramètres** avec sa colonne de statut ; et **la description du dispositif de vérification**. Le
+`README.md` du dossier déporté les liste.
+
+**LE CHAPITRE DU STAGE EST RÉÉCRIT EN ENTIER** (`19_enseignements_stage.tex`, chapitre 14 du
+document), et trois règles commandent cette version :
+
+- **registre strictement factuel et concis.** Le paragraphe « sept fois j'ai rédigé… et sept fois
+  la sortie l'a démentie », la section sur la couverture qui passe avant le taux et les anecdotes
+  de vérification de chiffres sont **supprimés**. Ne pas les remettre ;
+- **AUCUNE MENTION D'OUTILS D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE**, de près ni de loin. Le
+  paragraphe d'usage ajouté le 16 septembre est supprimé. **Ne pas le réintroduire**, dans aucun
+  chapitre ni aucun livrable ;
+- **encadrement nommé et sobre** : Hugo Rapior en entreprise, Caroline Hillairet à l'ENSAE. Les
+  **répondants au formulaire de relecture ne sont toujours PAS nommés** : cette règle-là ne change
+  pas.
+
+Le chapitre ne publie plus **aucun** nombre : il est déclaré `% HARNAIS-HORS-SECTION` et le
+harnais y répond « rien à vérifier ».
+
+**ÉTAT AU 18 SEPTEMBRE 2026.** `main_ensae` à **170 pages** (contre 236 la veille) : corps aux
+folios 21 à 132, stage 133 à 137, annexes 139 à 170. **Ligne de base des débordements : 1**, et
+non plus 5, les quatre autres vivant dans les annexes déportées ; 0 Overfull `\vbox`, 0 annotation
+hors page, 0 page tournée, 0 `??`. Harnais **1 434 nombres, 1 434 confirmés, 100 %**, hors
+contrôle non déclaré à zéro. `main` et `main_v2` compilent toujours, à 7 et 0 débordements.
+`KADDOURI_Kelian_3A25.pdf` régénéré et identique à `main_ensae.pdf`.
+
 ## DEPUIS LE 17 SEPTEMBRE 2026 : ON NE TRAVAILLE PLUS QUE SUR `main_ensae`
 
 Décision de Kélian. **La v3 est supprimée** (`main_v3.tex`, `chapitres_v3/` et ses fichiers de
