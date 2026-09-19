@@ -78,9 +78,14 @@
   Deplacement 2026 du cyber : frequence -0.45, severite +0.25
     Le risque ne monte plus en score : il se stabilise au sommet en changeant de
     regime, moins frequent et plus grave.
-  Risque qui monte le plus en severite : qualite des donnees et conformite des
-    processus informatiques, +0.30 point. La preoccupation de la profession se
-    deplace de la menace vers sa GOUVERNANCE, ce qui est l'objet meme de DORA.
+  Plus forte hausse de severite, tous risques : environnement politique, +0.32 point
+    (mais sa frequence monte aussi, +0.30 : ce n'est pas le regime du cyber)
+  Risques du MEME REGIME que le cyber (severite en hausse, frequence en baisse) : 2
+    Qualité des données et conformité des processus IT   frequence -0.20  severite +0.30
+    Cyberattaques                                        frequence -0.45  severite +0.25
+  Dans ce regime, la plus forte hausse est : qualité des données et conformité des processus it, +0.30 point.
+    La preoccupation de la profession se deplace de la menace vers sa GOUVERNANCE,
+    ce qui est l'objet meme de DORA.
   Repartition des cadrans : sud-ouest 50%, nord-est 25%,
                             nord-ouest 13%, sud-est 13%
 
@@ -116,4 +121,7 @@ GRANDEURS CITEES (sans separateur de milliers, pour le harnais)
   deplacement cyber frequence       : -0.45
   deplacement cyber severite        : 0.25
   deplacement qualite donnees sev   : 0.30
+  deplacement qualite donnees freq  : -0.20
+  deplacement politique severite    : 0.32
+  deplacement politique frequence   : 0.30
   nombre de vecteurs recenses       : 19

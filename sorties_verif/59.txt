@@ -70,8 +70,10 @@
 
   LE RESULTAT EST ASYMETRIQUE, ET C'EST LUI QU'IL FAUT RETENIR. Le corpus etablit
   tres bien ou la contagion NE VA PAS, et pas du tout ou elle va fort. Les douze
-  liens credibiliement faibles comprennent les CINQ sorties de P2 et les QUATRE
-  entrees de P1 : le puits et la source pure sont donc etablis en tant que tels.
+  liens credibiliement faibles comprennent les 4 sorties de P2, soit TOUTES,
+  et 3 des 4 entrees de P1 — l'entree P5 vers P1 n'est PAS etablie comme faible.
+  LE PUITS EST DONC ETABLI, LA SOURCE PURE SEULEMENT EN PARTIE : c'est une asymetrie
+  de plus, et elle va contre la convention « cause racine = gouvernance ».
   Mais AUCUN lien n'est etabli comme fort : meme les plus eleves gardent un
   credible qui recouvre 0,5.
 

@@ -168,10 +168,26 @@ dx, dy = F["deplacements"]["Cyberattaques"]
 print(f"\n  Deplacement 2026 du cyber : frequence {dx:+.2f}, severite {dy:+.2f}")
 print("    Le risque ne monte plus en score : il se stabilise au sommet en changeant de")
 print("    regime, moins frequent et plus grave.")
-qd = F["deplacements"]["Qualité des données et conformité des processus IT"]
-print(f"  Risque qui monte le plus en severite : qualite des donnees et conformite des")
-print(f"    processus informatiques, {qd[1]:+.2f} point. La preoccupation de la profession se")
-print("    deplace de la menace vers sa GOUVERNANCE, ce qui est l'objet meme de DORA.")
+# LE SUPERLATIF SE CALCULE, IL NE S'ECRIT PAS. Ce bloc affirmait que la qualite des donnees est
+# le risque qui monte le plus en severite. C'EST FAUX : l'environnement politique monte davantage
+# (+0,32 contre +0,30). Le constat qui porte l'argument est plus etroit et plus juste : parmi les
+# risques qui gagnent en severite TOUT EN RECULANT en frequence, donc dans le meme regime que le
+# cyber, c'est la qualite des donnees qui monte le plus.
+dep = F["deplacements"]
+qd = dep["Qualité des données et conformité des processus IT"]
+top_sev = max(dep, key=lambda k: dep[k][1])
+regime = {k: v for k, v in dep.items() if v[0] < 0 and v[1] > 0}
+top_regime = max(regime, key=lambda k: regime[k][1])
+print(f"  Plus forte hausse de severite, tous risques : {top_sev.lower()}, "
+      f"{dep[top_sev][1]:+.2f} point")
+print(f"    (mais sa frequence monte aussi, {dep[top_sev][0]:+.2f} : ce n'est pas le regime du cyber)")
+print(f"  Risques du MEME REGIME que le cyber (severite en hausse, frequence en baisse) : "
+      f"{len(regime)}")
+for k in sorted(regime, key=lambda k: -regime[k][1]):
+    print(f"    {k[:52]:<52s} frequence {regime[k][0]:+.2f}  severite {regime[k][1]:+.2f}")
+print(f"  Dans ce regime, la plus forte hausse est : {top_regime.lower()}, {qd[1]:+.2f} point.")
+print("    La preoccupation de la profession se deplace de la menace vers sa GOUVERNANCE,")
+print("    ce qui est l'objet meme de DORA.")
 print(f"  Repartition des cadrans : sud-ouest {F['part_cadran_sud_ouest']:.0%},"
       f" nord-est {F['part_cadran_nord_est']:.0%},")
 print(f"                            nord-ouest {F['part_cadran_nord_ouest']:.0%},"
@@ -218,4 +234,7 @@ print(f"  score dereglement climatique      : {F['rang_2026'][2][1]:.1f}")
 print(f"  deplacement cyber frequence       : {dx:.2f}")
 print(f"  deplacement cyber severite        : {dy:.2f}")
 print(f"  deplacement qualite donnees sev   : {qd[1]:.2f}")
+print(f"  deplacement qualite donnees freq  : {qd[0]:.2f}")
+print(f"  deplacement politique severite    : {dep['Environnement politique'][1]:.2f}")
+print(f"  deplacement politique frequence   : {dep['Environnement politique'][0]:.2f}")
 print(f"  nombre de vecteurs recenses       : {len(C['vecteurs'])}")

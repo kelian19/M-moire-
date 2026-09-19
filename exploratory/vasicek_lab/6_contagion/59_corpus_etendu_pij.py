@@ -205,10 +205,23 @@ print(f"\n  credible a 90 % ENTIEREMENT SOUS 0,5 (propagation faible etablie) : 
       f"{n_bas} / 20")
 print(f"  credible a 90 % ENTIEREMENT AU-DESSUS de 0,5 (propagation forte etablie) : "
       f"{n_haut} / 20")
+# LES COMPTES SE CALCULENT, ILS NE S'ECRIVENT PAS. Cette phrase annoncait « les CINQ sorties de
+# P2 » : dans une matrice 5x5 sans boucle un pilier n'a que QUATRE sorties, et la ligne juste
+# au-dessus annonce d'ailleurs vingt liens ordonnes, soit 5 x 4. Le compte est desormais derive
+# de la matrice, et il verifie au passage que ces sorties sont bien toutes credibiliement faibles.
+sorties_P2 = [k for k in PIL if k != 2 and p_hi[_c[2], _c[k]] < 0.5]
+entrees_P1 = [j for j in PIL if j != 1 and p_hi[_c[j], _c[1]] < 0.5]
 print("\n  LE RESULTAT EST ASYMETRIQUE, ET C'EST LUI QU'IL FAUT RETENIR. Le corpus etablit")
 print("  tres bien ou la contagion NE VA PAS, et pas du tout ou elle va fort. Les douze")
-print("  liens credibiliement faibles comprennent les CINQ sorties de P2 et les QUATRE")
-print("  entrees de P1 : le puits et la source pure sont donc etablis en tant que tels.")
+non_faibles_P1 = [j for j in PIL if j != 1 and j not in entrees_P1]
+print(f"  liens credibiliement faibles comprennent les {len(sorties_P2)} sorties de P2, soit"
+      f" TOUTES," if len(sorties_P2) == len(PIL)-1 else
+      f"  liens credibiliement faibles comprennent {len(sorties_P2)} des {len(PIL)-1} sorties de P2,")
+print(f"  et {len(entrees_P1)} des {len(PIL)-1} entrees de P1"
+      + (f" — l'entree P{non_faibles_P1[0]} vers P1 n'est PAS etablie comme faible."
+         if non_faibles_P1 else "."))
+print("  LE PUITS EST DONC ETABLI, LA SOURCE PURE SEULEMENT EN PARTIE : c'est une asymetrie")
+print("  de plus, et elle va contre la convention « cause racine = gouvernance ».")
 print("  Mais AUCUN lien n'est etabli comme fort : meme les plus eleves gardent un")
 print("  credible qui recouvre 0,5.")
 print("\n  Les quatre liens les plus eleves :")
