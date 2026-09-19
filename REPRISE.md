@@ -826,8 +826,35 @@ mémoire à la page même qui justifie la correction. **C'est donc l'instrument 
 est reproduit**, et un encadré dit que l'exemplaire à dix graines subsiste dans les documents de
 travail et ne doit pas être soumis.
 
-**À faire par Kélian** : retirer la question sur $\xi$ de l'exemplaire qu'il détient avant tout
-envoi à un expert.
+**L'INSTRUMENT A ÉTÉ REFAIT, ET IL EST ADOSSÉ À UN SCRIPT.** Plutôt que de corriger la seule
+question fautive, les dix graines ont été reconstruites sur la règle que le mémoire s'impose :
+une graine est une **grandeur réalisée**, reproductible par une sortie versionnée, jamais un
+paramètre estimé. Le **script 105** les calcule et leur applique **quatre contrôles** : caractère
+réalisé, non-dégénérescence, respect des bornes, et **pouvoir de séparation entre experts**.
+
+**Un candidat a été écarté en cours de route, et sa valeur est publiée.** Un indice de Gini de la
+concentration avait d'abord remplacé la graine sur $\xi$. Il a été écarté pour deux raisons de
+conception : il fait doublon avec la graine qui compte les incidents portant la moitié du volume,
+et sa valeur vraie de $0{,}97$ se devine sans rien connaître du dossier. Le script imprime cette
+valeur, parce qu'un arbitrage dont on ne publie pas la grandeur n'est pas vérifiable. La graine
+retenue porte sur la **durée de confinement**, qui est une performance de résilience, donc du même
+domaine que les cibles.
+
+**Une seule graine reste signalée**, celle du piratage à $92\,\%$ : extrême donc potentiellement
+devinable, mais conservée avec son motif, la réponse spontanée d'un praticien tournant autour de
+$60$ à $70\,\%$. Une graine devinable **et** consensuelle serait à retirer ; celle-ci sépare.
+
+**Aucune graine ne porte une grandeur de capital**, et c'est délibéré : noter un expert sur un
+quantile de charge annuelle mesurerait sa familiarité avec ce mémoire, non son jugement.
+
+**Les valeurs vraies ne sont PAS publiées dans le mémoire** : les imprimer brûlerait l'instrument.
+Elles vivent dans `sorties_verif/105.txt`, et si l'élicitation était lancée après publication les
+graines se retirent du même jeu de données par le même script.
+
+Comptes mis à jour partout dans l'annexe : **seize questions, dont dix graines**, contre quinze et
+neuf. Les deux tables passent en `longtable`, une page à moitié blanche étant apparue sinon.
+
+**À faire par Kélian** : l'exemplaire de travail qu'il détient ne doit pas être soumis en l'état.
 
 ### État à la fin de la journée
 

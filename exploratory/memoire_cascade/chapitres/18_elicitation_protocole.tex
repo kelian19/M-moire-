@@ -64,7 +64,7 @@ domaine que les cibles. La partie cible interroge les liens dirigés entre pilie
 par un, sous la forme d'une probabilité conditionnelle : sachant que le pilier source est
 défaillant, quelle est la probabilité que le pilier cible le devienne.
 
-Le dispositif complet demande quinze questions par expert, dont neuf questions-graines. Ce ratio
+Le dispositif complet demande seize questions par expert, dont dix questions-graines. Ce ratio
 n'est pas un excès de prudence : c'est le minimum qui permette de distinguer un expert calibré
 d'un expert chanceux, et le réduire viderait la méthode de ce qui la distingue d'une moyenne
 d'opinions. Le protocole, le questionnaire et le gabarit de réponses sont versionnés dans le
@@ -79,7 +79,7 @@ $\hat\xi = 0{,}5954$ : or dans la méthode de Cooke une graine fausse n'ajoute p
 \emph{inverse} les poids, en pénalisant le répondant qui vise juste. Ensuite, et c'est ce qui
 justifie le retrait plutôt que la correction, $\xi$ est une \emph{estimation} d'intervalle
 $[0{,}30\,;0{,}83]$, plus large que la valeur elle-même : une graine doit être une grandeur
-réalisée, pas un paramètre estimé. Les neuf graines restantes sont toutes reproductibles par une
+réalisée, pas un paramètre estimé. Les dix graines de l'instrument révisé sont toutes reproductibles par une
 sortie de script versionnée, ce qui est la condition pour qu'une notation d'expert soit
 opposable.
 
@@ -90,22 +90,44 @@ opposable.
 \section{Le questionnaire, reproduit}
 \label{sec:questionnaire-reproduit}
 %--------------------------------------------------------------
-% HARNAIS-HORS-SCRIPT: l'instrument lui-meme. Les seuls nombres y sont les trois niveaux de
-% quantile demandes a l'expert, les bornes 0 et 1 d'une force de lien et les etiquettes P1 a P5
-% des cinq piliers. Ce sont des proprietes de CONCEPTION du questionnaire, pas des resultats :
-% aucun script ne les imprime et aucun ne le devrait.
+% LES VALEURS VRAIES DES GRAINES NE SONT PAS PUBLIEES ICI, ET C'EST DELIBERE : les imprimer
+% BRULERAIT l'instrument, un expert qui a lu le memoire ne pouvant plus etre note dessus. Le
+% script 105 les calcule, leur applique quatre controles et les imprime dans sa sortie de
+% travail ; si l'elicitation etait lancee apres publication, les graines se retirent du meme jeu
+% de donnees par ce meme script. Ce qui est cite ci-dessous est donc le seul nombre que
+% l'arbitrage de conception exige de montrer, la valeur du candidat ecarte.
+% SOURCES-SCRIPTS: 105
 
 Décrire un instrument ne suffit pas à établir qu'il existe. Il est donc reproduit ici dans la
 forme sous laquelle il aurait été soumis, de façon qu'un lecteur puisse juger sur pièce ce que
 la section précédente affirme, et le réutiliser si la décision était rouverte.
 
 \begin{attention}
-\textbf{La version reproduite est celle de neuf graines, et non celle de dix.} L'exemplaire
-préparé en premier portait une dixième question d'étalonnage, sur l'indice de queue de sévérité.
-Elle a été retirée pour les deux motifs exposés plus haut, et elle ne figure donc pas ci-dessous.
-Un exemplaire à dix graines subsiste dans les documents de travail : il ne doit pas être soumis,
-une graine dont la valeur vraie est mal posée inversant les poids au lieu d'ajouter du bruit.
+\textbf{L'instrument reproduit ici est la version révisée, et il diffère de l'exemplaire de
+travail.} Celui-ci portait une question d'étalonnage sur l'indice de queue de sévérité, retirée
+pour les deux motifs exposés plus haut. Elle n'est pas corrigée mais \emph{remplacée}, et le
+remplacement a lui-même été arbitré : un indice de Gini de la concentration avait d'abord été
+retenu, puis écarté parce qu'il fait doublon avec la question qui compte les incidents portant la
+moitié du volume, et parce qu'une valeur vraie de $0{,}97$ se devine sans rien connaître du
+dossier. La graine retenue porte sur la durée de confinement, qui est une performance de
+résilience et donc du même domaine que les cibles. \textbf{L'exemplaire de travail ne doit pas
+être soumis en l'état.}
 \end{attention}
+
+\paragraph{La règle que s'impose l'instrument, et elle est vérifiée.} Une graine doit être une
+\emph{grandeur réalisée}, reproductible par une sortie de script versionnée, et jamais un
+paramètre estimé. Les dix graines retenues sont donc des comptages, des parts, des délais ou des
+quantiles observés : aucune ne demande d'ajuster un modèle. Un script les calcule et leur applique
+quatre contrôles, portant sur ce caractère réalisé, sur la non-dégénérescence de la valeur, sur le
+respect des bornes naturelles, et sur le pouvoir de séparation entre experts. Une seule graine est
+signalée comme potentiellement devinable, celle qui porte sur la part du piratage, et elle est
+conservée avec son motif : sa valeur vraie est nettement au-dessus de la réponse spontanée, si
+bien qu'elle sépare malgré son caractère extrême.
+
+\paragraph{Aucune graine ne porte une grandeur de capital, et c'est délibéré.} Un praticien de la
+résilience observe des incidents, des délais et des concentrations ; il n'observe pas un quantile
+de charge annuelle. Noter un expert sur une telle grandeur mesurerait sa familiarité avec le
+présent mémoire, non son jugement sur le risque.
 
 \subsection*{Consigne remise à l'expert}
 
@@ -118,32 +140,49 @@ incertitude. Répondez même incertain, un intervalle large étant une réponse 
 parfaitement valable. Ne cherchez pas les vraies valeurs : l'objet est de mesurer votre jugement.
 \end{cle}
 
-\subsection*{Partie A, les neuf questions d'étalonnage}
+\subsection*{Partie A, les dix questions d'étalonnage}
 
-Des quantités mesurées dans le mémoire, dont la valeur vraie est connue de l'analyste et n'est
-pas affichée au répondant. Elles servent à pondérer les experts, non à les piéger. Les trois
-colonnes de droite sont vides dans les deux tables qui suivent : c'est l'espace de réponse du
-formulaire, non une donnée manquante.
+Des quantités observées dans les bases du mémoire, dont la valeur vraie est connue de l'analyste
+et n'est pas affichée au répondant. Elles servent à pondérer les experts, non à les piéger. Les
+trois colonnes de droite sont vides dans les deux tables qui suivent : c'est l'espace de réponse
+du formulaire, non une donnée manquante.
 
-\begin{center}\small
-\renewcommand{\arraystretch}{1.25}
-\begin{tabular}{@{}l p{8.2cm} c c c@{}}
+{\small
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}l p{8.0cm} c c c@{}}
 \toprule
-& \textbf{Quantité} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ & $\mathbf{95\,\%}$ \\
+& \textbf{Quantité, sur les incidents notifiés de la chronologie} & $\mathbf{5\,\%}$ &
+$\mathbf{50\,\%}$ & $\mathbf{95\,\%}$ \\
 \midrule
-A1 & Part des sinistres financiers portés par une cause commune (un tiers), en \% & & & \\
-A2 & Délai médian entre la survenance d'un incident et sa déclaration, en jours & & & \\
-A3 & Part des incidents déclarés plus d'un mois après leur survenance, en \% & & & \\
-A4 & Durée médiane de confinement, fin de la brèche, en jours & & & \\
-A5 & Nombre d'incidents TIC matériels par an pour une grande entité financière & & & \\
-A6 & Délai médian de déclaration d'un incident de type piratage, en jours & & & \\
-A7 & Indice de Gini de la concentration des sinistres sur les jours ($0$ régulier,
-     $1$ très concentré) & & & \\
-A8 & Nombre maximal de victimes d'une même cause commune en un jour & & & \\
-A9 & Part des jours de l'année qui portent une cause commune, en \% & & & \\
+\endfirsthead
+\toprule
+& \textbf{Quantité (suite)} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ & $\mathbf{95\,\%}$ \\
+\midrule
+\endhead
+G1 & Délai médian entre la survenance d'un incident et sa déclaration, en jours & & & \\
+G2 & Part des incidents déclarés plus de quatre-vingt-dix jours après leur survenance,
+     en \% & & & \\
+G3 & Délai médian de déclaration d'un incident de type piratage, en jours & & & \\
+G4 & Durée médiane entre le début et la fin d'exposition d'un incident, en jours & & & \\
+G5 & Nombre médian d'enregistrements touchés par incident & & & \\
+G6 & Nombre d'incidents qui portent à eux seuls la moitié du volume touché
+     sur sept exercices & & & \\
+G7 & Part des incidents dont l'exposition a duré plus de trente jours, en \% & & & \\
+G8 & Part des incidents de type piratage parmi ceux dont le vecteur est renseigné,
+     en \% & & & \\
+G9 & Part des lignes de la chronologie qui sont des doublons de notification d'un même
+     incident, en \% & & & \\
+G10 & Rapport du quatre-vingt-dix-neuvième centile à la médiane des pertes cyber du
+      secteur financier & & & \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{longtable}}
+
+\vspace{2pt}
+\noindent\textbf{Ce que chaque graine cherche à mesurer.} G1 à G3 portent sur le \emph{délai de
+détection}, qui est le canal que la conformité déplace le plus directement. G4 et G7 portent sur
+le \emph{confinement}. G5, G6 et G10 portent sur la \emph{concentration} de la perte, c'est-à-dire
+sur l'intuition de queue lourde. G8 porte sur la structure des vecteurs et G9 sur la qualité de la
+donnée déclarative, dont un praticien de la notification a une expérience directe.
 
 \subsection*{Partie B, les six liens dirigés entre piliers}
 
@@ -151,13 +190,18 @@ Force du lien dirigé de $k$ vers $j$, entre $0$ et $1$ : $0$ signifie qu'une d�
 pilier $k$ n'entraîne jamais celle de $j$, $1$ qu'elle l'entraîne quasi certainement dans la
 foulée. Les trois mêmes quantiles sont demandés.
 
-\begin{center}\small
+{\small
 \renewcommand{\arraystretch}{1.25}
-\begin{tabular}{@{}l p{8.2cm} c c c@{}}
+\begin{longtable}{@{}l p{8.2cm} c c c@{}}
 \toprule
 & \textbf{Lien dirigé $k \rightarrow j$} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ &
 $\mathbf{95\,\%}$ \\
 \midrule
+\endfirsthead
+\toprule
+& \textbf{Lien dirigé (suite)} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ & $\mathbf{95\,\%}$ \\
+\midrule
+\endhead
 B1 & P1 $\rightarrow$ P2 : une défaillance de gouvernance entraîne des incidents & & & \\
 B2 & P2 $\rightarrow$ P1 : des incidents entraînent une défaillance de gouvernance & & & \\
 B3 & P4 $\rightarrow$ P2 : une défaillance d'un tiers entraîne des incidents & & & \\
@@ -168,8 +212,7 @@ B5 & P3 $\rightarrow$ P1 : une défaillance des tests de résilience entraîne u
 B6 & P5 $\rightarrow$ P2 : une défaillance du partage d'information entraîne des
      incidents & & & \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{longtable}}
 
 \paragraph{Le couple B1 et B2 est l'objet même du mémoire.} Les deux questions portent sur le
 \emph{même} couple de piliers, dans les deux sens. Une donnée de co-occurrence ne les distingue
@@ -189,11 +232,11 @@ le jugement.
 La raison est arithmétique, et elle porte sur la \emph{taille effective} du panel.
 
 \paragraph{Un panel de deux experts n'a aucun pouvoir de calibration.} Avec le calendrier du
-mémoire et un taux de réponse réaliste sur un questionnaire de quinze questions quantitatives, le
+mémoire et un taux de réponse réaliste sur un questionnaire de seize questions quantitatives, le
 nombre de réponses exploitables, c'est-à-dire complètes et passant le seuil de calibration,
 serait de l'ordre de une à deux. Or à deux experts la pondération de Cooke dégénère : soit un
 seul survit au seuil et l'on obtient un avis unique déguisé en agrégation, soit les deux
-survivent et le poids relatif est estimé sur neuf graines, ce qui ne le distingue pas d'une
+survivent et le poids relatif est estimé sur dix graines, ce qui ne le distingue pas d'une
 moyenne simple. Dans les deux cas la méthode ne fait plus ce pour quoi elle est choisie.
 
 \paragraph{Et une élicitation faible ne serait pas neutre, elle serait trompeuse.} C'est
