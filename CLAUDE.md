@@ -2,6 +2,124 @@
 
 Document de passation. À lire en entier avant de toucher quoi que ce soit.
 
+## DEPUIS LE 19 SEPTEMBRE 2026 : UN SEUL FICHIER MAÎTRE, UN CHAPITRE 1 NEUF, ET LE STYLE A CHANGÉ
+
+Décisions de Kélian les 19 et 20 septembre. **Ce bloc prévaut sur tout ce qui suit**, y compris
+sur celui du 18 septembre, dont les comptes de pages et de harnais sont périmés.
+
+**IL N'Y A PLUS QU'UN FICHIER MAÎTRE.** `main.tex`, `main_v2.tex` et `main.pdf` sont **supprimés
+du dépôt** (récupérables par git). Seul `main_ensae.tex` subsiste. Deviennent orphelins et sont
+conservés sans être appelés : `preambule.tex`, `page_de_garde.tex` (la couverture officielle de
+l'Institut des Actuaires, gardée pour cette raison) et `02_introduction.tex`. Les sections plus
+bas qui parlent de « quatre versions », de « compiler main et main_v2 » ou de lignes de base à
+13 / 4 / 6 débordements sont **historiques**.
+
+**NOUVEAU CHAPITRE 1, `chapitres/02b_cadre_cyber_dora.tex`**, cinq sections et dix-sept
+sous-sections, label `chap:cadre-cyber-dora`. Il **absorbe `02_introduction.tex`** en entier,
+lecture de marché LUCY comprise, et il a **repris la précision juridique** de
+`04_cadre_reglementaire.tex` : délais de notification de quatre, vingt-quatre et soixante-douze
+heures puis un mois, tests guidés par la menace tous les trois ans, article 30, troisième rang de
+sous-traitance, registre d'informations. **Les cinq piliers et la date d'entrée en application ne
+vivent donc plus qu'à un seul endroit.** Le chapitre du cadre réglementaire passe de 176 à
+115 lignes, se recentre sur Bâle, Solvabilité II et l'articulation avec l'évaluation interne, et
+se retitre « Le cadre prudentiel de capital et son articulation avec DORA ». **Son label
+`chap:reglementaire` ne bouge pas**, cinq chapitres le citent.
+
+**TROIS SOURCES DE CONTEXTE 2026 ENTRENT**, au statut de citation externe non recalculable, le
+même que Hackmageddon et LUCY : la cartographie prospective France Assureurs et le baromètre
+CESIN, transcrits dans `config.py` sous `CARTO_FA_2026` et `CESIN_2026` et imprimés par le
+**script 103** ; et une carte Avast des tentatives WannaCry bloquées. Le résultat qui travaille
+pour la thèse : **l'attaque indirecte par un tiers pèse 35 % et monte à 43 % chez les grandes
+entreprises**, soit le pilier P4 mesuré de l'extérieur par une source sans lien avec le projet.
+
+**L'AUTORISATION DE REPRODUCTION EST ACQUISE POUR TOUTES LES FIGURES EXTERNES.** Hugo Rapior l'a
+étendue le 19 septembre, au-delà des trois figures LUCY du 17, à la cartographie France Assureurs,
+au baromètre CESIN et à la carte Avast. `figures_externes/` porte désormais **six** images plus un
+sous-dossier `sources_brutes/` qui archive les captures d'origine non recadrées et n'est lu par
+aucun `\includegraphics`. **Point clos, ne pas rouvrir.**
+
+**LE STYLE A CHANGÉ, GLOBALEMENT, DANS `preambule_v2.tex`.**
+
+- **plus aucun filet horizontal** : ni sous le titre de chapitre, ni autour de l'encadré `cle`,
+  qui tient par son seul espacement et son amorce en gras. Les filets de `booktabs` dans les
+  tableaux sont **conservés**, ce sont des séparateurs de données ;
+- **paquet typographique « classique ENSAE »** : chiffre de chapitre en très grande taille, seul
+  et centré au-dessus du titre ; sections en **petites capitales** numérotées ; sous-sections en
+  italique. **La césure est interdite dans les titres** (`raggedright` plus pénalité infinie), un
+  titre sur deux lignes s'étant coupé en plein mot ;
+- **tête ET pied de page** portent le même contenu : filet, nom du chapitre à gauche, folio à
+  droite. Sur la première page d'un chapitre la tête reste vide, le pied est là comme ailleurs ;
+- **`subcaption` est chargé** pour les panneaux (a)/(b). **Règle posée : ils servent aux variantes
+  d'un même objet**, un taux et son effectif, jamais à entasser deux figures sans rapport pour
+  gagner une page.
+
+**LE CHAPITRE DES DONNÉES PORTE UNE SECTION DE PROFILAGE DES VARIABLES**,
+`sec:profilage-variables`, adossée au **script 104** : table des variables et taux de
+renseignement, table de statistiques descriptives, top des sinistres nommés, tests d'association
+sur les qualitatives, tests de forme et d'hétérogénéité sur les quantitatives, et cinq figures
+D1a à D5.
+
+**Quatre choses à en retenir, et la première est un piège d'instrument.**
+
+- **Dans la PRC, un champ non renseigné vaut la chaîne `UNKN`, pas vide.** Un `notna()` naïf rend
+  donc **100 % de présence sur les trente-sept colonnes**, quand `total_affected` n'est
+  documentée que dans **41,77 %** des cas. Tout comptage de complétude sur cette base doit compter
+  `UNKN` comme un manquant ;
+- **la PRC n'agrège pas les notifications** : un même incident déclaré à plusieurs autorités y
+  figure autant de fois, avec le même volume. Le dédoublonnage retire **1 643 lignes, soit
+  10,9 %**, et ce chiffre est une **borne basse**. Le mémoire n'est pas touché, il n'additionne
+  jamais ces volumes ; la réserve vaut pour tout autre usage ;
+- **le choix d'une queue commune cesse d'être une commodité et devient une mesure** : $V$ de
+  Cramér sous 0,20, $\varepsilon^2$ de Kruskal-Wallis sous 0,08, corrélations de rang entre perte
+  et taille sous 0,16. Trois instruments indépendants, même conclusion ;
+- **l'actif total est le plus faible des trois prédicteurs de taille** ($\rho = 0{,}068$, derrière
+  le chiffre d'affaires à 0,159 et l'effectif à 0,139), alors que c'est le bilan qui porte la mise
+  à l'échelle prudentielle.
+
+**LE QUESTIONNAIRE D'ÉLICITATION EST EN VERSION 3**, dans
+`exploratory/cascade_qualitative/elicitation/`, et il est **reproduit à l'annexe C**. Dix graines
+d'étalonnage, toutes calculées et contrôlées par le **script 105** sur la règle que le mémoire
+s'impose : **une graine est une grandeur réalisée, reproductible par une sortie versionnée, jamais
+un paramètre estimé**. Quatre contrôles par graine, dont le pouvoir de séparation entre experts.
+**Les valeurs vraies ne sont pas publiées dans le mémoire** : les imprimer brûlerait l'instrument,
+elles vivent dans `sorties_verif/105.txt`. Comptes : **seize questions dont dix graines**, contre
+quinze et neuf auparavant.
+
+**ET LA CONVENTION DE DIRECTION DU FORMULAIRE EST UN PIÈGE QUI A MORDU.** Le mémoire écrit
+`W_jk` avec **j la source et k la cible**. Un formulaire demandant « la force du lien de k vers
+j » ferait saisir la matrice **transposée**, c'est-à-dire exactement l'objet dont le chapitre
+d'identifiabilité montre que la donnée ne le distingue pas. **Aucun contrôle numérique ne le
+rattraperait.** L'annexe porte désormais un encadré qui l'explique.
+
+### La leçon de la session, et c'est une faille du dispositif
+
+**Huit erreurs sémantiques ont été trouvées et corrigées, et le harnais les confirmait toutes.**
+Il vérifie d'où vient un nombre, jamais ce qu'une phrase en fait. Cinq des huit portaient sur une
+**affirmation de relation** : un renvoi vers une section qui ne dit pas ce qu'on lui prête, un
+superlatif sur un ensemble calculé, un comptage d'éléments, une catégorie.
+
+**Deux d'entre elles avaient leur racine dans un `print` écrit en dur**, pas dans la prose : le
+script 103 affirmait « le risque qui monte le plus en sévérité est la qualité des données » quand
+l'environnement politique monte davantage, et le script 59 annonçait « les cinq sorties de P2 »
+quand une matrice 5×5 sans boucle n'en donne que quatre, et « les quatre entrées de P1 » quand
+trois seulement sont faibles. **Les deux scripts dérivent maintenant leur constat au lieu de
+l'affirmer.**
+
+**Règle qui en sort, et elle prolonge celle du 14 août** : un superlatif, un comptage ou une
+désignation d'extremum **se calcule dans le script**, il ne s'écrit pas dans un `print`. Un
+balayage des 111 scripts à sortie versionnée a montré que 605 affirmations restent en dur ; les
+**six qui atteignent le mémoire** ont été vérifiées une par une et tiennent. Les autres sont
+documentaires et n'atteignent aucun lecteur.
+
+### État au 20 septembre 2026
+
+`main_ensae` à **196 pages**, seul fichier maître. **Ligne de base des débordements : 5**,
+inchangée ; 0 Overfull `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??`. Harnais
+**1 824 nombres, 1 824 confirmés, 100 %**, hors contrôle non déclaré à zéro sur les vingt-deux
+chapitres appelés. `KADDOURI_Kelian_3A25.pdf` régénéré et identique à `main_ensae.pdf`. Trois
+scripts neufs, **103, 104 et 105**, tous à sortie versionnée et rejouée à l'identique ; cinq
+figures neuves, D1a, D1b, D2, D3, D4 et D5.
+
 ## DEPUIS LE 18 SEPTEMBRE 2026 : TROIS ANNEXES SONT DÉPORTÉES, ET LE CHAPITRE DU STAGE EST RÉÉCRIT
 
 Décision de Kélian. Ce bloc prévaut sur tout ce qui suit, y compris sur le bloc du 17 septembre.
@@ -330,10 +448,10 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 | Quoi | Où |
 |---|---|
 | **Fichier de reprise, tenu à jour chaque soir** | `REPRISE.md` — état daté, ce que dit le mémoire, comment le code est fait, journal des journées |
-| **Mémoire vivant** | `exploratory/memoire_cascade/main.tex` |
-| **Page de garde officielle** | `exploratory/memoire_cascade/page_de_garde.tex` + `logos/` — **partagée par les deux versions**, champs à trancher en tête du fichier |
+| **Mémoire vivant, seul fichier maître** | `exploratory/memoire_cascade/main_ensae.tex` |
+| **Page de couverture déposée** | `exploratory/memoire_cascade/page_de_garde_ensae.tex` + `logos/` — porte le logo ENSAE depuis le 19 septembre. `page_de_garde.tex`, couverture de l'Institut, est ORPHELINE mais conservée |
 | **Rapport de stage ENSAE** | `exploratory/rapport_ensae/rapport_ensae.tex` — document DISTINCT |
-| Figures NON produites par un script | `exploratory/memoire_cascade/figures_externes/` — **exception unique et déclarée**, lire son `README.md` avant d'y toucher |
+| Figures NON produites par un script | `exploratory/memoire_cascade/figures_externes/` — **exception unique et déclarée**, six images plus `sources_brutes/`. Lire son `README.md` avant d'y toucher |
 | Version abandonnée, pré-cascade | `memoire/main.tex` — **ne jamais y toucher** |
 | Chapitres | `exploratory/memoire_cascade/chapitres/*.tex` |
 | Harnais de vérification | `exploratory/memoire_cascade/verif_chiffres.py` |
@@ -348,6 +466,7 @@ virgules décimales françaises dans les sorties des scripts 40, 53, 59 et 67.
 | Visuels du gabarit Nexialog | `exploratory/slides/charte_nexialog/` — logos et photographies, lire son `README.md` |
 | Données brutes | `data/raw/` — **gitignoré, sous licence, ne jamais committer** |
 | **Palette et style de figures** | `exploratory/vasicek_lab/style_nexialog.py` — **source unique des couleurs** |
+| **Questionnaire d'élicitation, v3** | `exploratory/cascade_qualitative/elicitation/questionnaire_elicitation_w.tex` — dix graines du script 105, convention `j -> k` |
 
 **Les couleurs des figures ne se codent plus en dur.** Les 92 scripts qui le faisaient sont
 passés à la charte Nexialog le 17 août 2026, et `style_nexialog.py` est la source unique : on
@@ -633,6 +752,9 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 100 | **structure multiplicative des quatre canaux** (17 septembre 2026) : lit les seize capitaux dans `68.txt`, décomposition de Möbius en échelle logarithmique, formes fermées de la fréquence ((rapport des λ)^ξ = 1,720 contre 1,715 simulé) et de la détection. Produit des facteurs isolés 3,47 contre 3,34 publié (rapport 0,961) ; la multiplicativité pure donnerait 5 813 M€ d'interaction, dont les 5 001 publiés font 86 % |
 | 101 | **figure N1 de la note de synthèse**, FR et EN : lit `68.txt` (tolérance ±2 sur les sommes arrondies), aucune valeur retapée |
 | 102 | **les montants SAS sont nominaux, et la dérive en partie monétaire** (17 septembre 2026). `Loss Amount` (lu par la chaîne) contre `Current Value of Loss` : inflation implicite 2,19 %/an. Dérive de la médiane 13,0 → 10,6 %/an (reste significative), dérive de queue **4,00 → 2,00 %/an, non significative** (p = 0,211). Contrôle : la colonne nominale redonne exactement les 13,0 et 4,00 du script 89. Aucune recalibration |
+| 103 | **les deux sources de contexte 2026, transcrites et contrôlées** (19 septembre) : cartographie France Assureurs et baromètre CESIN, citation externe non recalculable, quatre contrôles d'identité. **Aucune figure**, celles de ces sources étant extraites des rapports. Son superlatif de sévérité est désormais CALCULÉ : le risque qui monte le plus est l'environnement politique ($+0{,}32$), pas la qualité des données ($+0{,}30$), qui n'est première que parmi celles qui montent en sévérité EN RECULANT en fréquence |
+| 104 | **profilage des variables, complétude et tests bivariés** sur les deux bases (19 septembre). Table des variables, statistiques descriptives, top des sinistres dédoublonné, khi-deux et V de Cramér, Shapiro-Wilk, Spearman, Kruskal-Wallis, cinq figures. **Deux pièges documentés** : le manquant PRC encodé `UNKN` et non vide, et les doublons de notification à 10,9 %. **Contrôle d'identité** : il retombe sur les 15 053 incidents des sorties 21, 22 et 62 par un chemin indépendant |
+| 105 | **les dix graines du questionnaire d'élicitation** (19 septembre), leurs valeurs vraies et quatre contrôles : caractère réalisé, non-dégénérescence, bornes, pouvoir de séparation. Imprime le **candidat écarté** avec sa valeur, un Gini de 0,97 jugé redondant et devinable. **Ne jamais publier ses valeurs vraies dans le mémoire** : cela brûlerait l'instrument |
 | 66 | invariance de la thèse aux valeurs de g |
 | 46, 51 | VaR prédictive et échelle des six postures — **51 est le dépositaire du bruit de simulation de chaque posture** ; 46 recalcule la prédictive à `B = 2000`, 51 à `B = 3000`, d'où deux valeurs du même nombre |
 | 43 | KPI DORA en leviers de capital : les quatre canaux, leur attribution, l'interaction, le facteur 3,34 entre états |
@@ -1353,9 +1475,10 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - **les trois champs de la page de garde du mémoire** : la date de soutenance, la case de
   confidentialité (obligatoire au dépôt, décision Nexialog) et les membres du jury. Voir la
   section « La page de garde et la lecture de marché » ;
-- ~~l'autorisation de reproduire trois figures du rapport LUCY 2026~~ : **ACCORDÉE par Hugo
-  Rapior le 17 septembre 2026.** Les trois figures du rapport restent dans le mémoire telles
-  quelles, et le script 97 de repli n'a plus d'usage prévu ;
+- ~~l'autorisation de reproduire les figures externes~~ : **ACQUISE POUR TOUTES.** Accordée par
+  Hugo Rapior le 17 septembre pour les trois figures LUCY, **étendue par lui le 19 septembre** à
+  la cartographie France Assureurs, au baromètre CESIN et à la carte Avast. Le script 97 de repli
+  n'a plus d'usage prévu ;
 - **l'erratum du rapport LUCY 2026** : la section 7.1 publie un multiplicateur de charge à 2,53
   là où les deux montants qui l'encadrent donnent 3,55 et où la section 7.6 donne 3,53. Le
   rapport est co-signé, donc c'est à ses auteurs de décider quoi en faire ;
@@ -2587,6 +2710,19 @@ est exactement la dégradation contre laquelle ce paragraphe met en garde. Et la
 dit que **la plus prudente est la moins précise**, ce qui affaiblit en apparence la posture la
 plus rassurante : c'est un résultat, pas une faiblesse, et le supprimer rendrait le mémoire moins
 défendable, pas plus.
+
+**ET UNE LIMITE DU DISPOSITIF, MESURÉE LES 19 ET 20 SEPTEMBRE, qu'il faut avoir en tête avant
+de se rassurer sur un taux de 100 %.** Huit erreurs sémantiques ont été trouvées en relisant les
+chapitres au filtre des superlatifs, des comptages et des renvois. **Le harnais les confirmait
+toutes les huit** : chaque nombre sortait bien du script cité, seule la phrase qui l'entourait
+était fausse. Cinq portaient sur une **affirmation de relation**, un renvoi vers une section qui
+ne dit pas ce qu'on lui prête, un superlatif sur un ensemble calculé, un comptage d'éléments.
+
+Le taux de confirmation ne mesure donc **pas** la justesse du texte, et il ne l'a jamais
+prétendu. Ce qui reste à faire à la main est la relecture des énoncés qui comparent, comptent ou
+renvoient. Deux des huit venaient d'un `print` écrit en dur dans un script : la règle qui en sort
+est qu'**un superlatif ou un comptage se calcule, il ne s'écrit pas**, au même titre qu'un
+nombre.
 
 **Une dernière chose sur la méthode de travail, apprise trois fois cette semaine.** Les défauts
 trouvés ne l'ont pas été en relisant le mémoire : ils l'ont été en **regardant une slide** et en
