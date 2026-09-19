@@ -88,6 +88,10 @@
 \usepackage{graphicx}
 \usepackage{eurosym}
 \usepackage{caption}
+% subcaption : panneaux (a)/(b) d'une MEME figure. Charge apres caption, dont il depend.
+% Sert aux variantes d'un meme objet (un taux et son effectif), jamais a entasser deux
+% figures sans rapport pour gagner une page.
+\usepackage{subcaption}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{amsthm}
@@ -247,6 +251,9 @@
 \titlespacing*{\paragraph}{0pt}{9pt}{0.55em}
 
 \captionsetup{font=small,labelfont=sc,labelsep=period,skip=6pt}
+% Les lettres de panneau restent en minuscules romaines, (a) et (b) : les petites
+% capitales du style general y donneraient (A) et (B), qui se lisent comme des renvois.
+\captionsetup[sub]{font=small,labelfont=rm,labelformat=parens,labelsep=space,skip=3pt}
 
 % Titres courants EN TETE ET EN PIED DE PAGE : chapitre en petites capitales a gauche, folio a
 % droite, filet noir des deux cotes (au-dessus du pied comme en dessous de la tete). Demande de

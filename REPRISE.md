@@ -770,12 +770,48 @@ commentaire APRÈS avoir lu la sortie, jamais en même temps que le code.
   et se retitre en conséquence ; son label `chap:reglementaire` ne bouge pas, cinq chapitres le
   citent.
 
+### 6. Trois ajouts inspirés du mémoire de F. Dountio, dans l'ordre de valeur
+
+Comparaison faite sur les neuf pages de son chapitre 2 et de son début de chapitre 3. Trois
+manques y étaient visibles, tous comblés le même jour, tous adossés au script 104.
+
+**La table de statistiques descriptives** (`subsec:describe-impact`). Le mémoire publiait des
+quantiles de sévérité dans plusieurs chapitres sans les avoir jamais rassemblés. Quatre colonnes,
+douze lignes, plus trois rapports de forme. **Le contrôle qu'elle porte n'est pas celui qu'on
+écrirait spontanément** : vérifier que le $q_{85}$ redonne le seuil publié serait faux, le seuil
+étant gelé au percentile 84,4 quand le $q_{85}$ courant vaut 22,03. Le bon contrôle est le nombre
+d'excès au-dessus du seuil publié, et il rend **91**, exactement le `n_excess` de `config.py`.
+C'est un troisième chemin indépendant qui confirme la calibration.
+
+**Les sous-figures (a)/(b)** (paquet `subcaption`). La figure de présence croisée devient à deux
+panneaux, taux et effectifs, sur le modèle de sa figure 2.1. Ce n'est pas cosmétique : les
+12,5 % du croisement le plus pauvre représentent encore plus de neuf mille incidents, ce qu'un
+taux seul ne dit pas. **Règle posée : les panneaux servent aux variantes d'un même objet, jamais
+à entasser deux figures sans rapport pour gagner une page.**
+
+**Le top des sinistres nommés** (`subsec:top-incidents`). Douze incidents PRC avec organisation,
+date et volume. Nommer est licite ici, ce sont des notifications publiques ; la base SAS reste
+sous licence et n'est jamais nommée, et la règle d'anonymisation des quatre assureurs SFCR est
+encore une autre question, inchangée.
+
+**Et cette table a fait tomber un défaut de base, trouvé en la regardant.** La PRC n'agrège pas
+les notifications : un même incident déclaré à plusieurs autorités y figure autant de fois, avec
+le même volume. La table brute affichait un établissement de crédit **quatre fois**. Le
+dédoublonnage retire **1 643 lignes, soit 10,9 %** de la période, et ce chiffre est une **borne
+basse**, l'appariement exact ne rapprochant pas deux graphies d'une même raison sociale. **Le
+mémoire n'est pas touché** parce qu'il n'additionne jamais ces volumes : chaque ligne y est une
+observation de sévérité. Déclaré comme tel.
+
+**Le chiffre qui rend la queue concrète** : la moitié du volume de sept années tient dans
+**31 incidents sur 13 410**, soit 0,23 % de la base. C'est l'argument de queue lourde énoncé sur
+des événements nommés plutôt que sur un paramètre.
+
 ### État à la fin de la journée
 
-`main_ensae` à **188 pages**, seul fichier maître subsistant. Débordements **exactement à la ligne de base de 5**, 0 Overfull
+`main_ensae` à **191 pages**, seul fichier maître subsistant. Débordements **exactement à la ligne de base de 5**, 0 Overfull
 `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans le PDF.
-`KADDOURI_Kelian_3A25.pdf` régénéré. Harnais : chapitre 1 à **63 sur 63**, chapitre 4 à **152 sur
-152**, hors contrôle non déclaré à zéro sur les deux. Deux sorties versionnées neuves, **103 et
+`KADDOURI_Kelian_3A25.pdf` régénéré. Harnais : chapitre 1 à **63 sur 63**, chapitre 4 à **266 sur
+266**, hors contrôle non déclaré à zéro sur les deux. Deux sorties versionnées neuves, **103 et
 104**, et trois figures neuves, D1 à D3.
 
 ---

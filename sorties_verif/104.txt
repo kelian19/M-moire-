@@ -34,6 +34,7 @@
     total_affected             100.00    41.77
     residents_affected         100.00    79.88
     source                     100.00   100.00
+    org_name                   100.00   100.00
 
   LECTURE. La colonne « notna » vaut 100,00 partout : c'est l'artefact annonce en tete de
   script. La colonne de droite est celle qui compte. total_affected, seule variable d'impact
@@ -60,6 +61,103 @@
     # of Employees                      86.11
 
   Perimetre cyber/TIC : 1099 pertes ; secteur financier : 22139 ; intersection cyber x finance : 582.
+
+==============================================================================
+1bis. STATISTIQUES DESCRIPTIVES DES VARIABLES D'IMPACT
+==============================================================================
+
+  statistique    PRC 2019-2025, enregistrements PRC, severite derivee Jacobs (M EUR) SAS toutes categories (M EUR) SAS cyber x finance (M EUR)
+  n                               15053                 15053                 41975                   582
+  moyenne                        102646                6.0686               69.9824               24.3240
+  ecart-type                    1235098               41.5896              647.2555               97.7110
+  minimum                        1.0000                0.0020                0.0920                0.0920
+  q25                           69.0000                0.0497                1.0120                0.3519
+  mediane                          1104                0.4091                3.7628                1.3800
+  q75                              8330                1.9005               18.4000                8.6250
+  q85                             23467                4.1756               45.4020               22.0280
+  q90                             49000                7.3067               82.8975               47.4168
+  q95                            164673               18.3570              202.4000              105.3924
+  q99                           1719753              109.1737                  1012              369.7379
+  maximum                      60000000                  1624                 53360                  1380
+
+  Rapports de forme :
+    PRC 2019-2025, enregistrements         q99/mediane =    1557.7   max/q99 =     34.9   CV =   12.03
+    PRC, severite derivee Jacobs (M EUR)   q99/mediane =     266.9   max/q99 =     14.9   CV =    6.85
+    SAS toutes categories (M EUR)          q99/mediane =     268.9   max/q99 =     52.7   CV =    9.25
+    SAS cyber x finance (M EUR)            q99/mediane =     267.9   max/q99 =      3.7   CV =    4.02
+
+  LECTURE. La colonne qui compte est la derniere : c'est elle qui porte la calibration publiee.
+  Trois traits s'y lisent d'un coup, et ils commandent tout le reste du memoire.
+    - La MOYENNE depasse le q75 sur les quatre colonnes, et de loin. Une distribution dont la
+      moyenne tombe au-dessus du troisieme quartile n'est pas decrite par sa moyenne : le
+      niveau est porte par une minorite d'observations.
+    - Le rapport du q99 a la MEDIANE vaut pres de 270 sur les trois colonnes monetaires et
+      depasse 1 500 sur les enregistrements. Ce n'est pas une queue qui se prolonge, c'est une
+      queue qui change d'echelle, et c'est ce qui rend un ajustement global inadapte.
+    - Le coefficient de variation vaut 4,0 sur le perimetre calibre et jusqu'a 12,0 sur les
+      enregistrements. Une loi exponentielle le vaut exactement un : la dispersion est donc
+      bien au-dela du regime que les lois usuelles de duree savent porter.
+  ET UNE ASYMETRIE ENTRE LES DEUX DERNIERES COLONNES, a ne pas lire de travers. Le rapport du
+  maximum au q99 vaut 3,7 sur le perimetre cyber x finance contre 52,7 sur la base entiere : le
+  perimetre retenu est le MOINS extreme des deux en ce sens, non le plus. Le sinistre le plus
+  lourd de la base ne releve pas du cyber, et la queue calibree n'est donc pas celle de
+  l'evenement le plus spectaculaire du fichier.
+
+  Reperes : q85 des donnees courantes = 22.03 M EUR ; seuil publie et gele u = 20.03 M EUR (percentile 84,4). L'ecart est attendu, pas anormal.
+  CONTROLE : exces au-dessus du seuil publie = 91 contre n_excess = 91 dans config.py -> OK
+  RAPPEL : p_u = 0,1509 de config.py correspondrait a 87.8 exces et non a 91. Cette incoherence est CONNUE, chiffree et publiee comme limite au chapitre de robustesse ; elle n'est pas corrigee ici, le gel de la calibration l'interdisant.
+
+==============================================================================
+1ter. LES PLUS GROS INCIDENTS, NOMMES
+==============================================================================
+
+  Dedoublonnage sur (organisation, volume, date de survenance) : 15053 lignes -> 13410 incidents distincts, soit 1643 doublons de notification (10.9 % des lignes).
+
+  Quinze plus gros incidents distincts de la PRC sur 2019-2025 :
+    organisation                                type breche   survenance notification enregistrements
+    Progress Software, Ipswitch, Inc.            BSO  UNKN   2023-05-27            -       60000000
+    T-Mobile USA, Inc.                           BSO  UNKN   2021-08-13   2021-08-16       53700000
+    AT&T Inc.                                    BSO  UNKN   2024-03-26   2024-04-10       51226382
+    Logan Health Medical Center                  MED  HACK   2021-11-22   2022-01-05       40000000
+    T-Mobile                                     BSO  UNKN   2022-11-25   2023-01-19       37000000
+    Comcast Cable Communications LLC             BSO  HACK   2023-10-16   2023-12-18       35879455
+    Zoosk, Inc.                                  BSO  UNKN   2020-01-12   2020-06-03       24200000
+    CafePress, Inc.                              BSR  UNKN   2019-02-19   2019-09-19       23000000
+    CafePress Inc.                               BSR  UNKN   2019-02-19   2019-09-04       22000000
+    Texas Dow Employees Credit Union             BSF  HACK   2023-05-29   2024-08-23       20000000
+    Evite, Inc.                                  BSO  UNKN   2019-02-22   2019-06-10       18571486
+    loanDepot.com, LLC                           BSF  UNKN   2024-01-03   2024-02-23       16924071
+    ClearVoiceResearch.com, LLP                 UNKN  UNKN   2021-04-16   2021-04-30       15700000
+    ClearVoiceResearch.com, LLC                  BSO  DISC   2021-04-17   2021-04-29       15700000
+    ClearVoiceResearch.com, LLC                  BSO  DISC   2021-04-16   2021-05-03       15700000
+
+  Ces quinze incidents portent 37.8 % du volume total de la periode, et le premier a lui seul 5.0 %.
+  50 % du volume tient dans 31 incidents, soit 0.23 % de la base dedoublonnee.
+  80 % du volume tient dans 209 incidents, soit 1.56 % de la base dedoublonnee.
+  90 % du volume tient dans 491 incidents, soit 3.66 % de la base dedoublonnee.
+
+  LECTURE, ET C'EST L'ARGUMENT DE QUEUE RENDU CONCRET. La moitie du volume de sept annees tient
+  dans 31 incidents sur 13410, soit 0.23 % de la base. Un modele qui
+  decrirait cette distribution par son centre manquerait donc l'objet : le niveau n'est pas
+  produit par le regime courant, il est produit par une poignee d'evenements. C'est exactement
+  ce que l'ajustement par depassement de seuil formalise, et c'est aussi pourquoi le quantile a
+  99,5 % du memoire est porte par un sinistre unique plutot que par une accumulation.
+
+  LE DEDOUBLONNAGE EST CONSERVATEUR, ET LA TABLE LE MONTRE. Il exige une egalite EXACTE du
+  triplet, si bien qu'il ne rapproche ni « CafePress, Inc. » de « CafePress Inc. », ni deux
+  notifications du meme incident decalees d'un jour. Des doublons residuels subsistent donc, et
+  ils sont visibles dans les quinze lignes ci-dessus. Les rapprocher demanderait un appariement
+  approximatif sur les raisons sociales, dont le taux d'erreur serait lui-meme a estimer : le
+  cout depasse le benefice pour un usage ou chaque ligne est une observation de severite et non
+  un terme d'une somme. Le chiffre de doublons ci-dessus est donc une BORNE BASSE.
+
+  ET UN DEFAUT DE BASE A DECLARER. Les 1643 lignes retirees ci-dessus ne sont pas des
+  erreurs de saisie : ce sont des notifications multiples d'un meme incident a des autorites
+  differentes, que la PRC ne deduplique pas. Sommer total_affected sans dedoublonner surestime
+  donc le volume. Le memoire n'est PAS touche, parce qu'il ne somme jamais ces volumes pour
+  produire un montant : il les utilise comme echantillon de severite, ou chaque ligne est une
+  observation. La remarque vaut pour qui reprendrait la base a d'autres fins.
+
 
 ==============================================================================
 2. VARIABLES QUALITATIVES : KHI-DEUX D'INDEPENDANCE ET V DE CRAMER
@@ -162,6 +260,17 @@
     total_affected           30.9   41.6   12.5   41.8   41.8   37.6   25.1   41.8       
     residents_affected       44.2   79.7   22.4   79.9   79.9   70.0   30.2   31.0   79.9
 
+  D1b, effectifs croises :
+    breach_date              40998                                                                
+    reported_date            40805   74440                                                        
+    end_breach_date          21063   21024   21077                                                
+    incident_details         40998   74440   21077   74781                                        
+    information_affected     40998   74440   21077   74781   74783                                
+    organization_type        36973   66496   19939   66769   66771   66771                        
+    breach_type              26126   35300   17908   35378   35378   34280   35378                
+    total_affected           23132   31113    9367   31238   31238   28130   18797   31238        
+    residents_affected       33032   59595   16786   59738   59738   52325   22609   23200   59738
+
   D2, sources de notification (12 premieres par volume) :
     source    incidents  volume (M enr.)
     ME             4012            632.0
@@ -188,7 +297,8 @@
     STAT              4              0.0          118
 
   Trois figures ecrites dans exploratory/vasicek_lab/figures/ :
-    D1_presence_croisee.png  D2_sources_notification.png  D3_bulles_breche.png
+    D1a_presence_taux.png  D1b_presence_effectifs.png
+    D2_sources_notification.png  D3_bulles_breche.png
 
 ==============================================================================
 5. GRANDEURS CITEES (sans separateur de milliers, pour le harnais)

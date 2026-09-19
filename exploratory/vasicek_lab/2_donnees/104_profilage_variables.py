@@ -138,7 +138,7 @@ if not chemin:
 
 COLS_PRC = ["breach_date", "reported_date", "end_breach_date", "incident_details",
             "information_affected", "organization_type", "breach_type",
-            "total_affected", "residents_affected", "source"]
+            "total_affected", "residents_affected", "source", "org_name"]
 
 if chemin.lower().endswith(".csv"):
     prc = pd.read_csv(chemin, sep="|", encoding="utf-8-sig", usecols=COLS_PRC,
@@ -212,6 +212,173 @@ fin = sas[sas["Industry Sector Name"].astype(str).str.contains("Financial", na=F
 cyberfin = cyber[cyber["Industry Sector Name"].astype(str).str.contains("Financial", na=False)]
 print(f"\n  Perimetre cyber/TIC : {len(cyber)} pertes ; secteur financier : {len(fin)} ; "
       f"intersection cyber x finance : {len(cyberfin)}.")
+
+# =====================================================================================
+titre("1bis. STATISTIQUES DESCRIPTIVES DES VARIABLES D'IMPACT")
+# =====================================================================================
+#
+# POURQUOI CETTE TABLE EXISTE. Le memoire publie des quantiles de severite dans plusieurs
+# chapitres, mais il ne les avait jamais RASSEMBLES : un lecteur qui veut juger la queue avant
+# de lire l'ajustement devait les reconstituer de proche en proche. C'est la premiere table
+# qu'un jury d'actuaires cherche dans un chapitre de donnees.
+#
+# QUATRE COLONNES, ET ELLES NE MESURENT PAS LA MEME CHOSE. Les deux premieres sont des
+# ENREGISTREMENTS, les deux dernieres des EUROS : elles ne se comparent ni en niveau ni en
+# quantile, et la table le dit dans son en-tete plutot que de laisser le lecteur le supposer.
+# La quatrieme, cyber x finance, est celle qui porte la calibration publiee.
+
+from src.severity.prc_analysis import jacobs_severity_eur_m
+
+USD_EUR = 0.92
+colonnes = {}
+colonnes["PRC 2019-2025, enregistrements"] = per["ta"].values.astype(float)
+colonnes["PRC, severite derivee Jacobs (M EUR)"] = jacobs_severity_eur_m(per["ta"].values)
+colonnes["SAS toutes categories (M EUR)"] = sas["loss"].values * USD_EUR
+colonnes["SAS cyber x finance (M EUR)"] = cyberfin["loss"].values * USD_EUR
+
+lignes = [("n", lambda x: len(x)),
+          ("moyenne", np.mean), ("ecart-type", lambda x: np.std(x, ddof=1)),
+          ("minimum", np.min),
+          ("q25", lambda x: np.quantile(x, .25)), ("mediane", np.median),
+          ("q75", lambda x: np.quantile(x, .75)), ("q85", lambda x: np.quantile(x, .85)),
+          ("q90", lambda x: np.quantile(x, .90)), ("q95", lambda x: np.quantile(x, .95)),
+          ("q99", lambda x: np.quantile(x, .99)), ("maximum", np.max)]
+
+print("\n  %-14s %22s %22s %22s %22s" % (("statistique",) + tuple(colonnes)))
+desc = {}
+for nom, f in lignes:
+    vals = [f(v) for v in colonnes.values()]
+    desc[nom] = vals
+    fmt = lambda v: f"{v:22.0f}" if abs(v) >= 1000 or nom == "n" else f"{v:22.4f}"
+    print("  %-14s %s" % (nom, "".join(fmt(v) for v in vals)))
+
+# Deux rapports de forme, qui se lisent mieux que les niveaux eux-memes.
+print("\n  Rapports de forme :")
+for i, nom in enumerate(colonnes):
+    med = desc["mediane"][i]; q99 = desc["q99"][i]; mx = desc["maximum"][i]
+    moy = desc["moyenne"][i]; et = desc["ecart-type"][i]
+    print(f"    {nom:<38s} q99/mediane = {q99/med:9.1f}   max/q99 = {mx/q99:8.1f}"
+          f"   CV = {et/moy:7.2f}")
+
+print("""
+  LECTURE. La colonne qui compte est la derniere : c'est elle qui porte la calibration publiee.
+  Trois traits s'y lisent d'un coup, et ils commandent tout le reste du memoire.
+    - La MOYENNE depasse le q75 sur les quatre colonnes, et de loin. Une distribution dont la
+      moyenne tombe au-dessus du troisieme quartile n'est pas decrite par sa moyenne : le
+      niveau est porte par une minorite d'observations.
+    - Le rapport du q99 a la MEDIANE vaut pres de 270 sur les trois colonnes monetaires et
+      depasse 1 500 sur les enregistrements. Ce n'est pas une queue qui se prolonge, c'est une
+      queue qui change d'echelle, et c'est ce qui rend un ajustement global inadapte.
+    - Le coefficient de variation vaut 4,0 sur le perimetre calibre et jusqu'a 12,0 sur les
+      enregistrements. Une loi exponentielle le vaut exactement un : la dispersion est donc
+      bien au-dela du regime que les lois usuelles de duree savent porter.
+  ET UNE ASYMETRIE ENTRE LES DEUX DERNIERES COLONNES, a ne pas lire de travers. Le rapport du
+  maximum au q99 vaut 3,7 sur le perimetre cyber x finance contre 52,7 sur la base entiere : le
+  perimetre retenu est le MOINS extreme des deux en ce sens, non le plus. Le sinistre le plus
+  lourd de la base ne releve pas du cyber, et la queue calibree n'est donc pas celle de
+  l'evenement le plus spectaculaire du fichier.
+""")
+
+# LE CONTROLE QUI COMPTE, ET IL N'EST PAS CELUI QU'ON ECRIRAIT SPONTANEMENT. On serait tente de
+# verifier que le q85 de cet echantillon redonne le seuil publie u = 20,03 M EUR. Ce serait FAUX,
+# et le projet le documente : le seuil publie est GELE au percentile 84,4 de l'echantillon de
+# calibration, quand le q85 des donnees courantes vaut 22,03. C'est exactement l'ecart qui avait
+# fait diverger les scripts 46, 47 et 51 tant qu'ils rederivaient leur propre seuil au lieu de le
+# lire dans config.py. Le bon controle porte donc sur le NOMBRE D'EXCES au-dessus du seuil publie,
+# qui doit redonner le n_excess de config.py.
+q85_cf = float(np.quantile(colonnes["SAS cyber x finance (M EUR)"], .85))
+U_PUBLIE = 20.03
+N_EXCESS_PUBLIE = 91
+n_exc = int((colonnes["SAS cyber x finance (M EUR)"] > U_PUBLIE).sum())
+print(f"  Reperes : q85 des donnees courantes = {q85_cf:.2f} M EUR ; seuil publie et gele "
+      f"u = {U_PUBLIE} M EUR (percentile 84,4). L'ecart est attendu, pas anormal.")
+print(f"  CONTROLE : exces au-dessus du seuil publie = {n_exc} contre n_excess = "
+      f"{N_EXCESS_PUBLIE} dans config.py -> {'OK' if n_exc == N_EXCESS_PUBLIE else 'ECART A INSTRUIRE'}")
+print(f"  RAPPEL : p_u = 0,1509 de config.py correspondrait a {0.1509*len(colonnes['SAS cyber x finance (M EUR)']):.1f} "
+      f"exces et non a {N_EXCESS_PUBLIE}. Cette incoherence est CONNUE, chiffree et publiee comme "
+      f"limite au chapitre de robustesse ; elle n'est pas corrigee ici, le gel de la calibration "
+      f"l'interdisant.")
+
+# =====================================================================================
+titre("1ter. LES PLUS GROS INCIDENTS, NOMMES")
+# =====================================================================================
+#
+# POURQUOI NOMMER. Un quantile a 99,5 % reste une abstraction tant qu'on ne voit pas les
+# evenements qui le portent. Cette table les montre, et elle repond a la premiere objection
+# qu'un jury formule devant une queue lourde : « d'ou vient ce niveau ? ».
+#
+# POURQUOI LA PRC ET PAS SAS. Les incidents de la PRC sont des NOTIFICATIONS PUBLIQUES aux
+# autorites americaines : les nommer ne fait que reprendre une information deja publique. La
+# base SAS est une base commerciale sous licence, et le depot ne la republie pas ; ses plus
+# grosses pertes sont donc decrites par leur annee, leur categorie et leur montant, jamais par
+# le nom de la firme. La regle d'anonymisation des quatre assureurs SFCR du memoire est encore
+# une autre question, et elle ne change pas : elle porte sur des entites dont l'etat de
+# conformite est SUPPOSE, ce qui n'est pas le cas ici.
+
+# DEDOUBLONNAGE AVANT LA TABLE, ET IL EST INDISPENSABLE. La PRC n'agrege pas les notifications :
+# un meme incident notifie a quatre autorites y figure quatre fois, avec le meme volume. La table
+# brute des quinze plus gros affichait ainsi Texas Dow quatre fois et CafePress trois fois. On
+# dedoublonne donc sur le triplet (organisation normalisee, volume, date de survenance), ce qui
+# est la signature d'un incident unique, et l'on chiffre a part ce que le dedoublonnage retire.
+per["org_norm"] = per["org_name"].astype(str).str.lower().str.replace(r"[^a-z0-9]", "",
+                                                                     regex=True)
+cle = ["org_norm", "ta", "breach_date"]
+dedup = per.drop_duplicates(subset=cle)
+n_retire = len(per) - len(dedup)
+print(f"\n  Dedoublonnage sur (organisation, volume, date de survenance) : {len(per)} lignes "
+      f"-> {len(dedup)} incidents distincts, soit {n_retire} doublons de notification "
+      f"({100.0*n_retire/len(per):.1f} % des lignes).")
+
+top = dedup.nlargest(15, "ta")[["org_name", "organization_type", "breach_type",
+                                "d_breach", "d_report", "ta"]]
+print("\n  Quinze plus gros incidents distincts de la PRC sur 2019-2025 :")
+print("    %-42s %5s %5s %12s %12s %14s" %
+      ("organisation", "type", "breche", "survenance", "notification", "enregistrements"))
+for _, r in top.iterrows():
+    nom = str(r["org_name"])[:42]
+    ds = r["d_breach"].strftime("%Y-%m-%d") if pd.notna(r["d_breach"]) else "-"
+    dr = r["d_report"].strftime("%Y-%m-%d") if pd.notna(r["d_report"]) else "-"
+    print("    %-42s %5s %5s %12s %12s %14.0f" %
+          (nom, str(r["organization_type"])[:5], str(r["breach_type"])[:5], ds, dr, r["ta"]))
+
+part15 = 100.0 * top["ta"].sum() / dedup["ta"].sum()
+part1 = 100.0 * top["ta"].iloc[0] / dedup["ta"].sum()
+print(f"\n  Ces quinze incidents portent {part15:.1f} % du volume total de la periode, "
+      f"et le premier a lui seul {part1:.1f} %.")
+
+# CONCENTRATION, sur la base DEDOUBLONNEE : la calculer sur les doublons la surestimerait.
+tri = np.sort(dedup["ta"].values)[::-1]
+cum = np.cumsum(tri) / tri.sum()
+conc = {}
+for part in (0.5, 0.8, 0.9):
+    n_needed = int(np.searchsorted(cum, part) + 1)
+    conc[part] = (n_needed, 100.0 * n_needed / len(tri))
+    print(f"  {100*part:.0f} % du volume tient dans {n_needed} incidents, soit "
+          f"{conc[part][1]:.2f} % de la base dedoublonnee.")
+
+print(f"""
+  LECTURE, ET C'EST L'ARGUMENT DE QUEUE RENDU CONCRET. La moitie du volume de sept annees tient
+  dans {conc[0.5][0]} incidents sur {len(dedup)}, soit {conc[0.5][1]:.2f} % de la base. Un modele qui
+  decrirait cette distribution par son centre manquerait donc l'objet : le niveau n'est pas
+  produit par le regime courant, il est produit par une poignee d'evenements. C'est exactement
+  ce que l'ajustement par depassement de seuil formalise, et c'est aussi pourquoi le quantile a
+  99,5 % du memoire est porte par un sinistre unique plutot que par une accumulation.
+
+  LE DEDOUBLONNAGE EST CONSERVATEUR, ET LA TABLE LE MONTRE. Il exige une egalite EXACTE du
+  triplet, si bien qu'il ne rapproche ni « CafePress, Inc. » de « CafePress Inc. », ni deux
+  notifications du meme incident decalees d'un jour. Des doublons residuels subsistent donc, et
+  ils sont visibles dans les quinze lignes ci-dessus. Les rapprocher demanderait un appariement
+  approximatif sur les raisons sociales, dont le taux d'erreur serait lui-meme a estimer : le
+  cout depasse le benefice pour un usage ou chaque ligne est une observation de severite et non
+  un terme d'une somme. Le chiffre de doublons ci-dessus est donc une BORNE BASSE.
+
+  ET UN DEFAUT DE BASE A DECLARER. Les {n_retire} lignes retirees ci-dessus ne sont pas des
+  erreurs de saisie : ce sont des notifications multiples d'un meme incident a des autorites
+  differentes, que la PRC ne deduplique pas. Sommer total_affected sans dedoublonner surestime
+  donc le volume. Le memoire n'est PAS touche, parce qu'il ne somme jamais ces volumes pour
+  produire un montant : il les utilise comme echantillon de severite, ou chaque ligne est une
+  observation. La remarque vaut pour qui reprendrait la base a d'autres fins.
+""")
 
 # =====================================================================================
 titre("2. VARIABLES QUALITATIVES : KHI-DEUX D'INDEPENDANCE ET V DE CRAMER")
@@ -382,22 +549,47 @@ for i in range(k):
 from matplotlib.colors import LinearSegmentedColormap
 cmap_seq = LinearSegmentedColormap.from_list("nexialog_seq", sn.SEQUENTIEL_6[::-1])
 
-fig, ax = plt.subplots(figsize=(7.4, 5.4))
-im = ax.imshow(M, cmap=cmap_seq, vmin=0, vmax=100)
+# DEUX PANNEAUX ET NON UN, et ce n'est pas un ornement. Un taux de presence croisee ne dit pas
+# sur quel EFFECTIF il porte : 12,5 % de 74 783 lignes font encore neuf mille incidents, ce qui
+# n'a pas la meme portee qu'un taux identique sur une base de quelques centaines. Les deux
+# panneaux se lisent donc ensemble, taux a gauche, effectifs a droite.
+N = np.full((k, k), np.nan)
 for i in range(k):
     for j in range(i + 1):
-        val = M[i, j]
-        ax.text(j, i, f"{val:.1f}", ha="center", va="center", fontsize=7,
-                color="white" if val > 55 else sn.ENCRE)
-ax.set_xticks(range(k)); ax.set_xticklabels([courts[v] for v in vars_mat], fontsize=7, rotation=45, ha="right")
-ax.set_yticks(range(k)); ax.set_yticklabels([courts[v] for v in vars_mat], fontsize=7)
-ax.set_title("Taux de présence croisée des variables PRC (%)", fontsize=10, color=sn.ENCRE)
-cb = fig.colorbar(im, ax=ax, fraction=0.045, pad=0.03)
-cb.set_label("taux de présence (%)", fontsize=8)
-ax.grid(False)
-fig.tight_layout()
-fig.savefig(os.path.join(FIGDIR, "D1_presence_croisee.png"), dpi=150)
-plt.close(fig)
+        N[i, j] = (masques[vars_mat[i]] & masques[vars_mat[j]]).sum()
+
+print("\n  D1b, effectifs croises :")
+for i in range(k):
+    print("    %-22s %s" % (vars_mat[i],
+          " ".join(f"{N[i, j]:7.0f}" if not np.isnan(N[i, j]) else "       " for j in range(k))))
+
+
+def matrice(mat, nom_fichier, titre_fig, etiquette_cb, fmt, vmax):
+    fig, ax = plt.subplots(figsize=(6.6, 5.4))
+    im = ax.imshow(mat, cmap=cmap_seq, vmin=0, vmax=vmax)
+    for i in range(k):
+        for j in range(i + 1):
+            v = mat[i, j]
+            ax.text(j, i, fmt(v), ha="center", va="center", fontsize=8,
+                    color="white" if v > 0.55 * vmax else sn.ENCRE)
+    ax.set_xticks(range(k))
+    ax.set_xticklabels([courts[v] for v in vars_mat], fontsize=7.5, rotation=45, ha="right")
+    ax.set_yticks(range(k))
+    ax.set_yticklabels([courts[v] for v in vars_mat], fontsize=7.5)
+    ax.set_title(titre_fig, fontsize=10, color=sn.ENCRE)
+    cb = fig.colorbar(im, ax=ax, fraction=0.045, pad=0.03)
+    cb.set_label(etiquette_cb, fontsize=8)
+    ax.grid(False)
+    fig.tight_layout()
+    fig.savefig(os.path.join(FIGDIR, nom_fichier), dpi=150)
+    plt.close(fig)
+
+
+matrice(M, "D1a_presence_taux.png", "taux de présence croisée (%)",
+        "taux de présence (%)", lambda v: f"{v:.1f}", 100.0)
+matrice(N, "D1b_presence_effectifs.png", "effectifs croisés",
+        "incidents renseignés", lambda v: f"{v/1000:.1f}k" if v >= 1000 else f"{v:.0f}",
+        float(np.nanmax(N)))
 
 # --- D2 : sources de notification, double axe ----------------------------------------
 src = per[renseigne(per["source"])].groupby("source").agg(
@@ -467,7 +659,8 @@ fig.savefig(os.path.join(FIGDIR, "D3_bulles_breche.png"), dpi=150)
 plt.close(fig)
 
 print("\n  Trois figures ecrites dans exploratory/vasicek_lab/figures/ :")
-print("    D1_presence_croisee.png  D2_sources_notification.png  D3_bulles_breche.png")
+print("    D1a_presence_taux.png  D1b_presence_effectifs.png")
+print("    D2_sources_notification.png  D3_bulles_breche.png")
 
 # =====================================================================================
 titre("5. GRANDEURS CITEES (sans separateur de milliers, pour le harnais)")

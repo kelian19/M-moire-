@@ -601,18 +601,177 @@ biais déclaré à la section~\ref{sec:biais-chiffres}, mesuré ici sur les vari
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.86\textwidth]{../vasicek_lab/figures/D1_presence_croisee.png}
-\caption{Taux de présence croisée des variables de la chronologie PRC. La lecture utile est la
-ligne du bas : le volume touché n'est simultanément renseigné avec le type de brèche que dans
-$25{,}1\,\%$ des cas, et avec la date de fin d'exposition dans $12{,}5\,\%$.}
+\begin{subfigure}{0.49\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../vasicek_lab/figures/D1a_presence_taux.png}
+  \caption{}\label{fig:presence-taux}
+\end{subfigure}\hfill
+\begin{subfigure}{0.49\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{../vasicek_lab/figures/D1b_presence_effectifs.png}
+  \caption{}\label{fig:presence-effectifs}
+\end{subfigure}
+\caption{Présence croisée des variables de la chronologie PRC, en taux (a) et en effectifs (b).
+La lecture utile est la ligne du bas du panneau (a) : le volume touché n'est simultanément
+renseigné avec le type de brèche que dans $25{,}1\,\%$ des cas, et avec la date de fin
+d'exposition dans $12{,}5\,\%$. Le panneau (b) donne l'effectif derrière chaque taux.}
 \label{fig:presence-croisee}
 \end{figure}
 
-La matrice croisée dit ce qu'une colonne de taux isolés ne dit pas : les lacunes se
-\emph{cumulent}. Une analyse qui croiserait le volume touché, le type de brèche et la durée
+Les deux panneaux ne disent pas la même chose et il faut les lire ensemble : un taux ne dit
+pas sur quel effectif il porte. Les $12{,}5\,\%$ du croisement le plus pauvre représentent encore
+plus de neuf mille incidents, ce qui n'a pas la même portée qu'un taux identique sur une base de
+quelques centaines. La matrice dit surtout ce qu'une colonne de taux isolés ne dit pas : les
+lacunes se \emph{cumulent}. Une analyse qui croiserait le volume touché, le type de brèche et la durée
 d'exposition ne disposerait plus que d'un dixième de la base, et ce dixième n'aurait aucune
 raison d'en être représentatif. C'est le motif pour lequel le modèle ne conditionne la sévérité
 sur aucune de ces variables.
+
+\subsection{Les variables d'impact, décrites}
+\label{subsec:describe-impact}
+% SOURCES-SCRIPTS: 104
+
+Le mémoire publie des quantiles de sévérité dans plusieurs chapitres sans les avoir jamais
+rassemblés : un lecteur qui veut juger la queue avant de lire l'ajustement devait les
+reconstituer de proche en proche. La table ci-dessous les réunit sur les quatre variables
+d'impact du dispositif.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}l r r r r@{}}
+\toprule
+& \multicolumn{2}{c}{\textbf{PRC}} & \multicolumn{2}{c}{\textbf{SAS OpRisk}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& \textbf{enregistrements} & \textbf{sévérité dérivée} & \textbf{toutes catég.} &
+\textbf{cyber $\times$ finance} \\
+& (nombre) & (M\euro) & (M\euro) & (M\euro) \\
+\midrule
+$n$              & $15\,053$     & $15\,053$   & $41\,975$  & $582$ \\
+moyenne          & $102\,646$    & $6{,}07$    & $69{,}98$  & $24{,}32$ \\
+écart-type       & $1\,235\,098$ & $41{,}59$   & $647{,}26$ & $97{,}71$ \\
+minimum          & $1$           & $0{,}0020$  & $0{,}0920$ & $0{,}0920$ \\
+\midrule
+$q_{25}$         & $69$          & $0{,}0497$  & $1{,}012$  & $0{,}352$ \\
+médiane          & $1\,104$      & $0{,}409$   & $3{,}763$  & $1{,}380$ \\
+$q_{75}$         & $8\,330$      & $1{,}901$   & $18{,}40$  & $8{,}625$ \\
+$q_{85}$         & $23\,467$     & $4{,}176$   & $45{,}40$  & $22{,}03$ \\
+$q_{90}$         & $49\,000$     & $7{,}307$   & $82{,}90$  & $47{,}42$ \\
+$q_{95}$         & $164\,673$    & $18{,}36$   & $202{,}4$  & $105{,}4$ \\
+$q_{99}$         & $1\,719\,753$ & $109{,}2$   & $1\,012$   & $369{,}7$ \\
+maximum          & $60\,000\,000$& $1\,624$    & $53\,360$  & $1\,380$ \\
+\midrule
+$q_{99}/$médiane & $1\,558$      & $267$       & $269$      & $268$ \\
+maximum$/q_{99}$ & $34{,}9$      & $14{,}9$    & $52{,}7$   & $3{,}7$ \\
+coef. de variation & $12{,}03$   & $6{,}85$    & $9{,}25$   & $4{,}02$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+\noindent\textbf{Lecture.} Les deux premières colonnes comptent des enregistrements, les deux
+dernières des euros : elles ne se comparent ni en niveau ni en quantile. La quatrième est celle
+qui porte la calibration publiée. Trois traits s'y lisent d'un coup.
+
+\begin{itemize}[leftmargin=1.4em,itemsep=3pt]
+\item \textbf{La moyenne dépasse le troisième quartile sur les quatre colonnes.} Une
+      distribution dont la moyenne tombe au-dessus du $q_{75}$ n'est pas décrite par sa moyenne :
+      son niveau est porté par une minorité d'observations.
+\item \textbf{Le rapport du $q_{99}$ à la médiane vaut près de $270$} sur les trois colonnes
+      monétaires et monte à $1\,558$ sur les enregistrements. Ce n'est pas une queue qui se
+      prolonge, c'est une queue qui change d'échelle.
+\item \textbf{Le coefficient de variation vaut $4{,}02$ sur le périmètre calibré} et jusqu'à
+      $12{,}03$ sur les enregistrements. Une loi exponentielle le vaut exactement un.
+\end{itemize}
+
+\noindent\textbf{Sources de la table :} script \texttt{104} (statistiques recalculées sur les
+deux exports, conversion en euros au taux de la chaîne).
+
+\begin{attention}
+\textbf{Une asymétrie entre les deux dernières colonnes, à ne pas lire de travers.} Le rapport
+du maximum au $q_{99}$ vaut $3{,}7$ sur le périmètre cyber $\times$ finance contre $52{,}7$ sur
+la base entière. Le périmètre retenu est donc le \emph{moins} extrême des deux en ce sens, et non
+le plus : le sinistre le plus lourd du fichier ne relève pas du risque informatique. La queue
+calibrée n'est pas celle de l'événement le plus spectaculaire de la base, ce qui écarte le
+soupçon d'un ajustement tiré par un cas isolé.
+\end{attention}
+
+\paragraph{Un repère de seuil, et le contrôle qu'il permet.} Le $q_{85}$ du périmètre calibré
+vaut $22{,}03$~M\euro{} sur la donnée courante, quand le seuil publié et gelé vaut
+$20{,}03$~M\euro, soit le percentile $84{,}4$. L'écart est attendu et il est la trace du gel : il
+avait fait diverger trois scripts de validation tant qu'ils redérivaient leur propre seuil au
+lieu de le lire dans la configuration. Le contrôle qui vaut porte donc sur le \emph{nombre
+d'excès} au-dessus du seuil publié, et il en compte $91$, exactement l'effectif que la
+calibration déclare.
+
+\subsection{Les plus gros incidents, nommés}
+\label{subsec:top-incidents}
+% SOURCES-SCRIPTS: 104
+
+Un quantile à $99{,}5\,\%$ reste une abstraction tant qu'on ne voit pas les événements qui le
+portent. La table ci-dessous les montre, et elle répond à la première objection qu'un jury
+formule devant une queue lourde : d'où vient ce niveau ?
+
+\begin{center}\footnotesize
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}l l l r@{}}
+\toprule
+\textbf{Organisation} & \textbf{Secteur} & \textbf{Survenance} &
+\textbf{Enregistrements} \\
+\midrule
+Progress Software, Ipswitch, Inc.     & services & 2023-05-27 & $60\,000\,000$ \\
+T-Mobile USA, Inc.                    & services & 2021-08-13 & $53\,700\,000$ \\
+AT\&T Inc.                            & services & 2024-03-26 & $51\,226\,382$ \\
+Logan Health Medical Center           & santé    & 2021-11-22 & $40\,000\,000$ \\
+T-Mobile                              & services & 2022-11-25 & $37\,000\,000$ \\
+Comcast Cable Communications LLC      & services & 2023-10-16 & $35\,879\,455$ \\
+Zoosk, Inc.                           & services & 2020-01-12 & $24\,200\,000$ \\
+CafePress, Inc.                       & détail   & 2019-02-19 & $23\,000\,000$ \\
+Texas Dow Employees Credit Union      & finance  & 2023-05-29 & $20\,000\,000$ \\
+Evite, Inc.                           & services & 2019-02-22 & $18\,571\,486$ \\
+loanDepot.com, LLC                    & finance  & 2024-01-03 & $16\,924\,071$ \\
+ClearVoiceResearch.com, LLC           & services & 2021-04-16 & $15\,700\,000$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+\noindent\textbf{Lecture.} Le premier incident est la compromission du logiciel de transfert de
+fichiers évoquée au chapitre~\ref{chap:cadre-cyber-dora} comme choc de cause commune : il figure
+ici sous le nom de l'éditeur du logiciel, et non sous ceux des milliers d'organisations atteintes
+à travers lui. Deux entrées distinctes portent le même opérateur de télécommunications à deux
+années d'intervalle. Les deux incidents financiers, un établissement de crédit et un prêteur
+hypothécaire, dépassent chacun quinze millions d'enregistrements.
+
+\noindent\textbf{Sources de la table :} script \texttt{104} (quinze plus gros incidents après
+déduplication, douze retenus ici).
+
+\paragraph{La concentration, mesurée, et c'est l'argument de queue rendu concret.} La moitié du
+volume de sept années tient dans \textbf{$31$ incidents} sur $13\,410$, soit $0{,}23\,\%$ de la
+base. Quatre-vingts pour cent tiennent dans $209$ incidents et quatre-vingt-dix pour cent dans
+$491$. Un modèle qui décrirait cette distribution par son centre manquerait donc son objet : le
+niveau n'est pas produit par le régime courant, il est produit par une poignée d'événements.
+C'est ce que l'ajustement par dépassement de seuil formalise, et c'est aussi pourquoi le
+quantile qui porte le besoin de capital est porté par un sinistre unique plutôt que par une
+accumulation.
+
+\begin{attention}
+\textbf{Un défaut de la base, trouvé en regardant cette table et non en relisant une
+documentation.} La chronologie PRC n'agrège pas les notifications : un même incident déclaré à
+plusieurs autorités y figure autant de fois, avec le même volume. La table brute affichait ainsi
+un même établissement de crédit \emph{quatre} fois. Une déduplication sur le triplet
+organisation, volume et date de survenance retire $1\,643$ lignes, soit $10{,}9\,\%$ de la
+période retenue.
+
+Ce chiffre est une \emph{borne basse} : la déduplication exige une égalité exacte, donc elle ne
+rapproche ni deux graphies d'une même raison sociale, ni deux notifications décalées d'un jour.
+Des doublons résiduels subsistent et restent visibles ci-dessus. Les traiter demanderait un
+appariement approximatif dont le taux d'erreur serait lui-même à estimer.
+
+\textbf{Le mémoire n'est pas affecté}, et le motif est précis : il n'additionne jamais ces
+volumes pour produire un montant. Il les utilise comme un échantillon de sévérité, où chaque
+ligne est une observation. La réserve vaut pour qui reprendrait la base à d'autres fins, et elle
+est déclarée ici plutôt que laissée à découvrir.
+\end{attention}
 
 \subsection{Variables qualitatives : association au dépassement du seuil}
 \label{subsec:tests-qualitatifs}
