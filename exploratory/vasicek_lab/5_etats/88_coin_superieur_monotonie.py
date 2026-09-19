@@ -180,8 +180,15 @@ for nom, bas, haut in tests:
 
 print("\n  LE CONSTAT. La monotonie EN LOI tient (section 2), la monotonie TRAJECTOIRE PAR")
 print("  TRAJECTOIRE non, et les taux ci-dessus sont trop grands pour etre du detail.")
+# LE RAPPORT SE CALCULE. La phrase annoncait « deux fois plus » quand les deux taux imprimes
+# juste au-dessus donnent 1,9. On derive le canal le plus violateur et le rapport, au lieu de
+# les ecrire : c'est la meme discipline que pour les nombres eux-memes.
+_tx = {nom: part for nom, _, part, _ in resume}
+_pire = max(_tx, key=_tx.get)
+_second = sorted(_tx, key=_tx.get, reverse=True)[1]
 print("\n  ET LE MOTIF N'EST PAS LE MEME SELON LE CANAL, ce qui n'etait pas attendu : c'est le")
-print("  canal DETECTION qui viole le plus, deux fois plus que la propagation.")
+print(f"  canal {_pire.split()[0].upper()} qui viole le plus, {_tx[_pire]/_tx[_second]:.1f} fois "
+      f"plus que {_second.split()[0]}.")
 print("    - propagation et accumulation : l'ensemble de piliers atteint est tire par inversion")
 print("      sur une table dont les sous-ensembles ne sont PAS ordonnes par inclusion. A")
 print("      uniforme commun, passer de g bas a g haut peut selectionner un autre sous-ensemble,")

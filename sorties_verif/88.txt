@@ -1,4 +1,4 @@
-﻿
+
 ========================================================================================
 1. CONTROLE : les deux coins reproduisent les nombres publies
 ========================================================================================
@@ -46,7 +46,7 @@ configurations qui ne differ ent que par la propagation, la detection ou l'accum
   TRAJECTOIRE non, et les taux ci-dessus sont trop grands pour etre du detail.
 
   ET LE MOTIF N'EST PAS LE MEME SELON LE CANAL, ce qui n'etait pas attendu : c'est le
-  canal DETECTION qui viole le plus, deux fois plus que la propagation.
+  canal DETECTION qui viole le plus, 1.9 fois plus que propagation.
     - propagation et accumulation : l'ensemble de piliers atteint est tire par inversion
       sur une table dont les sous-ensembles ne sont PAS ordonnes par inclusion. A
       uniforme commun, passer de g bas a g haut peut selectionner un autre sous-ensemble,
