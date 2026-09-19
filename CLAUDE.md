@@ -115,7 +115,6 @@ ou `KADDOURI_Kelian_3A25_CONF.pdf` si la confidentialité est demandée.
 | Révision stylistique des vingt-deux chapitres | **faite** le 16 septembre |
 | Harnais | 2 208 nombres, 2 208 confirmés, hors contrôle non déclaré à zéro |
 | **Confidentialité** | **tranchée le 16 septembre 2026 : le mémoire n'est PAS confidentiel.** La couverture ne porte aucune mention et le fichier déposé n'a pas de suffixe |
-| **Courriel au service des stages** (dispositions voie actuariat) | **non attesté** dans le dossier ; les consignes le disent impératif |
 | **Seconde réponse au formulaire de relecture** | **INTÉGRÉE le 17 septembre** (chapitre 09, `sec:relecture-praticien`, chapitre 19), répondant non nommé, deux désaccords déclarés avec leur lecture : rétroaction corrective relevant des états de conformité, une seule dégradation en retour (gestion des incidents vers partage d'information), capital publié non déplacé puisque l'ensemble admissible ne fixe aucune direction. Fichier déposé régénéré. **La réponse de Hugo Rapior est attendue** : la citer à part, comme regard de l'encadrant, jamais comme praticien indépendant, et lui faire remplir le formulaire le plus récent, qui porte les phrases 8 à 10. Historique : Datée du 10 septembre à 9 h 35, dans la feuille créée le **3 août à 9 h 07** (`1yltQ8ghx02xNsyRMjQEz5gO2tan7ZylPA6W7oa84aek`), et non dans celle du formulaire en diffusion : le répondant a reçu un ancien lien. Profil « Manager Conseil, expert résilience et continuité, services financiers, 7 ans ». Attribution confirmée par Kélian le 17 septembre : c'est **Mehdi Cherkaoui**, qui a répondu le jeudi 10 septembre. Les deux autres lignes sont celles de la première répondante (8 septembre, Manager FCC, Risk & Control) et un **test de Kélian** (9 septembre, champs « xw »). Nathanaël n'a pas répondu. **Douze** feuilles homonymes existent désormais, et leur date de modification ne suit pas les réponses : il faut les lire toutes. Deux « pas d'accord » (phrases 3 et 4) |
 | Génération du fichier au nom imposé | **faite** : `exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf`, copie de `main_ensae.pdf`, gitignorée et à régénérer après toute recompilation |
 
@@ -1360,8 +1359,6 @@ de parcimonie interprétative, ce qui est plus honnête et se présente mieux de
 - **l'erratum du rapport LUCY 2026** : la section 7.1 publie un multiplicateur de charge à 2,53
   là où les deux montants qui l'encadrent donnent 3,55 et où la section 7.6 donne 3,53. Le
   rapport est co-signé, donc c'est à ses auteurs de décider quoi en faire ;
-- **le courriel au service des stages** sur les dispositions prises pour la voie actuariat, que
-  les consignes qualifient d'impératif ;
 - **la date limite du Prix SCOR**, signalée cinq fois et toujours inconnue. Elle est devenue
   décisive le 9 septembre : c'était le seul argument qui pouvait faire préférer la session de
   mars 2027 à celle de novembre.

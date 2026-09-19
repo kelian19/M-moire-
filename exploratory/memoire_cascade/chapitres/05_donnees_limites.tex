@@ -773,6 +773,46 @@ ligne est une observation. La réserve vaut pour qui reprendrait la base à d'au
 est déclarée ici plutôt que laissée à découvrir.
 \end{attention}
 
+\paragraph{La profondeur de collecte, montrée plutôt que déclarée.} Le mémoire borne sa fenêtre
+d'observation au motif que la base ne couvre pas les années anciennes. L'affirmation était
+écrite, elle n'était pas visible. Elle l'est ici : avant $2015$, la chronologie ne porte que
+$2\,152$ incidents, soit $6{,}5\,\%$ de la période $2005$--$2025$. Le maximum est atteint en
+$2023$ avec $5\,866$ incidents, et l'exercice $2025$ n'en compte que $174$, soit $3{,}0\,\%$ du
+pic, faute de notifications déjà enregistrées.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../vasicek_lab/figures/D4_composition_temporelle.png}
+\caption{Composition de la chronologie PRC par type d'organisation et par année. La zone grisée
+est la fenêtre retenue. La montée d'avant $2019$ est une montée de la \emph{collecte}, pas du
+risque ; la chute de $2025$ est un défaut de recul, pas une accalmie.}
+\label{fig:composition-temporelle}
+\end{figure}
+
+Ces deux déformations vont en sens contraire et aucune n'est un signal de risque. Une fenêtre
+plus large fabriquerait un régime calme au début et un effondrement à la fin, et un modèle de
+tendance ajusté dessus mesurerait la maturation d'une base de données. C'est le motif, déjà
+retenu pour la validation hors échantillon, de s'en tenir à la fenêtre grisée.
+
+\paragraph{Compter et sommer ne classent pas les mêmes catégories.} La
+figure~\ref{fig:organisation-double-axe} met en regard le nombre d'incidents et le volume touché
+par type d'organisation. Les deux ordres divergent sur \textbf{quatre types sur sept} : le
+commerce de détail est sixième en nombre et quatrième en volume, l'enseignement quatrième en
+nombre et cinquième en volume.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../vasicek_lab/figures/D5_organisation_double_axe.png}
+\caption{Nombre d'incidents en barres et volume touché en courbe, par type d'organisation. Les
+deux classements ne coïncident pas.}
+\label{fig:organisation-double-axe}
+\end{figure}
+
+C'est la traduction visuelle du résultat de la sous-section~\ref{subsec:tests-qualitatifs} : la
+classe d'organisation informe la sévérité sans la déterminer. Un indicateur qui mêlerait
+fréquence et volume classerait donc les catégories dans un ordre qu'aucune des deux mesures ne
+soutient seule.
+
 \subsection{Variables qualitatives : association au dépassement du seuil}
 \label{subsec:tests-qualitatifs}
 % SOURCES-SCRIPTS: 104

@@ -296,9 +296,38 @@
     CARD             14              0.1          860
     STAT              4              0.0          118
 
-  Trois figures ecrites dans exploratory/vasicek_lab/figures/ :
+  D4, incidents par annee et par type d'organisation (extrait) :
+    annee        BSO      BSF      MED      BSR      EDU   autres     total
+     2007         31       11        3        8        5       11        69
+     2010         23       16       33        6        9        4        91
+     2013        186       84      127       66       46       42       551
+     2016        826      341      368      447      116      137      2235
+     2019        832      424      398      330      180      247      2411
+     2020       1441      629      533      322      492      588      4005
+     2021       2020      788      647      316      235      426      4432
+     2022       1572      580      487      162      270      343      3414
+     2023       2753     1040      870      213      422      568      5866
+     2024       1288      376      508      167      179      244      2762
+     2025         82       25       22       14       13       18       174
+
+  Pic en 2023 avec 5866 incidents ; 174 en 2025, soit 3.0 % du pic. Avant 2015 la base porte 2152 incidents au total, soit 6.5 % de la periode 2005-2025.
+
+  D5, par type d'organisation :
+    type      incidents  volume (M enr.)    rang volume
+    BSO            5635            661.5              1
+    BSF            2427            287.8              2
+    MED            1830            259.7              3
+    EDU            1076             39.4              5
+    NGO             980             20.0              7
+    BSR             840            133.4              4
+    GOV             479             25.7              6
+
+  4 types sur 7 n'ont pas le meme rang en nombre et en volume.
+
+  Cinq figures ecrites dans exploratory/vasicek_lab/figures/ :
     D1a_presence_taux.png  D1b_presence_effectifs.png
     D2_sources_notification.png  D3_bulles_breche.png
+    D4_composition_temporelle.png  D5_organisation_double_axe.png
 
 ==============================================================================
 5. GRANDEURS CITEES (sans separateur de milliers, pour le harnais)

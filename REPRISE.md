@@ -498,7 +498,9 @@ soit presque la page entière.
   `1uBKaP_3dj6blEsHqVHgJQp-Rf7rViu2PwYjxI8uIpyY`, inscrit en tête de
   `exploratory/vasicek_lab/notes/form_relecture_praticien.gs`. Sept formulaires homonymes vivent
   dans ce Drive : une feuille vide ne prouve rien.
-- **Le courriel au service des stages** sur les dispositions prises pour la voie actuariat, que
+- ~~Le courriel au service des stages~~ : **fait, confirmé par Kélian le 19 septembre 2026.** Ce
+  point n'est plus ouvert. Historique : il portait sur les dispositions prises pour la voie
+  actuariat, que
   les consignes qualifient d'impératif. Non attesté dans le dossier.
 - **Le dépôt GitHub est public.** Rien de confidentiel n'y est poussé (`data/raw` est gitignoré),
   mais le mémoire, les sorties et les notes y sont lisibles. Le passer en privé est une décision de
@@ -540,7 +542,7 @@ français** et **la reproduction des figures LUCY (validée par Hugo le 17 septe
 **1. ~~Intégrer la réponse de Mehdi Cherkaoui~~ : FAIT le 17 septembre.** Reste la réponse
 de Hugo Rapior, à citer à part comme regard de l'encadrant.
 
-**2. Envoyer le courriel au service des stages**, s'il ne l'est pas.
+**2. ~~Envoyer le courriel au service des stages~~** : fait le 19 septembre 2026.
 
 **3. ~~Obtenir l'accord de Hugo sur les figures LUCY~~ : ACCORDÉ le 17 septembre 2026.** Les
 figures du rapport restent en place, rien à recompiler pour ce point.

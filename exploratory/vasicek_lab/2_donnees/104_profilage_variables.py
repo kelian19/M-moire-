@@ -658,9 +658,109 @@ fig.tight_layout()
 fig.savefig(os.path.join(FIGDIR, "D3_bulles_breche.png"), dpi=150)
 plt.close(fig)
 
-print("\n  Trois figures ecrites dans exploratory/vasicek_lab/figures/ :")
+# --- D4 : composition temporelle, qui rend VISIBLE le biais de profondeur de collecte -------
+#
+# POURQUOI CETTE FIGURE. Le memoire DECLARE depuis longtemps que la profondeur de collecte
+# borne la fenetre exploitable, et le backtest du script 89 choisit sa fenetre sur ce motif.
+# L'affirmation n'etait jamais MONTREE. Ici elle se voit : la base est quasi vide avant 2015,
+# monte jusqu'en 2023, et retombe en 2025 faute de notifications encore enregistrees. La
+# fenetre retenue par le memoire est grisee.
+#
+# CHARTE. Huit types d'organisation, or la charte ne porte que TROIS emplacements categoriels
+# et rampe() leve au-dela. Les types sont donc ORDONNES par volume cumule, les cinq premiers
+# prennent la rampe sequentielle a six paliers et les trois derniers se replient en « autres ».
+# C'est la regle du projet, la meme qui fait traiter les cinq piliers en rampe ordinale.
+prc_all = prc.copy()
+prc_all["annee_all"] = prc_all["d_breach"].dt.year
+hist = prc_all[(prc_all["annee_all"] >= 2005) & (prc_all["annee_all"] <= 2025) &
+               renseigne(prc_all["organization_type"])]
+ordre = hist["organization_type"].value_counts().index.tolist()
+garde, autres = ordre[:5], ordre[5:]
+pivot = (hist.assign(cat=hist["organization_type"].where(
+             hist["organization_type"].isin(garde), "autres"))
+         .pivot_table(index="annee_all", columns="cat", aggfunc="size", fill_value=0))
+cols = [c for c in garde if c in pivot.columns] + (["autres"] if "autres" in pivot.columns else [])
+pivot = pivot[cols]
+
+print("\n  D4, incidents par annee et par type d'organisation (extrait) :")
+print("    annee  " + "".join(f"{c:>9s}" for c in cols) + "     total")
+pivot.index = pivot.index.astype(int)
+for an in pivot.index:
+    if an % 3 == 0 or an >= 2019:
+        print(f"    {int(an):5d}  " + "".join(f"{pivot.loc[an, c]:9.0f}" for c in cols)
+              + f"{pivot.loc[an].sum():10.0f}")
+
+fig, ax = plt.subplots(figsize=(7.6, 4.0))
+teintes = sn.SEQUENTIEL_6[:len(cols)]
+ax.stackplot(pivot.index, [pivot[c].values for c in cols], labels=cols, colors=teintes,
+             edgecolor="white", linewidth=0.4)
+ax.axvspan(2019, 2025, color=sn.CHARTE["gris"], alpha=0.20, zorder=0)
+ax.annotate("fenêtre retenue", xy=(2022, ax.get_ylim()[1] * 0.92), ha="center",
+            fontsize=8.5, color=sn.ENCRE_2)
+ax.set_xlabel("année de survenance", fontsize=9)
+ax.set_ylabel("nombre d'incidents", fontsize=9)
+ax.set_xlim(2005, 2025)
+ax.legend(loc="upper left", fontsize=8, frameon=False, ncol=2)
+ax.set_title("Composition de la base par type d'organisation, 2005 à 2025",
+             fontsize=10, color=sn.ENCRE)
+# Annees en ENTIERS : matplotlib graduerait sinon en 2007,5, qui n'existe pas.
+ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(5))
+ax.xaxis.set_minor_locator(matplotlib.ticker.MultipleLocator(1))
+ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{int(v)}"))
+fig.tight_layout()
+fig.savefig(os.path.join(FIGDIR, "D4_composition_temporelle.png"), dpi=150)
+plt.close(fig)
+
+pic = int(pivot.sum(axis=1).idxmax())
+n_pic = int(pivot.sum(axis=1).max())
+n_2025 = int(pivot.sum(axis=1).loc[2025]) if 2025 in pivot.index else 0
+avant = int(pivot.loc[pivot.index < 2015].sum().sum())
+print(f"\n  Pic en {pic} avec {n_pic} incidents ; {n_2025} en 2025, soit "
+      f"{100.0*n_2025/n_pic:.1f} % du pic. Avant 2015 la base porte {avant} incidents au total, "
+      f"soit {100.0*avant/len(hist):.1f} % de la periode 2005-2025.")
+
+# --- D5 : frequence contre volume par type d'organisation, double axe ------------------------
+#
+# POURQUOI CETTE FIGURE. Les tests de la section 2 concluent que la classe d'organisation
+# informe FAIBLEMENT la severite. Une taille d'effet ne se voit pas ; ce graphique la montre :
+# l'ordre des barres et celui de la courbe ne coincident pas, donc compter les incidents et
+# sommer les volumes classent les memes categories differemment.
+org = (per[renseigne(per["organization_type"])]
+       .groupby("organization_type").agg(incidents=("ta", "size"), volume=("ta", "sum"))
+       .sort_values("incidents", ascending=False))
+print("\n  D5, par type d'organisation :")
+print("    %-8s %10s %16s %14s" % ("type", "incidents", "volume (M enr.)", "rang volume"))
+rang_vol = org["volume"].rank(ascending=False).astype(int)
+for t, r in org.iterrows():
+    print("    %-8s %10d %16.1f %14d" % (t, r["incidents"], r["volume"] / 1e6, rang_vol[t]))
+
+n_discord = int((rang_vol.values != np.arange(1, len(org) + 1)).sum())
+print(f"\n  {n_discord} types sur {len(org)} n'ont pas le meme rang en nombre et en volume.")
+
+fig, ax1 = plt.subplots(figsize=(7.6, 4.0))
+x = np.arange(len(org))
+ax1.bar(x, org["incidents"].values, color=sn.CATEGORIEL[2], width=0.66,
+        label="nombre d'incidents")
+ax1.set_ylabel("nombre d'incidents", fontsize=9, color=sn.CATEGORIEL[2])
+ax1.tick_params(axis="y", labelcolor=sn.CATEGORIEL[2])
+ax1.set_xticks(x); ax1.set_xticklabels(org.index, fontsize=9)
+ax1.set_xlabel("type d'organisation", fontsize=9)
+ax2 = ax1.twinx()
+ax2.plot(x, org["volume"].values / 1e6, color=sn.CATEGORIEL[0], marker="o", lw=1.8,
+         label="volume touché")
+ax2.set_ylabel("volume touché (millions d'enregistrements)", fontsize=9, color=sn.CATEGORIEL[0])
+ax2.tick_params(axis="y", labelcolor=sn.CATEGORIEL[0])
+ax2.spines["right"].set_visible(True)
+ax1.set_title("Type d'organisation : nombre d'incidents et volume touché",
+              fontsize=10, color=sn.ENCRE)
+fig.tight_layout()
+fig.savefig(os.path.join(FIGDIR, "D5_organisation_double_axe.png"), dpi=150)
+plt.close(fig)
+
+print("\n  Cinq figures ecrites dans exploratory/vasicek_lab/figures/ :")
 print("    D1a_presence_taux.png  D1b_presence_effectifs.png")
 print("    D2_sources_notification.png  D3_bulles_breche.png")
+print("    D4_composition_temporelle.png  D5_organisation_double_axe.png")
 
 # =====================================================================================
 titre("5. GRANDEURS CITEES (sans separateur de milliers, pour le harnais)")
