@@ -475,8 +475,8 @@ contractuelles : il instaure un cadre de surveillance directe des prestataires d
 critiques, ce qui est une nouveauté dans l'architecture prudentielle européenne.
 
 Cette concentration n'est pas une conjecture : la sous-section~\ref{subsec:france-assureurs-cesin}
-la mesure, en montrant que l'attaque indirecte par un tiers est le vecteur dont la part croît le
-plus nettement avec la taille de l'entité.
+la mesure, en montrant que l'attaque indirecte par un tiers est, parmi les vecteurs dont la part
+s'élève avec la taille de l'entité, celui dont le \emph{niveau} est de loin le plus haut.
 
 \paragraph{Le registre d'informations pèse plus que les autres exigences pour la modélisation.}
 En imposant le recensement exhaustif des contrats TIC critiques et de leurs chaînes de
@@ -564,10 +564,20 @@ significativement de la moyenne.}
 Le troisième vecteur est celui que le mémoire modélise. L'attaque indirecte par un tiers pèse
 $35\,\%$, et sa part monte à $43\,\%$ chez les grandes entreprises. Plus une entité est grande,
 plus son exposition passe par ses prestataires : c'est le domaine P4, mesuré de l'extérieur par
-une source sans lien avec ce travail. Les trois autres vecteurs dont la part croît avec la
-taille, la fuite par erreur de configuration à $36\,\%$, l'activation d'un composant malveillant
-à $22\,\%$ et l'exfiltration par un accès légitime à $21\,\%$, relèvent tous de la gouvernance des
-accès, c'est-à-dire du domaine P1. Les vecteurs qui montent avec la taille sont donc ceux qui
+une source sans lien avec ce travail.
+
+\textbf{Mais c'est son niveau qui compte, non sa croissance.} Cinq vecteurs sont significativement
+plus fréquents chez les grandes entreprises, et l'attaque par un tiers n'est ni celle qui progresse
+le plus en points, la fuite par erreur de configuration gagnant neuf points contre huit, ni celle
+qui progresse le plus en proportion, où elle arrive au contraire \emph{dernière} des cinq. Ce qui
+la distingue est qu'elle part déjà du niveau le plus élevé et le reste : $43\,\%$ contre $36\,\%$
+pour la deuxième. La dépendance aux tiers n'explose donc pas avec la taille, elle est dominante à
+toutes les tailles.
+
+Trois des quatre autres vecteurs concernés, la fuite par erreur de configuration à $36\,\%$,
+l'activation d'un composant malveillant à $22\,\%$ et l'exfiltration par un accès légitime à
+$21\,\%$, relèvent de la gouvernance des accès, c'est-à-dire du domaine P1. Le cinquième,
+l'hypertrucage à $9\,\%$, relève de l'ingénierie sociale et n'entre dans aucun des deux. Les vecteurs qui montent avec la taille sont donc ceux qui
 passent par un tiers ou par un accès autorisé, non ceux qui forcent un périmètre.
 
 \paragraph{Les conséquences, et celle qu'il faut isoler.} Quatre entreprises attaquées sur cinq
