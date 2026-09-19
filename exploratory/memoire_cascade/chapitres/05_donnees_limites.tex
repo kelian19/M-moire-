@@ -509,6 +509,246 @@ l'échantillon \og pannes\fg{} (28 excès), qui rend cette calibration indicativ
 
 %--------------------------------------------------------------
 
+
+%--------------------------------------------------------------
+\section{Analyse exploratoire, tests statistiques et profilage des variables}
+\label{sec:profilage-variables}
+%--------------------------------------------------------------
+% SOURCES-SCRIPTS: 104
+
+Les deux sources viennent d'être décrites par leur périmètre et par leurs biais. Elles ne
+l'ont pas été par leurs \emph{variables} : ni le type de chacune, ni son taux de renseignement,
+ni la moindre mesure d'association entre elles. Cette section comble ce manque, et elle le fait
+dans l'ordre où la question se pose à un lecteur prudentiel. Quelle information chaque base
+porte-t-elle réellement ? Sur quelle part de ses lignes ? Et cette information segmente-t-elle
+la perte assez nettement pour qu'un modèle ait intérêt à en tenir compte ?
+
+La réponse à la troisième question commande un choix de modélisation qui engage tout le
+document, celui d'ajuster une queue \emph{commune} plutôt qu'une queue par catégorie
+d'organisation ou par type d'incident.
+
+\subsection{Les variables retenues et leur taux de renseignement}
+\label{subsec:table-variables}
+% SOURCES-SCRIPTS: 104
+
+\paragraph{Un piège de complétude, et il fausse la lecture dans le bon sens pour qui ne le voit
+pas.} Dans l'export de la chronologie PRC, un champ non renseigné ne vaut pas vide : il vaut la
+chaîne \texttt{UNKN}. Un contrôle de complétude ordinaire, qui teste l'absence de valeur, rend
+donc $100\,\%$ de présence sur les trente-sept colonnes, y compris sur celles qui ne sont
+documentées que dans un cas sur quatre. Les taux ci-dessous comptent \texttt{UNKN} comme un
+manquant, ce qui est le seul comptage défendable, et le script imprime les deux mesures côte à
+côte pour que l'écart soit visible plutôt que supposé.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l l p{4.6cm} l r@{}}
+\toprule
+\textbf{Variable} & \textbf{Type} & \textbf{Rôle dans le modèle} & \textbf{Base} &
+\textbf{Renseignée} \\
+\midrule
+\texttt{total\_affected}      & quantitative & volume d'enregistrements touchés, seule mesure
+                                               d'impact de la base & PRC & $41{,}77\,\%$ \\
+\texttt{residents\_affected}  & quantitative & sous-ensemble territorialisé du précédent
+                                             & PRC & $79{,}88\,\%$ \\
+\texttt{breach\_date}         & temporelle   & date de survenance, support de la fréquence annuelle
+                                             & PRC & $54{,}82\,\%$ \\
+\texttt{reported\_date}       & temporelle   & date de notification, support du délai de détection
+                                             & PRC & $99{,}54\,\%$ \\
+\texttt{end\_breach\_date}    & temporelle   & fin d'exposition, support de la durée d'incident
+                                             & PRC & $28{,}18\,\%$ \\
+\texttt{organization\_type}   & qualitative  & classe d'organisation, huit modalités
+                                             & PRC & $89{,}29\,\%$ \\
+\texttt{breach\_type}         & qualitative  & vecteur de la brèche, huit modalités
+                                             & PRC & $47{,}31\,\%$ \\
+\midrule
+\texttt{Loss Amount}          & quantitative & montant de perte avérée, source de la sévérité
+                                             & SAS & $100\,\%$ \\
+\texttt{Event Risk Category}  & qualitative  & catégorie bâloise de niveau 1, sept modalités
+                                             & SAS & $100\,\%$ \\
+\texttt{Sub Risk Category}    & qualitative  & sous-catégorie, définit le périmètre TIC
+                                             & SAS & $100\,\%$ \\
+\texttt{Basel Business Line}  & qualitative  & ligne métier, dix modalités
+                                             & SAS & $100\,\%$ \\
+\texttt{Industry Sector Name} & qualitative  & secteur, définit le périmètre financier
+                                             & SAS & $100\,\%$ \\
+\texttt{Revenue}              & quantitative & chiffre d'affaires, mesure de taille
+                                             & SAS & $87{,}82\,\%$ \\
+\texttt{Assets}               & quantitative & actif total, mesure de taille prudentielle
+                                             & SAS & $83{,}51\,\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+\noindent\textbf{Lecture.} La chronologie PRC porte $74\,783$ incidents, dont $31\,217$ seulement
+documentent un volume touché strictement positif. Après restriction à la période retenue,
+$15\,053$ incidents subsistent, effectif que ce recomptage indépendant retrouve à l'unité près
+sur les sorties déjà versionnées du projet. La base SAS porte $41\,976$ lignes, dont $41\,975$
+pertes exploitables ; le périmètre TIC en compte $1\,099$ et son intersection avec le secteur
+financier $582$.
+
+\noindent\textbf{Sources de la table :} script \texttt{104} (taux de renseignement recalculés sur
+les deux exports, comptage \texttt{UNKN} inclus).
+
+\begin{attention}
+\textbf{La variable d'impact est la moins bien renseignée des deux bases, et ce n'est pas un
+hasard de collecte.} Les champs qu'une obligation de notification impose, la date de déclaration
+et la nature de l'organisation, sont documentés ; ceux qui demandent une investigation, le volume
+touché et la date réelle de survenance, ne le sont pas. Le manquant n'est donc pas aléatoire : il
+est corrélé à la difficulté de l'enquête, donc plausiblement à la gravité. C'est le troisième
+biais déclaré à la section~\ref{sec:biais-chiffres}, mesuré ici sur les variables plutôt qu'argumenté.
+\end{attention}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{../vasicek_lab/figures/D1_presence_croisee.png}
+\caption{Taux de présence croisée des variables de la chronologie PRC. La lecture utile est la
+ligne du bas : le volume touché n'est simultanément renseigné avec le type de brèche que dans
+$25{,}1\,\%$ des cas, et avec la date de fin d'exposition dans $12{,}5\,\%$.}
+\label{fig:presence-croisee}
+\end{figure}
+
+La matrice croisée dit ce qu'une colonne de taux isolés ne dit pas : les lacunes se
+\emph{cumulent}. Une analyse qui croiserait le volume touché, le type de brèche et la durée
+d'exposition ne disposerait plus que d'un dixième de la base, et ce dixième n'aurait aucune
+raison d'en être représentatif. C'est le motif pour lequel le modèle ne conditionne la sévérité
+sur aucune de ces variables.
+
+\subsection{Variables qualitatives : association au dépassement du seuil}
+\label{subsec:tests-qualitatifs}
+% SOURCES-SCRIPTS: 104
+
+La question posée est celle d'un actuaire qui envisage de segmenter : le type d'incident ou la
+classe d'organisation prédisent-ils qu'une perte dépasse un seuil élevé ? On binarise donc
+l'impact au troisième quartile de chaque base, $8\,330$ enregistrements pour la PRC et
+$20{,}00$~M\$ pour SAS, puis l'on teste l'indépendance par un $\chi^2$ et l'on mesure la force du
+lien par un $V$ de Cramér à correction de Bergsma.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l l r r r@{}}
+\toprule
+\textbf{Base} & \textbf{Variable croisée au dépassement} & \textbf{$\chi^2$} & \textbf{ddl} &
+\textbf{$V$ de Cramér} \\
+\midrule
+PRC & type de brèche              & $43{,}1$     & $6$  & $0{,}068$ \\
+PRC & type d'organisation         & $296{,}4$    & $6$  & $0{,}148$ \\
+\midrule
+SAS & catégorie bâloise           & $1\,301{,}9$ & $6$  & $0{,}176$ \\
+SAS & ligne métier bâloise        & $1\,238{,}5$ & $9$  & $0{,}171$ \\
+SAS & secteur d'activité          & $711{,}9$    & $20$ & $0{,}128$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2pt}
+\noindent\textbf{Lecture.} Les cinq tests rejettent l'indépendance, et ce rejet n'apprend rien.
+À quinze mille et quarante mille observations, le $\chi^2$ détecte des écarts sans portée
+pratique : sa p-valeur mesure l'effectif autant que l'association. Le renseignement est dans le
+$V$, qui est une taille d'effet bornée par un et ne croît pas avec $n$. Aucune des cinq
+associations n'atteint $0{,}20$, quand $0{,}30$ marque conventionnellement le seuil d'une
+association moyenne. La plus forte, la catégorie bâloise dans SAS, vaut $0{,}176$.
+
+\noindent\textbf{Sources de la table :} script \texttt{104} ($\chi^2$, degrés de liberté et $V$
+corrigé recalculés sur chaque table de contingence).
+
+\begin{cle}
+\textbf{Ce que ces cinq nombres autorisent, et ce qu'ils interdisent.} Ils autorisent à dire que
+la catégorie d'un incident \emph{informe} la probabilité qu'il soit lourd. Ils interdisent d'en
+faire une variable de segmentation : une association de $0{,}18$ ne porte pas un ajustement de
+queue par modalité, qui diviserait l'échantillon d'excès par sept pour un gain explicatif
+marginal. C'est le premier des deux arguments qui fondent le choix d'une queue commune.
+\end{cle}
+
+\subsection{Variables quantitatives : forme, dépendance de rang et hétérogénéité}
+\label{subsec:tests-quantitatifs}
+% SOURCES-SCRIPTS: 104
+
+\paragraph{La normalité, chiffrée plutôt qu'écartée d'un mot.} Le test de Shapiro-Wilk est
+appliqué à l'échelle brute puis à l'échelle logarithmique, sur un tirage plafonné à $5\,000$
+observations, graine fixée, la statistique n'étant pas fiable au-delà. À l'échelle brute, la
+statistique $W$ vaut $0{,}037$ sur la PRC et $0{,}071$ sur SAS, pour une valeur de référence de
+un : le rejet est total. Les moments le confirment, avec une asymétrie de $29{,}4$ et un
+aplatissement de $1\,083$ sur la PRC, contre trois pour une loi normale.
+
+Le passage au logarithme améliore nettement la statistique sans la sauver, $W$ montant à
+$0{,}970$ et $0{,}986$. C'est exactement le diagnostic attendu : la perte n'est ni normale ni
+tout à fait log-normale, sa queue restant plus lourde qu'une log-normale ne l'admet. Cette
+mesure justifie le recours à une loi de Pareto généralisée \emph{au-delà d'un seuil} plutôt
+qu'à un ajustement paramétrique global, choix que la section de calibration met en \oe uvre.
+
+\paragraph{La perte suit mal la taille, et c'est mesuré ici par un second chemin.} Les
+corrélations de rang de Spearman entre le montant de perte et les trois mesures de taille
+disponibles valent $0{,}159$ pour le chiffre d'affaires, $0{,}139$ pour l'effectif et $0{,}068$
+pour l'actif total, sur $33\,769$ pertes à profil financier complet. Une perte proportionnelle à
+la taille donnerait un coefficient proche de un.
+
+\begin{attention}
+\textbf{La mesure de taille la moins liée à la perte est celle qui sert à l'échelle
+prudentielle.} L'actif total arrive dernier des trois prédicteurs, derrière le chiffre d'affaires
+et derrière l'effectif. Or c'est le bilan qui porte la mise à l'échelle du besoin de capital. Ce
+constat, obtenu sans hypothèse de forme et sur un effectif dix fois supérieur à celui de la
+descente d'échelle, va dans le même sens que l'élasticité de $0{,}087$ mesurée par ailleurs : il
+ne la confirme pas au sens statistique, les deux grandeurs n'étant pas la même, mais il rend
+cette faible élasticité moins surprenante. C'est la source de la borne inférieure de validité
+déclarée au chapitre~\ref{ch:robustesse}.
+\end{attention}
+
+\paragraph{L'hétérogénéité entre classes existe, et elle est petite.} Le test de Kruskal-Wallis,
+non paramétrique donc insensible à la non-normalité qui vient d'être établie, rejette l'égalité
+des distributions de sévérité entre classes dans les quatre configurations testées. La taille
+d'effet $\varepsilon^2$ dit de combien : $0{,}0100$ pour le type d'organisation et $0{,}0123$ pour
+le type de brèche dans la PRC, $0{,}0720$ pour la catégorie bâloise et $0{,}0785$ pour la ligne
+métier dans SAS. La classe explique donc entre un et huit pour cent de la dispersion des
+sévérités.
+
+\noindent\textbf{Sources des tests :} script \texttt{104} (Shapiro-Wilk aux deux échelles,
+moments, matrice de Spearman et Kruskal-Wallis avec $\varepsilon^2$, sur les deux bases).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{../vasicek_lab/figures/D2_sources_notification.png}
+\caption{Sources de notification de la chronologie PRC : volume touché en barres, nombre
+d'incidents en courbe. Les deux ordres ne coïncident pas.}
+\label{fig:sources-notification}
+\end{figure}
+
+La figure~\ref{fig:sources-notification} porte un avertissement de méthode plus qu'un résultat.
+Les deux axes se contredisent : la source la plus prolixe en nombre d'incidents n'est pas celle
+qui porte le plus gros volume, et une source ne déclarant que vingt-sept incidents en concentre
+plus de deux cents millions d'enregistrements. Compter les incidents et sommer les volumes
+répondent donc à deux questions différentes, et un indicateur agrégé qui mêlerait les deux
+serait dominé par le régime déclaratif de quelques juridictions.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{../vasicek_lab/figures/D3_bulles_breche.png}
+\caption{Types de brèche dans le plan fréquence contre impact médian, la taille et la teinte des
+disques portant le volume cumulé. Les deux axes sont logarithmiques.}
+\label{fig:bulles-breche}
+\end{figure}
+
+La figure~\ref{fig:bulles-breche} sépare ce que le seul comptage confond. Le piratage domine les
+deux dimensions à la fois, avec $7\,430$ incidents et un impact médian de $836$ enregistrements,
+ce qui en fait le seul type simultanément fréquent et lourd. La divulgation involontaire est le
+deuxième en fréquence mais le plus léger en médiane, à $61$ enregistrements. À l'opposé, la
+fraude à la carte ne compte que quatorze incidents pour une médiane de $860$, la plus haute de la
+table : un type rare peut porter une sévérité unitaire élevée sans peser sur la charge, et
+l'inverse est vrai.
+
+\begin{cle}
+\textbf{Ce que cette section change au modèle.} Trois mesures convergent vers la même
+conclusion, obtenues par trois instruments indépendants : le $V$ de Cramér sous $0{,}20$, le
+$\varepsilon^2$ sous $0{,}08$ et les corrélations de rang sous $0{,}16$. La catégorie d'un
+incident et la taille de l'entité qui le subit informent faiblement sa sévérité. Segmenter la
+queue sur l'une ou l'autre coûterait des degrés de liberté sans acheter de pouvoir explicatif.
+Le mémoire ajuste donc une queue commune, et cette décision est ici une \emph{mesure} plutôt
+qu'une commodité : elle est adossée à des tailles d'effet publiées, pas à une hypothèse de
+simplicité.
+\end{cle}
+
+%--------------------------------------------------------------
+
 \section{Portée et limites du dispositif de données}
 \label{sec:portee-donnees}
 

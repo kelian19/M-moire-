@@ -574,6 +574,135 @@ LUCY_2026 = {
 }
 
 # ---------------------------------------------------------------------------
+# DEUX SOURCES DE CONTEXTE 2026, AU MÊME STATUT QUE LUCY_2026 : CITATION
+# EXTERNE NON RECALCULABLE.
+#
+# CE QUE CE STATUT VEUT DIRE, ET IL EST STRICT. Les valeurs ci-dessous sont
+# TRANSCRITES depuis les rapports publiés. Le dépôt ne détient ni les réponses
+# individuelles de l'enquête, ni les scores élémentaires de la cartographie :
+# il ne peut donc PAS les recalculer, seulement vérifier la fidélité de la
+# recopie. Aucune n'entre dans une calibration du modèle et aucune ne porte un
+# montant de capital. Elles servent à situer le risque, pas à le mesurer.
+#
+# POURQUOI ELLES SONT ICI ET PAS EN DUR DANS UN CHAPITRE. Parce qu'une valeur
+# écrite directement dans le LaTeX n'est vérifiable par personne, et que c'est
+# exactement la classe de défaut qui a produit les queues Bâle et le Hill à
+# 1,42. Le script 98 les relit, en contrôle les identités et trace les figures.
+# ---------------------------------------------------------------------------
+
+CESIN_2026 = {
+    "source": ("OpinionWay pour le CESIN, 11e Baromètre de la Cybersécurité "
+               "des Entreprises, janvier 2026, portant sur l'exercice 2025"),
+    # Base de l'enquête sur les questions de vecteurs et d'impacts.
+    "base_attaquees": 159,
+    "part_entreprises_attaquees": 0.40,
+    # Nombre moyen de vecteurs par entreprise attaquée. LA BAISSE COMPTE
+    # AUTANT QUE LE NIVEAU : 4,0 à la vague précédente, 3,3 ici.
+    "vecteurs_moyens": 3.3,
+    "vecteurs_moyens_vague_precedente": 4.0,
+    "vecteurs_moyens_grandes": 3.9,
+    # Q5A, vecteurs ayant permis aux cyberattaques de démarrer ou de se
+    # déployer. Plusieurs réponses possibles : la somme dépasse 1 par
+    # construction, et ce n'est pas une erreur de recopie.
+    "vecteurs": {
+        "hameçonnage": 0.55,
+        "exploitation d'une faille": 0.41,
+        "attaque indirecte par un tiers": 0.35,
+        "fuite par erreur humaine ou de configuration": 0.27,
+        "fraude au président": 0.26,
+        "déni de service par botnet": 0.21,
+        "noms de domaine illégitimes": 0.17,
+        "activation d'un composant malveillant": 0.16,
+        "exfiltration par un accès légitime": 0.14,
+        "perte ou vol de matériel": 0.13,
+        "autre ingénierie sociale": 0.12,
+        "système ou application corrompu": 0.12,
+        "outils non approuvés": 0.12,
+        "contournement du double facteur": 0.11,
+        "hypertrucage": 0.05,
+        "matériel malveillant introduit": 0.04,
+        "extraction de données par IA": 0.03,
+        "faille d'un système industriel": 0.03,
+        "intrusion physique": 0.01,
+    },
+    # LE SEUL DÉCOUPAGE PAR TAILLE QUI SERVE LA THÈSE : les vecteurs dont la
+    # part MONTE chez les grandes entreprises sont ceux qui passent par un
+    # tiers ou par un accès légitime, c'est-à-dire les canaux P4 et P1.
+    "vecteurs_grandes_entreprises": {
+        "attaque indirecte par un tiers": 0.43,
+        "fuite par erreur humaine ou de configuration": 0.36,
+        "activation d'un composant malveillant": 0.22,
+        "exfiltration par un accès légitime": 0.21,
+        "hypertrucage": 0.09,
+    },
+    # Q7, impact des cyberattaques sur le business.
+    "part_avec_impact_business": 0.81,
+    "part_sans_impact_business": 0.19,
+    "impacts": {
+        "perturbation de la production": 0.28,
+        "perte d'image": 0.26,
+        "compromission de savoir-faire": 0.18,
+        "perte de chiffre d'affaires": 0.18,
+        "indisponibilité du site": 0.17,
+        "arrêt de la production": 0.14,
+        "perte financière directe": 0.14,
+        "déconnexion par les tiers": 0.12,
+        "retard de livraison": 0.08,
+        "atteinte aux biens et personnes": 0.08,
+        "sanction d'une autorité": 0.03,
+        "contrefaçon": 0.01,
+    },
+    "note": (
+        "Citation externe non recalculable. Enquête déclarative : elle mesure "
+        "ce que les organisations CONSTATENT, non ce qui survient. La baisse "
+        "du nombre moyen de vecteurs et de la part d'entreprises attaquées ne "
+        "peut donc pas s'interpréter comme une baisse du risque sans précaution."
+    ),
+}
+
+CARTO_FA_2026 = {
+    "source": ("France Assureurs, Cartographie prospective des risques de la "
+               "profession de l'assurance et de la réassurance, édition 2026"),
+    # Score moyen du risque de cyberattaques, série rétrospective. Valeurs
+    # relevées sur la figure publiée : elles portent l'imprécision d'une
+    # lecture graphique et sont arrondies au centième, ce qui suffit à la
+    # seule chose qu'on leur demande, montrer une stabilisation au sommet.
+    "annees_serie": [2020, 2021, 2022, 2023, 2024, 2025, 2026],
+    "score_cyber_serie": [4.24, 4.17, 4.48, 4.03, 4.12, 4.17, 4.10],
+    "lecture_graphique": True,
+    # Classement 2025 et 2026, scores publiés en clair.
+    "rang_2026": [("Cyberattaques", 4.1), ("Environnement économique", 4.0),
+                  ("Dérèglement climatique", 3.9), ("Environnement politique", 3.9),
+                  ("Événement naturel exceptionnel", 3.3)],
+    "rang_2025": [("Cyberattaques", 4.1), ("Dérèglement climatique", 4.1),
+                  ("Environnement économique", 3.8), ("Environnement politique", 3.6),
+                  ("Événement naturel exceptionnel", 3.3)],
+    "annees_consecutives_premier_rang": 8,
+    # Déplacements 2026 contre 2025, en points de score. LE COUPLE QUI PORTE
+    # LA LECTURE DU MÉMOIRE : le cyber recule en fréquence et monte en
+    # sévérité, et le risque qui monte le plus en sévérité est celui de la
+    # qualité des données et de la conformité des processus informatiques.
+    "deplacements": {
+        "Cyberattaques": (-0.45, 0.25),
+        "Qualité des données et conformité des processus IT": (-0.20, 0.30),
+        "Intelligence artificielle": (0.05, 0.10),
+        "Risque de non-conformité et de sanctions": (0.10, -0.15),
+        "Environnement politique": (0.30, 0.32),
+        "Dérèglement climatique": (-0.10, -0.22),
+    },
+    "part_cadran_sud_ouest": 0.50,
+    "part_cadran_nord_est": 0.25,
+    "part_cadran_nord_ouest": 0.13,
+    "part_cadran_sud_est": 0.13,
+    "note": (
+        "Citation externe non recalculable. Les scores de la série "
+        "rétrospective sont relevés sur une figure publiée, non sur une table "
+        "de valeurs : ils ne supportent pas une lecture au centième et ne "
+        "servent qu'à établir une tendance."
+    ),
+}
+
+# ---------------------------------------------------------------------------
 # MULTIPLICATEURS DORA — sources de calibration (résumé ; détail dans negbin.py)
 # ---------------------------------------------------------------------------
 

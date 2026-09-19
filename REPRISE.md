@@ -643,6 +643,143 @@ Chacun a coûté du temps au moins une fois.
 
 # Journal
 
+## 19 septembre 2026
+
+**Décision de cadrage, posée par Kélian en cours de journée : on ne travaille plus que sur
+`main_ensae`.** Les autres fichiers maîtres restent au dépôt mais ne sont plus ni compilés ni
+tenus à jour. `main.tex` appelle donc toujours `02_introduction` là où `main_ensae` appelle le
+nouveau chapitre 1 : la divergence est assumée, elle n'est plus un défaut à corriger.
+
+### 1. Un chapitre 1 neuf, qui absorbe l'introduction
+
+`chapitres/02b_cadre_cyber_dora.tex`, cinq sections et dix-sept sous-sections, sur le plan arrêté
+par Kélian : risque cyber et propagation, assurabilité et capital, marché français, DORA, puis
+l'enjeu prudentiel qui se referme sur la problématique et le plan. **Il remplace
+`02_introduction.tex` dans `main_ensae`**, qu'il absorbe en entier, lecture de marché LUCY
+comprise. `02_introduction.tex` ne définissait qu'un label, `sec:lucy`, que rien d'autre ne cite :
+la bascule se défait en une ligne. `04_cadre_reglementaire` reste appelé parce que cinq chapitres
+citent son label, mais son exposé des cinq piliers fait désormais doublon avec la section 4 du
+chapitre 1, et il reste à réduire à la seule articulation avec Solvabilité II.
+
+**Trois sources de contexte 2026 y entrent, au statut de citation externe non recalculable**, le
+même que Hackmageddon et LUCY : la cartographie prospective France Assureurs, le baromètre CESIN,
+et une carte des tentatives WannaCry bloquées. Leurs valeurs sont transcrites dans `config.py`
+sous `CARTO_FA_2026` et `CESIN_2026`, et le **script 103** les imprime avec quatre contrôles
+d'identité internes.
+
+**Le résultat qui travaille pour la thèse** : l'attaque indirecte par un tiers est le troisième
+vecteur à 35 %, et monte à **43 % chez les grandes entreprises**. C'est le pilier P4 mesuré de
+l'extérieur, par une source sans lien avec le projet. La déconnexion par les tiers, citée dans
+12 % des impacts, dit que la dépendance joue **dans les deux sens**, ce qu'une dépendance
+symétrique ne peut pas distinguer.
+
+**Le piège de lecture à ne pas perdre** : CESIN et France Assureurs voient la fréquence *reculer*
+quand LUCY voit le nombre de sinistres *tripler*. Les deux sont compatibles, le nombre de LUCY
+étant un total sur une base d'assurés élargie de 49 % ; confondre le total et la fréquence ferait
+lire une aggravation là où il y a une extension de périmètre. Un encadré le pose.
+
+### 2. Les figures externes, et où elles vivent
+
+`figures_externes/` porte désormais **six** images et non trois : les trois figures LUCY, plus la
+rétrospective France Assureurs, les vecteurs CESIN et la carte WannaCry. **Un sous-dossier
+`sources_brutes/` archive les captures d'origine non recadrées**, ce dossier n'étant lu par aucun
+`\includegraphics`.
+
+**À savoir avant le dépôt, et cela n'appartient pas à l'assistant : l'autorisation de Hugo Rapior
+du 17 septembre ne couvre que les trois figures LUCY**, dont il est co-auteur. Celles du CESIN, de
+France Assureurs et d'Avast relèvent de leurs éditeurs et **restent à vérifier**. Le repli est
+prêt et sans perte : les deux séries 2026 sont intégralement transcrites et imprimées par le
+script 103, donc elles se reposent en tableau.
+
+**Cinq captures avaient été déposées dans `vasicek_lab/figures/`**, dossier réservé aux figures
+produites par script. Elles en ont été retirées : y laisser des images externes aurait cassé
+l'invariant qui rend ce dossier rejouable.
+
+### 3. Le style du document a changé, globalement
+
+Deux décisions de Kélian, appliquées dans `preambule_v2.tex`, donc à tous les chapitres :
+
+- **plus aucun filet horizontal** : ni sous le titre de chapitre, ni autour de l'encadré `cle`,
+  qui tient désormais par son seul espacement et son amorce en gras. Les filets de `booktabs`
+  dans les tableaux sont **conservés**, ce sont des séparateurs de données et non un ornement ;
+- **paquet typographique « classique ENSAE »** : chiffre de chapitre en très grande taille, seul
+  et centré au-dessus du titre ; sections en **petites capitales** numérotées ; sous-sections en
+  italique, inchangées. Un titre de section sur deux lignes se coupait en plein mot : la césure
+  est désormais interdite dans les titres, par `raggedright` et pénalité infinie.
+
+**Et têtes et pieds de page portent le même contenu** : filet noir, nom du chapitre à gauche,
+folio à droite, en tête comme en pied. Sur la première page d'un chapitre la tête reste vide, le
+grand titre suffisant à identifier la page, mais le pied est là comme partout ailleurs.
+
+### 4. Le profilage des variables, qui manquait au chapitre des données
+
+Nouvelle section `sec:profilage-variables` au chapitre 4, en trois sous-sections : table des
+variables avec leur taux de renseignement, tests d'association sur les qualitatives, tests de
+forme et d'hétérogénéité sur les quantitatives. **Script 104**, trois figures neuves (D1 matrice
+de présence croisée, D2 sources de notification en double axe, D3 types de brèche dans le plan
+fréquence contre impact médian).
+
+**Le piège de complétude de la PRC, et il est grossier.** Un champ non renseigné n'y vaut pas
+vide, il vaut la chaîne `UNKN`. Un contrôle ordinaire rend donc **100 % de présence sur les
+trente-sept colonnes**, y compris sur `total_affected` qui n'est documentée que dans **41,77 %**
+des cas. Les taux publiés comptent `UNKN` comme un manquant, et le script imprime les deux
+mesures côte à côte.
+
+**Le contrôle qui compte** : ce script recharge la PRC par un chemin indépendant de celui des
+scripts 21, 22 et 62, avec son propre traitement du manquant, et retombe sur **15 053 incidents**
+au périmètre retenu, l'effectif exact des sorties déjà versionnées. Le contrôle est dans le
+script et il échoue bruyamment s'il dérive.
+
+**Le résultat de modélisation, et il est convergent sur trois instruments indépendants.** Le $V$
+de Cramér reste sous **0,20** (maximum 0,176), l'$\varepsilon^2$ de Kruskal-Wallis sous **0,08**,
+et les corrélations de rang entre la perte et la taille sous **0,16**. La catégorie d'un incident
+et la taille de l'entité informent donc **faiblement** sa sévérité : segmenter la queue coûterait
+des degrés de liberté sans gain explicatif. **Le choix d'une queue commune cesse d'être une
+commodité de rédaction pour devenir une mesure.**
+
+**Deux trouvailles à ne pas perdre.** L'**actif total est le plus faible des trois prédicteurs de
+taille** (rho 0,068, derrière le chiffre d'affaires à 0,159 et l'effectif à 0,139), alors que
+c'est le bilan qui porte la mise à l'échelle prudentielle. Et Shapiro-Wilk rejette la normalité
+totalement à l'échelle brute ($W = 0{,}037$ sur la PRC) mais **seulement partiellement en
+logarithme** ($W = 0{,}970$) : la queue est plus lourde qu'une log-normale, ce qui est
+exactement l'argument d'une Pareto généralisée au-delà d'un seuil plutôt qu'un ajustement global.
+
+**Une leçon de méthode, la huitième du même type.** Deux nombres des commentaires du script 104
+avaient été écrits **avant** lecture de sa sortie : un taux de 41,80 % recopié d'une source
+extérieure, et des corrélations annoncées « de l'ordre de 0,2 à 0,3 » quand elles valent 0,07 à
+0,16. Les deux ont été corrigés, le premier en le calculant au lieu de l'écrire. Écrire le
+commentaire APRÈS avoir lu la sortie, jamais en même temps que le code.
+
+### 5. Trois décisions de fin de journée
+
+- **`main.tex` et `main_v2.tex` sont SUPPRIMÉS du dépôt**, avec `main.pdf`. Il ne reste qu'un
+  fichier maître, `main_ensae.tex`. Les deux fichiers restent dans l'historique git si besoin.
+  **`preambule.tex` et `page_de_garde.tex` deviennent orphelins** : plus rien ne les appelle. Le
+  second est la couverture officielle de l'Institut des Actuaires, il n'a pas été supprimé pour
+  cette raison. `02_introduction.tex` est orphelin lui aussi depuis que le chapitre 1 l'absorbe.
+- **L'autorisation de reproduction est ACQUISE POUR TOUTES LES FIGURES EXTERNES**, Hugo Rapior
+  l'ayant étendue le 19 septembre à la cartographie France Assureurs, au baromètre CESIN et à la
+  carte Avast, au-delà des trois figures LUCY du 17 septembre. Point clos.
+- **Les doublons entre le chapitre 1 et le chapitre du cadre prudentiel sont supprimés.** Les
+  cinq piliers et la date d'entrée en application de DORA ne vivent plus qu'à **un seul endroit**,
+  le \S du chapitre 1, qui a **repris la précision juridique** du second : délais de notification
+  de quatre, vingt-quatre et soixante-douze heures puis un mois, périodicité triennale des tests
+  guidés par la menace, troisième rang de la chaîne de sous-traitance, et le registre
+  d'informations avec sa portée de modélisation. Le chapitre du cadre réglementaire passe de 176
+  à 115 lignes, se recentre sur Bâle, Solvabilité II et l'articulation avec l'évaluation interne,
+  et se retitre en conséquence ; son label `chap:reglementaire` ne bouge pas, cinq chapitres le
+  citent.
+
+### État à la fin de la journée
+
+`main_ensae` à **188 pages**, seul fichier maître subsistant. Débordements **exactement à la ligne de base de 5**, 0 Overfull
+`\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans le PDF.
+`KADDOURI_Kelian_3A25.pdf` régénéré. Harnais : chapitre 1 à **63 sur 63**, chapitre 4 à **152 sur
+152**, hors contrôle non déclaré à zéro sur les deux. Deux sorties versionnées neuves, **103 et
+104**, et trois figures neuves, D1 à D3.
+
+---
+
 ## 18 septembre 2026
 
 ### Trois annexes déportées, et le chapitre du stage réécrit
