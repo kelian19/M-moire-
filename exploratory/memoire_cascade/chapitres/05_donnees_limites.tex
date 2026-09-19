@@ -66,6 +66,7 @@ biais.
 % SOURCES-SCRIPTS: 63
 
 \section{Trois biais statistiques à déclarer avant tout usage}
+\label{sec:trois-biais}
 
 L'utilisation conjointe des bases \textit{Privacy Rights Clearinghouse} (PRC) et SAS OpRisk Global permet de croiser les perspectives, mais nécessite d'identifier trois biais statistiques majeurs qui altèrent l'estimation de l'indice de queue $\xi$.
 
@@ -595,8 +596,14 @@ les deux exports, comptage \texttt{UNKN} inclus).
 hasard de collecte.} Les champs qu'une obligation de notification impose, la date de déclaration
 et la nature de l'organisation, sont documentés ; ceux qui demandent une investigation, le volume
 touché et la date réelle de survenance, ne le sont pas. Le manquant n'est donc pas aléatoire : il
-est corrélé à la difficulté de l'enquête, donc plausiblement à la gravité. C'est le troisième
-biais déclaré à la section~\ref{sec:biais-chiffres}, mesuré ici sur les variables plutôt qu'argumenté.
+est corrélé à la difficulté de l'enquête, donc plausiblement à la gravité.
+
+\textbf{Ce mécanisme n'est aucun des trois biais de la section~\ref{sec:trois-biais}, et il se
+distingue du deuxième.} Le biais de déclaration porte sur les incidents qui \emph{entrent} dans la
+base, selon que la loi impose ou non de les notifier ; celui-ci porte sur les champs
+\emph{renseignés} au sein des incidents déjà entrés. Les deux vont dans le même sens et
+s'ajoutent, mais ils opèrent à deux niveaux distincts, et seul le second se mesure sur les
+variables au lieu de s'argumenter.
 \end{attention}
 
 \begin{figure}[htbp]
@@ -623,8 +630,8 @@ pas sur quel effectif il porte. Les $12{,}5\,\%$ du croisement le plus pauvre re
 plus de neuf mille incidents, ce qui n'a pas la même portée qu'un taux identique sur une base de
 quelques centaines. La matrice dit surtout ce qu'une colonne de taux isolés ne dit pas : les
 lacunes se \emph{cumulent}. Une analyse qui croiserait le volume touché, le type de brèche et la durée
-d'exposition ne disposerait plus que d'un dixième de la base, et ce dixième n'aurait aucune
-raison d'en être représentatif. C'est le motif pour lequel le modèle ne conditionne la sévérité
+d'exposition ne disposerait plus que de $10{,}9\,\%$ de la base, et cette fraction n'aurait aucune
+raison d'en être représentative, les trois manques ayant la même origine. C'est le motif pour lequel le modèle ne conditionne la sévérité
 sur aucune de ces variables.
 
 \subsection{Les variables d'impact, décrites}
@@ -854,9 +861,10 @@ corrigé recalculés sur chaque table de contingence).
 \begin{cle}
 \textbf{Ce que ces cinq nombres autorisent, et ce qu'ils interdisent.} Ils autorisent à dire que
 la catégorie d'un incident \emph{informe} la probabilité qu'il soit lourd. Ils interdisent d'en
-faire une variable de segmentation : une association de $0{,}18$ ne porte pas un ajustement de
-queue par modalité, qui diviserait l'échantillon d'excès par sept pour un gain explicatif
-marginal. C'est le premier des deux arguments qui fondent le choix d'une queue commune.
+faire une variable de segmentation : une association de $0{,}18$ ne porte pas un ajustement de queue par
+modalité : segmenter par la catégorie bâloise, qui compte sept modalités, ramènerait les $91$
+excès de la calibration à une douzaine par modalité, effectif sur lequel aucune loi de queue ne
+s'ajuste. C'est le premier des deux arguments qui fondent le choix d'une queue commune.
 \end{cle}
 
 \subsection{Variables quantitatives : forme, dépendance de rang et hétérogénéité}
@@ -889,8 +897,10 @@ et derrière l'effectif. Or c'est le bilan qui porte la mise à l'échelle du be
 constat, obtenu sans hypothèse de forme et sur un effectif dix fois supérieur à celui de la
 descente d'échelle, va dans le même sens que l'élasticité de $0{,}087$ mesurée par ailleurs : il
 ne la confirme pas au sens statistique, les deux grandeurs n'étant pas la même, mais il rend
-cette faible élasticité moins surprenante. C'est la source de la borne inférieure de validité
-déclarée au chapitre~\ref{ch:robustesse}.
+cette faible élasticité moins surprenante. Elle corrobore par un chemin indépendant la limite
+\emph{sévérité non plafonnée à l'échelle d'entité}, inscrite au registre des limites du
+chapitre~\ref{ch:robustesse}, et c'est cette limite qui fait lire le besoin de capital de
+l'entité notionnelle comme une borne supérieure d'ordre de grandeur plutôt que comme une mesure.
 \end{attention}
 
 \paragraph{L'hétérogénéité entre classes existe, et elle est petite.} Le test de Kruskal-Wallis,

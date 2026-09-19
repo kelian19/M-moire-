@@ -546,6 +546,15 @@ for i in range(k):
     print("    %-22s %s" % (vars_mat[i],
           " ".join(f"{M[i, j]:6.1f}" if not np.isnan(M[i, j]) else "      " for j in range(k))))
 
+# INTERSECTION TRIPLE. Les taux croises se lisent deux a deux, mais l'argument du chapitre porte
+# sur trois variables a la fois : une analyse qui voudrait le volume, le vecteur ET la duree
+# d'exposition ne travaille plus que sur ce qui reste. On l'imprime au lieu de le supposer.
+triple = 100.0 * (masques["total_affected"] & masques["breach_type"] &
+                  masques["end_breach_date"]).mean()
+print(f"\n  Intersection des TROIS variables (volume, vecteur, fin d'exposition) : {triple:.1f} %")
+print(f"  a comparer au plus faible des croisements deux a deux, "
+      f"{100.0 * (masques['total_affected'] & masques['end_breach_date']).mean():.1f} %.")
+
 from matplotlib.colors import LinearSegmentedColormap
 cmap_seq = LinearSegmentedColormap.from_list("nexialog_seq", sn.SEQUENTIEL_6[::-1])
 
@@ -776,6 +785,7 @@ g.append(("pertes SAS cyber TIC", len(cyber)))
 g.append(("pertes SAS finance", len(fin)))
 g.append(("pertes SAS cyber x finance", len(cyberfin)))
 g.append(("seuil q75 PRC enregistrements", int(q75_prc)))
+g.append(("intersection triple pct", round(triple, 1)))
 g.append(("seuil q75 SAS MUSD", round(q75_sas, 4)))
 for c in ["breach_date", "end_breach_date", "total_affected", "residents_affected",
           "organization_type", "breach_type"]:

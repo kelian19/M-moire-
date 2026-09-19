@@ -137,16 +137,20 @@ Trois incidents publics suffisent à illustrer les trois mécanismes. Ils sont r
 leur ampleur mais parce que chacun met en défaut une hypothèse différente.
 
 \paragraph{WannaCry, $2017$ : l'échelle de la propagation.} Un rançongiciel auto-propagable,
-exploitant une faille du protocole de partage de fichiers Windows, a touché en quelques jours des
-organisations dans plus de cent-cinquante pays, dont des hôpitaux du service de santé britannique
-et des chaînes de production industrielles. Sur la période étendue observée par un éditeur de
-sécurité, un seul laboratoire de menaces déclare avoir bloqué plus de $64$ millions de tentatives
-en Russie et près de $19$ millions en Ukraine comme en Inde \citep{avast2018wannacry} : l'ordre de
-grandeur, à lui seul, situe le propos hors de portée d'une lecture par incident isolé. C'est
-l'illustration la plus directe du trait retenu à la
-sous-section~\ref{subsec:dependance-accumulation} : la mutualisation suppose des sinistres
-indépendants, et une seule vulnérabilité logicielle non corrigée en produit ici des millions
-d'occurrences simultanées.
+exploitant une faille du protocole de partage de fichiers Windows, s'est propagé en quelques
+jours à des organisations de dizaines de pays, dont des hôpitaux du service de santé britannique
+et des chaînes de production industrielles. Sur les onze mois qui suivent, un seul éditeur de
+sécurité déclare avoir bloqué plus de $64$ millions de \emph{tentatives} en Russie et près de
+$19$ millions en Ukraine comme en Inde \citep{avast2018wannacry}.
+
+\textbf{Ces tentatives ne sont pas des sinistres, et la distinction posée à la
+sous-section~\ref{subsec:definition-cyber} vaut ici pleinement.} Une tentative bloquée n'est ni
+un incident ni une perte : ce que ces nombres mesurent est la \emph{persistance de l'exposition}
+d'une même vulnérabilité, pas une sinistralité. Ils ne sont donc comparables à aucune grandeur du
+modèle, et ils ne sont pas cités pour leur niveau. Ils établissent un seul point, qui est celui
+de la sous-section~\ref{subsec:dependance-accumulation} : une vulnérabilité unique reste
+sollicitée à cette échelle près d'un an après sa divulgation, si bien que l'exposition qu'elle
+crée est commune à tous ceux qui la portent et n'est réduite par aucune mutualisation.
 
 \begin{figure}[htbp]
 \centering
@@ -479,8 +483,10 @@ En imposant le recensement exhaustif des contrats TIC critiques et de leurs cha�
 sous-traitance, le règlement produit une donnée exploitable pour modéliser le risque de
 concentration technologique. Cette donnée faisait défaut à l'évaluation interne des risques
 traditionnelle, qui décrivait la dépendance sans pouvoir la chiffrer. C'est le point de contact
-le plus direct entre une obligation réglementaire et une entrée de modèle, et le
-chapitre~\ref{ch:robustesse} y revient pour dire ce que le registre ne donnera pas non plus.
+le plus direct entre une obligation réglementaire et une entrée de modèle. Le
+chapitre~\ref{ch:livrable} y revient pour dire précisément ce que ce registre donnera et ce
+qu'il ne donnera pas : il porte sur les accords contractuels, donc sur la dépendance
+\emph{déclarée}, et non sur l'ordre dans lequel les défaillances s'enchaînent.
 
 \subsection{Les autorités françaises et la supervision de la résilience numérique}
 \label{subsec:supervision-france}

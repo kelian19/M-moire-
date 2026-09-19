@@ -260,6 +260,9 @@
     total_affected           30.9   41.6   12.5   41.8   41.8   37.6   25.1   41.8       
     residents_affected       44.2   79.7   22.4   79.9   79.9   70.0   30.2   31.0   79.9
 
+  Intersection des TROIS variables (volume, vecteur, fin d'exposition) : 10.9 %
+  a comparer au plus faible des croisements deux a deux, 12.5 %.
+
   D1b, effectifs croises :
     breach_date              40998                                                                
     reported_date            40805   74440                                                        
@@ -342,6 +345,7 @@
   pertes SAS finance                           22139
   pertes SAS cyber x finance                   582
   seuil q75 PRC enregistrements                8330
+  intersection triple pct                      10.9
   seuil q75 SAS MUSD                           20.0
   presence PRC breach_date pct                 54.82
   presence PRC end_breach_date pct             28.18
