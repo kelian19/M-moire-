@@ -26,9 +26,14 @@
 % alors celle du dernier \chapter numerote. Vu sur le PDF rendu, pas sur la source.
 \markboth{Note de synthèse}{}
 
-% HARNAIS-HORS-SECTION: note de synthese autonome, destinee a un lecteur non
-% specialiste. Elle reprend des grandeurs etablies et verifiees dans le corps du
-% memoire, ou elles portent leurs citations de script.
+% LA NOTE EST SOUS HARNAIS, ET ELLE NE L'ETAIT PAS. Elle a longtemps porte une declaration
+% HARNAIS-HORS-SECTION au motif qu'elle reprend des grandeurs verifiees ailleurs. L'argument est
+% juste sur le fond et FAUX comme protection : le fichier n'a que deux \chapter*, donc la
+% declaration avalait ses cent vingt-deux lignes chiffrees d'un coup, chiffre de tete compris.
+% C'est la faille exacte qui avait laisse passer un intervalle faux dans le deck du 7 aout. Une
+% note lue en PREMIER par le jury ne peut pas etre le seul endroit du document que personne ne
+% verifie : elle cite donc ses scripts comme n'importe quelle section.
+% SOURCES-SCRIPTS: 28 30 43 48 63 67 68 74 91 92 95
 
 \notesec{Contexte}
 Depuis janvier 2025, le règlement européen DORA impose aux banques et aux assureurs la maîtrise de
@@ -206,9 +211,7 @@ des scripts qui le calculent.
 \addcontentsline{toc}{chapter}{Executive summary}
 \markboth{Executive summary}{}
 
-% HARNAIS-HORS-SECTION: stand-alone executive summary for a non-specialist
-% reader. It restates quantities established and checked in the body, where they
-% carry their script citations.
+% SOURCES-SCRIPTS: 28 30 43 48 63 67 68 74 91 92 95
 
 \notesec{Context}
 Since January 2025, the European DORA regulation has required banks and insurers to master five
