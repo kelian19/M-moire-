@@ -808,9 +808,30 @@ observation de sévérité. Déclaré comme tel.
 **31 incidents sur 13 410**, soit 0,23 % de la base. C'est l'argument de queue lourde énoncé sur
 des événements nommés plutôt que sur un paramètre.
 
+### 7. Le questionnaire d'élicitation entre à l'annexe, et un écart de version est trouvé
+
+Kélian a fourni le questionnaire qu'il avait préparé. Il est désormais **reproduit dans
+l'annexe C** (`sec:questionnaire-reproduit`), consigne, partie d'étalonnage et partie cible, dans
+la forme sous laquelle il aurait été soumis. Décrire un instrument n'établit pas qu'il existe :
+un jury qui demande pourquoi le jugement d'expert n'est pas mobilisé peut maintenant juger sur
+pièce.
+
+**ET LE DOCUMENT FOURNI EST LA VERSION ANTÉRIEURE À UNE CORRECTION QUE LE MÉMOIRE DOCUMENTE.**
+Le PDF porte **dix** questions d'étalonnage, dont une sur l'indice de queue de sévérité. L'annexe
+annonce **neuf** graines et quinze questions, et explique en un paragraphe pourquoi la dixième a
+été retirée : sa valeur vraie annoncée était $0{,}90$, qui est la valeur *posée* du pire cas et
+non la calibration figée à $0{,}5954$, et dans la méthode de Cooke une graine fausse n'ajoute pas
+du bruit, elle **inverse** les poids. Reproduire le PDF tel quel aurait fait contredire le
+mémoire à la page même qui justifie la correction. **C'est donc l'instrument à neuf graines qui
+est reproduit**, et un encadré dit que l'exemplaire à dix graines subsiste dans les documents de
+travail et ne doit pas être soumis.
+
+**À faire par Kélian** : retirer la question sur $\xi$ de l'exemplaire qu'il détient avant tout
+envoi à un expert.
+
 ### État à la fin de la journée
 
-`main_ensae` à **191 pages**, seul fichier maître subsistant. Débordements **exactement à la ligne de base de 5**, 0 Overfull
+`main_ensae` à **195 pages**, seul fichier maître subsistant. Débordements **exactement à la ligne de base de 5**, 0 Overfull
 `\vbox`, 0 annotation hors page, 0 page tournée, 0 `??` compté dans le PDF.
 `KADDOURI_Kelian_3A25.pdf` régénéré. Harnais : chapitre 1 à **63 sur 63**, chapitre 4 à **266 sur
 266**, hors contrôle non déclaré à zéro sur les deux. Deux sorties versionnées neuves, **103 et

@@ -86,6 +86,104 @@ opposable.
 \vspace{2pt}
 % SOURCES-SCRIPTS: 26 47 63
 
+%--------------------------------------------------------------
+\section{Le questionnaire, reproduit}
+\label{sec:questionnaire-reproduit}
+%--------------------------------------------------------------
+% HARNAIS-HORS-SCRIPT: l'instrument lui-meme. Les seuls nombres y sont les trois niveaux de
+% quantile demandes a l'expert, les bornes 0 et 1 d'une force de lien et les etiquettes P1 a P5
+% des cinq piliers. Ce sont des proprietes de CONCEPTION du questionnaire, pas des resultats :
+% aucun script ne les imprime et aucun ne le devrait.
+
+Décrire un instrument ne suffit pas à établir qu'il existe. Il est donc reproduit ici dans la
+forme sous laquelle il aurait été soumis, de façon qu'un lecteur puisse juger sur pièce ce que
+la section précédente affirme, et le réutiliser si la décision était rouverte.
+
+\begin{attention}
+\textbf{La version reproduite est celle de neuf graines, et non celle de dix.} L'exemplaire
+préparé en premier portait une dixième question d'étalonnage, sur l'indice de queue de sévérité.
+Elle a été retirée pour les deux motifs exposés plus haut, et elle ne figure donc pas ci-dessous.
+Un exemplaire à dix graines subsiste dans les documents de travail : il ne doit pas être soumis,
+une graine dont la valeur vraie est mal posée inversant les poids au lieu d'ajouter du bruit.
+\end{attention}
+
+\subsection*{Consigne remise à l'expert}
+
+\begin{cle}
+\textbf{Comment répondre.} Pour chaque quantité, donnez trois nombres : une valeur \emph{basse}
+($5\,\%$), une valeur \emph{médiane} ($50\,\%$), une valeur \emph{haute} ($95\,\%$), telles que
+vous estimez à $90\,\%$ de chances que la vraie valeur soit comprise entre votre $5\,\%$ et votre
+$95\,\%$. Il n'y a pas de réponse attendue : donnez votre meilleure estimation \emph{et} votre
+incertitude. Répondez même incertain, un intervalle large étant une réponse honnête et
+parfaitement valable. Ne cherchez pas les vraies valeurs : l'objet est de mesurer votre jugement.
+\end{cle}
+
+\subsection*{Partie A, les neuf questions d'étalonnage}
+
+Des quantités mesurées dans le mémoire, dont la valeur vraie est connue de l'analyste et n'est
+pas affichée au répondant. Elles servent à pondérer les experts, non à les piéger. Les trois
+colonnes de droite sont vides dans les deux tables qui suivent : c'est l'espace de réponse du
+formulaire, non une donnée manquante.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l p{8.2cm} c c c@{}}
+\toprule
+& \textbf{Quantité} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ & $\mathbf{95\,\%}$ \\
+\midrule
+A1 & Part des sinistres financiers portés par une cause commune (un tiers), en \% & & & \\
+A2 & Délai médian entre la survenance d'un incident et sa déclaration, en jours & & & \\
+A3 & Part des incidents déclarés plus d'un mois après leur survenance, en \% & & & \\
+A4 & Durée médiane de confinement, fin de la brèche, en jours & & & \\
+A5 & Nombre d'incidents TIC matériels par an pour une grande entité financière & & & \\
+A6 & Délai médian de déclaration d'un incident de type piratage, en jours & & & \\
+A7 & Indice de Gini de la concentration des sinistres sur les jours ($0$ régulier,
+     $1$ très concentré) & & & \\
+A8 & Nombre maximal de victimes d'une même cause commune en un jour & & & \\
+A9 & Part des jours de l'année qui portent une cause commune, en \% & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Partie B, les six liens dirigés entre piliers}
+
+Force du lien dirigé de $k$ vers $j$, entre $0$ et $1$ : $0$ signifie qu'une défaillance du
+pilier $k$ n'entraîne jamais celle de $j$, $1$ qu'elle l'entraîne quasi certainement dans la
+foulée. Les trois mêmes quantiles sont demandés.
+
+\begin{center}\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l p{8.2cm} c c c@{}}
+\toprule
+& \textbf{Lien dirigé $k \rightarrow j$} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ &
+$\mathbf{95\,\%}$ \\
+\midrule
+B1 & P1 $\rightarrow$ P2 : une défaillance de gouvernance entraîne des incidents & & & \\
+B2 & P2 $\rightarrow$ P1 : des incidents entraînent une défaillance de gouvernance & & & \\
+B3 & P4 $\rightarrow$ P2 : une défaillance d'un tiers entraîne des incidents & & & \\
+B4 & P1 $\rightarrow$ P4 : une défaillance de gouvernance entraîne une défaillance côté
+     tiers & & & \\
+B5 & P3 $\rightarrow$ P1 : une défaillance des tests de résilience entraîne une défaillance
+     de gouvernance & & & \\
+B6 & P5 $\rightarrow$ P2 : une défaillance du partage d'information entraîne des
+     incidents & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Le couple B1 et B2 est l'objet même du mémoire.} Les deux questions portent sur le
+\emph{même} couple de piliers, dans les deux sens. Une donnée de co-occurrence ne les distingue
+pas ; un expert, lui, peut les séparer. C'est précisément la quantité que le
+chapitre~\ref{ch:identifiabilite} montre non identifiable, et c'est la raison pour laquelle ce
+questionnaire aurait eu une valeur que nulle autre source du dossier ne porte.
+
+\paragraph{Ce qui est fait des réponses.} La partie~A mesure la calibration du répondant, c'est-à-dire
+la justesse de ses intervalles, et son information, c'est-à-dire leur finesse ; ces deux
+grandeurs fixent son poids dans l'agrégation. La partie~B, pondérée par ce poids et croisée avec
+les réponses des autres experts, produirait chaque lien de la matrice sous forme d'\emph{intervalle}
+et non de point. Le traitement est automatique et aucune donnée d'incident n'est requise, seulement
+le jugement.
+
 \section{Pourquoi il n'a pas été exécuté}
 
 La raison est arithmétique, et elle porte sur la \emph{taille effective} du panel.
