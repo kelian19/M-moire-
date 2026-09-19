@@ -100,7 +100,10 @@ opposable.
 
 Décrire un instrument ne suffit pas à établir qu'il existe. Il est donc reproduit ici dans la
 forme sous laquelle il aurait été soumis, de façon qu'un lecteur puisse juger sur pièce ce que
-la section précédente affirme, et le réutiliser si la décision était rouverte.
+la section précédente affirme, et le réutiliser si la décision était rouverte. Le formulaire
+complet, avec sa consigne, son exemple traité, sa mention d'usage et de conservation et son
+accord signé du répondant, est versionné à part dans le dépôt du mémoire ; la présente annexe en
+reprend les deux tables et l'essentiel de la consigne.
 
 \begin{attention}
 \textbf{L'instrument reproduit ici est la version révisée, et il diffère de l'exemplaire de
@@ -186,15 +189,27 @@ donnée déclarative, dont un praticien de la notification a une expérience dir
 
 \subsection*{Partie B, les six liens dirigés entre piliers}
 
-Force du lien dirigé de $k$ vers $j$, entre $0$ et $1$ : $0$ signifie qu'une défaillance du
-pilier $k$ n'entraîne jamais celle de $j$, $1$ qu'elle l'entraîne quasi certainement dans la
+Force du lien dirigé de $j$ vers $k$, entre $0$ et $1$ : $0$ signifie qu'une défaillance du
+pilier $j$ n'entraîne jamais celle de $k$, $1$ qu'elle l'entraîne quasi certainement dans la
 foulée. Les trois mêmes quantiles sont demandés.
+
+\begin{attention}
+\textbf{Le sens des lettres n'est pas une coquette\-rie de notation.} La matrice du modèle
+s'écrit $W_{jk}$ avec $j$ la \emph{source} et $k$ la \emph{cible} : la ligne émet, la colonne
+reçoit, et deux scripts vérifient cette convention avant tout calcul. Un formulaire qui
+demanderait la force du lien \emph{de $k$ vers $j$} ferait donc saisir la matrice
+\emph{transposée}. Or c'est précisément entre une matrice et sa transposée que le
+chapitre~\ref{ch:identifiabilite} montre que la donnée ne tranche pas, et le
+chapitre~\ref{chap:cascade} que le capital et la décision diffèrent. Une inversion de lettres
+dans l'instrument produirait donc exactement l'erreur que tout le mémoire s'emploie à ne pas
+commettre, et elle ne serait rattrapée par aucun contrôle numérique.
+\end{attention}
 
 {\small
 \renewcommand{\arraystretch}{1.25}
 \begin{longtable}{@{}l p{8.2cm} c c c@{}}
 \toprule
-& \textbf{Lien dirigé $k \rightarrow j$} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ &
+& \textbf{Lien dirigé $j \rightarrow k$, $j$ émet} & $\mathbf{5\,\%}$ & $\mathbf{50\,\%}$ &
 $\mathbf{95\,\%}$ \\
 \midrule
 \endfirsthead
