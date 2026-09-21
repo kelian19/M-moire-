@@ -5,10 +5,32 @@ ont été sorties du document déposé le **18 septembre 2026**, sur décision d
 alléger la lecture. Elles vivent ici et sont destinées à un dépôt numérique pérenne
 (GitHub ou Zenodo), dont l'adresse est annoncée en tête des annexes du mémoire.
 
-**Aucun de ces trois fichiers n'est appelé par un fichier maître.** `main_ensae.tex`,
-`main.tex` et `main_v2.tex` ne les compilent plus. Les remettre dans `chapitres/` et
-rétablir leurs `\input` suffirait à revenir en arrière, mais il faudrait aussi défaire les
-cinquante et un `\matcomp` posés dans le corps (voir plus bas).
+**Aucun de ces trois fichiers n'est appelé par le fichier maître.** `main_ensae.tex` est
+désormais le seul (`main.tex` et `main_v2.tex` ont été supprimés le 19 septembre 2026) et il
+ne les compile pas. Les remettre dans `chapitres/` et rétablir leurs `\input` suffirait à
+revenir en arrière, mais il faudrait aussi défaire les **45** `\matcomp` posés dans le corps
+(voir plus bas).
+
+## Le PDF à déposer en ligne
+
+`materiel_complementaire.pdf` — **71 pages, 0 renvoi non résolu**, construit le 21 septembre 2026.
+
+Il est produit par la méthode décrite plus bas : compilation du mémoire **entier** avec les trois
+`\input` rétablis, puis extraction des pages. Les renvois sont donc résolus dans les deux sens.
+Il s'ouvre sur une page de titre qui le rattache au mémoire et annonce son contenu.
+
+**Le lettrage continue celui du mémoire.** Le document déposé porte les annexes A à G ; celui-ci
+prend la suite avec **H** (démonstrations), **I** (pièces justificatives) et **J** (compléments au
+corps). Il embarque la bibliographie du mémoire, de sorte que ses citations se résolvent.
+
+Pour le régénérer après une modification : reprendre le script
+`build_matcomp.py` (il recopie `main_ensae.tex`, insère la page de titre et les trois `\input`
+avant `\bibliographystyle`, dans un master temporaire non versionné), compiler, puis extraire de
+la page de titre jusqu'à la fin.
+
+**Il reste à créer le dépôt numérique et à remplacer `https://LIEN_VERS_LE_DEPOT.com` dans
+`main_ensae.tex` par son adresse réelle.** Tant que ce lien est fictif, la notice des annexes du
+mémoire promet au jury un document qu'il ne peut pas atteindre.
 
 ## Ce que contient chaque fichier
 
@@ -35,9 +57,8 @@ Ces fichiers ne sont pas autonomes. Pour en faire un document séparé il faut :
 
 ## Les renvois du mémoire vers ces fichiers
 
-Les trois fichiers définissaient **78 étiquettes**. Les **54 renvois** que le corps y
-faisait ont été remplacés par la macro `\matcomp`, définie dans `preambule_v2.tex` et dans
-`preambule.tex` :
+Les trois fichiers définissaient **78 étiquettes**. Les renvois que le corps y faisait ont été
+remplacés par la macro `\matcomp`, définie dans `preambule_v2.tex` et dans `preambule.tex` :
 
 ```latex
 \newcommand{\matcomp}{\emph{(voir le Matériel Complémentaire en ligne)}}
@@ -46,6 +67,18 @@ faisait ont été remplacés par la macro `\matcomp`, définie dans `preambule_v
 Elle ne contient aucun `\ref`, donc elle est insensible à la disparition des étiquettes :
 le mémoire compile à zéro `??`. **Ne pas la remplacer par un `\ref`** tant que ces annexes
 sont déportées.
+
+**Le compte est de 45, et il se calcule.** Trois comptes contradictoires ont circulé ici (51 et
+54) et dans l'en-tête de `main_ensae.tex`. Le bon se relève ainsi, et non de mémoire :
+
+```powershell
+# occurrences imprimées dans le PDF déposé, espaces normalisés et césure comprise
+python -c "import re,pymupdf; d=pymupdf.open('main_ensae.pdf'); print(len(re.findall(r'voir le Mat', re.sub(r'\s+',' ',' '.join(p.get_text() for p in d)))))"
+```
+
+Compter sur la source est piégeux : `chapitres/*.tex` en contient 48, dont **3 dans
+`02_introduction.tex`, qui est orphelin** depuis que le chapitre 1 l'absorbe, et un découpage
+naïf sur `%` ampute le compte d'une unité en coupant sur un `\%` échappé.
 
 ## Ce qui est parti avec elles, et qu'il faut savoir
 
@@ -68,7 +101,8 @@ qu'un jury peut demander : le lien vers le dépôt doit être en état de marche
 ## Le harnais
 
 Ces fichiers ne sont plus balayés par `verif_tous_chapitres.ps1`, qui ne lit que
-`chapitres/`. Leurs nombres ne sont donc plus sous contrôle. Au 18 septembre, le mémoire
-déposé est à **1 490 nombres publiés, 1 490 confirmés**, hors contrôle non déclaré à zéro.
+`chapitres/`. Leurs nombres ne sont donc plus sous contrôle. Au 21 septembre, le mémoire
+déposé est à **1 824 nombres publiés, 1 824 confirmés** sur 22 chapitres, hors contrôle non
+déclaré à zéro.
 Si ces annexes reviennent dans le document, il faut repasser le harnais dessus : elles
 citaient leurs scripts section par section et étaient à 100 % avant le déport.

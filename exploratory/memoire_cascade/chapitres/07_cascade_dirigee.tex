@@ -88,12 +88,14 @@ d'où, en forme matricielle sur les cinq piliers, la forme réduite
 $\mathbf X_i=(I-W^{\top})^{-1}(\text{systémique}+\text{idio})$, \emph{sous réserve} que
 $\rho(W)<1$, le rayon spectral étant invariant par transposition. Si
 $W=0$ on retombe sur la partie~A, et avec un seul facteur sur le Vasicek standard :
-l'emboîtement est propre.
+l'emboîtement est propre. La figure~\ref{fig:reseau-W} donne la structure de $W$ retenue et
+l'allure d'un choc qui s'y propage.
 
 \begin{figure}[htbp]\centering
 \figover{H1_reseau_W.png}
 \caption{Structure dirigée de $W$ sur les cinq piliers (P1 émet fort et reçoit peu) et
 propagation d'un choc sur un sous-réseau.}
+\label{fig:reseau-W}
 \end{figure}
 
 % SOURCES-SCRIPTS: 29
@@ -153,11 +155,14 @@ incidence de fond de $4{,}5\,\%$ et $g=0{,}9$, on obtient $\rho(W)=0{,}506$ et
 $R_0=0{,}054$ : les deux lectures sont stables, mais pas du même ordre.
 \end{cle}
 
+\noindent La figure~\ref{fig:branchement-R0} vérifie ces deux seuils numériquement.
+
 \begin{figure}[htbp]\centering
 \figover{K3_branchement_R0.png}
 \caption{(a) Sur le domaine admissible $g\le1$, les deux rayons spectraux restent $<1$ ; les
 seuils critiques ($\rho(W)=1$ à $g=1{,}78$ ; $R_0=1$ à $g=8{,}1$) sont hors domaine. (b) La
 progéniture $(I-M)^{-1}$ reproduit exactement le classement ROOT du jugement d'expert.}
+\label{fig:branchement-R0}
 % SOURCES-SCRIPTS: 03
 \end{figure}
 

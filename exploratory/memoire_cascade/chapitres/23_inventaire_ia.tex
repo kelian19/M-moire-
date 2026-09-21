@@ -1,0 +1,137 @@
+% =====================================================================
+% INVENTAIRE DE L'UTILISATION DE L'INTELLIGENCE ARTIFICIELLE GENERATIVE
+%
+% ANNEXE EXIGEE PAR L'INSTITUT DES ACTUAIRES. Recommandations Jury du
+% 1er avril 2026, § 5.1.h : la seconde des deux annexes exigees est
+% << L'inventaire, le cas echeant, de l'utilisation de l'intelligence
+% artificielle generative >>, et << cet inventaire se doit d'etre exhaustif et
+% doit comprendre les mesures prises pour verifier la validite des resultats
+% par l'utilisation de l'intelligence artificielle generative >>.
+%
+% LE § 4.5 FIXE L'ENJEU : << La transparence quant a l'usage de l'intelligence
+% artificielle doit etre totale. Tout manquement a cette regle conduira
+% l'etudiant a etre ajourne par le jury, sans besoin d'une autre motivation. >>
+% C'est le seul manquement du referentiel dont la sanction soit automatique.
+% Le meme § 4.5 rappelle que l'usage lui-meme n'est PAS interdit, sous trois
+% conditions : fondements theoriques et references maitrises, explicabilite
+% identique a celle d'un travail sans assistance, transparence totale.
+%
+% CREE LE 21 SEPTEMBRE 2026.
+%
+% KELIAN : CETTE ANNEXE EST UN SOCLE A RELIRE ET A COMPLETER, PAS UN TEXTE FINI.
+% Elle decrit l'usage tel que le depot en porte la trace : CLAUDE.md, le journal
+% de session REPRISE.md, les quatre agents de .claude/agents/, les commits
+% co-signes. Ce que seul toi peux trancher :
+%   - le perimetre reel de l'aide a la redaction, chapitre par chapitre si
+%     l'usage a varie ;
+%   - s'il y a eu recours a d'autres outils que celui dont le depot garde la
+%     trace ;
+%   - la formulation du § 3, qui engage ta responsabilite d'auteur.
+% Une declaration incomplete est traitee par le referentiel comme une absence de
+% declaration. Dans le doute, declarer plus.
+%
+% HARNAIS : cette annexe cite des comptes qui decrivent le DISPOSITIF DE
+% VERIFICATION lui-meme (nombres controles, chapitres, sorties, erreurs
+% trouvees) et non des resultats du modele. Aucun script ne les produit, d'ou la
+% declaration hors script ci-dessous, posee AVANT la premiere \section pour
+% couvrir tout le fichier.
+% =====================================================================
+
+\chapter{Inventaire de l'utilisation de l'intelligence artificielle générative}
+\label{ann:ia}
+
+% HARNAIS-HORS-SCRIPT: inventaire de l'usage de l'IA generative : les nombres y decrivent le dispositif de verification du memoire (nombres sous controle, chapitres balayes, sorties versionnees, erreurs semantiques trouvees), pas des grandeurs du modele. Ils ne sortent d'aucun script d'analyse et se constatent sur le depot.
+
+\begin{cle}
+\textbf{Objet de cette annexe.} Le référentiel de l'Institut des actuaires n'interdit pas l'usage
+de l'intelligence artificielle générative. Il le soumet à trois conditions : que les fondements
+théoriques et les références sous-jacentes soient maîtrisés, que l'explicabilité des résultats soit
+la même qu'en l'absence d'un tel usage, et que la transparence soit totale. Cette annexe déclare
+l'usage effectué et expose le dispositif mis en place pour satisfaire les deux premières
+conditions, y compris ce que ce dispositif ne sait pas détecter.
+\end{cle}
+
+\section{Ce qui a été fait avec assistance}
+
+Un assistant de génération de texte et de code a été mobilisé pendant toute la durée des travaux,
+selon quatre usages distincts.
+
+\begin{enumerate}[itemsep=4pt]
+\item \textbf{Rédaction et reformulation du manuscrit.} Mise en forme, resserrement, harmonisation
+      du registre et de la terminologie entre chapitres écrits à des moments différents.
+
+\item \textbf{Écriture et relecture des scripts d'analyse.} Les programmes qui produisent les
+      calibrations, les simulations, les tests et les figures ont été écrits avec assistance, puis
+      relus. Leur sortie est versionnée au dépôt, ce qui permet de rejouer chaque résultat et de
+      constater qu'une réexécution redonne le même fichier.
+
+\item \textbf{Agents de vérification dédiés.} Quatre agents de relecture automatique ont été
+      construits et passés sur le manuscrit : cohérence actuarielle, cohérence des données au
+      regard du règlement, cohérence des figures avec les données qu'elles affichent, et registre
+      d'écriture. Ils ne produisent aucun résultat : ils signalent des écarts à corriger à la main.
+
+\item \textbf{Construction du dispositif de vérification} décrit à la section suivante, qui est
+      lui-même un programme écrit avec assistance.
+\end{enumerate}
+
+\section{Les mesures prises pour vérifier la validité des résultats}
+
+C'est le point sur lequel le référentiel insiste, et le dispositif décrit ici a été construit pour
+y répondre avant même que l'exigence ne soit consultée.
+
+\paragraph{Aucun nombre publié n'est écrit à la main.} Chaque bloc du manuscrit déclare, en
+commentaire, les scripts dont il tire ses nombres. Un programme de vérification relit le manuscrit,
+extrait tout nombre publié, et le cherche dans les sorties versionnées des scripts que ce bloc
+déclare, à la tolérance d'arrondi d'écriture près. Au dernier passage, les $1\,824$ nombres
+vérifiables des $22$ chapitres sont confirmés, et aucune section n'échappe au contrôle sans le
+déclarer explicitement. Les sorties de référence, au nombre de $112$, sont versionnées au dépôt.
+
+\paragraph{Une section sans source déclarée est traitée comme plus grave qu'un nombre non
+confirmé.} Un taux de confirmation se règle en retirant une citation ; la couverture, non. Le
+programme imprime donc les deux, et les exemptions sont comptées et motivées plutôt que
+silencieuses.
+
+\paragraph{Les grandeurs simulées sont publiées avec leur bruit.} Une valeur issue d'une simulation
+est citée avec son incertitude, de sorte que la précision affichée ne dépasse jamais celle que le
+calcul soutient.
+
+\section{Ce que ce dispositif ne détecte pas, et ce qui a été ajouté pour y pallier}
+
+\begin{attention}
+\textbf{Un taux de confirmation ne mesure pas la justesse du texte.} Une relecture des chapitres
+conduite au filtre des superlatifs, des comptages et des renvois a mis au jour huit erreurs
+sémantiques. Le dispositif de vérification les confirmait \emph{toutes les huit} : chaque nombre
+sortait bien du script cité, seule la phrase qui l'entourait était fausse. Cinq portaient sur une
+affirmation de relation, une sur un renvoi vers une section qui ne disait pas ce qu'on lui prêtait,
+une sur un superlatif portant sur un ensemble calculé, une sur un comptage d'éléments.
+\end{attention}
+
+Deux de ces huit erreurs provenaient d'un message écrit en dur dans un script, c'est-à-dire d'une
+affirmation rédigée avant que le calcul ne la confirme. La règle qui en a été tirée, et qui
+s'applique depuis à tout le manuscrit, est qu'\textbf{un superlatif ou un comptage se calcule, il
+ne s'écrit pas}, au même titre qu'un nombre. Ce qui reste à faire à la main est la relecture des
+énoncés qui comparent, comptent ou renvoient : c'est précisément la zone que l'automatisation ne
+couvre pas, et elle est traitée par relecture systématique.
+
+Cette limite est énoncée ici plutôt que tue, parce qu'un taux de confirmation de $100\,\%$ affiché
+sans elle rassurerait à tort.
+
+\section{Ce qui n'a pas été délégué}
+
+La problématique et sa délimitation, le choix de porter la dépendance par une cascade dirigée
+plutôt que par une copule, la décision de ne pas poser de matrice arbitraire et de publier le
+capital en bornes, le renoncement à exécuter l'élicitation faute de panel, la qualification des
+sources de données et de leurs biais, la hiérarchisation des limites, et l'interprétation des
+résultats relèvent de l'auteur, qui en répond.
+
+Le mémoire réfute par ailleurs l'hypothèse qui lui avait donné son titre initial et requalifie son
+chiffre central en borne supérieure. Ces deux décisions vont contre le sens d'une rédaction
+assistée, qui tend à conforter la thèse annoncée plutôt qu'à la démentir.
+
+\begin{cle}
+\textbf{Ce que le jury peut vérifier lui-même.} Le dépôt de code est public. Il contient les
+scripts, leurs sorties versionnées, le programme de vérification et son résultat, ainsi que le
+journal des sessions de travail. Toute affirmation de cette annexe s'y constate.
+\end{cle}
+
+% =====================================================================

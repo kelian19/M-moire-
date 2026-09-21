@@ -4,87 +4,96 @@
 % resume portait << Remerciements >> en tete.
 \markboth{Résumé}{}
 
-Ce mémoire quantifie le coût en capital de solvabilité d'un défaut de conformité au règlement
-DORA (UE 2022/2554) pour un assureur exposé au risque cyber. La dépendance entre les cinq
-piliers n'y est pas portée par une copule mais par une cascade dirigée : un incident
-amorcé sur un pilier se propage selon une matrice d'influence asymétrique, normalisée à la
-Leontief de sorte que la stabilité du système est \emph{garantie} et non supposée.
-L'état de conformité de l'entité pilote le capital par une couche multi-états
-markovienne, d'où une trajectoire de besoin de capital plutôt qu'un chiffre unique.
+Ce mémoire quantifie le coût en capital d'un défaut de conformité au règlement DORA
+(UE 2022/2554) pour un assureur exposé au risque cyber. La dépendance entre les cinq piliers y
+est portée non par une copule mais par une cascade dirigée : un incident se propage selon une
+matrice d'influence asymétrique, normalisée à la Leontief de sorte que la stabilité est
+\emph{garantie} et non supposée. L'état de conformité pilote le capital par une couche
+multi-états markovienne.
 
 La contribution centrale n'est pas de \emph{mesurer} cette contagion mais d'en établir la
-\emph{frontière d'identifiabilité}. Trois sources échouent pour des raisons distinctes, et la
-meilleure expérience naturelle disponible échoue également : la \emph{direction} de la
-propagation n'est pas identifiable sur données publiques agrégées, quand sa
-\emph{co-occurrence} l'est. La théorie des processus réversibles en donne la raison pour les
-statistiques que ces sources permettent de construire. Le
-troisième échec est le plus instructif : le schéma \textsc{veris}, référence de la profession,
-porte exactement les deux champs requis et ne les renseigne que dans un incident sur $10\,591$.
-Plutôt que de poser une matrice arbitraire, le mémoire caractérise l'ensemble des matrices
-compatibles avec la donnée et publie le capital en bornes. Un corpus de rapports post-incident
-officiels en corrobore la structure, qu'un traitement bayésien conjugué formalise sans
-élicitation.
+\emph{frontière d'identifiabilité} : la \emph{direction} de la propagation n'est pas identifiable
+sur données publiques agrégées, quand sa \emph{co-occurrence} l'est. Trois sources y échouent pour
+des raisons distinctes, et le schéma \textsc{veris} porte les deux champs requis sans les
+renseigner ensemble que dans un incident sur $10\,591$. Plutôt que de poser une matrice
+arbitraire, le mémoire borne le capital sur l'ensemble des matrices admissibles : entre $6\,858$
+et $8\,697$~M\euro{} sur $1\,024$ sommets. Cette largeur de $1\,839$~M\euro{} est le coût de
+l'ignorance de la direction, connu d'avance plutôt que subi.
 
-Entre l'état conforme et l'état non conforme sur les quatre canaux que la conformité déplace
-(nombre d'incidents, détection, propagation, accumulation par un prestataire commun), le besoin
-de capital passe de $6\,049$ à $20\,188$~M\euro{} à l'échelle du secteur, soit un facteur
-$3{,}34$. Ce montant est un besoin de capital au sens de l'ORSA, non un SCR réglementaire, aucun
-module DORA n'existant en Formule Standard. Les canaux se composent presque comme un produit : pris
-isolément ils expliquent $9\,138$~M\euro{} d'un écart de $14\,139$, l'interaction en portant
-$5\,001$, soit $35\,\%$. Le levier de gestion s'en déduit : la fréquence seule porte le besoin de capital à
-$10\,377$~M\euro{}, quand les trois autres canaux réunis n'atteignent que $11\,413$.
+Entre états conforme et non conforme sur les quatre canaux que la conformité déplace, le besoin
+de capital sectoriel passe de $6\,049$ à $20\,188$~M\euro, soit un facteur $3{,}34$. C'est un
+besoin au sens de l'ORSA, non un SCR réglementaire, aucun module DORA n'existant en Formule
+Standard. Le niveau absolu est illustratif, variant d'un facteur $41$ selon la source ; résistent
+le rapport au socle, la largeur de bande et le classement des piliers.
 
-Les niveaux de propagation sont posés et non calibrés. La thèse n'en dépend pas : le besoin de
-capital est croissant en ce paramètre, de sorte que toute correspondance qui en respecte l'ordre
-reproduit l'écart. Un backtest hors échantillon sur $2004$--$2025$ valide la loi de comptage,
-dont l'intervalle couvre $91{,}7\,\%$ des années, et la forme de la queue de sévérité ; il
-rejette le niveau de la charge annuelle, couverte à $75{,}0\,\%$, pour un motif mesuré et déclaré,
-la dérive de l'échelle de sévérité. Le quantile à $99{,}5\,\%$ lui-même n'est testable sur aucun
-historique existant : $1\,811$ années seraient nécessaires.
-
-Le modèle produit enfin l'attribution du surcoût par pilier et un ordre de remédiation.
-Résultat saillant, énoncé avec sa limite : le niveau absolu du capital est illustratif,
-variant d'un facteur $22$ avec la seule source de sévérité et jusqu'à $41$ en y ajoutant
-l'échelle de fréquence, tandis que le classement des piliers résiste. Gouvernance et gestion des tiers dominent les
-trois autres, mais leur ordre relatif dépend de la direction non identifiée, ce qui chiffre
-l'apport d'un registre mieux spécifié.
+La limite devient un livrable : un registre mieux spécifié resserrerait la bande de $66\,\%$, et
+documenter la seule dépendance entre gouvernance et gestion des incidents en lèverait
+$28{,}9\,\%$.
 
 \paragraph{Mots-clés.} Risque cyber ; DORA ; SCR ; Solvabilité II ; théorie des valeurs
 extrêmes ; cascade dirigée ; identification partielle ; bornes de capital ; inférence
 bayésienne ; valeur de l'information.
 
 \bigskip
-\noindent\textbf{Abstract.} \emph{This thesis quantifies the solvency-capital cost of DORA
-non-compliance for a cyber-exposed insurer. Dependence across the five DORA pillars is carried
-by a directed cascade rather than an \emph{a posteriori} copula: a pillar-initiated
-incident propagates through an asymmetric, Leontief-normalised influence matrix, and the
-capital charge is made to depend on the firm's compliance state through a Markov-driven
-multi-state layer. Moving the four channels that compliance shifts (incident count,
-detection, propagation, third-party accumulation) from the compliant to the non-compliant state
-raises the sector-level capital need from $6\,049$ to $20\,188$~M\euro, a factor of $3.34$. This
-is an ORSA-type capital need, not a regulatory SCR, since the Standard Formula has no DORA
-module. The channels combine almost multiplicatively: in isolation they explain $9\,138$~M\euro{} of a
-$14\,139$~M\euro{} gap, interactions carrying $5\,001$ ($35\,\%$). Propagation levels are posited,
-not calibrated, but the thesis only relies on their order, capital being increasing in them. An
-out-of-sample backtest over $2004$--$2025$ validates the count distribution and the tail shape,
-and rejects the level of the annual loss for a measured and disclosed reason, a drift in severity
-scale. The central contribution is not to measure this contagion but to establish
-its identifiability boundary: the \emph{direction} of propagation is shown to be
-non-identifiable from aggregated public data, across three sources that fail for distinct
-reasons and even under the best available natural experiment, whereas its co-occurrence is not.
-Tellingly, the \textsc{veris} schema carries precisely the two required fields yet populates
-both in only one incident out of $10\,591$. Rather than positing an arbitrary matrix, the thesis
-characterises the set of matrices consistent with the data and reports capital as bounds over
-that set; a corpus of official post-incident reports corroborates the structure, which a
-conjugate Bayesian treatment formalises without elicitation. The absolute capital level is
-illustrative: it moves by a factor of $22$ with the severity source alone, and by $41$ once the
-frequency scale varies as well. The pillar ranking, by contrast, holds; the two leading pillars
-dominate the rest, but their internal order depends on precisely the direction that the data
-leaves unidentified.}
+\noindent\textbf{Abstract.} \emph{This thesis quantifies the capital cost of DORA non-compliance
+(EU 2022/2554) for a cyber-exposed insurer. Dependence across the five DORA pillars is carried
+not by a copula but by a directed cascade: an incident propagates through an asymmetric,
+Leontief-normalised influence matrix, so that stability is \emph{guaranteed} rather than assumed.
+The firm's compliance state drives capital through a Markov multi-state layer.}
+
+\emph{The central contribution is not to \emph{measure} this contagion but to establish its
+\emph{identifiability boundary}: the \emph{direction} of propagation is not identifiable from
+aggregated public data, whereas its \emph{co-occurrence} is. Three sources fail for distinct
+reasons, and the \textsc{veris} schema carries the two required fields yet populates both in only
+one incident out of $10\,591$. Rather than positing an arbitrary matrix, the thesis bounds capital
+over the admissible set: between $6\,858$ and $8\,697$~M\euro{} across $1\,024$ vertices. That
+width of $1\,839$~M\euro{} is the cost of not knowing the direction, known in advance rather than
+incurred.}
+
+\emph{Between the compliant and non-compliant states on the four channels that compliance shifts,
+sector-level capital need rises from $6\,049$ to $20\,188$~M\euro, a factor of $3.34$. This is an
+ORSA-type need, not a regulatory SCR, since the Standard Formula has no DORA module. The absolute
+level is illustrative, moving by a factor of $41$ with the data source; what holds is the ratio to
+the baseline, the bound width and the pillar ranking.}
+
+\emph{The limitation becomes a deliverable: a better-specified incident register would narrow the
+band by $66\,\%$, and documenting the single governance-to-incident-management dependency would
+remove $28.9\,\%$ of the ambiguity.}
+
+% =====================================================================
+% USAGE DE L'IA GENERATIVE. EXIGE par le § 5.1.c des Recommandations Jury de
+% l'Institut des actuaires (1er avril 2026) : << En complement et a la fin du
+% resume et distinct de ce dernier, quelques phrases concises mentionneront
+% l'usage effectue de l'intelligence artificielle generative tant au cours des
+% travaux que dans la redaction du memoire. >> Le § 4.5 precise que tout
+% manquement a la transparence conduit a l'ajournement sans autre motivation.
+%
+% KELIAN : A RELIRE ET A AJUSTER AVANT LE DEPOT. Ce paragraphe decrit l'usage
+% tel que le depot en porte la trace. Si le perimetre reel est plus large ou
+% plus etroit, c'est ce paragraphe et l'annexe d'inventaire qui doivent bouger, pas le
+% principe : le referentiel demande une transparence TOTALE, et une declaration
+% incomplete est traitee comme une absence de declaration.
+%
+% AUCUN CHIFFRE ICI A DESSEIN : un nombre pose dans ce bloc irait chercher sa
+% confirmation dans les scripts cites en bas de fichier, qui ne le portent pas.
+% Les comptes du dispositif de verification vivent dans l'annexe, qui se declare
+% hors script pour ce motif.
+% =====================================================================
+\bigskip
+\noindent\textbf{Usage de l'intelligence artificielle générative.} Un assistant de génération de
+texte et de code a été mobilisé tout au long des travaux : aide à la rédaction et à la
+reformulation du manuscrit, écriture et relecture des scripts d'analyse, et exécution d'agents de
+vérification dédiés à la cohérence actuarielle, aux données, aux figures et au style. La
+problématique, les choix de modélisation, le traitement des données et l'interprétation des
+résultats relèvent de l'auteur. Aucun résultat chiffré n'est produit par l'assistant : tout nombre
+publié provient de l'exécution d'un script du dépôt, et un dispositif de vérification rattache
+chaque nombre du manuscrit à la sortie du script qui le produit. L'annexe~\ref{ann:ia} détaille cet
+usage ainsi que les mesures prises pour en contrôler la validité, y compris ce que ce dispositif ne
+sait pas détecter.
 
 % =====================================================================
 \tableofcontents
 
 % =====================================================================
 
-% SOURCES-SCRIPTS: 28 39 33 43 68 92 66 89 91 100
+% SOURCES-SCRIPTS: 28 39 33 43 68 92 66 89 91 100 30 55

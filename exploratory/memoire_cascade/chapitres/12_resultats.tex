@@ -174,7 +174,8 @@ normale~; l'intervalle reste large parce que la queue l'est, non par artefact de
 \label{tab:delta}
 \end{table}
 
-\noindent \textbf{Lecture actuarielle.} L'intervalle très large côté OpRisk n'est pas un défaut
+\noindent \textbf{Lecture actuarielle.} L'intervalle très large côté OpRisk
+(table~\ref{tab:delta}) n'est pas un défaut
 du modèle : c'est la signature d'une queue d'indice $0{,}60$, où le niveau du capital est
 intrinsèquement imprécis. L'écart typique (interquartile) est bien plus resserré que
 l'intervalle à $90\,\%$, et le \emph{signe} du surcoût, lui, est certain. On retrouve la thèse du
@@ -481,6 +482,19 @@ premier dans $43{,}6\,\%$ des configurations, P4 dans $37{,}7\,\%$, et l'écart 
 les deux n'est que de $1{,}5\,\%$. Les deux énoncés ne se contredisent pas, ils portent sur des
 sources d'incertitude différentes. Ce qui est robuste dans les deux cadres, c'est que P1 et P4
 devancent nettement P2, P3 et P5, et que P5 n'arrive \emph{jamais} en tête.
+
+\medskip
+\noindent\textbf{Une troisième source d'incertitude, et elle vise directement le corpus.} Les
+rapports post-incident sont des enquêtes officielles, mandatées pour établir une cause racine ;
+elles sur-attribuent donc structurellement à la gouvernance, ce que le
+chapitre~\ref{ch:identifiabilite} déclare sans pouvoir le lever. On peut néanmoins en chiffrer la
+conséquence, en dégradant l'émission de P1 par $W_{1k}\to(1-a)W_{1k}$ et en recalculant l'ensemble
+admissible à chaque degré. Le classement tient jusqu'à $a=0{,}25$ et bascule vers P4 à
+$a=0{,}50$ : il faut donc supposer la moitié des arêtes issues de la gouvernance
+artefactuelles pour renverser la priorité. Le niveau, lui, ne perd que $24{,}8\,\%$ même à
+$a=1$, soit $0{,}81$ fois la largeur de la bande d'identification. Le niveau résiste, le
+classement non, et le seuil est connu.
+% SOURCES-SCRIPTS: 64
 \end{attention}
 
 \paragraph{Les hypothèses restantes ont leur axe de stress.} Trois entrées ne figuraient pas au
@@ -639,7 +653,8 @@ Cascade dirigée & $10\,927$~M\euro{} & $100\,\%$ (référence) \\
 \label{tab:benchmark-sf}
 \end{table}
 
-\textbf{La Formule Standard est structurellement aveugle.} La charge de risque opérationnel
+\textbf{La Formule Standard est structurellement aveugle}, et la table~\ref{tab:benchmark-sf}
+chiffre ce que chaque cadre sait en exprimer. La charge de risque opérationnel
 de l'équation~\eqref{reg:eq:scrop}, maximum d'une branche assise sur les primes et d'une branche
 assise sur les provisions, à coefficients distincts en vie et en non-vie, dans la limite d'un
 plafond assis sur le BSCR, ne dépend que du volume : elle est \emph{identique} pour une entité
