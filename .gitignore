@@ -121,3 +121,8 @@ exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf
 # le script d'abord. Ne pas l'editer a la main, le script l'ecrase.
 exploratory/memoire_cascade/main_institut.pdf
 exploratory/memoire_cascade/KADDOURI_Kelian_institut.pdf
+# NOTE DE SYNTHESE SEPAREE, ajoutee le 22 septembre 2026. Meme traitement :
+# note_synthese_separee.tex EST versionne, il \input le fichier des notes plutot
+# que d'en recopier le texte, donc il ne peut pas diverger du memoire.
+exploratory/memoire_cascade/note_synthese_separee.pdf
+exploratory/memoire_cascade/KADDOURI_Kelian_note_synthese.pdf

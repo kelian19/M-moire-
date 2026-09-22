@@ -1,8 +1,20 @@
 % =====================================================================
 % LES DEUX NOTES DE SYNTHÈSE, FRANÇAISE PUIS ANGLAISE
 %
-% PIÈCES PROPRES À LA VERSION ENSAE. Seul main_ensae.tex les appelle, EN TÊTE du
-% document, après le sommaire et le glossaire, et non plus en fin.
+% APPELÉES PAR LES DEUX FICHIERS MAÎTRES, EN TÊTE du document, après le sommaire
+% et le glossaire, et non plus en fin.
+%
+% CORRIGÉ LE 22 SEPTEMBRE 2026. Ce bloc disait << pièces propres à la version
+% ENSAE, seul main_ensae.tex les appelle >>, ce qui n'est plus vrai depuis que
+% main_institut.tex existe (généré par build_institut.py, il ne retire que le
+% chapitre du stage). Les deux notes sont donc aux pages 14 et 18 des DEUX PDF.
+%
+% ET ELLES SONT AUSSI DÉPOSÉES À PART. Le § 6.5 des Recommandations Jury de
+% l'Institut exige une note de synthèse SÉPARÉE, en deux versions, qui sert à
+% l'indexation du mémoire sur le site de l'Institut. Le document autonome est
+% note_synthese_separee.tex, à la racine de memoire_cascade : il INPUTE ce
+% fichier-ci au lieu d'en recopier le texte, donc les deux ne peuvent pas
+% diverger. Toute correction se fait ici, et nulle part ailleurs.
 %
 % POURQUOI CE FORMAT, décision du 16 septembre 2026. Le seul précédent validé pour
 % cette filière est le mémoire de F. Dountio (ENSAE, soutenu le 18 mars 2026, même
