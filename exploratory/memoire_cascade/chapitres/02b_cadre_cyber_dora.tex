@@ -158,7 +158,8 @@ crée est commune à tous ceux qui la portent et n'est réduite par aucune mutua
 \includegraphics[width=0.85\textwidth]{figures_externes/avast_wannacry_2018_carte.png}
 \caption{Tentatives d'attaque {WannaCry} bloquées par pays, $12$~mai $2017$ au $1$er~avril
 $2018$. L'échelle logarithmique de la légende (de moins de $10\,000$ à plus de $55$~millions)
-donne la mesure de la dispersion entre pays.}
+donne la mesure de la dispersion entre pays.
+Source : laboratoire des menaces Avast \citep{avast2018wannacry}.}
 \label{fig:wannacry}
 \end{figure}
 
@@ -313,7 +314,8 @@ couvertes, pour une prime moyenne plus faible, au moment même où la sinistrali
 \centering
 \includegraphics[width=0.85\textwidth]{figures_externes/lucy_primes_sinistres_ratio.png}
 \caption{Primes souscrites, sinistres indemnisés et ratio sinistres sur primes, $2019$--$2025$.
-La sinistralité remonte pour le troisième exercice consécutif alors que les primes reculent.}
+La sinistralité remonte pour le troisième exercice consécutif alors que les primes reculent.
+Source : rapport LUCY 2026, Nexialog Consulting \citep{RapiorKaddouri2026}.}
 \label{fig:lucy-ratio}
 \end{figure}
 
@@ -377,7 +379,8 @@ reste marginale. Un multiplicateur hiérarchise des dynamiques, jamais des enjeu
 \centering
 \includegraphics[width=0.85\textwidth]{figures_externes/lucy_divergence_prix_risque.png}
 \caption{Divergence entre le prix et le risque par segment. Le segment dont la sinistralité
-progresse le plus n'est pas celui dont le tarif se redresse.}
+progresse le plus n'est pas celui dont le tarif se redresse.
+Source : rapport LUCY 2026, Nexialog Consulting \citep{RapiorKaddouri2026}.}
 \label{fig:lucy-divergence}
 \end{figure}
 
@@ -392,7 +395,8 @@ donne la mesure de l'irrégularité (figure~\ref{fig:lucy-taille}).
 \includegraphics[width=0.85\textwidth]{figures_externes/lucy_taille_des_sinistres.png}
 \caption{Charge indemnisée par classe de taille de sinistre, $2019$--$2025$. La classe la plus
 haute est vide deux exercices sur sept : l'historique national s'arrête avant le haut de la
-distribution.}
+distribution.
+Source : rapport LUCY 2026, Nexialog Consulting \citep{RapiorKaddouri2026}.}
 \label{fig:lucy-taille}
 \end{figure}
 
@@ -407,53 +411,74 @@ choix de la base de calibration.
 
 \subsection{Le cadre réglementaire européen du cyber}
 \label{subsec:cadre-reglementaire-europeen}
-% HARNAIS-HORS-SECTION: section reglementaire, les seuls nombres sont la date d'entree en
-% application du reglement et des millesimes de textes.
+% HARNAIS-HORS-SECTION: section reglementaire. Les nombres sont la date d'entree en
+% application, des millesimes et des numeros officiels de textes (2022/2554, 2022/2555,
+% 2022/2557, 2016/679, 2024/2847). Ce sont des donnees de droit, aucune ne vient d'un calcul.
 
-Le cadre européen s'est construit par strates. La directive sur la sécurité des réseaux et des
-systèmes d'information a posé des exigences minimales de sécurité et de notification pour les
-opérateurs de services essentiels, puis sa refonte en a élargi le périmètre et renforcé les
-obligations de gouvernance. Le règlement général sur la protection des données a fixé, en
-parallèle, un régime de notification et de sanction propre aux données personnelles. Ces deux
-textes portent sur la sécurité et sur la confidentialité, non sur la continuité d'une activité
-financière.
+Le cadre européen s'est construit par strates, et quatre textes en forment aujourd'hui l'ossature.
+La directive sur la sécurité des réseaux et des systèmes d'information a posé des exigences
+minimales de sécurité et de notification pour les opérateurs de services essentiels ; sa refonte,
+dite NIS~2 \citep{NIS2Directive2022}, en a élargi le périmètre aux entités \emph{essentielles} et
+\emph{importantes} et a rendu l'organe de direction responsable des mesures de gestion du risque.
+Le règlement général sur la protection des données \citep{RGPD2016} fixe, en parallèle, un régime de
+notification et de sanction propre aux données personnelles. La directive sur la résilience des
+entités critiques \citep{REC2022} étend la même logique aux activités dont l'interruption affecte
+des fonctions sociétales vitales, et vise la continuité physique autant que numérique. Le
+règlement sur la cyberrésilience \citep{CRA2024}, enfin, déplace la contrainte vers l'amont : il
+l'impose aux produits comportant des éléments numériques plutôt qu'à leurs utilisateurs.
 
-C'est ce que le règlement sur la résilience opérationnelle numérique du secteur financier, dit
-DORA, vient combler. Entré en application le $17$ janvier $2025$, il s'adresse à une vingtaine de
+Aucun de ces textes ne porte sur la continuité d'une activité financière. Les deux premiers visent
+la sécurité et la confidentialité, le troisième la criticité sectorielle, le quatrième la conformité
+du produit mis sur le marché. C'est ce que le règlement sur la résilience opérationnelle numérique
+du secteur financier, dit DORA \citep{DORA2022}, vient combler. Entré en application le $17$ janvier $2025$, il s'adresse à une vingtaine de
 catégories d'entités financières, dont les entreprises d'assurance, et il déplace l'objectif :
 il ne s'agit plus seulement d'empêcher l'incident mais de garantir que l'entité \emph{résiste,
 réagit et se rétablit} lorsqu'il survient. Cette bascule est celle qui rend le sujet actuariel,
 car un objectif de continuité se mesure en pertes évitées et en durées d'indisponibilité, donc
 en grandeurs que l'on peut chiffrer.
 
+\paragraph{Ce que le mémoire retient de cet ensemble, et ce qu'il laisse de côté.} Seul DORA est
+modélisé, et le motif est de mesure et non d'importance : il est le seul de ces textes à découper la
+résilience en domaines de contrôle dont la défaillance se lit dans des données d'incidents, et le
+seul dont la non-conformité s'adresse à l'entité qui porte le capital. Les autres interviennent comme
+contexte. Le règlement sur la cyberrésilience, applicable à partir de décembre~$2027$, agit sur la
+fréquence future des vulnérabilités logicielles, donc sur une grandeur que la calibration du
+chapitre~\ref{chap:donnees} estime sur l'historique et ne projette pas. Les cadres applicables à
+l'intelligence artificielle et à l'identité numérique ne sont pas traités : la cartographie de la
+sous-section~\ref{subsec:france-assureurs-cesin} fait apparaître un risque lié à l'intelligence
+artificielle, mais aucune source ne le rattache aujourd'hui à un domaine de contrôle de DORA, et
+l'y rattacher par analogie serait poser ce que le mémoire prétend mesurer.
+
 \subsection{Les cinq piliers de DORA}
 \label{subsec:cinq-piliers-dora}
-% HARNAIS-HORS-SECTION: section reglementaire, les seuls nombres sont les etiquettes P1 a P5
-% des cinq piliers.
+% HARNAIS-HORS-SECTION: section reglementaire. Les nombres sont les etiquettes P1 a P5, les
+% numeros d'articles du reglement (5 a 16, 17 a 23, 24 a 27, 26, 28 a 44, 30, 45) et les
+% delais qu'il fixe. Ce sont des donnees de droit, aucune ne vient d'un calcul du projet.
 
 Le règlement organise la résilience autour de cinq domaines, que le mémoire note P1 à P5 et
 traite comme des domaines de \emph{contrôle} plutôt que comme des obligations à cocher.
 
 \begin{itemize}[leftmargin=1.4em,itemsep=4pt]
-\item \textbf{P1, gouvernance du risque lié aux technologies.} L'organe de direction est
+\item \textbf{P1, gouvernance du risque lié aux technologies} (articles~$5$ à~$16$). L'organe de direction est
       explicitement responsable du dispositif, et cette responsabilité n'est pas délégable :
       stratégie de résilience, cartographie des actifs informationnels et des dépendances
       critiques, politique de sécurité documentée, et contrôle interne continu plutôt
       qu'audits ponctuels.
-\item \textbf{P2, gestion, classification et notification des incidents.} Détection,
+\item \textbf{P2, gestion, classification et notification des incidents} (articles~$17$ à~$23$). Détection,
       qualification selon des critères de matérialité, puis notification des incidents
       \emph{majeurs} selon un calendrier resserré : alerte sous quatre heures après
       classification et au plus tard vingt-quatre heures après détection, rapport
       intermédiaire sous soixante-douze heures, rapport final sous un mois.
-\item \textbf{P3, tests de résilience opérationnelle numérique.} Les procédures ne se
+\item \textbf{P3, tests de résilience opérationnelle numérique} (articles~$24$ à~$27$). Les procédures ne se
       documentent plus, elles s'éprouvent. Les entités identifiées comme significatives sont
-      soumises à des tests de pénétration guidés par la menace, à mener au moins tous les
-      trois ans en conditions proches du réel.
-\item \textbf{P4, gestion du risque lié aux prestataires tiers.} Recensement des contrats
-      critiques dans un registre d'informations harmonisé, clauses contractuelles impératives,
+      soumises à des tests de pénétration guidés par la menace (article~$26$), à mener au moins
+      tous les trois ans en conditions proches du réel.
+\item \textbf{P4, gestion du risque lié aux prestataires tiers} (articles~$28$ à~$44$). Recensement des contrats
+      critiques dans un registre d'informations harmonisé, clauses contractuelles impératives
+      de l'article~$30$,
       stratégie de sortie, et surveillance directe des prestataires tiers jugés critiques par
       les autorités européennes, jusqu'au troisième rang de la chaîne de sous-traitance.
-\item \textbf{P5, partage d'informations sur les cybermenaces.} Échange, sur une base
+\item \textbf{P5, partage d'informations sur les cybermenaces} (article~$45$). Échange, sur une base
       volontaire et encadrée, de renseignements entre entités financières. C'est le pilier le
       moins mobilisable dans un calibrage actuariel, et il rappelle que la résilience porte
       une dimension collective au-delà de l'entité.
@@ -535,7 +560,8 @@ passe dans la manière dont elle se déforme (figure~\ref{fig:carto-retro}).
 \centering
 \includegraphics[width=0.92\textwidth]{figures_externes/carto_fa_2026_retrospective.png}
 \caption{Trajectoire des scores de la cartographie prospective, $2020$--$2026$. Le risque de
-cyberattaques reste au premier rang mais son score a cessé de monter depuis $2022$.}
+cyberattaques reste au premier rang mais son score a cessé de monter depuis $2022$.
+Source : cartographie prospective des risques, France Assureurs \citep{franceassureurs2026}.}
 \label{fig:carto-retro}
 \end{figure}
 
@@ -566,7 +592,8 @@ jamais un chemin unique (figure~\ref{fig:cesin-vecteurs}).
 \includegraphics[width=0.80\textwidth]{figures_externes/cesin_2026_vecteurs.png}
 \caption{Vecteurs ayant permis aux cyberattaques de démarrer ou de se déployer, exercice $2025$.
 Les mentions de droite donnent la part chez les grandes entreprises là où elle diffère
-significativement de la moyenne.}
+significativement de la moyenne.
+Source : baromètre de la cybersécurité des entreprises, OpinionWay pour le CESIN \citep{cesin2026}.}
 \label{fig:cesin-vecteurs}
 \end{figure}
 

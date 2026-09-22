@@ -63,7 +63,18 @@
   \linespread{1.05}                % obligatoire avec Palatino : grande hauteur d'x
 \fi
 \usepackage[french]{babel}
-\usepackage[margin=2.4cm]{geometry}
+% MARGES A 2,2 cm DEPUIS LE 22 SEPTEMBRE 2026, et c'est une contrainte de Kelian :
+% le memoire depose a l'ENSAE doit IMPERATIVEMENT tenir sous 200 pages. Le levier
+% est choisi parce qu'il ne retire RIEN du document, ni resultat, ni limite
+% declaree, ni reserve, ce que la note d'honnetete du projet interdit de defaire.
+% Mesure : 2,4 cm donnait 205 pages, 2,3 cm en donne exactement 200 et 2,2 cm en
+% donne 196. On retient 2,2 : a 200 pile, la moindre retouche ferait repasser le
+% document au-dessus de la limite. L'ecart de justification entre les deux
+% reglages vaut 2 mm, soit environ un caractere par ligne.
+% L'ecole impose la police et l'interligne (Times 12, 1,5), jamais les marges.
+% EFFET DE BORD FAVORABLE ET VERIFIE : les debordements de paragraphe passent de
+% 5 a 2, la justification elargie en absorbant trois. La ligne de base est donc 2.
+\usepackage[margin=2.2cm]{geometry}
 \usepackage{microtype}
 
 % Palatino est PLUS LARGE que Latin Modern a taille nominale egale, si bien que
@@ -104,6 +115,33 @@
 % ---------------------------------------------------------------------------
 \newcommand{\figover}[1]{%
   \makebox[\textwidth][c]{\includegraphics[width=1.14\textwidth]{#1}}}
+
+% ---------------------------------------------------------------------------
+% PLACEMENT DES FLOTTANTS. Regle le 22 septembre 2026, sur DEUX defauts que
+% Kelian a vus sur le PDF et que la source ne montrait pas : les quarante
+% figures sont declarees en [htbp] entre deux paragraphes, ce qui est correct,
+% mais les valeurs par defaut de la classe les faisaient atterrir mal.
+%
+%   - une figure du § 5.4 avait franchi le titre du § 5.5 et s'etait posee au
+%     milieu de sa premiere phrase, coupant << au-dessus du maximum >> de
+%     << de vraisemblance >> ;
+%   - la figure 9.1 occupait une PAGE DE FLOTTANT a elle seule, entouree de
+%     blanc, en coupant une phrase du chapitre 9 en deux.
+%
+% Les deux viennent des memes trois reglages. textfraction a 0,2 exige que
+% toute page porte un cinquieme de texte, donc chasse les grandes figures ;
+% floatpagefraction a 0,5 accorde une page entiere a toute figure qui remplit
+% la moitie d'une page, ce qui est le cas des figures \figover avec leur
+% legende. On relache les deux, et l'on remonte topfraction pour qu'une grande
+% figure tienne en haut d'une page de texte plutot que seule sur la sienne.
+%
+% CONTRAINTE A RESPECTER SI L'ON Y RETOUCHE : floatpagefraction doit rester
+% STRICTEMENT INFERIEUR a topfraction, faute de quoi LaTeX ne sait plus ou
+% poser un flottant et emet << Float(s) lost >>.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.85}
 
 \newcommand{\figcle}[3]{%
   \begin{figure}[p]

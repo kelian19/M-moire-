@@ -1,25 +1,37 @@
 % =====================================================================
-% PAGE DE COUVERTURE ENSAE — modèle de l'annexe 1 des consignes de stage.
+% PAGE DE COUVERTURE — COMMUNE AUX DEUX VERSIONS DÉPOSÉES.
 %
-% Elle remplace, dans main_ensae.tex SEULEMENT, la page de garde de l'Institut
-% des Actuaires que portent main.tex, main_v2.tex et main_v3.tex. Les deux
-% documents ont deux destinataires et deux gabarits imposés distincts : c'est la
-% seule raison pour laquelle ce fichier existe en double.
-%
-% La structure reprend celle de l'ancien rapport de stage raccourci
-% (exploratory/rapport_ensae/rapport_ensae.tex), dont elle avait été validée.
-% Seule la géométrie est adaptée : ce document compose en Palatino sur 2,4 cm,
-% quand le rapport composait en Times sur 2,5 cm.
+% Elle est appelée par main_ensae.tex ET par main_institut.tex, décision de
+% Kélian du 21 septembre 2026 : les deux versions partagent le corps et la
+% couverture, et ne diffèrent que par le chapitre du stage. La page de garde de
+% l'Institut des Actuaires (page_de_garde.tex) reste au dépôt, orpheline.
 %
 % LES TROIS CHAMPS SONT TRANCHÉS DEPUIS LE 16 SEPTEMBRE 2026 :
 %   1. CONFIDENTIALITÉ : le mémoire n'est PAS confidentiel, décision de Kélian ce
-%      jour. La couverture ne porte donc aucune mention, comme le gabarit le
-%      prévoit lorsque la confidentialité n'est pas demandée. Ne pas décommenter
-%      la ligne \pgeconf ci-dessous sans une décision inverse ;
-%   2. NOM DU FICHIER DÉPOSÉ : KADDOURI_Kelian_3A25.pdf, sans suffixe _CONF. Il se
-%      régénère depuis main_ensae.pdf, et il est gitignoré comme lui ;
+%      jour. La couverture ne porte donc aucune mention. Ne pas décommenter la
+%      ligne \pgeconf ci-dessous sans une décision inverse ;
+%   2. NOM DU FICHIER DÉPOSÉ : KADDOURI_Kelian_3A25.pdf, sans suffixe _CONF ;
 %   3. DATES DE STAGE : du 1er juin au 27 novembre 2026, confirmées par Kélian le
 %      16 septembre 2026.
+%
+% LE LOGO NEXIALOG EST POSÉ DEPUIS LE 22 SEPTEMBRE 2026, demande de Kélian. Le
+% refus antérieur n'avait qu'un motif, et il est tombé : le seul fichier
+% disponible était un JPEG sur fond noir, dont le détourage laissait un halo. Le
+% gabarit de présentation fourni le 11 septembre porte le logo en PNG à fond
+% transparent, recopié ici depuis exploratory/slides/charte_nexialog/.
+%
+% ALIGNEMENT, ET C'EST LA RAISON DE LA RÉÉCRITURE DU 22 SEPTEMBRE.
+%   - LES DEUX LOGOS SE DIMENSIONNENT EN HAUTEUR, JAMAIS EN LARGEUR. Leurs
+%     proportions vont de 0,877 pour l'école (522 x 595 px, presque carré) à
+%     2,755 pour l'entreprise (416 x 151 px, un logotype couché). Fixer la
+%     largeur des deux donnerait un emblème haut de 5 cm à côté d'un logotype
+%     haut de 1,6 cm ;
+%   - ILS SONT POSÉS DANS DEUX BOÎTES DE MÊME HAUTEUR À CONTENU CENTRÉ,
+%     minipage[c][hauteur][c]. Un alignement en [t] ferait pendre le plus large
+%     sous le haut du plus haut, ce qui était le défaut de la version antérieure ;
+%   - TOUT LE RESTE EST CALÉ SUR \textwidth, filets compris. Le cadre du titre
+%     retire lui-même les 2\fboxsep + 2\fboxrule que \fbox ajoute à l'extérieur
+%     de son contenu, sans quoi il déborderait des filets de 6,8 pt.
 % =====================================================================
 
 % --- Champs renseignés ------------------------------------------------
@@ -29,7 +41,7 @@
 \newcommand{\pgemaitre}{Hugo RAPIOR}
 \newcommand{\pgedates}{1\up{er} juin 2026 au 27 novembre 2026}
 % Confidentialité : si Nexialog la demande, remplacer la ligne suivante par
-% \newcommand{\pgeconf}{\\[10pt] \Large\bfseries Confidentiel}
+% \newcommand{\pgeconf}{\\[12pt] \Large\bfseries Confidentiel}
 \newcommand{\pgeconf}{}
 % ---------------------------------------------------------------------
 
@@ -37,55 +49,65 @@
 
 \begin{titlepage}
 \thispagestyle{empty}
+\setlength{\parindent}{0pt}
 
-% LOGO ENSAE. La boite vaut 0,16 de la justification et non 0,1 : a l'echelle 0,1 le fichier
-% mesure 52,2 pt pour une boite de 48,2, defaut deja rencontre sur la page de garde de
-% l'Institut. Mesure sur le PDF rendu, pas deduite de la source.
-\noindent
-\begin{minipage}[t]{0.55\textwidth}
-  \includegraphics[width=0.52\linewidth]{logos/ensae.png}
-\end{minipage}%
-\begin{minipage}[t]{0.45\textwidth}
-  \raggedleft\large\bfseries ENSAE 3\up{ème} année \\[2pt] Stage de fin d'études
-\end{minipage}
-
-\vspace{12pt}
-\noindent
-\begin{minipage}[t]{0.55\textwidth}
-  \large\bfseries KADDOURI Kélian
-\end{minipage}
-
-\vspace{10pt}
-\noindent\textit{\large Année scolaire \pgeanneescolaire}
-
-\vspace{6cm}
-
-\begin{center}
-\fbox{\begin{minipage}{0.92\textwidth}
-  \vspace{10pt}
-  \begin{center}
-    {\LARGE\bfseries Quantification du SCR lié à la non-conformité\\[6pt]
-     au règlement DORA}\\[14pt]
-    {\large Une cascade dirigée entre les cinq piliers, dont l'état de conformité
-     pilote le capital}
-    \pgeconf
-  \end{center}
-  \vspace{10pt}
-\end{minipage}}
-\end{center}
-
-\vfill
-
-\noindent
-\begin{minipage}[t]{0.48\textwidth}
-  \large\bfseries \pgeentreprise \\[4pt] \pgeville
-\end{minipage}%
-\begin{minipage}[t]{0.52\textwidth}
-  \raggedleft\bfseries Maître de stage : \pgemaitre \\[4pt]
-  \pgedates
+% --- BANDEAU DES LOGOS ------------------------------------------------
+\begin{minipage}[c][2.9cm][c]{0.49\textwidth}
+  \includegraphics[height=2.5cm]{logos/ensae.png}
+\end{minipage}\hfill
+\begin{minipage}[c][2.9cm][c]{0.49\textwidth}
+  \raggedleft\includegraphics[height=1.5cm]{logos/nexialog.png}
 \end{minipage}
 
 \vspace{8pt}
+\rule{\textwidth}{0.8pt}
+
+\vspace{8pt}
+\begin{minipage}[t]{0.49\textwidth}
+  \large\bfseries ENSAE Paris, 3\up{ème} année\\[3pt]
+  \mdseries Stage de fin d'études
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+  \raggedleft\large Année scolaire \pgeanneescolaire
+\end{minipage}
+
+\vspace{8pt}
+\rule{\textwidth}{0.4pt}
+
+\vfill
+
+\begin{center}
+  {\Large\bfseries KADDOURI Kélian}
+\end{center}
+
+\vspace{20pt}
+
+\fbox{\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+  \vspace{16pt}
+  \begin{center}
+    {\LARGE\bfseries Quantification du SCR lié à la non-conformité\\[8pt]
+     au règlement DORA}\\[18pt]
+    {\large Une cascade dirigée entre les cinq piliers,\\[4pt]
+     dont l'état de conformité pilote le capital}
+    \pgeconf
+  \end{center}
+  \vspace{16pt}
+\end{minipage}}
+
+\vfill
+
+\rule{\textwidth}{0.4pt}
+
+\vspace{8pt}
+\begin{minipage}[t]{0.49\textwidth}
+  \bfseries \pgeentreprise\\[3pt]
+  \mdseries \pgeville
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+  \raggedleft\bfseries Maître de stage : \pgemaitre\\[3pt]
+  \mdseries \pgedates
+\end{minipage}
+
 \end{titlepage}
 
 \restoregeometry

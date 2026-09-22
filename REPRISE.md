@@ -40,35 +40,44 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 18 septembre 2026
+## L'état mesuré, au 22 septembre 2026
 
-**`main_ensae.tex` EST LE MÉMOIRE DÉPOSÉ, ET LE SEUL QUI SE COMPILE DÉSORMAIS.** La v3 est
-supprimée (décision de Kélian le 17 septembre) ; `main.tex` et `main_v2.tex` restent au dépôt,
-partagent les chapitres, mais ne sont plus recompilés ni contrôlés : leurs PDF sont périmés.
+**DEUX VERSIONS PARTENT, ET ELLES PARTAGENT TOUT SAUF LE CHAPITRE DU STAGE.** `main_ensae.tex`
+est le mémoire déposé à l'école ; `main_institut.tex` est **généré** par `build_institut.py`
+depuis le premier, en retirant la seule partie « Le stage ». Ne pas l'éditer à la main, le
+script l'écrase. Les deux portent **la couverture ENSAE**, décision de Kélian du 21 septembre :
+`page_de_garde.tex`, la couverture de l'Institut, reste au dépôt mais est orpheline.
 
-**LE FICHIER DÉPOSÉ EXISTE** : `exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf`, copie
-exacte de `main_ensae.pdf`, **sans suffixe `_CONF`** (mémoire non confidentiel, décision du
-16 septembre). Gitignoré. **Il se périme à la moindre recompilation** : recopier après chaque
+**KÉLIAN VEUT IMPÉRATIVEMENT LE MÉMOIRE ENSAE SOUS 200 PAGES**, contrainte posée le
+22 septembre. Elle est tenue à **195**, avec cinq pages de marge. Trois leviers ont été
+employés, aucun ne retire de contenu : sommaire au niveau des sections (`tocdepth` à 1), marges
+de 2,4 à **2,2 cm**, et resserrage de l'annexe G. **Ne pas remonter les marges sans recompter
+les pages.**
+
+| Document | Total | Débordements | Harnais |
+|---|---|---|---|
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **195 pages** | **2, nouvelle ligne de base** | **1 881 sur 1 881** |
+| **`main_institut.pdf`, pour l'Institut** | **190 pages** | 2 | idem, mêmes chapitres |
+
+**LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
+dont les quatre de la table des paramètres. Les deux qui restent sont
+`02b_cadre_cyber_dora:266` et `16_notations:79`. Comparer à 2, jamais à 5.
+
+**Les deux fichiers déposés existent** : `KADDOURI_Kelian_3A25.pdf` et
+`KADDOURI_Kelian_institut.pdf`, copies exactes de leurs sources, vérifiées au SHA-256.
+Gitignorés, et **ils se périment à la moindre recompilation** : recopier après chaque
 compilation.
 
-**SON FORMAT EST IMPOSÉ PAR L'ÉCOLE** : pas de limite de trente pages, **Times New Roman 12 et
-interligne 1,5**, par l'interrupteur `\formatensae`. Couverture ENSAE complète.
+**Ordre des pièces, identique dans les deux** : couverture, remerciements, résumé et sommaire,
+glossaire en 11, note de synthèse en 13, executive summary en 17, Contexte en 21, Données en 44,
+Modélisation en 65, Résultats en 103, Robustesse en 128, puis **Le stage en 148 pour l'ENSAE
+seulement**, annexes en 153 (ENSAE) ou 148 (Institut), bibliographie en fin.
 
-| Document | Total | Folios | Débordements | Harnais |
-|---|---|---|---|---|
-| **`main_ensae.pdf`, le mémoire déposé** | **172 pages** | corps (parties I à V) 21 à 132, stage 133, annexes 139 | **5, ligne de base** | **1 490 sur 1 490** |
-| `rapport_ensae.pdf` | 52 pages | 36 de corps | 0 | ne part plus |
-
-**Ordre des pièces** : couverture, remerciements, résumé et sommaire, glossaire en 10, note de
-synthèse en 12, executive summary en 16, Contexte en 21, Données en 37, Modélisation en 49,
-Résultats en 88, Robustesse en 113, Le stage en 133, Annexes en 139, bibliographie en fin.
-
-**Annexes depuis le 18 septembre, et les lettres ont toutes bougé** : une notice sans numéro
-« Organisation des annexes et matériel complémentaire » ouvre la partie, puis **A** démonstrations
-du modèle de cascade (`15b`), **B** adaptations par pilier (`12b`), **C** protocole d'élicitation
-(`18`), **D** table des paramètres (`17b`, revenue du dossier déporté le 18 septembre au soir),
-**E** table des notations (`16`). Les renvois passent tous par `\ref`, aucune lettre
-n'est écrite en dur.
+**Annexes** : une notice sans numéro ouvre la partie, puis **A** démonstrations du modèle de
+cascade (`15b`), **B** adaptations par pilier (`12b`), **C** protocole d'élicitation (`18`),
+**D** table des paramètres (`17b`), **E** table des notations (`16`), **F** pistes pour de futurs
+mémoires (`22`), **G** inventaire de l'usage de l'IA (`23`). Les deux dernières sont **exigées
+par le § 5.1.h du référentiel de l'Institut** : ne pas les retirer.
 
 **TROIS ANNEXES SONT DÉPORTÉES** dans `exploratory/memoire_cascade/materiel_complementaire/`,
 avec leur `README.md` : démonstrations du socle EVT (`15_demonstrations`), pièces justificatives
@@ -76,11 +85,11 @@ avec leur `README.md` : démonstrations du socle EVT (`15_demonstrations`), piè
 Aucun fichier maître ne les appelle. Les 54 renvois qui y pointaient portent la macro
 `\matcomp`, qui imprime « *(voir le Matériel Complémentaire en ligne)* » et ne contient aucun
 `\ref`. **L'adresse du dépôt externe reste à renseigner**, le gabarit
-`https://LIEN_VERS_LE_DEPOT.com` étant en clair dans les trois fichiers maîtres.
+`https://LIEN_VERS_LE_DEPOT.com` étant en clair dans les fichiers maîtres.
 
-**Harnais : 2 357 nombres, 2 357 confirmés**, et **0 hors contrôle non déclaré** chapitre par
-chapitre (publiés = sous contrôle + déclarés partout). Contrôles `controles_memoire.py` au vert :
-0 `??`, 0 vbox, 0 annotation hors page, 0 page tournée, aucune figure seule ni trop haute.
+**Harnais : 1 881 nombres, 1 881 confirmés**, et **0 hors contrôle non déclaré** chapitre par
+chapitre. Contrôles au vert sur les deux versions : 0 `??`, 0 vbox, 0 annotation hors page,
+0 page tournée, **et aucune figure seule sur sa page**, hors la couverture.
 
 **Les lignes « Sources : scripts… » vivent dans des commentaires `% SOURCES-SCRIPTS: NN`**, sur
 leur propre ligne (un commentaire posé en fin de ligne de prose avale le texte qui suit).
@@ -644,6 +653,173 @@ Chacun a coûté du temps au moins une fois.
 ---
 
 # Journal
+
+## 22 septembre 2026
+
+### Le mémoire tient sous 200 pages, contrainte de Kélian
+
+**206 pages au matin, 195 au soir, et rien n'a été retiré du mémoire** : ni résultat, ni limite
+déclarée, ni réserve. Trois leviers, mesurés avant d'être choisis.
+
+- **sommaire au niveau des sections** (`\setcounter{tocdepth}{1}` dans `01_resume.tex`). Il
+  listait les sous-sections sur six pages. Gain réel : **une seule page**, il n'y avait que
+  31 sous-sections au sommaire ;
+- **marges de 2,4 à 2,2 cm** dans `preambule_v2.tex`, et c'est le levier qui a tout fait :
+  **205 → 196**. Les trois réglages ont été mesurés : 2,4 cm donne 205 pages, 2,3 cm en donne
+  **exactement 200**, 2,2 cm en donne 196. Le 2,3 a été écarté parce qu'à la limite pile, la
+  moindre retouche repasserait au-dessus sans qu'on s'en aperçoive. L'écart de justification
+  entre les deux vaut **2 mm**, soit un caractère par ligne. L'école impose la police et
+  l'interligne, jamais les marges ;
+- **annexe G resserrée**, six pages à deux, voir plus bas.
+
+**EFFET DE BORD FAVORABLE : LA LIGNE DE BASE DES DÉBORDEMENTS PASSE DE 5 À 2.** La
+justification élargie en a absorbé trois, dont les quatre de la table des paramètres de
+l'annexe D, qui tient désormais entièrement dans la boîte de texte. **Comparer à 2 désormais.**
+
+### Deux défauts de flottant, vus par Kélian sur le PDF et corrigés globalement
+
+Il a signalé deux figures qui coupaient une phrase en deux : celle du § 5.4 posée au milieu de
+la première phrase du § 5.5, coupant « au-dessus du maximum » de « de vraisemblance », et la
+figure 9.1 seule sur une page de flottant au milieu d'une phrase du chapitre 9.
+
+**La source n'était pas en cause.** Les quarante figures sont déclarées en `[htbp]` entre deux
+paragraphes, ce qui est correct. Le défaut venait des **valeurs de placement par défaut de la
+classe**, que le préambule ne réglait pas : `textfraction` à 0,2 exige qu'une page porte un
+cinquième de texte, donc chasse les grandes figures ; `floatpagefraction` à 0,5 accorde une page
+entière à toute figure qui remplit la moitié d'une page, ce que font les figures `\figover`
+avec leur légende. Quatre paramètres sont désormais posés dans `preambule_v2.tex`.
+
+**Contrainte à connaître si l'on y retouche : `floatpagefraction` doit rester strictement
+inférieur à `topfraction`**, sinon LaTeX émet « Float(s) lost ».
+
+**Résultat vérifié sur le PDF : plus aucune page de flottant dans tout le document**, hors la
+couverture, et le détecteur de blancs rend exactement les mêmes 27 pages qu'avant, donc rien
+n'a été cassé ailleurs.
+
+### Le chapitre 1 n'avait aucun texte de droit en bibliographie
+
+**Défaut trouvé en répondant à une question de Kélian, et il était sérieux.** La section
+`sec:dora`, quatre sous-sections, ne portait **aucune citation**. L'entrée `DORA2022` existait
+dans `references.bib` mais n'était `\citep` nulle part ; `plainnat` n'imprimant que ce qui est
+cité, **la bibliographie d'un mémoire intitulé « … au règlement DORA » ne contenait pas le
+règlement DORA**. Constaté sur le texte extrait du PDF.
+
+**Cinq textes entrent, tous vérifiés contre EUR-Lex le jour même** et non écrits de mémoire :
+DORA (UE) 2022/2554, NIS 2 (UE) 2022/2555, la directive REC (UE) 2022/2557, le RGPD
+(UE) 2016/679 et le Cyber Resilience Act (UE) 2024/2847. **Les numéros de Journal officiel ne
+sont pas écrits** : ils n'ont pas été vérifiés pièce par pièce, et une référence de JO fausse
+serait pire que son absence, alors que l'adresse ELI est stable et officielle.
+
+**Les cinq piliers portent leurs articles** — 5 à 16, 17 à 23, 24 à 27, 28 à 44, 45 — avec
+l'article 26 (tests guidés par la menace) et l'article 30 (principales dispositions
+contractuelles) nommés en place. Structure du règlement vérifiée contre EUR-Lex et deux sources
+concordantes. **On écrit « articles 5 à 16 » et jamais « chapitre II »**, le mot chapitre
+désignant déjà une partie du mémoire.
+
+Un paragraphe **déclare le périmètre** : pourquoi seul DORA est modélisé, et pourquoi le risque
+lié à l'IA que la cartographie France Assureurs fait apparaître n'est pas traité — aucune source
+ne le rattache à un domaine de contrôle de DORA, et l'y rattacher par analogie poserait ce que
+le mémoire prétend mesurer.
+
+**Deux défauts de bibliographie vus sur la page RENDUE, pas sur la source** : « Règlement (ue)
+2016/679 » en minuscules, le sigle n'étant pas protégé par des accolades ; et **« Disponible a
+l'adresse » et « consulte le » sans accents sur 19 et 22 entrées**, introduits la veille avec
+les adresses. Corrigés partout.
+
+### La couverture porte le logo Nexialog, et tout est aligné
+
+Demande de Kélian. Le seul motif du refus antérieur est tombé le 11 septembre : le gabarit de
+présentation porte le logo en **PNG à fond transparent**, recopié dans
+`memoire_cascade/logos/nexialog.png`.
+
+**Les deux logos se dimensionnent en HAUTEUR, jamais en largeur.** Leurs proportions vont de
+0,877 pour l'école (presque carré) à 2,755 pour l'entreprise (un logotype couché) : une largeur
+commune donnerait un emblème de 5 cm à côté d'un bandeau de 1,6 cm. Ils sont posés dans deux
+boîtes de même hauteur à contenu centré, ce qui les aligne sur leur **milieu** et non sur leur
+sommet, qui était le défaut de la version antérieure. Tout le reste est calé sur `\textwidth`,
+le cadre du titre retirant lui-même les 6,8 pt que `\fbox` ajoute à l'extérieur de son contenu.
+
+Premier essai à 1,05 cm de haut pour Nexialog : « CONSULTING » était illisible. Monté à 1,5 cm
+**après lecture du rendu**, pas avant.
+
+### Les six figures externes portent leur source
+
+Demande de Kélian sur France Assureurs et le CESIN ; les quatre autres avaient le même manque,
+et en créditer deux sur six se serait lu comme un oubli. La forme reprend celle qui existait
+déjà dans les notes de synthèse, plus le renvoi bibliographique. **Les images France Assureurs
+et CESIN portent déjà leur propre mention incrustée** : le crédit apparaît donc deux fois sur
+ces deux figures, et c'est assumé, l'incrustée faisant partie du graphique reproduit.
+
+### L'annexe G resserrée au registre de F. Dountio
+
+Six pages à deux. **Ce qui est parti est de la présentation, pas de la déclaration** :
+l'encadré qui reparaphrasait le référentiel, l'encadré d'avertissement, les titres narratifs, et
+trois têtes de paragraphe qui annonçaient ce que la phrase suivante disait. **L'inventaire reste
+exhaustif et les mesures de vérification restent décrites**, le § 5.1.h exigeant les deux.
+
+**La limite du dispositif est conservée et a GAGNÉ en visibilité** : les huit erreurs sémantiques
+que le harnais confirmait toutes vivaient dans un encadré au milieu d'une section, elles ont
+maintenant leur propre section `G.3`.
+
+**Trois comptes y étaient périmés**, relevés sur le harnais : 1 824 nombres → **1 881**,
+22 chapitres → **19** (ceux qui publient des nombres), 112 sorties → **111**. Ils bougent à
+chaque chapitre touché : les recompter avant la compilation finale.
+
+### Le résumé porte la bande d'entité
+
+Demande de Kélian. C'est la **bande** `[131,5 ; 183,3]` M€ qui entre, et non le point de 169 : le
+§ 10.11 déclare l'entité notionnelle hors du domaine de validité de la descente d'échelle, et
+publier un point en résumé offrirait au jury la question la plus facile du dossier. Source :
+script 65, déclaré dans la ligne `SOURCES-SCRIPTS`.
+
+### Script 106, ÉCRIT MAIS NON EXÉCUTÉ : la donnée source n'est pas sur ce poste
+
+**C'est le point ouvert le plus net de la journée.** Kélian a demandé si un sinistre unique
+portait et faussait les résultats. La réponse est en deux temps :
+
+- **en sortie de modèle**, oui, et c'est structurel et déjà mesuré : le quantile à 99,5 % est
+  porté par un sinistre unique, c'est la sous-exponentialité, que le mémoire nomme *principe de
+  la perte unique dominante*. Le script 91 en mesure la conséquence, la loi de comptage étant
+  décisive sur les comptes et immatérielle sur la charge ;
+- **en entrée de calibration**, le script 104 mesure déjà l'essentiel : le rapport du maximum au
+  q99 vaut **3,7 sur le périmètre calibré** contre 52,7 sur la base entière, et le sinistre le
+  plus lourd du fichier ne relève pas du cyber ;
+- **mais le mémoire ne publie nulle part ce que devient $\hat\xi$ si l'on retire la plus grosse
+  perte.** Le seul jackknife du dossier porte sur le corpus de post-mortems, pas sur la sévérité.
+
+D'où le **script 106**, `1_fondations/106_influence_plus_grosses_pertes.py`, 294 lignes,
+**entièrement déterministe** : il réajuste, il ne simule pas, donc aucun bruit nouveau à
+interpréter et une sortie reproductible à l'octet. Retrait des $k$ plus grosses pertes pour
+$k = 0$ à $5$ au seuil publié tenu fixe, contrôle de convention à taux gelé, jackknife sur
+chacun des 91 excès, contrôle croisé du rapport max/q99 du 104, bloc des grandeurs citées. Le
+repère est l'**IC90 déjà publié**, pas un bruit fabriqué.
+
+**IL N'A PAS TOURNÉ : `data/raw/` N'EXISTE PAS SUR CE POSTE.**
+`SAS_OpRisk_Global_Data_June_2026.xlsx` est sous licence et gitignoré, il n'a pas suivi le
+déplacement du projet vers `Desktop\Memoire`. Cherché sur tout le poste, absent.
+
+**Ce qui a été vérifié sans la donnée** : un essai à vide sur échantillon synthétique montre que
+les six sections s'exécutent, et surtout que **l'arrêt dur fonctionne**. Sur le modèle du
+script 95, le script s'arrête si le compte d'excès n'est pas exactement 91 ou si $\hat\xi$
+s'écarte de plus de 5 % de la valeur gelée : l'échantillon synthétique a été **refusé** avec son
+motif. Sans ce garde-fou, un fichier source remplacé ferait publier l'influence d'une
+observation sur un autre modèle que celui du mémoire.
+
+Le contrôle passera sur la vraie donnée : la sortie versionnée du script 93 montre qu'au seuil
+publié l'ajustement libre donne $\xi = 0{,}5925$ contre 0,5954 gelé, soit **0,5 %** d'écart.
+
+**AUCUN TEXTE N'A ÉTÉ ÉCRIT AU MÉMOIRE**, et c'est délibéré : rédiger le commentaire avant
+d'avoir lu la sortie est l'erreur que ce dossier a commise sept fois et qu'il documente. La
+section du chapitre du socle s'écrira quand `sorties_verif/106.txt` existera.
+
+### État à la fin de la journée
+
+`main_ensae` à **195 pages**, `main_institut` à **190**. Les deux à `exit 0`, **2 débordements,
+nouvelle ligne de base**, 0 vbox, 0 annotation hors page, 0 `??`, 0 page tournée, aucune citation
+non résolue, aucune figure seule sur sa page. Harnais **1 881 sur 1 881**, hors contrôle non
+déclaré à zéro. Les deux copies de dépôt régénérées et vérifiées au SHA-256.
+
+---
 
 ## 19 septembre 2026
 
