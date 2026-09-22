@@ -105,21 +105,20 @@ exploratory/memoire_cascade/main_v2.pdf
 # Meme traitement pour la version courte : elle se regenere en une commande, et
 # dix megaoctets de plus par compilation alourdiraient le depot sans profit.
 exploratory/memoire_cascade/main_v3.pdf
-# ET POUR LA VERSION ENSAE, qui est pourtant le document DEPOSE le 30 septembre.
-# Meme motif : dix megaoctets, regenerables en une commande, et un binaire de
-# cette taille commite a chaque compilation fait grossir l'historique de facon
-# irreversible. Ses SOURCES sont versionnees, donc le PDF se reconstruit a
-# l'identique. C'est un arbitrage, et il appartient a Kelian de le renverser :
-# retirer cette ligne suffit.
-exploratory/memoire_cascade/main_ensae.pdf
-# Le fichier au nom impose par l'ecole est une copie de main_ensae.pdf, regeneree
-# a chaque depot : meme traitement.
+# LES DEUX PDF MAITRES SONT VERSIONNES DEPUIS LE 22 SEPTEMBRE 2026, decision de
+# Kelian, qui renverse l'arbitrage pose plus haut. Motif : il travaille sur deux
+# postes et veut LIRE le memoire depuis un clone sans avoir a installer tectonic
+# ni recompiler. Cout assume : 5,8 Mo chacun, et une nouvelle copie dans
+# l'historique a chaque commit qui les touche. Ne les committer QUE lorsque le
+# contenu a reellement change, jamais apres une compilation de simple controle.
+#   exploratory/memoire_cascade/main_ensae.pdf     <- versionne
+#   exploratory/memoire_cascade/main_institut.pdf  <- versionne
+#
+# LES DEUX COPIES AU NOM IMPOSE RESTENT IGNOREES, et ce n'est pas une omission :
+# elles sont identiques a l'octet a leur source, verifie au SHA-256 par
+# refaire_tout.py, et se regenerent en une commande. Les versionner doublerait
+# le poids pour aucun contenu nouveau.
 exploratory/memoire_cascade/KADDOURI_Kelian_3A25.pdf
-# VERSION INSTITUT, ajoutee le 21 septembre 2026. main_institut.tex, lui, EST
-# versionne comme main_ensae.tex : il est genere par build_institut.py, mais le
-# versionner permet de compiler la version Institut depuis un clone sans lancer
-# le script d'abord. Ne pas l'editer a la main, le script l'ecrase.
-exploratory/memoire_cascade/main_institut.pdf
 exploratory/memoire_cascade/KADDOURI_Kelian_institut.pdf
 # NOTE DE SYNTHESE SEPAREE, ajoutee le 22 septembre 2026. Meme traitement :
 # note_synthese_separee.tex EST versionne, il \input le fichier des notes plutot

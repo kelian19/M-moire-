@@ -7,6 +7,24 @@
 
 ---
 
+## Lire le mémoire, ou reprendre le travail
+
+| Je veux… | Aller à |
+|---|---|
+| **lire le mémoire** | [`main_ensae.pdf`](exploratory/memoire_cascade/main_ensae.pdf) — version ENSAE, **195 pages** |
+| lire la version Institut des Actuaires | [`main_institut.pdf`](exploratory/memoire_cascade/main_institut.pdf) — identique, sans le chapitre du stage |
+| **reprendre le travail sur un poste neuf** | **[`DEMARRAGE.md`](DEMARRAGE.md)** — prérequis, une commande, les pièges |
+| connaître l'état daté et le journal | [`REPRISE.md`](REPRISE.md) |
+| connaître les conventions et les décisions | [`CLAUDE.md`](CLAUDE.md) |
+
+Tout régénérer et contrôler, en une commande :
+
+```bash
+python exploratory/memoire_cascade/refaire_tout.py
+```
+
+---
+
 ## Positionnement
 
 > *Le SCR cyber n'est pas un nombre, c'est une distribution large.*

@@ -25,7 +25,7 @@ Usage :
   --pdf      defaut main_ensae.pdf a cote de ce fichier.
   --log      journal de compilation (les deux flux rediriges). Sans lui, les
              controles 2 sont sautes et signales comme tels.
-  --hbox     ligne de base des debordements horizontaux (defaut 6 pour
+  --hbox     ligne de base des debordements horizontaux (defaut 2 pour
              main_ensae) : au-dessus, il y en a de nouveaux.
   --hauteur  hauteur imprimee maximale d'une figure, en centimetres (defaut 11).
 
@@ -54,7 +54,10 @@ def principal():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pdf", default=os.path.join(MEM, "main_ensae.pdf"))
     ap.add_argument("--log", default=None)
-    ap.add_argument("--hbox", type=int, default=6)
+    # LIGNE DE BASE A 2 DEPUIS LE 22 SEPTEMBRE 2026, et plus 6 : le passage des
+    # marges a 2,2 cm a absorbe les quatre debordements de la table des parametres.
+    # Comparer a 6 ferait passer quatre debordements nouveaux pour normaux.
+    ap.add_argument("--hbox", type=int, default=2)
     ap.add_argument("--hauteur", type=float, default=11.0)
     arg = ap.parse_args()
     try:
