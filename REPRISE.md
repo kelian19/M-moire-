@@ -49,14 +49,14 @@ script l'écrase. Les deux portent **la couverture ENSAE**, décision de Kélian
 `page_de_garde.tex`, la couverture de l'Institut, reste au dépôt mais est orpheline.
 
 **KÉLIAN VEUT IMPÉRATIVEMENT LE MÉMOIRE ENSAE SOUS 200 PAGES**, contrainte posée le
-22 septembre. Elle est tenue à **198**, avec **deux pages de marge seulement**. Trois leviers ont été
-employés, aucun ne retire de contenu : sommaire au niveau des sections (`tocdepth` à 1), marges
-de 2,4 à **2,2 cm**, et resserrage de l'annexe G. **Ne pas remonter les marges sans recompter
-les pages.**
+22 septembre. Elle est tenue à **197 depuis le 23 septembre**, avec **trois pages de marge**. Quatre leviers
+ont été employés, aucun ne retire de résultat : sommaire au niveau des sections (`tocdepth` à 1),
+marges de 2,4 à **2,2 cm**, resserrage de l'annexe G, et passage en prose des deux tableaux de
+listes du chapitre du stage. **Ne pas remonter les marges sans recompter les pages.**
 
 | Document | Total | Débordements | Harnais |
 |---|---|---|---|
-| **`main_ensae.pdf`, déposé à l'ENSAE** | **198 pages** | **2, nouvelle ligne de base** | **1 911 sur 1 911** |
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **197 pages** | **2, nouvelle ligne de base** | **1 911 sur 1 911** |
 | **`main_institut.pdf`, pour l'Institut** | **193 pages** | 2 | idem, mêmes chapitres |
 
 **LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
@@ -70,8 +70,9 @@ compilation.
 
 **Ordre des pièces, identique dans les deux** : couverture, remerciements, résumé et sommaire,
 glossaire en 11, note de synthèse en 13, executive summary en 17, Contexte en 21, Données en 44,
-Modélisation en 65, Résultats en 104, Robustesse en 129, puis **Le stage en 149 pour l'ENSAE
-seulement**, annexes en 154 (ENSAE) ou 149 (Institut), bibliographie en fin.
+Modélisation en 65, Résultats en 104, Robustesse en 130, puis **Le stage en 150 pour l'ENSAE
+seulement**, annexes en 154 (ENSAE) ou 149 (Institut), bibliographie en fin. Comptes relevés sur
+le PDF le 23 septembre, après le passage en prose du chapitre du stage.
 
 **Annexes** : une notice sans numéro ouvre la partie, puis **A** démonstrations du modèle de
 cascade (`15b`), **B** adaptations par pilier (`12b`), **C** protocole d'élicitation (`18`),
@@ -685,6 +686,29 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 23 septembre 2026
+
+### Le chapitre du stage : les deux tableaux de listes passent en prose
+
+**Demande de Kélian : les sections 14.2 et 14.3 étaient trop listées, et le détail sur
+l'encadrement trop fourni.** Les deux tableaux sont supprimés et remplacés par de la prose.
+
+- **14.2, les enseignements de l'ENSAE** : la table de dix lignes (enseignement, ce qu'il
+  fournit, où il sert) devient deux paragraphes. Le premier nomme les enseignements en une
+  phrase, le second garde ce qui portait la valeur de la section, les deux apports décisifs,
+  l'économétrie de l'identification et l'indice de queue lu comme condition d'existence ;
+- **14.3, la part de l'encadrement** : la table de huit lignes, qui détaillait **chaque** demande
+  de Hugo Rapior et de Caroline Hillairet avec son effet, devient un paragraphe qui caractérise
+  au lieu d'énumérer. Le paragraphe sur les processus auto-excités est conservé, celui sur les
+  tiers est resserré.
+
+**Le barème de l'école reste couvert** : il demande de préciser la part d'influence du maître de
+stage et des tierces personnes, ce que la prose fait toujours. Ce qui disparaît est
+l'inventaire, pas l'attribution. **Ne pas remettre les deux tableaux.**
+
+**Une page gagnée : `main_ensae` passe de 198 à 197**, et la marge sous la contrainte des 200
+passe de deux à trois pages. Le chapitre passe de 4 à 3 pages. `main_institut` reste à **193**,
+il n'appelle pas ce chapitre. Aucun renvoi extérieur ne pointait vers les deux étiquettes de
+tableau supprimées, vérifié avant la coupe.
 
 ### La figure S14 avait une abscisse illisible, et trois autres défauts avec elle
 
