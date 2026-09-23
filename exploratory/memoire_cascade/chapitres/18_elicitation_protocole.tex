@@ -3,11 +3,17 @@
 % l'initiative de pallier le manque de donnees par un recueil d'avis d'experts et demande de
 % mettre la methode de Cooke et le questionnaire en annexe.
 %
-% LE SENS DE L'ANNEXE A CHANGE AVEC LA DECISION DE NE PAS LANCER L'ELICITATION. Elle ne
-% presente donc pas un protocole A VENIR mais un protocole PREPARE ET NON EXECUTE, avec le
-% chiffrage de la raison. C'est un actif devant un jury qui demanderait pourquoi un modele dont
-% la direction n'est pas identifiable ne recourt pas au jugement d'expert : la reponse existe,
-% elle est chiffree, et le materiel est pret.
+% LE SENS DE L'ANNEXE A CHANGE DEUX FOIS. D'abord avec la decision de ne pas lancer
+% l'elicitation, qui en faisait un protocole PREPARE ET NON EXECUTE. Puis le 23 septembre 2026,
+% Kelian ayant precise que le questionnaire a ETE DIFFUSE : formulaire en ligne et questionnaire
+% PDF adresses a une commission de l'Institut des Actuaires et a des praticiens du cabinet,
+% AUCUNE REPONSE de l'Institut, aucun panel constitue. L'annexe rapporte donc une DEMARCHE et son
+% issue, et non un choix. Ce qui ne change pas : l'argument chiffre du script 31 reste, et il est
+% presente comme ETABLI AVANT le constat, ce qu'il etait.
+%
+% LES DESTINATAIRES NE SONT PAS NOMMES DANS LE MEMOIRE, meme regle que pour les repondants du
+% formulaire de relecture. Nommer des personnes qui n'ont pas repondu, dans un document mis en
+% ligne par l'Institut, serait deplace. Leurs noms vivent dans REPRISE.md, pas ici.
 %
 % ATTENTION AU PIEGE DU HARNAIS, ET IL A ETE RENCONTRE ICI. Une declaration
 % HARNAIS-HORS-SCRIPT posee AVANT la premiere \section couvre tout le fichier : la premiere
@@ -16,16 +22,18 @@
 % justifie, et les autres citent leurs scripts.
 % =====================================================================================
 
-\chapter{Le protocole d'élicitation, préparé et non exécuté}
+\chapter{Le protocole d'élicitation, diffusé et resté sans réponse}
 \label{ch:elicitation}
 
 % SOURCES-SCRIPTS: 31 34 59
 
 La direction de la matrice de contagion n'est pas identifiable sur la donnée disponible
 (chapitre~\ref{ch:identifiabilite}). Le recours au jugement d'expert formalisé est la réponse
-classique à ce genre d'impasse, et un protocole complet a été construit pour cela. Il n'a pas
-été exécuté, et cette annexe existe pour que ce choix soit lisible : le protocole y est décrit,
-la raison de ne pas le lancer y est chiffrée, et ce que l'on perd y est dit.
+classique à ce genre d'impasse, et un protocole complet a été construit pour cela, puis diffusé.
+Aucun panel n'a pu être constitué. Cette annexe existe pour que la démarche entière soit
+lisible : le protocole y est décrit, ce qui a été produit et adressé y est dit, et ce que
+l'absence de panel coûte y est chiffré. La conclusion, elle, ne dépend pas de cette absence, et
+c'est le dernier point qui la porte.
 
 \section{La méthode de Cooke, en quatre temps}
 
@@ -242,14 +250,51 @@ les réponses des autres experts, produirait chaque lien de la matrice sous form
 et non de point. Le traitement est automatique et aucune donnée d'incident n'est requise, seulement
 le jugement.
 
-\section{Pourquoi il n'a pas été exécuté}
+\section{Ce qui a été produit, et ce qui a été adressé}
 
-La raison est arithmétique, et elle porte sur la \emph{taille effective} du panel.
+% HARNAIS-HORS-SECTION: cette section rapporte une demarche et son issue, non une grandeur
+% calculee. Ses comptes sont ecrits en lettres, aucun script ne les imprime et aucun ne le
+% devrait : ce qui les atteste est le materiel verse au depot, pas une sortie numerique.
 
-\paragraph{Un panel de deux experts n'a aucun pouvoir de calibration.} Avec le calendrier du
-mémoire et un taux de réponse réaliste sur un questionnaire de seize questions quantitatives, le
-nombre de réponses exploitables, c'est-à-dire complètes et passant le seuil de calibration,
-serait de l'ordre de une à deux. Or à deux experts la pondération de Cooke dégénère : soit un
+Le dispositif n'est pas resté à l'état d'intention, et le distinguer importe : un protocole qu'on
+décrit sans l'avoir soumis n'engage rien, un protocole soumis et resté sans réponse documente un
+état du terrain. Quatre pièces ont été produites et sont versionnées au dépôt du mémoire.
+
+\begin{itemize}[itemsep=2pt,topsep=3pt]
+\item \textbf{Le protocole}, qui fixe la méthode, les seuils et la règle d'agrégation.
+\item \textbf{Le questionnaire}, dans sa troisième version, avec ses seize questions dont dix
+      graines d'étalonnage, reproduit à la section précédente.
+\item \textbf{Un formulaire en ligne} reprenant ces questions, pour que le répondant saisisse
+      ses trois quantiles sans manipuler de fichier.
+\item \textbf{Le gabarit de réponses}, qui alimente la chaîne d'agrégation.
+\end{itemize}
+
+Deux scripts complètent l'ensemble, l'un validant la chaîne de traitement sur des réponses
+fictives, l'autre prêt à recevoir des réponses réelles.
+
+L'appel a été adressé par deux canaux. Le premier est une commission de l'Institut des Actuaires,
+sollicitée pour atteindre des praticiens qualifiés sur le risque lié aux technologies ; les
+destinataires ne sont pas nommés ici, la même règle valant pour eux que pour les répondants du
+formulaire de relecture rapporté plus bas. Le second est un ensemble de praticiens du cabinet,
+déjà sollicités par ailleurs sur cette relecture.
+
+\paragraph{L'appel est resté sans réponse, et aucun panel n'a pu être constitué.} Du côté de
+l'Institut, aucune réponse n'est parvenue. C'est un fait de démarche et il se publie comme tel,
+sans être présenté comme un résultat : il dit la difficulté d'obtenir un jugement quantitatif
+structuré sur un objet aussi récent, il ne dit rien de la disposition des personnes sollicitées.
+La conséquence pour le mémoire est en revanche nette, et la section suivante la tire.
+
+\section{Pourquoi l'absence de panel ne laisse pas le mémoire démuni}
+
+La première raison est de fait : l'appel n'a pas abouti. Les deux suivantes disent pourquoi cette
+absence ne fragilise pas la conclusion, et elles étaient établies \emph{avant} qu'on la constate,
+ce qui est la seule façon honnête de les présenter.
+
+\paragraph{Un panel de un ou deux experts n'aurait eu aucun pouvoir de calibration.} À supposer
+même que l'appel eût trouvé des répondants, le calendrier du mémoire et un taux de retour
+réaliste sur un questionnaire de seize questions quantitatives auraient donné un nombre de
+réponses exploitables, c'est-à-dire complètes et passant le seuil de calibration, de l'ordre de
+une à deux. Or à deux experts la pondération de Cooke dégénère : soit un
 seul survit au seuil et l'on obtient un avis unique déguisé en agrégation, soit les deux
 survivent et le poids relatif est estimé sur dix graines, ce qui ne le distingue pas d'une
 moyenne simple. Dans les deux cas la méthode ne fait plus ce pour quoi elle est choisie.
@@ -440,7 +485,7 @@ inscrire parmi les prolongements.
 table de robustesse et ne modifie aucun niveau publié. Elle est citée pour ce qu'elle est, une
 relecture de praticiens engagée et partiellement rendue, et les répondants ne sont pas nommés.
 
-\section{Le coût de la décision et sa réversibilité}
+\section{Le coût de l'absence et sa réversibilité}
 
 Il faut nommer le coût. L'élicitation avait une fonction précise et une seule :
 \emph{départager P1 et P4} en tête du classement des piliers sources. Sans elle, les deux
@@ -452,10 +497,10 @@ un avis.
 % SOURCES-SCRIPTS: 30 31
 
 \begin{cle}
-\textbf{Une décision, pas un renoncement.} Le protocole est écrit, le questionnaire est prêt, le
-gabarit de réponses et la chaîne d'agrégation sont testés. Ce qui manque n'est pas le
-dispositif mais un panel de taille suffisante pour que la pondération de Cooke ait un sens.
-La décision est donc \emph{réversible sans coût de développement} : si un accès à un panel
+\textbf{Un instrument prêt, à qui il ne manque que des répondants.} Le protocole est écrit, le
+questionnaire est prêt et diffusé, le gabarit de réponses et la chaîne d'agrégation sont testés.
+Ce qui manque n'est pas le dispositif mais un panel de taille suffisante pour que la pondération
+de Cooke ait un sens. La reprise est donc \emph{sans coût de développement} : si un accès à un panel
 d'une dizaine de répondants devient possible, l'élicitation reprend là où elle a été laissée,
 et son apport attendu est connu d'avance, à savoir le départage de P1 et P4 et un resserrement
 de la bande d'identification. C'est le seul point du mémoire où une donnée supplémentaire

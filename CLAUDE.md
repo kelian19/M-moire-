@@ -674,8 +674,15 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
   Vérifier avec un grep sur `exploratory/slides/*.tex`.
 - **Pas de tirets cadratins, pas de tournures qui trahissent l'IA** dans les livrables.
 - **Écrire les formules en texte brut dans le chat** : le LaTeX math ne s'affiche pas chez lui.
-- **L'élicitation est encore attendue.** Ne pas réécrire les passages qui la mentionnent comme
-  si elle était abandonnée.
+- **L'élicitation est encore attendue, et elle a été DIFFUSÉE.** Précision de Kélian le
+  23 septembre 2026 : un formulaire en ligne et le questionnaire PDF ont été adressés à une
+  commission de l'Institut des Actuaires et à des praticiens du cabinet. **Aucune réponse de
+  l'Institut, aucun panel constitué.** L'annexe C dit donc « préparé et **diffusé**, resté sans
+  réponse », jamais « non exécuté », qui se lisait comme un choix et invitait la question
+  « pourquoi n'avez-vous pas essayé ? ». Ne pas revenir à l'ancienne formulation, et ne pas
+  réécrire ces passages comme si l'élicitation était abandonnée. **Les destinataires ne sont pas
+  nommés dans le mémoire**, même règle que pour les répondants du formulaire de relecture : leurs
+  noms vivent dans `REPRISE.md`.
 - **Hackmageddon n'est PAS rejetée**, et c'est un piège de lecture. Elle est utilisée : elle
   porte la *structure* du risque (les parts par vecteur d'attaque qui décomposent λ_ref) et
   jamais son niveau. Ce qui est tranché, c'est son **statut de preuve** : le jeu a été consulté

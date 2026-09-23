@@ -49,15 +49,15 @@ script l'écrase. Les deux portent **la couverture ENSAE**, décision de Kélian
 `page_de_garde.tex`, la couverture de l'Institut, reste au dépôt mais est orpheline.
 
 **KÉLIAN VEUT IMPÉRATIVEMENT LE MÉMOIRE ENSAE SOUS 200 PAGES**, contrainte posée le
-22 septembre. Elle est tenue à **196**, avec quatre pages de marge. Trois leviers ont été
+22 septembre. Elle est tenue à **197**, avec trois pages de marge. Trois leviers ont été
 employés, aucun ne retire de contenu : sommaire au niveau des sections (`tocdepth` à 1), marges
 de 2,4 à **2,2 cm**, et resserrage de l'annexe G. **Ne pas remonter les marges sans recompter
 les pages.**
 
 | Document | Total | Débordements | Harnais |
 |---|---|---|---|
-| **`main_ensae.pdf`, déposé à l'ENSAE** | **196 pages** | **2, nouvelle ligne de base** | **1 906 sur 1 906** |
-| **`main_institut.pdf`, pour l'Institut** | **191 pages** | 2 | idem, mêmes chapitres |
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **197 pages** | **2, nouvelle ligne de base** | **1 906 sur 1 906** |
+| **`main_institut.pdf`, pour l'Institut** | **192 pages** | 2 | idem, mêmes chapitres |
 
 **LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
 dont les quatre de la table des paramètres. Les deux qui restent sont
@@ -669,6 +669,47 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 23 septembre 2026
+
+### L'élicitation a été DIFFUSÉE, et le mémoire le dit maintenant
+
+**Fait apporté par Kélian le 23 septembre, et il change le statut de l'annexe C.** Le
+questionnaire d'élicitation n'est pas resté au tiroir : un **formulaire en ligne** et le
+**questionnaire PDF** ont été adressés à une **commission de l'Institut des Actuaires**, à deux
+de ses membres, **Benoît Bennetot et Samuel Cywie**, ainsi qu'à des praticiens du cabinet.
+**Aucune réponse de l'Institut, aucun panel constitué.**
+
+**LES DEUX NOMS RESTENT ICI ET N'ENTRENT PAS DANS LE MÉMOIRE**, même règle que pour les
+répondants du formulaire de relecture. Nommer des personnes qui n'ont pas répondu, dans un
+document mis en ligne par l'Institut, serait déplacé. L'annexe écrit « une commission de
+l'Institut des Actuaires » et rien de plus.
+
+**Ce que cela change, et c'est plus qu'une nuance.** L'annexe disait « préparé et **non
+exécuté** », ce qui se lit comme un choix et invite la question « pourquoi n'avez-vous pas
+essayé ? ». Elle dit désormais « **diffusé et resté sans réponse** », ce qui est un fait de
+démarche. Surtout, la section qui justifiait l'abandon reposait sur une **prévision** (« avec un
+taux de réponse réaliste, le nombre de réponses exploitables serait de une à deux ») : cette
+prévision devient un **constat**, et l'argument chiffré du script 31 passe au second rang, en
+étant présenté comme **établi avant** le constat, ce qu'il était. C'est le patron habituel du
+projet, une supposition remplacée par une observation.
+
+**Où c'est écrit.** Titre du chapitre de l'annexe, paragraphe d'ouverture, **nouvelle section
+C.4 « Ce qui a été produit, et ce qui a été adressé »** avec les quatre pièces en liste
+(protocole, questionnaire, formulaire en ligne, gabarit de réponses) et le constat de
+non-réponse, section suivante retitrée « Pourquoi l'absence de panel ne laisse pas le mémoire
+démuni », section finale retitrée « Le coût de l'absence », et son encadré passé de « Une
+décision, pas un renoncement » à « Un instrument prêt, à qui il ne manque que des répondants ».
+**Trois passages d'autres chapitres sont alignés** pour que le document ne se contredise pas :
+conclusion (limites) et deux passages des pistes pour de futurs mémoires.
+
+**Reste à renseigner par Kélian** : la **date de l'envoi** et le nombre de relances. L'annexe
+n'en porte aucune aujourd'hui, ce qui est tenable, mais une date rendrait le constat plus solide
+devant un jury qui demanderait « quand ? ».
+
+**Coût et contrôles.** **Une page**, 196 à **197** pour l'ENSAE et 191 à **192** pour l'Institut,
+donc trois pages de marge sous les 200. Débordements à la ligne de base de 2, 0 vbox, 0
+annotation hors page, 0 `??`, 0 page tournée. Harnais **1 906 sur 1 906**, annexe C à 16 sur 16
+et **hors contrôle non déclaré à zéro**, la nouvelle section étant déclarée hors script par
+nature et n'écrivant aucun chiffre en chiffres. Les deux fichiers déposés sont recopiés.
 
 ### Les acronymes, la VaR et le gras, uniformisés
 
