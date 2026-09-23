@@ -701,6 +701,69 @@ Chacun a coûté du temps au moins une fois.
 
 ## 23 septembre 2026
 
+### GEL DU CONTENU, ET RÉPÉTITION DE DÉPÔT PASSÉE LE 23 SEPTEMBRE
+
+**Le contenu est gelé à compter du 23 septembre au soir**, décision de Kélian, avancée de cinq
+jours sur le calendrier d'origine. Après ce point, **seule la signature de la page de garde** peut
+encore entrer. Toute autre modification se pèse contre le fait qu'elle oblige à rejouer la
+répétition ci-dessous et à recomparer le matériel complémentaire au fichier publié.
+
+**Le matériel complémentaire a été reconstruit et comparé au fichier publié sur Zenodo.** Le
+contenu est **identique page pour page**, sur les 70 pages. L'empreinte diffère, mais c'est la
+seule date de création du PDF : **aucune nouvelle version Zenodo à publier**. Le PDF committé a
+donc été restauré plutôt que remplacé par un binaire différent à contenu égal.
+
+**La répétition de dépôt, au complet.**
+
+| Contrôle | Résultat |
+|---|---|
+| Compilation des deux maîtres | exit 0 ; le seul « error » du journal est l'avertissement Fontconfig, présent à chaque compilation |
+| Débordements horizontaux | **2 distincts**, la ligne de base, aux deux emplacements connus |
+| `\vbox`, annotations hors page, références indéfinies | 0, 0, 0 |
+| Pages, ENSAE et Institut | **198** et **194** |
+| `??` dans les PDF | 0 |
+| Pages tournées | 0 |
+| **Harnais, 24 chapitres** | **1 912 nombres, 1 912 confirmés, 100 %** |
+| **Couverture, relevée chapitre par chapitre** | **0 hors contrôle non déclaré**, partout |
+| Métadonnées des PDF | titre et auteur présents dans les deux |
+| Lien du matériel complémentaire | `zenodo.org/records/22874525` répond **200** |
+| Fichiers de dépôt | identiques au hachage à leurs maîtres, 5,76 et 5,75 Mo |
+| Arbre git | propre |
+
+**UN PIÈGE DU HARNAIS, RENCONTRÉ EN FAISANT CE CONTRÔLE.** La ligne
+« Hors controle non declare : N » **n'est imprimée que si le chapitre déclare des nombres hors
+script**. Ailleurs le harnais écrit « N nombres hors script PAR NATURE, declares section par
+section », et un contrôle qui cherche la première formule croit à tort que trois chapitres sont en
+défaut. Le glossaire, le socle et le chapitre du stage ont été signalés ainsi puis vérifiés un par
+un : les trois sont propres.
+
+### LE DÉFAUT QUE LA RÉPÉTITION A TROUVÉ : AUCUN BLOC DE SIGNATURE DANS LE DOCUMENT
+
+**Les deux PDF déposés ne portent aucun champ de signature, et aucune autorisation de
+publication.** Les neuf occurrences du mot « signature » dans le PDF sont toutes statistiques,
+« signature de queue lourde », « signature de la cascade ». La couverture a été rendue et
+regardée : elle porte les logos, l'identité, le titre, l'entreprise, le maître de stage et les
+dates, et **rien à signer**.
+
+**La cause est identifiable et datée.** Le gabarit officiel de l'Institut,
+`page_de_garde.tex`, porte le tableau complet : nom et signature côté entreprise, directeur du
+mémoire, **autorisation de publication et de mise en ligne**, signature du responsable
+entreprise, signature du candidat, plus les lignes secrétariat et bibliothèque. Ce fichier est
+**orphelin depuis le 21 septembre**, date à laquelle les deux versions sont passées à la
+couverture ENSAE. Le tableau de signatures et l'autorisation de publication sont partis avec lui,
+sans que personne le remarque.
+
+**Ce que cela engage.** L'audit du 21 septembre classait « faire signer la page de garde » en
+action numéro 1, avec pour gain « débloque la publication, donc la mention publiable, donc le Prix
+SCOR ». Le § 5.1.b exige une page de garde homogénéisée et signée par l'étudiant et le
+responsable de stage. En l'état, la version Institut n'a rien à faire signer.
+
+**La correction recommandée, et elle n'est pas faite** : rendre la couverture de l'Institut à
+`main_institut` seul, qui est généré par `build_institut.py`, et laisser `main_ensae` sur la
+couverture de l'école. Chaque institution reçoit alors son propre gabarit. Trois champs de
+`page_de_garde.tex` restent à remplir : date de soutenance, case de confidentialité et membres du
+jury. **C'est une décision de Kélian**, puisqu'elle revient en partie sur celle du 21 septembre.
+
 ### L'annexe F reçoit deux pistes de STRUCTURE, et le DOI Zenodo ne résout pas
 
 **Constat qui a déclenché l'ajout : sur les six pistes d'origine, CINQ demandaient de la donnée**
