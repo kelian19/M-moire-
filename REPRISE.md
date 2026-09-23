@@ -40,7 +40,7 @@ relire `main.toc`, jamais se fier à une ligne écrite ici.
 
 ---
 
-## L'état mesuré, au 22 septembre 2026
+## L'état mesuré, au 23 septembre 2026
 
 **DEUX VERSIONS PARTENT, ET ELLES PARTAGENT TOUT SAUF LE CHAPITRE DU STAGE.** `main_ensae.tex`
 est le mémoire déposé à l'école ; `main_institut.tex` est **généré** par `build_institut.py`
@@ -56,7 +56,7 @@ les pages.**
 
 | Document | Total | Débordements | Harnais |
 |---|---|---|---|
-| **`main_ensae.pdf`, déposé à l'ENSAE** | **195 pages** | **2, nouvelle ligne de base** | **1 881 sur 1 881** |
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **195 pages** | **2, nouvelle ligne de base** | **1 895 sur 1 895** |
 | **`main_institut.pdf`, pour l'Institut** | **190 pages** | 2 | idem, mêmes chapitres |
 
 **LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
@@ -87,7 +87,7 @@ Aucun fichier maître ne les appelle. Les 54 renvois qui y pointaient portent la
 `\ref`. **L'adresse du dépôt externe reste à renseigner**, le gabarit
 `https://LIEN_VERS_LE_DEPOT.com` étant en clair dans les fichiers maîtres.
 
-**Harnais : 1 881 nombres, 1 881 confirmés**, et **0 hors contrôle non déclaré** chapitre par
+**Harnais : 1 895 nombres, 1 895 confirmés**, et **0 hors contrôle non déclaré** chapitre par
 chapitre. Contrôles au vert sur les deux versions : 0 `??`, 0 vbox, 0 annotation hors page,
 0 page tournée, **et aucune figure seule sur sa page**, hors la couverture.
 
@@ -654,6 +654,62 @@ Chacun a coûté du temps au moins une fois.
 
 # Journal
 
+## 23 septembre 2026
+
+### Le script 106 a tourné, et sa section est écrite
+
+**Le blocage du 22 septembre était un blocage de poste, pas de dépôt.** `data/raw/` existe sur
+l'ancien poste, `C:\Users\KélianKADDOURI\Projects\M-moire-`, avec ses trois fichiers sous
+licence. Le script y a tourné sans rien changer, `exit 0`, et sa sortie est **reproductible à
+l'octet**, deux lancements donnant le même fichier.
+
+**Le contrôle d'identité passe**, ce qui autorisait la suite : 91 excès exacts au seuil publié, et
+$\hat\xi = 0{,}5979$ contre 0,5954 gelé, soit 0,42 % d'écart. L'écart de 3,6 % sur le taux de
+dépassement est le défaut connu et publié du `p_u` gelé ; toutes les lignes du script sont
+calculées au taux recompté, de sorte que les écarts entre lignes ne lui doivent rien.
+
+**LE RÉSULTAT A DEUX MOITIÉS, ET ELLES NE DISENT PAS LA MÊME CHOSE.** C'est ce qui rend la
+section utile, et c'est écrit après lecture de la sortie, jamais avant.
+
+- **Prises une à une, les observations ne commandent pas l'estimation.** Le jackknife sur les 91
+  excès fait balayer au quantile une étendue de **111,7 M€**, soit **17,9 %** de l'amplitude de
+  l'IC90 déjà publié, et **aucun des 91 retraits ne l'en fait sortir**. L'excès le plus influent
+  est bien le plus gros, 1 380 M€, dont le retrait déplace le quantile de −15,8 % ;
+- **prises ensemble, elles le commandent.** Retirer les **trois** plus grosses pertes suffit à
+  faire passer le quantile sous la borne basse de ce même intervalle (408,5 contre 411,5), et en
+  retirer cinq le divise presque par deux, de 657,2 à 327,3 M€, l'indice de queue tombant de 0,60
+  à 0,22. Le déplacement est monotone et il **baisse**, sens calculé et non annoncé.
+
+**La lecture retenue, et elle n'est pas une réserve nouvelle.** Retirer les plus grosses pertes
+d'une loi à queue lourde ne met pas l'ajustement à l'épreuve, cela retire l'objet mesuré : le
+quantile à 99,5 % *est* porté par les plus grands sinistres, c'est la sous-exponentialité déjà
+nommée. Ce qui se déclare est donc une **condition de lecture** et non une fragilité
+d'estimateur : le niveau publié vaut tant que ces quelques pertes sont réelles, et une erreur de
+saisie sur l'une d'elles le majorerait.
+
+**Deux contrôles rendent la première moitié concluante**, et sans eux elle ne conclurait rien. Le
+rapport du maximum au q99 vaut **3,7** sur le périmètre calibré contre 52,7 sur la base entière,
+recalculé ici par un chemin indépendant du script 104 : aucune observation ne se détache du
+nuage, donc l'absence de point de levier se lit. Et la conclusion ne tient pas à la convention de
+recomptage du taux de dépassement, les deux colonnes s'écartant d'au plus 1,9 %.
+
+**Où c'est écrit** : chapitre du socle, section de validation, à la suite du paragraphe sur la
+règle de seuil, avec sa ligne `% SOURCES-SCRIPTS: 106`. Un paragraphe à deux temps et un encadré
+d'avertissement pour les deux contrôles.
+
+**Coût et contrôles.** **Zéro page** : les 195 du mémoire ENSAE et les 190 de la version Institut
+ne bougent pas, la section ayant tenu dans le blanc existant. Débordements **à la ligne de base
+de 2** sur les deux documents, 0 vbox, 0 annotation hors page, 0 `??`, 0 page tournée. Harnais
+**1 895 sur 1 895** en chapitres, 2 762 sur 2 762 en comptant le matériel complémentaire, et
+**hors contrôle non déclaré à zéro partout**, relevé sur la ligne que le harnais imprime plutôt
+que par un calcul de tête. Les deux PDF sont régénérés et recopiés, `KADDOURI_Kelian_3A25.pdf`
+avec eux.
+
+**Un piège de comptage, rencontré ici.** Un chapitre peut porter **deux** lignes de déclaration,
+« déclarés section par section » et « déclaré dans le chapitre ». Recalculer la couverture en
+n'en lisant qu'une fait annoncer un nombre hors contrôle qui n'existe pas : c'est arrivé sur le
+chapitre 02b. Lire la ligne « Hors contrôle non déclaré : N » que le harnais imprime lui-même.
+
 ## 22 septembre 2026
 
 ### Le mémoire tient sous 200 pages, contrainte de Kélian
@@ -773,6 +829,9 @@ publier un point en résumé offrirait au jury la question la plus facile du dos
 script 65, déclaré dans la ligne `SOURCES-SCRIPTS`.
 
 ### Script 106, ÉCRIT MAIS NON EXÉCUTÉ : la donnée source n'est pas sur ce poste
+
+**LEVÉ LE 23 SEPTEMBRE** : le script a tourné sur l'ancien poste, qui porte `data/raw/`.
+Résultats et section du mémoire dans l'entrée du 23 septembre.
 
 **C'est le point ouvert le plus net de la journée.** Kélian a demandé si un sinistre unique
 portait et faussait les résultats. La réponse est en deux temps :

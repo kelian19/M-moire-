@@ -378,6 +378,35 @@ descendrait à $12{,}88$~M\euro{} et donnerait un quantile de sévérité supér
 le seuil publié n'est pas celui qui maximise le chiffre du mémoire. Les deux règles et l'absence
 de compromis entre biais et variance sur cette grandeur sont exposées \matcomp.
 
+\paragraph{Une poignée d'observations porte la queue, et aucune ne la porte seule.} Un
+ajustement conduit sur $91$ excès appelle une objection directe : le niveau tient-il à une
+observation ? Les deux moitiés de la question se traitent séparément et ne reçoivent pas la
+même réponse. Prises une à une, les observations ne commandent pas l'estimation : en retirant
+chacun des $91$ excès à son tour, le quantile de sévérité balaie une étendue de
+$111{,}7$~M\euro, soit $17{,}9\,\%$ de l'amplitude de l'intervalle de confiance déjà publié, et
+aucun de ces retraits ne l'en fait sortir. L'excès le plus influent est bien le plus gros,
+$1\,380$~M\euro, dont le retrait déplace le quantile de $-15{,}8\,\%$.
+
+Prises ensemble, elles le commandent. Retirer les trois plus grosses pertes suffit à faire
+passer le quantile sous la borne basse du même intervalle, et en retirer cinq le divise presque
+par deux, de $657{,}2$ à $327{,}3$~M\euro, l'indice de queue tombant de $0{,}60$ à $0{,}22$. Le
+déplacement est monotone, et son sens est celui qu'une queue lourde impose : le quantile à
+$99{,}5\,\%$ \emph{est} porté par les plus grands sinistres, de sorte que les retirer ne met pas
+l'ajustement à l'épreuve, cela retire l'objet mesuré. Ce qui se déclare n'est donc pas une
+fragilité de l'estimateur mais une condition de lecture : le niveau publié vaut tant que ces
+quelques pertes sont réelles, et une erreur de saisie sur l'une d'elles le majorerait.
+
+\begin{attention}
+\textbf{Ce qui rend la première moitié concluante.} Un retrait observation par observation ne
+conclut rien si l'une d'elles se détache du nuage, puisqu'il mesurerait alors cette distance et
+rien d'autre. Sur le périmètre calibré, le maximum ne vaut que $3{,}7$ fois le quantile à
+$99\,\%$, contre $52{,}7$ sur la base entière : la plus grosse perte appartient à un continuum,
+et c'est ce qui autorise à lire l'absence de point de levier. La conclusion ne tient pas
+davantage à la convention de recomptage du taux de dépassement, les deux colonnes s'écartant
+d'au plus $1{,}9\,\%$.
+\end{attention}
+% SOURCES-SCRIPTS: 106
+
 \begin{cle}
 \textbf{Ce que la validation établit, et ce qu'elle n'établit pas.} Les tests portent sur la
 \emph{forme} des lois, pas sur le \emph{niveau} du capital : ils confirment que la GPD et la
