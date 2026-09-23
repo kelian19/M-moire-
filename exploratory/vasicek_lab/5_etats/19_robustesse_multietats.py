@@ -38,6 +38,7 @@ import sys
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter, MultipleLocator
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if HERE not in sys.path:
@@ -45,6 +46,7 @@ if HERE not in sys.path:
 import euro_cascade_model as ec                              # noqa: E402
 from euro_cascade_model import PARAMS, var                   # noqa: E402
 import scr_engine as eng                                      # noqa: E402
+import style_nexialog as st                                   # noqa: E402
 
 W = 74
 PIL = eng.PIL
@@ -164,8 +166,31 @@ mpl.rcParams.update({
     "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb",
     "savefig.facecolor": "#fcfcfb",
 })
-INK, INK2 = "#1b1e30", "#223e55"
-ACCENT, BLUE, GREEN, GREY = "#a6002e", "#3661ac", "#008d87", "#7d7d7d"
+# COULEURS IMPORTEES, PLUS CODEES EN DUR. Les quatre hexadecimaux qui vivaient ici
+# etaient exactement ceux de la charte, mais la regle du projet est d'importer des
+# ROLES : un hexadecimal recopie ne suit pas une revision de style_nexialog.
+# `appliquer()` n'est volontairement PAS appele : il retirerait les filets haut et
+# droit des deux panneaux, ce qui est un changement d'apparence etranger a la correction.
+INK, INK2 = st.ENCRE, st.ENCRE_2
+ACCENT, BLUE = st.CATEGORIEL[0], st.ORDINAL_5[1]
+
+
+def fr(x):
+    """Separateur de milliers par une espace, comme le memoire ecrit ses montants."""
+    return f"{x:,.0f}".replace(",", " ")
+
+
+# ETIQUETTES DE FIGURE, DISTINCTES DES LIBELLES IMPRIMES. La sortie versionnee 19.txt
+# porte les libelles ASCII et ne doit pas bouger : y ajouter un accent rendrait le
+# fichier different sans qu'aucun nombre ait change. La figure, elle, est lue par un
+# jury, donc elle porte les accents et les symboles mathematiques.
+ETIQ_FIG = {
+    "xi (queue)":     r"$\xi$  (indice de queue)",
+    "lambda (x)":     r"$\lambda$  (fréquence)",
+    "g_NC (propag.)": r"$g_{\mathrm{NC}}$  (propagation)",
+    "g_C (propag.)":  r"$g_{\mathrm{C}}$  (propagation)",
+    "detection on":   "détection  (activée)",
+}
 
 # LARGEUR DE TRACE RAMENEE A LA LARGEUR D'IMPRESSION. Le memoire imprime
 # cette figure sur 7,27 pouces : tracee plus large, elle subissait une
@@ -181,12 +206,30 @@ for i, (lab, dlo, dhi) in enumerate(rows):
     left, right = min(dlo, dhi), max(dlo, dhi)
     axA.barh(i, right - left, left=left, color=BLUE, alpha=0.65, height=0.6)
     axA.plot([dlo, dhi], [i, i], "o", color=INK2, ms=4)
-axA.axvline(d_base, color=ACCENT, lw=1.6, ls="--", label=f"base {d_base:.0f}")
-axA.set_yticks(ypos); axA.set_yticklabels(labs, fontsize=9); axA.invert_yaxis()
-axA.set_xlabel("Delta_DORA(NC vs C) (M€)", fontsize=9.5, color=INK2)
-axA.set_title("(A)  Tornado du Delta_DORA : le niveau bouge, xi domine", fontsize=10, color=INK, pad=6)
+axA.axvline(d_base, color=ACCENT, lw=1.6, ls="--", label=f"base {fr(d_base)}")
+axA.set_yticks(ypos)
+axA.set_yticklabels([ETIQ_FIG[l] for l in labs], fontsize=9)
+axA.invert_yaxis()
+# ABSCISSE : UN CRAN TOUS LES CINQ MILLE, ET UNE ESPACE DE MILLIERS. Le choix
+# automatique posait neuf crans de cinq chiffres sur un panneau imprime a environ
+# cinq pouces : les etiquettes se touchaient et se lisaient << 10000125001500017500 >>.
+# Cinq crans espaces suffisent a situer une barre, la valeur exacte etant dans le
+# texte et dans la sortie versionnee, pas sur l'axe.
+axA.xaxis.set_major_locator(MultipleLocator(5000))
+axA.xaxis.set_major_formatter(FuncFormatter(lambda v, _: fr(v)))
+axA.tick_params(axis="x", labelsize=8.5)
+axA.set_xlabel(r"$\Delta_{\mathrm{DORA}}$ (NC contre C), en M€", fontsize=9.5, color=INK2)
+axA.set_title("(A)  Tornado de $\\Delta_{\\mathrm{DORA}}$ : le niveau bouge,\n"
+              "et $\\xi$ domine", fontsize=10, color=INK, pad=6)
 axA.legend(fontsize=8.2, frameon=False)
 axA.grid(alpha=0.25, lw=0.5, axis="x")
+# BORNES FORCEES, ET `margins` NE SUFFIT PAS ICI : un `barh` appele avec `left=` pose
+# une ARETE COLLANTE a la valeur de depart de chaque barre, et une arete collante annule
+# la marge de ce cote. L'axe se calait donc exactement sur 3810, le point bas de la barre
+# xi tombait SUR le filet de gauche et s'y lisait a moitie. Un point d'extremite coupe par
+# un cadre se lit comme une borne atteinte, ce qu'il n'est pas.
+_marge = 0.06 * (d_max - d_min)
+axA.set_xlim(d_min - _marge, d_max + _marge)
 
 # panneau B : la priorite P1 tient sur tous les reglages (valeur d'acceleration par pilier, base)
 scr_nc0 = scr_cfg(frozenset(), BASE)
@@ -198,10 +241,17 @@ axB.barh(np.arange(len(order_v)), vals, color=cols, alpha=0.85)
 axB.set_yticks(np.arange(len(order_v)))
 axB.set_yticklabels([PIL_LAB[k] for k in order_v], fontsize=9)
 axB.invert_yaxis()
-axB.set_xlabel("valeur d'acceleration (M€)", fontsize=9.5, color=INK2)
-axB.set_title("(B)  Priorite robuste : P1 en tete\n(inchange sur tous les leviers testes)",
+axB.xaxis.set_major_locator(MultipleLocator(1000))
+axB.xaxis.set_major_formatter(FuncFormatter(lambda v, _: fr(v)))
+axB.tick_params(axis="x", labelsize=8.5)
+axB.set_xlabel("valeur d'accélération, en M€", fontsize=9.5, color=INK2)
+axB.set_title("(B)  Priorité robuste : P1 en tête\n(inchangée sur tous les leviers testés)",
               fontsize=10, color=INK, pad=6)
 axB.grid(alpha=0.25, lw=0.5, axis="x")
+# L'ORIGINE RESTE A ZERO, ce sont des barres : une marge symetrique ouvrirait un axe
+# negatif qui n'a pas de sens ici. Seule la droite respire, la barre P1 touchant sinon
+# le filet du cadre.
+axB.set_xlim(0, max(vals) * 1.06)
 
 fig.tight_layout(rect=[0, 0, 1, 0.95])
 

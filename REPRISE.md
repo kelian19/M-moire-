@@ -626,6 +626,18 @@ Chacun a coûté du temps au moins une fois.
     de .NET, pas celui de PowerShell. A déjà créé un fichier parasite committé.
 18. **`.Replace()` PowerShell avec `\n` échoue sur des fichiers CRLF.** Utiliser `[regex]::Replace`
     avec `\r?\n`, ou l'outil d'édition.
+18bis. **UN `barh` APPELÉ AVEC `left=` POSE UNE ARÊTE COLLANTE, ET `margins()` NE FAIT ALORS RIEN.**
+    matplotlib attache à chaque barre une *sticky edge* à sa valeur de départ, et une arête collante
+    annule la marge de ce côté : l'axe se cale **exactement** sur la plus petite valeur, si bien
+    qu'un marqueur d'extrémité posé là se dessine à moitié sous le filet du cadre. Vu le 23 septembre
+    2026 sur la figure S14, où le point bas de la barre $\xi$ était coupé. **Le remède est
+    `set_xlim` explicite**, jamais `margins`. Et un point d'extrémité coupé par un cadre se lit comme
+    une borne atteinte, ce qu'il n'est pas : c'est un défaut de sens, pas de cosmétique.
+18ter. **Les crans d'un axe se comptent, ils ne se laissent pas choisir.** Le choix automatique
+    posait neuf crans de cinq chiffres sur un panneau imprimé à environ cinq pouces, et les
+    étiquettes se touchaient au point de se lire « 10000125001500017500 ». Poser un `MultipleLocator`
+    et un séparateur de milliers. **Ce défaut ne se voit pas dans le script ni dans le PNG à pleine
+    taille, seulement sur la page imprimée** : c'est Kélian qui l'a vu, pas le dispositif.
 
 ### PowerPoint, depuis le 11 septembre 2026
 
@@ -673,6 +685,33 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 23 septembre 2026
+
+### La figure S14 avait une abscisse illisible, et trois autres défauts avec elle
+
+**Signalé par Kélian sur la page 118 du PDF, pas par un contrôle.** L'axe du panneau (A) portait
+neuf crans de cinq chiffres sans séparateur, qui se touchaient et se lisaient
+« 10000125001500017500 ». Script 19, figure `S14_robustesse_multietats.png`.
+
+**Quatre corrections, aucune ne touche un nombre.**
+
+- **abscisses** : un cran tous les cinq mille sur (A), tous les mille sur (B), et un séparateur de
+  milliers par une espace, comme le mémoire écrit ses montants. Cinq crans au lieu de neuf ;
+- **accents et notation** : les titres et les libellés étaient en ASCII sans accents, « Priorite
+  robuste : P1 en tete », « inchange sur tous les leviers testes », « valeur d'acceleration », et
+  les symboles s'écrivaient « xi », « lambda » et « Delta_DORA » avec un tiret bas. Tout passe en
+  français accentué et en mathtext, $\xi$, $\lambda$, $g_{NC}$, $g_C$, $\Delta_{DORA}$ ;
+- **marqueur coupé** : le point bas de la barre $\xi$ se dessinait à moitié sous le filet de gauche,
+  voir le piège 18bis ;
+- **couleurs** : les quatre hexadécimaux codés en dur sont remplacés par des rôles importés de
+  `style_nexialog`. Ils étaient déjà exactement ceux de la charte, donc **la figure ne change pas de
+  couleur** ; ce qui change est qu'elle suivra désormais une révision de la charte. `appliquer()`
+  n'est **pas** appelé, il retirerait les filets haut et droit des deux panneaux.
+
+**LE POINT DE MÉTHODE, ET IL VAUT POUR TOUTE FIGURE.** Les libellés imprimés à la console **n'ont
+pas été touchés**, et la figure porte ses propres étiquettes par un dictionnaire `ETIQ_FIG`. Motif :
+ajouter un accent à un `print` rendrait `sorties_verif/19.txt` différent sans qu'aucun nombre ait
+changé, donc ferait perdre la reproduction à l'identique pour une raison cosmétique. **Contrôle
+passé** : la sortie est reproduite ligne pour ligne, seule la ligne de chemin absolu diffère.
 
 ### Le seul endroit où un jury d'actuaires peut décrocher, et la coupe de pages qui n'existait pas
 
