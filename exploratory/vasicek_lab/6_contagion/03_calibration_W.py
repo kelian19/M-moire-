@@ -522,8 +522,12 @@ ax1.set_xlim(0, 9.0); ax1.set_ylim(0, 4.0)
 ax1.grid(True, color=GRID, lw=0.7)
 # sous le cadre : dans le cadre elle recouvrait l'etiquette du seuil de rho(W)
 ax1.legend(frameon=False, fontsize=9, loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=1)
-ax1.set_title("(a)  Normalisé, le modèle est stable sur tout son domaine",
-              fontsize=11, color=INK, pad=8)
+# TITRES SUR DEUX LIGNES, ET CE N'EST PAS UN GOUT. Poses sur une seule ligne a 11 points
+# ils mesuraient 4,6 et 3,8 pouces pour un panneau qui en fait 3,4 : matplotlib centre un
+# titre sur ses axes sans jamais le couper, donc chacun debordait de part et d'autre et le
+# (a) se terminait sur le (b) au milieu de la figure. Vu a l'impression, page 78.
+ax1.set_title("(a)  Normalisé, le modèle est stable\nsur tout son domaine",
+              fontsize=10, color=INK, pad=6)
 
 xpos = np.arange(J)
 rootv = np.array([ROOT[j] for j in range(1, J + 1)])
@@ -534,8 +538,8 @@ ax2.set_xticks(xpos); ax2.set_xticklabels(PIL)
 ax2.set_ylabel("descendants attendus", color=BLUES[4])
 axb.set_ylabel("ROOT, jugement d'expert", color=ACCENT)
 ax2.tick_params(axis="y", colors=BLUES[4]); axb.tick_params(axis="y", colors=ACCENT)
-ax2.set_title(f"(b)  ROOT se déduit de TRANS (Spearman = {rho_s:.2f})".replace(".", ","),
-              fontsize=11, color=INK, pad=8)
+ax2.set_title(f"(b)  ROOT se déduit de TRANS\n(Spearman = {rho_s:.2f})".replace(".", ","),
+              fontsize=10, color=INK, pad=6)
 # marge haute : la barre ROOT de P4 montait dans la legende
 ax2.set_ylim(0, prog_true.max() * 1.45); axb.set_ylim(0, rootv.max() * 1.45)
 ax2.legend(handles=[b1, b2], loc="upper right", frameon=False, fontsize=9)

@@ -49,15 +49,15 @@ script l'écrase. Les deux portent **la couverture ENSAE**, décision de Kélian
 `page_de_garde.tex`, la couverture de l'Institut, reste au dépôt mais est orpheline.
 
 **KÉLIAN VEUT IMPÉRATIVEMENT LE MÉMOIRE ENSAE SOUS 200 PAGES**, contrainte posée le
-22 septembre. Elle est tenue à **195**, avec cinq pages de marge. Trois leviers ont été
+22 septembre. Elle est tenue à **196**, avec quatre pages de marge. Trois leviers ont été
 employés, aucun ne retire de contenu : sommaire au niveau des sections (`tocdepth` à 1), marges
 de 2,4 à **2,2 cm**, et resserrage de l'annexe G. **Ne pas remonter les marges sans recompter
 les pages.**
 
 | Document | Total | Débordements | Harnais |
 |---|---|---|---|
-| **`main_ensae.pdf`, déposé à l'ENSAE** | **195 pages** | **2, nouvelle ligne de base** | **1 895 sur 1 895** |
-| **`main_institut.pdf`, pour l'Institut** | **190 pages** | 2 | idem, mêmes chapitres |
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **196 pages** | **2, nouvelle ligne de base** | **1 906 sur 1 906** |
+| **`main_institut.pdf`, pour l'Institut** | **191 pages** | 2 | idem, mêmes chapitres |
 
 **LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
 dont les quatre de la table des paramètres. Les deux qui restent sont
@@ -70,8 +70,8 @@ compilation.
 
 **Ordre des pièces, identique dans les deux** : couverture, remerciements, résumé et sommaire,
 glossaire en 11, note de synthèse en 13, executive summary en 17, Contexte en 21, Données en 44,
-Modélisation en 65, Résultats en 103, Robustesse en 128, puis **Le stage en 148 pour l'ENSAE
-seulement**, annexes en 153 (ENSAE) ou 148 (Institut), bibliographie en fin.
+Modélisation en 65, Résultats en 104, Robustesse en 129, puis **Le stage en 149 pour l'ENSAE
+seulement**, annexes en 154 (ENSAE) ou 149 (Institut), bibliographie en fin.
 
 **Annexes** : une notice sans numéro ouvre la partie, puis **A** démonstrations du modèle de
 cascade (`15b`), **B** adaptations par pilier (`12b`), **C** protocole d'élicitation (`18`),
@@ -87,7 +87,7 @@ Aucun fichier maître ne les appelle. Les 54 renvois qui y pointaient portent la
 `\ref`. **L'adresse du dépôt externe reste à renseigner**, le gabarit
 `https://LIEN_VERS_LE_DEPOT.com` étant en clair dans les fichiers maîtres.
 
-**Harnais : 1 895 nombres, 1 895 confirmés**, et **0 hors contrôle non déclaré** chapitre par
+**Harnais : 1 906 nombres, 1 906 confirmés**, et **0 hors contrôle non déclaré** chapitre par
 chapitre. Contrôles au vert sur les deux versions : 0 `??`, 0 vbox, 0 annotation hors page,
 0 page tournée, **et aucune figure seule sur sa page**, hors la couverture.
 
@@ -649,12 +649,74 @@ Chacun a coûté du temps au moins une fois.
     défaut que le harnais du mémoire avait déjà corrigé en août, reproduit à l'identique. Le
     demi-pas se prend sur la **dernière décimale écrite**. Et il ne se suppose pas : le garde-fou
     a été **testé sur cinq cas**, dont deux dérives, et c'est le test qui a révélé le défaut.
+25. **UN TITRE DE PANNEAU MATPLOTLIB DÉBORDE SON PANNEAU SANS RIEN SIGNALER.** `set_title` centre
+    le texte sur ses axes et ne le coupe ni ne le renvoie à la ligne : sur une figure à deux
+    panneaux, deux titres un peu longs se rejoignent au milieu et s'impriment l'un sur l'autre.
+    Vu le 23 septembre sur la figure 6.2, dont les titres mesuraient 4,6 et 3,8 pouces pour des
+    panneaux de 3,4. Aucun contrôle ne l'attrape, ni la compilation, ni le harnais : **seul le
+    rendu le montre**. Un titre de panneau se coupe à la main, en deux lignes.
 
 ---
 
 # Journal
 
 ## 23 septembre 2026
+
+### Deux titres qui se touchaient, et le script 107 : $\rho_{ij}$ est-il identifiable ?
+
+**Deux demandes de Kélian, tenues dans le même passage du chapitre de la cascade.**
+
+**La figure 6.2 avait deux titres de panneau qui se rejoignaient au milieu de la page.** Posés
+sur une seule ligne à 11 points, ils mesuraient 4,6 et 3,8 pouces pour un panneau qui en fait
+3,4 : matplotlib centre un titre sur ses axes et ne le coupe jamais, donc chacun débordait de
+part et d'autre et le (a) se terminait sur le (b). Passés à deux lignes et à 10 points dans le
+script 03, la sortie versionnée étant reproduite à l'identique au passage. **C'est un piège
+d'instrument neuf**, noté plus haut : aucun contrôle ne l'attrape, seul le rendu le montre.
+
+**Puis la phrase de la généralisation A, mise à l'épreuve.** Elle affirmait qu'un $\rho_{ij}$ par
+entité est « non identifiable, environ $5N$ paramètres ». C'était un **compte de paramètres**,
+donc un argument de forme : ce qui se mesure est l'information que la donnée porte sur une
+sensibilité, et elle se chiffre en périodes d'observation, comme le script 91 chiffre en années
+la testabilité du quantile. Script **107**, entièrement déterministe, aucune simulation : la loi
+exacte du nombre d'entités non conformes s'obtient par quadrature, et la limite de population
+admet une forme fermée.
+
+**Le mécanisme est une identité, et c'est le contrôle du script en même temps que son premier
+résultat** : la marge vaut $0{,}35$ **quelle que soit** la sensibilité, à $4\cdot10^{-14}$ près.
+Une sensibilité ne se lit donc jamais sur un taux de conformité, seulement sur la co-variation
+entre cellules qui partagent un facteur.
+
+**Les trois comptes qui en sortent.** En accordant au test le facteur $Y_j$ exactement connu, ce
+qu'aucune donnée ne fournit, séparer $u_{ij}=0{,}10$ demanderait **813 périodes** ; sur une seule
+coupe transversale, **aucun** écart du domaine admissible n'est séparable, la statistique
+plafonnant à $0{,}47$ pour un seuil de $3{,}84$. Le même écart lu au niveau du pilier demande
+**474** périodes à quatre entités et **81** sur une population entière : **élargir sature**,
+parce qu'une période ne livre qu'un tirage du facteur. Ce qui identifie une sensibilité est la
+répétition dans le temps, et c'est l'énoncé que le script 03 tient déjà sur l'asymétrie de $W$,
+atteint par un chemin indépendant.
+
+**Et le résultat qui n'était pas attendu : le sens du regroupement décide de ce qui serait
+observable.** Dans la généralisation A le facteur est celui du **pilier**, partagé par les
+entités, et l'identification passe par le temps. Dans le modèle effectivement publié au chapitre
+de la conformité, il est celui de l'**entité** et ses cinq piliers le partagent : une entité y
+forme un groupe, deux entités sont indépendantes, et **374 entités vues une seule fois**
+suffisent, soit l'ordre de grandeur d'un marché national. La même équation sous deux
+regroupements n'appelle pas le même dispositif d'observation.
+
+**Un point d'écriture mesuré, et Kélian a tranché.** Une sensibilité est une part : un terme
+additif gaussien porté directement sur $\rho_{ij}$ la fait sortir de $[0\,;1]$ avec une
+probabilité strictement positive, $1{,}40\,\%$ pour une dispersion de $0{,}20$. **Le mémoire
+garde $\rho_{ij}=\rho_j+u_{ij}$** et publie **à côté** la variante sur l'échelle transformée,
+$\mathrm{logit}\,\rho_{ij}=\mathrm{logit}\,\rho_j+u_{ij}$, admissible par construction. Le
+pipeline posant une sensibilité unique, le choix ne déplace aucun chiffre. Ne pas substituer
+l'une à l'autre.
+
+**Coût et contrôles.** **Une page**, 195 à **196** pour l'ENSAE et 190 à **191** pour l'Institut,
+donc quatre pages de marge sous les 200. Débordements **à la ligne de base de 2** sur les deux,
+0 vbox, 0 annotation hors page, 0 `??`, 0 page tournée. Harnais **1 906 sur 1 906**, chapitre 07
+à 84 nombres sur 84 et couverture 100 %, hors contrôle non déclaré à zéro. Les deux PDF déposés
+sont recopiés. Les parties glissent d'une page : Résultats en 104, Robustesse en 129, stage en
+149, annexes en 154 (ENSAE) et 149 (Institut).
 
 ### Le script 106 a tourné, et sa section est écrite
 

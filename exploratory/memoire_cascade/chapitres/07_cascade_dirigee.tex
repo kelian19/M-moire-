@@ -46,10 +46,42 @@ X_{ij} \;=\; \sqrt{\rho_{ij}}\;Y_j \;+\; \sqrt{1-\rho_{ij}}\;\varepsilon_{ij}.
 Chaque pilier a sa \og météo systémique\fg{} propre (l'état de la menace sur la chaîne
 d'approvisionnement pour P4, l'état réglementaire pour P1), et les $Y_j$ sont corrélés entre eux
 par une matrice $\Sigma_Y$ : c'est là que vivent proprement les dépendances croisées, au niveau
-systémique. Sur des données cyber rares, on ne calibre pas un $\rho_{ij}$ par entité (environ
-$5N$ paramètres, non identifiable) : on retient le compromis hiérarchique
-$\rho_{ij}=\rho_j+u_{ij}$, où la sensibilité de chaque entité gravite autour de la moyenne de
-son pilier $\rho_j$ (pooling partiel).
+systémique.
+
+\paragraph{Un $\rho_{ij}$ par entité ne se calibre pas, et l'argument n'est pas le compte de
+paramètres.} Un modèle peut porter plus de paramètres que d'observations et rester utile. Ce qui
+tranche est l'information que la donnée porte sur une sensibilité, et elle se mesure en périodes
+d'observation d'un panel entité $\times$ pilier. Une sensibilité n'apparaît d'abord jamais sur un
+taux de conformité : la marge vaut $0{,}35$ quelle que soit sa valeur, de sorte qu'elle ne se lit
+que sur la co-variation entre cellules qui partagent un facteur. Or une cellule $(i,j)$ ne rend
+qu'un état binaire par période. En accordant même au test le facteur $Y_j$ exactement connu, ce
+qu'aucune donnée ne fournit, séparer un écart de $0{,}10$ de la valeur de son pilier demanderait
+$813$ périodes ; sur une seule coupe transversale, aucun écart du domaine admissible n'en est
+séparable, la statistique de test plafonnant à $0{,}47$ pour un seuil de $3{,}84$. Le même écart
+lu au niveau du pilier, où les entités se mettent en commun, demande $474$ périodes à quatre
+entités et encore $81$ sur une population entière : élargir sature, une période ne livrant qu'un
+tirage du facteur. Ce qui identifie une sensibilité est la répétition dans le temps et non le
+nombre d'entités, comme l'asymétrie de $W$ ne s'identifie que par l'ordre temporel.
+
+On retient donc le compromis hiérarchique $\rho_{ij}=\rho_j+u_{ij}$, où la sensibilité de chaque
+entité gravite autour de la moyenne de son pilier $\rho_j$ (\emph{pooling} partiel). Il n'est pas
+une approximation du $\rho_{ij}$ libre : sur tout panel réaliste, $u_{ij}$ reste à sa valeur
+\emph{a priori}, et les deux écritures ne diffèrent alors par aucun nombre. Une variante
+admissible par construction s'écrit sur l'échelle transformée,
+$\mathrm{logit}\,\rho_{ij}=\mathrm{logit}\,\rho_j+u_{ij}$, une sensibilité étant une part qu'un
+terme additif porté directement sur $\rho_{ij}$ fait sortir de $[0\,;\,1]$ avec une probabilité
+strictement positive, $1{,}40\,\%$ pour une dispersion de $0{,}20$. Le pipeline posant une
+sensibilité unique, le choix entre les deux écritures ne déplace aucun chiffre publié.
+
+\begin{attention}
+\textbf{Le sens du regroupement décide de ce qui serait observable.} Ici le facteur est celui du
+pilier, partagé par les entités, et l'identification passe par le temps. Dans le modèle
+effectivement publié au chapitre~\ref{chap:multietats}, il est celui de l'entité et ses cinq
+piliers le partagent, de sorte qu'une entité forme un groupe et que deux entités sont
+indépendantes : le même écart s'y sépare avec $374$ entités observées une seule fois, soit
+l'ordre de grandeur d'un marché national. La même équation sous deux regroupements n'appelle pas le même
+dispositif d'observation.
+\end{attention}
 
 \begin{cle}
 \textbf{La partie A n'est pas une contribution.} Le Merton-Vasicek multifacteur à
@@ -58,6 +90,8 @@ crédit de portefeuille. La contribution propre ne commence qu'en partie~B, avec
 la contagion dirigée. Le revendiquer clairement évite de se voir opposer une
 littérature qu'on aurait ignorée.
 \end{cle}
+
+% SOURCES-SCRIPTS: 107
 
 \section{Généralisation B : la propagation dirigée}
 
