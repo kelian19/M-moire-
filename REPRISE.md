@@ -530,8 +530,12 @@ soit presque la page entière.
 - **Intégrer la réponse de Mehdi** dès qu'elle est collée : voir la prochaine étape.
 - **La passe de mise en page du script 97** (deux étiquettes se chevauchent sur L1, une passe sous
   la légende sur L2), à ne faire que si les figures redessinées doivent remplacer celles du rapport.
-- **Réduire encore l'annexe** : la table des notations (5 pages, en partie redondante avec le
-  glossaire), la relecture de praticien (2 pages), la table des proxys (2 pages, demandée par Hugo).
+- **Réduire encore l'annexe. LA LISTE PRÉCÉDENTE ÉTAIT FAUSSE ET A ÉTÉ MESURÉE LE 23 SEPTEMBRE** :
+  la table des notations fait **2 pages** et non 5, et **la table des proxys n'existe pas**. Le seul
+  bloc récupérable sans perte est le **questionnaire reproduit de l'annexe C**, 4 à 5 pages sur 10,
+  déportables au dépôt Zenodo dont le DOI est déjà imprimé page 156. Et **couper dans les annexes ne
+  touche pas les 128 pages de corps** que l'Institut regarde : seuls les chapitres 1, 4, 10 et 11 le
+  feraient, au prix de défaire une décision récente.
 - **La construction du support de soutenance ENSAE**, le prompt étant prêt.
 
 ### Clos, à ne pas rouvrir
@@ -669,6 +673,67 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 23 septembre 2026
+
+### Le seul endroit où un jury d'actuaires peut décrocher, et la coupe de pages qui n'existait pas
+
+**Question de Kélian : le mémoire est-il adapté à un jury d'actuaires ?** Traitée par une mesure et
+non à vue. Pour chaque chapitre du corps, comptage du vocabulaire actuariel courant (VaR, GPD, POT,
+Solvabilité II, sévérité, quantile, Shapley, backtest) contre le vocabulaire venu d'ailleurs (forme
+de Dirichlet, production d'entropie, noyau adjoint, équilibre détaillé, identification partielle,
+Möbius, rayon spectral, marche auto-évitante).
+
+**Onze chapitres sur treize sont en langue actuarielle, et les deux que le jury lit le plus le sont
+le plus.** Résultats et Robustesse, soit 32 pages, tiennent un terme hors discipline pour cinquante.
+Le socle et le chapitre des données aussi. **Deux chapitres inversent le rapport** : la cascade
+dirigée à 0,67 et surtout **l'identifiabilité à 3,79**, soit 53 termes hors discipline contre 14,
+huit équations affichées, onze pages, et c'est le chapitre qui porte la contribution que le résumé
+annonce comme centrale, posé juste avant les résultats.
+
+**Le risque n'est pas l'incompréhension, c'est l'escompte.** Un actuaire n'est pas arrêté par une
+équation, il l'est par un vocabulaire dont il ne peut pas peser l'enjeu. Un jury qui ne pratique pas
+un outil ne le conteste pas, il le range comme un détour, ce qui coûte davantage qu'une objection
+puisque le résumé le vend comme le cœur.
+
+**Un seul endroit corrigé, et la correction ne coûte aucune page.** La section 8.3, « Pourquoi la
+direction échappe à la co-occurrence », est le point exact où la langue bascule. Un paragraphe y
+est inséré entre la décomposition $W = S + A$, qui porte les bornes du chapitre 9 et se retient
+telle quelle, et les trois identités formelles, qui ne portent aucune valeur publiée. Il dit
+explicitement que ces identités sont empruntées à la théorie des chaînes de Markov et non à
+l'outillage actuariel, et que **les sauter ne coûte rien à la suite du mémoire**. Un lecteur qui
+sait que passer est gratuit lit calmement au lieu de caler. **Ne pas retirer cette permission** :
+elle est le seul garde-fou du document contre le décrochage sur son propre apport.
+
+**Le reste se joue à l'oral**, et c'est là que la question viendra. Une diapositive qui traduit la
+frontière en termes de capital fera plus que des pages supplémentaires.
+
+### La coupe de dix à quinze pages n'existe pas, et la liste de ce fichier était périmée
+
+**Deux candidats avaient été annoncés, ils ne valent rien.** La table des notations fait **2 pages**
+et non 5, mesuré sur le PDF. **La table des proxys n'existe pas** : le mot « proxy » apparaît dans
+trois pages, dont la colonne « nature » de l'annexe D, et aucune table ne lui est consacrée. Les
+lignes de la section « Faisable par l'assistant » qui les listaient sont donc fausses.
+
+**Le resserrage de la table des notations a été tenté puis annulé.** Interligne à 1,05 puis corps
+inférieur : 180 points libérés sur la page 187, et **zéro page gagnée**, parce que rien ne franchit
+de limite de page. La table fait environ 1,8 page de contenu réel. Une modification qui coûte de la
+lisibilité et ne rapporte aucune page n'a pas à partir, et elle a été revertée.
+
+**La carte des pages, mesurée** : liminaires 20 (folios 1 à 20), **corps 129** (21 à 149), stage 5
+(150 à 154), annexes 38 (155 à 192), bibliographie 6 (193 à 198). Dans le corps, les quatre
+chapitres lourds sont Données 20, Résultats 20, Risque cyber 15 et Robustesse 12. Dans les annexes,
+B pèse 13 pages et C en pèse 10.
+
+**Le seul bloc récupérable sans perte est le questionnaire reproduit de l'annexe C**, soit 4 à 5
+pages sur 10, déportables au dépôt Zenodo où trois annexes vivent déjà et dont le DOI est imprimé
+page 156. Resteraient la méthode de Cooke, le protocole, la section sur ce qui a été produit et
+diffusé, l'absence de réponse et la réversibilité. **Non fait, en attente d'une décision de
+Kélian.** Au-delà, rendre des pages suppose de défaire une décision prise dans les deux dernières
+semaines : les cas d'usage de l'annexe B, la lecture de marché du chapitre 1 ou le profilage du
+chapitre des données.
+
+**Et le piège de raisonnement à retenir** : couper dans les annexes ne touche pas les 128 pages de
+corps que l'Institut regarde. Vérifier dans quelle partie tombe une coupe avant de lui prêter un
+effet sur le format.
 
 ### Deux figures en trois dimensions, et ce que la première tentative a appris
 
