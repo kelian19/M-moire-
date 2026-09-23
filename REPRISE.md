@@ -49,15 +49,15 @@ script l'écrase. Les deux portent **la couverture ENSAE**, décision de Kélian
 `page_de_garde.tex`, la couverture de l'Institut, reste au dépôt mais est orpheline.
 
 **KÉLIAN VEUT IMPÉRATIVEMENT LE MÉMOIRE ENSAE SOUS 200 PAGES**, contrainte posée le
-22 septembre. Elle est tenue à **197**, avec trois pages de marge. Trois leviers ont été
+22 septembre. Elle est tenue à **198**, avec **deux pages de marge seulement**. Trois leviers ont été
 employés, aucun ne retire de contenu : sommaire au niveau des sections (`tocdepth` à 1), marges
 de 2,4 à **2,2 cm**, et resserrage de l'annexe G. **Ne pas remonter les marges sans recompter
 les pages.**
 
 | Document | Total | Débordements | Harnais |
 |---|---|---|---|
-| **`main_ensae.pdf`, déposé à l'ENSAE** | **197 pages** | **2, nouvelle ligne de base** | **1 906 sur 1 906** |
-| **`main_institut.pdf`, pour l'Institut** | **192 pages** | 2 | idem, mêmes chapitres |
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **198 pages** | **2, nouvelle ligne de base** | **1 911 sur 1 911** |
+| **`main_institut.pdf`, pour l'Institut** | **193 pages** | 2 | idem, mêmes chapitres |
 
 **LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
 dont les quatre de la table des paramètres. Les deux qui restent sont
@@ -87,7 +87,7 @@ Aucun fichier maître ne les appelle. Les 54 renvois qui y pointaient portent la
 `\ref`. **L'adresse du dépôt externe reste à renseigner**, le gabarit
 `https://LIEN_VERS_LE_DEPOT.com` étant en clair dans les fichiers maîtres.
 
-**Harnais : 1 906 nombres, 1 906 confirmés**, et **0 hors contrôle non déclaré** chapitre par
+**Harnais : 1 911 nombres, 1 911 confirmés**, et **0 hors contrôle non déclaré** chapitre par
 chapitre. Contrôles au vert sur les deux versions : 0 `??`, 0 vbox, 0 annotation hors page,
 0 page tournée, **et aucune figure seule sur sa page**, hors la couverture.
 
@@ -669,6 +669,54 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 23 septembre 2026
+
+### Deux figures en trois dimensions, et ce que la première tentative a appris
+
+**Demande de Kélian : des figures 3D qui mettent le mémoire en avant.** Deux ont été produites,
+et elles ne recalculent rien : elles **lisent** des sorties versionnées, patron du script 101,
+donc le gel n'est pas touché et aucune ne peut diverger du tableau qu'elle illustre.
+
+**Script 108, figure `S33`, au chapitre des résultats.** Les seize configurations de canaux,
+rangées par nombre de canaux relâchés, hauteur = capital, **couleur = écart à l'additivité**.
+Elle porte trois choses déjà publiées et les rend visibles d'un coup : les deux coins sont les
+deux états, 6 049 et 20 188, tout sommet intermédiaire est une remédiation partielle ; **chaque
+arête monte**, ce qui est la monotonie du script 88 lue d'un regard au lieu de soixante-cinq
+paires ; et la couleur montre le +5 001 au sommet complet et le **−330** de la seule paire
+négative. Les six croisés de paires du script 68 s'y retrouvent tous, ce qui vaut contrôle.
+
+**Script 109, figure `S34`, dans le matériel complémentaire.** La surface conjointe plafond ×
+saturation, et le terme d'interaction dont le **changement de signe à θ = 1** est le résultat.
+**Elle n'est PAS dans le corps, et c'est un constat et non un choix de mise en page** : le script
+86 n'est cité nulle part dans les chapitres, seulement dans les pièces justificatives déportées.
+L'y mettre aurait demandé d'écrire une section entière sur deux réserves que le corps ne porte
+pas. **Si Kélian veut cette figure dans le mémoire déposé, c'est une section à écrire, pas une
+image à déplacer.**
+
+**CE QUE LA PREMIÈRE TENTATIVE A APPRIS, ET C'EST LA VRAIE LEÇON.** La première version du
+treillis était la projection classique de l'hypercube à quatre dimensions, mathématiquement
+exacte : seize sommets, trente-deux arêtes, quatre directions non commensurables. **Rendue à la
+taille d'impression, quatorze centimètres, elle est illisible** : les sommets se recouvrent, les
+étiquettes se croisent, et l'on ne distingue plus quel point porte quel état. Elle a été regardée
+puis jetée, et le script le dit dans son en-tête pour qu'on ne la refasse pas. La disposition
+retenue range par rang, ce qui sépare les arêtes et rend la lecture immédiate. **Une 3D
+mathématiquement juste n'est pas une 3D lisible**, et seul le rendu le dit.
+
+**Trois défauts de mise en page attrapés au rendu, aucun par un contrôle.** La barre de couleur
+mangeait l'axe du capital, et le remède est contre-intuitif : **réduire** le `labelpad` de l'axe,
+un `labelpad` généreux poussant le titre VERS la barre. Les étiquettes posées en coordonnées 3D
+dérivent à la projection, donc elles sont ancrées en coordonnées écran par `proj_transform` avec
+un trait de rappel. Et les titres de panneau de la seconde figure étaient coupés par le bord.
+
+**Un piège matplotlib, pour mémoire.** Passer `edgecolors` à `plot_surface` en même temps que
+`facecolors` lève une erreur : matplotlib construit lui-même les arêtes depuis les faces. Poser
+la couleur d'arête **après coup**, sur la collection rendue.
+
+**Coût et contrôles.** **Une page**, 197 à **198** pour l'ENSAE et 192 à **193** pour l'Institut.
+**Il ne reste donc que deux pages de marge sous les 200**, et c'est le point à surveiller avant
+tout nouvel ajout. Matériel complémentaire à 70 pages, 0 renvoi non résolu. Débordements à la
+ligne de base de 2, 0 vbox, 0 annotation hors page, 0 `??`, 0 page tournée. Harnais **1 911 sur
+1 911**, chapitre des résultats à 404 sur 404 et couverture 100 %. Les deux figures ont été
+rendues en PNG, regardées, puis relues **sur la page du PDF** à la taille d'impression.
 
 ### L'élicitation a été DIFFUSÉE, et le mémoire le dit maintenant
 
