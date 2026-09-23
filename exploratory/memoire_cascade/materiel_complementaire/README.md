@@ -13,7 +13,12 @@ revenir en arrière, mais il faudrait aussi défaire les **45** `\matcomp` posé
 
 ## Le PDF à déposer en ligne
 
-`materiel_complementaire.pdf` — **71 pages, 0 renvoi non résolu**, construit le 21 septembre 2026.
+`materiel_complementaire.pdf` — **70 pages, 0 renvoi non résolu**, reconstruit le 23 septembre 2026
+juste avant la publication du dépôt. Le compte de 71 annoncé ici jusqu'au 23 était périmé.
+
+**LE RECONSTRUIRE APRÈS TOUTE MODIFICATION DU MÉMOIRE**, et pas seulement après une modification
+des trois annexes : il est extrait d'une compilation du mémoire entier, donc ses renvois et sa
+bibliographie portent l'état du document à la date de la construction.
 
 Il est produit par la méthode décrite plus bas : compilation du mémoire **entier** avec les trois
 `\input` rétablis, puis extraction des pages. Les renvois sont donc résolus dans les deux sens.
@@ -28,9 +33,14 @@ Pour le régénérer après une modification : reprendre le script
 avant `\bibliographystyle`, dans un master temporaire non versionné), compiler, puis extraire de
 la page de titre jusqu'à la fin.
 
-**Il reste à créer le dépôt numérique et à remplacer `https://LIEN_VERS_LE_DEPOT.com` dans
-`main_ensae.tex` par son adresse réelle.** Tant que ce lien est fictif, la notice des annexes du
-mémoire promet au jury un document qu'il ne peut pas atteindre.
+**L'adresse est posée : le DOI `10.5281/zenodo.22874525` est imprimé et cliquable page 156 du PDF
+déposé**, et 39 renvois du corps y conduisent par la macro `\matcomp`. Le gabarit
+`https://LIEN_VERS_LE_DEPOT.com` a disparu.
+
+**MAIS LE DÉPÔT N'EST PAS PUBLIÉ, ÉTAT VÉRIFIÉ LE 23 SEPTEMBRE 2026** : le DOI rend **404** sur
+`doi.org` comme sur `zenodo.org`, c'est un brouillon à DOI réservé. Tant qu'il n'est pas publié, la
+notice des annexes promet au jury un document qu'il ne peut pas atteindre. Les étapes et les
+métadonnées de publication sont dans `ZENODO.md`, à côté de ce fichier.
 
 ## Ce que contient chaque fichier
 
