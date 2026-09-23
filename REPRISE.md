@@ -513,16 +513,19 @@ soit presque la page entière.
   point n'est plus ouvert. Historique : il portait sur les dispositions prises pour la voie
   actuariat, que
   les consignes qualifient d'impératif. Non attesté dans le dossier.
-- **PUBLIER LE DÉPÔT ZENODO, ET C'EST BLOQUANT.** Le DOI `10.5281/zenodo.22874525` est
-  **imprimé et cliquable page 156** du PDF déposé, et 39 renvois du corps y conduisent par
-  `\matcomp`. Il **ne résout pas** : 404 sur `doi.org` et sur `zenodo.org`, vérifié le
-  23 septembre. Le dépôt est un brouillon à DOI réservé. Trois points à régler **avant** de
-  publier, car une publication Zenodo est irréversible, les fichiers devenant immuables et le
-  dépôt non supprimable : la **licence** à choisir, sachant que le PDF embarque les **trois
-  figures du rapport LUCY** (l'accord de Hugo du 17 septembre porte sur leur reproduction dans le
-  mémoire, pas nécessairement sur une rediffusion sous licence ouverte) ; l'absence de donnée sous
-  licence dans le PDF, à confirmer d'un coup d'œil, la base OpRisk n'étant jamais reproduite ; et
-  l'**anonymisation** des quatre assureurs, qui doit tenir dans le matériel comme dans le mémoire.
+- ~~Publier le dépôt Zenodo~~ : **PUBLIÉ le 23 septembre 2026.** La page
+  `https://zenodo.org/records/22874525` répond 200, le PDF de 70 pages y est téléchargeable, et le
+  fichier téléversé est **identique à l'octet** à celui du dépôt (3 548 815 octets). Licence
+  CC BY 4.0, avec une réserve de droits dans la description sur les figures reproduites de tiers,
+  qui est la protection qui comptait pour les trois figures LUCY. Anonymisation vérifiée sur les
+  70 pages : aucun des quatre assureurs n'y est nommé.
+- **RESTE À SURVEILLER : LE DOI NE RÉSOUT TOUJOURS PAS.** `https://doi.org/10.5281/zenodo.22874525`
+  rend **404** et l'API DataCite ne connaît pas l'identifiant, alors que la page Zenodo répond.
+  C'est la propagation asynchrone de l'enregistrement auprès de DataCite. **Le mémoire n'en dépend
+  plus** : son lien cliquable a été basculé sur l'adresse directe, le DOI restant imprimé comme
+  identifiant de citation. Si le DOI rend encore 404 après quelques heures, c'est un incident côté
+  Zenodo et il faut leur écrire. **Ne pas revenir à la seule forme `doi.org`** sans avoir vérifié
+  qu'elle résout.
 - **Le dépôt GitHub est public.** Rien de confidentiel n'y est poussé (`data/raw` est gitignoré),
   mais le mémoire, les sorties et les notes y sont lisibles. Le passer en privé est une décision de
   Kélian.
@@ -724,12 +727,21 @@ exécutable au plus exploratoire.
 quatre paragraphes à deux chacune, elles reviennent à **198** et **194**. Annexe F à 5 nombres sur
 5 sous contrôle.
 
-**LE DOI ZENODO NE RÉSOUT PAS, VÉRIFIÉ LE 23 SEPTEMBRE.** `https://doi.org/10.5281/zenodo.22874525`
-rend **404**, et `https://zenodo.org/records/22874525` aussi. Le dépôt est un **brouillon à DOI
-réservé**, ce que `audit/AUDIT_FINAL.md` dit déjà (« brouillon prêt, DOI posé »). Or ce DOI est
-**imprimé et cliquable page 156 du PDF déposé**, et 39 renvois du corps y conduisent par la macro
-`\matcomp`. **Déposer en l'état donnerait au jury un lien mort.** Publier le dépôt est donc un point
-bloquant du 30 septembre, pas une finition.
+**LE DÉPÔT ZENODO EST PUBLIÉ, ET LE LIEN DU MÉMOIRE A CHANGÉ DE FORME.** Publié le 23 septembre :
+`https://zenodo.org/records/22874525` répond 200, le PDF de 70 pages y est téléchargeable, et le
+fichier téléversé est identique à l'octet à celui du dépôt.
+
+**Mais le DOI, lui, ne résout pas encore** : `https://doi.org/10.5281/zenodo.22874525` rend 404 et
+l'API DataCite ne connaît pas l'identifiant, l'enregistrement auprès de DataCite étant asynchrone.
+Or le mémoire n'imprimait **que** la forme `doi.org`, et 39 renvois du corps y conduisent par
+`\matcomp` : le document promettait donc 39 fois un lien mort alors que le dépôt existait.
+
+**Correction : le lien CLIQUABLE porte désormais l'adresse directe**, `zenodo.org/records/22874525`,
+et le DOI reste imprimé comme **identifiant de citation**, où il est utile et où il ne dépend
+d'aucune résolution. Vérifié dans le PDF : l'annotation cliquable de la page 155 pointe bien sur
+l'adresse qui répond. **Ne pas revenir à la seule forme `doi.org`** sans avoir vérifié qu'elle
+résout. Le test se fait sans cache par `Invoke-WebRequest`, un outil de récupération de page
+gardant ses réponses en mémoire quinze minutes et renvoyant un 404 périmé.
 
 ### Le chapitre du stage : les deux tableaux de listes passent en prose
 
