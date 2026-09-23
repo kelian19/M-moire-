@@ -49,15 +49,16 @@ script l'écrase. Les deux portent **la couverture ENSAE**, décision de Kélian
 `page_de_garde.tex`, la couverture de l'Institut, reste au dépôt mais est orpheline.
 
 **KÉLIAN VEUT IMPÉRATIVEMENT LE MÉMOIRE ENSAE SOUS 200 PAGES**, contrainte posée le
-22 septembre. Elle est tenue à **197 depuis le 23 septembre**, avec **trois pages de marge**. Quatre leviers
-ont été employés, aucun ne retire de résultat : sommaire au niveau des sections (`tocdepth` à 1),
-marges de 2,4 à **2,2 cm**, resserrage de l'annexe G, et passage en prose des deux tableaux de
-listes du chapitre du stage. **Ne pas remonter les marges sans recompter les pages.**
+22 septembre. Elle est tenue à **198**, avec **deux pages de marge**. Quatre leviers ont été employés, aucun ne
+retire de résultat : sommaire au niveau des sections (`tocdepth` à 1), marges de 2,4 à **2,2 cm**,
+resserrage de l'annexe G, et passage en prose des deux tableaux de listes du chapitre du stage,
+qui a rendu la page qu'ont reprise les deux pistes de structure de l'annexe F.
+**Ne pas remonter les marges sans recompter les pages.**
 
 | Document | Total | Débordements | Harnais |
 |---|---|---|---|
-| **`main_ensae.pdf`, déposé à l'ENSAE** | **197 pages** | **2, nouvelle ligne de base** | **1 911 sur 1 911** |
-| **`main_institut.pdf`, pour l'Institut** | **193 pages** | 2 | idem, mêmes chapitres |
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **198 pages** | **2, nouvelle ligne de base** | **1 911 sur 1 911** |
+| **`main_institut.pdf`, pour l'Institut** | **194 pages** | 2 | idem, mêmes chapitres |
 
 **LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
 dont les quatre de la table des paramètres. Les deux qui restent sont
@@ -512,6 +513,16 @@ soit presque la page entière.
   point n'est plus ouvert. Historique : il portait sur les dispositions prises pour la voie
   actuariat, que
   les consignes qualifient d'impératif. Non attesté dans le dossier.
+- **PUBLIER LE DÉPÔT ZENODO, ET C'EST BLOQUANT.** Le DOI `10.5281/zenodo.22874525` est
+  **imprimé et cliquable page 156** du PDF déposé, et 39 renvois du corps y conduisent par
+  `\matcomp`. Il **ne résout pas** : 404 sur `doi.org` et sur `zenodo.org`, vérifié le
+  23 septembre. Le dépôt est un brouillon à DOI réservé. Trois points à régler **avant** de
+  publier, car une publication Zenodo est irréversible, les fichiers devenant immuables et le
+  dépôt non supprimable : la **licence** à choisir, sachant que le PDF embarque les **trois
+  figures du rapport LUCY** (l'accord de Hugo du 17 septembre porte sur leur reproduction dans le
+  mémoire, pas nécessairement sur une rediffusion sous licence ouverte) ; l'absence de donnée sous
+  licence dans le PDF, à confirmer d'un coup d'œil, la base OpRisk n'étant jamais reproduite ; et
+  l'**anonymisation** des quatre assureurs, qui doit tenir dans le matériel comme dans le mémoire.
 - **Le dépôt GitHub est public.** Rien de confidentiel n'y est poussé (`data/raw` est gitignoré),
   mais le mémoire, les sorties et les notes y sont lisibles. Le passer en privé est une décision de
   Kélian.
@@ -686,6 +697,39 @@ Chacun a coûté du temps au moins une fois.
 # Journal
 
 ## 23 septembre 2026
+
+### L'annexe F reçoit deux pistes de STRUCTURE, et le DOI Zenodo ne résout pas
+
+**Constat qui a déclenché l'ajout : sur les six pistes d'origine, CINQ demandaient de la donnée**
+et une seule était une évolution de modélisation, la dérive de sévérité. L'annexe se lisait donc
+comme « il manque des données à ce travail », ce qui est défensif alors que le modèle a de vraies
+directions d'évolution. Deux pistes de structure ajoutées, en fin d'annexe, l'ordre allant du plus
+exécutable au plus exploratoire.
+
+- **F.7, le coût d'un sinistre multi-piliers** : remplacer l'exposant par un modèle de coût à
+  **contrainte de capacité**. Le sens de l'effet ne se déclare pas aujourd'hui parce que deux
+  mécanismes tirent en sens contraire, mutualisation de la remédiation contre saturation de la
+  capacité de réponse, et un exposant unique ne peut pas porter les deux. Un modèle à capacité
+  donne un exposant implicite **non monotone**, et le sens devient une conséquence. Cite les
+  élasticités 0,95 contre 0,39, facteur 2,42, avec `% SOURCES-SCRIPTS: 74` ;
+- **F.8, la contagion entre entités par le prestataire partagé** : le canal d'accumulation est
+  ancré sur la concentration du nuage et sur les prestataires critiques désignés, c'est-à-dire sur
+  des faits concernant ce que les entités **partagent**, employés à paramétrer un canal **interne**.
+  L'argument qui rend la piste forte : le graphe des fournisseurs partagés est **observé**, donc
+  l'extension **n'hérite pas** du problème d'identification qui commande tout le mémoire. Elle en
+  hérite un autre, méthodologique, l'énumération des sommets ne passant pas à l'échelle.
+
+**Coût : une page nette.** Les deux pistes en coûtaient deux à la première écriture, qui portait
+`main_ensae` à **199** et ne laissait qu'une page de marge sous la contrainte des 200. Resserrées de
+quatre paragraphes à deux chacune, elles reviennent à **198** et **194**. Annexe F à 5 nombres sur
+5 sous contrôle.
+
+**LE DOI ZENODO NE RÉSOUT PAS, VÉRIFIÉ LE 23 SEPTEMBRE.** `https://doi.org/10.5281/zenodo.22874525`
+rend **404**, et `https://zenodo.org/records/22874525` aussi. Le dépôt est un **brouillon à DOI
+réservé**, ce que `audit/AUDIT_FINAL.md` dit déjà (« brouillon prêt, DOI posé »). Or ce DOI est
+**imprimé et cliquable page 156 du PDF déposé**, et 39 renvois du corps y conduisent par la macro
+`\matcomp`. **Déposer en l'état donnerait au jury un lien mort.** Publier le dépôt est donc un point
+bloquant du 30 septembre, pas une finition.
 
 ### Le chapitre du stage : les deux tableaux de listes passent en prose
 
