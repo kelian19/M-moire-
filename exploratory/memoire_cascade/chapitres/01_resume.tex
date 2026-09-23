@@ -4,33 +4,35 @@
 % resume portait << Remerciements >> en tete.
 \markboth{Résumé}{}
 
+% LONGUEUR CONTRAINTE PAR LE § 5.1.c DES RECOMMANDATIONS JURY : 150 A 250 MOTS, pour le
+% resume francais comme pour l'abstract anglais, ces deux textes servant a l'indexation sur
+% le site de l'Institut. Mesure du 23 septembre 2026 AVANT resserrage : 322 et 305 mots sur
+% le PDF, soit +29 % et +22 %. Ce qui a ete retire est du DETAIL, jamais un resultat ni une
+% reserve : le compte des sources qui echouent et le champ VERIS rempli une fois sur 10 591,
+% et le mecanisme de la decroissance de la charge avec la taille. Tous trois vivent dans la
+% note de synthese et dans l'executive summary, qui n'ont AUCUNE limite de longueur.
+% NE PAS REGROSSIR CES DEUX BLOCS : recompter sur le PDF apres toute retouche.
 Ce mémoire quantifie le coût en capital d'un défaut de conformité au règlement DORA
 (UE 2022/2554) pour un assureur exposé au risque cyber. La dépendance entre les cinq piliers y
-est portée non par une copule mais par une cascade dirigée : un incident se propage selon une
-matrice d'influence asymétrique, normalisée à la Leontief de sorte que la stabilité est
-\emph{garantie} et non supposée. L'état de conformité pilote le capital par une couche
-multi-états markovienne.
+est portée non par une copule mais par une cascade dirigée, normalisée à la Leontief de sorte que
+la stabilité est \emph{garantie}, non supposée ; l'état de conformité pilote le capital par une
+couche multi-états markovienne.
 
 La contribution centrale n'est pas de \emph{mesurer} cette contagion mais d'en établir la
-\emph{frontière d'identifiabilité} : la \emph{direction} de la propagation n'est pas identifiable
-sur données publiques agrégées, quand sa \emph{co-occurrence} l'est. Trois sources y échouent pour
-des raisons distinctes, et le schéma VERIS porte les deux champs requis sans les
-renseigner ensemble que dans un incident sur $10\,591$. Plutôt que de poser une matrice
-arbitraire, le mémoire borne le capital sur l'ensemble des matrices admissibles : entre $6\,858$
-et $8\,697$~M\euro{} sur $1\,024$ sommets. Cette largeur de $1\,839$~M\euro{} est le coût de
-l'ignorance de la direction, connu d'avance plutôt que subi.
+\emph{frontière d'identifiabilité} : sur données publiques agrégées, la \emph{direction} de la
+propagation n'est pas identifiable quand sa \emph{co-occurrence} l'est. Plutôt que de poser une
+matrice, le mémoire borne le capital sur l'ensemble des matrices admissibles : entre $6\,858$ et
+$8\,697$~M\euro{} sur $1\,024$ sommets. Cette largeur de $1\,839$~M\euro{} est le coût de
+l'ignorance, connu d'avance plutôt que subi.
 
-Entre états conforme et non conforme sur les quatre canaux que la conformité déplace, le besoin
-de capital sectoriel passe de $6\,049$ à $20\,188$~M\euro, soit un facteur $3{,}34$. C'est un
-besoin au sens de l'ORSA, non un SCR réglementaire, aucun module DORA n'existant en Formule
-Standard. À l'échelle d'une entité notionnelle, il se situe entre $131{,}5$ et $183{,}3$~M\euro{},
-ordre de grandeur et non mesure : la charge décroît beaucoup moins vite que la taille. Le niveau
-absolu est illustratif, variant d'un facteur $41$ selon la source ; résistent
-le rapport au socle, la largeur de bande et le classement des piliers.
+Sur les quatre canaux que la conformité déplace, le besoin de capital sectoriel passe de
+$6\,049$ à $20\,188$~M\euro, soit un facteur $3{,}34$. C'est un besoin au sens de l'ORSA, aucun
+module DORA n'existant en Formule Standard. À l'échelle d'une entité notionnelle, entre $131{,}5$
+et $183{,}3$~M\euro{} : un ordre de grandeur, le niveau absolu variant d'un facteur $41$ selon la
+source. Résistent le rapport au socle et le classement des piliers.
 
 La limite devient un livrable : un registre mieux spécifié resserrerait la bande de $66\,\%$, et
-documenter la seule dépendance entre gouvernance et gestion des incidents en lèverait
-$28{,}9\,\%$.
+documenter une seule dépendance en lèverait $28{,}9\,\%$.
 
 \paragraph{Mots-clés.} Risque cyber ; DORA ; SCR ; Solvabilité II ; théorie des valeurs
 extrêmes ; cascade dirigée ; identification partielle ; bornes de capital ; inférence
@@ -39,30 +41,25 @@ bayésienne ; valeur de l'information.
 \bigskip
 \noindent\textbf{Abstract.} \emph{This thesis quantifies the capital cost of DORA non-compliance
 (EU 2022/2554) for a cyber-exposed insurer. Dependence across the five DORA pillars is carried
-not by a copula but by a directed cascade: an incident propagates through an asymmetric,
-Leontief-normalised influence matrix, so that stability is \emph{guaranteed} rather than assumed.
-The firm's compliance state drives capital through a Markov multi-state layer.}
+not by a copula but by a directed cascade, Leontief-normalised so that stability is
+\emph{guaranteed} rather than assumed. The firm's compliance state drives capital through a
+Markov multi-state layer.}
 
 \emph{The central contribution is not to \emph{measure} this contagion but to establish its
-\emph{identifiability boundary}: the \emph{direction} of propagation is not identifiable from
-aggregated public data, whereas its \emph{co-occurrence} is. Three sources fail for distinct
-reasons, and the VERIS schema carries the two required fields yet populates both in only
-one incident out of $10\,591$. Rather than positing an arbitrary matrix, the thesis bounds capital
-over the admissible set: between $6\,858$ and $8\,697$~M\euro{} across $1\,024$ vertices. That
-width of $1\,839$~M\euro{} is the cost of not knowing the direction, known in advance rather than
-incurred.}
+\emph{identifiability boundary}: from aggregated public data the \emph{direction} of propagation
+is not identifiable, whereas its \emph{co-occurrence} is. Rather than positing a matrix, the
+thesis bounds capital over the admissible set: between $6\,858$ and $8\,697$~M\euro{} across
+$1\,024$ vertices. That width of $1\,839$~M\euro{} is the cost of not knowing, known in advance
+rather than incurred.}
 
-\emph{Between the compliant and non-compliant states on the four channels that compliance shifts,
-sector-level capital need rises from $6\,049$ to $20\,188$~M\euro, a factor of $3.34$. This is an
-ORSA-type need, not a regulatory SCR, since the Standard Formula has no DORA module. At the scale
-of a notional entity it lies between $131.5$ and $183.3$~M\euro{}, an order of magnitude rather
-than a measurement: severity falls far more slowly than size. The absolute
-level is illustrative, moving by a factor of $41$ with the data source; what holds is the ratio to
-the baseline, the bound width and the pillar ranking.}
+\emph{Across the four channels that compliance shifts, sector-level capital need rises from
+$6\,049$ to $20\,188$~M\euro, a factor of $3.34$. This is an ORSA-type need, since the Standard
+Formula has no DORA module. At the scale of a notional entity, between $131.5$ and
+$183.3$~M\euro{}: an order of magnitude, the absolute level moving by a factor of $41$ with the
+data source. What holds is the ratio to the baseline and the pillar ranking.}
 
 \emph{The limitation becomes a deliverable: a better-specified incident register would narrow the
-band by $66\,\%$, and documenting the single governance-to-incident-management dependency would
-remove $28.9\,\%$ of the ambiguity.}
+band by $66\,\%$, and documenting a single dependency would remove $28.9\,\%$ of the ambiguity.}
 
 % =====================================================================
 % USAGE DE L'IA GENERATIVE. EXIGE par le § 5.1.c des Recommandations Jury de
