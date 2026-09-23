@@ -265,6 +265,21 @@ rédaction nouvelle doit s'y tenir, sans quoi le document se désaligne à nouve
   intensificateur sans mesure (« majeur », « considérable », « précision inédite »), aucune
   conclusion artificielle de sous-section ;
 - **TIC**, jamais ICT ; **« besoin de capital »** dans le corps, « SCR » restant au titre ;
+- **LES ACRONYMES S'ÉCRIVENT EN CAPITALES PLEINES, décision de Kélian le 23 septembre 2026**, et
+  `\textsc{}` ne sert plus à en composer un. Le document en portait deux écritures, 217 en
+  capitales pleines et 55 en petites capitales, parfois sur la même page : SCR, DORA, TIC, ORSA,
+  VERIS, BSCR, SFCR, IC, FCA, CSRB, PRA, NAICS sont désormais tous en capitales pleines.
+  `\textsc{}` reste réservé au **style** (titres de section, verdicts de tableau de
+  `preambule_v2.tex`, où `\textsc{robuste}` et `\textsc{voulu}` ne sont pas des acronymes et **ne
+  doivent pas être touchés**) ;
+- **« VaR », avec le `a` minuscule, jamais « VAR » ni « Var ».** Le `a` est ce qui distingue la
+  *Value-at-Risk* d'une variance, et le mémoire emploie `\Var` pour la seconde. Un
+  `\textsc{var}` imprimait « VAR » et a été corrigé. En mathématiques, passer par les macros
+  `\VaR` et `\TVaR`, jamais par `\mathrm{VaR}` écrit à la main : deux occurrences contournaient
+  la macro, donc la convention réservant ces symboles à la charge annuelle agrégée ne tenait
+  que par l'œil ;
+- **l'italique passe par `\emph`, jamais par `\textit`.** `\emph` bascule en romain dans un
+  contexte déjà italique, `\textit` non. Le document employait les deux, 598 contre 13 ;
 - **aucune affirmation sur le futur registre DORA qui dépasse ce qu'il couvrira** : il notifiera
   les incidents *majeurs*, donc au-dessus d'un seuil de matérialité, et ne sera pas exhaustif ;
 - **la matrice de contagion est « posée à dire d'expert, puis bornée »**, jamais « élicitée » :
@@ -332,11 +347,13 @@ interligne 1,5.** Le préambule étant partagé avec `main_v2`, le format passe 
 versions ne définissent pas la commande et restent identiques, pagination comprise, ce qui a été
 vérifié. Quatre choses à savoir avant d'y toucher :
 
-- **la Times est `newtx`, pas la Times New Roman du système**, et c'est voulu. Le mémoire compose
-  soixante acronymes en petites capitales écrits en minuscules dans le source (`\textsc{scr}`,
-  `\textsc{dora}`...), et la Times New Roman de Windows n'a pas de vraies petites capitales :
-  chargée par fontspec, elle imprimerait « scr » en minuscules. `newtx` a les métriques de Times,
-  de vraies petites capitales et des mathématiques assorties ;
+- **la Times est `newtx`, pas la Times New Roman du système**, et c'est voulu. Le style compose
+  **les titres de section et les verdicts de tableau en petites capitales**, et la Times New Roman
+  de Windows n'a pas de vraies petites capitales : chargée par fontspec, elle les imprimerait en
+  minuscules. `newtx` a les métriques de Times, de vraies petites capitales et des mathématiques
+  assorties. **Le motif écrit ici jusqu'au 23 septembre était périmé** : il invoquait « soixante
+  acronymes en petites capitales », qui n'existent plus depuis que les acronymes sont uniformisés
+  en capitales pleines (voir le registre d'écriture). La conclusion ne bouge pas, son motif si ;
 - **`newtxmath` impose un ordre de chargement** : `amsmath` et `amsthm` avant lui, `amssymb`
   jamais (il en fournit les symboles). Sinon la compilation s'arrête sur `\Bbbk` puis sur
   `\openbox` définis deux fois. La branche ENSAE du préambule le fait ;

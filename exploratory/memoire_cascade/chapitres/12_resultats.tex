@@ -310,12 +310,12 @@ modèle additif.
 \subsection{Euler : allouer le niveau, et une limite d'estimation assumée}
 
 La règle d'Euler \citep{tasche1999} alloue $\mathrm{SCR}(\text{NC})$ par
-$C_j = \mathbb{E}\bigl[L_j \mid L \ge \mathrm{VaR}_{99{,}5\,\%}\bigr]$ (version TVaR, exacte
+$C_j = \mathbb{E}\bigl[L_j \mid L \ge \VaR_{99{,}5\,\%}\bigr]$ (version TVaR, exacte
 par construction), où $L_j$ est la perte du pilier \emph{touché} $j$ dans la cascade. Côté
 PRC, l'allocation est stable et presque plate : P2 $23\,\%$, P4 $23\,\%$, P1 $20\,\%$,
 P3 $18\,\%$, P5 $17\,\%$, et les parts de capital coïncident avec les parts de perte moyenne
 parce que le plafond de sévérité tronque la queue
-($\mathrm{TVaR} = 6\,795 \approx \mathrm{VaR} = 6\,573$~M\euro). Côté OpRisk, les parts
+($\TVaR = 6\,795 \approx \VaR = 6\,573$~M\euro). Côté OpRisk, les parts
 \emph{moyennes} sont stables (P2 $23\,\%$, P4 $22\,\%$, P1 $20\,\%$, P3 $18\,\%$,
 P5 $16\,\%$), mais l'allocation de la queue extrême ne l'est pas, et la cause en est
 théorique : avec $\xi \approx 0{,}6 > 0{,}5$, la sévérité est de variance infinie,
@@ -751,11 +751,11 @@ Tout ce qui précède porte sur une entité \emph{notionnelle}, posée à $20\,0
 $15\,000$~M\euro{} de provisions. La méthode est complète, l'objet est fictif : le mémoire
 démontre une faisabilité, il ne mesure pas une entité. C'est la première objection qu'un
 rapporteur formule, et elle est juste. On la lève avec la seule donnée disponible sans accès
-interne, les rapports \textsc{sfcr} de l'exercice 2024, qui sont des publications
+interne, les rapports SFCR de l'exercice 2024, qui sont des publications
 réglementaires.
 
 Trois grandeurs suffisent par entité : provisions techniques, fonds propres éligibles,
-\textsc{scr}. Chaque champ porte sa provenance, \emph{publié} quand il est lu tel quel,
+SCR. Chaque champ porte sa provenance, \emph{publié} quand il est lu tel quel,
 \emph{déduit} quand il résulte d'une identité comptable ou d'un ratio de couverture publié.
 Aucun n'est estimé. La conversion en dollars, nécessaire parce que le panel de calibration
 exprime les actifs en \$, n'est pas un paramètre sensible : l'élasticité valant $0{,}074$, une
@@ -763,16 +763,16 @@ erreur de $10\,\%$ sur le cours déplace $\lambda$ de $0{,}7\,\%$.
 
 \begin{attention}
 \textbf{Deux précautions de vocabulaire, avant tout chiffre.} D'abord, il n'existe \emph{aucun}
-module \textsc{dora} dans la Formule Standard : la grandeur calculée ici est un besoin de
-capital \textsc{orsa}, donc de pilier~2, conformément à ce que pose le
-chapitre~\ref{chap:reglementaire}. Écrire \og le \textsc{scr} \textsc{dora} de telle entité\fg{} ferait
-croire à un objet réglementaire qui n'existe pas. Ensuite, le rapport de ce besoin au \textsc{scr}
+module DORA dans la Formule Standard : la grandeur calculée ici est un besoin de
+capital ORSA, donc de pilier~2, conformément à ce que pose le
+chapitre~\ref{chap:reglementaire}. Écrire \og le SCR DORA de telle entité\fg{} ferait
+croire à un objet réglementaire qui n'existe pas. Ensuite, le rapport de ce besoin au SCR
 publié est une mise à l'échelle et non une part : diviser un besoin de pilier~2 par le
-\textsc{scr} réglementaire ne fait pas du premier une composante du second. Le rapport répond à
+SCR réglementaire ne fait pas du premier une composante du second. Le rapport répond à
 \og est-ce gros ou petit pour cette entité\fg{}, et à rien d'autre. Enfin les entités sont désignées
 par leur classe de taille, non par leur nom : le modèle n'utilise que le total de bilan et les
 provisions, jamais l'identité, et il serait donc gratuit d'accoler un nom de société à un état de
-conformité \emph{supposé}. Les identités et les références \textsc{sfcr} exactes sont tenues hors
+conformité \emph{supposé}. Les identités et les références SFCR exactes sont tenues hors
 du mémoire, dans le code de calcul, qui en imprime la table de correspondance à chaque exécution.
 % SOURCES-SCRIPTS: 65
 \end{attention}
@@ -797,8 +797,8 @@ $\mathbf{[233\,;316]}$ & $\mathbf{2{,}0\,\%}$ \\
 \end{center}
 
 \vspace{2pt}
-\noindent \textbf{Les quatre \textsc{scr} du dénominateur sont publiés, et cela a été vérifié
-pièce par pièce.} Les deux assureurs vie donnent leur \textsc{scr} en synthèse ; les deux
+\noindent \textbf{Les quatre SCR du dénominateur sont publiés, et cela a été vérifié
+pièce par pièce.} Les deux assureurs vie donnent leur SCR en synthèse ; les deux
 assureurs non-vie le donnent dans leur état quantitatif \textsc{s.25.01}, à $425$ et
 $812{,}5$~M\euro. Aucun n'est reconstitué à partir d'un taux de couverture, si bien que la
 colonne des rapports repose entièrement sur des grandeurs lues. Ce qui reste \emph{déduit} est
@@ -824,7 +824,7 @@ qu'il existe.
 \vspace{4pt}
 La première lecture est celle qu'on attendait. Sur la plus grande entité du panel, un assureur
 vie de $310$~Md\euro{} d'actifs, le besoin de capital associé à la non-conformité vaut
-$294$~M\euro{} en point et $[233\,;316]$ en bande, soit $2{,}0\,\%$ de son \textsc{scr} publié :
+$294$~M\euro{} en point et $[233\,;316]$ en bande, soit $2{,}0\,\%$ de son SCR publié :
 un ordre de grandeur défendable, obtenu sans aucune donnée interne. Et l'écart entre états de
 conformité subsiste à toutes les tailles, de $+41\,\%$ à $+49\,\%$, face à une charge forfaitaire
 qui n'en distingue aucune. La thèse ne dépendait donc pas de l'entité fictive.
@@ -832,12 +832,12 @@ qui n'en distingue aucune. La thèse ne dépendait donc pas de l'entité fictive
 \begin{attention}
 \textbf{La seconde lecture n'était pas attendue, et elle contraint le mémoire.} La charge décroît
 beaucoup moins vite que la taille : un facteur $134$ sur les actifs ne divise la sévérité que par
-$1{,}53$ et la fréquence que par $1{,}44$. Rapportée au \textsc{scr} publié, la charge passe donc
+$1{,}53$ et la fréquence que par $1{,}44$. Rapportée au SCR publié, la charge passe donc
 de $2{,}0\,\%$ pour une grande entité à $26{,}4\,\%$ pour une petite. En posant qu'un seul risque
-de non-conformité réglementaire ne peut raisonnablement peser plus de $10\,\%$ du \textsc{scr}
+de non-conformité réglementaire ne peut raisonnablement peser plus de $10\,\%$ du SCR
 total d'une entité, tous risques confondus, la bascule se situe entre $37\,845$ et
 $309\,800$~M\euro{} d'actifs. Ce n'est pas un seuil fin, quatre entités ne le déterminent pas,
-et il dépend aussi du levier propre de l'entité, dont le rapport \textsc{scr} sur actifs va ici
+et il dépend aussi du levier propre de l'entité, dont le rapport SCR sur actifs va ici
 de $4{,}2$ à $18{,}3\,\%$. C'est un ordre de grandeur, et la cause est celle que le
 \S\ref{sec:ancrage} nommait sans la chiffrer : l'élasticité corrige l'\emph{échelle} de la
 sévérité, jamais sa \emph{forme}, et la forme est celle de grandes institutions financières.
@@ -849,7 +849,7 @@ pèse $19\,231$~M\euro{} d'actifs et se trouve donc \emph{dans} la zone que la l
 déclare hors domaine, ce qui suffit à en tirer la conséquence : le $169$~M\euro{} doit être lu
 comme une borne supérieure d'ordre de grandeur, non comme une charge plausible. Un
 second test, celui du levier, ne l'accable pas : en imputant à cette entité le levier médian des
-quatre entités réelles ($10{,}0\,\%$), soit $1\,932$~M\euro{} de \textsc{scr}, la charge en
+quatre entités réelles ($10{,}0\,\%$), soit $1\,932$~M\euro{} de SCR, la charge en
 représenterait $9\,\%$, donc juste \emph{sous} le critère de $10\,\%$. La requalification repose
 ainsi sur le seul argument de taille. Ce que le mémoire établit n'en est pas
 affaibli, parce que sa thèse porte sur l'\emph{écart} entre états de conformité face à un
@@ -860,12 +860,12 @@ exactement la donnée que le chapitre~\ref{chap:donnees} déclare absente.
 \end{cle}
 
 Deux réserves enfin, à ne pas reléguer en note. Aucune de ces entités ne publie son état de
-conformité \textsc{dora} : on mesure une \emph{exposition} sous un état supposé, jamais une
+conformité DORA : on mesure une \emph{exposition} sous un état supposé, jamais une
 non-conformité constatée, et c'est pourquoi les trois états sont donnés côte à côte sans qu'aucun
 soit désigné. Et deux des quatre entités publient \og provisions techniques et autres passifs\fg{}
 sans les séparer, ce qui surestime l'assiette du repère forfaitaire pour elles ; pour les deux
 assureurs vie, la branche provisions de la formule applique de surcroît un coefficient plus faible
-que celui du repère, qui ne vaut donc pas pour elles. Le rapport au \textsc{scr} publié, lui,
+que celui du repère, qui ne vaut donc pas pour elles. Le rapport au SCR publié, lui,
 n'est pas concerné.
 
 % SOURCES-SCRIPTS: 65
@@ -875,16 +875,16 @@ n'est pas concerné.
 
 Les sections qui précèdent chiffrent un besoin et un écart. Il reste à dire ce que le capital
 total de l'entité en retient, et la réponse ne va pas de soi. Sous Solvabilité~II, le risque
-opérationnel n'entre pas dans la matrice de corrélation du \textsc{bscr} : il s'ajoute,
+opérationnel n'entre pas dans la matrice de corrélation du BSCR : il s'ajoute,
 selon l'identité $\mathrm{SCR} = \mathrm{BSCR} + \mathrm{Adj} + \mathrm{SCR}_{Op}$ posée au
-chapitre~\ref{chap:reglementaire}. Un besoin de nature opérationnelle porté en \textsc{orsa} se
+chapitre~\ref{chap:reglementaire}. Un besoin de nature opérationnelle porté en ORSA se
 transmet donc au capital total sans aucun bénéfice de diversification, et cela vaut du
-niveau comme de l'écart entre états. Un euro d'écart \textsc{dora} coûte un euro de capital.
+niveau comme de l'écart entre états. Un euro d'écart DORA coûte un euro de capital.
 
 \paragraph{Le contrefactuel.} Pour mesurer cette convention, le même montant est agrégé comme un
-module de plus, corrélé à $\rho$ avec le \textsc{bscr} : un montant petit devant le \textsc{bscr}
+module de plus, corrélé à $\rho$ avec le BSCR : un montant petit devant le BSCR
 n'y est reconnu qu'à hauteur de $\rho$, quand la convention additive le reconnaît en entier. Sur
-les quatre bilans réels, le \textsc{bscr} n'étant que minoré, les taux lus sont des majorants
+les quatre bilans réels, le BSCR n'étant que minoré, les taux lus sont des majorants
 \matcomp.
 
 \begin{center}\small
@@ -908,8 +908,8 @@ Assureur vie D & $86{,}0$ & $0{,}0076$ & $25{,}4\,\%$ & $3{,}94$ \\
 qu'un traitement corrélé retiendrait, et le rapport reste dans cette bande étroite sur un facteur
 $134$ de taille de bilan, précisément parce que $\tau$ tend vers $\rho$. Lu sur le niveau plutôt
 que sur l'écart, où $d$ est plus grand, le facteur va de $2{,}6$ à $3{,}8$. Rapporté au
-\textsc{scr} publié de chaque entité, l'écart entre états pèse de $0{,}58\,\%$ pour la plus grande
-à $8{,}21\,\%$ pour la plus petite, et ces points de \textsc{scr} sont acquis en entier.
+SCR publié de chaque entité, l'écart entre états pèse de $0{,}58\,\%$ pour la plus grande
+à $8{,}21\,\%$ pour la plus petite, et ces points de SCR sont acquis en entier.
 
 \paragraph{Le plafond borne en outre ce qu'un forfait saurait exprimer.} Sur l'assureur non-vie~A,
 le besoin calculé vaut $2{,}21$ fois la marge restante sous le plafond de $0{,}3 \times
@@ -918,7 +918,7 @@ le besoin calculé vaut $2{,}21$ fois la marge restante sous le plafond de $0{,}
 
 \begin{cle}
 \textbf{La lecture décisionnelle, et elle renverse une intuition de gestion.} Un euro économisé
-sur la non-conformité \textsc{dora} vaut, en capital, davantage qu'un euro économisé sur un risque
+sur la non-conformité DORA vaut, en capital, davantage qu'un euro économisé sur un risque
 qui se diversifie : le premier est reconnu en entier, le second à hauteur de sa corrélation. Une
 direction des risques qui classerait ses chantiers de remédiation au seul vu de la sinistralité
 attendue sous-estimerait donc le rendement en capital de celui-ci, d'un facteur de l'ordre de

@@ -68,7 +68,7 @@ biais.
 \section{Trois biais statistiques à déclarer avant tout usage}
 \label{sec:trois-biais}
 
-L'utilisation conjointe des bases \textit{Privacy Rights Clearinghouse} (PRC) et SAS OpRisk Global permet de croiser les perspectives, mais nécessite d'identifier trois biais statistiques majeurs qui altèrent l'estimation de l'indice de queue $\xi$.
+L'utilisation conjointe des bases \emph{Privacy Rights Clearinghouse} (PRC) et SAS OpRisk Global permet de croiser les perspectives, mais nécessite d'identifier trois biais statistiques majeurs qui altèrent l'estimation de l'indice de queue $\xi$.
 
 \paragraph{1. Le biais de sélection (Selection Bias).}
 Ce biais affecte particulièrement la base OpRisk Global, qui se nourrit principalement d'événements rendus publics dans la presse financière ou les rapports annuels. Par construction, un incident cyber n'atteint ce seuil de visibilité que s'il frappe une entité d'une certaine taille (généralement des institutions systémiques ou de grandes banques internationales) ou si son montant est exceptionnellement élevé.
@@ -127,7 +127,7 @@ courante de la base, fondée sur l'indice général, reste elle-même un minoran
 que l'équation demande.
 % SOURCES-SCRIPTS: 102
 
-Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de \citet{jacobs2014}. Bien qu'utile comme \textit{proxy}, ce modèle de régression log-log lisse la variance et minore les extrêmes. C'est le motif de
+Par ailleurs, le traitement des données manquantes dans la PRC (qui recense parfois le nombre d'enregistrements compromis sans le montant financier) est géré par la conversion de \citet{jacobs2014}. Bien qu'utile comme \emph{proxy}, ce modèle de régression log-log lisse la variance et minore les extrêmes. C'est le motif de
 ne pas plafonner la calibration issue directement d'OpRisk, où les montants sont observés de
 bout en bout.
 
@@ -255,7 +255,7 @@ $\lambda_{ref}$ & PRC & $341$/an & notifications de violation de données des
 \emph{organisations financières} de la base PRC (code \texttt{BSF}), et non de la base
 entière, qui en compte $2\,150$ par an. Sert à \emph{répartir} par vecteur d'attaque, pas à
 fixer un niveau de capital. \\
-$\lambda$ & OpRisk & $21{,}6$/an & incidents \textsc{tic} \emph{matériels} du secteur
+$\lambda$ & OpRisk & $21{,}6$/an & incidents TIC \emph{matériels} du secteur
 financier mondial. C'est l'entrée du moteur de cascade et le seul des trois qui
 porte le capital. \\
 $\lambda_{\text{entité}}$ & OpRisk & $0{,}092$/an & les mêmes incidents matériels, rapportés
@@ -270,8 +270,8 @@ un comptage de notifications, un comptage de pertes matérielles sectorielles et
 de pertes matérielles par entité. Il est recalculé à chaque exécution du pipeline, de sorte
 qu'il ne peut plus se désynchroniser des trois fréquences dont il découle.
 % SOURCES-SCRIPTS: 67
-\textbf{Seul $\lambda$ alimente le
-moteur}, et c'est lui
+Seul $\lambda$ alimente le
+moteur, et c'est lui
 seul qui doit être invoqué quand le mémoire parle de \og{}la fréquence du modèle\fg{}.
 \end{attention}
 
@@ -287,7 +287,7 @@ ici chiffrées ; la figure est déportée \matcomp.
 au seuil de collecte, l'élasticité de la sévérité à la taille vaut $b=0{,}087$, et la sévérité
 transposée à l'entité notionnelle n'est multipliée que par $0{,}85$. La troncature à droite se
 corrige par chain-ladder : les $97$ événements observés sur 2023--2025 deviennent $255$ à
-l'ultime, et le risque \textsc{tic} n'a pas baissé après 2022, il n'est pas encore remonté. Les
+l'ultime, et le risque TIC n'a pas baissé après 2022, il n'est pas encore remonté. Les
 régressions, le triangle de développement et la figure sont déportés \matcomp.
 % SOURCES-SCRIPTS: 67
 
@@ -437,7 +437,7 @@ bancaire : calibrer une sévérité extrême à partir de pertes réellement
 observées plutôt qu'à partir d'un indicateur de volume forfaitaire.
 
 \paragraph{Statistiques de sévérité.} Elles portent sur la population de la fréquence et de la
-descente d'échelle : secteur financier, catégories \textsc{tic}, fenêtre $2005$--$2022$, soit
+descente d'échelle : secteur financier, catégories TIC, fenêtre $2005$--$2022$, soit
 $1\,476$ observations. La loi de Pareto généralisée, elle, est ajustée sur le périmètre cyber
 $\times$ finance du paragraphe précédent, $582$ pertes sur $2000$--$2026$. Les deux populations
 ne coïncident pas, et la table ci-dessous décrit la première.
@@ -812,7 +812,7 @@ retenu pour la validation hors échantillon, de s'en tenir à la fenêtre grisé
 
 \paragraph{Compter et sommer ne classent pas les mêmes catégories.} La
 figure~\ref{fig:organisation-double-axe} met en regard le nombre d'incidents et le volume touché
-par type d'organisation. Les deux ordres divergent sur \textbf{quatre types sur sept} : le
+par type d'organisation. Les deux ordres divergent sur quatre types sur sept : le
 commerce de détail est sixième en nombre et quatrième en volume, l'enseignement quatrième en
 nombre et cinquième en volume.
 

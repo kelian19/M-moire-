@@ -655,12 +655,51 @@ Chacun a coûté du temps au moins une fois.
     Vu le 23 septembre sur la figure 6.2, dont les titres mesuraient 4,6 et 3,8 pouces pour des
     panneaux de 3,4. Aucun contrôle ne l'attrape, ni la compilation, ni le harnais : **seul le
     rendu le montre**. Un titre de panneau se coupe à la main, en deux lignes.
+26. **UN MOTIF ÉTOILÉ ACCEPTE LA CHAÎNE VIDE, ET UN `fullmatch` POSÉ DESSUS AVALE CE QU'ON
+    CHERCHE.** Le balayage du gras du 23 septembre écartait les étiquettes de liste par
+    `re.fullmatch(r"(\\item|\\noindent...)*", avant)`. Sur un `\textbf` en tête de ligne, `avant`
+    vaut la chaîne vide, que le motif étoilé accepte : **tout gras ouvrant une ligne était donc
+    déclaré légitime**, c'est-à-dire exactement le cas que la règle du projet signale comme
+    piège. Le balayage annonçait 4 écarts, il y en avait 15. Garder le test sous un `if avant:`.
+    Et ce qui l'a révélé n'est pas une relecture du code : c'est **une page rendue en PNG et
+    regardée**, où un gras en pleine prose sautait aux yeux.
 
 ---
 
 # Journal
 
 ## 23 septembre 2026
+
+### Les acronymes, la VaR et le gras, uniformisés
+
+**Kélian a signalé que « VaR », « TIC » et « DORA » étaient parfois mal écrits.** Ils l'étaient, et
+le défaut était plus large qu'eux trois.
+
+**Les acronymes vivaient sous deux écritures**, 217 occurrences en capitales pleines contre 55 en
+petites capitales, parfois sur la même page. **Décision de Kélian : tout en capitales pleines**,
+la forme déjà majoritaire. Uniformisés : SCR, DORA, TIC, ORSA, VERIS, BSCR, SFCR, IC, FCA, CSRB,
+PRA, NAICS, soit **65 remplacements** dans les chapitres, dans `main_ensae.tex` et dans le
+matériel complémentaire. **`\textsc{}` reste au style et ne compose plus un acronyme** : les
+`\textsc{robuste}` et `\textsc{voulu}` de `preambule_v2.tex` sont les verdicts de tableau, pas
+des sigles, et ne se touchent pas. Le motif du choix de `newtx` écrit dans `CLAUDE.md` invoquait
+ces soixante acronymes : il est corrigé, la police reste la bonne pour les titres de section.
+
+**La VaR portait trois défauts distincts.** Un `\textsc{var}` imprimait « VAR » quand les
+trente et une autres occurrences écrivent « VaR », le `a` minuscule étant ce qui la distingue
+d'une variance. Deux `\mathrm{VaR}` et `\mathrm{TVaR}` contournaient les macros `\VaR` et
+`\TVaR`, donc la convention qui les réserve à la charge annuelle agrégée ne tenait que par
+l'œil. Et un `\mathrm{Var}` écrivait à la main la variance que `\Var` compose déjà.
+
+**Le gras était presque propre, et l'italique dispersé.** Sept gras en pleine prose, corrigés :
+cinq clauses qui perdent leur mise en relief, deux termes courts passés en italique, plus un
+`\textbf{(c)}` de légende que les panneaux (a) et (b) de la même légende n'avaient pas. Restent
+huit gras légitimes, quatre étiquettes de liste et quatre têtes de note. **Les 22 nombres en
+gras sont tous en tableau**, ce que la règle autorise. Et 13 `\textit` sont passés à `\emph`,
+contre 598 déjà conformes.
+
+**Coût et contrôles.** **Zéro page** : 196 et 191, inchangés. Débordements à la ligne de base
+de 2, 0 vbox, 0 annotation hors page, 0 `??`, 0 page tournée. Harnais **1 906 sur 1 906**,
+inchangé, aucun nombre n'ayant été touché. Les deux fichiers déposés sont recopiés.
 
 ### Deux titres qui se touchaient, et le script 107 : $\rho_{ij}$ est-il identifiable ?
 

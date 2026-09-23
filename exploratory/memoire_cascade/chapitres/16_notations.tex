@@ -32,7 +32,7 @@ introduit. La colonne de droite renvoie au chapitre qui les définit.
 \endfoot
 \bottomrule
 \endlastfoot
-\multicolumn{3}{@{}l}{\textit{\textcolor{navy}{Piliers et cascade dirigée}}} \\
+\multicolumn{3}{@{}l}{\emph{\textcolor{navy}{Piliers et cascade dirigée}}} \\
 $P_1,\dots,P_5$ & Les cinq piliers DORA : gouvernance, gestion des incidents, tests de résilience, prestataires tiers, partage d'informations & \ref{chap:cascade} \\
 $\mathrm{TRANS}$ & Matrice d'influence brute du classeur qualitatif, asymétrique, non normalisée & \ref{chap:cascade} \\
 $\mathrm{ROOT}$ & Propension de chaque pilier à \emph{amorcer} une chaîne & \ref{chap:cascade} \\
@@ -46,7 +46,7 @@ $M,\ R_0$ & Matrice de génération suivante et son rayon spectral (extinction s
 $S_a$ & Ensemble des piliers atteints depuis l'amorce $a$ & \ref{chap:cascade} \\
 $K_j,\ u_j$ & Seuil sur la latente ; seuil de matérialité observable (art.~18) & \ref{chap:cascade} \\
 \midrule
-\multicolumn{3}{@{}l}{\textit{\textcolor{navy}{Identifiabilité et identification partielle}}} \\
+\multicolumn{3}{@{}l}{\emph{\textcolor{navy}{Identifiabilité et identification partielle}}} \\
 $S,\ A$ & Parties symétrique et antisymétrique de $W$ : co-occurrence (identifiée) et direction (non identifiée) & \ref{ch:identifiabilite} \\
 $J_{jk}$ & Courant de probabilité $\pi_jP_{jk}-\pi_kP_{kj}$ ; nul ssi réversibilité & \ref{ch:identifiabilite} \\
 $\pi,\ \tilde P$ & Loi stationnaire ; noyau adjoint (chaîne renversée dans le temps) & \ref{ch:identifiabilite} \\
@@ -58,24 +58,24 @@ $\mathcal{W}(t)$ & Ensemble admissible des matrices compatibles avec la donnée 
 $u_{ij}$ & Excès de propagation propre à la source, $\operatorname{logit}p_{ij}=\operatorname{logit}p_j+u_{ij}$ & \ref{chap:partielle} \\
 $L(\mathcal{V}),\ V(\mathcal{I})$ & Largeur de bande de capital ; valeur d'une information & \ref{ch:livrable} \\
 \midrule
-\multicolumn{3}{@{}l}{\textit{\textcolor{navy}{Socle : fréquence et sévérité}}} \\
+\multicolumn{3}{@{}l}{\emph{\textcolor{navy}{Socle : fréquence et sévérité}}} \\
 $\xi,\ \sigma_{\text{GPD}},\ u$ & Indice de queue, échelle et seuil POT de la GPD de sévérité & \ref{chap:socle} \\
 $\zeta_u=p_u$ & Probabilité de dépassement du seuil, $\Prob(X>u)$ & \ref{chap:socle} \\
 $N_u$ & Nombre d'excès au-delà de $u$ & \ref{chap:socle} \\
 $\lambda_{ref}$ & Fréquence de référence PRC ($341$/an) : \emph{clé de répartition} par vecteur, n'alimente pas le moteur & \ref{chap:donnees} \\
-$\lambda$ & Fréquence d'entrée du moteur, incidents \textsc{tic} matériels ($21{,}6$/an au secteur) & \ref{chap:donnees} \\
+$\lambda$ & Fréquence d'entrée du moteur, incidents TIC matériels ($21{,}6$/an au secteur) & \ref{chap:donnees} \\
 $\varphi,\ a$ & Facteur de surdispersion ; charge systémique commune du mélange lognormal & \ref{chap:socle} \\
 $r,\ p$ & Paramètres de la loi binomiale négative de fréquence & \ref{chap:socle} \\
 $b$ & Élasticité de la sévérité à la taille de la firme & \ref{chap:donnees} \\
 \midrule
-\multicolumn{3}{@{}l}{\textit{\textcolor{navy}{Conformité multi-états}}} \\
+\multicolumn{3}{@{}l}{\emph{\textcolor{navy}{Conformité multi-états}}} \\
 $C^\star_j,\ \Theta$ & Capacité de conformité latente du pilier $j$ ; facteur systémique commun & \ref{chap:multietats} \\
 $\gamma$ & Charge systémique de la latente de conformité ($0{,}68$) & \ref{chap:multietats} \\
 $K_{\text{bas}},K_{\text{haut}}$ & Seuils ordonnés découpant les états NC / PC / C & \ref{chap:multietats} \\
 $Q$ & Générateur de la chaîne de Markov de mise en conformité (séjours de type phase) & \ref{chap:multietats} \\
 $S_0,S_1,S_2$ & Scénarios conforme / partiel / non conforme (multiplicateurs de fréquence) & \ref{chap:socle} \\
 \midrule
-\multicolumn{3}{@{}l}{\textit{\textcolor{navy}{Capital, allocation et décision}}} \\
+\multicolumn{3}{@{}l}{\emph{\textcolor{navy}{Capital, allocation et décision}}} \\
 $\VaR_\alpha(L),\ \TVaR_\alpha(L)$ & Value-at-Risk et Tail-VaR de la charge \textbf{annuelle agrégée} $L$, au niveau $\alpha=99{,}5\,\%$ : ce sont les \emph{mesures de capital} & \ref{chap:socle} \\
 $\qsev_\alpha(X),\ \qbarsev_\alpha(X)$ & Quantile de \textbf{sévérité} d'un sinistre unique et sa moyenne de queue. \emph{Ne pas confondre avec les précédents} : le niveau $99{,}5\,\%$ n'a de sens réglementaire que sur un horizon annuel, et une perte isolée n'en porte aucun. Objets \emph{descriptifs}, jamais un besoin de capital & \ref{chap:socle} \\
 $\Delta_{DORA}$ & Surcoût de capital imputable à la non-conformité & \ref{chap:resultats} \\

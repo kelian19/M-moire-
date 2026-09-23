@@ -80,17 +80,17 @@ ordonnés de l'amplification systémique d'un modèle à facteur unique.
 L'état de conformité agit sur la cascade par quatre canaux, câblés sans réécrire
 l'agrégation du chapitre~\ref{chap:cascade} :
 \begin{enumerate}[leftmargin=1.5em,itemsep=2pt,topsep=2pt]
-\item \textit{Fréquence} $\lambda$ : l'état module le nombre d'incidents amorcés, de $21{,}56$
+\item \emph{Fréquence} $\lambda$ : l'état module le nombre d'incidents amorcés, de $21{,}56$
   incidents matériels par an à l'état conforme à $53{,}62$ à l'état non conforme, par le
   multiplicateur de scénario décrit ci-dessous.
-\item \textit{Propagation} $g$ : une entité plus conforme contient mieux la contagion, donc un
+\item \emph{Propagation} $g$ : une entité plus conforme contient mieux la contagion, donc un
   gain plus faible, de $0{,}90$ à $0{,}45$. La propension à propager depuis un pilier reste
   $e_j=g(c_j)\,s_j/\max_k s_k$, avec un gain indexé sur l'état du pilier source.
-\item \textit{Détection} $p_u$ : le taux de matérialité (le seuil de détection du
+\item \emph{Détection} $p_u$ : le taux de matérialité (le seuil de détection du
   chapitre~\ref{chap:cascade}). Une entité conforme intercepte et remédie tôt, de sorte qu'une
   moindre fraction d'incidents atteint la sévérité matérielle : $p_u$ est multiplié par $0{,}85$
   à l'état conforme et par $1{,}20$ à l'état non conforme, deux valeurs posées.
-\item \textit{Accumulation par un prestataire commun} : à l'état non conforme, un incident amorcé
+\item \emph{Accumulation par un prestataire commun} : à l'état non conforme, un incident amorcé
   sur le pilier des tiers devient un choc commun qui touche chacun des autres piliers avec la
   probabilité $0{,}68$, au lieu de se propager comme un nœud de cascade (\S\ref{sec:p4-accumulation}).
 \end{enumerate}
@@ -142,18 +142,18 @@ valeurs,
   \qquad 0{,}90 \ \text{(non conforme)},
 \]
 sont posées. Elles ne sont calibrées sur aucune donnée, et pour une raison
-irréductible : aucune entité ne publie son état de conformité \textsc{dora}, si bien qu'il
+irréductible : aucune entité ne publie son état de conformité DORA, si bien qu'il
 n'existe aucun échantillon d'où tirer la correspondance état $\to g$. Un écart énoncé comme
 \og le capital passe de $116$ à $169$~M\euro\fg{} hérite donc entièrement de ces trois décimales.
 Ce qui s'établit sans elles tient en deux temps.
 
 \paragraph{Le lemme, qui n'allait pas de soi.} Le capital est croissant en $g$. Ce
 n'est pas une évidence : le chapitre~\ref{chap:resultats} établit qu'à indice de queue élevé la
-\textsc{var} annuelle est \emph{peu sensible} à la structure de cascade, par principe du grand
+VaR annuelle est \emph{peu sensible} à la structure de cascade, par principe du grand
 saut unique, et peu sensible ne veut pas dire monotone. On le vérifie donc numériquement plutôt
 que de le supposer, sur une grille de vingt points et à nombres aléatoires communs, condition
 sans laquelle deux valeurs voisines de $g$ ne différeraient que par le bruit de tirage. Résultat :
-\textbf{aucun pas décroissant} sur les vingt intervalles, et cela sur quatre grandeurs à la fois,
+\emph{aucun pas décroissant} sur les vingt intervalles, et cela sur quatre grandeurs à la fois,
 le capital et la perte moyenne, à l'échelle d'entité comme à celle du secteur.
 
 \paragraph{L'invariance, qui en découle.} Si le capital est croissant en $g$, alors toute
@@ -193,7 +193,7 @@ valeur de $g$.
 
 \begin{cle}
 \textbf{Ce qui reste une hypothèse, et c'est tout ce qui reste.} La proposition
-\og se conformer à \textsc{dora} réduit la propagation entre piliers\fg{}, soit $g_C < g_{NC}$. C'est
+\og se conformer à DORA réduit la propagation entre piliers\fg{}, soit $g_C < g_{NC}$. C'est
 une affirmation qualitative, discutable, et sur laquelle le règlement lui-même prend parti
 puisque ses cinq piliers sont des exigences de maîtrise. Elle est d'un autre ordre de solidité
 qu'un triplet de valeurs. Ce qui reste un scénario : l'amplitude, qui ne dépend que de
