@@ -743,9 +743,19 @@ lignes `% SOURCES-SCRIPTS` ont bougé, donc **198 et 194 pages inchangées**.
 **LA LEÇON, ET ELLE EST PLUS GÉNÉRALE QUE CE PARAGRAPHE.** Un taux de 100 % ne dit pas qu'une
 section est sourcée, il dit que ses nombres se retrouvent quelque part dans un pool. La bonne
 question n'est pas « ce nombre est-il confirmé » mais « **par quel script, et ce script parle-t-il
-du même objet** ». Le diagnostic tient en dix lignes et il est décrit dans `CLAUDE.md`. **Les
-sections les plus exposées sont celles qui citent le plus de scripts**, donc les conclusions et les
-notes de synthèse, et elles n'ont pas été auditées de cette façon.
+du même objet** ».
+
+**L'OUTIL EXISTE ET LE MÉMOIRE ENTIER Y EST PASSÉ** : `exploratory/memoire_cascade/audit_sources.py`.
+Il réduit sur l'empreinte du cas VERIS, support unique **et** tolérance déterminante, et il
+**imprime la ligne** d'où vient chaque correspondance, qui est le seul juge. Résultat du
+24 septembre : **1 912 nombres balayés, 68 signalés, 68 relus un par un, tous des arrondis de
+lecture légitimes**. La ligne d'appui décrit à chaque fois le même objet que le nombre publié.
+**Aucun second cas VERIS dans le mémoire.**
+
+**ET SON ANGLE MORT EST DÉCLARÉ, PARCE QU'IL EST RÉEL.** Une coïncidence qui tombe *exactement* sur
+la valeur publiée est invisible à toute méthode numérique. C'est précisément ainsi que le 13 de
+VERIS passait, confirmé par un 13 exact d'un triangle chain-ladder sans aucun rapport. L'audit
+réduit le risque, il ne l'annule pas, et seule la relecture du sens le ferait.
 
 ### TROISIÈME RÉPONSE AU FORMULAIRE DE RELECTURE, ET DEUX COMPTES DEVENUS FAUX
 

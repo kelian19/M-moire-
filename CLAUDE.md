@@ -875,13 +875,21 @@ nombres étaient calculés pendant la rédaction et saisis à la main, ce que la
 interdit depuis août. Ils se sont révélés **exacts** après recalcul, mais le dispositif ne le
 savait pas : il affichait 100 % sur une section hors source.
 
-**LE CONTRÔLE QUI ATTRAPE CELA, ET IL EST À REFAIRE SUR TOUTE SECTION À GROS POOL.** Ne pas
-demander « ce nombre est-il confirmé », mais « **par quel script**, et ce script parle-t-il du même
-objet ». Le diagnostic tient en dix lignes : charger les sorties avec `charge_sorties`, rejouer la
-tolérance de `confirme` valeur par valeur, et **imprimer le script d'où vient chaque
-correspondance**. Une correspondance qui vient d'un script sans rapport avec la phrase est une
-fausse confirmation, et le taux ne la distingue pas d'une vraie. **Les sections les plus exposées
-sont celles qui citent le plus de scripts**, c'est-à-dire les conclusions et les notes de synthèse.
+**LE CONTRÔLE QUI ATTRAPE CELA EXISTE MAINTENANT** : `exploratory/memoire_cascade/audit_sources.py`,
+lancé avec le dossier des sorties en argument. Il ne demande pas « ce nombre est-il confirmé » mais
+« **par quel script**, et ce script parle-t-il du même objet », et il **imprime la ligne** d'où vient
+chaque correspondance. C'est la ligne qu'on lit, et c'est le seul juge.
+
+Il réduit avant de faire lire, sur l'empreinte du cas VERIS : **support unique**, une seule
+occurrence dans une seule sortie, **et tolérance déterminante**, la valeur trouvée n'entrant dans
+la fenêtre que par l'arrondi. **Son angle mort est déclaré** : une coïncidence qui tombe
+*exactement* sur la valeur publiée est invisible à toute méthode numérique, et c'est ainsi que le
+13 de VERIS passait. Il réduit le risque, il ne l'annule pas.
+
+**PASSÉ SUR TOUT LE MÉMOIRE LE 24 SEPTEMBRE 2026** : 1 912 nombres balayés, **68 signalés, 68 relus
+un par un, tous des arrondis de lecture légitimes**, la ligne d'appui décrivant à chaque fois le
+même objet que le nombre publié. **Aucun second cas VERIS.** À rejouer si une section change de
+scripts cités.
 
 **Le harnais tourne aussi sur un fichier de slides**, et il faut s'en servir. Il prend n'importe
 quel chemin `.tex` en second argument :
