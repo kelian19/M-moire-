@@ -701,6 +701,51 @@ Chacun a coûté du temps au moins une fois.
 
 ## 23 septembre 2026
 
+## 24 septembre 2026
+
+### TROISIÈME RÉPONSE AU FORMULAIRE DE RELECTURE, ET DEUX COMPTES DEVENUS FAUX
+
+**Nathanaël a répondu le 23 septembre à 18 h 44.** Attribution confirmée par Kélian : c'est un
+consultant de Nexialog, **BU Data**. C'est la troisième et dernière des trois sollicitations, donc
+la relecture de praticiens est désormais **intégralement rendue, trois sur trois**.
+
+**ELLE N'ÉTAIT DANS AUCUNE DES FEUILLES SURVEILLÉES.** Elle vit dans celle créée le **9 septembre
+à 15 h 29**, `1PqGDzd4wXdRG4e8mS2yJEGkJHg-KJzbXfiqHfeYonc4`, et non dans celle du formulaire en
+diffusion. Troisième fois que ce piège mord : un répondant reçoit un lien plus ancien et sa réponse
+part dans une feuille homonyme.
+
+**ET LA MÉTHODE DE RECHERCHE CHANGE, PARCE QUE LA LECTURE UNE À UNE EST TROP LENTE ET QUE LA DATE
+DE MODIFICATION MENT.** J'ai d'abord conclu qu'aucune feuille n'ayant bougé depuis le 14 septembre,
+il n'y avait pas de réponse. **C'était faux** : la feuille du 8 septembre contient une réponse du 9
+et affiche toujours le 8. **Ce qui marche** : une recherche plein texte sur les dates récentes,
+`fullText contains '9/24/2026' or ... '9/15/2026'` restreinte aux tableurs, qui a désigné la bonne
+feuille du premier coup. À réutiliser, et **ne jamais se fier à `modifiedTime`** sur ces feuilles.
+
+**CE QUE LA RÉPONSE DIT.** Profil déclaré consultant en données, secteur conseil, un an
+d'expérience. Consentement donné, citation **par fonction seulement, sans nom ni employeur**, et
+pas de relecture avant diffusion. Phrase 1 d'accord, 2 avec nuance, **3 et 4 en désaccord**, 5 avec
+nuance, 6 d'accord, 7 avec nuance. Sur la question fermée 8, **« Oui, ils la dégradent
+temporairement »**. Un seul commentaire, sur le registre d'incidents, « réaliste mais assez risqué :
+confidentialité et exposition ». Phrases 9, 10 et « ce qui manque » vides.
+
+**UN PIÈGE DE CITATION.** L'option qu'il a cochée est libellée « Par fonction seulement :
+\emph{un directeur des risques}, sans nom ni employeur ». Le « directeur des risques » est
+l'**exemple du formulaire**, pas sa fonction. Le citer ainsi serait faux. Et il est le seul des
+trois à refuser la mention de l'employeur, d'où l'asymétrie voulue dans l'annexe C : les deux
+premiers y sont « un consultant de Nexialog », lui non.
+
+**CE QUE ÇA OBLIGEAIT, ET C'EST LA RAISON DE ROUVRIR LE GEL.** Trois énoncés du document déposé
+devenaient **faux**, et aucun n'était un nombre que le harnais puisse voir : « deux consultants du
+cabinet ont répondu » au chapitre 14, « Deux réponses ne font pas un panel » à l'annexe C, et
+« Les deux relectures de praticiens reçues » dans l'encadré du chapitre 8. Corrigés tous les trois,
+plus une clause de l'annexe C devenue ambiguë, « une réponse unique », précisée en « une seule des
+trois réponses ».
+
+**COÛT ET CONTRÔLES.** Le paragraphe neuf de l'annexe C a d'abord porté le document à **199 pages**,
+une seule de marge ; resserré, il revient à **198** et **194**. Deux débordements aux deux
+emplacements connus, 0 vbox, 0 annotation, 0 `??`. Chapitre 8 à 141 sur 141, annexe C à 16 sur 16
+avec 0 hors contrôle non déclaré, chapitre 14 sans nombre.
+
 ### GEL DU CONTENU, ET RÉPÉTITION DE DÉPÔT PASSÉE LE 23 SEPTEMBRE
 
 **Le contenu est gelé à compter du 23 septembre au soir**, décision de Kélian, avancée de cinq
