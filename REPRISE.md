@@ -703,6 +703,50 @@ Chacun a coûté du temps au moins une fois.
 
 ## 24 septembre 2026
 
+### UN 100 % DU HARNAIS ÉTAIT FAUX, ET C'EST LE PARAGRAPHE VERIS QUI L'A RÉVÉLÉ
+
+**Point de départ : une question de Kélian, faut-il décrire VERIS plus en détail dans le mémoire ?**
+La réponse est non, et elle ne demandait pas de vérification : VERIS n'alimente aucune calibration,
+son rôle est uniquement de fermer la troisième échappatoire, donc un profilage de ses variables
+serait une erreur de catégorie. Mais en vérifiant, le paragraphe s'est révélé **hors source**.
+
+**LES QUATRE NOMBRES DE CE PARAGRAPHE N'ÉTAIENT IMPRIMÉS PAR AUCUN SCRIPT.** `control_failure`
+renseigné dans 13 incidents sur 10 591 (0,12 %), chronologie datée sur au moins deux étapes dans
+126 (1,19 %), sur au moins trois dans 10, intersection à 1 dont aucun en finance. Calculés pendant
+la rédaction et saisis à la main, ce que la règle du projet interdit depuis août.
+
+**ET LE HARNAIS AFFICHAIT 100 %, PAR COÏNCIDENCE.** Il confirme un nombre s'il le trouve dans
+l'**union** des sorties des scripts que la section cite ; celle-ci en cite cinq, donc son pool est
+gros. Le 13 se confirmait contre une ligne du triangle chain-ladder du script 57, le 126 contre un
+montant en euros du script 64, le 0,12 contre un écart de forme de Dirichlet du script 40, le 1
+contre seize valeurs quelconques entre 0,5 et 1,5. **Aucune de ces correspondances n'a de rapport
+avec VERIS.**
+
+**LES NOMBRES SONT VRAIS, ET C'EST LE SEUL SOULAGEMENT.** Recalculés directement sur
+`data/raw/vcdb.csv`, présent sur ce poste : 13, 0,12 %, 126, 1,19 %, 10, 1 et 0 en finance, tous
+reproduits **à l'identique**. Ce qui manquait n'était pas l'exactitude, c'était la source.
+
+**UN PIÈGE DE DÉFINITION RÉSOLU AU PASSAGE, ET IL DONNE RAISON AU MÉMOIRE.** Un premier recalcul
+donnait 127 et 11 au lieu de 126 et 10. L'écart vient de la lecture de « datée » : quatre incidents
+portent une valeur de durée **sans unité de temps utilisable**, deux en compromission et deux en
+exfiltration. La lecture stricte, valeur **et** unité réelle, donne exactement les 126 et 10
+publiés. C'est la seule défendable, une durée sans unité ne datant rien, donc ne portant aucune
+antériorité.
+
+**CORRECTION : SCRIPT 110**, `2_donnees/110_veris_remplissage.py`, sortie versionnée `110.txt`,
+arrêt dur si la base ne porte plus 10 591 incidents et 980 en finance. Rattaché aux **quatre**
+endroits qui publient ces nombres : chapitre 8, chapitre 12, conclusion et les deux notes de
+synthèse. Vérifié ensuite que la confirmation est devenue **réelle** : les huit valeurs viennent
+désormais du script 110, et non d'une coïncidence. Aucun mot du mémoire n'a changé, seules les
+lignes `% SOURCES-SCRIPTS` ont bougé, donc **198 et 194 pages inchangées**.
+
+**LA LEÇON, ET ELLE EST PLUS GÉNÉRALE QUE CE PARAGRAPHE.** Un taux de 100 % ne dit pas qu'une
+section est sourcée, il dit que ses nombres se retrouvent quelque part dans un pool. La bonne
+question n'est pas « ce nombre est-il confirmé » mais « **par quel script, et ce script parle-t-il
+du même objet** ». Le diagnostic tient en dix lignes et il est décrit dans `CLAUDE.md`. **Les
+sections les plus exposées sont celles qui citent le plus de scripts**, donc les conclusions et les
+notes de synthèse, et elles n'ont pas été auditées de cette façon.
+
 ### TROISIÈME RÉPONSE AU FORMULAIRE DE RELECTURE, ET DEUX COMPTES DEVENUS FAUX
 
 **Nathanaël a répondu le 23 septembre à 18 h 44.** Attribution confirmée par Kélian : c'est un

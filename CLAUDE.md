@@ -783,6 +783,7 @@ sur le Mac et reproduisent leur sortie versionnée ligne pour ligne, au chemin a
 | 107 | **ρ_ij est-il identifiable, et que vaut le compromis hiérarchique ?** (23 septembre 2026). Déterministe, **aucune simulation** : loi exacte du nombre d'entités non conformes par quadrature, limite de population en forme fermée (la transformée probit de la part non conforme est gaussienne, moyenne −K/√(1−ρ) et variance ρ/(1−ρ)). **Le mécanisme est une identité, et c'est le contrôle en même temps que le résultat** : la marge vaut 0,35 quelle que soit la sensibilité, donc une sensibilité ne se lit JAMAIS sur un taux de conformité. Comptes, en périodes d'observation à 80 % de puissance : **813** pour séparer u_ij = 0,10 sur une cellule, le facteur étant supposé CONNU (donc une borne basse) ; **aucun** écart du domaine n'est séparable sur une coupe unique (0,47 contre 3,84) ; **474** au niveau du pilier à 4 entités et **81** sur une population entière, donc **élargir sature**. **Et le sens du regroupement décide de ce qui serait observable** : sous la généralisation A le facteur est celui du PILIER et l'identification passe par le temps ; sous le modèle publié il est celui de l'ENTITÉ et **374 entités vues une fois** suffiraient. **Arrêt dur** sur trois identités (correlation publiée, somme de la loi, invariance de la marge). **Le mémoire GARDE ρ_ij = ρ_j + u_ij**, décision de Kélian le 23 septembre, et publie à côté la variante logit admissible par construction (un u additif sort de [0;1] avec probabilité 1,40 % à dispersion 0,20) : ne pas substituer l'une à l'autre |
 | 108 | **le treillis des quatre canaux en trois dimensions** (23 septembre 2026), figure `S33`, au chapitre des résultats. **Ne calcule aucun capital** : il LIT les seize configurations et les quatre effets isolés de `68.txt`, patron du script 101. Hauteur = capital, couleur = **écart à l'additivité** recalculé depuis les valeurs publiées. **Trois contrôles et arrêt dur** : les deux coins redonnent 6 049 et 20 188, la monotonie tient sur les **32 arêtes** (le script 88 revérifié par un chemin indépendant), et la disposition sépare les seize. **PIÈGE À CONNAÎTRE** : sa recomposition donne **+5 002** au sommet complet quand le mémoire publie **+5 001**, parce que les quatre effets isolés sont lus arrondis au million ; la valeur qui fait foi reste celle du 68, et le script l'imprime en clair pour qu'on ne « corrige » pas le mémoire sur la foi de la figure. Les six croisés de paires se retrouvent au même arrondi près, dont le **−330** de prop×accum |
 | 109 | **la surface conjointe plafond × saturation** (23 septembre 2026), figure `S34`, dans le matériel complémentaire, où le script 86 est cité (il ne l'est **nulle part dans le corps**). Lit les deux grilles de la section 3 de `86.txt`, ne simule rien. Deux panneaux : le capital, et le terme d'interaction dont le **changement de signe à θ = 1** est le résultat publié. **Quatre contrôles et arrêt dur**, dont le signe de l'interaction qui doit suivre celui de (1 − θ) sur toutes les cases non nulles. **L'axe des plafonds est ORDINAL**, son dernier cran étant l'absence de plafond : l'espacer selon les valeurs exigerait de placer l'infini |
+| 110 | **VERIS porte les deux champs manquants et ne les remplit pas** (24 septembre 2026), sur `data/raw/vcdb.csv`. Aucune figure. Il **ne produit aucun résultat neuf** : il source quatre nombres qui étaient publiés depuis des mois **sans qu'aucun script les imprime**, calculés pendant la rédaction et saisis à la main. Ils sont tous **exacts**, reproduits à l'identique : `control_failure` renseigné dans **13** incidents sur **10 591** (0,12 %), chronologie datée sur au moins deux étapes dans **126** (1,19 %), sur au moins trois dans **10**, et l'intersection des deux conditions dans **1** seul incident, **aucun** en secteur financier. **PIÈGE DE DÉFINITION MESURÉ ICI** : « datée » se lit de deux façons, valeur seule ou valeur **et** unité de temps réelle. Quatre incidents portent une valeur sans unité, deux en compromission et deux en exfiltration, d'où 127 et 11 en lecture lâche contre **126 et 10 en lecture stricte, que le mémoire publie** et qui est la seule défendable, une durée sans unité ne datant rien. **Arrêt dur** si la base ne porte plus exactement 10 591 incidents et 980 en finance |
 | 66 | invariance de la thèse aux valeurs de g |
 | 46, 51 | VaR prédictive et échelle des six postures — **51 est le dépositaire du bruit de simulation de chaque posture** ; 46 recalcule la prédictive à `B = 2000`, 51 à `B = 3000`, d'où deux valeurs du même nombre |
 | 43 | KPI DORA en leviers de capital : les quatre canaux, leur attribution, l'interaction, le facteur 3,34 entre états |
@@ -861,6 +862,26 @@ Le résidu se répartit en quatre classes, une seule est un défaut :
 **La classification automatique du résidu ne fonctionne pas** : les correspondances trouvées à
 un facteur 100 près sur des nombres ronds sont fortuites, un pool de plusieurs milliers de
 valeurs en produit toujours une. Les nombres restants se lisent un par un.
+
+**ET CE DÉFAUT A MORDU LE MÉMOIRE LUI-MÊME, TROUVÉ LE 24 SEPTEMBRE 2026. UN 100 % PEUT ÊTRE
+FAUX.** Le harnais confirme un nombre s'il le trouve dans l'**union** des sorties de tous les
+scripts que sa section cite. Plus une section cite de scripts, plus son pool est gros, et plus un
+petit entier y trouve une correspondance **par hasard**. La section des trois échecs du chapitre
+d'identifiabilité en cite cinq, et ses quatre nombres sur VERIS s'y confirmaient tous sans qu'aucun
+script ne les imprime : le **13** contre une ligne du triangle chain-ladder du script 57, le
+**126** contre un montant en euros du script 64, le **0,12** contre un écart de forme de Dirichlet
+du script 40, et le **1** contre seize valeurs quelconques de l'intervalle [0,5 ; 1,5[. Ces quatre
+nombres étaient calculés pendant la rédaction et saisis à la main, ce que la règle du projet
+interdit depuis août. Ils se sont révélés **exacts** après recalcul, mais le dispositif ne le
+savait pas : il affichait 100 % sur une section hors source.
+
+**LE CONTRÔLE QUI ATTRAPE CELA, ET IL EST À REFAIRE SUR TOUTE SECTION À GROS POOL.** Ne pas
+demander « ce nombre est-il confirmé », mais « **par quel script**, et ce script parle-t-il du même
+objet ». Le diagnostic tient en dix lignes : charger les sorties avec `charge_sorties`, rejouer la
+tolérance de `confirme` valeur par valeur, et **imprimer le script d'où vient chaque
+correspondance**. Une correspondance qui vient d'un script sans rapport avec la phrase est une
+fausse confirmation, et le taux ne la distingue pas d'une vraie. **Les sections les plus exposées
+sont celles qui citent le plus de scripts**, c'est-à-dire les conclusions et les notes de synthèse.
 
 **Le harnais tourne aussi sur un fichier de slides**, et il faut s'en servir. Il prend n'importe
 quel chemin `.tex` en second argument :
