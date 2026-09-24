@@ -703,6 +703,38 @@ Chacun a coûté du temps au moins une fois.
 
 ## 24 septembre 2026
 
+### GEL REPOSÉ LE 24 AU SOIR, APRÈS LA CORRECTION VERIS
+
+**Le contenu est de nouveau gelé**, après avoir été dégelé dans la journée pour deux corrections
+qui ne pouvaient pas attendre : la troisième réponse au formulaire de relecture, qui rendait trois
+énoncés faux, et le rattachement du paragraphe VERIS à une vraie source.
+
+**Le gel porte sur un état vérifié, et voici la vérification.**
+
+| Contrôle | Résultat |
+|---|---|
+| Arbre git | propre, et poussé |
+| Pages, ENSAE et Institut | **198** et **194** |
+| `??`, pages tournées | 0, 0 |
+| Débordements horizontaux | **2**, la ligne de base, aux deux emplacements connus |
+| `\vbox`, annotations hors page | 0, 0 |
+| **Harnais, 24 chapitres** | **1 912 sur 1 912, 100 %** |
+| Couverture | 0 hors contrôle non déclaré |
+| **Audit de source** | 1 912 balayés, 68 signalés, **68 relus, tous légitimes** |
+| Fichiers de dépôt | identiques au hachage à leurs maîtres |
+| Matériel complémentaire | identique au fichier publié sur Zenodo, page pour page |
+| Lien du matériel | `zenodo.org/records/22874525` répond 200 |
+
+**CE QUI PEUT ENCORE ENTRER APRÈS CE POINT, ET RIEN D'AUTRE** : la signature de la page de garde,
+et une correction d'erreur trouvée par la relecture page par page de Kélian, qui est en cours.
+Toute autre modification se pèse contre le fait qu'elle oblige à rejouer la répétition de dépôt
+**et** à recomparer le matériel complémentaire au fichier publié, les fichiers Zenodo étant
+immuables.
+
+**RAPPEL DU SEUL POINT RESTANT À DÉPENDANCE EXTERNE** : la page de garde signée. Elle relève du
+§ 5.1.b de l'Institut, **pas** des consignes ENSAE, et son absence ne bloque pas le dépôt, elle
+bloque la **publication**. Le mémoire ENSAE déposé le 30 n'en a pas besoin.
+
 ### UN 100 % DU HARNAIS ÉTAIT FAUX, ET C'EST LE PARAGRAPHE VERIS QUI L'A RÉVÉLÉ
 
 **Point de départ : une question de Kélian, faut-il décrire VERIS plus en détail dans le mémoire ?**
