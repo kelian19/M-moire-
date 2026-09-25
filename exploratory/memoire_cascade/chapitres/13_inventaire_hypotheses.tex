@@ -143,7 +143,7 @@ paramètre et identification. L'étage de modèle est publié, mais comme axe de
 sensibilité déclaré et non comme composante de la bande.
 
 \paragraph{Les trois étages, mis sur une seule échelle avant toute comparaison.} Comparer les
-étages exige de les lire sur la \emph{même} grandeur, et c'est la première chose à faire ici :
+étages exige de les lire sur la \emph{même} grandeur, première chose à faire ici :
 l'étage de paramètre est publié sur le quantile d'\emph{un sinistre} (facteur $2{,}5$) tandis que
 les deux autres vivent sur la \emph{charge annuelle agrégée}. Les rapprocher tels quels
 comparerait deux échelles, ce qui est précisément l'erreur que ce mémoire s'interdit ailleurs.
@@ -212,7 +212,7 @@ une loi de sévérité en un quantile annuel. Un diagnostic de convergence de Mo
 supplée pas : il établit que l'estimateur est \emph{stable}, jamais qu'il est \emph{juste}, et un
 biais systématique de l'agrégation lui resterait invisible. La charge annuelle du modèle étant
 exactement une somme composée, $S=X_1+\dots+X_K$ avec $X_i = u + \mathrm{GPD}(\xi,\sigma)$, elle
-se calcule aussi sans simuler, et c'est ce que fait cette section.
+se calcule aussi sans simuler, ce que fait cette section.
 
 Le nombre $K$ de pertes non nulles d'une année se construit en trois étages tous exacts : les
 amorces suivent la binomiale négative, chaque amorce touche un ensemble de piliers dont les
@@ -250,7 +250,7 @@ simulée : sa moyenne sur quatre graines porte une erreur type de $139$ et $500$
 l'état. L'écart de l'inversion vaut $0{,}75$ et $0{,}59$ erreur type, donc il n'est pas
 résolu. Deux chemins qui ne partagent ni code ni aléa, l'un tirant des années et l'autre
 composant des transformées, ne se séparent pas à la résolution disponible : c'est le meilleur
-résultat que ce contrôle pouvait rendre, et c'est aussi la raison de ne pas citer le $-1{,}7\,\%$
+résultat que ce contrôle pouvait rendre ; c'est aussi la raison de ne pas citer le $-1{,}7\,\%$
 seul, qui se lirait comme un désaccord. L'approximation analytique, qui n'utilise ni simulation
 ni inversion, reste à moins de dix pour cent au second ordre contre plus du double au premier :
 la correction de moyenne rattrape l'essentiel, comportement que la théorie annonce pour une
@@ -310,7 +310,7 @@ Point (\emph{plug-in}) & rien : le quantile d'un ajustement ponctuel $(\hat\xi,\
 Prédictive & l'incertitude de paramètre, \emph{avant} le quantile, par mélange sur le bootstrap & $645$ & $\pm\,7$ \\
 Robuste $\beta=90\,\%$ & la borne haute de la VaR sur l'ambiguïté de \emph{paramètre} : le quantile $\beta$ de la loi bootstrap de la VaR & $939$ & $\pm\,13$ \\
 Robuste $\beta=95\,\%$ & idem, à un niveau de prudence plus élevé & $1\,037$ & $\pm\,9$ \\
-Robuste $\beta=99\,\%$ & idem, et c'est la plus bruitée des six & $1\,247$ & $\pm\,24$ \\
+Robuste $\beta=99\,\%$ & idem, la plus bruitée des six & $1\,247$ & $\pm\,24$ \\
 Pire-cas de modèle & on ajoute l'ambiguïté de \emph{famille}, en poussant la queue à $\xi=0{,}90$ & $1\,331$ & --- \\
 \bottomrule
 \end{tabular}
@@ -367,8 +367,8 @@ délimité par les quantiles $5$ et $95$ de cette même loi. Les deux valent don
 et ce n'est pas une coïncidence numérique mais la même quantité sous deux noms. Reporter le
 \emph{plug-in} avec sa bande publie donc déjà le chiffre robuste, comme une \emph{borne} et non
 comme un point. Le désaccord entre les deux postures ne porte pas sur l'information mise à
-disposition du lecteur, il porte sur ce qu'on appelle \og le \fg{} capital, et c'est précisément
-pour cela que la question se tranche par la définition réglementaire plutôt que par la prudence.
+disposition du lecteur, il porte sur ce qu'on appelle \og le \fg{} capital. La question se tranche
+pour cela par la définition réglementaire plutôt que par la prudence.
 
 Le paragraphe qui précède donne la grille ; il faut maintenant trancher, sans quoi le mémoire
 laisserait son résultat central sans convention de report. La posture retenue est le
@@ -384,7 +384,7 @@ le récit de l'ORSA, non en gonflant le quantile, et pour une raison de cohéren
 appliquée à chaque module, la même logique empilerait des marges dont le niveau de confiance global
 ne serait plus énonçable.
 
-\textbf{La deuxième est une mesure, et c'est elle qui rend le choix confortable.} La prédictive,
+\textbf{La deuxième est une mesure, celle qui rend le choix confortable.} La prédictive,
 qui est la réponse théoriquement préférable puisqu'elle intègre l'incertitude \emph{avant} le
 quantile, vaut $645$~M\euro{} contre $657$ pour le \emph{plug-in}, soit un écart de deux fois le
 bruit de simulation. La bonne réponse ne déplace donc pas le point. Reporter la
@@ -504,7 +504,7 @@ des coûts, et elle demande de distinguer trois énoncés que le seul mot d'addi
 
 \begin{enumerate}[leftmargin=*,itemsep=2pt]
 \item \textbf{Au sein d'un sinistre}, les coûts des piliers touchés \emph{s'additionnent} : c'est
-une hypothèse de construction, non testée, et c'est le seul des trois que la question met en cause.
+une hypothèse de construction, non testée, seul des trois que la question met en cause.
 \item \textbf{En fonction des piliers non conformes}, le capital est \emph{presque additif},
 $R^2=0{,}9945$ sur les $32$ configurations : c'est une mesure, et elle explique qu'une structure de
 dépendance entre états ne déplace pas le capital espéré \matcomp.

@@ -57,7 +57,7 @@ qui a rendu la page qu'ont reprise les deux pistes de structure de l'annexe F.
 
 | Document | Total | Débordements | Harnais |
 |---|---|---|---|
-| **`main_ensae.pdf`, déposé à l'ENSAE** | **198 pages** | **2, nouvelle ligne de base** | **1 911 sur 1 911** |
+| **`main_ensae.pdf`, déposé à l'ENSAE** | **198 pages** | **2, nouvelle ligne de base** | **1 912 sur 1 912** |
 | **`main_institut.pdf`, pour l'Institut** | **194 pages** | 2 | idem, mêmes chapitres |
 
 **LA LIGNE DE BASE DES DÉBORDEMENTS EST 2, PLUS 5.** Le passage à 2,2 cm en a absorbé trois,
@@ -1277,6 +1277,68 @@ avec eux.
 « déclarés section par section » et « déclaré dans le chapitre ». Recalculer la couverture en
 n'en lisant qu'une fait annoncer un nombre hors contrôle qui n'existe pas : c'est arrivé sur le
 chapitre 02b. Lire la ligne « Hors contrôle non déclaré : N » que le harnais imprime lui-même.
+
+## 25 septembre 2026
+
+### Une figure qui coupait une phrase, et la règle de LaTeX qui l'explique
+
+Kélian a signalé la page 32 : la cartographie France Assureurs se posait en tête de page, entre
+les deux moitiés d'une phrase. **La cause est une règle peu connue : LaTeX essaie toujours les
+positions dans l'ordre h, t, b, p, quel que soit l'ordre écrit dans les crochets.** Écrire
+`[htbp]` ou `[bthp]` ne change donc rien, et une figure trop grande pour tenir « ici » monte
+systématiquement en tête de la page suivante, où le lecteur la rencontre avant la fin de ce
+qu'il lisait.
+
+**Les six figures du chapitre 1 passent en `[bp]`**, bas seulement. La page se lit désormais
+d'un trait : toute la colonne de texte, puis la figure et sa légende en pied.
+
+**LE DÉTECTEUR ÉCRIT POUR CELA CHERCHE LE DÉFAUT GRAMMATICALEMENT, PAS GÉOMÉTRIQUEMENT** : le
+bloc au-dessus de l'image finit-il sans ponctuation forte, celui au-dessous commence-t-il par
+une minuscule. Une figure posée entre deux paragraphes est normale et ne doit pas être
+signalée. Passé sur les 198 pages : **aucune phrase coupée par une figure** dans tout le
+document, le seul signalement restant étant un titre de section, qui n'a pas de point final.
+
+### Le mémoire sonne-t-il IA ? La mesure, et le tic desserré
+
+Question de Kélian. Vingt-cinq marqueurs passés sur les 65 000 mots des chapitres.
+
+**QUATORZE SONT EXACTEMENT À ZÉRO** : aucun tiret cadratin, aucun « il convient de », « il est
+important de », « force est de constater », « il est à noter », « en d'autres termes », « à cet
+égard », « dans un premier temps », « s'inscrit dans », « joue un rôle », « met en évidence »,
+« tant… que », « loin de ». Les intensificateurs sans mesure se comptent à **sept cas réels**,
+les sept autres occurrences de « majeur » étant « incidents majeurs », terme du règlement.
+
+**UN SEUL TIC DOMINAIT, ET IL VENAIT DE L'ASSISTANT.** L'apposition « …, et c'est… » /
+« …, et il est… » comptait **94 occurrences, 1,19 pour mille mots**. La même construction,
+mesurée sur les fichiers de passation : `REPRISE.md` **1,53**, `CLAUDE.md` **1,91**. Les
+fichiers que l'assistant écrit sont plus denses que le mémoire dans le même tour : le tic a bavé
+depuis eux.
+
+**Ramené à 53, soit 0,67 pour mille**, par **41 réécritures** sur les cinq chapitres les plus
+denses : 18 (11), 12 (13), 13 (7), 05 (7), 09 (3). Chacune dit la même chose, seule la charnière
+change. **Aucun nombre, aucun renvoi, aucune réserve déclarée n'a bougé**, le harnais le
+confirme. **Cinquante-trois sont gardées volontairement** : la tournure est du français correct
+et souvent la plus claire, et une tournure qui disparaît partout se remarque autant qu'une
+tournure qui revient.
+
+### Un faux positif de refaire_tout.py, corrigé
+
+Le contrôle « aucune figure seule sur sa page » signalait la page 118. Ouverte : elle porte
+**deux figures, un titre de section et deux paragraphes**, soit une page dense. Le seuil de
+1 300 caractères était le mauvais critère. Le contrôle cherche désormais la **présence de
+prose** hors tête, pied et légende, qui est le vrai critère d'une page de flottant.
+
+### État à la fin de la journée
+
+`main_ensae` à **198 pages, deux de marge seulement** sous la limite impérative de 200 ;
+`main_institut` à 194. Les deux à `exit 0`, **2 débordements** à la ligne de base, 0 vbox,
+0 annotation hors page, 0 `??`, 0 page tournée, aucune citation non résolue, aucune figure seule.
+Harnais **1 912 sur 1 912**, hors contrôle non déclaré à zéro. Copies de dépôt régénérées.
+
+**ATTENTION AU BUDGET DE PAGES** : le travail des 23 et 24 septembre a fait passer le document
+de 195 à 198. Il ne reste que deux pages. Recompter avant tout ajout.
+
+---
 
 ## 22 septembre 2026
 

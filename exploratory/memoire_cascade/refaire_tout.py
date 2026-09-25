@@ -181,6 +181,30 @@ def etape_compilation(tec):
 # 3. Controles SUR LE PDF PRODUIT
 # ---------------------------------------------------------------------------
 
+def prose_hors_legende(page):
+    """La page porte-t-elle du texte courant, hors tete, pied et legende ?
+
+    C'est ce qui distingue une page composee d'une page de flottant. Un simple
+    comptage de caracteres ne le distingue pas : une page dense a deux figures
+    porte peu de texte et n'a rien d'une page vide.
+    """
+    import unicodedata
+    cm = 72 / 2.54
+    haut = page.rect.height
+    for _, y0, _, y1, txt, *_ in page.get_text("blocks"):
+        t = " ".join(txt.split())
+        if len(t) < 90:
+            continue
+        if y1 < 2.2 * cm + 22 or y0 > haut - 2.2 * cm - 22:   # tete et pied
+            continue
+        sans = "".join(c for c in unicodedata.normalize("NFKD", t)
+                       if not unicodedata.combining(c))
+        if sans.lower().startswith(("figure", "table", "tableau")):
+            continue
+        return True
+    return False
+
+
 def etape_pdf():
     titre("3. CONTROLES SUR LE PDF PRODUIT")
     import fitz
@@ -208,9 +232,14 @@ def etape_pdf():
         tout_ok &= verdict("aucune page tournee",
                            all(p.rotation == 0 for p in d),
                            "%d" % sum(1 for p in d if p.rotation))
-        # une page de flottant : une figure quasi seule, qui coupe le texte en deux
+        # UNE PAGE DE FLOTTANT : une page qui ne porte QUE des figures et leurs
+        # legendes. Le critere n'est pas un nombre de caracteres, et le seuil de
+        # 1 300 employe d'abord etait faux : une page dense a deux figures en
+        # porte 1 018 sans rien avoir d'une page vide. Le critere est la
+        # PRESENCE de prose, c'est-a-dire d'un bloc de texte qui ne soit ni la
+        # tete, ni le pied, ni une legende.
         seules = [i + 1 for i in range(1, d.page_count)
-                  if d[i].get_images() and len(" ".join(textes[i].split())) < 1300]
+                  if d[i].get_images() and not prose_hors_legende(d[i])]
         tout_ok &= verdict("aucune figure seule sur sa page",
                            not seules, ("pages " + str(seules)) if seules else "")
         d.close()
